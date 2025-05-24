@@ -1,0 +1,5 @@
+namespace AmdDriverTool
+{
+	[default_interface]
+	runtimeclass App : Windows.UI.Xaml.Application {}
+}

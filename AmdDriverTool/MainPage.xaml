@@ -1,0 +1,173 @@
+﻿<Page
+    x:Class="AmdDriverTool.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AmdDriverTool"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    RequestedTheme="Dark"
+    Background="#222">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu -->
+        <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged" Background="Transparent">
+            <ListBoxItem x:Name="listboxitem_1" Content="Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Padding="10" Background="#444"/>
+            <ListBoxItem x:Name="listboxitem_2" Content="Tuning" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Padding="10" Background="#444"/>
+            <ListBoxItem x:Name="listboxitem_3" Content="Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Padding="10" Background="#444"/>
+            <ListBoxItem x:Name="listboxitem_4" Content="Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Padding="10" Background="#444"/>
+            <ListBoxItem x:Name="listboxitem_5" Content="Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Padding="10" Background="#444"/>
+        </ListBox>
+
+        <!-- Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="5" Padding="10" Background="#444">
+                <!-- Status text -->
+                <TextBlock x:Name="textblock_Status" Text="AMD Driver Tool" Foreground="#888" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
+                <!-- Gpu Select -->
+                <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False"/>
+            </Grid>
+
+            <!-- Main -->
+            <ScrollViewer Grid.Row="1" Margin="5">
+                <Grid>
+                    <!-- Graphics -->
+                    <StackPanel x:Name="stackpanel_Graphics">
+                        <!-- Enhanced Sync -->
+                        <ToggleSwitch x:Name="toggleswitch_EnhancedSync" OffContent="Enhanced Sync" OnContent="Enhanced Sync"/>
+
+                        <!-- Vertical Refresh -->
+                        <Grid Margin="0,10,0,0">
+                            <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged">
+                                <ComboBoxItem Content="Always Off" />
+                                <ComboBoxItem Content="Off, unless application specifies" />
+                                <ComboBoxItem Content="On, unless application specifies" />
+                                <ComboBoxItem Content="Always On" />
+                            </ComboBox>
+                        </Grid>
+
+                        <!-- Chill -->
+                        <Grid Margin="0,10,0,0">
+                            <ToggleSwitch x:Name="toggleswitch_Chill" OffContent="Chill" OnContent="Chill" Toggled="toggleswitch_Chill_Toggled"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Min" VerticalAlignment="Center"/>
+                                <TextBox x:Name="textBox_Chill_Min" Margin="10,0,10,0" InputScope="Number" Width="70" TextChanged="textBox_Chill_Min_TextChanged"/>
+                                <TextBlock Text="Max" VerticalAlignment="Center"/>
+                                <TextBox x:Name="textBox_Chill_Max" Margin="10,0,10,0" InputScope="Number" Width="70" TextChanged="textBox_Chill_Max_TextChanged"/>
+                                <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Tuning -->
+                    <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
+                        <Grid>
+                            <TextBlock Text="GPU Tuning" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="xMHz" Foreground="#888" FontSize="20" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <Slider x:Name="slider_GPU_Min" Header="Minimum Frequency (MHz)"/>
+                        <Slider x:Name="slider_GPU_Max" Header="Maximum Frequency (MHz)"/>
+
+                        <Grid Margin="0,10,0,0">
+                            <TextBlock Text="VRAM Tuning" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="xMHz" Foreground="#888" FontSize="20" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <ToggleSwitch x:Name="toggleswitch_VRAM_Fast" OffContent="Fast Timing" OnContent="Fast Timing"/>
+                        <Slider x:Name="slider_VRAM_Max" Header="Maximum Frequency (MHz)"/>
+
+                        <Grid Margin="0,10,0,0">
+                            <TextBlock Text="Power Tuning" FontSize="20" FontWeight="Medium"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="xmV" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock Text="xW" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Grid>
+                        <Slider x:Name="slider_Power_Limit" Header="Power Limit (%)"/>
+                        <Slider x:Name="slider_Power_Voltage" Header="Voltage (mV)"/>
+
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <Button x:Name="button_Apply" Click="ClickHandler" Content="Apply" Width="100"/>
+                            <Button x:Name="button_Reset" Click="ClickHandler" Content="Reset" Margin="5,0,0,0" Width="100"/>
+                            <Button x:Name="button_Import" Click="ClickHandler" Content="Import" Margin="5,0,0,0" Width="100"/>
+                            <Button x:Name="button_Export" Click="ClickHandler" Content="Export" Margin="5,0,0,0" Width="100"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Fans -->
+                    <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="x RPM" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="x Core °C" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="x Hotspot °C" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                        </StackPanel>
+
+                        <Polyline Name="polyline_Chart" Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="White" StrokeThickness="1.5"/>
+
+                        <ToggleSwitch x:Name="toggleswitch_Fan_ZeroRPM" Margin="0,10,0,0" OffContent="Zero RPM Mode" OnContent="Zero RPM"/>
+
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <TextBlock Width="140" Text="Fan Speed (%)" FontSize="16" Margin="5"/>
+                            <TextBox></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <TextBlock Width="140" Text="Temperature (°C)" FontSize="16" Margin="5"/>
+                            <TextBox></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                            <TextBox Margin="5,0,0,0"></TextBox>
+                        </StackPanel>
+
+                        <Button x:Name="button_Apply_Fan" Margin="0,10,0,0" Click="ClickHandler" Content="Apply" Width="100"/>
+                    </StackPanel>
+
+                    <!-- Display -->
+                    <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
+                        <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="FreeSync" OnContent="FreeSync"/>
+
+                        <ComboBox Header="Color Depth" Width="300">
+                            <ComboBoxItem>8 bpc</ComboBoxItem>
+                            <ComboBoxItem>10 bpc</ComboBoxItem>
+                            <ComboBoxItem>12 bpc</ComboBoxItem>
+                        </ComboBox>
+
+                        <ComboBox Header="Pixel Format" Width="300">
+                            <ComboBoxItem>RGB 4:4:4 PC Standard (Full RGB)</ComboBoxItem>
+                            <ComboBoxItem>YCbCr 4:4:4</ComboBoxItem>
+                            <ComboBoxItem>YCbCr 4:2:2</ComboBoxItem>
+                            <ComboBoxItem>RGB 4:4:4 Studio (Limited RGB)</ComboBoxItem>
+                            <ComboBoxItem>YCbCr 4:2:0</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Info -->
+                    <StackPanel x:Name="stackpanel_Info" Visibility="Collapsed">
+                        <TextBlock>Driver version x.x.x</TextBlock>
+                        <TextBlock>Bios version x.x.x</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
