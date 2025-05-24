@@ -11,10 +11,8 @@ namespace winrt::AmdDriverTool::implementation
 		App();
 		void SetContent(UIElement const& content);
 		void Initialize(HINSTANCE hInstance);
-		void DispatcherInvoke(std::function<void()> const& action);
 
 	private:
-		CoreDispatcher _dispatcher = nullptr;
 		WindowsXamlManager _windowsXamlManager = nullptr;
 		DesktopWindowXamlSource _desktopWindowXamlSource = nullptr;
 	};
