@@ -37,6 +37,23 @@ namespace winrt::AmdDriverTool::implementation
 	//Functions
 	App::App() {}
 
+	void App::DispatcherInvoke(std::function<void()> const& action)
+	{
+		if (_dispatcher == nullptr)
+		{
+			return;
+		}
+
+		if (_dispatcher.HasThreadAccess())
+		{
+			action();
+		}
+		else
+		{
+			_dispatcher.RunAsync(CoreDispatcherPriority::Normal, action);
+		}
+	}
+
 	void App::SetContent(UIElement const& content)
 	{
 		if (_desktopWindowXamlSource == nullptr)
@@ -53,6 +70,10 @@ namespace winrt::AmdDriverTool::implementation
 		//Initialize for current thread
 		winrt::init_apartment(apartment_type::multi_threaded);
 		_windowsXamlManager = WindowsXamlManager::InitializeForCurrentThread();
+		if (CoreWindow coreWindow = CoreWindow::GetForCurrentThread())
+		{
+			_dispatcher = coreWindow.Dispatcher();
+		}
 
 		//Set window strings
 		const LPCWSTR szWindowTitle = L"AMD Driver Tool";
@@ -76,7 +97,7 @@ namespace winrt::AmdDriverTool::implementation
 		}
 
 		//Create main window
-		int windowWidth = 900;
+		int windowWidth = 1280;
 		int windowHeight = 900;
 		_hWnd_MainWindow = CreateWindowW(szWindowClass, szWindowTitle, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight, NULL, NULL, hInstance, NULL);
 		if (_hWnd_MainWindow == NULL)
