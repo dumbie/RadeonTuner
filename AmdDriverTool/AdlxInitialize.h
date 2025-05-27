@@ -9,84 +9,78 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		//Initialize ADLX
 		res = g_ADLXHelp.Initialize();
-		if (!ADLX_SUCCEEDED(res))
+		if (ADLX_FAILED(res))
 		{
 			AVDebugWriteLine("Failed initializing ADLX.");
 			return;
 		}
 
-		//Get all gpus
-		res = g_ADLXHelp.GetSystemServices()->GetGPUs(&gpus);
-		if (!ADLX_SUCCEEDED(res))
+		//Get display services
+		res = g_ADLXHelp.GetSystemServices()->GetDisplaysServices(&displayService);
+		if (ADLX_FAILED(res))
 		{
-			AVDebugWriteLine("Failed getting all gpus.");
+			AVDebugWriteLine("Failed getting display services.");
 			return;
-		}
-
-		//List all gpus 
-		for (UINT i = 0; i < gpus->Size(); i++)
-		{
-			const char* gpuName;
-			gpus->At(i, &gpuInfo);
-			gpuInfo->Name(&gpuName);
-			combobox_GpuSelect().Items().Append(box_value(char_to_wstring(gpuName)));
 		}
 
 		//Get 3DSettings services
 		res = g_ADLXHelp.GetSystemServices()->Get3DSettingsServices(&d3dSettingSrv);
-		if (!ADLX_SUCCEEDED(res))
+		if (ADLX_FAILED(res))
 		{
 			AVDebugWriteLine("Failed getting 3DSettings services.");
 			return;
 		}
 
-		AVDebugWriteLine("ADLX initialized.");
-	}
-
-	void MainPage::AdlxLoadValues()
-	{
-		//Get selected GPU
-		int selectedIndex = combobox_GpuSelect().SelectedIndex();
-		res = gpus->At(selectedIndex, &gpuInfo);
-		if (!ADLX_SUCCEEDED(res))
+		//Get Performance Monitoring services
+		res = g_ADLXHelp.GetSystemServices()->GetPerformanceMonitoringServices(&perfMonitoringService);
+		if (ADLX_FAILED(res))
 		{
-			AVDebugWriteLine("Failed getting selected gpu.");
+			AVDebugWriteLine("Failed getting Performance Monitoring services.");
 			return;
 		}
 
-		//Get chill settings
-		IADLX3DChillPtr d3dChill;
-		res = d3dSettingSrv->GetChill(gpuInfo, &d3dChill);
-		res = d3dChill->IsEnabled(&adxl_Bool);
-		res = d3dChill->GetMinFPS(&adxl_Int0);
-		res = d3dChill->GetMaxFPS(&adxl_Int1);
-		toggleswitch_Chill().IsOn(adxl_Bool);
-		textBox_Chill_Min().Text(number_to_hstring(adxl_Int0));
-		textBox_Chill_Max().Text(number_to_hstring(adxl_Int1));
-		if (!adxl_Bool)
+		//Get tuning services
+		res = g_ADLXHelp.GetSystemServices()->GetGPUTuningServices((IADLXGPUTuningServices**)&gpuTuningService);
+		if (ADLX_FAILED(res))
 		{
-			textBox_Chill_Min().IsEnabled(false);
-			textBox_Chill_Max().IsEnabled(false);
+			AVDebugWriteLine("Failed getting tuning services.");
+			return;
 		}
 
-		//Get vertical refresh settings
-		IADLX3DWaitForVerticalRefreshPtr vsync;
-		res = d3dSettingSrv->GetWaitForVerticalRefresh(gpuInfo, &vsync);
-		ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE currentMode;
-		vsync->GetMode(&currentMode);
-		combobox_VerticalRefresh().SelectedIndex(currentMode);
+		//Get all gpus
+		res = g_ADLXHelp.GetSystemServices()->GetGPUs(&gpuList);
+		if (ADLX_FAILED(res))
+		{
+			AVDebugWriteLine("Failed getting all gpus.");
+			return;
+		}
 
-		//Get fan settings
-		PointCollection fanPoints;
-		fanPoints.Append(Point{ 10, 10 });
-		fanPoints.Append(Point{ 20, 20 });
-		fanPoints.Append(Point{ 30, 30 });
-		fanPoints.Append(Point{ 50, 50 });
-		fanPoints.Append(Point{ 60, 60 });
-		fanPoints.Append(Point{ 100, 100 });
-		polyline_Chart().Points(fanPoints);
+		//Get all displays
+		res = displayService->GetDisplays(&displayList);
+		if (ADLX_FAILED(res))
+		{
+			AVDebugWriteLine("Failed getting all displays.");
+			return;
+		}
 
-		//Set result
-		AVDebugWriteLine("ADLX loaded values.");
+		//List all gpus 
+		for (UINT i = 0; i < gpuList->Size(); i++)
+		{
+			const char* gpuName;
+			gpuList->At(i, (IADLXGPU**)&gpuInfo);
+			gpuInfo->Name(&gpuName);
+			combobox_GpuSelect().Items().Append(box_value(char_to_wstring(gpuName)));
+		}
+
+		//List all displays 
+		for (UINT i = 0; i < displayList->Size(); i++)
+		{
+			const char* displayName;
+			displayList->At(i, &displayInfo);
+			displayInfo->Name(&displayName);
+			combobox_DisplaySelect().Items().Append(box_value(char_to_wstring(displayName)));
+		}
+
+		AVDebugWriteLine("ADLX initialized.");
 	}
 }
