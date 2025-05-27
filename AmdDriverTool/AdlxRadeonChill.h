@@ -17,7 +17,7 @@ namespace winrt::AmdDriverTool::implementation
 		if (sender.as<ToggleSwitch>().IsOn())
 		{
 			res = d3dChill->SetEnabled(true);
-			slider_RadeonChill_Max().IsEnabled(true);
+			slider_RadeonChill_Min().IsEnabled(true);
 			slider_RadeonChill_Max().IsEnabled(true);
 			textblock_Status().Text(L"Chill enabled");
 			AVDebugWriteLine("Chill is enabled");
@@ -25,7 +25,7 @@ namespace winrt::AmdDriverTool::implementation
 		else
 		{
 			res = d3dChill->SetEnabled(false);
-			slider_RadeonChill_Max().IsEnabled(false);
+			slider_RadeonChill_Min().IsEnabled(false);
 			slider_RadeonChill_Max().IsEnabled(false);
 			textblock_Status().Text(L"Chill disabled");
 			AVDebugWriteLine("Chill is disabled");
