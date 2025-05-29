@@ -12,25 +12,27 @@ namespace winrt::AmdDriverTool::implementation
 		{
 			Sleep(1000);
 
-			//Fix show gpu usage
-
 			//Get GPU metrics support
 			IADLXGPUMetricsPtr gpuMetrics;
 			res = perfMonitoringService->GetCurrentGPUMetrics(gpuInfo, &gpuMetrics);
+
+			//Get GPU usage
+			double gpuUsage = 0;
+			res = gpuMetrics->GPUUsage(&gpuUsage);
 
 			//Get GPU speed core
 			int gpuSpeedCore = 0;
 			res = gpuMetrics->GPUClockSpeed(&gpuSpeedCore);
 
-			//Get GPU speed vram
-			int gpuSpeedVram = 0;
-			res = gpuMetrics->GPUVRAMClockSpeed(&gpuSpeedVram);
+			//Get GPU speed memory
+			int gpuSpeedMemory = 0;
+			res = gpuMetrics->GPUVRAMClockSpeed(&gpuSpeedMemory);
 
-			//Get GPU watt
+			//Get GPU power watt
 			double gpuWatt = 0;
 			res = gpuMetrics->GPUPower(&gpuWatt);
 
-			//Get GPU voltage
+			//Get GPU power voltage
 			int gpuVoltage = 0;
 			res = gpuMetrics->GPUVoltage(&gpuVoltage);
 
@@ -54,16 +56,17 @@ namespace winrt::AmdDriverTool::implementation
 			//Update current statistics
 			std::function<void()> updateFunction = [&]
 				{
-					textblock_GPU_Speed_Core().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
-					textblock_GPU_Speed_VRAM().Text(number_to_wstring(gpuSpeedVram) + L"MHz");
+					textblock_Current_Gpu_Usage().Text(number_to_wstring((int)gpuUsage) + L"%");
+					textblock_Current_Core_Speed().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
+					textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MTs");
 
-					textblock_GPU_Watt().Text(number_to_wstring((int)gpuWatt) + L"W");
-					textblock_GPU_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");
+					textblock_Current_Power_Watt().Text(number_to_wstring((int)gpuWatt) + L"W");
+					textblock_Current_Power_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");
 
-					textblock_GPU_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
-					textblock_GPU_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
-					textblock_GPU_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
-					textblock_GPU_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
+					textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
+					textblock_Current_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
+					textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
+					textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
 				};
 			AppVariables::App.DispatcherInvoke(updateFunction);
 		}
