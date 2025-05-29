@@ -24,6 +24,39 @@
     <ClInclude Include="pch.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxVariables.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxInitialize.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxRadeonChill.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxVerticalRefresh.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoadValues.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoadInfo.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxUpdateLoop.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
@@ -43,6 +76,12 @@
       <Filter>_ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\I3DSettings1.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
+    <ClInclude Include="ADLX\Include\I3DSettings2.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
+    <ClInclude Include="ADLX\Include\IApplications.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IChangedEvent.h">
@@ -70,6 +109,9 @@
       <Filter>_ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplays2.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
+    <ClInclude Include="ADLX\Include\IDisplays3.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplaySettings.h">
@@ -105,6 +147,9 @@
     <ClInclude Include="ADLX\Include\ILog.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
+    <ClInclude Include="ADLX\Include\IMultiMedia.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
@@ -114,7 +159,13 @@
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring2.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
+    <ClInclude Include="ADLX\Include\IPerformanceMonitoring3.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
     <ClInclude Include="ADLX\Include\IPowerTuning.h">
+      <Filter>_ADLX</Filter>
+    </ClInclude>
+    <ClInclude Include="ADLX\Include\IPowerTuning1.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ISmartAccessMemory.h">
@@ -126,28 +177,28 @@
     <ClInclude Include="ADLX\Include\ISystem1.h">
       <Filter>_ADLX</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h">
-      <Filter>_ArnoldVinkCode</Filter>
+    <ClInclude Include="ADLX\Include\ISystem2.h">
+      <Filter>_ADLX</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h">
-      <Filter>_ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h">
-      <Filter>_ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h">
-      <Filter>_ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxVariables.h">
+    <ClInclude Include="AdlxValuesApply.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxInitialize.h">
+    <ClInclude Include="AdlxValuesReset.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxChill.h">
+    <ClInclude Include="AdlxValuesImport.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxVerticalRefresh.h">
+    <ClInclude Include="AdlxValuesExport.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h">
+      <Filter>_ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesChange.h">
       <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>
