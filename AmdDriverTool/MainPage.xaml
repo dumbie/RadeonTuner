@@ -67,7 +67,7 @@
 
                         <!-- Radeon Chill -->
                         <Grid Margin="0,10,0,0">
-                            <ToggleSwitch x:Name="toggleswitch_Chill" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                            <ToggleSwitch x:Name="toggleswitch_RadeonChill" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <TextBlock Text="Min" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="textblock_RadeonChill_Min" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}"/>
@@ -85,8 +85,8 @@
                         <Grid>
                             <TextBlock Text="GPU Tuning" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock x:Name="textblock_GPU_Usage" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_GPU_Speed_Core" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_Current_Gpu_Usage" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_Current_Core_Speed" Foreground="#888" FontSize="20" FontWeight="Medium"/>
                             </StackPanel>
                         </Grid>
 
@@ -96,8 +96,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_GPU_Min" IsEnabled="False" Text="{Binding ElementName=slider_GPU_Min, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_GPU_Min" Margin="10,0,0,0"/>
+                            <TextBox Grid.Column="0" x:Name="textbox_Core_Min" IsEnabled="False" Text="{Binding ElementName=slider_Core_Min, Path=Value}"/>
+                            <Slider Grid.Column="1" x:Name="slider_Core_Min" Margin="10,0,0,0"/>
                         </Grid>
 
                         <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
@@ -106,31 +106,31 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_GPU_Max" IsEnabled="False" Text="{Binding ElementName=slider_GPU_Max, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_GPU_Max" Margin="10,0,0,0"/>
+                            <TextBox Grid.Column="0" x:Name="textbox_Core_Max" IsEnabled="False" Text="{Binding ElementName=slider_Core_Max, Path=Value}"/>
+                            <Slider Grid.Column="1" x:Name="slider_Core_Max" Margin="10,0,0,0"/>
                         </Grid>
 
                         <Grid Margin="0,10,0,0">
                             <TextBlock Text="Memory Tuning" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock x:Name="textblock_GPU_Speed_VRAM" Foreground="#888" FontSize="20" FontWeight="Medium" HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="textblock_Current_Memory_Speed" Foreground="#888" FontSize="20" FontWeight="Medium" HorizontalAlignment="Right"/>
                         </Grid>
 
-                        <ComboBox x:Name="combobox_VRAM_Timing" Header="Memory Timing" Width="300" Margin="0,10,0,0"/>
+                        <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300"/>
                         <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_VRAM_Max" IsEnabled="False" Text="{Binding ElementName=slider_VRAM_Max, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_VRAM_Max" Margin="10,0,0,0"/>
+                            <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" IsEnabled="False" Text="{Binding ElementName=slider_Memory_Max, Path=Value}"/>
+                            <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0" StepFrequency="2"/>
                         </Grid>
 
                         <Grid Margin="0,10,0,0">
                             <TextBlock Text="Power Tuning" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock x:Name="textblock_GPU_Watt" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_GPU_Voltage" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_Current_Power_Voltage" Foreground="#888" FontSize="20" FontWeight="Medium"/>
                             </StackPanel>
                         </Grid>
 
@@ -154,7 +154,7 @@
                             <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
                         </Grid>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
                             <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100"/>
                             <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
                             <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
@@ -165,10 +165,10 @@
                     <!-- Fans -->
                     <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="textblock_GPU_Fan_Speed" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock x:Name="textblock_GPU_Temp_Core" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock x:Name="textblock_GPU_Temp_Hotspot" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock x:Name="textblock_GPU_Temp_Intake" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" Foreground="#888" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_Current_Temp_Intake" Foreground="#888" FontSize="20" FontWeight="Medium"/>
                         </StackPanel>
 
                         <Grid Padding="0,-20,0,0">
@@ -197,7 +197,7 @@
                             </Grid>
                         </Grid>
 
-                        <ToggleSwitch x:Name="toggleswitch_Fan_ZeroRPM" Margin="0,10,0,0" OffContent="Zero RPM Mode" OnContent="Zero RPM"/>
+                        <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="0,10,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
 
                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                             <TextBlock Width="140" Text="Fan Speed (%)" FontSize="16" Margin="5"/>
@@ -216,7 +216,7 @@
                             <TextBox x:Name="textbox_Fan_Temp_4" Margin="5,0,0,0"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
                             <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100"/>
                             <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
                             <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>

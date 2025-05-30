@@ -3,7 +3,16 @@
 #include "AppVariables.h"
 
 #include "AdlxInitialize.h"
-#include "AdlxChill.h"
+#include "AdlxLoadInfo.h"
+#include "AdlxLoadValues.h"
+#include "AdlxValuesChange.h"
+#include "AdlxValuesApply.h"
+#include "AdlxValuesExport.h"
+#include "AdlxValuesImport.h"
+#include "AdlxValuesReset.h"
+#include "AdlxUpdateLoop.h"
+
+#include "AdlxRadeonChill.h"
 #include "AdlxVerticalRefresh.h"
 
 #include "MainPage.h"
@@ -13,35 +22,23 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	void MainPage::Page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
 	{
+		//Select default indexes
+		listbox_Main().SelectedIndex(0);
+
 		//Initialize adlx
 		AdlxInitialize();
 
 		//Load adlx values
 		AdlxLoadValues();
 
+		//Load adlx info
+		AdlxLoadInfo();
+
 		//Start adlx update loop
 		std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
 		threadUpdateLoop.detach();
-
-		//Fix bool is currently ignored
-		disable_saving = false;
-	}
-
-	void MainPage::AdlxUpdateLoop()
-	{
-		while (true)
-		{
-			Sleep(1000);
-
-			std::function<void()> updateFunction = [&]
-				{
-					OutputDebugString(L"Live update\n");
-					textblock_Status().Text(L"Failed setting vertical refresh");
-				};
-			AppVariables::App.DispatcherInvoke(updateFunction);
-		}
 	}
 
 	void MainPage::listbox_Main_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
@@ -79,7 +76,25 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
-	void MainPage::ClickHandler(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
+		AdlxValuesApply();
+		AdlxLoadValues();
+	}
+
+	void MainPage::button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		AdlxValuesReset();
+		AdlxLoadValues();
+	}
+
+	void MainPage::button_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		AdlxValuesImport();
+	}
+
+	void MainPage::button_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		AdlxValuesExport();
 	}
 }
