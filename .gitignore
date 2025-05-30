@@ -1,0 +1,12 @@
+bin
+obj
+gen
+int
+debug
+release
+packages
+*.suo
+*.user
+*.aps
+*.pfx
+*.vs
