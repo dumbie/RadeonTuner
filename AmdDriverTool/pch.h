@@ -1,12 +1,12 @@
 #pragma once
 
-//Defines
-#undef GetCurrentTime
-
 //Includes
+#include <Windows.h>
+#undef GetCurrentTime
 #include <string>
 #include <thread>
-#include <Windows.h>
+#include <functional>
+#include <iostream>
 #include <Windows.UI.Xaml.Hosting.DesktopWindowXamlSource.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.XamlTypeInfo.h>
@@ -29,6 +29,7 @@ using namespace Windows::Foundation::Collections;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
+using namespace Windows::UI::Xaml::Controls::Primitives;
 using namespace Windows::UI::Xaml::Shapes;
 using namespace Windows::UI::Xaml::Hosting;
 using namespace Windows::UI::Xaml::Interop;
@@ -37,11 +38,23 @@ using namespace Windows::UI::Xaml::Media;
 
 //Arnold Vink code
 #include "..\..\ArnoldVinkCode\CPP\AVDebug.h"
+#include "..\..\ArnoldVinkCode\CPP\AVFiles.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFinally.h"
 #include "..\..\ArnoldVinkCode\CPP\AVHighResDelay.h"
 #include "..\..\ArnoldVinkCode\CPP\AVString.h"
+#include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
 
 //ADLX
 #include "ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h"
+#include "ADLX\Include\ISystem2.h"
 #include "ADLX\Include\I3DSettings.h"
+#include "ADLX\Include\IDisplays.h"
+#include "ADLX\Include\IDisplaySettings.h"
+#include "ADLX\Include\IPerformanceMonitoring.h"
+#include "ADLX\Include\ISmartAccessMemory.h"
+#include "ADLX\Include\IGPUTuning1.h"
+#include "ADLX\Include\IGPUManualGFXTuning.h"
+#include "ADLX\Include\IGPUManualFanTuning.h"
+#include "ADLX\Include\IGPUManualPowerTuning.h"
+#include "ADLX\Include\IGPUManualVRAMTuning.h"
 using namespace adlx;

@@ -71,12 +71,7 @@
                         <!-- Vertical Refresh -->
                         <Grid Margin="0,10,0,0">
                             <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged">
-                                <ComboBoxItem Content="Always Off" />
-                                <ComboBoxItem Content="Off, unless application specifies" />
-                                <ComboBoxItem Content="On, unless application specifies" />
-                                <ComboBoxItem Content="Always On" />
-                            </ComboBox>
+                            <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
                         </Grid>
 
                         <!-- Radeon Chill -->
@@ -216,23 +211,8 @@
                     <!-- Display -->
                     <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
                         <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
-
-                        <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged">
-                            <ComboBoxItem>6 bpc</ComboBoxItem>
-                            <ComboBoxItem>8 bpc</ComboBoxItem>
-                            <ComboBoxItem>10 bpc</ComboBoxItem>
-                            <ComboBoxItem>12 bpc</ComboBoxItem>
-                            <ComboBoxItem>14 bpc</ComboBoxItem>
-                            <ComboBoxItem>16 bpc</ComboBoxItem>
-                        </ComboBox>
-
-                        <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged">
-                            <ComboBoxItem>RGB 4:4:4 PC Standard (Full RGB)</ComboBoxItem>
-                            <ComboBoxItem>YCbCr 4:4:4</ComboBoxItem>
-                            <ComboBoxItem>YCbCr 4:2:2</ComboBoxItem>
-                            <ComboBoxItem>RGB 4:4:4 Studio (Limited RGB)</ComboBoxItem>
-                            <ComboBoxItem>YCbCr 4:2:0</ComboBoxItem>
-                        </ComboBox>
+                        <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
+                        <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
                     </StackPanel>
 
                     <!-- Info -->
