@@ -63,24 +63,6 @@ namespace winrt::AmdDriverTool::implementation
 			return;
 		}
 
-		//List all gpus 
-		for (UINT i = 0; i < gpuList->Size(); i++)
-		{
-			const char* gpuName;
-			gpuList->At(i, (IADLXGPU**)&gpuInfo);
-			gpuInfo->Name(&gpuName);
-			combobox_GpuSelect().Items().Append(box_value(char_to_wstring(gpuName)));
-		}
-
-		//List all displays 
-		for (UINT i = 0; i < displayList->Size(); i++)
-		{
-			const char* displayName;
-			displayList->At(i, &displayInfo);
-			displayInfo->Name(&displayName);
-			combobox_DisplaySelect().Items().Append(box_value(char_to_wstring(displayName)));
-		}
-
 		AVDebugWriteLine("ADLX initialized.");
 	}
 }
