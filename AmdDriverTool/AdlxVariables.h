@@ -6,7 +6,8 @@
 inline bool disable_saving = true;
 
 inline bool adxl_Bool = false;
-inline ADLX_IntRange adxl_IntRange = { 0, 0, 0 };
+inline ADLX_IntRange adxl_IntRange0 = { 0, 0, 0 };
+inline ADLX_IntRange adxl_IntRange1 = { 0, 0, 0 };
 inline int adxl_Int0 = 0;
 inline int adxl_Int1 = 0;
 inline int adxl_Int2 = 0;
