@@ -7,13 +7,16 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		MainPage() {}
 		void AdlxInitialize();
-		void AdlxLoadValues();
+		void AdlxValuesLoad();
 		void AdlxValuesApply();
 		void AdlxValuesExport();
 		void AdlxValuesImport();
+		void AdlxValuesPrepare();
 		void AdlxValuesReset();
-		void AdlxLoadInfo();
+		void AdlxInfoLoad();
 		void AdlxUpdateLoop();
+		void UpdateFanGraph();
+		void ValidateFanSettings();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
@@ -26,6 +29,11 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_RadeonChill_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonChill_Min_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_RadeonChill_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_EnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_Display_ColorDepth_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_Display_PixelFormat_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 	};
 }
 

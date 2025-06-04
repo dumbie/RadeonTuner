@@ -3,17 +3,18 @@
 #include "AppVariables.h"
 
 #include "AdlxInitialize.h"
-#include "AdlxLoadInfo.h"
-#include "AdlxLoadValues.h"
-#include "AdlxValuesChange.h"
+#include "AdlxInfoLoad.h"
+#include "AdlxValuesLoad.h"
+#include "AdlxValuesPrepare.h"
 #include "AdlxValuesApply.h"
 #include "AdlxValuesExport.h"
 #include "AdlxValuesImport.h"
 #include "AdlxValuesReset.h"
 #include "AdlxUpdateLoop.h"
 
-#include "AdlxRadeonChill.h"
-#include "AdlxVerticalRefresh.h"
+#include "AdlxEventsDisplay.h"
+#include "AdlxEventsFans.h"
+#include "AdlxEventsGraphics.h"
 
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
@@ -30,11 +31,14 @@ namespace winrt::AmdDriverTool::implementation
 		//Initialize adlx
 		AdlxInitialize();
 
+		//Prepare adlx values
+		AdlxValuesPrepare();
+
 		//Load adlx values
-		AdlxLoadValues();
+		AdlxValuesLoad();
 
 		//Load adlx info
-		AdlxLoadInfo();
+		AdlxInfoLoad();
 
 		//Start adlx update loop
 		std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
@@ -56,15 +60,15 @@ namespace winrt::AmdDriverTool::implementation
 		//Make selected page visible
 		if (selectedIndex == 0)
 		{
-			stackpanel_Graphics().Visibility(Visibility::Visible);
+			stackpanel_Tuning().Visibility(Visibility::Visible);
 		}
 		else if (selectedIndex == 1)
 		{
-			stackpanel_Tuning().Visibility(Visibility::Visible);
+			stackpanel_Fans().Visibility(Visibility::Visible);
 		}
 		else if (selectedIndex == 2)
 		{
-			stackpanel_Fans().Visibility(Visibility::Visible);
+			stackpanel_Graphics().Visibility(Visibility::Visible);
 		}
 		else if (selectedIndex == 3)
 		{
@@ -79,13 +83,13 @@ namespace winrt::AmdDriverTool::implementation
 	void MainPage::button_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		AdlxValuesApply();
-		AdlxLoadValues();
+		AdlxValuesLoad();
 	}
 
 	void MainPage::button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		AdlxValuesReset();
-		AdlxLoadValues();
+		AdlxValuesLoad();
 	}
 
 	void MainPage::button_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
@@ -96,5 +100,11 @@ namespace winrt::AmdDriverTool::implementation
 	void MainPage::button_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		AdlxValuesExport();
+	}
+
+	void MainPage::slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		ValidateFanSettings();
+		UpdateFanGraph();
 	}
 }
