@@ -9,7 +9,7 @@ namespace winrt::AmdDriverTool::implementation
 	{
 	public:
 		App();
-		void SetContent(UIElement const& content);
+		void SetContent(FrameworkElement const& content);
 		void Initialize(HINSTANCE hInstance);
 		void DispatcherInvoke(std::function<void()> const& action);
 

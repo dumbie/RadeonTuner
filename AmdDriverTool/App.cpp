@@ -17,12 +17,8 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		switch (messageCode)
 		{
-		case WM_PAINT:
-			return 0;
 		case WM_DESTROY:
 			PostQuitMessage(0);
-			return 0;
-		case WM_CREATE:
 			return 0;
 		case WM_SIZE:
 			RECT rectClient;
@@ -54,7 +50,7 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
-	void App::SetContent(UIElement const& content)
+	void App::SetContent(FrameworkElement const& content)
 	{
 		if (_desktopWindowXamlSource == nullptr)
 		{
@@ -98,7 +94,7 @@ namespace winrt::AmdDriverTool::implementation
 
 		//Create main window
 		int windowWidth = 1280;
-		int windowHeight = 900;
+		int windowHeight = 960;
 		_hWnd_MainWindow = CreateWindowW(szWindowClass, szWindowTitle, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight, NULL, NULL, hInstance, NULL);
 		if (_hWnd_MainWindow == NULL)
 		{
