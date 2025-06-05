@@ -82,8 +82,11 @@ namespace winrt::AmdDriverTool::implementation
 
 	void MainPage::button_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
-		AdlxValuesApply();
-		AdlxValuesLoad();
+		adlx_Bool = AdlxValuesApply();
+		if (adlx_Bool)
+		{
+			AdlxValuesLoad();
+		}
 	}
 
 	void MainPage::button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
