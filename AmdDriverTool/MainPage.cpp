@@ -107,7 +107,17 @@ namespace winrt::AmdDriverTool::implementation
 
 	void MainPage::slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
-		ValidateFanSettings();
-		UpdateFanGraph();
+		//Fix prevent setvalue exception without thread workaround
+		std::function<void()> threadVoid = [&]()
+		{
+			std::function<void()> invokeVoid = [&]
+				{
+					ValidateFanSettings();
+					UpdateFanGraph();
+				};
+			AppVariables::App.DispatcherInvoke(invokeVoid);
+		};
+		std::thread thread(threadVoid);
+		thread.detach();
 	}
 }
