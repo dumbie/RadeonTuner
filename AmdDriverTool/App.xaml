@@ -4,6 +4,27 @@
              xmlns:local="using:AmdDriverTool">
     <Application.Resources>
         <ResourceDictionary>
+            <Color x:Key="SystemAccentColor">#DF2020</Color>
+            <Color x:Key="SystemAccentColorDark1">#b81717</Color>
+            <Color x:Key="SystemAccentColorDark2">#911111</Color>
+            <Color x:Key="SystemAccentColorDark3">#690c0c</Color>
+            <Color x:Key="SystemAccentColorLight1">#f52c2c</Color>
+            <Color x:Key="SystemAccentColorLight2">#fb3c3c</Color>
+            <Color x:Key="SystemAccentColorLight3">#fe5252</Color>
+
+            <Style TargetType="ListBox">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Background" Value="#444" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#444" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
