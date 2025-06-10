@@ -42,16 +42,16 @@
     <ClInclude Include="AdlxInitialize.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxRadeonChill.h">
+    <ClInclude Include="AdlxEventsFans.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxVerticalRefresh.h">
+    <ClInclude Include="AdlxEventsDisplay.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoadValues.h">
+    <ClInclude Include="AdlxValuesLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoadInfo.h">
+    <ClInclude Include="AdlxInfoLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="AdlxUpdateLoop.h">
@@ -198,7 +198,10 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h">
       <Filter>_ArnoldVinkCode</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesChange.h">
+    <ClInclude Include="AdlxValuesPrepare.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsGraphics.h">
       <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>

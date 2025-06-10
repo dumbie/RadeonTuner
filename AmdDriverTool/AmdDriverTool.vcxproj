@@ -61,6 +61,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ItemDefinitionGroup>
     <ClCompile>
+      <ExceptionHandling>Async</ExceptionHandling>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -83,16 +84,17 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
+    <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxValuesApply.h" />
-    <ClInclude Include="AdlxValuesChange.h" />
+    <ClInclude Include="AdlxValuesPrepare.h" />
     <ClInclude Include="AdlxValuesExport.h" />
     <ClInclude Include="AdlxValuesImport.h" />
-    <ClInclude Include="AdlxLoadInfo.h" />
-    <ClInclude Include="AdlxLoadValues.h" />
+    <ClInclude Include="AdlxInfoLoad.h" />
+    <ClInclude Include="AdlxValuesLoad.h" />
     <ClInclude Include="AdlxValuesReset.h" />
     <ClInclude Include="AdlxUpdateLoop.h" />
-    <ClInclude Include="AdlxVerticalRefresh.h" />
-    <ClInclude Include="AdlxRadeonChill.h" />
+    <ClInclude Include="AdlxEventsDisplay.h" />
+    <ClInclude Include="AdlxEventsFans.h" />
     <ClInclude Include="AdlxInitialize.h" />
     <ClInclude Include="AdlxVariables.h" />
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h" />
