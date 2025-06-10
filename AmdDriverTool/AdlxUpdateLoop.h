@@ -13,45 +13,46 @@ namespace winrt::AmdDriverTool::implementation
 			Sleep(1000);
 
 			//Get GPU metrics support
-			IADLXGPUMetricsPtr gpuMetrics;
-			res = perfMonitoringService->GetCurrentGPUMetrics(gpuInfo, &gpuMetrics);
+			IADLXGPUMetricsPtr ppGpuMetrics;
+			adlx_Res0 = ppPerformanceMonitoringServices->GetCurrentGPUMetrics(ppGpuInfo, &ppGpuMetrics);
 
 			//Get GPU usage
 			double gpuUsage = 0;
-			res = gpuMetrics->GPUUsage(&gpuUsage);
+			adlx_Res0 = ppGpuMetrics->GPUUsage(&gpuUsage);
 
 			//Get GPU speed core
 			int gpuSpeedCore = 0;
-			res = gpuMetrics->GPUClockSpeed(&gpuSpeedCore);
+			adlx_Res0 = ppGpuMetrics->GPUClockSpeed(&gpuSpeedCore);
 
 			//Get GPU speed memory
 			int gpuSpeedMemory = 0;
-			res = gpuMetrics->GPUVRAMClockSpeed(&gpuSpeedMemory);
+			adlx_Res0 = ppGpuMetrics->GPUVRAMClockSpeed(&gpuSpeedMemory);
 
 			//Get GPU power watt
 			double gpuWatt = 0;
-			res = gpuMetrics->GPUPower(&gpuWatt);
+			adlx_Res0 = ppGpuMetrics->GPUPower(&gpuWatt);
 
 			//Get GPU power voltage
 			int gpuVoltage = 0;
-			res = gpuMetrics->GPUVoltage(&gpuVoltage);
+			adlx_Res0 = ppGpuMetrics->GPUVoltage(&gpuVoltage);
 
 			//Get GPU fan speed
 			int gpuFanSpeed = 0;
-			res = gpuMetrics->GPUFanSpeed(&gpuFanSpeed);
+			adlx_Res0 = ppGpuMetrics->GPUFanSpeed(&gpuFanSpeed);
 
 			//Get GPU temperature core
 			double gpuTemperatureCore = 0;
-			res = gpuMetrics->GPUTemperature(&gpuTemperatureCore);
+			adlx_Res0 = ppGpuMetrics->GPUTemperature(&gpuTemperatureCore);
 
 			//Get GPU temperature hotspot
 			double gpuTemperatureHotspot = 0;
-			res = gpuMetrics->GPUHotspotTemperature(&gpuTemperatureHotspot);
+			adlx_Res0 = ppGpuMetrics->GPUHotspotTemperature(&gpuTemperatureHotspot);
+			bool gpuTemperatureHotspotSupported = ADLX_SUCCEEDED(adlx_Res0);
 
 			//Get GPU temperature intake
 			double gpuTemperatureIntake = 0;
-			res = gpuMetrics->GPUIntakeTemperature(&gpuTemperatureIntake);
-			//Fix hide intake temperature if not supported
+			adlx_Res0 = ppGpuMetrics->GPUIntakeTemperature(&gpuTemperatureIntake);
+			bool gpuTemperatureIntakeSupported = ADLX_SUCCEEDED(adlx_Res0);
 
 			//Update current statistics
 			std::function<void()> updateFunction = [&]
@@ -65,8 +66,16 @@ namespace winrt::AmdDriverTool::implementation
 
 					textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
 					textblock_Current_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
-					textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
-					textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
+
+					if (gpuTemperatureHotspotSupported)
+					{
+						textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
+					}
+
+					if (gpuTemperatureIntakeSupported)
+					{
+						textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
+					}
 				};
 			AppVariables::App.DispatcherInvoke(updateFunction);
 		}
