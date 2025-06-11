@@ -6,13 +6,13 @@ namespace winrt::AmdDriverTool::implementation
 	struct MainPage : MainPageT<MainPage>
 	{
 		MainPage() {}
-		void AdlxInitialize();
+		bool AdlxInitialize();
 		void AdlxValuesLoad();
-		bool AdlxValuesApply();
 		void AdlxValuesExport();
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();
-		void AdlxValuesReset();
+		bool AdlxValuesApply();
+		bool AdlxValuesReset();
 		void AdlxInfoLoad();
 		void AdlxUpdateLoop();
 		void UpdateFanGraph();

@@ -5,25 +5,25 @@
 //{
 inline bool disable_saving = true;
 
-inline bool adxl_Bool = false;
-inline ADLX_IntRange adxl_IntRange0 = { 0, 0, 0 };
-inline ADLX_IntRange adxl_IntRange1 = { 0, 0, 0 };
-inline int adxl_Int0 = 0;
-inline int adxl_Int1 = 0;
-inline int adxl_Int2 = 0;
-inline int adxl_Int3 = 0;
-inline int adxl_Int4 = 0;
-inline int adxl_Int5 = 0;
-inline ADLX_RESULT res = ADLX_FAIL;
+inline bool adlx_Bool = false;
+inline ADLX_RESULT adlx_Res0 = ADLX_FAIL;
+inline ADLX_RESULT adlx_Res1 = ADLX_FAIL;
+inline ADLX_IntRange adlx_IntRange0 = { 0, 0, 0 };
+inline ADLX_IntRange adlx_IntRange1 = { 0, 0, 0 };
+inline int adlx_Int0 = 0;
+inline int adlx_Int1 = 0;
+inline int adlx_Int2 = 0;
+inline int adlx_Int3 = 0;
+inline int adlx_Int4 = 0;
+inline int adlx_Int5 = 0;
 
-inline ADLXHelper g_ADLXHelp;
-inline IADLXGPU2Ptr gpuInfo;
-inline IADLXGPUListPtr gpuList;
-inline IADLXDisplayPtr displayInfo;
-inline IADLXDisplayListPtr displayList;
-inline IADLXDisplayServicesPtr displayService;
-inline IADLX3DSettingsServicesPtr d3dSettingSrv;
-inline IADLXPerformanceMonitoringServicesPtr perfMonitoringService;
-inline IADLXGPUTuningServices1Ptr gpuTuningService;
-inline IADLXManualFanTuningPtr manualFanTuning;
+inline ADLXHelper ppADLXHelper;
+inline IADLXGPU2Ptr ppGpuInfo;
+inline IADLXGPUListPtr ppGpuList;
+inline IADLXDisplayPtr ppDisplayInfo;
+inline IADLXDisplayListPtr ppDisplayList;
+inline IADLXDisplayServicesPtr ppDispServices;
+inline IADLX3DSettingsServicesPtr pp3DSettingsServices;
+inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
+inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
 //}

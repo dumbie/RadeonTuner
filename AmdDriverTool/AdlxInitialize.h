@@ -5,64 +5,65 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	void MainPage::AdlxInitialize()
+	bool MainPage::AdlxInitialize()
 	{
 		//Initialize ADLX
-		res = g_ADLXHelp.Initialize();
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.Initialize();
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed initializing ADLX.");
-			return;
+			return false;
 		}
 
 		//Get display services
-		res = g_ADLXHelp.GetSystemServices()->GetDisplaysServices(&displayService);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetDisplaysServices(&ppDispServices);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting display services.");
-			return;
+			return false;
 		}
 
 		//Get 3DSettings services
-		res = g_ADLXHelp.GetSystemServices()->Get3DSettingsServices(&d3dSettingSrv);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->Get3DSettingsServices(&pp3DSettingsServices);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting 3DSettings services.");
-			return;
+			return false;
 		}
 
 		//Get Performance Monitoring services
-		res = g_ADLXHelp.GetSystemServices()->GetPerformanceMonitoringServices(&perfMonitoringService);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetPerformanceMonitoringServices(&ppPerformanceMonitoringServices);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting Performance Monitoring services.");
-			return;
+			return false;
 		}
 
 		//Get tuning services
-		res = g_ADLXHelp.GetSystemServices()->GetGPUTuningServices((IADLXGPUTuningServices**)&gpuTuningService);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetGPUTuningServices((IADLXGPUTuningServices**)&ppGPUTuningServices);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting tuning services.");
-			return;
+			return false;
 		}
 
 		//Get all gpus
-		res = g_ADLXHelp.GetSystemServices()->GetGPUs(&gpuList);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetGPUs(&ppGpuList);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting all gpus.");
-			return;
+			return false;
 		}
 
 		//Get all displays
-		res = displayService->GetDisplays(&displayList);
-		if (ADLX_FAILED(res))
+		adlx_Res0 = ppDispServices->GetDisplays(&ppDisplayList);
+		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting all displays.");
-			return;
+			return false;
 		}
 
 		AVDebugWriteLine("ADLX initialized.");
+		return true;
 	}
 }
