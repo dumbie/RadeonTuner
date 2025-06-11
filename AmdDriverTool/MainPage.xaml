@@ -11,334 +11,354 @@
     Background="#222">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid x:Name="grid_Main">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Menu -->
-        <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged">
-            <ListBoxItem x:Name="listboxitem_Tuning" Content="Tuning" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ListBoxItem x:Name="listboxitem_Fans" Content="Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ListBoxItem x:Name="listboxitem_Graphics" Content="Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ListBoxItem x:Name="listboxitem_Display" Content="Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ListBoxItem x:Name="listboxitem_Info" Content="Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        </ListBox>
+            <!-- Menu -->
+            <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged">
+                <ListBoxItem x:Name="listboxitem_Tuning" Content="Tuning" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBoxItem x:Name="listboxitem_Fans" Content="Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBoxItem x:Name="listboxitem_Graphics" Content="Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBoxItem x:Name="listboxitem_Display" Content="Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBoxItem x:Name="listboxitem_Info" Content="Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </ListBox>
 
-        <!-- Content -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <!-- Content -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Grid Grid.Row="0" Margin="5" Padding="10" Background="#444">
-                <!-- Status text -->
-                <TextBlock x:Name="textblock_Status" Text="AMD Driver Tool" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <!-- Header -->
+                <Grid Grid.Row="0" Margin="5" Padding="10" Background="#444">
+                    <!-- Status text -->
+                    <TextBlock x:Name="textblock_Status" Text="AMD Driver Tool" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <!-- Gpu Select -->
-                    <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False"/>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Gpu Select -->
+                        <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False"/>
 
-                    <!-- Display Select -->
-                    <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
-                </StackPanel>
-            </Grid>
-
-            <!-- Status -->
-            <StackPanel Grid.Row="1" Margin="5" Padding="5" Background="#444" Orientation="Horizontal">
-                <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" FontSize="18"/>
-                <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,10,0" FontSize="18"/>
-            </StackPanel>
-
-            <!-- Main -->
-            <ScrollViewer Grid.Row="2" Margin="5,0,10,0" VerticalScrollBarVisibility="Auto">
-                <Grid>
-                    <!-- Graphics -->
-                    <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
-                        <!-- Enhanced Sync -->
-                        <ToggleSwitch x:Name="toggleswitch_EnhancedSync" OffContent="Enhanced Sync" OnContent="Enhanced Sync" Toggled="toggleswitch_EnhancedSync_Toggled"/>
-
-                        <!-- Vertical Refresh -->
-                        <Grid Margin="0,10,0,0">
-                            <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
-                        </Grid>
-
-                        <!-- Radeon Chill -->
-                        <Grid Margin="0,10,0,0">
-                            <ToggleSwitch x:Name="toggleswitch_RadeonChill" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="Min" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="textblock_RadeonChill_Min" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}"/>
-                                <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
-                                <TextBlock Text="Max" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="textblock_RadeonChill_Max" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}"/>
-                                <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
-                                <TextBlock Text="FPS" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-
-                    <!-- Tuning -->
-                    <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
-                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                            <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100"/>
-                            <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
-                            <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
-                            <Button x:Name="button_Export" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
-                        </StackPanel>
-
-                        <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                        <TextBlock Text="Minimum Frequency (MHz)"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_Core_Min" IsEnabled="False" Text="{Binding ElementName=slider_Core_Min, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_Core_Min" Margin="10,0,0,0"/>
-                        </Grid>
-
-                        <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_Core_Max" IsEnabled="False" Text="{Binding ElementName=slider_Core_Max, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_Core_Max" Margin="10,0,0,0"/>
-                        </Grid>
-
-                        <TextBlock Text="Memory Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                        <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300"/>
-                        <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" IsEnabled="False" Text="{Binding ElementName=slider_Memory_Max, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0"/>
-                        </Grid>
-
-                        <TextBlock Text="Power Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                        <TextBlock Text="Power Limit (%)"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" IsEnabled="False" Text="{Binding ElementName=slider_Power_Limit, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0"/>
-                        </Grid>
-
-                        <TextBlock Text="Voltage (mV)" Margin="0,10,0,0"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" IsEnabled="False" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}"/>
-                            <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
-                        </Grid>
-                    </StackPanel>
-
-                    <!-- Fans -->
-                    <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
-                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                            <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100"/>
-                            <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
-                            <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
-                            <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
-                        </StackPanel>
-
-                        <Grid Margin="0,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="2" CornerRadius="5">
-                                <Grid>
-                                    <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Line Margin="0,25,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                        <Line Margin="0,50,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                        <Line Margin="0,75,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                        <Line Margin="125,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
-                                        <Line Margin="250,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
-                                        <Line Margin="375,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
-                                        <Polyline x:Name="polyline_Fan_Lines" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="#9d1717" StrokeThickness="2"/>
-                                    </Grid>
-                                    <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                </Grid>
-                            </Border>
-
-                            <Grid Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Stretch">
-                                <TextBlock Text="0% Fan" VerticalAlignment="Bottom"/>
-                                <TextBlock Text="50% Fan" VerticalAlignment="Center"/>
-                                <TextBlock Text="100% Fan" VerticalAlignment="Top"/>
-                            </Grid>
-
-                            <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch">
-                                <TextBlock Text="0°C" HorizontalAlignment="Left"/>
-                                <TextBlock Text="50°C" HorizontalAlignment="Center"/>
-                                <TextBlock Text="100°C" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </Grid>
-
-                        <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="0,10,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
-
-                        <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                        <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,0,0">
-                            <StackPanel Width="200" Margin="5">
-                                <TextBlock Text="Fan Curve 1" FontSize="16"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                                <Grid Margin="0,10,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <StackPanel Width="200" Margin="5">
-                                <TextBlock Text="Fan Curve 2" FontSize="16"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                                <Grid Margin="0,10,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <StackPanel Width="200" Margin="5">
-                                <TextBlock Text="Fan Curve 3" FontSize="16"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                                <Grid Margin="0,10,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <StackPanel Width="200" Margin="5">
-                                <TextBlock Text="Fan Curve 4" FontSize="16"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                                <Grid Margin="0,10,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <StackPanel Width="200" Margin="5">
-                                <TextBlock Text="Fan Curve 5" FontSize="16"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                                <Grid Margin="0,10,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}"/>
-                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_Fan_ValueChanged"/>
-                                </Grid>
-                            </StackPanel>
-                        </VariableSizedWrapGrid>
-                    </StackPanel>
-
-                    <!-- Display -->
-                    <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
-                        <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
-                        <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
-                        <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
-                    </StackPanel>
-
-                    <!-- Info -->
-                    <StackPanel x:Name="stackpanel_Info" Visibility="Collapsed">
-                        <TextBlock x:Name="textblock_DeviceInfo">Loading...</TextBlock>
+                        <!-- Display Select -->
+                        <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
                     </StackPanel>
                 </Grid>
-            </ScrollViewer>
+
+                <!-- Status -->
+                <StackPanel Grid.Row="1" Margin="5" Padding="5" Background="#444" Orientation="Horizontal">
+                    <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,10,0" FontSize="18"/>
+                </StackPanel>
+
+                <!-- Main -->
+                <ScrollViewer Grid.Row="2" Margin="5,0,10,0" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <!-- Graphics -->
+                        <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
+                            <!-- Enhanced Sync -->
+                            <ToggleSwitch x:Name="toggleswitch_EnhancedSync" OffContent="Enhanced Sync" OnContent="Enhanced Sync" Toggled="toggleswitch_EnhancedSync_Toggled"/>
+
+                            <!-- Vertical Refresh -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
+                            </Grid>
+
+                            <!-- Radeon Chill -->
+                            <Grid Margin="0,10,0,0">
+                                <ToggleSwitch x:Name="toggleswitch_RadeonChill" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="Min" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textblock_RadeonChill_Min" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}"/>
+                                    <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
+                                    <TextBlock Text="Max" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textblock_RadeonChill_Max" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}"/>
+                                    <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
+                                    <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Tuning -->
+                        <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
+                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100"/>
+                                <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Export" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
+                            </StackPanel>
+
+                            <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Minimum Frequency (MHz)"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Core_Min" IsEnabled="False" Text="{Binding ElementName=slider_Core_Min, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Core_Min" Margin="10,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Core_Max" IsEnabled="False" Text="{Binding ElementName=slider_Core_Max, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Core_Max" Margin="10,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock Text="Memory Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300"/>
+                            <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" IsEnabled="False" Text="{Binding ElementName=slider_Memory_Max, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock Text="Power Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Power Limit (%)"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" IsEnabled="False" Text="{Binding ElementName=slider_Power_Limit, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock Text="Voltage (mV)" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" IsEnabled="False" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock Text="TDC Limit (A)" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" IsEnabled="False" Text="{Binding ElementName=slider_Power_TDC, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Fans -->
+                        <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
+                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100"/>
+                                <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
+                            </StackPanel>
+
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="2" CornerRadius="5">
+                                    <Grid>
+                                        <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Line Margin="0,25,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="0,50,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="0,75,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="125,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="250,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="375,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
+                                            <Polyline x:Name="polyline_Fan_Lines" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
+                                        </Grid>
+                                        <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    </Grid>
+                                </Border>
+
+                                <Grid Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Stretch">
+                                    <TextBlock Text="0% Fan" VerticalAlignment="Bottom"/>
+                                    <TextBlock Text="50% Fan" VerticalAlignment="Center"/>
+                                    <TextBlock Text="100% Fan" VerticalAlignment="Top"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch">
+                                    <TextBlock Text="0°C" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="50°C" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="100°C" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </Grid>
+
+                            <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="0,10,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
+
+                            <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,0,0">
+                                <StackPanel Width="200" Margin="5">
+                                    <TextBlock Text="Fan Curve 1" FontSize="16"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Width="200" Margin="5">
+                                    <TextBlock Text="Fan Curve 2" FontSize="16"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Width="200" Margin="5">
+                                    <TextBlock Text="Fan Curve 3" FontSize="16"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Width="200" Margin="5">
+                                    <TextBlock Text="Fan Curve 4" FontSize="16"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Width="200" Margin="5">
+                                    <TextBlock Text="Fan Curve 5" FontSize="16"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}"/>
+                                        <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_Fan_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+                            </VariableSizedWrapGrid>
+                        </StackPanel>
+
+                        <!-- Display -->
+                        <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
+                            <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
+                            <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
+                            <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
+                        </StackPanel>
+
+                        <!-- Info -->
+                        <StackPanel x:Name="stackpanel_Info" Visibility="Collapsed">
+                            <TextBlock x:Name="textblock_DeviceInfo">Loading...</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- Overlay -->
+        <Grid x:Name="grid_Overlay" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="#333" Opacity="0.90"/>
+            </Grid.Background>
+            <TextBlock x:Name="textblock_Overlay_Text" Margin="10" Text="..." TextWrapping="Wrap" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
 </Page>

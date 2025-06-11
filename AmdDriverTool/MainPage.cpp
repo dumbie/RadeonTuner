@@ -29,7 +29,13 @@ namespace winrt::AmdDriverTool::implementation
 		listbox_Main().SelectedIndex(0);
 
 		//Initialize adlx
-		AdlxInitialize();
+		if (!AdlxInitialize())
+		{
+			grid_Main().IsHitTestVisible(false);
+			grid_Overlay().Visibility(Visibility::Visible);
+			textblock_Overlay_Text().Text(L"Failed initializing ADLX, please install or update your AMD drivers.");
+			return;
+		}
 
 		//Prepare adlx values
 		AdlxValuesPrepare();
