@@ -38,13 +38,17 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = pp3DChill->GetMinFPS(&adlx_Int0);
 			adlx_Res0 = pp3DChill->GetMaxFPS(&adlx_Int1);
 			adlx_Res0 = pp3DChill->GetFPSRange(&adlx_IntRange0);
+
 			toggleswitch_RadeonChill().IsOn(adlx_Bool);
 			slider_RadeonChill_Min().Value(adlx_Int0);
 			slider_RadeonChill_Min().Minimum(adlx_IntRange0.minValue);
 			slider_RadeonChill_Min().Maximum(adlx_IntRange0.maxValue);
+			slider_RadeonChill_Min().StepFrequency(adlx_IntRange0.step);
 			slider_RadeonChill_Max().Value(adlx_Int1);
 			slider_RadeonChill_Max().Minimum(adlx_IntRange0.minValue);
 			slider_RadeonChill_Max().Maximum(adlx_IntRange0.maxValue);
+			slider_RadeonChill_Max().StepFrequency(adlx_IntRange0.step);
+
 			if (!adlx_Bool)
 			{
 				slider_RadeonChill_Min().IsEnabled(false);
@@ -168,9 +172,11 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_0().Value(adlx_Int0);
 			slider_Fan_Speed_0().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Speed_0().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Speed_0().StepFrequency(adlx_IntRange0.step);
 			slider_Fan_Temp_0().Value(adlx_Int1);
 			slider_Fan_Temp_0().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Temp_0().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Temp_0().StepFrequency(adlx_IntRange0.step);
 
 			ppFanStates->At(1, &ppFanState);
 			adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
@@ -178,9 +184,11 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_1().Value(adlx_Int0);
 			slider_Fan_Speed_1().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Speed_1().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Speed_1().StepFrequency(adlx_IntRange0.step);
 			slider_Fan_Temp_1().Value(adlx_Int1);
 			slider_Fan_Temp_1().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Temp_1().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Temp_1().StepFrequency(adlx_IntRange0.step);
 
 			ppFanStates->At(2, &ppFanState);
 			adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
@@ -188,9 +196,11 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_2().Value(adlx_Int0);
 			slider_Fan_Speed_2().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Speed_2().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Speed_2().StepFrequency(adlx_IntRange0.step);
 			slider_Fan_Temp_2().Value(adlx_Int1);
 			slider_Fan_Temp_2().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Temp_2().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Temp_2().StepFrequency(adlx_IntRange0.step);
 
 			ppFanStates->At(3, &ppFanState);
 			adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
@@ -198,9 +208,11 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_3().Value(adlx_Int0);
 			slider_Fan_Speed_3().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Speed_3().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Speed_3().StepFrequency(adlx_IntRange0.step);
 			slider_Fan_Temp_3().Value(adlx_Int1);
 			slider_Fan_Temp_3().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Temp_3().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Temp_3().StepFrequency(adlx_IntRange0.step);
 
 			ppFanStates->At(4, &ppFanState);
 			adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
@@ -208,9 +220,11 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_4().Value(adlx_Int0);
 			slider_Fan_Speed_4().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Speed_4().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Speed_4().StepFrequency(adlx_IntRange0.step);
 			slider_Fan_Temp_4().Value(adlx_Int1);
 			slider_Fan_Temp_4().Minimum(adlx_IntRange0.minValue);
 			slider_Fan_Temp_4().Maximum(adlx_IntRange0.maxValue);
+			slider_Fan_Temp_4().StepFrequency(adlx_IntRange0.step);
 
 			//Update fan graph
 			UpdateFanGraph();
@@ -240,6 +254,7 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = ppManualGFXTuning->GetGPUMinFrequencyRange(&adlx_IntRange0);
 			slider_Core_Min().Minimum(adlx_IntRange0.minValue);
 			slider_Core_Min().Maximum(adlx_IntRange0.maxValue);
+			slider_Core_Min().StepFrequency(adlx_IntRange0.step);
 
 			adlx_Res0 = ppManualGFXTuning->GetGPUMinFrequency(&adlx_Int0);
 			slider_Core_Min().Value(adlx_Int0);
@@ -247,6 +262,7 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequencyRange(&adlx_IntRange0);
 			slider_Core_Max().Minimum(adlx_IntRange0.minValue);
 			slider_Core_Max().Maximum(adlx_IntRange0.maxValue);
+			slider_Core_Max().StepFrequency(adlx_IntRange0.step);
 
 			adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&adlx_Int0);
 			slider_Core_Max().Value(adlx_Int0);
@@ -254,6 +270,7 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = ppManualGFXTuning->GetGPUVoltageRange(&adlx_IntRange0);
 			slider_Power_Voltage().Minimum(adlx_IntRange0.minValue);
 			slider_Power_Voltage().Maximum(adlx_IntRange0.maxValue);
+			slider_Power_Voltage().StepFrequency(adlx_IntRange0.step);
 
 			adlx_Res0 = ppManualGFXTuning->GetGPUVoltage(&adlx_Int0);
 			slider_Power_Voltage().Value(adlx_Int0);
@@ -280,9 +297,18 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = ppManualVRAMTuning->GetMaxVRAMFrequency(&adlx_Int0);
 			slider_Memory_Max().Value(adlx_Int0);
 
-			ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
-			adlx_Res0 = ppManualVRAMTuning->GetMemoryTimingDescription(&memoryTimingDescription);
-			combobox_Memory_Timing().SelectedIndex(memoryTimingDescription);
+			//Get memory timing settting
+			adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
+				adlx_Res0 = ppManualVRAMTuning->GetMemoryTimingDescription(&memoryTimingDescription);
+				combobox_Memory_Timing().SelectedIndex(memoryTimingDescription);
+			}
+			else
+			{
+				combobox_Memory_Timing().IsEnabled(false);
+			}
 		}
 		else
 		{
@@ -294,27 +320,38 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
 		{
-			IADLXManualPowerTuningPtr ppManualPowerTuning;
+			IADLXManualPowerTuning1Ptr ppManualPowerTuning;
 			adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuInfo, (IADLXInterface**)&ppManualPowerTuning);
 
 			adlx_Res0 = ppManualPowerTuning->GetPowerLimitRange(&adlx_IntRange0);
 			slider_Power_Limit().Minimum(adlx_IntRange0.minValue);
 			slider_Power_Limit().Maximum(adlx_IntRange0.maxValue);
+			slider_Power_Limit().StepFrequency(adlx_IntRange0.step);
 
 			adlx_Res0 = ppManualPowerTuning->GetPowerLimit(&adlx_Int0);
 			slider_Power_Limit().Value(adlx_Int0);
 
-			//Fix add tdc
-			//adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
-			//if (adlx_Bool) 
-			//{
-			//	//adlx_Res0 = ppManualPowerTuning->GetTDCLimitRange(&adlx_IntRange0);
-			//	//adlx_Res0 = ppManualPowerTuning->GetTDCLimit(&adlx_Int0);
-			//}
+			//Get power tdc settting
+			adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
+			if (adlx_Bool) 
+			{
+				adlx_Res0 = ppManualPowerTuning->GetTDCLimitRange(&adlx_IntRange0);
+				slider_Power_TDC().Minimum(adlx_IntRange0.minValue);
+				slider_Power_TDC().Maximum(adlx_IntRange0.maxValue);
+				slider_Power_TDC().StepFrequency(adlx_IntRange0.step);
+
+				adlx_Res0 = ppManualPowerTuning->GetTDCLimit(&adlx_Int0);
+				slider_Power_TDC().Value(adlx_Int0);
+			}
+			else
+			{
+				slider_Power_TDC().IsEnabled(false);
+			}
 		}
 		else
 		{
 			slider_Power_Limit().IsEnabled(false);
+			slider_Power_TDC().IsEnabled(false);
 		}
 
 		//Enable saving

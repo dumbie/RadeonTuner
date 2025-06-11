@@ -96,16 +96,27 @@ namespace winrt::AmdDriverTool::implementation
 			IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
 			adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuInfo, (IADLXInterface**)&ppManualVRAMTuning);
 			adlx_Res0 = ppManualVRAMTuning->SetMaxVRAMFrequency((int)slider_Memory_Max().Value());
-			adlx_Res0 = ppManualVRAMTuning->SetMemoryTimingDescription((ADLX_MEMORYTIMING_DESCRIPTION)combobox_Memory_Timing().SelectedIndex());
+
+			adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				adlx_Res0 = ppManualVRAMTuning->SetMemoryTimingDescription((ADLX_MEMORYTIMING_DESCRIPTION)combobox_Memory_Timing().SelectedIndex());
+			}
 		}
 
 		//Get power manual tuning
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
 		{
-			IADLXManualPowerTuningPtr ppManualPowerTuning;
+			IADLXManualPowerTuning1Ptr ppManualPowerTuning;
 			adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuInfo, (IADLXInterface**)&ppManualPowerTuning);
 			adlx_Res0 = ppManualPowerTuning->SetPowerLimit((int)slider_Power_Limit().Value());
+
+			adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				adlx_Res0 = ppManualPowerTuning->SetTDCLimit((int)slider_Power_TDC().Value());
+			}
 		}
 
 		//Set result
