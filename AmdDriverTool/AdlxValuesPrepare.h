@@ -7,23 +7,23 @@ namespace winrt::AmdDriverTool::implementation
 {
 	void MainPage::AdlxValuesPrepare()
 	{
-		//List all gpus 
+		//List all gpus
 		auto itemCollection = combobox_GpuSelect().Items();
-		for (UINT i = 0; i < gpuList->Size(); i++)
+		for (UINT i = 0; i < ppGpuList->Size(); i++)
 		{
 			const char* gpuName;
-			gpuList->At(i, (IADLXGPU**)&gpuInfo);
-			gpuInfo->Name(&gpuName);
+			ppGpuList->At(i, (IADLXGPU**)&ppGpuInfo);
+			ppGpuInfo->Name(&gpuName);
 			itemCollection.Append(box_value(char_to_wstring(gpuName)));
 		}
 
 		//List all displays
 		itemCollection = combobox_DisplaySelect().Items();
-		for (UINT i = 0; i < displayList->Size(); i++)
+		for (UINT i = 0; i < ppDisplayList->Size(); i++)
 		{
 			const char* displayName;
-			displayList->At(i, &displayInfo);
-			displayInfo->Name(&displayName);
+			ppDisplayList->At(i, &ppDisplayInfo);
+			ppDisplayInfo->Name(&displayName);
 			itemCollection.Append(box_value(char_to_wstring(displayName)));
 		}
 
@@ -52,28 +52,55 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection.Append(box_value(L"Always On"));
 
 		//List all memory timing
-		IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
-		res = gpuTuningService->GetManualVRAMTuning(gpuInfo, (IADLXInterface**)&ppManualVRAMTuning);
-
-		IADLXMemoryTimingDescriptionListPtr timingDescriptionListPtr;
-		res = ppManualVRAMTuning->GetSupportedMemoryTimingDescriptionList(&timingDescriptionListPtr);
-
-		itemCollection = combobox_Memory_Timing().Items();
-		for (UINT i = 0; i < timingDescriptionListPtr->Size(); i++)
+		adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
+		if (adlx_Bool)
 		{
-			IADLXMemoryTimingDescriptionPtr timingDescriptionPtr;
-			timingDescriptionListPtr->At(i, &timingDescriptionPtr);
-
-			ADLX_MEMORYTIMING_DESCRIPTION timingDescription;
-			res = timingDescriptionPtr->GetDescription(&timingDescription);
-
-			if (timingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_DEFAULT)
+			IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
+			adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuInfo, (IADLXInterface**)&ppManualVRAMTuning);
+			adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
+			if (adlx_Bool)
 			{
-				itemCollection.Append(box_value(L"Default"));
-			}
-			else if (timingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_FAST_TIMING)
-			{
-				itemCollection.Append(box_value(L"Fast Timing"));
+				IADLXMemoryTimingDescriptionListPtr memoryTimingDescriptionListPtr;
+				adlx_Res0 = ppManualVRAMTuning->GetSupportedMemoryTimingDescriptionList(&memoryTimingDescriptionListPtr);
+
+				itemCollection = combobox_Memory_Timing().Items();
+				for (UINT i = 0; i < memoryTimingDescriptionListPtr->Size(); i++)
+				{
+					IADLXMemoryTimingDescriptionPtr memoryTimingDescriptionPtr;
+					memoryTimingDescriptionListPtr->At(i, &memoryTimingDescriptionPtr);
+
+					ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
+					adlx_Res0 = memoryTimingDescriptionPtr->GetDescription(&memoryTimingDescription);
+
+					if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_DEFAULT)
+					{
+						itemCollection.Append(box_value(L"Default"));
+					}
+					else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_FAST_TIMING)
+					{
+						itemCollection.Append(box_value(L"Fast Timing 1"));
+					}
+					else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_FAST_TIMING_LEVEL_2)
+					{
+						itemCollection.Append(box_value(L"Fast Timing 2"));
+					}
+					else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_AUTOMATIC)
+					{
+						itemCollection.Append(box_value(L"Automatic Timing"));
+					}
+					else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_MEMORYTIMING_LEVEL_1)
+					{
+						itemCollection.Append(box_value(L"Memory Timing 1"));
+					}
+					else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_MEMORYTIMING_LEVEL_2)
+					{
+						itemCollection.Append(box_value(L"Memory Timing 2"));
+					}
+					else
+					{
+						itemCollection.Append(box_value(L"Unknown Timing"));
+					}
+				}
 			}
 		}
 
