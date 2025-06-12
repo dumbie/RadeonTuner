@@ -8,7 +8,7 @@ namespace winrt::AmdDriverTool::implementation
 	void MainPage::AdlxValuesExport()
 	{
 		//Select settings file
-		wchar_t lpstrFileName[MAX_PATH];
+		wchar_t lpstrFileName[MAX_PATH] = {};
 		OPENFILENAMEW openFileName = {};
 		openFileName.lStructSize = sizeof(openFileName);
 		openFileName.lpstrTitle = L"Export setting file...";
