@@ -342,6 +342,24 @@
                             <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
                             <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
                             <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
+                            <TextBlock Text="Contrast" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" IsEnabled="False" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged"/>
+                            </Grid>
+                            <TextBlock Text="Saturation" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" IsEnabled="False" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
+                            </Grid>
                         </StackPanel>
 
                         <!-- Info -->

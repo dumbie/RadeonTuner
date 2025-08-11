@@ -141,6 +141,42 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_Display_PixelFormat().IsEnabled(false);
 		}
 
+		//Get display custom color profile
+		IADLXDisplayCustomColorPtr ppCustomColor;
+		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
+
+		//Get display contrast
+		adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppCustomColor->GetContrast(&adlx_Int0);
+			adlx_Res0 = ppCustomColor->GetContrastRange(&adlx_IntRange0);
+			slider_Display_Contrast().Value(adlx_Int0);
+			slider_Display_Contrast().Minimum(adlx_IntRange0.minValue);
+			slider_Display_Contrast().Maximum(adlx_IntRange0.maxValue);
+			slider_Display_Contrast().StepFrequency(adlx_IntRange0.step);
+		}
+		else
+		{
+			slider_Display_Contrast().IsEnabled(false);
+		}
+
+		//Get display saturation
+		adlx_Res0 = ppCustomColor->IsSaturationSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppCustomColor->GetSaturation(&adlx_Int0);
+			adlx_Res0 = ppCustomColor->GetSaturationRange(&adlx_IntRange0);
+			slider_Display_Saturation().Value(adlx_Int0);
+			slider_Display_Saturation().Minimum(adlx_IntRange0.minValue);
+			slider_Display_Saturation().Maximum(adlx_IntRange0.maxValue);
+			slider_Display_Saturation().StepFrequency(adlx_IntRange0.step);
+		}
+		else
+		{
+			slider_Display_Saturation().IsEnabled(false);
+		}
+
 		//Get fan manual tuning
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
@@ -333,7 +369,7 @@ namespace winrt::AmdDriverTool::implementation
 
 			//Get power tdc settting
 			adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
-			if (adlx_Bool) 
+			if (adlx_Bool)
 			{
 				adlx_Res0 = ppManualPowerTuning->GetTDCLimitRange(&adlx_IntRange0);
 				slider_Power_TDC().Minimum(adlx_IntRange0.minValue);
