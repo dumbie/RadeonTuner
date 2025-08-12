@@ -368,6 +368,60 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
+		adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
+
+		if (sender.as<ToggleSwitch>().IsOn())
+		{
+			adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(true);
+			slider_Frtc_Max().IsEnabled(true);
+			textblock_Status().Text(L"FRTC enabled");
+			AVDebugWriteLine(L"FRTC enabled");
+		}
+		else
+		{
+			adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(false);
+			slider_Frtc_Max().IsEnabled(false);
+			textblock_Status().Text(L"FRTC disabled");
+			AVDebugWriteLine(L"FRTC disabled");
+		}
+	}
+
+	void MainPage::slider_Frtc_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Convert new value
+		int newValue = (int)e.NewValue();
+
+		//Get setting
+		IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
+		adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
+
+		adlx_Res0 = pp3DFrameRateTargetControl->SetFPS(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting FRTC");
+			AVDebugWriteLine(L"Failed setting FRTC");
+		}
+		else
+		{
+			//Set result
+			textblock_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"FRTC set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"FRTC set to " << newValue);
+		}
+	}
+
 	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

@@ -200,6 +200,33 @@ namespace winrt::AmdDriverTool::implementation
 			toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 		}
 
+		//Get frtc
+		IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
+		adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
+		adlx_Res0 = pp3DFrameRateTargetControl->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DFrameRateTargetControl->IsEnabled(&adlx_Bool);
+			adlx_Res0 = pp3DFrameRateTargetControl->GetFPS(&adlx_Int0);
+			adlx_Res0 = pp3DFrameRateTargetControl->GetFPSRange(&adlx_IntRange0);
+
+			toggleswitch_Frtc().IsOn(adlx_Bool);
+			slider_Frtc_Max().Value(adlx_Int0);
+			slider_Frtc_Max().Minimum(adlx_IntRange0.minValue);
+			slider_Frtc_Max().Maximum(adlx_IntRange0.maxValue);
+			slider_Frtc_Max().StepFrequency(adlx_IntRange0.step);
+
+			if (!adlx_Bool)
+			{
+				slider_Frtc_Max().IsEnabled(false);
+			}
+		}
+		else
+		{
+			toggleswitch_Frtc().IsEnabled(false);
+			slider_Frtc_Max().IsEnabled(false);
+		}
+
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
