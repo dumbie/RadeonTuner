@@ -55,6 +55,20 @@ namespace winrt::AmdDriverTool::implementation
 			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 		}
 
+		//Get Anti-Lag setting
+		IADLX3DAntiLagPtr pp3DAntiLag;
+		adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
+		adlx_Res0 = pp3DAntiLag->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DAntiLag->IsEnabled(&adlx_Bool);
+			toggleswitch_RadeonAntiLag().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_RadeonAntiLag().IsEnabled(false);
+		}
+
 		//Get chill setting
 		IADLX3DChillPtr pp3DChill;
 		adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
@@ -111,11 +125,11 @@ namespace winrt::AmdDriverTool::implementation
 		if (adlx_Bool)
 		{
 			adlx_Res0 = pp3DEnhancedSync->IsEnabled(&adlx_Bool);
-			toggleswitch_EnhancedSync().IsOn(adlx_Bool);
+			toggleswitch_RadeonEnhancedSync().IsOn(adlx_Bool);
 		}
 		else
 		{
-			toggleswitch_EnhancedSync().IsEnabled(false);
+			toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 		}
 
 		//Get display freesync setting

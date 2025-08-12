@@ -80,8 +80,11 @@
                                 </StackPanel>
                             </Grid>
 
-                            <!-- Enhanced Sync -->
-                            <ToggleSwitch x:Name="toggleswitch_EnhancedSync" OffContent="Enhanced Sync" OnContent="Enhanced Sync" Toggled="toggleswitch_EnhancedSync_Toggled"/>
+                            <!-- Radeon Anti-Lag -->
+                            <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled" ToolTipService.ToolTip="Reduces input lag"/>
+
+                            <!-- Radeon Enhanced Sync -->
+                            <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
 
                             <!-- Vertical Refresh -->
                             <Grid Margin="0,10,0,0">

@@ -59,7 +59,30 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
-	void MainPage::toggleswitch_EnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_RadeonAntiLag_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLX3DAntiLagPtr pp3DAntiLag;
+		adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
+
+		if (sender.as<ToggleSwitch>().IsOn())
+		{
+			adlx_Res0 = pp3DAntiLag->SetEnabled(true);
+			textblock_Status().Text(L"Anti-Lag enabled");
+			AVDebugWriteLine(L"Anti-Lag enabled");
+		}
+		else
+		{
+			adlx_Res0 = pp3DAntiLag->SetEnabled(false);
+			textblock_Status().Text(L"Anti-Lag disabled");
+			AVDebugWriteLine(L"Anti-Lag disabled");
+		}
+	}
+
+	void MainPage::toggleswitch_RadeonEnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled
 		if (disable_saving) { return; }
