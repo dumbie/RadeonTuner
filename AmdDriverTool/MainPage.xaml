@@ -45,6 +45,9 @@
 
                         <!-- Display Select -->
                         <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
+
+                        <!-- Application Select -->
+                        <ComboBox x:Name="combobox_AppSelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
                     </StackPanel>
                 </Grid>
 

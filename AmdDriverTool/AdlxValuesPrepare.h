@@ -27,6 +27,10 @@ namespace winrt::AmdDriverTool::implementation
 			itemCollection.Append(box_value(char_to_wstring(displayName)));
 		}
 
+		//List all applications
+		itemCollection = combobox_AppSelect().Items();
+		itemCollection.Append(box_value(L"Global"));
+
 		//List all color depth
 		itemCollection = combobox_Display_ColorDepth().Items();
 		itemCollection.Append(box_value(L"6 bpc"));
