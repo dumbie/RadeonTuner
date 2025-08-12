@@ -226,6 +226,59 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_RadeonBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLX3DBoostPtr pp3DBoost;
+		adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
+
+		if (sender.as<ToggleSwitch>().IsOn())
+		{
+			adlx_Res0 = pp3DBoost->SetEnabled(true);
+			slider_RadeonBoost_MinRes().IsEnabled(true);
+			textblock_Status().Text(L"Radeon Boost enabled");
+			AVDebugWriteLine(L"Radeon Boost enabled");
+		}
+		else
+		{
+			adlx_Res0 = pp3DBoost->SetEnabled(false);
+			slider_RadeonBoost_MinRes().IsEnabled(false);
+			textblock_Status().Text(L"Radeon Boost disabled");
+			AVDebugWriteLine(L"Radeon Boost disabled");
+		}
+	}
+
+	void MainPage::slider_RadeonBoost_MinRes_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Convert new value
+		int newValue = (int)e.NewValue();
+
+		//Get settings
+		IADLX3DBoostPtr pp3DBoost;
+		adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
+		adlx_Res0 = pp3DBoost->SetResolution(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting min. resolution");
+			AVDebugWriteLine(L"Failed setting min. resolution");
+		}
+		else
+		{
+			//Set result
+			textblock_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Min. resolution set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Min. resolution set to " << newValue);
+		}
+	}
+
 	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

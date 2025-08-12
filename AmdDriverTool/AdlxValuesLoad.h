@@ -55,7 +55,7 @@ namespace winrt::AmdDriverTool::implementation
 			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 		}
 
-		//Get Anti-Lag setting
+		//Get Radeon Anti-Lag setting
 		IADLX3DAntiLagPtr pp3DAntiLag;
 		adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
 		adlx_Res0 = pp3DAntiLag->IsSupported(&adlx_Bool);
@@ -67,6 +67,33 @@ namespace winrt::AmdDriverTool::implementation
 		else
 		{
 			toggleswitch_RadeonAntiLag().IsEnabled(false);
+		}
+
+		//Get Radeon Boost setting
+		IADLX3DBoostPtr pp3DBoost;
+		adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
+		adlx_Res0 = pp3DBoost->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DBoost->IsEnabled(&adlx_Bool);
+			adlx_Res0 = pp3DBoost->GetResolution(&adlx_Int0);
+			adlx_Res0 = pp3DBoost->GetResolutionRange(&adlx_IntRange0);
+
+			toggleswitch_RadeonBoost().IsOn(adlx_Bool);
+			slider_RadeonBoost_MinRes().Value(adlx_Int0);
+			slider_RadeonBoost_MinRes().Minimum(adlx_IntRange0.minValue);
+			slider_RadeonBoost_MinRes().Maximum(adlx_IntRange0.maxValue);
+			slider_RadeonBoost_MinRes().StepFrequency(adlx_IntRange0.step);
+
+			if (!adlx_Bool)
+			{
+				slider_RadeonBoost_MinRes().IsEnabled(false);
+			}
+		}
+		else
+		{
+			toggleswitch_RadeonBoost().IsEnabled(false);
+			slider_RadeonBoost_MinRes().IsEnabled(false);
 		}
 
 		//Get chill setting
