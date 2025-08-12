@@ -69,6 +69,17 @@
                     <Grid>
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
+                            <!-- Radeon Super Resolution -->
+                            <Grid Margin="0,10,0,0">
+                                <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textblock_RadeonSuperResolution_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonSuperResolution_Sharpening, Path=Value}"/>
+                                    <Slider x:Name="slider_RadeonSuperResolution_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonSuperResolution_Sharpening_ValueChanged"/>
+                                    <TextBlock Text="%" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
                             <!-- Enhanced Sync -->
                             <ToggleSwitch x:Name="toggleswitch_EnhancedSync" OffContent="Enhanced Sync" OnContent="Enhanced Sync" Toggled="toggleswitch_EnhancedSync_Toggled"/>
 

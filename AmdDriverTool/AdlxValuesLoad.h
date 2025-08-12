@@ -28,6 +28,33 @@ namespace winrt::AmdDriverTool::implementation
 			return;
 		}
 
+		//Get super resolution
+		IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
+		adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
+		adlx_Res0 = pp3DRadeonSuperResolution->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DRadeonSuperResolution->IsEnabled(&adlx_Bool);
+			adlx_Res0 = pp3DRadeonSuperResolution->GetSharpness(&adlx_Int0);
+			adlx_Res0 = pp3DRadeonSuperResolution->GetSharpnessRange(&adlx_IntRange0);
+
+			toggleswitch_RadeonSuperResolution().IsOn(adlx_Bool);
+			slider_RadeonSuperResolution_Sharpening().Value(adlx_Int0);
+			slider_RadeonSuperResolution_Sharpening().Minimum(adlx_IntRange0.minValue);
+			slider_RadeonSuperResolution_Sharpening().Maximum(adlx_IntRange0.maxValue);
+			slider_RadeonSuperResolution_Sharpening().StepFrequency(adlx_IntRange0.step);
+
+			if (!adlx_Bool)
+			{
+				slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+			}
+		}
+		else
+		{
+			toggleswitch_RadeonSuperResolution().IsEnabled(false);
+			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+		}
+
 		//Get chill setting
 		IADLX3DChillPtr pp3DChill;
 		adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);

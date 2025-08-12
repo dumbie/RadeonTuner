@@ -5,6 +5,60 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
+	void MainPage::toggleswitch_RadeonSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get super resolution
+		IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
+		adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
+
+		if (sender.as<ToggleSwitch>().IsOn())
+		{
+			adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(true);
+			slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
+			textblock_Status().Text(L"Radeon Super Resolution enabled");
+			AVDebugWriteLine(L"Radeon Super Resolution enabled");
+		}
+		else
+		{
+			adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(false);
+			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+			textblock_Status().Text(L"Radeon Super Resolution disabled");
+			AVDebugWriteLine(L"Radeon Super Resolution disabled");
+		}
+	}
+
+	void MainPage::slider_RadeonSuperResolution_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Convert new value
+		int newValue = (int)e.NewValue();
+
+		//Get super resolution
+		IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
+		adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
+
+		adlx_Res0 = pp3DRadeonSuperResolution->SetSharpness(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting sharpening");
+			AVDebugWriteLine(L"Failed setting sharpening");
+		}
+		else
+		{
+			//Set result
+			textblock_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Sharpening set to " << newValue);
+		}
+	}
+
 	void MainPage::toggleswitch_EnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled
