@@ -314,6 +314,60 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_RadeonImageSharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DImageSharpeningPtr pp3DImageSharpening;
+		adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
+
+		if (sender.as<ToggleSwitch>().IsOn())
+		{
+			adlx_Res0 = pp3DImageSharpening->SetEnabled(true);
+			slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
+			textblock_Status().Text(L"Radeon Image Sharpening enabled");
+			AVDebugWriteLine(L"Radeon Image Sharpening enabled");
+		}
+		else
+		{
+			adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
+			slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+			textblock_Status().Text(L"Radeon Image Sharpening disabled");
+			AVDebugWriteLine(L"Radeon Image Sharpening disabled");
+		}
+	}
+
+	void MainPage::slider_RadeonImageSharpening_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Convert new value
+		int newValue = (int)e.NewValue();
+
+		//Get setting
+		IADLX3DImageSharpeningPtr pp3DImageSharpening;
+		adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
+
+		adlx_Res0 = pp3DImageSharpening->SetSharpness(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting sharpening");
+			AVDebugWriteLine(L"Failed setting sharpening");
+		}
+		else
+		{
+			//Set result
+			textblock_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Sharpening set to " << newValue);
+		}
+	}
+
 	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled
@@ -334,8 +388,8 @@ namespace winrt::AmdDriverTool::implementation
 		}
 		else
 		{
-			textblock_Status().Text(L"Reset shader cache");
-			AVDebugWriteLine(L"Reset shader cache");
+			textblock_Status().Text(L"Shader cache is reset");
+			AVDebugWriteLine(L"Shader cache is reset");
 		}
 	}
 }

@@ -86,15 +86,6 @@
                             <!-- Radeon Anti-Lag -->
                             <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled" ToolTipService.ToolTip="Reduces input lag"/>
 
-                            <!-- Radeon Enhanced Sync -->
-                            <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
-
-                            <!-- Vertical Refresh -->
-                            <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
-                                <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
-                            </Grid>
-
                             <!-- Radeon Boost -->
                             <Grid Margin="0,10,0,0">
                                 <ToggleSwitch x:Name="toggleswitch_RadeonBoost" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
@@ -118,6 +109,26 @@
                                     <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
                                     <TextBlock Text="FPS" VerticalAlignment="Center"/>
                                 </StackPanel>
+                            </Grid>
+
+                            <!-- Radeon Image Sharpening -->
+                            <Grid Margin="0,10,0,0">
+                                <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textblock_RadeonImageSharpening_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening_Sharpening, Path=Value}"/>
+                                    <Slider x:Name="slider_RadeonImageSharpening_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening_Sharpening_ValueChanged"/>
+                                    <TextBlock Text="%" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Radeon Enhanced Sync -->
+                            <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
+
+                            <!-- Vertical Refresh -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
                             </Grid>
 
                             <!-- Reset Shader Cache -->

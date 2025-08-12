@@ -144,6 +144,33 @@ namespace winrt::AmdDriverTool::implementation
 			slider_RadeonChill_Max().IsEnabled(false);
 		}
 
+		//Get image sharpening
+		IADLX3DImageSharpeningPtr pp3DImageSharpening;
+		adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
+		adlx_Res0 = pp3DImageSharpening->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DImageSharpening->IsEnabled(&adlx_Bool);
+			adlx_Res0 = pp3DImageSharpening->GetSharpness(&adlx_Int0);
+			adlx_Res0 = pp3DImageSharpening->GetSharpnessRange(&adlx_IntRange0);
+
+			toggleswitch_RadeonImageSharpening().IsOn(adlx_Bool);
+			slider_RadeonImageSharpening_Sharpening().Value(adlx_Int0);
+			slider_RadeonImageSharpening_Sharpening().Minimum(adlx_IntRange0.minValue);
+			slider_RadeonImageSharpening_Sharpening().Maximum(adlx_IntRange0.maxValue);
+			slider_RadeonImageSharpening_Sharpening().StepFrequency(adlx_IntRange0.step);
+
+			if (!adlx_Bool)
+			{
+				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+			}
+		}
+		else
+		{
+			toggleswitch_RadeonImageSharpening().IsEnabled(false);
+			slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+		}
+
 		//Get vertical refresh setting
 		IADLX3DWaitForVerticalRefreshPtr pp3DWaitForVerticalRefresh;
 		adlx_Res0 = pp3DSettingsServices->GetWaitForVerticalRefresh(ppGpuInfo, &pp3DWaitForVerticalRefresh);
