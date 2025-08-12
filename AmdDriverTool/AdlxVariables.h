@@ -23,7 +23,7 @@ inline IADLXGPUListPtr ppGpuList;
 inline IADLXDisplayPtr ppDisplayInfo;
 inline IADLXDisplayListPtr ppDisplayList;
 inline IADLXDisplayServicesPtr ppDispServices;
-inline IADLX3DSettingsServicesPtr pp3DSettingsServices;
+inline IADLX3DSettingsServices2Ptr pp3DSettingsServices;
 inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
 inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
 //}

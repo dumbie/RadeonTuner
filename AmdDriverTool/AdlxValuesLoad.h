@@ -55,6 +55,20 @@ namespace winrt::AmdDriverTool::implementation
 			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 		}
 
+		//Get Radeon Fluid Motion Frames setting
+		IADLX3DAMDFluidMotionFramesPtr pp3DAMDFluidMotionFrames;
+		adlx_Res0 = pp3DSettingsServices->GetAMDFluidMotionFrames(&pp3DAMDFluidMotionFrames);
+		adlx_Res0 = pp3DAMDFluidMotionFrames->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DAMDFluidMotionFrames->IsEnabled(&adlx_Bool);
+			toggleswitch_RadeonFluidMotionFrames().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
+		}
+
 		//Get Radeon Anti-Lag setting
 		IADLX3DAntiLagPtr pp3DAntiLag;
 		adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);

@@ -42,6 +42,7 @@ namespace winrt::AmdDriverTool::implementation
 		void button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_RadeonBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonBoost_MinRes_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_RadeonFluidMotionFrames_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

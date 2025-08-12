@@ -80,6 +80,9 @@
                                 </StackPanel>
                             </Grid>
 
+                            <!-- Radeon Fluid Motion Frames -->
+                            <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games."/>
+
                             <!-- Radeon Anti-Lag -->
                             <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled" ToolTipService.ToolTip="Reduces input lag"/>
 

@@ -47,7 +47,7 @@ using namespace Windows::UI::Xaml::Media;
 //ADLX
 #include "ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h"
 #include "ADLX\Include\ISystem2.h"
-#include "ADLX\Include\I3DSettings.h"
+#include "ADLX\Include\I3DSettings2.h"
 #include "ADLX\Include\IDisplays.h"
 #include "ADLX\Include\IDisplaySettings.h"
 #include "ADLX\Include\IPerformanceMonitoring.h"

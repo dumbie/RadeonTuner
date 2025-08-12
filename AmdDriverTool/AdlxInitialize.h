@@ -24,12 +24,14 @@ namespace winrt::AmdDriverTool::implementation
 		}
 
 		//Get 3DSettings services
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->Get3DSettingsServices(&pp3DSettingsServices);
+		IADLX3DSettingsServicesPtr pp3DSettingsServices0;
+		adlx_Res0 = ppADLXHelper.GetSystemServices()->Get3DSettingsServices(&pp3DSettingsServices0);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting 3DSettings services.");
 			return false;
 		}
+		pp3DSettingsServices = IADLX3DSettingsServices2Ptr(pp3DSettingsServices0);
 
 		//Get Performance Monitoring services
 		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetPerformanceMonitoringServices(&ppPerformanceMonitoringServices);

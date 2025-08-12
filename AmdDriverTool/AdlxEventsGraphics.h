@@ -59,6 +59,41 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_RadeonFluidMotionFrames_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLX3DAMDFluidMotionFramesPtr pp3DAMDFluidMotionFrames;
+		adlx_Res0 = pp3DSettingsServices->GetAMDFluidMotionFrames(&pp3DAMDFluidMotionFrames);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Fluid Motion Frames");
+				AVDebugWriteLine(L"Failed enabling Fluid Motion Frames");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Fluid Motion Frames enabled");
+				AVDebugWriteLine(L"Fluid Motion Frames enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(false);
+			textblock_Status().Text(L"Fluid Motion Frames disabled");
+			AVDebugWriteLine(L"Fluid Motion Frames disabled");
+		}
+	}
+
 	void MainPage::toggleswitch_RadeonAntiLag_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled
