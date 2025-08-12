@@ -225,4 +225,29 @@ namespace winrt::AmdDriverTool::implementation
 			AVDebugWriteLine(L"Chill maximum set to " << newValue);
 		}
 	}
+
+	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DResetShaderCachePtr pp3DResetShaderCache;
+		adlx_Res0 = pp3DSettingsServices->GetResetShaderCache(ppGpuInfo, &pp3DResetShaderCache);
+
+		//Reset shader cache
+		adlx_Res0 = pp3DResetShaderCache->ResetShaderCache();
+
+		//Set result
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			textblock_Status().Text(L"Failed resetting shader cache");
+			AVDebugWriteLine(L"Failed resetting shader cache");
+		}
+		else
+		{
+			textblock_Status().Text(L"Reset shader cache");
+			AVDebugWriteLine(L"Reset shader cache");
+		}
+	}
 }

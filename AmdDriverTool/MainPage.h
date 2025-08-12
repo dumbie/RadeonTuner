@@ -39,6 +39,7 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_RadeonSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonSuperResolution_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_RadeonAntiLag_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

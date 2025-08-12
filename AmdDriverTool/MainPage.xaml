@@ -105,6 +105,9 @@
                                     <TextBlock Text="FPS" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
+
+                            <!-- Reset Shader Cache -->
+                            <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache."/>
                         </StackPanel>
 
                         <!-- Tuning -->
