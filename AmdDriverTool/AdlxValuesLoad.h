@@ -227,6 +227,73 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Frtc_Max().IsEnabled(false);
 		}
 
+		//Get Anti-Aliasing
+		IADLX3DAntiAliasingPtr pp3DAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
+		adlx_Res0 = pp3DAntiAliasing->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			ADLX_ANTI_ALIASING_MODE currentMode;
+			adlx_Res0 = pp3DAntiAliasing->GetMode(&currentMode);
+			combobox_AntiAliasingMode().SelectedIndex(currentMode);
+
+			ADLX_ANTI_ALIASING_METHOD currentMethod;
+			adlx_Res0 = pp3DAntiAliasing->GetMethod(&currentMethod);
+			combobox_AntiAliasingMethod().SelectedIndex(currentMethod);
+
+			ADLX_ANTI_ALIASING_LEVEL currentLevel;
+			adlx_Res0 = pp3DAntiAliasing->GetLevel(&currentLevel);
+
+			//Enumeration index correction
+			if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2X)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(0);
+			}
+			else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2XEQ)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(1);
+			}
+			else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_4X)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(2);
+			}
+			else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_4XEQ)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(3);
+			}
+			else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_8X)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(4);
+			}
+			else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_8XEQ)
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(5);
+			}
+			else
+			{
+				AVDebugWriteLine("No Anti-Aliasing level set.");
+			}
+		}
+		else
+		{
+			combobox_AntiAliasingMode().IsEnabled(false);
+			combobox_AntiAliasingMethod().IsEnabled(false);
+			combobox_AntiAliasingLevel().IsEnabled(false);
+		}
+
+		IADLX3DMorphologicalAntiAliasingPtr pp3DMorphologicalAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetMorphologicalAntiAliasing(ppGpuInfo, &pp3DMorphologicalAntiAliasing);
+		adlx_Res0 = pp3DMorphologicalAntiAliasing->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DMorphologicalAntiAliasing->IsEnabled(&adlx_Bool);
+			toggleswitch_MorphologicAntiAliasing().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_MorphologicAntiAliasing().IsEnabled(false);
+		}
+
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);

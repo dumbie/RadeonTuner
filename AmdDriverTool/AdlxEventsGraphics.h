@@ -145,12 +145,12 @@ namespace winrt::AmdDriverTool::implementation
 		//Check if saving is disabled
 		if (disable_saving) { return; }
 
-		//Get vertical refresh value
-		auto newValue = sender.as<ComboBox>().SelectedIndex();
-
-		//Set vertical refresh setting
+		//Set setting
 		IADLX3DWaitForVerticalRefreshPtr pp3DWaitForVerticalRefresh;
 		adlx_Res0 = pp3DSettingsServices->GetWaitForVerticalRefresh(ppGpuInfo, &pp3DWaitForVerticalRefresh);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
 		adlx_Res0 = pp3DWaitForVerticalRefresh->SetMode((ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE)newValue);
 		if (ADLX_FAILED(adlx_Res0))
 		{
@@ -419,6 +419,146 @@ namespace winrt::AmdDriverTool::implementation
 			textblock_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"FRTC set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"FRTC set to " << newValue);
+		}
+	}
+
+	void MainPage::combobox_AntiAliasingMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DAntiAliasingPtr pp3DAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+		adlx_Res0 = pp3DAntiAliasing->SetMode((ADLX_ANTI_ALIASING_MODE)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting AA mode");
+			AVDebugWriteLine(L"Failed setting AA mode");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"AA mode set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"AA mode set to " << newValue);
+		}
+	}
+
+	void MainPage::combobox_AntiAliasingMethod_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DAntiAliasingPtr pp3DAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+		adlx_Res0 = pp3DAntiAliasing->SetMethod((ADLX_ANTI_ALIASING_METHOD)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting AA method");
+			AVDebugWriteLine(L"Failed setting AA method");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"AA method set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"AA method set to " << newValue);
+		}
+	}
+
+	void MainPage::combobox_AntiAliasingLevel_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DAntiAliasingPtr pp3DAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+		//Enumeration index correction
+		if (newValue == 0)
+		{
+			newValue = 2;
+		}
+		else if (newValue == 1)
+		{
+			newValue = 3;
+		}
+		else if (newValue == 2)
+		{
+			newValue = 4;
+		}
+		else if (newValue == 3)
+		{
+			newValue = 5;
+		}
+		else if (newValue == 4)
+		{
+			newValue = 8;
+		}
+		else if (newValue == 5)
+		{
+			newValue = 9;
+		}
+
+		adlx_Res0 = pp3DAntiAliasing->SetLevel((ADLX_ANTI_ALIASING_LEVEL)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting AA level");
+			AVDebugWriteLine(L"Failed setting AA level");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"AA level set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"AA level set to " << newValue);
+		}
+	}
+
+	void MainPage::toggleswitch_MorphologicAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DMorphologicalAntiAliasingPtr pp3DMorphologicalAntiAliasing;
+		adlx_Res0 = pp3DSettingsServices->GetMorphologicalAntiAliasing(ppGpuInfo, &pp3DMorphologicalAntiAliasing);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = pp3DMorphologicalAntiAliasing->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Morphological AA");
+				AVDebugWriteLine(L"Failed enabling Morphological AA");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Morphological AA enabled");
+				AVDebugWriteLine(L"Morphological AA enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = pp3DMorphologicalAntiAliasing->SetEnabled(false);
+			textblock_Status().Text(L"Morphological AA disabled");
+			AVDebugWriteLine(L"Morphological AA disabled");
 		}
 	}
 

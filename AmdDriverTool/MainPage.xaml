@@ -142,6 +142,27 @@
                                 </StackPanel>
                             </Grid>
 
+                            <!-- Anti-Aliasing Mode -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Anti-Aliasing Mode" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_AntiAliasingMode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMode_SelectionChanged"/>
+                            </Grid>
+
+                            <!-- Anti-Aliasing Method -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Anti-Aliasing Method" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_AntiAliasingMethod" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged"/>
+                            </Grid>
+
+                            <!-- Anti-Aliasing Level -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Anti-Aliasing Level" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_AntiAliasingLevel" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged"/>
+                            </Grid>
+
+                            <!-- Morphologic Anti-Aliasing -->
+                            <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
+
                             <!-- Reset Shader Cache -->
                             <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache."/>
                         </StackPanel>

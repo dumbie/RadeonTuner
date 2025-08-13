@@ -55,6 +55,27 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection.Append(box_value(L"On, unless application specifies"));
 		itemCollection.Append(box_value(L"Always On"));
 
+		//List all anti-aliasing mode
+		itemCollection = combobox_AntiAliasingMode().Items();
+		itemCollection.Append(box_value(L"Use application settings"));
+		itemCollection.Append(box_value(L"Enhance application settings"));
+		itemCollection.Append(box_value(L"Override application settings"));
+
+		//List all anti-aliasing method
+		itemCollection = combobox_AntiAliasingMethod().Items();
+		itemCollection.Append(box_value(L"Multisampling"));
+		itemCollection.Append(box_value(L"Adaptive multisampling"));
+		itemCollection.Append(box_value(L"Supersampling"));
+
+		//List all anti-aliasing level
+		itemCollection = combobox_AntiAliasingLevel().Items();
+		itemCollection.Append(box_value(L"2X"));
+		itemCollection.Append(box_value(L"2XEQ"));
+		itemCollection.Append(box_value(L"4X"));
+		itemCollection.Append(box_value(L"4XEQ"));
+		itemCollection.Append(box_value(L"8X"));
+		itemCollection.Append(box_value(L"8XEQ"));
+
 		//List all memory timing
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
