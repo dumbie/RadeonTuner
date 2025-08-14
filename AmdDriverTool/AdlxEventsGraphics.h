@@ -642,6 +642,93 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::combobox_Tessellation_Mode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DTessellationPtr pp3DTessellation;
+		adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+		adlx_Res0 = pp3DTessellation->SetMode((ADLX_TESSELLATION_MODE)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting Tessellation mode");
+			AVDebugWriteLine(L"Failed setting Tessellation mode");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"Tessellation mode set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Tessellation mode set to " << newValue);
+		}
+	}
+
+	void MainPage::combobox_Tessellation_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DTessellationPtr pp3DTessellation;
+		adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+		//Enumeration index correction
+		if (newValue == 0)
+		{
+			newValue = 1;
+		}
+		else if (newValue == 1)
+		{
+			newValue = 2;
+		}
+		else if (newValue == 2)
+		{
+			newValue = 4;
+		}
+		else if (newValue == 3)
+		{
+			newValue = 6;
+		}
+		else if (newValue == 4)
+		{
+			newValue = 8;
+		}
+		else if (newValue == 5)
+		{
+			newValue = 16;
+		}
+		else if (newValue == 6)
+		{
+			newValue = 32;
+		}
+		else if (newValue == 7)
+		{
+			newValue = 64;
+		}
+
+		adlx_Res0 = pp3DTessellation->SetLevel((ADLX_TESSELLATION_LEVEL)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting Tessellation level");
+			AVDebugWriteLine(L"Failed setting Tessellation level");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"Tessellation level set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Tessellation level set to " << newValue);
+		}
+	}
+
 	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

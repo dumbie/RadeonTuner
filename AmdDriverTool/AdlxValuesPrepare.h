@@ -83,6 +83,23 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection.Append(box_value(L"8X"));
 		itemCollection.Append(box_value(L"16X"));
 
+		//List all tessellation mode
+		itemCollection = combobox_Tessellation_Mode().Items();
+		itemCollection.Append(box_value(L"AMD optimized"));
+		itemCollection.Append(box_value(L"Use application settings"));
+		itemCollection.Append(box_value(L"Override application settings"));
+
+		//List all tessellation level
+		itemCollection = combobox_Tessellation_Level().Items();
+		itemCollection.Append(box_value(L"Off"));
+		itemCollection.Append(box_value(L"2X"));
+		itemCollection.Append(box_value(L"4X"));
+		itemCollection.Append(box_value(L"6X"));
+		itemCollection.Append(box_value(L"8X"));
+		itemCollection.Append(box_value(L"16X"));
+		itemCollection.Append(box_value(L"32X"));
+		itemCollection.Append(box_value(L"64X"));
+
 		//List all memory timing
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)

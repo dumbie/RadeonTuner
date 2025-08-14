@@ -169,6 +169,18 @@
                                 <ComboBox x:Name="combobox_AnisotropicTextureFilteringQuality" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AnisotropicTextureFilteringQuality_SelectionChanged"/>
                             </Grid>
 
+                            <!-- Tessellation Mode -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Tessellation Mode" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_Tessellation_Mode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged"/>
+                            </Grid>
+
+                            <!-- Tessellation Level -->
+                            <Grid Margin="0,10,0,0">
+                                <TextBlock Text="Tessellation Level" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_Tessellation_Level" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Level_SelectionChanged"/>
+                            </Grid>
+
                             <!-- Reset Shader Cache -->
                             <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache."/>
                         </StackPanel>

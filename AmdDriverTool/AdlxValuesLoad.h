@@ -334,6 +334,61 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 		}
 
+		//Fix ADLX missing Surface Format Optimization
+
+		//Get Tesselation
+		IADLX3DTessellationPtr pp3DTessellation;
+		adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
+		adlx_Res0 = pp3DTessellation->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			ADLX_TESSELLATION_MODE currentMode;
+			adlx_Res0 = pp3DTessellation->GetMode(&currentMode);
+			combobox_Tessellation_Mode().SelectedIndex(currentMode);
+
+			ADLX_TESSELLATION_LEVEL currentLevel;
+			adlx_Res0 = pp3DTessellation->GetLevel(&currentLevel);
+
+			//Enumeration index correction
+			if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_OFF)
+			{
+				combobox_Tessellation_Level().SelectedIndex(0);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_2X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(1);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_4X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(2);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_6X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(3);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_8X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(4);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_16X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(5);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_32X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(6);
+			}
+			else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_64X)
+			{
+				combobox_Tessellation_Level().SelectedIndex(7);
+			}
+		}
+		else
+		{
+			combobox_Tessellation_Mode().IsEnabled(false);
+			combobox_Tessellation_Level().IsEnabled(false);
+		}
+
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
