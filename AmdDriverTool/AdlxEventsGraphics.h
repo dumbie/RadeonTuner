@@ -14,19 +14,32 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
 		adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(true);
-			slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
-			textblock_Status().Text(L"Radeon Super Resolution enabled");
-			AVDebugWriteLine(L"Radeon Super Resolution enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling Super Resolution");
+				AVDebugWriteLine(L"Failed enabling Super Resolution");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
+				textblock_Status().Text(L"Super Resolution enabled");
+				AVDebugWriteLine(L"Super Resolution enabled");
+			}
 		}
 		else
 		{
 			adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(false);
 			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
-			textblock_Status().Text(L"Radeon Super Resolution disabled");
-			AVDebugWriteLine(L"Radeon Super Resolution disabled");
+			textblock_Status().Text(L"Super Resolution disabled");
+			AVDebugWriteLine(L"Super Resolution disabled");
 		}
 	}
 
@@ -103,11 +116,23 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DAntiLagPtr pp3DAntiLag;
 		adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DAntiLag->SetEnabled(true);
-			textblock_Status().Text(L"Anti-Lag enabled");
-			AVDebugWriteLine(L"Anti-Lag enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Anti-Lag");
+				AVDebugWriteLine(L"Failed enabling Anti-Lag");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Anti-Lag enabled");
+				AVDebugWriteLine(L"Anti-Lag enabled");
+			}
 		}
 		else
 		{
@@ -126,11 +151,23 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DEnhancedSyncPtr pp3DEnhancedSync;
 		adlx_Res0 = pp3DSettingsServices->GetEnhancedSync(ppGpuInfo, &pp3DEnhancedSync);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DEnhancedSync->SetEnabled(true);
-			textblock_Status().Text(L"Enhanced Sync enabled");
-			AVDebugWriteLine(L"Enhanced Sync enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Enhanced Sync");
+				AVDebugWriteLine(L"Failed enabling Enhanced Sync");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Enhanced Sync enabled");
+				AVDebugWriteLine(L"Enhanced Sync enabled");
+			}
 		}
 		else
 		{
@@ -175,13 +212,27 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DChillPtr pp3DChill;
 		adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DChill->SetEnabled(true);
-			slider_RadeonChill_Min().IsEnabled(true);
-			slider_RadeonChill_Max().IsEnabled(true);
-			textblock_Status().Text(L"Radeon Chill enabled");
-			AVDebugWriteLine(L"Radeon Chill enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				slider_RadeonChill_Min().IsEnabled(false);
+				slider_RadeonChill_Max().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling Radeon Chill");
+				AVDebugWriteLine(L"Failed enabling Radeon Chill");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				slider_RadeonChill_Min().IsEnabled(true);
+				slider_RadeonChill_Max().IsEnabled(true);
+				textblock_Status().Text(L"Radeon Chill enabled");
+				AVDebugWriteLine(L"Radeon Chill enabled");
+			}
 		}
 		else
 		{
@@ -270,12 +321,25 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DBoostPtr pp3DBoost;
 		adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DBoost->SetEnabled(true);
-			slider_RadeonBoost_MinRes().IsEnabled(true);
-			textblock_Status().Text(L"Radeon Boost enabled");
-			AVDebugWriteLine(L"Radeon Boost enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				slider_RadeonBoost_MinRes().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling Radeon Boost");
+				AVDebugWriteLine(L"Failed enabling Radeon Boost");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				slider_RadeonBoost_MinRes().IsEnabled(true);
+				textblock_Status().Text(L"Radeon Boost enabled");
+				AVDebugWriteLine(L"Radeon Boost enabled");
+			}
 		}
 		else
 		{
@@ -323,19 +387,32 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DImageSharpeningPtr pp3DImageSharpening;
 		adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DImageSharpening->SetEnabled(true);
-			slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
-			textblock_Status().Text(L"Radeon Image Sharpening enabled");
-			AVDebugWriteLine(L"Radeon Image Sharpening enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling Image Sharpening");
+				AVDebugWriteLine(L"Failed enabling Image Sharpening");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
+				textblock_Status().Text(L"Image Sharpening enabled");
+				AVDebugWriteLine(L"Image Sharpening enabled");
+			}
 		}
 		else
 		{
 			adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
 			slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
-			textblock_Status().Text(L"Radeon Image Sharpening disabled");
-			AVDebugWriteLine(L"Radeon Image Sharpening disabled");
+			textblock_Status().Text(L"Image Sharpening disabled");
+			AVDebugWriteLine(L"Image Sharpening disabled");
 		}
 	}
 
@@ -377,12 +454,25 @@ namespace winrt::AmdDriverTool::implementation
 		IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
 		adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(true);
-			slider_Frtc_Max().IsEnabled(true);
-			textblock_Status().Text(L"FRTC enabled");
-			AVDebugWriteLine(L"FRTC enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				slider_Frtc_Max().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling FRTC");
+				AVDebugWriteLine(L"Failed enabling FRTC");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				slider_Frtc_Max().IsEnabled(true);
+				textblock_Status().Text(L"FRTC enabled");
+				AVDebugWriteLine(L"FRTC enabled");
+			}
 		}
 		else
 		{

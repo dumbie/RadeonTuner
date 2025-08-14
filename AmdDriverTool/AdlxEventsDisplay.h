@@ -14,11 +14,23 @@ namespace winrt::AmdDriverTool::implementation
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
 
-		if (sender.as<ToggleSwitch>().IsOn())
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
 		{
 			adlx_Res0 = ppFreeSync->SetEnabled(true);
-			textblock_Status().Text(L"AMD FreeSync enabled");
-			AVDebugWriteLine(L"AMD FreeSync enabled");
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling AMD FreeSync");
+				AVDebugWriteLine(L"Failed enabling AMD FreeSync");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"AMD FreeSync enabled");
+				AVDebugWriteLine(L"AMD FreeSync enabled");
+			}
 		}
 		else
 		{
