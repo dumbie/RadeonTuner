@@ -562,6 +562,86 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_AnisotropicTextureFiltering_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
+		adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Anisotropic");
+				AVDebugWriteLine(L"Failed enabling Anisotropic");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Anisotropic enabled");
+				AVDebugWriteLine(L"Anisotropic enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(false);
+			textblock_Status().Text(L"Anisotropic disabled");
+			AVDebugWriteLine(L"Anisotropic disabled");
+		}
+	}
+
+	void MainPage::combobox_AnisotropicTextureFilteringQuality_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
+		adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
+
+		//Get setting value
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+		//Enumeration index correction
+		if (newValue == 0)
+		{
+			newValue = 2;
+		}
+		else if (newValue == 1)
+		{
+			newValue = 4;
+		}
+		else if (newValue == 2)
+		{
+			newValue = 8;
+		}
+		else if (newValue == 3)
+		{
+			newValue = 16;
+		}
+
+		adlx_Res0 = pp3DAnisotropicFiltering->SetLevel((ADLX_ANISOTROPIC_FILTERING_LEVEL)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting Anisotropic level");
+			AVDebugWriteLine(L"Failed setting Anisotropic level");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"Anisotropic level set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Anisotropic level set to " << newValue);
+		}
+	}
+
 	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

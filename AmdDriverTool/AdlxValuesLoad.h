@@ -294,6 +294,46 @@ namespace winrt::AmdDriverTool::implementation
 			toggleswitch_MorphologicAntiAliasing().IsEnabled(false);
 		}
 
+		//Get Anisotropic texture filtering
+		IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
+		adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
+		adlx_Res0 = pp3DAnisotropicFiltering->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DAnisotropicFiltering->IsEnabled(&adlx_Bool);
+			toggleswitch_AnisotropicTextureFiltering().IsOn(adlx_Bool);
+
+			ADLX_ANISOTROPIC_FILTERING_LEVEL currentLevel;
+			adlx_Res0 = pp3DAnisotropicFiltering->GetLevel(&currentLevel);
+
+			//Enumeration index correction
+			if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X2)
+			{
+				combobox_AnisotropicTextureFilteringQuality().SelectedIndex(0);
+			}
+			else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X4)
+			{
+				combobox_AnisotropicTextureFilteringQuality().SelectedIndex(1);
+			}
+			else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X8)
+			{
+				combobox_AnisotropicTextureFilteringQuality().SelectedIndex(2);
+			}
+			else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X16)
+			{
+				combobox_AnisotropicTextureFilteringQuality().SelectedIndex(3);
+			}
+			else
+			{
+				AVDebugWriteLine("No Anisotropic level set.");
+			}
+		}
+		else
+		{
+			toggleswitch_AnisotropicTextureFiltering().IsEnabled(false);
+			combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
+		}
+
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);

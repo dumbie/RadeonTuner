@@ -76,6 +76,13 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection.Append(box_value(L"8X"));
 		itemCollection.Append(box_value(L"8XEQ"));
 
+		//List all Anisotropic texture filtering
+		itemCollection = combobox_AnisotropicTextureFilteringQuality().Items();
+		itemCollection.Append(box_value(L"2X"));
+		itemCollection.Append(box_value(L"4X"));
+		itemCollection.Append(box_value(L"8X"));
+		itemCollection.Append(box_value(L"16X"));
+
 		//List all memory timing
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
