@@ -226,6 +226,9 @@
     <Filter Include="_ADLX">
       <UniqueIdentifier>{41248b3a-f40a-484f-8814-6df5011466de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset Files">
+      <UniqueIdentifier>{9b86d417-4ebb-4081-803c-c27162571ae9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -249,5 +252,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Information.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

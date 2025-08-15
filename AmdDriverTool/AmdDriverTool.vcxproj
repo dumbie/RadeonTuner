@@ -182,6 +182,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="Information.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <Image Include="AppIcon.ico">
       <DeploymentContent>false</DeploymentContent>
     </Image>

@@ -334,8 +334,6 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 		}
 
-		//Fix ADLX missing Surface Format Optimization
-
 		//Get Tesselation
 		IADLX3DTessellationPtr pp3DTessellation;
 		adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
@@ -388,6 +386,10 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_Tessellation_Mode().IsEnabled(false);
 			combobox_Tessellation_Level().IsEnabled(false);
 		}
+
+		//Fix ADLX missing Surface Format Optimization
+		//Fix ADLX missing OpenGL Triple Buffering
+		//Fix ADLX missing 10-Bit Pixel Format
 
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;

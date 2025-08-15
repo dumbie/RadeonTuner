@@ -71,7 +71,10 @@
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
                             <!-- Radeon Super Resolution -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an upscaling feature for faster frame rates on any game that runs exclusively in full-screen mode.&#10;&#10;This feature is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance."/>
+                                    <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" Margin="10,0,0,0" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
                                     <TextBlock x:Name="textblock_RadeonSuperResolution_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonSuperResolution_Sharpening, Path=Value}"/>
@@ -81,14 +84,23 @@
                             </Grid>
 
                             <!-- Radeon Fluid Motion Frames -->
-                            <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games."/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games."/>
+                                <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
+                            </StackPanel>
 
                             <!-- Radeon Anti-Lag -->
-                            <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled" ToolTipService.ToolTip="Reduces input lag"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU."/>
+                                <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" Margin="10,0,0,0" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled"/>
+                            </StackPanel>
 
                             <!-- Radeon Boost -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_RadeonBoost" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
+                                    <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
                                     <TextBlock x:Name="textblock_RadeonBoost_MinRes" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}"/>
@@ -99,7 +111,10 @@
 
                             <!-- Radeon Chill -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_RadeonChill" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves GPU power and reduces heat by adjusting the FPS based on the intensity of in-game movement."/>
+                                    <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Min" VerticalAlignment="Center"/>
                                     <TextBlock x:Name="textblock_RadeonChill_Min" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}"/>
@@ -113,7 +128,10 @@
 
                             <!-- Radeon Image Sharpening -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, and select productivity and media applications."/>
+                                    <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
                                     <TextBlock x:Name="textblock_RadeonImageSharpening_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening_Sharpening, Path=Value}"/>
@@ -123,17 +141,26 @@
                             </Grid>
 
                             <!-- Radeon Enhanced Sync -->
-                            <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so no tearing is visible between frames.&#10;&#10;Does not limit the frame rate at the display’s refresh rate."/>
+                                <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
+                            </StackPanel>
 
                             <!-- Vertical Refresh -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Vertical Refresh" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="VSync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;Limits the frame rate at the display’s refresh rate."/>
+                                    <TextBlock Margin="10,0,0,0" Text="Vertical Refresh" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
                             </Grid>
 
                             <!-- Frame Rate Target Control -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_Frtc" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets a user-defined target maximum frame rate in full-screen applications to reduce GPU power consumption."/>
+                                    <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Max" VerticalAlignment="Center"/>
                                     <TextBlock x:Name="textblock_Frtc_Max" Width="30" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_Max, Path=Value}"/>
@@ -144,40 +171,61 @@
 
                             <!-- Anti-Aliasing Mode -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Anti-Aliasing Mode" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                    <TextBlock Text="Anti-Aliasing Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_AntiAliasingMode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMode_SelectionChanged"/>
                             </Grid>
 
                             <!-- Anti-Aliasing Method -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Anti-Aliasing Method" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                    <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_AntiAliasingMethod" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged"/>
                             </Grid>
 
                             <!-- Anti-Aliasing Level -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Anti-Aliasing Level" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                    <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_AntiAliasingLevel" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged"/>
                             </Grid>
 
                             <!-- Morphologic Anti-Aliasing -->
-                            <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
+                                <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" Margin="10,0,0,0" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled"/>
+                            </StackPanel>
 
                             <!-- Anisotropic Texture Filtering -->
                             <Grid Margin="0,10,0,0">
-                                <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" OffContent="Force Anisotropic Texture Filtering" OnContent="Force Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles – such as roads or trees – at the cost of some frame rate performance.&#10;&#10;Only affects DirectX® 9 applications."/>
+                                    <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" Margin="10,0,0,0" OffContent="Force Anisotropic Texture Filtering" OnContent="Force Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_AnisotropicTextureFilteringQuality" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AnisotropicTextureFilteringQuality_SelectionChanged"/>
                             </Grid>
 
                             <!-- Tessellation Mode -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Tessellation Mode" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
+                                    <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_Tessellation_Mode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged"/>
                             </Grid>
 
                             <!-- Tessellation Level -->
                             <Grid Margin="0,10,0,0">
-                                <TextBlock Text="Tessellation Level" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
+                                    <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <ComboBox x:Name="combobox_Tessellation_Level" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Level_SelectionChanged"/>
                             </Grid>
 
@@ -434,7 +482,10 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
-                            <ToggleSwitch x:Name="toggleswitch_FreeSync" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate of AMD FreeSync compatible graphics card to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
+                                <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
+                            </StackPanel>
                             <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
                             <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
                             <TextBlock Text="Contrast" Margin="0,10,0,0"/>
