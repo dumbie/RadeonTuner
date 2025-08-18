@@ -158,4 +158,39 @@ namespace winrt::AmdDriverTool::implementation
 		//Set display saturation
 		ppCustomColor->SetSaturation(newValue);
 	}
+
+	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLXDisplayGPUScalingPtr ppGPUScaling;
+		adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = ppGPUScaling->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling GPU Scaling");
+				AVDebugWriteLine(L"Failed enabling GPU Scaling");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"GPU Scaling enabled");
+				AVDebugWriteLine(L"GPU Scaling enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = ppGPUScaling->SetEnabled(false);
+			textblock_Status().Text(L"GPU Scaling disabled");
+			AVDebugWriteLine(L"GPU Scaling disabled");
+		}
+	}
 }

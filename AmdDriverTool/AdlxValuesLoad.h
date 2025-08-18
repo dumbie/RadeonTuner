@@ -7,6 +7,13 @@ namespace winrt::AmdDriverTool::implementation
 {
 	void MainPage::AdlxValuesLoad()
 	{
+		//Fix ADLX missing Surface Format Optimization
+		//Fix ADLX missing OpenGL Triple Buffering
+		//Fix ADLX missing 10-Bit Pixel Format
+		//Fix Get3DLUT support (Missing IADLXDisplay3DLUTPtr)
+		//Fix GetGamut support (Missing IADLXDisplayGamutPtr)
+		//Fix GetGamma support (Missing IADLXDisplayGammaPtr)
+
 		//Disable saving
 		disable_saving = true;
 
@@ -402,10 +409,6 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_Tessellation_Level().IsEnabled(false);
 		}
 
-		//Fix ADLX missing Surface Format Optimization
-		//Fix ADLX missing OpenGL Triple Buffering
-		//Fix ADLX missing 10-Bit Pixel Format
-
 		//Get display freesync setting
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
@@ -432,6 +435,20 @@ namespace winrt::AmdDriverTool::implementation
 		else
 		{
 			toggleswitch_VSR().IsEnabled(false);
+		}
+
+		//Get display GPU Scaling setting
+		IADLXDisplayGPUScalingPtr ppGPUScaling;
+		adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
+		adlx_Res0 = ppGPUScaling->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppGPUScaling->IsEnabled(&adlx_Bool);
+			toggleswitch_GPUScaling().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_GPUScaling().IsEnabled(false);
 		}
 
 		//Get display color depth
