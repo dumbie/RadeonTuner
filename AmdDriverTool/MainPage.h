@@ -61,6 +61,8 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_ScalingMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_HDCPSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_VariBright_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_Display_VariBright_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 

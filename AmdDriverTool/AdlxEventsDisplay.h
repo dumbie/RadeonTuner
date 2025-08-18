@@ -295,4 +295,87 @@ namespace winrt::AmdDriverTool::implementation
 			AVDebugWriteLine(L"HDCP Support disabled");
 		}
 	}
+
+	void MainPage::toggleswitch_VariBright_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLXDisplayVariBrightPtr ppVariBright;
+		adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = ppVariBright->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				combobox_Display_VariBright_Level().IsEnabled(false);
+				textblock_Status().Text(L"Failed enabling Vari-Bright");
+				AVDebugWriteLine(L"Failed enabling Vari-Bright");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				combobox_Display_VariBright_Level().IsEnabled(true);
+				textblock_Status().Text(L"Vari-Bright enabled");
+				AVDebugWriteLine(L"Vari-Bright enabled");
+			}
+		}
+		else
+		{
+			combobox_Display_VariBright_Level().IsEnabled(false);
+			adlx_Res0 = ppVariBright->SetEnabled(false);
+			textblock_Status().Text(L"Vari-Bright disabled");
+			AVDebugWriteLine(L"Vari-Bright disabled");
+		}
+	}
+
+	void MainPage::combobox_Display_VariBright_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get selection
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+		//Get settings
+		IADLXDisplayVariBrightPtr ppVariBright;
+		adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
+
+		//Set Vari-Bright Level
+		if (newValue == 0)
+		{
+			adlx_Res0 = ppVariBright->SetMaximizeBrightness();
+			textblock_Status().Text(L"Vari-Bright set to maximize brightness");
+			AVDebugWriteLine(L"Vari-Bright set to maximize brightness");
+		}
+		else if (newValue == 1)
+		{
+			adlx_Res0 = ppVariBright->SetOptimizeBrightness();
+			textblock_Status().Text(L"Vari-Bright set to optimize brightness");
+			AVDebugWriteLine(L"Vari-Bright set to optimize brightness");
+		}
+		else if (newValue == 2)
+		{
+			adlx_Res0 = ppVariBright->SetBalanced();
+			textblock_Status().Text(L"Vari-Bright set to balanced");
+			AVDebugWriteLine(L"Vari-Bright set to balanced");
+		}
+		else if (newValue == 3)
+		{
+			adlx_Res0 = ppVariBright->SetOptimizeBattery();
+			textblock_Status().Text(L"Vari-Bright set to optimize battery");
+			AVDebugWriteLine(L"Vari-Bright set to optimize battery");
+		}
+		else if (newValue == 4)
+		{
+			adlx_Res0 = ppVariBright->SetMaximizeBattery();
+			textblock_Status().Text(L"Vari-Bright set to maximize battery");
+			AVDebugWriteLine(L"Vari-Bright set to maximize battery");
+		}
+	}
 }

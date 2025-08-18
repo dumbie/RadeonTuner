@@ -10,9 +10,12 @@ namespace winrt::AmdDriverTool::implementation
 		//Fix ADLX missing Surface Format Optimization
 		//Fix ADLX missing OpenGL Triple Buffering
 		//Fix ADLX missing 10-Bit Pixel Format
+		//Fix ADLX missing AMD Privacy View
+		//Fix IADLXEyefinityDesktop support
 		//Fix Get3DLUT support (Missing IADLXDisplay3DLUTPtr)
 		//Fix GetGamut support (Missing IADLXDisplayGamutPtr)
 		//Fix GetGamma support (Missing IADLXDisplayGammaPtr)
+		//Fix GetCustomResolution support (Custom Resolution Utility)
 
 		//Disable saving
 		disable_saving = true;
@@ -550,6 +553,55 @@ namespace winrt::AmdDriverTool::implementation
 		else
 		{
 			slider_Display_Saturation().IsEnabled(false);
+		}
+
+		//Get display vari-bright
+		IADLXDisplayVariBrightPtr ppVariBright;
+		adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
+		adlx_Res0 = ppVariBright->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			//Set Vari-Bright
+			adlx_Res0 = ppVariBright->IsEnabled(&adlx_Bool);
+			toggleswitch_VariBright().IsOn(adlx_Bool);
+
+			//Check Vari-Bright
+			if (!adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().IsEnabled(false);
+			}
+
+			//Set Vari-Bright Level
+			adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().SelectedIndex(0);
+			}
+			adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().SelectedIndex(1);
+			}
+			adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().SelectedIndex(2);
+			}
+			adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().SelectedIndex(3);
+			}
+			adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
+			if (adlx_Bool)
+			{
+				combobox_Display_VariBright_Level().SelectedIndex(4);
+			}
+		}
+		else
+		{
+			combobox_Display_VariBright_Level().IsEnabled(false);
+			toggleswitch_VariBright().IsEnabled(false);
 		}
 
 		//Get display hdcp support

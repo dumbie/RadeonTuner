@@ -54,6 +54,14 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection.Append(box_value(L"RGB 4:4:4 Studio (Limited RGB)"));
 		itemCollection.Append(box_value(L"YCbCr 4:2:0"));
 
+		//List all vari-bright level
+		itemCollection = combobox_Display_VariBright_Level().Items();
+		itemCollection.Append(box_value(L"Maximize Brightness"));
+		itemCollection.Append(box_value(L"Optimize Brightness"));
+		itemCollection.Append(box_value(L"Balanced"));
+		itemCollection.Append(box_value(L"Optimize Battery"));
+		itemCollection.Append(box_value(L"Maximize Battery"));
+
 		//List all vertical sync
 		itemCollection = combobox_VerticalRefresh().Items();
 		itemCollection.Append(box_value(L"Always Off"));
