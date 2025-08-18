@@ -445,6 +445,41 @@ namespace winrt::AmdDriverTool::implementation
 		}
 	}
 
+	void MainPage::toggleswitch_RadeonSharpenDesktop_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get setting
+		IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
+		adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = pp3DImageSharpenDesktop->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Desktop Sharpening");
+				AVDebugWriteLine(L"Failed enabling Desktop Sharpening");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Desktop Sharpening enabled");
+				AVDebugWriteLine(L"Desktop Sharpening enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = pp3DImageSharpenDesktop->SetEnabled(false);
+			textblock_Status().Text(L"Desktop Sharpening disabled");
+			AVDebugWriteLine(L"Desktop Sharpening disabled");
+		}
+	}
+
 	void MainPage::toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

@@ -171,6 +171,20 @@ namespace winrt::AmdDriverTool::implementation
 			slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 		}
 
+		//Get desktop sharpening setting
+		IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
+		adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
+		adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = pp3DImageSharpenDesktop->IsEnabled(&adlx_Bool);
+			toggleswitch_RadeonSharpenDesktop().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
+		}
+
 		//Get vertical refresh setting
 		IADLX3DWaitForVerticalRefreshPtr pp3DWaitForVerticalRefresh;
 		adlx_Res0 = pp3DSettingsServices->GetWaitForVerticalRefresh(ppGpuInfo, &pp3DWaitForVerticalRefresh);
@@ -281,6 +295,7 @@ namespace winrt::AmdDriverTool::implementation
 			combobox_AntiAliasingLevel().IsEnabled(false);
 		}
 
+		//Get Morphological Anti-Aliasing
 		IADLX3DMorphologicalAntiAliasingPtr pp3DMorphologicalAntiAliasing;
 		adlx_Res0 = pp3DSettingsServices->GetMorphologicalAntiAliasing(ppGpuInfo, &pp3DMorphologicalAntiAliasing);
 		adlx_Res0 = pp3DMorphologicalAntiAliasing->IsSupported(&adlx_Bool);

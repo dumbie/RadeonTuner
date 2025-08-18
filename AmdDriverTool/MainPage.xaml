@@ -140,6 +140,12 @@
                                 </StackPanel>
                             </Grid>
 
+                            <!-- Radeon Sharpen Desktop -->
+                            <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When AMD Radeon Image sharpening is enabled and Sharpen Desktop is enabled, the sharpening is applied for both windowed applications and for applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon Image sharpening is enabled and Sharpen Desktop is disabled, the sharpening is only applied to applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon™ Image sharpening is disabled and Sharpen Desktop is enabled, Sharpen Desktop remains in enabled state, but the value is ignored."/>
+                                <ToggleSwitch x:Name="toggleswitch_RadeonSharpenDesktop" Margin="10,0,0,0" OffContent="Radeon Sharpen Desktop" OnContent="Radeon Sharpen Desktop" Toggled="toggleswitch_RadeonSharpenDesktop_Toggled"/>
+                            </StackPanel>
+
                             <!-- Radeon Enhanced Sync -->
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so no tearing is visible between frames.&#10;&#10;Does not limit the frame rate at the display’s refresh rate."/>
