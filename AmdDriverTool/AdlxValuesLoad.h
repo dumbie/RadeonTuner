@@ -405,6 +405,20 @@ namespace winrt::AmdDriverTool::implementation
 			toggleswitch_FreeSync().IsEnabled(false);
 		}
 
+		//Get display VSR setting
+		IADLXDisplayVSRPtr ppVSR;
+		adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
+		adlx_Res0 = ppVSR->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppVSR->IsEnabled(&adlx_Bool);
+			toggleswitch_VSR().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_VSR().IsEnabled(false);
+		}
+
 		//Get display color depth
 		IADLXDisplayColorDepthPtr ppColorDepth;
 		adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);

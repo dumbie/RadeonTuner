@@ -482,10 +482,18 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
+                            <!-- FreeSync -->
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate of AMD FreeSync compatible graphics card to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
                                 <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
                             </StackPanel>
+
+                            <!-- Virtual Super Resolution -->
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native pixel grid and then scales images down to fit the display, producing higher quality visuals at the expense of performance."/>
+                                <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
+                            </StackPanel>
+
                             <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
                             <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
                             <TextBlock Text="Contrast" Margin="0,10,0,0"/>

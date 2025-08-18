@@ -10,7 +10,7 @@ namespace winrt::AmdDriverTool::implementation
 		//Check if saving is disabled
 		if (disable_saving) { return; }
 
-		//Get FreeSync settings
+		//Get settings
 		IADLXDisplayFreeSyncPtr ppFreeSync;
 		adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
 
@@ -37,6 +37,41 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = ppFreeSync->SetEnabled(false);
 			textblock_Status().Text(L"AMD FreeSync disabled");
 			AVDebugWriteLine(L"AMD FreeSync disabled");
+		}
+	}
+
+	void MainPage::toggleswitch_VSR_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLXDisplayVSRPtr ppVSR;
+		adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = ppVSR->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling AMD VSR");
+				AVDebugWriteLine(L"Failed enabling AMD VSR");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"AMD VSR enabled");
+				AVDebugWriteLine(L"AMD VSR enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = ppVSR->SetEnabled(false);
+			textblock_Status().Text(L"AMD VSR disabled");
+			AVDebugWriteLine(L"AMD VSR disabled");
 		}
 	}
 
