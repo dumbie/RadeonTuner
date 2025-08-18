@@ -260,4 +260,39 @@ namespace winrt::AmdDriverTool::implementation
 			AVDebugWriteLine(L"Scaling mode set to " << newValue);
 		}
 	}
+
+	void MainPage::toggleswitch_HDCPSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLXDisplayHDCPPtr ppHDCP;
+		adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = ppHDCP->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling HDCP Support");
+				AVDebugWriteLine(L"Failed enabling HDCP Support");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"HDCP Support enabled");
+				AVDebugWriteLine(L"HDCP Support enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = ppHDCP->SetEnabled(false);
+			textblock_Status().Text(L"HDCP Support disabled");
+			AVDebugWriteLine(L"HDCP Support disabled");
+		}
+	}
 }

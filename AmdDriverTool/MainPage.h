@@ -60,6 +60,7 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_ScalingMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void toggleswitch_HDCPSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

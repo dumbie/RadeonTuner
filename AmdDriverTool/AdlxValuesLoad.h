@@ -552,6 +552,20 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Display_Saturation().IsEnabled(false);
 		}
 
+		//Get display hdcp support
+		IADLXDisplayHDCPPtr ppHDCP;
+		adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
+		adlx_Res0 = ppHDCP->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppHDCP->IsEnabled(&adlx_Bool);
+			toggleswitch_HDCPSupport().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_HDCPSupport().IsEnabled(false);
+		}
+
 		//Get fan manual tuning
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);
 		if (adlx_Bool)
