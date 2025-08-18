@@ -31,6 +31,12 @@ namespace winrt::AmdDriverTool::implementation
 		itemCollection = combobox_AppSelect().Items();
 		itemCollection.Append(box_value(L"Global"));
 
+		//List all scaling mode
+		itemCollection = combobox_Display_ScalingMode().Items();
+		itemCollection.Append(box_value(L"Preserve aspect ratio"));
+		itemCollection.Append(box_value(L"Full panel"));
+		itemCollection.Append(box_value(L"Center"));
+
 		//List all color depth
 		itemCollection = combobox_Display_ColorDepth().Items();
 		itemCollection.Append(box_value(L"6 bpc"));

@@ -233,4 +233,31 @@ namespace winrt::AmdDriverTool::implementation
 			AVDebugWriteLine(L"Integer Scaling disabled");
 		}
 	}
+
+	void MainPage::combobox_Display_ScalingMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get selection
+		auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+		//Get settings
+		IADLXDisplayScalingModePtr ppScalingMode;
+		adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
+
+		adlx_Res0 = ppScalingMode->SetMode((ADLX_SCALE_MODE)newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textblock_Status().Text(L"Failed setting scaling mode");
+			AVDebugWriteLine(L"Failed setting scaling mode");
+		}
+		else
+		{
+			//Set result
+			textblock_Status().Text(L"Scaling mode set to " + number_to_wstring(newValue));
+			AVDebugWriteLine(L"Scaling mode set to " << newValue);
+		}
+	}
 }

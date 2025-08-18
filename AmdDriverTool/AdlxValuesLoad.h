@@ -465,6 +465,21 @@ namespace winrt::AmdDriverTool::implementation
 			toggleswitch_IntegerScaling().IsEnabled(false);
 		}
 
+		//Get display scaling mode
+		IADLXDisplayScalingModePtr ppScalingMode;
+		adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
+		adlx_Res0 = ppScalingMode->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			ADLX_SCALE_MODE currentMode;
+			adlx_Res0 = ppScalingMode->GetMode(&currentMode);
+			combobox_Display_ScalingMode().SelectedIndex(currentMode);
+		}
+		else
+		{
+			combobox_Display_ScalingMode().IsEnabled(false);
+		}
+
 		//Get display color depth
 		IADLXDisplayColorDepthPtr ppColorDepth;
 		adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);

@@ -512,8 +512,16 @@
                                 <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
                             </StackPanel>
 
+                            <!-- Scaling Mode -->
+                            <ComboBox x:Name="combobox_Display_ScalingMode" Header="Scaling Mode" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ScalingMode_SelectionChanged"/>
+
+                            <!-- Color Depth -->
                             <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
+
+                            <!-- Pixel Format -->
                             <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
+
+                            <!-- Contrast -->
                             <TextBlock Text="Contrast" Margin="0,10,0,0"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
