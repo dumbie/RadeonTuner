@@ -70,7 +70,7 @@
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
                             <!-- Radeon Super Resolution -->
-                            <Grid Margin="0,10,0,0">
+                            <Grid>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an upscaling feature for faster frame rates on any game that runs exclusively in full-screen mode.&#10;&#10;This feature is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance."/>
                                     <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" Margin="10,0,0,0" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
@@ -504,6 +504,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display. When not enabled, displays typically handle scaling themselves."/>
                                 <ToggleSwitch x:Name="toggleswitch_GPUScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GPUScaling_Toggled"/>
+                            </StackPanel>
+
+                            <!-- Integer Scaling -->
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Display Scaling gives a sharp, pixelated look to images scaled up to fit the display. Images that can't be scaled to match the display's exact size and shape will be centered on screen. Integer Display Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display.&#10;&#10;Integer Display Scaling is not supported when GPU Scaling is disabled."/>
+                                <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
                             </StackPanel>
 
                             <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>

@@ -182,15 +182,55 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
+				toggleswitch_IntegerScaling().IsEnabled(true);
 				textblock_Status().Text(L"GPU Scaling enabled");
 				AVDebugWriteLine(L"GPU Scaling enabled");
 			}
 		}
 		else
 		{
+			disable_saving = true;
+			toggleswitch_IntegerScaling().IsOn(false);
+			disable_saving = false;
+			toggleswitch_IntegerScaling().IsEnabled(false);
 			adlx_Res0 = ppGPUScaling->SetEnabled(false);
 			textblock_Status().Text(L"GPU Scaling disabled");
 			AVDebugWriteLine(L"GPU Scaling disabled");
+		}
+	}
+
+	void MainPage::toggleswitch_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get settings
+		IADLXDisplayIntegerScalingPtr ppIntegerScaling;
+		adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+
+		ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+		if (senderElement.IsOn())
+		{
+			adlx_Res0 = ppIntegerScaling->SetEnabled(true);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				textblock_Status().Text(L"Failed enabling Integer Scaling");
+				AVDebugWriteLine(L"Failed enabling Integer Scaling");
+				disable_saving = true;
+				senderElement.IsOn(false);
+				disable_saving = false;
+			}
+			else
+			{
+				textblock_Status().Text(L"Integer Scaling enabled");
+				AVDebugWriteLine(L"Integer Scaling enabled");
+			}
+		}
+		else
+		{
+			adlx_Res0 = ppIntegerScaling->SetEnabled(false);
+			textblock_Status().Text(L"Integer Scaling disabled");
+			AVDebugWriteLine(L"Integer Scaling disabled");
 		}
 	}
 }

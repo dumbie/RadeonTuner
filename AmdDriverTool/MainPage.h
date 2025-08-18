@@ -58,6 +58,7 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_VSR_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_RadeonSharpenDesktop_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

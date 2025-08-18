@@ -451,6 +451,20 @@ namespace winrt::AmdDriverTool::implementation
 			toggleswitch_GPUScaling().IsEnabled(false);
 		}
 
+		//Get display Integer Scaling setting
+		IADLXDisplayIntegerScalingPtr ppIntegerScaling;
+		adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+		adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
+			toggleswitch_IntegerScaling().IsOn(adlx_Bool);
+		}
+		else
+		{
+			toggleswitch_IntegerScaling().IsEnabled(false);
+		}
+
 		//Get display color depth
 		IADLXDisplayColorDepthPtr ppColorDepth;
 		adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);
