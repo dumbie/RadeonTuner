@@ -191,6 +191,22 @@ namespace winrt::AmdDriverTool::implementation
 		ppCustomColor->SetSaturation(newValue);
 	}
 
+	void MainPage::slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get saturation value
+		auto newValue = sender.as<Slider>().Value();
+
+		//Get display custom color profile
+		IADLXDisplayCustomColorPtr ppCustomColor;
+		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
+
+		//Set display hue
+		ppCustomColor->SetHue(newValue);
+	}
+
 	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		//Check if saving is disabled

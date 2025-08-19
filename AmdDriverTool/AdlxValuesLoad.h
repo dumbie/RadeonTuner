@@ -591,6 +591,22 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Display_Saturation().IsEnabled(false);
 		}
 
+		//Get display hue
+		adlx_Res0 = ppCustomColor->IsHueSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppCustomColor->GetHue(&adlx_Int0);
+			adlx_Res0 = ppCustomColor->GetHueRange(&adlx_IntRange0);
+			slider_Display_Hue().Value(adlx_Int0);
+			slider_Display_Hue().Minimum(adlx_IntRange0.minValue);
+			slider_Display_Hue().Maximum(adlx_IntRange0.maxValue);
+			slider_Display_Hue().StepFrequency(adlx_IntRange0.step);
+		}
+		else
+		{
+			slider_Display_Hue().IsEnabled(false);
+		}
+
 		//Get display vari-bright
 		IADLXDisplayVariBrightPtr ppVariBright;
 		adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);

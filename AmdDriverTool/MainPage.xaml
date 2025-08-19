@@ -565,6 +565,17 @@
                                 <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
                             </Grid>
 
+                            <!-- Hue -->
+                            <TextBlock Text="Hue" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" IsEnabled="False" Text="{Binding ElementName=slider_Display_Hue, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
+                            </Grid>
+
                             <!-- Vari-Bright -->
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
