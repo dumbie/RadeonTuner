@@ -11,11 +11,15 @@ namespace winrt::AmdDriverTool::implementation
 		//Fix ADLX missing OpenGL Triple Buffering
 		//Fix ADLX missing 10-Bit Pixel Format
 		//Fix ADLX missing AMD Privacy View
-		//Fix IADLXEyefinityDesktop support
-		//Fix Get3DLUT support (Missing IADLXDisplay3DLUTPtr)
-		//Fix GetGamut support (Missing IADLXDisplayGamutPtr)
-		//Fix GetGamma support (Missing IADLXDisplayGammaPtr)
+		//Fix ADLX missing AMD Noise Suppression
 		//Fix GetCustomResolution support (Custom Resolution Utility)
+		//Fix IADLXEyefinityDesktop support
+		//Fix Get3DLUT support
+		//Fix GetGamut support
+		//Fix GetGamma support
+		//Fix IADLXDisplayConnectivityExperiencePtr GetRelativeVoltageSwing support
+		//Fix IADLXDisplayConnectivityExperiencePtr GetRelativePreEmphasis support
+		//Fix IADLXDisplayFreeSyncColorAccuracy support
 
 		//Disable saving
 		disable_saving = true;
@@ -523,6 +527,22 @@ namespace winrt::AmdDriverTool::implementation
 		IADLXDisplayCustomColorPtr ppCustomColor;
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
+		//Get display color temperature
+		adlx_Res0 = ppCustomColor->IsTemperatureSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppCustomColor->GetTemperature(&adlx_Int0);
+			adlx_Res0 = ppCustomColor->GetTemperatureRange(&adlx_IntRange0);
+			slider_Display_ColorTemperature().Value(adlx_Int0);
+			slider_Display_ColorTemperature().Minimum(adlx_IntRange0.minValue);
+			slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
+			slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
+		}
+		else
+		{
+			slider_Display_ColorTemperature().IsEnabled(false);
+		}
+
 		//Get display contrast
 		adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
 		if (adlx_Bool)
@@ -617,6 +637,32 @@ namespace winrt::AmdDriverTool::implementation
 		{
 			toggleswitch_HDCPSupport().IsEnabled(false);
 		}
+
+		////Get multimedia video super resolution
+		//IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
+		//ppMultiMediaServices->GetVideoSuperResolution(ppGpuInfo, &ppVideoSuperResolution);
+		//adlx_Res0 = ppVideoSuperResolution->IsSupported(&adlx_Bool);
+		//if (adlx_Bool)
+		//{
+		//	AVDebugWriteLine("Yes ppVideoSuperResolution support.");
+		//}
+		//else
+		//{
+		//	AVDebugWriteLine("No ppVideoSuperResolution support.");
+		//}
+
+		////Get multimedia video upscale
+		//IADLXVideoUpscalePtr ppVideoupscale;
+		//ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
+		//adlx_Res0 = ppVideoupscale->IsSupported(&adlx_Bool);
+		//if (adlx_Bool)
+		//{
+		//	AVDebugWriteLine("Yes ppVideoupscale support.");
+		//}
+		//else
+		//{
+		//	AVDebugWriteLine("No ppVideoupscale support.");
+		//}
 
 		//Get fan manual tuning
 		adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);

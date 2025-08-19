@@ -521,6 +521,17 @@
                             <!-- Pixel Format -->
                             <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
 
+                            <!-- Color Temperature -->
+                            <TextBlock Text="Color Temperature" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" IsEnabled="False" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
+                            </Grid>
+
                             <!-- Contrast -->
                             <TextBlock Text="Contrast" Margin="0,10,0,0"/>
                             <Grid>

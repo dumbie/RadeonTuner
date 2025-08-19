@@ -15,8 +15,21 @@ namespace winrt::AmdDriverTool::implementation
 			return false;
 		}
 
+		//Get system services
+		IADLXSystem* pSystemServices0 = ppADLXHelper.GetSystemServices();
+		IADLXSystem1* pSystemServices1 = IADLXSystem1Ptr(ppADLXHelper.GetSystemServices()).GetPtr();
+		IADLXSystem2* pSystemServices2 = IADLXSystem2Ptr(ppADLXHelper.GetSystemServices()).GetPtr();
+
+		//Get multimedia services
+		adlx_Res0 = pSystemServices2->GetMultimediaServices(&ppMultiMediaServices);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			AVDebugWriteLine("Failed getting multimedia services.");
+			return false;
+		}
+
 		//Get display services
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetDisplaysServices(&ppDispServices);
+		adlx_Res0 = pSystemServices0->GetDisplaysServices((IADLXDisplayServices**)&ppDispServices);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting display services.");
@@ -25,7 +38,7 @@ namespace winrt::AmdDriverTool::implementation
 
 		//Get 3DSettings services
 		IADLX3DSettingsServicesPtr pp3DSettingsServices0;
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->Get3DSettingsServices(&pp3DSettingsServices0);
+		adlx_Res0 = pSystemServices0->Get3DSettingsServices(&pp3DSettingsServices0);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting 3DSettings services.");
@@ -34,7 +47,7 @@ namespace winrt::AmdDriverTool::implementation
 		pp3DSettingsServices = IADLX3DSettingsServices2Ptr(pp3DSettingsServices0);
 
 		//Get Performance Monitoring services
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetPerformanceMonitoringServices(&ppPerformanceMonitoringServices);
+		adlx_Res0 = pSystemServices0->GetPerformanceMonitoringServices(&ppPerformanceMonitoringServices);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting Performance Monitoring services.");
@@ -42,7 +55,7 @@ namespace winrt::AmdDriverTool::implementation
 		}
 
 		//Get tuning services
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetGPUTuningServices((IADLXGPUTuningServices**)&ppGPUTuningServices);
+		adlx_Res0 = pSystemServices0->GetGPUTuningServices((IADLXGPUTuningServices**)&ppGPUTuningServices);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting tuning services.");
@@ -50,7 +63,7 @@ namespace winrt::AmdDriverTool::implementation
 		}
 
 		//Get all gpus
-		adlx_Res0 = ppADLXHelper.GetSystemServices()->GetGPUs(&ppGpuList);
+		adlx_Res0 = pSystemServices0->GetGPUs(&ppGpuList);
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			AVDebugWriteLine("Failed getting all gpus.");
