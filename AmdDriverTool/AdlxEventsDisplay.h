@@ -143,12 +143,28 @@ namespace winrt::AmdDriverTool::implementation
 		ppCustomColor->SetTemperature(newValue);
 	}
 
+	void MainPage::slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		//Check if saving is disabled
+		if (disable_saving) { return; }
+
+		//Get value
+		auto newValue = sender.as<Slider>().Value();
+
+		//Get display custom color profile
+		IADLXDisplayCustomColorPtr ppCustomColor;
+		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
+
+		//Set display brightness
+		ppCustomColor->SetBrightness(newValue);
+	}
+
 	void MainPage::slider_Display_Contrast_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		//Check if saving is disabled
 		if (disable_saving) { return; }
 
-		//Get contrast value
+		//Get value
 		auto newValue = sender.as<Slider>().Value();
 
 		//Get display custom color profile

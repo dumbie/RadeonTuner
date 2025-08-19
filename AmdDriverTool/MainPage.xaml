@@ -532,6 +532,17 @@
                                 <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
                             </Grid>
 
+                            <!-- Brightness -->
+                            <TextBlock Text="Brightness" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" IsEnabled="False" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}"/>
+                                <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged"/>
+                            </Grid>
+
                             <!-- Contrast -->
                             <TextBlock Text="Contrast" Margin="0,10,0,0"/>
                             <Grid>

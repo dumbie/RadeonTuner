@@ -64,6 +64,7 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_VariBright_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_VariBright_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_Display_ColorTemperature_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 	};
 }
 

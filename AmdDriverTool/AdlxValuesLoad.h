@@ -543,6 +543,22 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Display_ColorTemperature().IsEnabled(false);
 		}
 
+		//Get display brightness
+		adlx_Res0 = ppCustomColor->IsBrightnessSupported(&adlx_Bool);
+		if (adlx_Bool)
+		{
+			adlx_Res0 = ppCustomColor->GetBrightness(&adlx_Int0);
+			adlx_Res0 = ppCustomColor->GetBrightnessRange(&adlx_IntRange0);
+			slider_Display_Brightness().Value(adlx_Int0);
+			slider_Display_Brightness().Minimum(adlx_IntRange0.minValue);
+			slider_Display_Brightness().Maximum(adlx_IntRange0.maxValue);
+			slider_Display_Brightness().StepFrequency(adlx_IntRange0.step);
+		}
+		else
+		{
+			slider_Display_Brightness().IsEnabled(false);
+		}
+
 		//Get display contrast
 		adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
 		if (adlx_Bool)
