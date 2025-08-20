@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Loaded="page_Loaded"
     RequestedTheme="Dark"
-    Background="#222">
+    Background="{ThemeResource ApplicationBlackColor}">
 
     <Grid>
         <Grid x:Name="grid_Main">
@@ -18,7 +18,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Menu -->
-            <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged">
+            <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged" Style="{ThemeResource ApplicationListBox}">
                 <ListBoxItem x:Name="listboxitem_Tuning" Content="Tuning" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <ListBoxItem x:Name="listboxitem_Fans" Content="Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <ListBoxItem x:Name="listboxitem_Graphics" Content="Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -35,217 +35,247 @@
                 </Grid.RowDefinitions>
 
                 <!-- Header -->
-                <Grid Grid.Row="0" Margin="5" Padding="10" Background="#444">
-                    <!-- Status text -->
-                    <TextBlock x:Name="textblock_Status" Text="AMD Driver Tool" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
+                    <Grid>
+                        <!-- Status text -->
+                        <TextBlock x:Name="textblock_Status" Text="AMD Driver Tool" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
-                    <StackPanel Orientation="Horizontal">
-                        <!-- Gpu Select -->
-                        <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False"/>
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Gpu Select -->
+                            <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False" Style="{ThemeResource ApplicationComboBox}"/>
 
-                        <!-- Display Select -->
-                        <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
+                            <!-- Display Select -->
+                            <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}"/>
 
-                        <!-- Application Select -->
-                        <ComboBox x:Name="combobox_AppSelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0"/>
-                    </StackPanel>
-                </Grid>
+                            <!-- Application Select -->
+                            <ComboBox x:Name="combobox_AppSelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
                 <!-- Status -->
-                <StackPanel Grid.Row="1" Margin="5" Padding="5" Background="#444" Orientation="Horizontal">
-                    <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" FontSize="18"/>
-                    <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,10,0" FontSize="18"/>
-                </StackPanel>
+                <Border Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,10,0" FontSize="18"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Main -->
-                <ScrollViewer Grid.Row="2" Margin="5,0,10,0" VerticalScrollBarVisibility="Auto">
-                    <Grid>
+                <ScrollViewer Grid.Row="2" Margin="5,0,5,0" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="0,0,10,10">
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
+                            <TextBlock Text="Graphics Options" FontSize="20" FontWeight="Medium"/>
+
                             <!-- Radeon Super Resolution -->
-                            <Grid>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an upscaling feature for faster frame rates on any game that runs exclusively in full-screen mode.&#10;&#10;This feature is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance."/>
-                                    <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" Margin="10,0,0,0" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an upscaling feature for faster frame rates on any game that runs exclusively in full-screen mode.&#10;&#10;This feature is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" Margin="10,0,0,0" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonSuperResolution_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonSuperResolution_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonSuperResolution_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonSuperResolution_Sharpening_ValueChanged"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_RadeonSuperResolution_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonSuperResolution_Sharpening, Path=Value}"/>
-                                    <Slider x:Name="slider_RadeonSuperResolution_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonSuperResolution_Sharpening_ValueChanged"/>
-                                    <TextBlock Text="%" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
+                            </Border>
 
                             <!-- Radeon Fluid Motion Frames -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
                             </StackPanel>
 
                             <!-- Radeon Anti-Lag -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" Margin="10,0,0,0" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled"/>
                             </StackPanel>
 
                             <!-- Radeon Boost -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
-                                    <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonBoost_MinRes" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinRes_ValueChanged"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_RadeonBoost_MinRes" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}"/>
-                                    <Slider x:Name="slider_RadeonBoost_MinRes" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinRes_ValueChanged"/>
-                                    <TextBlock Text="%" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
+                            </Border>
 
                             <!-- Radeon Chill -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves GPU power and reduces heat by adjusting the FPS based on the intensity of in-game movement."/>
-                                    <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves GPU power and reduces heat by adjusting the FPS based on the intensity of in-game movement."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Min" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonChill_Min" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
+                                        <TextBlock Text="Max" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
+                                        <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBlock Text="Min" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_RadeonChill_Min" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}"/>
-                                    <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
-                                    <TextBlock Text="Max" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_RadeonChill_Max" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}"/>
-                                    <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
-                                    <TextBlock Text="FPS" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
+                            </Border>
 
                             <!-- Radeon Image Sharpening -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, and select productivity and media applications."/>
-                                    <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, and select productivity and media applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonImageSharpening_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonImageSharpening_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening_Sharpening_ValueChanged"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_RadeonImageSharpening_Sharpening" Width="24" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening_Sharpening, Path=Value}"/>
-                                    <Slider x:Name="slider_RadeonImageSharpening_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening_Sharpening_ValueChanged"/>
-                                    <TextBlock Text="%" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
+                            </Border>
 
                             <!-- Radeon Sharpen Desktop -->
-                            <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="Collapsed">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When AMD Radeon Image sharpening is enabled and Sharpen Desktop is enabled, the sharpening is applied for both windowed applications and for applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon Image sharpening is enabled and Sharpen Desktop is disabled, the sharpening is only applied to applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon™ Image sharpening is disabled and Sharpen Desktop is enabled, Sharpen Desktop remains in enabled state, but the value is ignored."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonSharpenDesktop" Margin="10,0,0,0" OffContent="Radeon Sharpen Desktop" OnContent="Radeon Sharpen Desktop" Toggled="toggleswitch_RadeonSharpenDesktop_Toggled"/>
                             </StackPanel>
 
                             <!-- Radeon Enhanced Sync -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so no tearing is visible between frames.&#10;&#10;Does not limit the frame rate at the display’s refresh rate."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
                             </StackPanel>
 
                             <!-- Vertical Refresh -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="VSync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;Limits the frame rate at the display’s refresh rate."/>
-                                    <TextBlock Margin="10,0,0,0" Text="Vertical Refresh" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="VSync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;Limits the frame rate at the display’s refresh rate."/>
+                                        <TextBlock Margin="10,0,0,0" Text="Wait for Vertical Refresh" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_VerticalRefresh" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalRefresh_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_VerticalRefresh" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_VerticalRefresh_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Frame Rate Target Control -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets a user-defined target maximum frame rate in full-screen applications to reduce GPU power consumption."/>
-                                    <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets a user-defined target maximum frame rate in full-screen applications to reduce GPU power consumption."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Maximum" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_Frtc_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_Frtc_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_Max_ValueChanged"/>
+                                        <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBlock Text="Max" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="textblock_Frtc_Max" Width="30" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_Max, Path=Value}"/>
-                                    <Slider x:Name="slider_Frtc_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_Max_ValueChanged"/>
-                                    <TextBlock Text="FPS" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
+                            </Border>
 
                             <!-- Anti-Aliasing Mode -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
-                                    <TextBlock Text="Anti-Aliasing Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                        <TextBlock Text="Anti-Aliasing Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_AntiAliasingMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_AntiAliasingMode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMode_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Anti-Aliasing Method -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
-                                    <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                        <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_AntiAliasingMethod" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_AntiAliasingMethod" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Anti-Aliasing Level -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
-                                    <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                        <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_AntiAliasingLevel" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_AntiAliasingLevel" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Morphologic Anti-Aliasing -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
                                 <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" Margin="10,0,0,0" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled"/>
                             </StackPanel>
 
                             <!-- Anisotropic Texture Filtering -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles – such as roads or trees – at the cost of some frame rate performance.&#10;&#10;Only affects DirectX® 9 applications."/>
-                                    <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" Margin="10,0,0,0" OffContent="Force Anisotropic Texture Filtering" OnContent="Force Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles – such as roads or trees – at the cost of some frame rate performance.&#10;&#10;Only affects DirectX® 9 applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" Margin="10,0,0,0" OffContent="Force Anisotropic Texture Filtering" OnContent="Force Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_AnisotropicTextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_AnisotropicTextureFilteringQuality" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_AnisotropicTextureFilteringQuality_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Tessellation Mode -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
-                                    <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
+                                        <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_Tessellation_Mode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_Tessellation_Mode" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Tessellation Level -->
-                            <Grid Margin="0,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
-                                    <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
+                                        <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
-                                <ComboBox x:Name="combobox_Tessellation_Level" Width="260" HorizontalAlignment="Right" SelectionChanged="combobox_Tessellation_Level_SelectionChanged"/>
-                            </Grid>
+                            </Border>
 
                             <!-- Reset Shader Cache -->
-                            <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache."/>
+                            <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                         </StackPanel>
 
                         <!-- Tuning -->
                         <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
                             <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100"/>
-                                <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
-                                <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
-                                <Button x:Name="button_Export" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Export" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
 
                             <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
@@ -255,7 +285,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Core_Min" IsEnabled="False" Text="{Binding ElementName=slider_Core_Min, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Core_Min" Text="{Binding ElementName=slider_Core_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Core_Min" Margin="10,0,0,0"/>
                             </Grid>
 
@@ -265,19 +295,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Core_Max" IsEnabled="False" Text="{Binding ElementName=slider_Core_Max, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Core_Max" Text="{Binding ElementName=slider_Core_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Core_Max" Margin="10,0,0,0"/>
                             </Grid>
 
                             <TextBlock Text="Memory Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                            <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300"/>
+                            <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
                             <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" IsEnabled="False" Text="{Binding ElementName=slider_Memory_Max, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" Text="{Binding ElementName=slider_Memory_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0"/>
                             </Grid>
 
@@ -288,7 +318,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" IsEnabled="False" Text="{Binding ElementName=slider_Power_Limit, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" Text="{Binding ElementName=slider_Power_Limit, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0"/>
                             </Grid>
 
@@ -298,7 +328,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" IsEnabled="False" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
                             </Grid>
 
@@ -308,7 +338,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" IsEnabled="False" Text="{Binding ElementName=slider_Power_TDC, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0"/>
                             </Grid>
                         </StackPanel>
@@ -316,10 +346,10 @@
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
                             <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100"/>
-                                <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100"/>
-                                <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100"/>
-                                <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100"/>
+                                <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
 
                             <Grid Margin="0,10,0,0">
@@ -332,15 +362,15 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="2" CornerRadius="5">
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ApplicationWhiteColor}" BorderThickness="2" CornerRadius="5">
                                     <Grid>
                                         <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Line Margin="0,25,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                            <Line Margin="0,50,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                            <Line Margin="0,75,0,0" X1="500" Stroke="#888" StrokeThickness="1"/>
-                                            <Line Margin="125,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
-                                            <Line Margin="250,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
-                                            <Line Margin="375,0,0,0" Y1="100" Stroke="#888" StrokeThickness="1"/>
+                                            <Line Margin="0,25,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="0,50,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="0,75,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="125,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="250,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="375,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Polyline x:Name="polyline_Fan_Lines" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
                                         </Grid>
                                         <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -364,7 +394,7 @@
 
                             <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
                             <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,0,0">
-                                <StackPanel Width="200" Margin="5">
+                                <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 1" FontSize="16"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -372,7 +402,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -382,13 +412,13 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <StackPanel Width="200" Margin="5">
+                                <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 2" FontSize="16"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -396,7 +426,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -406,13 +436,13 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <StackPanel Width="200" Margin="5">
+                                <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 3" FontSize="16"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -420,7 +450,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -430,13 +460,13 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <StackPanel Width="200" Margin="5">
+                                <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 4" FontSize="16"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -444,7 +474,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -454,13 +484,13 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <StackPanel Width="200" Margin="5">
+                                <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 5" FontSize="16"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -468,7 +498,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -478,7 +508,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" IsEnabled="False" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                         <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_Fan_ValueChanged"/>
                                     </Grid>
@@ -488,38 +518,71 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
+                            <TextBlock Text="Display Options" FontSize="20" FontWeight="Medium"/>
+
                             <!-- FreeSync -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate of AMD FreeSync compatible graphics card to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
                                 <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
                             </StackPanel>
 
                             <!-- Virtual Super Resolution -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native pixel grid and then scales images down to fit the display, producing higher quality visuals at the expense of performance."/>
                                 <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
                             </StackPanel>
 
-                            <!-- GPU Scaling -->
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display. When not enabled, displays typically handle scaling themselves."/>
-                                <ToggleSwitch x:Name="toggleswitch_GPUScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GPUScaling_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- GPU Scaling -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display. When not enabled, displays typically handle scaling themselves."/>
+                                        <ToggleSwitch x:Name="toggleswitch_GPUScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GPUScaling_Toggled"/>
+                                    </StackPanel>
 
-                            <!-- Integer Scaling -->
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Display Scaling gives a sharp, pixelated look to images scaled up to fit the display. Images that can't be scaled to match the display's exact size and shape will be centered on screen. Integer Display Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display.&#10;&#10;Integer Display Scaling is not supported when GPU Scaling is disabled."/>
-                                <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
-                            </StackPanel>
+                                    <!-- Integer Scaling -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Display Scaling gives a sharp, pixelated look to images scaled up to fit the display. Images that can't be scaled to match the display's exact size and shape will be centered on screen. Integer Display Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display.&#10;&#10;Integer Display Scaling is not supported when GPU Scaling is disabled."/>
+                                        <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
+                                    </StackPanel>
 
-                            <!-- Scaling Mode -->
-                            <ComboBox x:Name="combobox_Display_ScalingMode" Header="Scaling Mode" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ScalingMode_SelectionChanged"/>
+                                    <!-- Scaling Mode -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Vertical">
+                                        <TextBlock Text="Scaling Mode" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="combobox_Display_ScalingMode" Width="300" SelectionChanged="combobox_Display_ScalingMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Vari-Bright -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
+                                        <ToggleSwitch x:Name="toggleswitch_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_VariBright_Toggled"/>
+                                    </StackPanel>
+
+                                    <!-- Vari-Bright Level -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Vertical">
+                                        <TextBlock Text="Vari-Bright Level" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="combobox_Display_VariBright_Level" Width="300" SelectionChanged="combobox_Display_VariBright_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <!-- Color Depth -->
-                            <ComboBox x:Name="combobox_Display_ColorDepth" Header="Color Depth" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged"/>
+                            <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                                <TextBlock Text="Color Depth" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_Display_ColorDepth" Width="300" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                            </StackPanel>
 
                             <!-- Pixel Format -->
-                            <ComboBox x:Name="combobox_Display_PixelFormat" Header="Pixel Format" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged"/>
+                            <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                                <TextBlock Text="Pixel Format" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="combobox_Display_PixelFormat" Width="300" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Custom Color" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Color Temperature -->
                             <TextBlock Text="Color Temperature" Margin="0,10,0,0"/>
@@ -528,7 +591,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" IsEnabled="False" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
                             </Grid>
 
@@ -539,7 +602,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" IsEnabled="False" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged"/>
                             </Grid>
 
@@ -550,7 +613,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" IsEnabled="False" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged"/>
                             </Grid>
 
@@ -561,7 +624,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" IsEnabled="False" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
                             </Grid>
 
@@ -572,21 +635,14 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" IsEnabled="False" Text="{Binding ElementName=slider_Display_Hue, Path=Value}"/>
+                                <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                 <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
                             </Grid>
 
-                            <!-- Vari-Bright -->
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
-                                <ToggleSwitch x:Name="toggleswitch_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_VariBright_Toggled"/>
-                            </StackPanel>
-
-                            <!-- Vari-Bright Level -->
-                            <ComboBox x:Name="combobox_Display_VariBright_Level" Header="Vari-Bright Level" Width="300" Margin="0,10,0,0" SelectionChanged="combobox_Display_VariBright_Level_SelectionChanged"/>
+                            <TextBlock Text="Overrides" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- HDCP Support -->
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
                                 <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
                             </StackPanel>
@@ -604,7 +660,7 @@
         <!-- Overlay -->
         <Grid x:Name="grid_Overlay" Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Color="#333" Opacity="0.90"/>
+                <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
             </Grid.Background>
             <TextBlock x:Name="textblock_Overlay_Text" Margin="10" Text="..." TextWrapping="Wrap" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
