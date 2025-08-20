@@ -59,14 +59,14 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting sharpening");
 			AVDebugWriteLine(L"Failed setting sharpening");
 		}
 		else
 		{
 			//Set result
-			textblock_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"Sharpening set to " << newValue);
 		}
@@ -259,7 +259,7 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting chill fps");
 			AVDebugWriteLine(L"Failed setting chill fps");
 		}
@@ -272,7 +272,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 
 			//Set result
-			textblock_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"Chill minimum set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"Chill minimum set to " << newValue);
 		}
@@ -293,7 +293,7 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting chill fps");
 			AVDebugWriteLine(L"Failed setting chill fps");
 		}
@@ -306,7 +306,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 
 			//Set result
-			textblock_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"Chill maximum set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"Chill maximum set to " << newValue);
 		}
@@ -365,14 +365,14 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting min. resolution");
 			AVDebugWriteLine(L"Failed setting min. resolution");
 		}
 		else
 		{
 			//Set result
-			textblock_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"Min. resolution set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"Min. resolution set to " << newValue);
 		}
@@ -432,14 +432,14 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting sharpening");
 			AVDebugWriteLine(L"Failed setting sharpening");
 		}
 		else
 		{
 			//Set result
-			textblock_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"Sharpening set to " << newValue);
 		}
@@ -534,14 +534,14 @@ namespace winrt::AmdDriverTool::implementation
 		if (ADLX_FAILED(adlx_Res0))
 		{
 			//Set result
-			textblock_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textbox_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
 			textblock_Status().Text(L"Failed setting FRTC");
 			AVDebugWriteLine(L"Failed setting FRTC");
 		}
 		else
 		{
 			//Set result
-			textblock_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textbox_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
 			textblock_Status().Text(L"FRTC set to " + number_to_wstring(newValue));
 			AVDebugWriteLine(L"FRTC set to " << newValue);
 		}

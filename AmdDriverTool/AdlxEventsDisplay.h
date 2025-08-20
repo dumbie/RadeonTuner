@@ -140,7 +140,21 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
 		//Set display color temperature
-		ppCustomColor->SetTemperature(newValue);
+		adlx_Res0 = ppCustomColor->SetTemperature(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textbox_Display_ColorTemperature().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting color temperature");
+			AVDebugWriteLine(L"Failed setting color temperature");
+		}
+		else
+		{
+			//Set result
+			textbox_Display_ColorTemperature().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Color temperature set to " + number_to_wstring((int)newValue));
+			AVDebugWriteLine(L"Color temperature set to " << newValue);
+		}
 	}
 
 	void MainPage::slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
@@ -156,7 +170,21 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
 		//Set display brightness
-		ppCustomColor->SetBrightness(newValue);
+		adlx_Res0 = ppCustomColor->SetBrightness(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textbox_Display_Brightness().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting brightness");
+			AVDebugWriteLine(L"Failed setting brightness");
+		}
+		else
+		{
+			//Set result
+			textbox_Display_Brightness().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Brightness set to " + number_to_wstring((int)newValue));
+			AVDebugWriteLine(L"Brightness set to " << newValue);
+		}
 	}
 
 	void MainPage::slider_Display_Contrast_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
@@ -172,7 +200,21 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
 		//Set display contrast
-		ppCustomColor->SetContrast(newValue);
+		adlx_Res0 = ppCustomColor->SetContrast(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textbox_Display_Contrast().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting contrast");
+			AVDebugWriteLine(L"Failed setting contrast");
+		}
+		else
+		{
+			//Set result
+			textbox_Display_Contrast().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Contrast set to " + number_to_wstring((int)newValue));
+			AVDebugWriteLine(L"Contrast set to " << newValue);
+		}
 	}
 
 	void MainPage::slider_Display_Saturation_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
@@ -188,7 +230,21 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
 		//Set display saturation
-		ppCustomColor->SetSaturation(newValue);
+		adlx_Res0 = ppCustomColor->SetSaturation(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textbox_Display_Saturation().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting saturation");
+			AVDebugWriteLine(L"Failed setting saturation");
+		}
+		else
+		{
+			//Set result
+			textbox_Display_Saturation().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Saturation set to " + number_to_wstring((int)newValue));
+			AVDebugWriteLine(L"Saturation set to " << newValue);
+		}
 	}
 
 	void MainPage::slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
@@ -204,7 +260,21 @@ namespace winrt::AmdDriverTool::implementation
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
 		//Set display hue
-		ppCustomColor->SetHue(newValue);
+		adlx_Res0 = ppCustomColor->SetHue(newValue);
+		if (ADLX_FAILED(adlx_Res0))
+		{
+			//Set result
+			textbox_Display_Hue().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+			textblock_Status().Text(L"Failed setting hue");
+			AVDebugWriteLine(L"Failed setting hue");
+		}
+		else
+		{
+			//Set result
+			textbox_Display_Hue().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+			textblock_Status().Text(L"Hue set to " + number_to_wstring((int)newValue));
+			AVDebugWriteLine(L"Hue set to " << newValue);
+		}
 	}
 
 	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)

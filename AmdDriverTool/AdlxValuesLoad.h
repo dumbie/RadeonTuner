@@ -10,6 +10,8 @@ namespace winrt::AmdDriverTool::implementation
 		//Fix ADLX missing Surface Format Optimization
 		//Fix ADLX missing OpenGL Triple Buffering
 		//Fix ADLX missing 10-Bit Pixel Format
+		//Fix ADLX missing Display Color Enhancement
+		//Fix ADLX missing Color Deficiency Correction
 		//Fix ADLX missing AMD Privacy View
 		//Fix ADLX missing AMD Noise Suppression
 		//Fix GetCustomResolution support (Custom Resolution Utility)
