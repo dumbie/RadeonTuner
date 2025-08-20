@@ -4,6 +4,7 @@
              xmlns:local="using:AmdDriverTool">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- System Color -->
             <Color x:Key="SystemAccentColor">#DF2020</Color>
             <Color x:Key="SystemAccentColorDark1">#b81717</Color>
             <Color x:Key="SystemAccentColorDark2">#911111</Color>
@@ -12,18 +13,39 @@
             <Color x:Key="SystemAccentColorLight2">#fb3c3c</Color>
             <Color x:Key="SystemAccentColorLight3">#fe5252</Color>
 
-            <Style TargetType="ListBox">
-                <Setter Property="Background" Value="Transparent" />
+            <!-- Basic Color -->
+            <Color x:Key="ApplicationWhiteColor">#F1F1F1</Color>
+            <Color x:Key="ApplicationBlackColor">#1D1D1D</Color>
+            <Color x:Key="ApplicationLightGrayColor">#DBDBDB</Color>
+            <Color x:Key="ApplicationDimGrayColor">#888888</Color>
+            <Color x:Key="ApplicationDarkGrayColor">#555555</Color>
+            <Color x:Key="ApplicationVoidGrayColor">#2A2A2A</Color>
+
+            <!-- Elements -->
+            <Style x:Name="ApplicationListBox" TargetType="ListBox">
+                <Setter Property="ItemContainerStyle" Value="{ThemeResource ApplicationListBoxItem}"/>
+                <Setter Property="Background" Value="{ThemeResource ApplicationVoidGrayColor}"/>
             </Style>
 
-            <Style TargetType="ListBoxItem">
-                <Setter Property="Background" Value="#444" />
-                <Setter Property="Margin" Value="5" />
-                <Setter Property="Padding" Value="10" />
+            <Style x:Name="ApplicationListBoxItem" TargetType="ListBoxItem">
+                <Setter Property="Background" Value="{ThemeResource ApplicationDarkGrayColor}"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="10"/>
             </Style>
 
-            <Style TargetType="Button">
-                <Setter Property="Background" Value="#444" />
+            <Style x:Name="ApplicationComboBox" TargetType="ComboBox">
+                <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+
+            <Style x:Name="ApplicationButton" TargetType="Button">
+                <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+
+            <Style x:Name="ApplicationTextBoxReadOnly" TargetType="TextBox">
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="IsHitTestVisible" Value="False"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Background" Value="Transparent"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
