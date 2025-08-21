@@ -139,6 +139,9 @@ namespace winrt::AmdDriverTool::implementation
 		IADLXDisplayCustomColorPtr ppCustomColor;
 		adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
+		//Enable color temperature control
+		//Fix find way to enable color temperature control when disabled in AMD Adrenalin
+
 		//Set display color temperature
 		adlx_Res0 = ppCustomColor->SetTemperature(newValue);
 		if (ADLX_FAILED(adlx_Res0))

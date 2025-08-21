@@ -19,11 +19,36 @@
 
             <!-- Menu -->
             <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged" Style="{ThemeResource ApplicationListBox}">
-                <ListBoxItem x:Name="listboxitem_Tuning" Content="Tuning" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <ListBoxItem x:Name="listboxitem_Fans" Content="Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <ListBoxItem x:Name="listboxitem_Graphics" Content="Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <ListBoxItem x:Name="listboxitem_Display" Content="Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <ListBoxItem x:Name="listboxitem_Info" Content="Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBoxItem x:Name="listboxitem_Tuning">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Tuning.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Tuning"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Fans.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Fans"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Graphics.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Graphics"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Display.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Display"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Information.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Info"/>
+                    </StackPanel>
+                </ListBoxItem>
             </ListBox>
 
             <!-- Content -->

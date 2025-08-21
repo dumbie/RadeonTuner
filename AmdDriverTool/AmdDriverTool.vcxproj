@@ -182,12 +182,33 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Information.png">
-      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
-    </CopyFileToFolders>
     <Image Include="AppIcon.ico">
       <DeploymentContent>false</DeploymentContent>
     </Image>
+    <CopyFileToFolders Include="Information.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Apps.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Display.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fans.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Graphics.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Multimedia.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Settings.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Tuning.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

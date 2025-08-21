@@ -257,5 +257,26 @@
     <CopyFileToFolders Include="Information.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Apps.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Display.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fans.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Graphics.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Multimedia.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Settings.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Tuning.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
