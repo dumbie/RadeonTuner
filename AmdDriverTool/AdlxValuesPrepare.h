@@ -117,57 +117,13 @@ namespace winrt::AmdDriverTool::implementation
 			itemCollection.Append(box_value(L"64X"));
 
 			//List all memory timing
-			adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
-			if (adlx_Bool)
-			{
-				IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
-				adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuInfo, (IADLXInterface**)&ppManualVRAMTuning);
-				adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
-				if (adlx_Bool)
-				{
-					IADLXMemoryTimingDescriptionListPtr memoryTimingDescriptionListPtr;
-					adlx_Res0 = ppManualVRAMTuning->GetSupportedMemoryTimingDescriptionList(&memoryTimingDescriptionListPtr);
-
-					itemCollection = combobox_Memory_Timing().Items();
-					for (UINT i = 0; i < memoryTimingDescriptionListPtr->Size(); i++)
-					{
-						IADLXMemoryTimingDescriptionPtr memoryTimingDescriptionPtr;
-						memoryTimingDescriptionListPtr->At(i, &memoryTimingDescriptionPtr);
-
-						ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
-						adlx_Res0 = memoryTimingDescriptionPtr->GetDescription(&memoryTimingDescription);
-
-						if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_DEFAULT)
-						{
-							itemCollection.Append(box_value(L"Default"));
-						}
-						else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_FAST_TIMING)
-						{
-							itemCollection.Append(box_value(L"Fast Timing 1"));
-						}
-						else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_FAST_TIMING_LEVEL_2)
-						{
-							itemCollection.Append(box_value(L"Fast Timing 2"));
-						}
-						else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_AUTOMATIC)
-						{
-							itemCollection.Append(box_value(L"Automatic Timing"));
-						}
-						else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_MEMORYTIMING_LEVEL_1)
-						{
-							itemCollection.Append(box_value(L"Memory Timing 1"));
-						}
-						else if (memoryTimingDescription == ADLX_MEMORYTIMING_DESCRIPTION::MEMORYTIMING_MEMORYTIMING_LEVEL_2)
-						{
-							itemCollection.Append(box_value(L"Memory Timing 2"));
-						}
-						else
-						{
-							itemCollection.Append(box_value(L"Unknown Timing"));
-						}
-					}
-				}
-			}
+			itemCollection = combobox_Memory_Timing().Items();
+			itemCollection.Append(box_value(L"Default"));
+			itemCollection.Append(box_value(L"Fast Timing 1"));
+			itemCollection.Append(box_value(L"Fast Timing 2"));
+			itemCollection.Append(box_value(L"Automatic Timing"));
+			itemCollection.Append(box_value(L"Memory Timing 1"));
+			itemCollection.Append(box_value(L"Memory Timing 2"));
 
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");
