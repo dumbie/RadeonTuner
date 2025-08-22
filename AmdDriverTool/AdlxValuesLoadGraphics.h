@@ -317,6 +317,16 @@ namespace winrt::AmdDriverTool::implementation
 					ADLX_ANTI_ALIASING_LEVEL currentLevel;
 					adlx_Res0 = pp3DAntiAliasing->GetLevel(&currentLevel);
 
+					//Check setting mode
+					if (currentMode != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
+					{
+						combobox_AntiAliasingLevel().IsEnabled(false);
+					}
+					else
+					{
+						combobox_AntiAliasingLevel().IsEnabled(true);
+					}
+
 					//Enumeration index correction
 					if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2X)
 					{
@@ -390,9 +400,21 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = pp3DAnisotropicFiltering->IsSupported(&adlx_Bool);
 				if (adlx_Bool)
 				{
+					//Set Anisotropic
 					adlx_Res0 = pp3DAnisotropicFiltering->IsEnabled(&adlx_Bool);
 					toggleswitch_AnisotropicTextureFiltering().IsOn(adlx_Bool);
 
+					//Check setting mode
+					if (!adlx_Bool)
+					{
+						combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
+					}
+					else
+					{
+						combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
+					}
+
+					//Set Anisotropic Level
 					ADLX_ANISOTROPIC_FILTERING_LEVEL currentLevel;
 					adlx_Res0 = pp3DAnisotropicFiltering->GetLevel(&currentLevel);
 
@@ -444,6 +466,16 @@ namespace winrt::AmdDriverTool::implementation
 
 					ADLX_TESSELLATION_LEVEL currentLevel;
 					adlx_Res0 = pp3DTessellation->GetLevel(&currentLevel);
+
+					//Check setting mode
+					if (currentMode != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
+					{
+						combobox_Tessellation_Level().IsEnabled(false);
+					}
+					else
+					{
+						combobox_Tessellation_Level().IsEnabled(true);
+					}
 
 					//Enumeration index correction
 					if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_OFF)

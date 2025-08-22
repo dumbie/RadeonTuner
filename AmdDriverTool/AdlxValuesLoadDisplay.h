@@ -272,10 +272,14 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppVariBright->IsEnabled(&adlx_Bool);
 					toggleswitch_VariBright().IsOn(adlx_Bool);
 
-					//Check Vari-Bright
+					//Check setting mode
 					if (!adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().IsEnabled(false);
+					}
+					else
+					{
+						combobox_Display_VariBright_Level().IsEnabled(true);
 					}
 
 					//Set Vari-Bright Level

@@ -244,7 +244,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance.&#10;&#10;* Requires mode to be set to override settings."/>
                                         <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AntiAliasingLevel" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -283,7 +283,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance.&#10;&#10;* Requires mode to be set to override settings."/>
                                         <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>

@@ -486,7 +486,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = ppVariBright->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					combobox_Display_VariBright_Level().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Vari-Bright");
 					AVDebugWriteLine(L"Failed enabling Vari-Bright");
 					disable_saving = true;
@@ -495,14 +494,19 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Check setting mode
 					combobox_Display_VariBright_Level().IsEnabled(true);
+					//Fix reload settings to get correct mode
+
 					textblock_Status().Text(L"Vari-Bright enabled");
 					AVDebugWriteLine(L"Vari-Bright enabled");
 				}
 			}
 			else
 			{
+				//Check setting mode
 				combobox_Display_VariBright_Level().IsEnabled(false);
+
 				adlx_Res0 = ppVariBright->SetEnabled(false);
 				textblock_Status().Text(L"Vari-Bright disabled");
 				AVDebugWriteLine(L"Vari-Bright disabled");

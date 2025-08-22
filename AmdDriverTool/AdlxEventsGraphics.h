@@ -623,8 +623,8 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			adlx_Res0 = pp3DAntiAliasing->SetMode((ADLX_ANTI_ALIASING_MODE)newValue);
+			ADLX_ANTI_ALIASING_MODE newValue = (ADLX_ANTI_ALIASING_MODE)sender.as<ComboBox>().SelectedIndex();
+			adlx_Res0 = pp3DAntiAliasing->SetMode(newValue);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
@@ -633,6 +633,17 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
+				//Check setting mode
+				if (newValue != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
+				{
+					combobox_AntiAliasingLevel().IsEnabled(false);
+				}
+				else
+				{
+					combobox_AntiAliasingLevel().IsEnabled(true);
+					//Fix reload settings to get correct mode
+				}
+
 				//Set result
 				textblock_Status().Text(L"AA mode set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"AA mode set to " << newValue);
@@ -792,12 +803,19 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Check setting mode
+					combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
+					//Fix reload settings to get correct mode
+
 					textblock_Status().Text(L"Anisotropic enabled");
 					AVDebugWriteLine(L"Anisotropic enabled");
 				}
 			}
 			else
 			{
+				//Check setting mode
+				combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
+
 				adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(false);
 				textblock_Status().Text(L"Anisotropic disabled");
 				AVDebugWriteLine(L"Anisotropic disabled");
@@ -867,8 +885,8 @@ namespace winrt::AmdDriverTool::implementation
 			adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			adlx_Res0 = pp3DTessellation->SetMode((ADLX_TESSELLATION_MODE)newValue);
+			ADLX_TESSELLATION_MODE newValue = (ADLX_TESSELLATION_MODE)sender.as<ComboBox>().SelectedIndex();
+			adlx_Res0 = pp3DTessellation->SetMode(newValue);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
@@ -877,6 +895,17 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
+				//Check setting mode
+				if (newValue != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
+				{
+					combobox_Tessellation_Level().IsEnabled(false);
+				}
+				else
+				{
+					combobox_Tessellation_Level().IsEnabled(true);
+					//Fix reload settings to get correct mode
+				}
+
 				//Set result
 				textblock_Status().Text(L"Tessellation mode set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Tessellation mode set to " << newValue);
