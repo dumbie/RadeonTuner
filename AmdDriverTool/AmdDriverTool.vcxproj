@@ -86,11 +86,16 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxValuesApply.h" />
+    <ClInclude Include="AdlxValuesLoadDisplay.h" />
+    <ClInclude Include="AdlxValuesLoadFans.h" />
+    <ClInclude Include="AdlxValuesLoadGraphics.h" />
+    <ClInclude Include="AdlxValuesLoadMultimedia.h" />
+    <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />
     <ClInclude Include="AdlxValuesExport.h" />
     <ClInclude Include="AdlxValuesImport.h" />
     <ClInclude Include="AdlxInfoLoad.h" />
-    <ClInclude Include="AdlxValuesLoad.h" />
+    <ClInclude Include="AdlxValuesLoadSelect.h" />
     <ClInclude Include="AdlxValuesReset.h" />
     <ClInclude Include="AdlxUpdateLoop.h" />
     <ClInclude Include="AdlxEventsDisplay.h" />

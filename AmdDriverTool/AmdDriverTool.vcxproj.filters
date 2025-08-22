@@ -48,9 +48,6 @@
     <ClInclude Include="AdlxEventsDisplay.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesLoad.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxInfoLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -202,6 +199,24 @@
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="AdlxEventsGraphics.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadDisplay.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadFans.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadGraphics.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadMultimedia.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadSelect.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadTuning.h">
       <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,0 +1,350 @@
+#pragma once
+#include "pch.h"
+#include "MainPage.h"
+#include "AdlxVariables.h"
+
+namespace winrt::AmdDriverTool::implementation
+{
+	void MainPage::AdlxValuesLoadDisplay()
+	{
+		try
+		{
+			//Get display freesync setting
+			try
+			{
+				IADLXDisplayFreeSyncPtr ppFreeSync;
+				adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
+				adlx_Res0 = ppFreeSync->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppFreeSync->IsEnabled(&adlx_Bool);
+					toggleswitch_FreeSync().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_FreeSync().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_FreeSync().IsEnabled(false);
+			}
+
+			//Get display VSR setting
+			try
+			{
+				IADLXDisplayVSRPtr ppVSR;
+				adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
+				adlx_Res0 = ppVSR->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppVSR->IsEnabled(&adlx_Bool);
+					toggleswitch_VSR().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_VSR().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_VSR().IsEnabled(false);
+			}
+
+			//Get display GPU Scaling setting
+			try
+			{
+				IADLXDisplayGPUScalingPtr ppGPUScaling;
+				adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
+				adlx_Res0 = ppGPUScaling->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppGPUScaling->IsEnabled(&adlx_Bool);
+					toggleswitch_GPUScaling().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_GPUScaling().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_GPUScaling().IsEnabled(false);
+			}
+
+			//Get display Integer Scaling setting
+			try
+			{
+				IADLXDisplayIntegerScalingPtr ppIntegerScaling;
+				adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+				adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
+					toggleswitch_IntegerScaling().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_IntegerScaling().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_IntegerScaling().IsEnabled(false);
+			}
+
+			//Get display scaling mode
+			try
+			{
+				IADLXDisplayScalingModePtr ppScalingMode;
+				adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
+				adlx_Res0 = ppScalingMode->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					ADLX_SCALE_MODE currentMode;
+					adlx_Res0 = ppScalingMode->GetMode(&currentMode);
+					combobox_Display_ScalingMode().SelectedIndex(currentMode);
+				}
+				else
+				{
+					combobox_Display_ScalingMode().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				combobox_Display_ScalingMode().IsEnabled(false);
+			}
+
+			//Get display color depth
+			try
+			{
+				IADLXDisplayColorDepthPtr ppColorDepth;
+				adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);
+				adlx_Res0 = ppColorDepth->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					ADLX_COLOR_DEPTH colorDepth;
+					adlx_Res0 = ppColorDepth->GetValue(&colorDepth);
+					if (colorDepth != ADLX_COLOR_DEPTH::BPC_UNKNOWN)
+					{
+						combobox_Display_ColorDepth().SelectedIndex(colorDepth - 1);
+					}
+				}
+				else
+				{
+					combobox_Display_ColorDepth().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				combobox_Display_ColorDepth().IsEnabled(false);
+			}
+
+			//Get display pixel format
+			try
+			{
+				IADLXDisplayPixelFormatPtr ppPixelFormat;
+				adlx_Res0 = ppDispServices->GetPixelFormat(ppDisplayInfo, &ppPixelFormat);
+				adlx_Res0 = ppPixelFormat->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					ADLX_PIXEL_FORMAT pixelFormat;
+					adlx_Res0 = ppPixelFormat->GetValue(&pixelFormat);
+					if (pixelFormat != ADLX_PIXEL_FORMAT::FORMAT_UNKNOWN)
+					{
+						combobox_Display_PixelFormat().SelectedIndex(pixelFormat - 1);
+					}
+				}
+				else
+				{
+					combobox_Display_PixelFormat().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				combobox_Display_PixelFormat().IsEnabled(false);
+			}
+
+			//Get display custom color profile
+			try
+			{
+				IADLXDisplayCustomColorPtr ppCustomColor;
+				adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
+
+				//Get display color temperature
+				adlx_Res0 = ppCustomColor->IsTemperatureSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppCustomColor->GetTemperature(&adlx_Int0);
+					adlx_Res0 = ppCustomColor->GetTemperatureRange(&adlx_IntRange0);
+					slider_Display_ColorTemperature().Value(adlx_Int0);
+					slider_Display_ColorTemperature().Minimum(adlx_IntRange0.minValue);
+					slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
+				}
+				else
+				{
+					slider_Display_ColorTemperature().IsEnabled(false);
+				}
+
+				//Get display brightness
+				adlx_Res0 = ppCustomColor->IsBrightnessSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppCustomColor->GetBrightness(&adlx_Int0);
+					adlx_Res0 = ppCustomColor->GetBrightnessRange(&adlx_IntRange0);
+					slider_Display_Brightness().Value(adlx_Int0);
+					slider_Display_Brightness().Minimum(adlx_IntRange0.minValue);
+					slider_Display_Brightness().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_Brightness().StepFrequency(adlx_IntRange0.step);
+				}
+				else
+				{
+					slider_Display_Brightness().IsEnabled(false);
+				}
+
+				//Get display contrast
+				adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppCustomColor->GetContrast(&adlx_Int0);
+					adlx_Res0 = ppCustomColor->GetContrastRange(&adlx_IntRange0);
+					slider_Display_Contrast().Value(adlx_Int0);
+					slider_Display_Contrast().Minimum(adlx_IntRange0.minValue);
+					slider_Display_Contrast().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_Contrast().StepFrequency(adlx_IntRange0.step);
+				}
+				else
+				{
+					slider_Display_Contrast().IsEnabled(false);
+				}
+
+				//Get display saturation
+				adlx_Res0 = ppCustomColor->IsSaturationSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppCustomColor->GetSaturation(&adlx_Int0);
+					adlx_Res0 = ppCustomColor->GetSaturationRange(&adlx_IntRange0);
+					slider_Display_Saturation().Value(adlx_Int0);
+					slider_Display_Saturation().Minimum(adlx_IntRange0.minValue);
+					slider_Display_Saturation().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_Saturation().StepFrequency(adlx_IntRange0.step);
+				}
+				else
+				{
+					slider_Display_Saturation().IsEnabled(false);
+				}
+
+				//Get display hue
+				adlx_Res0 = ppCustomColor->IsHueSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppCustomColor->GetHue(&adlx_Int0);
+					adlx_Res0 = ppCustomColor->GetHueRange(&adlx_IntRange0);
+					slider_Display_Hue().Value(adlx_Int0);
+					slider_Display_Hue().Minimum(adlx_IntRange0.minValue);
+					slider_Display_Hue().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_Hue().StepFrequency(adlx_IntRange0.step);
+				}
+				else
+				{
+					slider_Display_Hue().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				slider_Display_ColorTemperature().IsEnabled(false);
+				slider_Display_Brightness().IsEnabled(false);
+				slider_Display_Contrast().IsEnabled(false);
+				slider_Display_Saturation().IsEnabled(false);
+				slider_Display_Hue().IsEnabled(false);
+			}
+
+			//Get display vari-bright
+			try
+			{
+				IADLXDisplayVariBrightPtr ppVariBright;
+				adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
+				adlx_Res0 = ppVariBright->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					//Set Vari-Bright
+					adlx_Res0 = ppVariBright->IsEnabled(&adlx_Bool);
+					toggleswitch_VariBright().IsOn(adlx_Bool);
+
+					//Check Vari-Bright
+					if (!adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().IsEnabled(false);
+					}
+
+					//Set Vari-Bright Level
+					adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(0);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(1);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(2);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(3);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(4);
+					}
+				}
+				else
+				{
+					combobox_Display_VariBright_Level().IsEnabled(false);
+					toggleswitch_VariBright().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				combobox_Display_VariBright_Level().IsEnabled(false);
+				toggleswitch_VariBright().IsEnabled(false);
+			}
+
+			//Get display hdcp support
+			try
+			{
+				IADLXDisplayHDCPPtr ppHDCP;
+				adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
+				adlx_Res0 = ppHDCP->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppHDCP->IsEnabled(&adlx_Bool);
+					toggleswitch_HDCPSupport().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_HDCPSupport().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_HDCPSupport().IsEnabled(false);
+			}
+
+			//Set result
+			AVDebugWriteLine("ADLX loaded display values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("ADLX failed loading display values.");
+		}
+	}
+}

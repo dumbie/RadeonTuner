@@ -46,7 +46,7 @@
                 <ListBoxItem x:Name="listboxitem_Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Information.png" Width="50" Height="50"/>
-                        <TextBlock HorizontalAlignment="Center" Text="Info"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Information"/>
                     </StackPanel>
                 </ListBoxItem>
             </ListBox>
@@ -304,7 +304,7 @@
                             </StackPanel>
 
                             <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock Text="Minimum Frequency (MHz)"/>
+                            <TextBlock Margin="0,10,0,0" Text="Minimum Frequency (MHz)"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -325,7 +325,7 @@
                             </Grid>
 
                             <TextBlock Text="Memory Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                            <ComboBox x:Name="combobox_Memory_Timing" Header="Memory Timing" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                            <ComboBox x:Name="combobox_Memory_Timing" Margin="0,10,0,0" Header="Memory Timing" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
                             <TextBlock Text="Maximum Frequency (MHz)" Margin="0,10,0,0"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -337,7 +337,7 @@
                             </Grid>
 
                             <TextBlock Text="Power Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                            <TextBlock Text="Power Limit (%)"/>
+                            <TextBlock Margin="0,10,0,0" Text="Power Limit (%)"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -418,7 +418,7 @@
                             <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="0,10,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
 
                             <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                            <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,-5,0,0">
+                            <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
                                 <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 1" FontSize="16"/>
                                     <Grid>
@@ -687,7 +687,10 @@
             <Grid.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
             </Grid.Background>
-            <TextBlock x:Name="textblock_Overlay_Text" Margin="10" Text="..." TextWrapping="Wrap" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="textblock_Overlay_Text" Text="..." TextWrapping="Wrap" FontSize="40" TextAlignment="Center" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                <TextBlock x:Name="textblock_Overlay_Sub_Text" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

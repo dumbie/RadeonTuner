@@ -7,7 +7,12 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		MainPage() {}
 		bool AdlxInitialize();
-		void AdlxValuesLoad();
+		void AdlxValuesLoadSelect();
+		void AdlxValuesLoadFans();
+		void AdlxValuesLoadGraphics();
+		void AdlxValuesLoadMultimedia();
+		void AdlxValuesLoadDisplay();
+		void AdlxValuesLoadTuning();
 		void AdlxValuesExport();
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();

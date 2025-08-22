@@ -1,0 +1,136 @@
+#pragma once
+#include "pch.h"
+#include "MainPage.h"
+#include "AdlxVariables.h"
+
+namespace winrt::AmdDriverTool::implementation
+{
+	void MainPage::AdlxValuesLoadFans()
+	{
+		try
+		{
+			//Get fan manual tuning
+			adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);
+			if (adlx_Bool)
+			{
+				IADLXManualFanTuningPtr ppManualFanTuning;
+				adlx_Res0 = ppGPUTuningServices->GetManualFanTuning(ppGpuInfo, (IADLXInterface**)&ppManualFanTuning);
+
+				//Get fan zero rpm setting
+				adlx_Res0 = ppManualFanTuning->IsSupportedZeroRPM(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppManualFanTuning->GetZeroRPMState(&adlx_Bool);
+					toggleswitch_Fan_Zero_Rpm().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+				}
+
+				//Get fan curve setting
+				IADLXManualFanTuningStatePtr ppFanState;
+				IADLXManualFanTuningStateListPtr ppFanStates;
+				adlx_Res0 = ppManualFanTuning->GetFanTuningStates(&ppFanStates);
+				adlx_Res0 = ppManualFanTuning->GetFanTuningRanges(&adlx_IntRange0, &adlx_IntRange1);
+
+				ppFanStates->At(0, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int1);
+				slider_Fan_Speed_0().Value(adlx_Int0);
+				slider_Fan_Speed_0().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Speed_0().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Speed_0().StepFrequency(adlx_IntRange0.step);
+				slider_Fan_Temp_0().Value(adlx_Int1);
+				slider_Fan_Temp_0().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Temp_0().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Temp_0().StepFrequency(adlx_IntRange0.step);
+
+				ppFanStates->At(1, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int1);
+				slider_Fan_Speed_1().Value(adlx_Int0);
+				slider_Fan_Speed_1().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Speed_1().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Speed_1().StepFrequency(adlx_IntRange0.step);
+				slider_Fan_Temp_1().Value(adlx_Int1);
+				slider_Fan_Temp_1().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Temp_1().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Temp_1().StepFrequency(adlx_IntRange0.step);
+
+				ppFanStates->At(2, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int1);
+				slider_Fan_Speed_2().Value(adlx_Int0);
+				slider_Fan_Speed_2().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Speed_2().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Speed_2().StepFrequency(adlx_IntRange0.step);
+				slider_Fan_Temp_2().Value(adlx_Int1);
+				slider_Fan_Temp_2().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Temp_2().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Temp_2().StepFrequency(adlx_IntRange0.step);
+
+				ppFanStates->At(3, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int1);
+				slider_Fan_Speed_3().Value(adlx_Int0);
+				slider_Fan_Speed_3().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Speed_3().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Speed_3().StepFrequency(adlx_IntRange0.step);
+				slider_Fan_Temp_3().Value(adlx_Int1);
+				slider_Fan_Temp_3().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Temp_3().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Temp_3().StepFrequency(adlx_IntRange0.step);
+
+				ppFanStates->At(4, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int1);
+				slider_Fan_Speed_4().Value(adlx_Int0);
+				slider_Fan_Speed_4().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Speed_4().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Speed_4().StepFrequency(adlx_IntRange0.step);
+				slider_Fan_Temp_4().Value(adlx_Int1);
+				slider_Fan_Temp_4().Minimum(adlx_IntRange0.minValue);
+				slider_Fan_Temp_4().Maximum(adlx_IntRange0.maxValue);
+				slider_Fan_Temp_4().StepFrequency(adlx_IntRange0.step);
+
+				//Update fan graph
+				UpdateFanGraph();
+			}
+			else
+			{
+				slider_Fan_Temp_0().IsEnabled(false);
+				slider_Fan_Speed_0().IsEnabled(false);
+				slider_Fan_Temp_1().IsEnabled(false);
+				slider_Fan_Speed_1().IsEnabled(false);
+				slider_Fan_Temp_2().IsEnabled(false);
+				slider_Fan_Speed_2().IsEnabled(false);
+				slider_Fan_Temp_3().IsEnabled(false);
+				slider_Fan_Speed_3().IsEnabled(false);
+				slider_Fan_Temp_4().IsEnabled(false);
+				slider_Fan_Speed_4().IsEnabled(false);
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+			}
+
+			//Set result
+			AVDebugWriteLine("ADLX loaded fan values.");
+		}
+		catch (...)
+		{
+			slider_Fan_Temp_0().IsEnabled(false);
+			slider_Fan_Speed_0().IsEnabled(false);
+			slider_Fan_Temp_1().IsEnabled(false);
+			slider_Fan_Speed_1().IsEnabled(false);
+			slider_Fan_Temp_2().IsEnabled(false);
+			slider_Fan_Speed_2().IsEnabled(false);
+			slider_Fan_Temp_3().IsEnabled(false);
+			slider_Fan_Speed_3().IsEnabled(false);
+			slider_Fan_Temp_4().IsEnabled(false);
+			slider_Fan_Speed_4().IsEnabled(false);
+			toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+
+			//Set result
+			AVDebugWriteLine("ADLX failed loading fan values.");
+		}
+	}
+}
