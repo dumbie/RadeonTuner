@@ -614,10 +614,14 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
+                                <Button Grid.Column="0" x:Name="button_Reset_ColorTemperature" Style="{ThemeResource ApplicationButtonImage}" ToolTipService.ToolTip="Reset to default" Click="button_Reset_ColorTemperature_Click">
+                                    <Image Source="/Assets/Reset.png" Width="28" Height="28"/>
+                                </Button>
+                                <TextBox Grid.Column="1" x:Name="textbox_Display_ColorTemperature" Margin="10,0,0,0" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                <Slider Grid.Column="2" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
                             </Grid>
 
                             <!-- Brightness -->
@@ -674,9 +678,19 @@
                         </StackPanel>
 
                         <!-- Info -->
-                        <StackPanel x:Name="stackpanel_Info" Visibility="Collapsed">
-                            <TextBlock x:Name="textblock_DeviceInfo">Loading...</TextBlock>
-                        </StackPanel>
+                        <Grid x:Name="stackpanel_Info" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" x:Name="textblock_DeviceInfo">Loading...</TextBlock>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <Button x:Name="button_Website_Project" Content="Visit Project Website" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
+                                <Button x:Name="button_Website_Donation" Content="Open Donation Page" Style="{ThemeResource ApplicationButton}" Margin="10,0,0,0" Click="button_Website_Donation_Click"/>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </ScrollViewer>
             </Grid>

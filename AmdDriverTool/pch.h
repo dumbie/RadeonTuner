@@ -1,4 +1,6 @@
+//Pragma
 #pragma once
+#pragma comment(lib, "Shell32.lib")
 
 //Includes
 #include <Windows.h>

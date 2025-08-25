@@ -116,4 +116,22 @@ namespace winrt::AmdDriverTool::implementation
 			AVDebugWriteLine("ADLX failed loading information.");
 		}
 	}
+
+	void MainPage::button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			ShellExecuteW(0, 0, L"https://projects.arnoldvink.com", 0, 0, 0);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Website_Donation_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			ShellExecuteW(0, 0, L"https://donation.arnoldvink.com", 0, 0, 0);
+		}
+		catch (...) {}
+	}
 }
