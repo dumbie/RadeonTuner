@@ -180,9 +180,6 @@
     <ClInclude Include="AdlxValuesApply.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesReset.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesImport.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -217,6 +214,15 @@
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesLoadTuning.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetDisplay.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetGraphics.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetTuning.h">
       <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -291,6 +297,9 @@
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Tuning.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Reset.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>

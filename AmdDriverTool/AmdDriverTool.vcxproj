@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
+    <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxValuesApply.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadFans.h" />
@@ -96,11 +97,12 @@
     <ClInclude Include="AdlxValuesImport.h" />
     <ClInclude Include="AdlxInfoLoad.h" />
     <ClInclude Include="AdlxValuesLoadSelect.h" />
-    <ClInclude Include="AdlxValuesReset.h" />
+    <ClInclude Include="AdlxResetTuning.h" />
     <ClInclude Include="AdlxUpdateLoop.h" />
     <ClInclude Include="AdlxEventsDisplay.h" />
     <ClInclude Include="AdlxEventsFans.h" />
     <ClInclude Include="AdlxInitialize.h" />
+    <ClInclude Include="AdlxResetGraphics.h" />
     <ClInclude Include="AdlxVariables.h" />
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h" />
     <ClInclude Include="ADLX\Include\ADLX.h" />
@@ -212,6 +214,9 @@
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Tuning.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Reset.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>

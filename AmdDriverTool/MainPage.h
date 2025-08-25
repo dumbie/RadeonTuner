@@ -17,7 +17,7 @@ namespace winrt::AmdDriverTool::implementation
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();
 		bool AdlxValuesApply();
-		bool AdlxValuesReset();
+		bool AdlxResetTuning();
 		void AdlxInfoLoad();
 		void AdlxUpdateLoop();
 		void UpdateFanGraph();
@@ -29,6 +29,8 @@ namespace winrt::AmdDriverTool::implementation
 		void button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Website_Donation_Click(IInspectable const& sender, RoutedEventArgs const& e);
 
 		void combobox_VerticalRefresh_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_RadeonChill_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
@@ -71,6 +73,7 @@ namespace winrt::AmdDriverTool::implementation
 		void slider_Display_ColorTemperature_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void button_Reset_ColorTemperature_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

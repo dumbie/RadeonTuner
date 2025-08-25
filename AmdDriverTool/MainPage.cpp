@@ -9,7 +9,9 @@
 #include "AdlxValuesApply.h"
 #include "AdlxValuesExport.h"
 #include "AdlxValuesImport.h"
-#include "AdlxValuesReset.h"
+#include "AdlxResetDisplay.h"
+#include "AdlxResetGraphics.h"
+#include "AdlxResetTuning.h"
 #include "AdlxUpdateLoop.h"
 
 #include "AdlxEventsDisplay.h"
@@ -112,7 +114,7 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
-			AdlxValuesReset();
+			AdlxResetTuning();
 			AdlxValuesLoadSelect();
 		}
 		catch (...) {}

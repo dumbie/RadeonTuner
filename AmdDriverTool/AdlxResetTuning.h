@@ -5,7 +5,7 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	bool MainPage::AdlxValuesReset()
+	bool MainPage::AdlxResetTuning()
 	{
 		try
 		{

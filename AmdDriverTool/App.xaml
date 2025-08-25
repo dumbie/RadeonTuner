@@ -45,6 +45,11 @@
                 <Setter Property="CornerRadius" Value="8"/>
             </Style>
 
+            <Style x:Name="ApplicationButtonImage" TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+
             <Style x:Name="ApplicationTextBoxReadOnly" TargetType="TextBox">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="IsHitTestVisible" Value="False"/>
