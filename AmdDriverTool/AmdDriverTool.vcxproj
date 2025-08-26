@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
+    <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxValuesApply.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />

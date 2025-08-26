@@ -225,6 +225,9 @@
     <ClInclude Include="AdlxResetTuning.h">
       <Filter>Page Files</Filter>
     </ClInclude>
+    <ClInclude Include="AdlxEventsMultimedia.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">

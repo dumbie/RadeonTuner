@@ -4,19 +4,22 @@
 
 #include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
+#include "AdlxUpdateLoop.h"
+
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
 #include "AdlxValuesApply.h"
 #include "AdlxValuesExport.h"
 #include "AdlxValuesImport.h"
+
 #include "AdlxResetDisplay.h"
 #include "AdlxResetGraphics.h"
 #include "AdlxResetTuning.h"
-#include "AdlxUpdateLoop.h"
 
 #include "AdlxEventsDisplay.h"
 #include "AdlxEventsFans.h"
 #include "AdlxEventsGraphics.h"
+#include "AdlxEventsMultimedia.h"
 
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
@@ -70,7 +73,8 @@ namespace winrt::AmdDriverTool::implementation
 			stackpanel_Tuning().Visibility(Visibility::Collapsed);
 			stackpanel_Fans().Visibility(Visibility::Collapsed);
 			stackpanel_Display().Visibility(Visibility::Collapsed);
-			stackpanel_Info().Visibility(Visibility::Collapsed);
+			stackpanel_Multimedia().Visibility(Visibility::Collapsed);
+			stackpanel_Information().Visibility(Visibility::Collapsed);
 
 			//Make selected page visible
 			if (selectedIndex == 0)
@@ -91,7 +95,11 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else if (selectedIndex == 4)
 			{
-				stackpanel_Info().Visibility(Visibility::Visible);
+				stackpanel_Multimedia().Visibility(Visibility::Visible);
+			}
+			else if (selectedIndex == 5)
+			{
+				stackpanel_Information().Visibility(Visibility::Visible);
 			}
 		}
 		catch (...) {}

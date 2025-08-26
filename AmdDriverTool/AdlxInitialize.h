@@ -95,7 +95,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 
 			//Check any displays
-			if (ppGpuList->Size() == 0)
+			if (ppDisplayList->Size() == 0)
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting any displays.");
