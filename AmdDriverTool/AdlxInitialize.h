@@ -5,7 +5,7 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	bool MainPage::AdlxInitialize()
+	std::wstring MainPage::AdlxInitialize()
 	{
 		try
 		{
@@ -14,8 +14,8 @@ namespace winrt::AmdDriverTool::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				AVDebugWriteLine("Failed initializing ADLX.");
-				return false;
+				AVDebugWriteLine("Failed initializing ADLX (" << adlx_Res0 << ")");
+				return std::wstring(L"Failed initializing ADLX (") + number_to_wstring(adlx_Res0) + std::wstring(L")");
 			}
 
 			//Get system services
@@ -29,7 +29,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting multimedia services.");
-				return false;
+				return L"Failed getting multimedia services.";
 			}
 
 			//Get display services
@@ -38,7 +38,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting display services.");
-				return false;
+				return L"Failed getting display services.";
 			}
 
 			//Get 3DSettings services
@@ -47,7 +47,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting 3DSettings services.");
-				return false;
+				return L"Failed getting 3DSettings services.";
 			}
 
 			//Get Performance Monitoring services
@@ -56,7 +56,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting Performance Monitoring services.");
-				return false;
+				return L"Failed getting Performance Monitoring services.";
 			}
 
 			//Get tuning services
@@ -65,7 +65,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting tuning services.");
-				return false;
+				return L"Failed getting tuning services.";
 			}
 
 			//Get all gpus
@@ -73,16 +73,16 @@ namespace winrt::AmdDriverTool::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				AVDebugWriteLine("Failed getting all gpus.");
-				return false;
+				AVDebugWriteLine("Failed getting GPUs list.");
+				return L"Failed getting GPUs list.";
 			}
 
 			//Check any gpus
 			if (ppGpuList->Size() == 0)
 			{
 				//Set result
-				AVDebugWriteLine("Failed getting any gpus.");
-				return false;
+				AVDebugWriteLine("Failed getting any GPUs.");
+				return L"Failed getting any GPUs.";
 			}
 
 			//Get all displays
@@ -90,8 +90,8 @@ namespace winrt::AmdDriverTool::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				AVDebugWriteLine("Failed getting all displays.");
-				return false;
+				AVDebugWriteLine("Failed getting displays list.");
+				return L"Failed getting displays list.";
 			}
 
 			//Check any displays
@@ -99,18 +99,18 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting any displays.");
-				return false;
+				return L"Failed getting any displays.";
 			}
 
 			//Set result
 			AVDebugWriteLine("ADLX initialized.");
-			return true;
+			return L"";
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX failed initializing.");
-			return false;
+			AVDebugWriteLine("ADLX failed initializing (Exception)");
+			return L"ADLX failed initializing (Exception)";
 		}
 	}
 }

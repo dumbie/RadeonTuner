@@ -36,12 +36,13 @@ namespace winrt::AmdDriverTool::implementation
 			listbox_Main().SelectedIndex(0);
 
 			//Initialize adlx
-			if (!AdlxInitialize())
+			std::wstring initResult = AdlxInitialize();
+			if (!initResult.empty())
 			{
 				grid_Main().IsHitTestVisible(false);
 				grid_Overlay().Visibility(Visibility::Visible);
 				textblock_Overlay_Text().Text(L"Failed initializing ADLX, please install or update your AMD drivers.");
-				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.");
+				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult);
 				return;
 			}
 
