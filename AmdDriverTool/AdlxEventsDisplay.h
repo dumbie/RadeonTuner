@@ -327,6 +327,9 @@ namespace winrt::AmdDriverTool::implementation
 			IADLXDisplayGPUScalingPtr ppGPUScaling;
 			adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
 
+			IADLXDisplayIntegerScalingPtr ppIntegerScaling;
+			adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
@@ -341,7 +344,11 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
-					toggleswitch_IntegerScaling().IsEnabled(true);
+					adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						toggleswitch_IntegerScaling().IsEnabled(true);
+					}
 					textblock_Status().Text(L"GPU Scaling enabled");
 					AVDebugWriteLine(L"GPU Scaling enabled");
 				}

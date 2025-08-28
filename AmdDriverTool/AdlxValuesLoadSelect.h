@@ -21,7 +21,7 @@ namespace winrt::AmdDriverTool::implementation
 			//Fix ADLX missing Color Deficiency Correction
 			//Fix ADLX missing AMD Privacy View
 			//Fix ADLX missing AMD Noise Suppression
-			//Fix ADLX missing Color Temperature Control
+			//Fix ADLX missing Platform Compatibility (Group A, B, C)
 			//Fix GetCustomResolution support (Custom Resolution Utility)
 			//Fix IADLXEyefinityDesktop support
 			//Fix Get3DLUT support
