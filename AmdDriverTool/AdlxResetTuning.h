@@ -9,15 +9,6 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
-			//Check if variable is available
-			if (ppGPUTuningServices == nullptr)
-			{
-				//Set result
-				textblock_Status().Text(L"Tuning and fans not reset");
-				AVDebugWriteLine(L"Tuning and fans not reset");
-				return false;
-			}
-
 			//Reset gpu tuning and fan settings
 			adlx_Res0 = ppGPUTuningServices->ResetToFactory(ppGpuInfo);
 			if (ADLX_FAILED(adlx_Res0))
@@ -38,8 +29,8 @@ namespace winrt::AmdDriverTool::implementation
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Tuning and fans reset failed");
-			AVDebugWriteLine(L"Tuning and fans reset failed");
+			textblock_Status().Text(L"Failed resetting tuning and fans");
+			AVDebugWriteLine(L"Failed resetting tuning and fans");
 			return false;
 		}
 	}

@@ -9,6 +9,15 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
+			//Check services
+			if (ppDispServices == NULL)
+			{
+				stackpanel_Display().Opacity(0.20);
+				stackpanel_Display().IsHitTestVisible(false);
+				AVDebugWriteLine("ADLX display service is not available.");
+				return;
+			}
+
 			//Get display freesync setting
 			try
 			{

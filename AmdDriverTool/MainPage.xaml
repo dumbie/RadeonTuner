@@ -85,7 +85,7 @@
                 </Border>
 
                 <!-- Status -->
-                <Border Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
+                <Border x:Name="border_Status" Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
                         <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>

@@ -9,6 +9,15 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
+			//Check services
+			if (ppGPUTuningServices == NULL)
+			{
+				stackpanel_Tuning().Opacity(0.20);
+				stackpanel_Tuning().IsHitTestVisible(false);
+				AVDebugWriteLine("ADLX tuning service is not available.");
+				return;
+			}
+
 			//Get gpu manual tuning
 			try
 			{

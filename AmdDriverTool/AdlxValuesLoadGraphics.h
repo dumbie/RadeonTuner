@@ -9,6 +9,15 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
+			//Check services
+			if (pp3DSettingsServices == NULL)
+			{
+				stackpanel_Graphics().Opacity(0.20);
+				stackpanel_Graphics().IsHitTestVisible(false);
+				AVDebugWriteLine("ADLX graphics service is not available.");
+				return;
+			}
+
 			//Get super resolution
 			try
 			{

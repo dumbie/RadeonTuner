@@ -9,15 +9,6 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
-			//Check if variable is available
-			if (ppGPUTuningServices == nullptr)
-			{
-				//Set result
-				textblock_Status().Text(L"Tuning and fans not applied");
-				AVDebugWriteLine(L"Tuning and fans not applied");
-				return false;
-			}
-
 			//Get fan manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);
 			if (adlx_Bool)
@@ -129,8 +120,8 @@ namespace winrt::AmdDriverTool::implementation
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Tuning and fans not applied");
-			AVDebugWriteLine(L"Tuning and fans not applied");
+			textblock_Status().Text(L"Failed applying tuning and fans");
+			AVDebugWriteLine(L"Failed applying tuning and fans");
 			return false;
 		}
 	}

@@ -3,6 +3,6 @@
 
 namespace AppVariables
 {
-	inline HINSTANCE hInstance = nullptr;
+	inline HINSTANCE hInstance = NULL;
 	inline winrt::AmdDriverTool::implementation::App App = winrt::AmdDriverTool::implementation::App();
 }

@@ -9,6 +9,15 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
+			//Check services
+			if (ppMultiMediaServices == NULL)
+			{
+				stackpanel_Multimedia().Opacity(0.20);
+				stackpanel_Multimedia().IsHitTestVisible(false);
+				AVDebugWriteLine("ADLX multimedia service is not available.");
+				return;
+			}
+
 			//Get multimedia video super resolution
 			try
 			{

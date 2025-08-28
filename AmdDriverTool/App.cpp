@@ -9,8 +9,8 @@
 namespace winrt::AmdDriverTool::implementation
 {
 	//Variables
-	HWND _hWnd_MainWindow = nullptr;
-	HWND _hWnd_XamlWindow = nullptr;
+	HWND _hWnd_MainWindow = NULL;
+	HWND _hWnd_XamlWindow = NULL;
 
 	//Callbacks
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT messageCode, WPARAM wParam, LPARAM lParam)
@@ -35,7 +35,7 @@ namespace winrt::AmdDriverTool::implementation
 
 	void App::DispatcherInvoke(std::function<void()> const& action)
 	{
-		if (_dispatcher == nullptr)
+		if (_dispatcher == NULL)
 		{
 			return;
 		}
@@ -52,7 +52,7 @@ namespace winrt::AmdDriverTool::implementation
 
 	void App::SetContent(FrameworkElement const& content)
 	{
-		if (_desktopWindowXamlSource == nullptr)
+		if (_desktopWindowXamlSource == NULL)
 		{
 			return;
 		}
@@ -134,7 +134,7 @@ namespace winrt::AmdDriverTool::implementation
 
 		//Window message loop
 		MSG msg;
-		while (GetMessageW(&msg, nullptr, 0, 0))
+		while (GetMessageW(&msg, NULL, 0, 0))
 		{
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);

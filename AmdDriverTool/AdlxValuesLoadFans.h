@@ -9,6 +9,15 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
+			//Check services
+			if (ppGPUTuningServices == NULL)
+			{
+				stackpanel_Fans().Opacity(0.20);
+				stackpanel_Fans().IsHitTestVisible(false);
+				AVDebugWriteLine("ADLX fans service is not available.");
+				return;
+			}
+
 			//Get fan manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuInfo, &adlx_Bool);
 			if (adlx_Bool)
@@ -94,11 +103,23 @@ namespace winrt::AmdDriverTool::implementation
 				slider_Fan_Temp_4().Maximum(adlx_IntRange0.maxValue);
 				slider_Fan_Temp_4().StepFrequency(adlx_IntRange0.step);
 
+				//Enable buttons
+				button_Apply_Fan().IsEnabled(true);
+				button_Reset_Fan().IsEnabled(true);
+				button_Import_Fan().IsEnabled(true);
+				button_Export_Fan().IsEnabled(true);
+
 				//Update fan graph
 				UpdateFanGraph();
 			}
 			else
 			{
+				//Disable buttons
+				button_Apply_Fan().IsEnabled(false);
+				button_Reset_Fan().IsEnabled(false);
+				button_Import_Fan().IsEnabled(false);
+				button_Export_Fan().IsEnabled(false);
+
 				slider_Fan_Temp_0().IsEnabled(false);
 				slider_Fan_Speed_0().IsEnabled(false);
 				slider_Fan_Temp_1().IsEnabled(false);

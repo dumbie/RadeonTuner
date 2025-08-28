@@ -14,8 +14,8 @@ namespace winrt::AmdDriverTool::implementation
 		void DispatcherInvoke(std::function<void()> const& action);
 
 	private:
-		CoreDispatcher _dispatcher = nullptr;
-		WindowsXamlManager _windowsXamlManager = nullptr;
-		DesktopWindowXamlSource _desktopWindowXamlSource = nullptr;
+		CoreDispatcher _dispatcher = NULL;
+		WindowsXamlManager _windowsXamlManager = NULL;
+		DesktopWindowXamlSource _desktopWindowXamlSource = NULL;
 	};
 }

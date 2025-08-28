@@ -37,7 +37,7 @@ namespace winrt::AmdDriverTool::implementation
 			//Get selected GPU
 			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
 			ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
-			if (ppGpuInfo == nullptr)
+			if (ppGpuInfo == NULL)
 			{
 				AVDebugWriteLine("Failed getting selected gpu.");
 				return;
@@ -46,7 +46,7 @@ namespace winrt::AmdDriverTool::implementation
 			//Get selected display
 			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
 			ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
-			if (ppDisplayInfo == nullptr)
+			if (ppDisplayInfo == NULL)
 			{
 				AVDebugWriteLine("Failed getting selected display.");
 				return;

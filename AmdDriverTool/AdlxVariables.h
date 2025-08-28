@@ -22,6 +22,7 @@ inline IADLXGPU2Ptr ppGpuInfo;
 inline IADLXGPUListPtr ppGpuList;
 inline IADLXDisplayPtr ppDisplayInfo;
 inline IADLXDisplayListPtr ppDisplayList;
+
 inline IADLXDisplayServices3Ptr ppDispServices;
 inline IADLXMultimediaServicesPtr ppMultiMediaServices;
 inline IADLX3DSettingsServices2Ptr pp3DSettingsServices;

@@ -17,7 +17,7 @@ namespace winrt::AmdDriverTool::implementation
 			//Vendor identifier
 			try
 			{
-				const char* vendorId = nullptr;
+				const char* vendorId = NULL;
 				adlx_Res0 = ppGpuInfo->VendorId(&vendorId);
 				device_info += L"Vendor identifier: " + char_to_wstring(vendorId);
 			}
@@ -26,7 +26,7 @@ namespace winrt::AmdDriverTool::implementation
 			//Product name
 			try
 			{
-				const char* productName = nullptr;
+				const char* productName = NULL;
 				adlx_Res0 = ppGpuInfo->ProductName(&productName);
 				device_info += L"\nProduct name: " + char_to_wstring(productName);
 			}
@@ -35,8 +35,8 @@ namespace winrt::AmdDriverTool::implementation
 			//Load driver version
 			try
 			{
-				const char* driverVersion = nullptr;
-				const char* driverWindows = nullptr;
+				const char* driverVersion = NULL;
+				const char* driverWindows = NULL;
 				adlx_uint driverYear, driverMonth, driverDay;
 				adlx_Res0 = ppGpuInfo->AMDSoftwareVersion(&driverVersion);
 				adlx_Res0 = ppGpuInfo->AMDWindowsDriverVersion(&driverWindows);
@@ -49,9 +49,9 @@ namespace winrt::AmdDriverTool::implementation
 			//Load bios version
 			try
 			{
-				const char* biosPart = nullptr;
-				const char* biosVersion = nullptr;
-				const char* biosDate = nullptr;
+				const char* biosPart = NULL;
+				const char* biosVersion = NULL;
+				const char* biosDate = NULL;
 				ppGpuInfo->BIOSInfo(&biosPart, &biosVersion, &biosDate);
 				device_info += L"\nBios version: " + char_to_wstring(biosPart) + L" / " + char_to_wstring(biosVersion) + L" / " + char_to_wstring(biosDate);
 			}
@@ -61,7 +61,7 @@ namespace winrt::AmdDriverTool::implementation
 			try
 			{
 				adlx_uint totalVRAM;
-				const char* typeVRAM = nullptr;
+				const char* typeVRAM = NULL;
 				adlx_Res0 = ppGpuInfo->TotalVRAM(&totalVRAM);
 				adlx_Res0 = ppGpuInfo->VRAMType(&typeVRAM);
 				device_info += L"\nMemory: " + number_to_wstring(totalVRAM) + L"MB " + char_to_wstring(typeVRAM);
@@ -86,7 +86,7 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				IADLXSmartAccessMemoryPtr ppSmartAccessMemory;
 				adlx_Res0 = ppGPUTuningServices->GetSmartAccessMemory(ppGpuInfo, &ppSmartAccessMemory);
-				if (ppSmartAccessMemory != nullptr)
+				if (ppSmartAccessMemory != NULL)
 				{
 					adlx_Res0 = ppSmartAccessMemory->IsEnabled(&adlx_Bool);
 					if (adlx_Bool)

@@ -24,12 +24,14 @@ namespace winrt::AmdDriverTool::implementation
 			IADLXSystem2* pSystemServices2 = IADLXSystem2Ptr(ppADLXHelper.GetSystemServices()).GetPtr();
 
 			//Get multimedia services
-			adlx_Res0 = pSystemServices2->GetMultimediaServices(&ppMultiMediaServices);
-			if (ADLX_FAILED(adlx_Res0))
+			if (pSystemServices2 != NULL)
 			{
-				//Set result
-				AVDebugWriteLine("Failed getting multimedia services.");
-				return L"Failed getting multimedia services.";
+				adlx_Res0 = pSystemServices2->GetMultimediaServices(&ppMultiMediaServices);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					//Set result
+					AVDebugWriteLine("Failed getting multimedia services.");
+				}
 			}
 
 			//Get display services
@@ -38,7 +40,6 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting display services.");
-				return L"Failed getting display services.";
 			}
 
 			//Get 3DSettings services
@@ -47,7 +48,6 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting 3DSettings services.");
-				return L"Failed getting 3DSettings services.";
 			}
 
 			//Get Performance Monitoring services
@@ -56,7 +56,6 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting Performance Monitoring services.");
-				return L"Failed getting Performance Monitoring services.";
 			}
 
 			//Get tuning services
@@ -65,7 +64,6 @@ namespace winrt::AmdDriverTool::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting tuning services.");
-				return L"Failed getting tuning services.";
 			}
 
 			//Get all gpus
@@ -86,8 +84,17 @@ namespace winrt::AmdDriverTool::implementation
 			}
 
 			//Get all displays
-			adlx_Res0 = ppDispServices->GetDisplays(&ppDisplayList);
-			if (ADLX_FAILED(adlx_Res0))
+			if (ppDispServices != NULL)
+			{
+				adlx_Res0 = ppDispServices->GetDisplays(&ppDisplayList);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					//Set result
+					AVDebugWriteLine("Failed getting displays list.");
+					return L"Failed getting displays list.";
+				}
+			}
+			else
 			{
 				//Set result
 				AVDebugWriteLine("Failed getting displays list.");

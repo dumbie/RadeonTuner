@@ -15,6 +15,18 @@ namespace winrt::AmdDriverTool::implementation
 				//Delay next update
 				Sleep(1000);
 
+				//Check services
+				if (ppPerformanceMonitoringServices == NULL)
+				{
+					std::function<void()> updateFunction = [&]
+						{
+							border_Status().Visibility(Visibility::Collapsed);
+						};
+					AppVariables::App.DispatcherInvoke(updateFunction);
+					AVDebugWriteLine("ADLX performance monitoring service is not available.");
+					return;
+				}
+
 				//Get GPU metrics support
 				IADLXGPUMetricsPtr ppGpuMetrics;
 				adlx_Res0 = ppPerformanceMonitoringServices->GetCurrentGPUMetrics(ppGpuInfo, &ppGpuMetrics);
