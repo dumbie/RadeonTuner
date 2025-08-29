@@ -58,6 +58,7 @@ using namespace Windows::UI::Xaml::Media;
 #include "ADLX\Include\IDisplayGamut.h"
 #include "ADLX\Include\IPerformanceMonitoring.h"
 #include "ADLX\Include\ISmartAccessMemory.h"
+#include "ADLX\Include\IPowerTuning1.h"
 #include "ADLX\Include\IGPUTuning1.h"
 #include "ADLX\Include\IGPUManualGFXTuning.h"
 #include "ADLX\Include\IGPUManualFanTuning.h"

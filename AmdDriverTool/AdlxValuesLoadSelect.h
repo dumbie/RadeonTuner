@@ -29,7 +29,6 @@ namespace winrt::AmdDriverTool::implementation
 			//Fix GetGamma support
 			//Fix IADLXDisplayConnectivityExperiencePtr GetRelativeVoltageSwing support
 			//Fix IADLXDisplayConnectivityExperiencePtr GetRelativePreEmphasis support
-			//Fix IADLXDisplayFreeSyncColorAccuracy support
 
 			//Disable saving
 			disable_saving = true;

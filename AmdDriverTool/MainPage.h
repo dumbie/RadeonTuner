@@ -77,6 +77,7 @@ namespace winrt::AmdDriverTool::implementation
 		void slider_VideoUpscale_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_VideoUpscale_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_VideoSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FreeSyncColorAccuracy_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

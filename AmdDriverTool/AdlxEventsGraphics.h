@@ -22,7 +22,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Super Resolution");
 					AVDebugWriteLine(L"Failed enabling Super Resolution");
 					disable_saving = true;
@@ -244,8 +243,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = pp3DChill->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_RadeonChill_Min().IsEnabled(false);
-					slider_RadeonChill_Max().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Radeon Chill");
 					AVDebugWriteLine(L"Failed enabling Radeon Chill");
 					disable_saving = true;
@@ -365,7 +362,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = pp3DBoost->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_RadeonBoost_MinRes().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Radeon Boost");
 					AVDebugWriteLine(L"Failed enabling Radeon Boost");
 					disable_saving = true;
@@ -433,13 +429,15 @@ namespace winrt::AmdDriverTool::implementation
 			IADLX3DImageSharpeningPtr pp3DImageSharpening;
 			adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
 
+			IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
+			adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
+
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
 				adlx_Res0 = pp3DImageSharpening->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Image Sharpening");
 					AVDebugWriteLine(L"Failed enabling Image Sharpening");
 					disable_saving = true;
@@ -448,6 +446,11 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
+					}
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
 					textblock_Status().Text(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
@@ -456,6 +459,7 @@ namespace winrt::AmdDriverTool::implementation
 			else
 			{
 				adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
+				toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 				textblock_Status().Text(L"Image Sharpening disabled");
 				AVDebugWriteLine(L"Image Sharpening disabled");
@@ -553,7 +557,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_Frtc_Max().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling FRTC");
 					AVDebugWriteLine(L"Failed enabling FRTC");
 					disable_saving = true;

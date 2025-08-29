@@ -220,6 +220,9 @@
     <CopyFileToFolders Include="Reset.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Power.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -27,5 +27,6 @@ inline IADLXDisplayServices3Ptr ppDispServices;
 inline IADLXMultimediaServicesPtr ppMultiMediaServices;
 inline IADLX3DSettingsServices2Ptr pp3DSettingsServices;
 inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
+inline IADLXPowerTuningServices1Ptr ppPowerTuningServices;
 inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
 //}

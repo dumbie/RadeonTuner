@@ -194,6 +194,7 @@ namespace winrt::AmdDriverTool::implementation
 					if (!adlx_Bool)
 					{
 						slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+						toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 					}
 				}
 				else

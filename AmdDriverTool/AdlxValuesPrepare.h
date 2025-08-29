@@ -41,12 +41,12 @@ namespace winrt::AmdDriverTool::implementation
 
 			//List all color depth
 			itemCollection = combobox_Display_ColorDepth().Items();
-			itemCollection.Append(box_value(L"6 bpc"));
-			itemCollection.Append(box_value(L"8 bpc"));
-			itemCollection.Append(box_value(L"10 bpc"));
-			itemCollection.Append(box_value(L"12 bpc"));
-			itemCollection.Append(box_value(L"14 bpc"));
-			itemCollection.Append(box_value(L"16 bpc"));
+			itemCollection.Append(box_value(L"6 bits per color"));
+			itemCollection.Append(box_value(L"8 bits per color"));
+			itemCollection.Append(box_value(L"10 bits per color"));
+			itemCollection.Append(box_value(L"12 bits per color"));
+			itemCollection.Append(box_value(L"14 bits per color"));
+			itemCollection.Append(box_value(L"16 bits per color"));
 
 			//List all pixel format
 			itemCollection = combobox_Display_PixelFormat().Items();

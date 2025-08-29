@@ -28,6 +28,11 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppFreeSync->IsEnabled(&adlx_Bool);
 					toggleswitch_FreeSync().IsOn(adlx_Bool);
+
+					if (!adlx_Bool)
+					{
+						toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+					}
 				}
 				else
 				{
@@ -37,6 +42,27 @@ namespace winrt::AmdDriverTool::implementation
 			catch (...)
 			{
 				toggleswitch_FreeSync().IsEnabled(false);
+			}
+
+			//Get display freesync color accuracy setting
+			try
+			{
+				IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
+				adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+				adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppFSCA->IsEnabled(&adlx_Bool);
+					toggleswitch_FreeSyncColorAccuracy().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 			}
 
 			//Get display VSR setting

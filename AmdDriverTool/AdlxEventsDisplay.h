@@ -36,9 +36,51 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
+				//Check setting mode
+				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+
 				adlx_Res0 = ppFreeSync->SetEnabled(false);
 				textblock_Status().Text(L"AMD FreeSync disabled");
 				AVDebugWriteLine(L"AMD FreeSync disabled");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FreeSyncColorAccuracy_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get settings
+			IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
+			adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				adlx_Res0 = ppFSCA->SetEnabled(true);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					textblock_Status().Text(L"Failed enabling AMD FreeSync Color Accuracy");
+					AVDebugWriteLine(L"Failed enabling AMD FreeSync Color Accuracy");
+					disable_saving = true;
+					senderElement.IsOn(false);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"AMD FreeSync Color Accuracy enabled");
+					AVDebugWriteLine(L"AMD FreeSync Color Accuracy enabled");
+				}
+			}
+			else
+			{
+				adlx_Res0 = ppFSCA->SetEnabled(false);
+				textblock_Status().Text(L"AMD FreeSync Color Accuracy disabled");
+				AVDebugWriteLine(L"AMD FreeSync Color Accuracy disabled");
 			}
 		}
 		catch (...) {}
@@ -355,10 +397,12 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
+				//Check setting mode
 				disable_saving = true;
 				toggleswitch_IntegerScaling().IsOn(false);
 				disable_saving = false;
 				toggleswitch_IntegerScaling().IsEnabled(false);
+
 				adlx_Res0 = ppGPUScaling->SetEnabled(false);
 				textblock_Status().Text(L"GPU Scaling disabled");
 				AVDebugWriteLine(L"GPU Scaling disabled");

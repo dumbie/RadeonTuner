@@ -305,5 +305,8 @@
     <CopyFileToFolders Include="Reset.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Power.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
