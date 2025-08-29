@@ -569,6 +569,12 @@
                                 <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
                             </StackPanel>
 
+                            <!-- Dynamic Refresh Rate Control -->
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic Refresh Rate Control saves power by switching to low panel refresh rate, or boosts performance by switching to high panel refresh rate when laptop is plugged."/>
+                                <ToggleSwitch x:Name="toggleswitch_DynamicRefreshRateControl" Margin="10,0,0,0" OffContent="Dynamic Refresh Rate Control" OnContent="Dynamic Refresh Rate Control" Toggled="toggleswitch_DynamicRefreshRateControl_Toggled"/>
+                            </StackPanel>
+
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- GPU Scaling -->

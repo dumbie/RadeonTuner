@@ -86,6 +86,27 @@ namespace winrt::AmdDriverTool::implementation
 				toggleswitch_VSR().IsEnabled(false);
 			}
 
+			//Get display Dynamic Refresh Rate Control setting
+			try
+			{
+				IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
+				adlx_Res0 = ppDispServices->GetDynamicRefreshRateControl(ppDisplayInfo, &ppDRRC);
+				adlx_Res0 = ppDRRC->IsSupported(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = ppDRRC->IsEnabled(&adlx_Bool);
+					toggleswitch_DynamicRefreshRateControl().IsOn(adlx_Bool);
+				}
+				else
+				{
+					toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
+			}
+
 			//Get display GPU Scaling setting
 			try
 			{

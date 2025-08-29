@@ -125,6 +125,45 @@ namespace winrt::AmdDriverTool::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_DynamicRefreshRateControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get settings
+			IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
+			adlx_Res0 = ppDispServices->GetDynamicRefreshRateControl(ppDisplayInfo, &ppDRRC);
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				adlx_Res0 = ppDRRC->SetEnabled(true);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					textblock_Status().Text(L"Failed enabling Dynamic Refresh Rate");
+					AVDebugWriteLine(L"Failed enabling Dynamic Refresh Rate");
+					disable_saving = true;
+					senderElement.IsOn(false);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"Dynamic Refresh Rate enabled");
+					AVDebugWriteLine(L"Dynamic Refresh Rate enabled");
+				}
+			}
+			else
+			{
+				adlx_Res0 = ppDRRC->SetEnabled(false);
+				textblock_Status().Text(L"Dynamic Refresh Rate disabled");
+				AVDebugWriteLine(L"Dynamic Refresh Rate disabled");
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::combobox_Display_ColorDepth_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
