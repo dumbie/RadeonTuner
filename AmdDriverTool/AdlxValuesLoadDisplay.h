@@ -377,6 +377,54 @@ namespace winrt::AmdDriverTool::implementation
 				toggleswitch_HDCPSupport().IsEnabled(false);
 			}
 
+			//Get display relative voltage swing
+			try
+			{
+				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativeVoltageSwing(&adlx_Int0);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					slider_Display_RelativeVoltageSwing().IsEnabled(false);
+				}
+				else
+				{
+					slider_Display_RelativeVoltageSwing().Value(adlx_Int0);
+					slider_Display_RelativeVoltageSwing().Minimum(-2);
+					slider_Display_RelativeVoltageSwing().Maximum(2);
+					slider_Display_RelativeVoltageSwing().StepFrequency(1);
+					//Fix find way to check support and get ranges
+				}
+			}
+			catch (...)
+			{
+				slider_Display_RelativeVoltageSwing().IsEnabled(false);
+			}
+
+			//Get display relative preset emphasis
+			try
+			{
+				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativePreEmphasis(&adlx_Int0);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					slider_Display_RelativePreEmphasis().IsEnabled(false);
+				}
+				else
+				{
+					slider_Display_RelativePreEmphasis().Value(adlx_Int0);
+					slider_Display_RelativePreEmphasis().Minimum(-2);
+					slider_Display_RelativePreEmphasis().Maximum(2);
+					slider_Display_RelativePreEmphasis().StepFrequency(1);
+					//Fix find way to check support and get ranges
+				}
+			}
+			catch (...)
+			{
+				slider_Display_RelativePreEmphasis().IsEnabled(false);
+			}
+
 			//Set result
 			AVDebugWriteLine("ADLX loaded display values.");
 		}

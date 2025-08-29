@@ -614,4 +614,72 @@ namespace winrt::AmdDriverTool::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::slider_Display_RelativeVoltageSwing_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get value
+			auto newValue = sender.as<Slider>().Value();
+
+			//Get display connectivity experience
+			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+
+			//Set display relative voltage swing
+			ppDisplayConnectivityExperience->SetRelativeVoltageSwing(newValue);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				//Set result
+				textbox_Display_RelativeVoltageSwing().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				textblock_Status().Text(L"Failed setting voltage swing");
+				AVDebugWriteLine(L"Failed setting voltage swing");
+			}
+			else
+			{
+				//Set result
+				textbox_Display_RelativeVoltageSwing().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				textblock_Status().Text(L"Voltage swing set to " + number_to_wstring((int)newValue));
+				AVDebugWriteLine(L"Voltage swing set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_Display_RelativePreEmphasis_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get value
+			auto newValue = sender.as<Slider>().Value();
+
+			//Get display connectivity experience
+			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+
+			//Set display relative preset emphasis
+			ppDisplayConnectivityExperience->SetRelativePreEmphasis(newValue);
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				//Set result
+				textbox_Display_RelativePreEmphasis().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				textblock_Status().Text(L"Failed setting preset emphasis");
+				AVDebugWriteLine(L"Failed setting preset emphasis");
+			}
+			else
+			{
+				//Set result
+				textbox_Display_RelativePreEmphasis().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				textblock_Status().Text(L"Preset emphasis set to " + number_to_wstring((int)newValue));
+				AVDebugWriteLine(L"Preset emphasis set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
 }

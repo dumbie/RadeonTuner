@@ -687,6 +687,32 @@
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
                                 <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
                             </StackPanel>
+
+                            <!-- Relative Voltage Swing -->
+                            <TextBlock Text="Relative Voltage Swing" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows you to set the difference between maximum and minimum output voltage."/>
+                                <TextBox Grid.Column="1" x:Name="textbox_Display_RelativeVoltageSwing" Margin="10,0,0,0" Text="{Binding ElementName=slider_Display_RelativeVoltageSwing, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                <Slider Grid.Column="2" x:Name="slider_Display_RelativeVoltageSwing" Margin="10,0,0,0" ValueChanged="slider_Display_RelativeVoltageSwing_ValueChanged"/>
+                            </Grid>
+
+                            <!-- Relative Preset Emphasis -->
+                            <TextBlock Text="Relative Preset Emphasis" Margin="0,10,0,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="A process that is designed to improve overall signal-to-noise ratio."/>
+                                <TextBox Grid.Column="1" x:Name="textbox_Display_RelativePreEmphasis"  Margin="10,0,0,0" Text="{Binding ElementName=slider_Display_RelativePreEmphasis, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                <Slider Grid.Column="2" x:Name="slider_Display_RelativePreEmphasis" Margin="10,0,0,0" ValueChanged="slider_Display_RelativePreEmphasis_ValueChanged"/>
+                            </Grid>
                         </StackPanel>
 
                         <!-- Multimedia -->

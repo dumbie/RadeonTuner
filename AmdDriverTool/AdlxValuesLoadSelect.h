@@ -27,8 +27,6 @@ namespace winrt::AmdDriverTool::implementation
 			//Fix Get3DLUT support
 			//Fix GetGamut support
 			//Fix GetGamma support
-			//Fix IADLXDisplayConnectivityExperiencePtr GetRelativeVoltageSwing support
-			//Fix IADLXDisplayConnectivityExperiencePtr GetRelativePreEmphasis support
 
 			//Disable saving
 			disable_saving = true;
