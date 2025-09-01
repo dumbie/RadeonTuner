@@ -31,6 +31,12 @@
                         <TextBlock HorizontalAlignment="Center" Text="Fans"/>
                     </StackPanel>
                 </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Power" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Power.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Power"/>
+                    </StackPanel>
+                </ListBoxItem>
                 <ListBoxItem x:Name="listboxitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Graphics.png" Width="50" Height="50"/>
@@ -383,7 +389,14 @@
                                 <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
 
-                            <Grid Margin="0,10,0,0">
+                            <TextBlock Text="Fans Options" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve durability."/>
+                                <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <Grid Margin="0,5,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -421,9 +434,6 @@
                                 </Grid>
                             </Grid>
 
-                            <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="0,10,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
-
-                            <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
                             <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
                                 <StackPanel Width="280" Margin="5">
                                     <TextBlock Text="Fan Curve 1" FontSize="16"/>
@@ -545,6 +555,42 @@
                                     </Grid>
                                 </StackPanel>
                             </VariableSizedWrapGrid>
+                        </StackPanel>
+
+                        <!-- Power -->
+                        <StackPanel x:Name="stackpanel_Power" Visibility="Collapsed">
+                            <TextBlock Text="Power Options" FontSize="20" FontWeight="Medium"/>
+
+                            <!-- SmartShift Eco -->
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Eco reduces the power consumption by controlling application's running platform to deliver more mobile game time on battery."/>
+                                <ToggleSwitch x:Name="toggleswitch_SmartShiftEco" Margin="10,0,0,0" OffContent="AMD SmartShift Eco" OnContent="AMD SmartShift Eco" Toggled="toggleswitch_SmartShiftEco_Toggled"/>
+                            </StackPanel>
+
+                            <!-- SmartShift Max -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Max dynamically shifts power between CPU and GPU to boost performance, depending on workload."/>
+                                        <TextBlock Margin="10,0,0,0" Text="AMD SmartShift Max" VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <ComboBox x:Name="combobox_SmartShiftMaxMode" Margin="0,10,0,0" Width="300" SelectionChanged="combobox_SmartShiftMaxMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_SmartShiftMaxBias" Text="{Binding ElementName=slider_SmartShiftMaxBias, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBlock Grid.Column="1" Text="CPU" VerticalAlignment="Center" Margin="10,0,10,0" />
+                                        <Slider Grid.Column="2" x:Name="slider_SmartShiftMaxBias" ValueChanged="slider_SmartShiftMaxBias_ValueChanged"/>
+                                        <TextBlock Grid.Column="3" Text="GPU" VerticalAlignment="Center" Margin="10,0,0,0" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
 
                         <!-- Display -->

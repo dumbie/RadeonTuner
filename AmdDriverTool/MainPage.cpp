@@ -20,6 +20,7 @@
 #include "AdlxEventsFans.h"
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
+#include "AdlxEventsPower.h"
 
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
@@ -73,6 +74,7 @@ namespace winrt::AmdDriverTool::implementation
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);
 			stackpanel_Tuning().Visibility(Visibility::Collapsed);
 			stackpanel_Fans().Visibility(Visibility::Collapsed);
+			stackpanel_Power().Visibility(Visibility::Collapsed);
 			stackpanel_Display().Visibility(Visibility::Collapsed);
 			stackpanel_Multimedia().Visibility(Visibility::Collapsed);
 			stackpanel_Information().Visibility(Visibility::Collapsed);
@@ -88,17 +90,21 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else if (selectedIndex == 2)
 			{
-				stackpanel_Graphics().Visibility(Visibility::Visible);
+				stackpanel_Power().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 3)
 			{
-				stackpanel_Display().Visibility(Visibility::Visible);
+				stackpanel_Graphics().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 4)
 			{
-				stackpanel_Multimedia().Visibility(Visibility::Visible);
+				stackpanel_Display().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 5)
+			{
+				stackpanel_Multimedia().Visibility(Visibility::Visible);
+			}
+			else if (selectedIndex == 6)
 			{
 				stackpanel_Information().Visibility(Visibility::Visible);
 			}

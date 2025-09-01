@@ -5,6 +5,7 @@
 #include "AdlxValuesLoadFans.h"
 #include "AdlxValuesLoadGraphics.h"
 #include "AdlxValuesLoadMultimedia.h"
+#include "AdlxValuesLoadPower.h"
 #include "AdlxValuesLoadDisplay.h"
 #include "AdlxValuesLoadTuning.h"
 
@@ -63,6 +64,9 @@ namespace winrt::AmdDriverTool::implementation
 
 			//Load tuning settings
 			AdlxValuesLoadTuning();
+
+			//Load power settings
+			AdlxValuesLoadPower();
 
 			//Enable saving
 			std::thread threadEnableSaving([]()

@@ -125,6 +125,11 @@ namespace winrt::AmdDriverTool::implementation
 			itemCollection.Append(box_value(L"Memory Timing 1"));
 			itemCollection.Append(box_value(L"Memory Timing 2"));
 
+			//List all smartshift max modes
+			itemCollection = combobox_SmartShiftMaxMode().Items();
+			itemCollection.Append(box_value(L"Auto"));
+			itemCollection.Append(box_value(L"Manual"));
+
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");
 		}
