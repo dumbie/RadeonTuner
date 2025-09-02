@@ -61,6 +61,24 @@ namespace winrt::AmdDriverTool::implementation
 		_desktopWindowXamlSource.Content(content);
 	}
 
+	void App::SetTopMost(bool topMost)
+	{
+		if (_desktopWindowXamlSource == NULL)
+		{
+			return;
+		}
+
+		//Set window style
+		if (topMost)
+		{
+			SetWindowPos(_hWnd_MainWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		}
+		else
+		{
+			SetWindowPos(_hWnd_MainWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		}
+	}
+
 	void App::Initialize(HINSTANCE hInstance)
 	{
 		//Initialize for current thread

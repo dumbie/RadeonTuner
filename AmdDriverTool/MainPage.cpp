@@ -22,6 +22,9 @@
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsPower.h"
 
+#include "SettingEvents.h"
+#include "SettingLoad.h"
+
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
 #include "MainPage.g.cpp"
@@ -56,6 +59,9 @@ namespace winrt::AmdDriverTool::implementation
 			//Load adlx info
 			AdlxInfoLoad();
 
+			//Load settings
+			SettingLoad();
+
 			//Start adlx update loop
 			std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
 			threadUpdateLoop.detach();
@@ -77,6 +83,7 @@ namespace winrt::AmdDriverTool::implementation
 			stackpanel_Power().Visibility(Visibility::Collapsed);
 			stackpanel_Display().Visibility(Visibility::Collapsed);
 			stackpanel_Multimedia().Visibility(Visibility::Collapsed);
+			stackpanel_Settings().Visibility(Visibility::Collapsed);
 			stackpanel_Information().Visibility(Visibility::Collapsed);
 
 			//Make selected page visible
@@ -105,6 +112,10 @@ namespace winrt::AmdDriverTool::implementation
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 6)
+			{
+				stackpanel_Settings().Visibility(Visibility::Visible);
+			}
+			else if (selectedIndex == 7)
 			{
 				stackpanel_Information().Visibility(Visibility::Visible);
 			}

@@ -9,6 +9,7 @@ namespace winrt::AmdDriverTool::implementation
 	{
 	public:
 		App();
+		void SetTopMost(bool topMost);
 		void SetContent(FrameworkElement const& content);
 		void Initialize(HINSTANCE hInstance);
 		void DispatcherInvoke(std::function<void()> const& action);

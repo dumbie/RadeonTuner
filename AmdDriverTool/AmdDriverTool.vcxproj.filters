@@ -234,6 +234,12 @@
     <ClInclude Include="AdlxValuesLoadPower.h">
       <Filter>Page Files</Filter>
     </ClInclude>
+    <ClInclude Include="SettingLoad.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingEvents.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">

@@ -55,7 +55,13 @@
                         <TextBlock HorizontalAlignment="Center" Text="Multimedia"/>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListBoxItem x:Name="listboxitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Settings.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Settings"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Information.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Information"/>
@@ -390,13 +396,13 @@
                             </StackPanel>
 
                             <TextBlock Text="Fans Options" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve durability."/>
                                 <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
                             </StackPanel>
 
                             <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
-                            <Grid Margin="0,5,0,0">
+                            <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -562,7 +568,7 @@
                             <TextBlock Text="Power Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- SmartShift Eco -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Eco reduces the power consumption by controlling application's running platform to deliver more mobile game time on battery."/>
                                 <ToggleSwitch x:Name="toggleswitch_SmartShiftEco" Margin="10,0,0,0" OffContent="AMD SmartShift Eco" OnContent="AMD SmartShift Eco" Toggled="toggleswitch_SmartShiftEco_Toggled"/>
                             </StackPanel>
@@ -794,6 +800,21 @@
                             </Border>
                         </StackPanel>
 
+                        <!-- Settings -->
+                        <StackPanel x:Name="stackpanel_Settings" Visibility="Collapsed">
+                            <TextBlock Text="Overclock Settings" FontSize="20" FontWeight="Medium"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Re-applies your tuning and fans settings when those have been reset to defaults by GPU drivers."/>
+                                <ToggleSwitch x:Name="toggleswitch_Active_Overclock" IsEnabled="False" Margin="10,0,0,0" OffContent="Keep overclock active" OnContent="Keep overclock active"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Window Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show this window on top of other applications."/>
+                                <ToggleSwitch x:Name="toggleswitch_Window_Top" Margin="10,0,0,0" OffContent="Show window on top" OnContent="Show window on top" Toggled="toggleswitch_Window_Top_Toggled"/>
+                            </StackPanel>
+                        </StackPanel>
+
                         <!-- Information -->
                         <Grid x:Name="stackpanel_Information" Visibility="Collapsed">
                             <Grid.RowDefinitions>
@@ -806,6 +827,7 @@
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <Button x:Name="button_Website_Project" Content="Visit Project Website" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
                                 <Button x:Name="button_Website_Donation" Content="Open Donation Page" Style="{ThemeResource ApplicationButton}" Margin="10,0,0,0" Click="button_Website_Donation_Click"/>
+                                <Button x:Name="button_Check_Update" Margin="10,0,0,0" IsEnabled="False" Content="Check for update" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
                         </Grid>
                     </Grid>

@@ -23,6 +23,7 @@ namespace winrt::AmdDriverTool::implementation
 		void AdlxUpdateLoop();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
+		void SettingLoad();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
@@ -85,6 +86,7 @@ namespace winrt::AmdDriverTool::implementation
 		void toggleswitch_SmartShiftEco_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_SmartShiftMaxMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_SmartShiftMaxBias_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 
