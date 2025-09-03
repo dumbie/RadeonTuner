@@ -46,6 +46,9 @@ using namespace Windows::UI::Xaml::Media;
 #include "..\..\ArnoldVinkCode\CPP\AVString.h"
 #include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
 
+//ADL
+#include "ADL\adl_sdk.h"
+
 //ADLX
 #include "ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h"
 #include "ADLX\Include\ISystem2.h"

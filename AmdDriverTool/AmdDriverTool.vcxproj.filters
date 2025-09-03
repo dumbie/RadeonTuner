@@ -8,10 +8,10 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.cpp">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClCompile>
     <ClCompile Include="ADLX\Platform\Windows\WinAPIs.cpp">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,16 +25,16 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="AdlxVariables.h">
       <Filter>Page Files</Filter>
@@ -55,127 +55,127 @@
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ADLX.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ADLXDefines.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ADLXStructures.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ADLXVersion.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\I3DSettings.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\I3DSettings1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\I3DSettings2.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IApplications.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IChangedEvent.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ICollections.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDesktops.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplay3DLUT.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplayGamma.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplayGamut.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplays.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplays1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplays2.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplays3.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IDisplaySettings.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUAutoTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUManualFanTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUManualGFXTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUManualPowerTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUManualVRAMTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUPresetTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IGPUTuning1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\II2C.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ILog.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IMultiMedia.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring2.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPerformanceMonitoring3.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPowerTuning.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\IPowerTuning1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ISmartAccessMemory.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ISystem.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ISystem1.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\Include\ISystem2.h">
-      <Filter>_ADLX</Filter>
+      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesApply.h">
       <Filter>Page Files</Filter>
@@ -187,10 +187,10 @@
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h">
-      <Filter>_ArnoldVinkCode</Filter>
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesPrepare.h">
       <Filter>Page Files</Filter>
@@ -240,6 +240,27 @@
     <ClInclude Include="SettingEvents.h">
       <Filter>Page Files</Filter>
     </ClInclude>
+    <ClInclude Include="ADL\adl_defines.h">
+      <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="ADL\adl_sdk.h">
+      <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="ADL\adl_structures.h">
+      <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlInitialize.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlVariables.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlValuesPrepare.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -256,14 +277,20 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{06a71802-1e01-40e8-9116-092aacf2d910}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_ArnoldVinkCode">
-      <UniqueIdentifier>{0f92a15f-2eca-475b-8ce4-8f1c5cb88717}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_ADLX">
-      <UniqueIdentifier>{41248b3a-f40a-484f-8814-6df5011466de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Asset Files">
       <UniqueIdentifier>{9b86d417-4ebb-4081-803c-c27162571ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files">
+      <UniqueIdentifier>{3a28a7fe-5053-4717-a159-da02ea600e03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files\ADL">
+      <UniqueIdentifier>{45dc09cd-8ec3-408d-bc6c-db276a8ab6cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files\ADLX">
+      <UniqueIdentifier>{41248b3a-f40a-484f-8814-6df5011466de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files\ArnoldVinkCode">
+      <UniqueIdentifier>{0f92a15f-2eca-475b-8ce4-8f1c5cb88717}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

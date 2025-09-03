@@ -6,6 +6,10 @@ namespace winrt::AmdDriverTool::implementation
 	struct MainPage : MainPageT<MainPage>
 	{
 		MainPage() {}
+
+		std::wstring AdlInitialize();
+		void AdlValuesPrepare();
+
 		std::wstring AdlxInitialize();
 		void AdlxValuesLoadSelect();
 		void AdlxValuesLoadFans();

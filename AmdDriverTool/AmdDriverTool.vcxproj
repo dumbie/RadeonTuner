@@ -84,6 +84,9 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
+    <ClInclude Include="AdlInitialize.h" />
+    <ClInclude Include="AdlValuesPrepare.h" />
+    <ClInclude Include="AdlVariables.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxEventsPower.h" />
@@ -148,6 +151,9 @@
     <ClInclude Include="ADLX\Include\ISystem.h" />
     <ClInclude Include="ADLX\Include\ISystem1.h" />
     <ClInclude Include="ADLX\Include\ISystem2.h" />
+    <ClInclude Include="ADL\adl_defines.h" />
+    <ClInclude Include="ADL\adl_sdk.h" />
+    <ClInclude Include="ADL\adl_structures.h" />
     <ClInclude Include="AppVariables.h" />
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
