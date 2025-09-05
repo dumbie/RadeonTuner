@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />

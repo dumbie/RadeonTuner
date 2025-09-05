@@ -102,7 +102,7 @@ namespace winrt::AmdDriverTool::implementation
 			catch (...) {}
 
 			//Set application version
-			device_info += L"\n\nMade by Arnold Vink\n" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+			device_info += L"\n\nMade by Arnold Vink\nV" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
 
 			//Set device information
 			textblock_DeviceInfo().Text(device_info);
@@ -133,5 +133,41 @@ namespace winrt::AmdDriverTool::implementation
 			ShellExecuteW(0, 0, L"https://donation.arnoldvink.com", 0, 0, 0);
 		}
 		catch (...) {}
+	}
+
+	void MainPage::button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Download releases from Github
+			std::string releasesJson = DownloadString("https://api.github.com", "repos/dumbie/AmdDriverTool/releases/latest", "AmdDriverTool", "");
+
+			//Parse json data
+			nlohmann::json parsedJson = nlohmann::json::parse(releasesJson);
+
+			//Get available version
+			std::string availableVersion = parsedJson["name"];
+
+			//Get current version
+			std::string currentVersion = "v" + GetVersionFromResource(AppVariables::hInstance);
+
+			//Check if version matches
+			if (currentVersion != availableVersion)
+			{
+				int messageResult = MessageBoxW(NULL, L"Newer version has been found, would you like to update the application to the newest version available?", L"AMD Driver Tool", MB_YESNO);
+				if (messageResult == IDYES)
+				{
+					ShellExecuteW(0, 0, L"https://github.com/dumbie/AmdDriverTool/releases", 0, 0, 0);
+				}
+			}
+			else
+			{
+				MessageBoxW(NULL, L"No new application update has been found.", L"AMD Driver Tool", MB_OK);
+			}
+		}
+		catch (...)
+		{
+			MessageBoxW(NULL, L"Failed checking for application update.", L"AMD Driver Tool", MB_OK);
+		}
 	}
 }

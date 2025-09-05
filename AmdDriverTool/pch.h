@@ -38,13 +38,15 @@ using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Markup;
 using namespace Windows::UI::Xaml::Media;
 
-//Arnold Vink code
+//Arnold Vink Code
 #include "..\..\ArnoldVinkCode\CPP\AVDebug.h"
+#include "..\..\ArnoldVinkCode\CPP\AVDownloader.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFiles.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFinally.h"
 #include "..\..\ArnoldVinkCode\CPP\AVHighResDelay.h"
 #include "..\..\ArnoldVinkCode\CPP\AVString.h"
 #include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
+#include "..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp"
 
 //ADL
 #include "ADL\adl_sdk.h"

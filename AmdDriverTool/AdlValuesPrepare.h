@@ -30,7 +30,7 @@ namespace winrt::AmdDriverTool::implementation
 					itemCollection.Append(box_value(appTitle));
 				}
 
-				AVDebugWriteLine("Listed ADL application profiles.");
+				AVDebugWriteLine("Listed ADL application profiles: " << itemCollection.Size());
 			}
 
 			//Set result

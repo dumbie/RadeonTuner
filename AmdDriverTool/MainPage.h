@@ -91,6 +91,7 @@ namespace winrt::AmdDriverTool::implementation
 		void combobox_SmartShiftMaxMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_SmartShiftMaxBias_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 
