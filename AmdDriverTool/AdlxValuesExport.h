@@ -26,30 +26,32 @@ namespace winrt::AmdDriverTool::implementation
 
 			//Fix add option to export graphics and display settings
 
-			//Create export string
-			std::vector<std::string> stringVector =
-			{
-				"CoreMin=" + number_to_string((int)slider_Core_Min().Value()),
-				"CoreMax=" + number_to_string((int)slider_Core_Max().Value()),
-				"MemoryTiming=" + number_to_string(combobox_Memory_Timing().SelectedIndex()),
-				"MemoryMax=" + number_to_string((int)slider_Memory_Max().Value()),
-				"PowerLimit=" + number_to_string((int)slider_Power_Limit().Value()),
-				"PowerVoltage=" + number_to_string((int)slider_Power_Voltage().Value()),
-				"FanZeroRpm=" + number_to_string(toggleswitch_Fan_Zero_Rpm().IsOn()),
-				"FanSpeed0=" + hstring_to_string(textbox_Fan_Speed_0().Text()),
-				"FanTemp0=" + hstring_to_string(textbox_Fan_Temp_0().Text()),
-				"FanSpeed1=" + hstring_to_string(textbox_Fan_Speed_1().Text()),
-				"FanTemp1=" + hstring_to_string(textbox_Fan_Temp_1().Text()),
-				"FanSpeed2=" + hstring_to_string(textbox_Fan_Speed_2().Text()),
-				"FanTemp2=" + hstring_to_string(textbox_Fan_Temp_2().Text()),
-				"FanSpeed3=" + hstring_to_string(textbox_Fan_Speed_3().Text()),
-				"FanTemp3=" + hstring_to_string(textbox_Fan_Temp_3().Text()),
-				"FanSpeed4=" + hstring_to_string(textbox_Fan_Speed_4().Text()),
-				"FanTemp4=" + hstring_to_string(textbox_Fan_Temp_4().Text())
-			};
+			//Create json settings
+			nlohmann::json jsonData;
+			jsonData["CoreMin"] = slider_Core_Min().Value();
+			jsonData["CoreMax"] = slider_Core_Max().Value();
+			jsonData["MemoryTiming"] = combobox_Memory_Timing().SelectedIndex();
+			jsonData["MemoryMax"] = slider_Memory_Max().Value();
+			jsonData["PowerLimit"] = slider_Power_Limit().Value();
+			jsonData["PowerVoltage"] = slider_Power_Voltage().Value();
+			jsonData["PowerTDC"] = slider_Power_TDC().Value();
+			jsonData["FanZeroRpm"] = toggleswitch_Fan_Zero_Rpm().IsOn();
+			jsonData["FanSpeed0"] = slider_Fan_Speed_0().Value();
+			jsonData["FanTemp0"] = slider_Fan_Temp_0().Value();
+			jsonData["FanSpeed1"] = slider_Fan_Speed_1().Value();
+			jsonData["FanTemp1"] = slider_Fan_Temp_1().Value();
+			jsonData["FanSpeed2"] = slider_Fan_Speed_2().Value();
+			jsonData["FanTemp2"] = slider_Fan_Temp_2().Value();
+			jsonData["FanSpeed3"] = slider_Fan_Speed_3().Value();
+			jsonData["FanTemp3"] = slider_Fan_Temp_3().Value();
+			jsonData["FanSpeed4"] = slider_Fan_Speed_4().Value();
+			jsonData["FanTemp4"] = slider_Fan_Temp_4().Value();
 
-			//Save export string
-			string_to_file(wchar_to_string(lpstrFileName), vector_to_string(stringVector, "\n"));
+			//Convert json to string
+			std::string jsonString = jsonData.dump();
+
+			//Save settings file
+			string_to_file(wchar_to_string(lpstrFileName), jsonString);
 
 			//Set result
 			textblock_Status().Text(L"Tuning and fans exported");
