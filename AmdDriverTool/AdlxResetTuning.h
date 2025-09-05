@@ -29,8 +29,8 @@ namespace winrt::AmdDriverTool::implementation
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Failed resetting tuning and fans");
-			AVDebugWriteLine(L"Failed resetting tuning and fans");
+			textblock_Status().Text(L"Tuning and fans reset exception");
+			AVDebugWriteLine(L"Tuning and fans reset exception");
 			return false;
 		}
 	}

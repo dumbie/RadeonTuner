@@ -85,13 +85,13 @@
 
                         <StackPanel Orientation="Horizontal">
                             <!-- Gpu Select -->
-                            <ComboBox x:Name="combobox_GpuSelect" SelectedIndex="0" IsEnabled="False" Style="{ThemeResource ApplicationComboBox}"/>
+                            <ComboBox x:Name="combobox_GpuSelect" IsEnabled="False" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_GpuSelect_SelectionChanged"/>
 
                             <!-- Display Select -->
-                            <ComboBox x:Name="combobox_DisplaySelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}"/>
+                            <ComboBox x:Name="combobox_DisplaySelect" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_DisplaySelect_SelectionChanged"/>
 
                             <!-- Application Select -->
-                            <ComboBox x:Name="combobox_AppSelect" SelectedIndex="0" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}"/>
+                            <ComboBox x:Name="combobox_AppSelect" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_AppSelect_SelectionChanged"/>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -315,10 +315,10 @@
                         <!-- Tuning -->
                         <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
                             <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Apply" Click="button_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Reset" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Import" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Export" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
 
                             <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
@@ -389,10 +389,10 @@
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
                             <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Apply_Fan" Click="button_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Reset_Fan" Click="button_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Import_Fan" Click="button_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Export_Fan" Click="button_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
+                                <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
                             </StackPanel>
 
                             <TextBlock Text="Fans Options" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>

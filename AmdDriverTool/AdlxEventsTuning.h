@@ -5,7 +5,51 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	bool MainPage::AdlxValuesApply()
+	void MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			adlx_Bool = AdlxApplyTuning();
+			if (adlx_Bool)
+			{
+				AdlxValuesLoadSelectGpu();
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			adlx_Bool = AdlxResetTuning();
+			if (adlx_Bool)
+			{
+				AdlxValuesLoadSelectGpu();
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			AdlxValuesImport();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Tuning_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			AdlxValuesExport();
+		}
+		catch (...) {}
+	}
+
+	bool MainPage::AdlxApplyTuning()
 	{
 		try
 		{

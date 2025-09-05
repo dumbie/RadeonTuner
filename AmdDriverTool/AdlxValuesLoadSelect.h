@@ -11,59 +11,51 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
-	void MainPage::AdlxValuesLoadSelect()
+	//Fix ADLX missing Surface Format Optimization
+	//Fix ADLX missing OpenGL Triple Buffering
+	//Fix ADLX missing 10-Bit Pixel Format
+	//Fix ADLX missing Display Color Enhancement
+	//Fix ADLX missing Color Deficiency Correction
+	//Fix ADLX missing AMD Privacy View
+	//Fix ADLX missing AMD Noise Suppression
+	//Fix ADLX missing Platform Compatibility (Group A, B, C)
+	//Fix GetCustomResolution support (Custom Resolution Utility)
+	//Fix IADLXEyefinityDesktop support
+	//Fix Get3DLUT support
+	//Fix GetGamut support
+	//Fix GetGamma support
+
+	void MainPage::AdlxValuesLoadSelectApp()
 	{
 		try
 		{
-			//Fix ADLX missing Surface Format Optimization
-			//Fix ADLX missing OpenGL Triple Buffering
-			//Fix ADLX missing 10-Bit Pixel Format
-			//Fix ADLX missing Display Color Enhancement
-			//Fix ADLX missing Color Deficiency Correction
-			//Fix ADLX missing AMD Privacy View
-			//Fix ADLX missing AMD Noise Suppression
-			//Fix ADLX missing Platform Compatibility (Group A, B, C)
-			//Fix GetCustomResolution support (Custom Resolution Utility)
-			//Fix IADLXEyefinityDesktop support
-			//Fix Get3DLUT support
-			//Fix GetGamut support
-			//Fix GetGamma support
-
 			//Disable saving
 			disable_saving = true;
 
-			//Get selected GPU
-			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
-			ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
-			if (ppGpuInfo == NULL)
-			{
-				AVDebugWriteLine("Failed getting selected gpu.");
-				return;
-			}
+			//Enable saving
+			std::thread threadEnableSaving([]()
+				{
+					Sleep(1000);
+					disable_saving = false;
+				});
+			threadEnableSaving.detach();
 
-			//Get selected display
-			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
-			ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
-			if (ppDisplayInfo == NULL)
-			{
-				AVDebugWriteLine("Failed getting selected display.");
-				return;
-			}
+			//Set result
+			AVDebugWriteLine("ADLX loaded app values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("ADLX failed loading app values.");
+		}
+	}
 
-			//Load fans settings
-			AdlxValuesLoadFans();
-
-			//Load graphics settings
-			AdlxValuesLoadGraphics();
-
-			//Load multimedia settings
-			AdlxValuesLoadMultimedia();
-
-			//Load display settings
-			AdlxValuesLoadDisplay();
-
-			//Load tuning settings
-			AdlxValuesLoadTuning();
+	void MainPage::AdlxValuesLoadSelectOther()
+	{
+		try
+		{
+			//Disable saving
+			disable_saving = true;
 
 			//Load power settings
 			AdlxValuesLoadPower();
@@ -77,12 +69,98 @@ namespace winrt::AmdDriverTool::implementation
 			threadEnableSaving.detach();
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded values.");
+			AVDebugWriteLine("ADLX loaded other values.");
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX failed loading values.");
+			AVDebugWriteLine("ADLX failed loading other values.");
+		}
+	}
+
+	void MainPage::AdlxValuesLoadSelectDisplay()
+	{
+		try
+		{
+			//Disable saving
+			disable_saving = true;
+
+			//Get selected display
+			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
+			ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
+			if (ppDisplayInfo == NULL)
+			{
+				AVDebugWriteLine("Failed getting selected display.");
+				return;
+			}
+
+			//Load display settings
+			AdlxValuesLoadDisplay();
+
+			//Enable saving
+			std::thread threadEnableSaving([]()
+				{
+					Sleep(1000);
+					disable_saving = false;
+				});
+			threadEnableSaving.detach();
+
+			//Set result
+			AVDebugWriteLine("ADLX loaded display values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("ADLX failed loading display values.");
+		}
+	}
+
+	void MainPage::AdlxValuesLoadSelectGpu()
+	{
+		try
+		{
+			//Disable saving
+			disable_saving = true;
+
+			//Get selected GPU
+			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
+			ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
+			if (ppGpuInfo == NULL)
+			{
+				AVDebugWriteLine("Failed getting selected gpu.");
+				return;
+			}
+
+			//Load tuning settings
+			AdlxValuesLoadTuning();
+
+			//Load fans settings
+			AdlxValuesLoadFans();
+
+			//Load graphics settings
+			AdlxValuesLoadGraphics();
+
+			//Load multimedia settings
+			AdlxValuesLoadMultimedia();
+
+			//Load gpu information
+			AdlxInfoLoad();
+
+			//Enable saving
+			std::thread threadEnableSaving([]()
+				{
+					Sleep(1000);
+					disable_saving = false;
+				});
+			threadEnableSaving.detach();
+
+			//Set result
+			AVDebugWriteLine("ADLX loaded gpu values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("ADLX failed loading gpu values.");
 		}
 	}
 }

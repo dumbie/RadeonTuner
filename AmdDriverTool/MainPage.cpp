@@ -11,7 +11,6 @@
 
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
-#include "AdlxValuesApply.h"
 #include "AdlxValuesExport.h"
 #include "AdlxValuesImport.h"
 
@@ -24,6 +23,7 @@
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsPower.h"
+#include "AdlxEventsTuning.h"
 
 #include "SettingEvents.h"
 #include "SettingLoad.h"
@@ -39,9 +39,6 @@ namespace winrt::AmdDriverTool::implementation
 	{
 		try
 		{
-			//Select default indexes
-			listbox_Main().SelectedIndex(0);
-
 			////Initialize adl
 			//std::wstring initResult_Adl = AdlInitialize();
 			//if (!initResult_Adl.empty())
@@ -70,14 +67,17 @@ namespace winrt::AmdDriverTool::implementation
 			//Prepare adl values
 			//AdlValuesPrepare();
 
-			//Load adlx values
-			AdlxValuesLoadSelect();
-
-			//Load adlx info
-			AdlxInfoLoad();
-
 			//Load settings
 			SettingLoad();
+
+			//Load other values
+			AdlxValuesLoadSelectOther();
+
+			//Select default indexes
+			listbox_Main().SelectedIndex(0);
+			combobox_GpuSelect().SelectedIndex(0);
+			combobox_DisplaySelect().SelectedIndex(0);
+			combobox_AppSelect().SelectedIndex(0);
 
 			//Start adlx update loop
 			std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
@@ -103,13 +103,20 @@ namespace winrt::AmdDriverTool::implementation
 			stackpanel_Settings().Visibility(Visibility::Collapsed);
 			stackpanel_Information().Visibility(Visibility::Collapsed);
 
+			//Disable selection boxes
+			combobox_GpuSelect().IsEnabled(false);
+			combobox_DisplaySelect().IsEnabled(false);
+			combobox_AppSelect().IsEnabled(false);
+
 			//Make selected page visible
 			if (selectedIndex == 0)
 			{
+				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Tuning().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 1)
 			{
+				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Fans().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 2)
@@ -118,14 +125,18 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else if (selectedIndex == 3)
 			{
+				combobox_AppSelect().IsEnabled(true);
+				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 4)
 			{
+				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Display().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 5)
 			{
+				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 6)
@@ -134,49 +145,39 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else if (selectedIndex == 7)
 			{
+				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Information().Visibility(Visibility::Visible);
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::combobox_GpuSelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
 	{
 		try
 		{
-			adlx_Bool = AdlxValuesApply();
-			if (adlx_Bool)
-			{
-				AdlxValuesLoadSelect();
-			}
+			//Load adlx values
+			AdlxValuesLoadSelectGpu();
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::combobox_DisplaySelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
 	{
 		try
 		{
-			AdlxResetTuning();
-			AdlxValuesLoadSelect();
+			//Load adlx values
+			AdlxValuesLoadSelectDisplay();
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::combobox_AppSelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
 	{
 		try
 		{
-			AdlxValuesImport();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::button_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			AdlxValuesExport();
+			//Load adlx values
+			AdlxValuesLoadSelectApp();
 		}
 		catch (...) {}
 	}

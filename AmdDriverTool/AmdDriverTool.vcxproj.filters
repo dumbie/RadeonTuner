@@ -177,7 +177,7 @@
     <ClInclude Include="ADLX\Include\ISystem2.h">
       <Filter>Include Files\ADLX</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesApply.h">
+    <ClInclude Include="AdlxEventsTuning.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesImport.h">

@@ -11,7 +11,10 @@ namespace winrt::AmdDriverTool::implementation
 		void AdlValuesPrepare();
 
 		std::wstring AdlxInitialize();
-		void AdlxValuesLoadSelect();
+		void AdlxValuesLoadSelectApp();
+		void AdlxValuesLoadSelectOther();
+		void AdlxValuesLoadSelectGpu();
+		void AdlxValuesLoadSelectDisplay();
 		void AdlxValuesLoadFans();
 		void AdlxValuesLoadGraphics();
 		void AdlxValuesLoadMultimedia();
@@ -21,7 +24,7 @@ namespace winrt::AmdDriverTool::implementation
 		void AdlxValuesExport();
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();
-		bool AdlxValuesApply();
+		bool AdlxApplyTuning();
 		bool AdlxResetTuning();
 		void AdlxInfoLoad();
 		void AdlxUpdateLoop();
@@ -31,10 +34,10 @@ namespace winrt::AmdDriverTool::implementation
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
-		void button_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Tuning_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Donation_Click(IInspectable const& sender, RoutedEventArgs const& e);
 
@@ -92,6 +95,9 @@ namespace winrt::AmdDriverTool::implementation
 		void slider_SmartShiftMaxBias_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_GpuSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_DisplaySelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_AppSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 

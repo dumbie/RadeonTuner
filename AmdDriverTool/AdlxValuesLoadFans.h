@@ -104,10 +104,10 @@ namespace winrt::AmdDriverTool::implementation
 				slider_Fan_Temp_4().StepFrequency(adlx_IntRange0.step);
 
 				//Enable buttons
-				button_Apply_Fan().IsEnabled(true);
-				button_Reset_Fan().IsEnabled(true);
-				button_Import_Fan().IsEnabled(true);
-				button_Export_Fan().IsEnabled(true);
+				button_Fan_Apply().IsEnabled(true);
+				button_Fan_Reset().IsEnabled(true);
+				button_Fan_Import().IsEnabled(true);
+				button_Fan_Export().IsEnabled(true);
 
 				//Update fan graph
 				UpdateFanGraph();
@@ -115,10 +115,10 @@ namespace winrt::AmdDriverTool::implementation
 			else
 			{
 				//Disable buttons
-				button_Apply_Fan().IsEnabled(false);
-				button_Reset_Fan().IsEnabled(false);
-				button_Import_Fan().IsEnabled(false);
-				button_Export_Fan().IsEnabled(false);
+				button_Fan_Apply().IsEnabled(false);
+				button_Fan_Reset().IsEnabled(false);
+				button_Fan_Import().IsEnabled(false);
+				button_Fan_Export().IsEnabled(false);
 
 				slider_Fan_Temp_0().IsEnabled(false);
 				slider_Fan_Speed_0().IsEnabled(false);

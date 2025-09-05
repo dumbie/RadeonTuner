@@ -92,7 +92,7 @@
     <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxEventsPower.h" />
     <ClInclude Include="AdlxResetDisplay.h" />
-    <ClInclude Include="AdlxValuesApply.h" />
+    <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadFans.h" />
     <ClInclude Include="AdlxValuesLoadGraphics.h" />
