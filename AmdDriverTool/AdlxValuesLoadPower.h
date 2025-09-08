@@ -28,14 +28,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppSmartShiftEco->IsEnabled(&adlx_Bool);
 					toggleswitch_SmartShiftEco().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_SmartShiftEco().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_SmartShiftEco().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_SmartShiftEco().IsEnabled(false);
 			}
 
@@ -52,7 +57,16 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppSmartShiftMax->GetBiasMode(&currentMode);
 					combobox_SmartShiftMaxMode().SelectedIndex(currentMode);
 
-					//Check setting mode
+					//Set setting bias
+					adlx_Res0 = ppSmartShiftMax->GetBias(&adlx_Int0);
+					adlx_Res0 = ppSmartShiftMax->GetBiasRange(&adlx_IntRange0);
+					slider_SmartShiftMaxBias().Value(adlx_Int0);
+					slider_SmartShiftMaxBias().Minimum(adlx_IntRange0.minValue);
+					slider_SmartShiftMaxBias().Maximum(adlx_IntRange0.maxValue);
+					slider_SmartShiftMaxBias().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					combobox_SmartShiftMaxMode().IsEnabled(true);
 					if (currentMode == ADLX_SSM_BIAS_MODE::SSM_BIAS_AUTO)
 					{
 						slider_SmartShiftMaxBias().IsEnabled(false);
@@ -61,23 +75,17 @@ namespace winrt::AmdDriverTool::implementation
 					{
 						slider_SmartShiftMaxBias().IsEnabled(true);
 					}
-
-					//Set setting bias
-					adlx_Res0 = ppSmartShiftMax->GetBias(&adlx_Int0);
-					adlx_Res0 = ppSmartShiftMax->GetBiasRange(&adlx_IntRange0);
-					slider_SmartShiftMaxBias().Value(adlx_Int0);
-					slider_SmartShiftMaxBias().Minimum(adlx_IntRange0.minValue);
-					slider_SmartShiftMaxBias().Maximum(adlx_IntRange0.maxValue);
-					slider_SmartShiftMaxBias().StepFrequency(adlx_IntRange0.step);
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_SmartShiftMaxMode().IsEnabled(false);
 					slider_SmartShiftMaxBias().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_SmartShiftMaxMode().IsEnabled(false);
 				slider_SmartShiftMaxBias().IsEnabled(false);
 			}

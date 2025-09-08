@@ -28,14 +28,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppVideoSuperResolution->IsEnabled(&adlx_Bool);
 					toggleswitch_VideoSuperResolution().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_VideoSuperResolution().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_VideoSuperResolution().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_VideoSuperResolution().IsEnabled(false);
 			}
 
@@ -57,19 +62,27 @@ namespace winrt::AmdDriverTool::implementation
 					slider_VideoUpscale_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_VideoUpscale_Sharpening().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_VideoUpscale().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_VideoUpscale_Sharpening().IsEnabled(true);
+					}
+					else
 					{
 						slider_VideoUpscale_Sharpening().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_VideoUpscale().IsEnabled(false);
 					slider_VideoUpscale_Sharpening().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_VideoUpscale().IsEnabled(false);
 				slider_VideoUpscale_Sharpening().IsEnabled(false);
 			}

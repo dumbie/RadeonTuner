@@ -50,9 +50,15 @@ namespace winrt::AmdDriverTool::implementation
 
 					adlx_Res0 = ppManualGFXTuning->GetGPUVoltage(&adlx_Int0);
 					slider_Power_Voltage().Value(adlx_Int0);
+
+					//Enable or disable interface
+					slider_Core_Min().IsEnabled(true);
+					slider_Core_Max().IsEnabled(true);
+					slider_Power_Voltage().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Core_Min().IsEnabled(false);
 					slider_Core_Max().IsEnabled(false);
 					slider_Power_Voltage().IsEnabled(false);
@@ -60,6 +66,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Core_Min().IsEnabled(false);
 				slider_Core_Max().IsEnabled(false);
 				slider_Power_Voltage().IsEnabled(false);
@@ -82,6 +89,9 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppManualVRAMTuning->GetMaxVRAMFrequency(&adlx_Int0);
 					slider_Memory_Max().Value(adlx_Int0);
 
+					//Enable or disable interface
+					slider_Memory_Max().IsEnabled(true);
+
 					//Get memory timing settting
 					adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
 					if (adlx_Bool)
@@ -89,20 +99,26 @@ namespace winrt::AmdDriverTool::implementation
 						ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
 						adlx_Res0 = ppManualVRAMTuning->GetMemoryTimingDescription(&memoryTimingDescription);
 						combobox_Memory_Timing().SelectedIndex(memoryTimingDescription);
+
+						//Enable or disable interface
+						combobox_Memory_Timing().IsEnabled(true);
 					}
 					else
 					{
+						//Enable or disable interface
 						combobox_Memory_Timing().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Memory_Max().IsEnabled(false);
 					combobox_Memory_Timing().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Memory_Max().IsEnabled(false);
 				combobox_Memory_Timing().IsEnabled(false);
 			}
@@ -124,6 +140,9 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppManualPowerTuning->GetPowerLimit(&adlx_Int0);
 					slider_Power_Limit().Value(adlx_Int0);
 
+					//Enable or disable interface
+					slider_Power_Limit().IsEnabled(true);
+
 					//Get power tdc settting
 					adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
 					if (adlx_Bool)
@@ -135,20 +154,26 @@ namespace winrt::AmdDriverTool::implementation
 
 						adlx_Res0 = ppManualPowerTuning->GetTDCLimit(&adlx_Int0);
 						slider_Power_TDC().Value(adlx_Int0);
+
+						//Enable or disable interface
+						slider_Power_TDC().IsEnabled(true);
 					}
 					else
 					{
+						//Enable or disable interface
 						slider_Power_TDC().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Power_Limit().IsEnabled(false);
 					slider_Power_TDC().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Power_Limit().IsEnabled(false);
 				slider_Power_TDC().IsEnabled(false);
 			}

@@ -29,18 +29,18 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppFreeSync->IsEnabled(&adlx_Bool);
 					toggleswitch_FreeSync().IsOn(adlx_Bool);
 
-					if (!adlx_Bool)
-					{
-						toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
-					}
+					//Enable or disable interface
+					toggleswitch_FreeSync().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_FreeSync().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_FreeSync().IsEnabled(false);
 			}
 
@@ -54,14 +54,26 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppFSCA->IsEnabled(&adlx_Bool);
 					toggleswitch_FreeSyncColorAccuracy().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					if (toggleswitch_FreeSync().IsOn())
+					{
+						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
+					}
+					else
+					{
+						toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 			}
 
@@ -75,14 +87,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppVSR->IsEnabled(&adlx_Bool);
 					toggleswitch_VSR().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_VSR().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_VSR().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_VSR().IsEnabled(false);
 			}
 
@@ -96,14 +113,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppDRRC->IsEnabled(&adlx_Bool);
 					toggleswitch_DynamicRefreshRateControl().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_DynamicRefreshRateControl().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
 			}
 
@@ -117,14 +139,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppGPUScaling->IsEnabled(&adlx_Bool);
 					toggleswitch_GPUScaling().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_GPUScaling().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_GPUScaling().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_GPUScaling().IsEnabled(false);
 			}
 
@@ -138,14 +165,26 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
 					toggleswitch_IntegerScaling().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					if (toggleswitch_GPUScaling().IsOn())
+					{
+						toggleswitch_IntegerScaling().IsEnabled(true);
+					}
+					else
+					{
+						toggleswitch_IntegerScaling().IsEnabled(false);
+					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_IntegerScaling().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_IntegerScaling().IsEnabled(false);
 			}
 
@@ -160,14 +199,19 @@ namespace winrt::AmdDriverTool::implementation
 					ADLX_SCALE_MODE currentMode;
 					adlx_Res0 = ppScalingMode->GetMode(&currentMode);
 					combobox_Display_ScalingMode().SelectedIndex(currentMode);
+
+					//Enable or disable interface
+					combobox_Display_ScalingMode().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_Display_ScalingMode().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_Display_ScalingMode().IsEnabled(false);
 			}
 
@@ -185,14 +229,19 @@ namespace winrt::AmdDriverTool::implementation
 					{
 						combobox_Display_ColorDepth().SelectedIndex(colorDepth - 1);
 					}
+
+					//Enable or disable interface
+					combobox_Display_ColorDepth().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_Display_ColorDepth().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_Display_ColorDepth().IsEnabled(false);
 			}
 
@@ -210,14 +259,19 @@ namespace winrt::AmdDriverTool::implementation
 					{
 						combobox_Display_PixelFormat().SelectedIndex(pixelFormat - 1);
 					}
+
+					//Enable or disable interface
+					combobox_Display_PixelFormat().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_Display_PixelFormat().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_Display_PixelFormat().IsEnabled(false);
 			}
 
@@ -237,9 +291,13 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_ColorTemperature().Minimum(adlx_IntRange0.minValue);
 					slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_Display_ColorTemperature().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Display_ColorTemperature().IsEnabled(false);
 				}
 
@@ -253,9 +311,13 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_Brightness().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Brightness().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Brightness().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_Display_Brightness().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Display_Brightness().IsEnabled(false);
 				}
 
@@ -269,9 +331,13 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_Contrast().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Contrast().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Contrast().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_Display_Contrast().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Display_Contrast().IsEnabled(false);
 				}
 
@@ -285,9 +351,13 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_Saturation().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Saturation().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Saturation().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_Display_Saturation().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Display_Saturation().IsEnabled(false);
 				}
 
@@ -301,14 +371,19 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_Hue().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Hue().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Hue().StepFrequency(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_Display_Hue().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Display_Hue().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Display_ColorTemperature().IsEnabled(false);
 				slider_Display_Brightness().IsEnabled(false);
 				slider_Display_Contrast().IsEnabled(false);
@@ -328,14 +403,15 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppVariBright->IsEnabled(&adlx_Bool);
 					toggleswitch_VariBright().IsOn(adlx_Bool);
 
-					//Check setting mode
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_VariBright().IsEnabled(true);
+					if (adlx_Bool)
 					{
-						combobox_Display_VariBright_Level().IsEnabled(false);
+						combobox_Display_VariBright_Level().IsEnabled(true);
 					}
 					else
 					{
-						combobox_Display_VariBright_Level().IsEnabled(true);
+						combobox_Display_VariBright_Level().IsEnabled(false);
 					}
 
 					//Set Vari-Bright Level
@@ -367,12 +443,14 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_Display_VariBright_Level().IsEnabled(false);
 					toggleswitch_VariBright().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_Display_VariBright_Level().IsEnabled(false);
 				toggleswitch_VariBright().IsEnabled(false);
 			}
@@ -387,14 +465,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppHDCP->IsEnabled(&adlx_Bool);
 					toggleswitch_HDCPSupport().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_HDCPSupport().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_HDCPSupport().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_HDCPSupport().IsEnabled(false);
 			}
 
@@ -406,6 +489,7 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativeVoltageSwing(&adlx_Int0);
 				if (ADLX_FAILED(adlx_Res0))
 				{
+					//Enable or disable interface
 					slider_Display_RelativeVoltageSwing().IsEnabled(false);
 				}
 				else
@@ -415,10 +499,14 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_RelativeVoltageSwing().Maximum(2);
 					slider_Display_RelativeVoltageSwing().StepFrequency(1);
 					//Fix find way to check support and get ranges
+
+					//Enable or disable interface
+					slider_Display_RelativeVoltageSwing().IsEnabled(true);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Display_RelativeVoltageSwing().IsEnabled(false);
 			}
 
@@ -430,6 +518,7 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativePreEmphasis(&adlx_Int0);
 				if (ADLX_FAILED(adlx_Res0))
 				{
+					//Enable or disable interface
 					slider_Display_RelativePreEmphasis().IsEnabled(false);
 				}
 				else
@@ -439,10 +528,14 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Display_RelativePreEmphasis().Maximum(2);
 					slider_Display_RelativePreEmphasis().StepFrequency(1);
 					//Fix find way to check support and get ranges
+
+					//Enable or disable interface
+					slider_Display_RelativePreEmphasis().IsEnabled(true);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				slider_Display_RelativePreEmphasis().IsEnabled(false);
 			}
 

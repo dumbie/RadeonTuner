@@ -16,6 +16,9 @@ namespace winrt::AmdDriverTool::implementation
 			IADLXDisplayFreeSyncPtr ppFreeSync;
 			adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
 
+			IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
+			adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
@@ -30,13 +33,20 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
+					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
+					{
+						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
+						//Fix reload settings to get current value
+					}
+
 					textblock_Status().Text(L"AMD FreeSync enabled");
 					AVDebugWriteLine(L"AMD FreeSync enabled");
 				}
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 
 				adlx_Res0 = ppFreeSync->SetEnabled(false);
@@ -425,21 +435,26 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
 					if (adlx_Bool)
 					{
 						toggleswitch_IntegerScaling().IsEnabled(true);
+						//Fix reload settings to get current value (*1)
 					}
+
 					textblock_Status().Text(L"GPU Scaling enabled");
 					AVDebugWriteLine(L"GPU Scaling enabled");
 				}
 			}
 			else
 			{
-				//Check setting mode
+				//Reset toggle switch (*1)
 				disable_saving = true;
 				toggleswitch_IntegerScaling().IsOn(false);
 				disable_saving = false;
+
+				//Enable or disable interface
 				toggleswitch_IntegerScaling().IsEnabled(false);
 
 				adlx_Res0 = ppGPUScaling->SetEnabled(false);
@@ -584,9 +599,9 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
-					//Check setting mode
+					//Enable or disable interface
 					combobox_Display_VariBright_Level().IsEnabled(true);
-					//Fix reload settings to get correct mode
+					//Fix reload settings to get current value
 
 					textblock_Status().Text(L"Vari-Bright enabled");
 					AVDebugWriteLine(L"Vari-Bright enabled");
@@ -594,7 +609,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				combobox_Display_VariBright_Level().IsEnabled(false);
 
 				adlx_Res0 = ppVariBright->SetEnabled(false);

@@ -36,19 +36,27 @@ namespace winrt::AmdDriverTool::implementation
 					slider_RadeonSuperResolution_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonSuperResolution_Sharpening().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_RadeonSuperResolution().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
+					}
+					else
 					{
 						slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonSuperResolution().IsEnabled(false);
 					slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonSuperResolution().IsEnabled(false);
 				slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 			}
@@ -63,14 +71,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = pp3DAMDFluidMotionFrames->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonFluidMotionFrames().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_RadeonFluidMotionFrames().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
 			}
 
@@ -84,14 +97,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = pp3DAntiLag->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonAntiLag().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_RadeonAntiLag().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonAntiLag().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonAntiLag().IsEnabled(false);
 			}
 
@@ -113,19 +131,27 @@ namespace winrt::AmdDriverTool::implementation
 					slider_RadeonBoost_MinRes().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonBoost_MinRes().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_RadeonBoost().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_RadeonBoost_MinRes().IsEnabled(true);
+					}
+					else
 					{
 						slider_RadeonBoost_MinRes().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonBoost().IsEnabled(false);
 					slider_RadeonBoost_MinRes().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonBoost().IsEnabled(false);
 				slider_RadeonBoost_MinRes().IsEnabled(false);
 			}
@@ -153,7 +179,14 @@ namespace winrt::AmdDriverTool::implementation
 					slider_RadeonChill_Max().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonChill_Max().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_RadeonChill().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_RadeonChill_Min().IsEnabled(true);
+						slider_RadeonChill_Max().IsEnabled(true);
+					}
+					else
 					{
 						slider_RadeonChill_Min().IsEnabled(false);
 						slider_RadeonChill_Max().IsEnabled(false);
@@ -161,6 +194,7 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonChill().IsEnabled(false);
 					slider_RadeonChill_Min().IsEnabled(false);
 					slider_RadeonChill_Max().IsEnabled(false);
@@ -168,6 +202,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonChill().IsEnabled(false);
 				slider_RadeonChill_Min().IsEnabled(false);
 				slider_RadeonChill_Max().IsEnabled(false);
@@ -191,20 +226,27 @@ namespace winrt::AmdDriverTool::implementation
 					slider_RadeonImageSharpening_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonImageSharpening_Sharpening().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_RadeonImageSharpening().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
+					}
+					else
 					{
 						slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
-						toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonImageSharpening().IsEnabled(false);
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening().IsEnabled(false);
 				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 			}
@@ -219,14 +261,26 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = pp3DImageSharpenDesktop->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonSharpenDesktop().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					if (toggleswitch_RadeonImageSharpening().IsOn())
+					{
+						toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
+					}
+					else
+					{
+						toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
+					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 			}
 
@@ -241,14 +295,19 @@ namespace winrt::AmdDriverTool::implementation
 					ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE verticalRefreshMode;
 					adlx_Res0 = pp3DWaitForVerticalRefresh->GetMode(&verticalRefreshMode);
 					combobox_VerticalRefresh().SelectedIndex(verticalRefreshMode);
+
+					//Enable or disable interface
+					combobox_VerticalRefresh().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_VerticalRefresh().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_VerticalRefresh().IsEnabled(false);
 			}
 
@@ -262,14 +321,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = pp3DEnhancedSync->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonEnhancedSync().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_RadeonEnhancedSync().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 			}
 
@@ -291,19 +355,27 @@ namespace winrt::AmdDriverTool::implementation
 					slider_Frtc_Max().Maximum(adlx_IntRange0.maxValue);
 					slider_Frtc_Max().StepFrequency(adlx_IntRange0.step);
 
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_Frtc().IsEnabled(true);
+					if (adlx_Bool)
+					{
+						slider_Frtc_Max().IsEnabled(true);
+					}
+					else
 					{
 						slider_Frtc_Max().IsEnabled(false);
 					}
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_Frtc().IsEnabled(false);
 					slider_Frtc_Max().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_Frtc().IsEnabled(false);
 				slider_Frtc_Max().IsEnabled(false);
 			}
@@ -326,16 +398,6 @@ namespace winrt::AmdDriverTool::implementation
 
 					ADLX_ANTI_ALIASING_LEVEL currentLevel;
 					adlx_Res0 = pp3DAntiAliasing->GetLevel(&currentLevel);
-
-					//Check setting mode
-					if (currentMode != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
-					{
-						combobox_AntiAliasingLevel().IsEnabled(false);
-					}
-					else
-					{
-						combobox_AntiAliasingLevel().IsEnabled(true);
-					}
 
 					//Enumeration index correction
 					if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2X)
@@ -366,9 +428,22 @@ namespace winrt::AmdDriverTool::implementation
 					{
 						AVDebugWriteLine("No Anti-Aliasing level set.");
 					}
+
+					//Enable or disable interface
+					combobox_AntiAliasingMode().IsEnabled(true);
+					combobox_AntiAliasingMethod().IsEnabled(true);
+					if (currentMode != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
+					{
+						combobox_AntiAliasingLevel().IsEnabled(false);
+					}
+					else
+					{
+						combobox_AntiAliasingLevel().IsEnabled(true);
+					}
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_AntiAliasingMode().IsEnabled(false);
 					combobox_AntiAliasingMethod().IsEnabled(false);
 					combobox_AntiAliasingLevel().IsEnabled(false);
@@ -376,6 +451,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_AntiAliasingMode().IsEnabled(false);
 				combobox_AntiAliasingMethod().IsEnabled(false);
 				combobox_AntiAliasingLevel().IsEnabled(false);
@@ -391,14 +467,19 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = pp3DMorphologicalAntiAliasing->IsEnabled(&adlx_Bool);
 					toggleswitch_MorphologicAntiAliasing().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_MorphologicAntiAliasing().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_MorphologicAntiAliasing().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_MorphologicAntiAliasing().IsEnabled(false);
 			}
 
@@ -414,14 +495,15 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = pp3DAnisotropicFiltering->IsEnabled(&adlx_Bool);
 					toggleswitch_AnisotropicTextureFiltering().IsOn(adlx_Bool);
 
-					//Check setting mode
-					if (!adlx_Bool)
+					//Enable or disable interface
+					toggleswitch_AnisotropicTextureFiltering().IsEnabled(true);
+					if (adlx_Bool)
 					{
-						combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
+						combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
 					}
 					else
 					{
-						combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
+						combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 					}
 
 					//Set Anisotropic Level
@@ -452,12 +534,14 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_AnisotropicTextureFiltering().IsEnabled(false);
 					combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				toggleswitch_AnisotropicTextureFiltering().IsEnabled(false);
 				combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 			}
@@ -476,16 +560,6 @@ namespace winrt::AmdDriverTool::implementation
 
 					ADLX_TESSELLATION_LEVEL currentLevel;
 					adlx_Res0 = pp3DTessellation->GetLevel(&currentLevel);
-
-					//Check setting mode
-					if (currentMode != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
-					{
-						combobox_Tessellation_Level().IsEnabled(false);
-					}
-					else
-					{
-						combobox_Tessellation_Level().IsEnabled(true);
-					}
 
 					//Enumeration index correction
 					if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_OFF)
@@ -520,15 +594,28 @@ namespace winrt::AmdDriverTool::implementation
 					{
 						combobox_Tessellation_Level().SelectedIndex(7);
 					}
+
+					//Enable or disable interface
+					combobox_Tessellation_Mode().IsEnabled(true);
+					if (currentMode != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
+					{
+						combobox_Tessellation_Level().IsEnabled(false);
+					}
+					else
+					{
+						combobox_Tessellation_Level().IsEnabled(true);
+					}
 				}
 				else
 				{
+					//Enable or disable interface
 					combobox_Tessellation_Mode().IsEnabled(false);
 					combobox_Tessellation_Level().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
+				//Enable or disable interface
 				combobox_Tessellation_Mode().IsEnabled(false);
 				combobox_Tessellation_Level().IsEnabled(false);
 			}

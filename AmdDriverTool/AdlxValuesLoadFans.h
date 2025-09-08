@@ -31,9 +31,13 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					adlx_Res0 = ppManualFanTuning->GetZeroRPMState(&adlx_Bool);
 					toggleswitch_Fan_Zero_Rpm().IsOn(adlx_Bool);
+
+					//Enable or disable interface
+					toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
 				}
 				else
 				{
+					//Enable or disable interface
 					toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
 				}
 
@@ -103,7 +107,17 @@ namespace winrt::AmdDriverTool::implementation
 				slider_Fan_Temp_4().Maximum(adlx_IntRange0.maxValue);
 				slider_Fan_Temp_4().StepFrequency(adlx_IntRange0.step);
 
-				//Enable buttons
+				//Enable or disable interface
+				slider_Fan_Temp_0().IsEnabled(true);
+				slider_Fan_Speed_0().IsEnabled(true);
+				slider_Fan_Temp_1().IsEnabled(true);
+				slider_Fan_Speed_1().IsEnabled(true);
+				slider_Fan_Temp_2().IsEnabled(true);
+				slider_Fan_Speed_2().IsEnabled(true);
+				slider_Fan_Temp_3().IsEnabled(true);
+				slider_Fan_Speed_3().IsEnabled(true);
+				slider_Fan_Temp_4().IsEnabled(true);
+				slider_Fan_Speed_4().IsEnabled(true);
 				button_Fan_Apply().IsEnabled(true);
 				button_Fan_Reset().IsEnabled(true);
 				button_Fan_Import().IsEnabled(true);
@@ -114,12 +128,8 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Disable buttons
-				button_Fan_Apply().IsEnabled(false);
-				button_Fan_Reset().IsEnabled(false);
-				button_Fan_Import().IsEnabled(false);
-				button_Fan_Export().IsEnabled(false);
-
+				//Enable or disable interface
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
 				slider_Fan_Temp_0().IsEnabled(false);
 				slider_Fan_Speed_0().IsEnabled(false);
 				slider_Fan_Temp_1().IsEnabled(false);
@@ -130,7 +140,10 @@ namespace winrt::AmdDriverTool::implementation
 				slider_Fan_Speed_3().IsEnabled(false);
 				slider_Fan_Temp_4().IsEnabled(false);
 				slider_Fan_Speed_4().IsEnabled(false);
-				toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+				button_Fan_Apply().IsEnabled(false);
+				button_Fan_Reset().IsEnabled(false);
+				button_Fan_Import().IsEnabled(false);
+				button_Fan_Export().IsEnabled(false);
 			}
 
 			//Set result
@@ -138,6 +151,8 @@ namespace winrt::AmdDriverTool::implementation
 		}
 		catch (...)
 		{
+			//Enable or disable interface
+			toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
 			slider_Fan_Temp_0().IsEnabled(false);
 			slider_Fan_Speed_0().IsEnabled(false);
 			slider_Fan_Temp_1().IsEnabled(false);
@@ -148,7 +163,10 @@ namespace winrt::AmdDriverTool::implementation
 			slider_Fan_Speed_3().IsEnabled(false);
 			slider_Fan_Temp_4().IsEnabled(false);
 			slider_Fan_Speed_4().IsEnabled(false);
-			toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+			button_Fan_Apply().IsEnabled(false);
+			button_Fan_Reset().IsEnabled(false);
+			button_Fan_Import().IsEnabled(false);
+			button_Fan_Export().IsEnabled(false);
 
 			//Set result
 			AVDebugWriteLine("ADLX failed loading fan values.");

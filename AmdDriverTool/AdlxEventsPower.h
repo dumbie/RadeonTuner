@@ -68,7 +68,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				if (newValue == ADLX_SSM_BIAS_MODE::SSM_BIAS_AUTO)
 				{
 					slider_SmartShiftMaxBias().IsEnabled(false);
@@ -76,7 +76,7 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					slider_SmartShiftMaxBias().IsEnabled(true);
-					//Fix reload settings to get correct mode
+					//Fix reload settings to get current value
 				}
 
 				//Set result

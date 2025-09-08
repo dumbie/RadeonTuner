@@ -61,7 +61,6 @@ namespace winrt::AmdDriverTool::implementation
 				adlx_Res0 = ppVideoupscale->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					slider_VideoUpscale_Sharpening().IsEnabled(false);
 					textblock_Status().Text(L"Failed enabling Video Upscale");
 					AVDebugWriteLine(L"Failed enabling Video Upscale");
 					disable_saving = true;
@@ -70,15 +69,20 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_VideoUpscale_Sharpening().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"Video Upscale enabled");
 					AVDebugWriteLine(L"Video Upscale enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppVideoupscale->SetEnabled(false);
+				//Enable or disable interface
 				slider_VideoUpscale_Sharpening().IsEnabled(false);
+
+				adlx_Res0 = ppVideoupscale->SetEnabled(false);
 				textblock_Status().Text(L"Video Upscale disabled");
 				AVDebugWriteLine(L"Video Upscale disabled");
 			}

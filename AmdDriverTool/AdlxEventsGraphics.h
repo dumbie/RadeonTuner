@@ -30,15 +30,20 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"Super Resolution enabled");
 					AVDebugWriteLine(L"Super Resolution enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(false);
+				//Enable or disable interface
 				slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+
+				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(false);
 				textblock_Status().Text(L"Super Resolution disabled");
 				AVDebugWriteLine(L"Super Resolution disabled");
 			}
@@ -251,17 +256,22 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_RadeonChill_Min().IsEnabled(true);
 					slider_RadeonChill_Max().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"Radeon Chill enabled");
 					AVDebugWriteLine(L"Radeon Chill enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = pp3DChill->SetEnabled(false);
+				//Enable or disable interface
 				slider_RadeonChill_Min().IsEnabled(false);
 				slider_RadeonChill_Max().IsEnabled(false);
+
+				adlx_Res0 = pp3DChill->SetEnabled(false);
 				textblock_Status().Text(L"Radeon Chill disabled");
 				AVDebugWriteLine(L"Radeon Chill disabled");
 			}
@@ -370,15 +380,20 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_RadeonBoost_MinRes().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"Radeon Boost enabled");
 					AVDebugWriteLine(L"Radeon Boost enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = pp3DBoost->SetEnabled(false);
+				//Enable or disable interface
 				slider_RadeonBoost_MinRes().IsEnabled(false);
+
+				adlx_Res0 = pp3DBoost->SetEnabled(false);
 				textblock_Status().Text(L"Radeon Boost disabled");
 				AVDebugWriteLine(L"Radeon Boost disabled");
 			}
@@ -446,21 +461,26 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
 					if (adlx_Bool)
 					{
 						toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
 					}
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
+				//Enable or disable interface
 				toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+
+				adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
 				textblock_Status().Text(L"Image Sharpening disabled");
 				AVDebugWriteLine(L"Image Sharpening disabled");
 			}
@@ -565,15 +585,20 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
+					//Enable or disable interface
 					slider_Frtc_Max().IsEnabled(true);
+					//Fix reload settings to get current value
+
 					textblock_Status().Text(L"FRTC enabled");
 					AVDebugWriteLine(L"FRTC enabled");
 				}
 			}
 			else
 			{
-				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(false);
+				//Enable or disable interface
 				slider_Frtc_Max().IsEnabled(false);
+
+				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(false);
 				textblock_Status().Text(L"FRTC disabled");
 				AVDebugWriteLine(L"FRTC disabled");
 			}
@@ -636,7 +661,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				if (newValue != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
 				{
 					combobox_AntiAliasingLevel().IsEnabled(false);
@@ -644,7 +669,7 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					combobox_AntiAliasingLevel().IsEnabled(true);
-					//Fix reload settings to get correct mode
+					//Fix reload settings to get current value
 				}
 
 				//Set result
@@ -806,9 +831,9 @@ namespace winrt::AmdDriverTool::implementation
 				}
 				else
 				{
-					//Check setting mode
+					//Enable or disable interface
 					combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
-					//Fix reload settings to get correct mode
+					//Fix reload settings to get current value
 
 					textblock_Status().Text(L"Anisotropic enabled");
 					AVDebugWriteLine(L"Anisotropic enabled");
@@ -816,7 +841,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 
 				adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(false);
@@ -898,7 +923,7 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Check setting mode
+				//Enable or disable interface
 				if (newValue != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
 				{
 					combobox_Tessellation_Level().IsEnabled(false);
@@ -906,7 +931,7 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					combobox_Tessellation_Level().IsEnabled(true);
-					//Fix reload settings to get correct mode
+					//Fix reload settings to get current value
 				}
 
 				//Set result
