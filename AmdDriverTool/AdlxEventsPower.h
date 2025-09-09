@@ -76,7 +76,12 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					slider_SmartShiftMaxBias().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = ppSmartShiftMax->GetBias(&adlx_Int0);
+					slider_SmartShiftMaxBias().Value(adlx_Int0);
+					disable_saving = false;
 				}
 
 				//Set result
