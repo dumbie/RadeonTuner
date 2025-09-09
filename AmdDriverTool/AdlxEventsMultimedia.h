@@ -71,7 +71,12 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					slider_VideoUpscale_Sharpening().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = ppVideoupscale->GetSharpness(&adlx_Int0);
+					slider_VideoUpscale_Sharpening().Value(adlx_Int0);
+					disable_saving = false;
 
 					textblock_Status().Text(L"Video Upscale enabled");
 					AVDebugWriteLine(L"Video Upscale enabled");

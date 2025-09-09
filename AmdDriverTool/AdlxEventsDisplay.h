@@ -37,7 +37,12 @@ namespace winrt::AmdDriverTool::implementation
 					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
 					{
 						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
-						//Fix reload settings to get current value
+
+						//Reload settings to get current value
+						disable_saving = true;
+						adlx_Res0 = ppFSCA->IsEnabled(&adlx_Bool);
+						toggleswitch_FreeSyncColorAccuracy().IsOn(adlx_Bool);
+						disable_saving = false;
 					}
 
 					textblock_Status().Text(L"AMD FreeSync enabled");
@@ -440,7 +445,12 @@ namespace winrt::AmdDriverTool::implementation
 					if (adlx_Bool)
 					{
 						toggleswitch_IntegerScaling().IsEnabled(true);
-						//Fix reload settings to get current value (*1)
+
+						//Reload settings to get current value
+						disable_saving = true;
+						adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
+						toggleswitch_IntegerScaling().IsOn(adlx_Bool);
+						disable_saving = false;
 					}
 
 					textblock_Status().Text(L"GPU Scaling enabled");
@@ -449,11 +459,6 @@ namespace winrt::AmdDriverTool::implementation
 			}
 			else
 			{
-				//Reset toggle switch (*1)
-				disable_saving = true;
-				toggleswitch_IntegerScaling().IsOn(false);
-				disable_saving = false;
-
 				//Enable or disable interface
 				toggleswitch_IntegerScaling().IsEnabled(false);
 
@@ -601,7 +606,35 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					combobox_Display_VariBright_Level().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(0);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(1);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(2);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(3);
+					}
+					adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_VariBright_Level().SelectedIndex(4);
+					}
+					disable_saving = false;
 
 					textblock_Status().Text(L"Vari-Bright enabled");
 					AVDebugWriteLine(L"Vari-Bright enabled");
