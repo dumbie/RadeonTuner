@@ -32,7 +32,12 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = pp3DRadeonSuperResolution->GetSharpness(&adlx_Int0);
+					slider_RadeonSuperResolution_Sharpening().Value(adlx_Int0);
+					disable_saving = false;
 
 					textblock_Status().Text(L"Super Resolution enabled");
 					AVDebugWriteLine(L"Super Resolution enabled");
@@ -259,7 +264,14 @@ namespace winrt::AmdDriverTool::implementation
 					//Enable or disable interface
 					slider_RadeonChill_Min().IsEnabled(true);
 					slider_RadeonChill_Max().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = pp3DChill->GetMinFPS(&adlx_Int0);
+					adlx_Res0 = pp3DChill->GetMaxFPS(&adlx_Int1);
+					slider_RadeonChill_Min().Value(adlx_Int0);
+					slider_RadeonChill_Max().Value(adlx_Int1);
+					disable_saving = false;
 
 					textblock_Status().Text(L"Radeon Chill enabled");
 					AVDebugWriteLine(L"Radeon Chill enabled");
@@ -382,7 +394,12 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					slider_RadeonBoost_MinRes().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = pp3DBoost->GetResolution(&adlx_Int0);
+					slider_RadeonBoost_MinRes().Value(adlx_Int0);
+					disable_saving = false;
 
 					textblock_Status().Text(L"Radeon Boost enabled");
 					AVDebugWriteLine(L"Radeon Boost enabled");
@@ -468,7 +485,12 @@ namespace winrt::AmdDriverTool::implementation
 						toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
 					}
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = pp3DImageSharpening->GetSharpness(&adlx_Int0);
+					slider_RadeonImageSharpening_Sharpening().Value(adlx_Int0);
+					disable_saving = false;
 
 					textblock_Status().Text(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
@@ -587,7 +609,12 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					slider_Frtc_Max().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					adlx_Res0 = pp3DFrameRateTargetControl->GetFPS(&adlx_Int0);
+					slider_Frtc_Max().Value(adlx_Int0);
+					disable_saving = false;
 
 					textblock_Status().Text(L"FRTC enabled");
 					AVDebugWriteLine(L"FRTC enabled");
@@ -669,7 +696,36 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					combobox_AntiAliasingLevel().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					ADLX_ANTI_ALIASING_LEVEL currentLevel;
+					adlx_Res0 = pp3DAntiAliasing->GetLevel(&currentLevel);
+					if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2X)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(0);
+					}
+					else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_2XEQ)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(1);
+					}
+					else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_4X)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(2);
+					}
+					else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_4XEQ)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(3);
+					}
+					else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_8X)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(4);
+					}
+					else if (currentLevel == ADLX_ANTI_ALIASING_LEVEL::AA_LEVEL_8XEQ)
+					{
+						combobox_AntiAliasingLevel().SelectedIndex(5);
+					}
+					disable_saving = false;
 				}
 
 				//Set result
@@ -833,7 +889,28 @@ namespace winrt::AmdDriverTool::implementation
 				{
 					//Enable or disable interface
 					combobox_AnisotropicTextureFilteringQuality().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					ADLX_ANISOTROPIC_FILTERING_LEVEL currentLevel;
+					adlx_Res0 = pp3DAnisotropicFiltering->GetLevel(&currentLevel);
+					if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X2)
+					{
+						combobox_AnisotropicTextureFilteringQuality().SelectedIndex(0);
+					}
+					else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X4)
+					{
+						combobox_AnisotropicTextureFilteringQuality().SelectedIndex(1);
+					}
+					else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X8)
+					{
+						combobox_AnisotropicTextureFilteringQuality().SelectedIndex(2);
+					}
+					else if (currentLevel == ADLX_ANISOTROPIC_FILTERING_LEVEL::AF_LEVEL_X16)
+					{
+						combobox_AnisotropicTextureFilteringQuality().SelectedIndex(3);
+					}
+					disable_saving = false;
 
 					textblock_Status().Text(L"Anisotropic enabled");
 					AVDebugWriteLine(L"Anisotropic enabled");
@@ -931,7 +1008,44 @@ namespace winrt::AmdDriverTool::implementation
 				else
 				{
 					combobox_Tessellation_Level().IsEnabled(true);
-					//Fix reload settings to get current value
+
+					//Reload settings to get current value
+					disable_saving = true;
+					ADLX_TESSELLATION_LEVEL currentLevel;
+					adlx_Res0 = pp3DTessellation->GetLevel(&currentLevel);
+					if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_OFF)
+					{
+						combobox_Tessellation_Level().SelectedIndex(0);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_2X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(1);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_4X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(2);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_6X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(3);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_8X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(4);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_16X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(5);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_32X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(6);
+					}
+					else if (currentLevel == ADLX_TESSELLATION_LEVEL::T_LEVEL_64X)
+					{
+						combobox_Tessellation_Level().SelectedIndex(7);
+					}
+					disable_saving = false;
 				}
 
 				//Set result
