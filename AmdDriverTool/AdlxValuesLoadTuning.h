@@ -18,10 +18,16 @@ namespace winrt::AmdDriverTool::implementation
 				return;
 			}
 
+			//Variables
+			BOOL supportedManualGFXTuning = false;
+			BOOL supportedManualVRAMTuning = false;
+			BOOL supportedManualPowerTuning = false;
+
 			//Get gpu manual tuning
 			try
 			{
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualGFXTuning(ppGpuInfo, &adlx_Bool);
+				supportedManualGFXTuning = adlx_Bool;
 				if (adlx_Bool)
 				{
 					IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
@@ -76,6 +82,7 @@ namespace winrt::AmdDriverTool::implementation
 			try
 			{
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuInfo, &adlx_Bool);
+				supportedManualVRAMTuning = adlx_Bool;
 				if (adlx_Bool)
 				{
 					IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
@@ -127,6 +134,7 @@ namespace winrt::AmdDriverTool::implementation
 			try
 			{
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuInfo, &adlx_Bool);
+				supportedManualPowerTuning = adlx_Bool;
 				if (adlx_Bool)
 				{
 					IADLXManualPowerTuning1Ptr ppManualPowerTuning;
@@ -178,11 +186,33 @@ namespace winrt::AmdDriverTool::implementation
 				slider_Power_TDC().IsEnabled(false);
 			}
 
+			//Enable or disable interface
+			if (!supportedManualGFXTuning && !supportedManualVRAMTuning && !supportedManualPowerTuning)
+			{
+				button_Tuning_Apply().IsEnabled(false);
+				button_Tuning_Reset().IsEnabled(false);
+				button_Tuning_Import().IsEnabled(false);
+				button_Tuning_Export().IsEnabled(false);
+			}
+
 			//Set result
 			AVDebugWriteLine("ADLX loaded tuning values.");
 		}
 		catch (...)
 		{
+			//Enable or disable interface
+			slider_Core_Min().IsEnabled(false);
+			slider_Core_Max().IsEnabled(false);
+			slider_Power_Voltage().IsEnabled(false);
+			slider_Memory_Max().IsEnabled(false);
+			combobox_Memory_Timing().IsEnabled(false);
+			slider_Power_Limit().IsEnabled(false);
+			slider_Power_TDC().IsEnabled(false);
+			button_Tuning_Apply().IsEnabled(false);
+			button_Tuning_Reset().IsEnabled(false);
+			button_Tuning_Import().IsEnabled(false);
+			button_Tuning_Export().IsEnabled(false);
+
 			//Set result
 			AVDebugWriteLine("ADLX failed loading tuning values.");
 		}
