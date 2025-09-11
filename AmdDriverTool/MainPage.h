@@ -98,6 +98,7 @@ namespace winrt::AmdDriverTool::implementation
 		void combobox_GpuSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_DisplaySelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_AppSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void button_Fps_Overlayer_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

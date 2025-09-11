@@ -135,6 +135,15 @@ namespace winrt::AmdDriverTool::implementation
 		catch (...) {}
 	}
 
+	void MainPage::button_Fps_Overlayer_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			ShellExecuteW(0, 0, L"https://github.com/dumbie/FpsOverlayer", 0, 0, 0);
+		}
+		catch (...) {}
+	}
+
 	void MainPage::button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

@@ -11,7 +11,9 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
+	//Fix ADLX missing Texture Filtering Quality
 	//Fix ADLX missing Surface Format Optimization
+	//Fix ADLX missing AFMF Search and Performance mode
 	//Fix ADLX missing OpenGL Triple Buffering
 	//Fix ADLX missing 10-Bit Pixel Format
 	//Fix ADLX missing Display Color Enhancement
