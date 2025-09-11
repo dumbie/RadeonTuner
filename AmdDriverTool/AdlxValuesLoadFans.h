@@ -34,11 +34,24 @@ namespace winrt::AmdDriverTool::implementation
 
 					//Enable or disable interface
 					toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
+
+					//Show or hide Zero RPM line
+					if (adlx_Bool)
+					{
+						grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Visible);
+					}
+					else
+					{
+						grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Collapsed);
+					}
 				}
 				else
 				{
 					//Enable or disable interface
 					toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
+
+					//Show or hide Zero RPM line
+					grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Collapsed);
 				}
 
 				//Get fan curve setting

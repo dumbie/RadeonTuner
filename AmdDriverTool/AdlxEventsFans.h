@@ -5,6 +5,25 @@
 
 namespace winrt::AmdDriverTool::implementation
 {
+	void MainPage::toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				//Show or hide Zero RPM line
+				grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				//Show or hide Zero RPM line
+				grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Collapsed);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try

@@ -451,7 +451,7 @@
                             <TextBlock Text="Fans Options" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve durability."/>
-                                <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode"/>
+                                <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
                             </StackPanel>
 
                             <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
@@ -474,6 +474,10 @@
                                             <Line Margin="125,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="250,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="375,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Grid x:Name="grid_Fan_Zero_Rpm_Line" Visibility="Collapsed">
+                                                <TextBlock Text="Zero RPM" Margin="143,23,0,0" Foreground="{ThemeResource ApplicationWhiteColor}" FontSize="20" FontWeight="Medium"/>
+                                                <Line Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationWhiteColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
+                                            </Grid>
                                             <Polyline x:Name="polyline_Fan_Lines" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
                                         </Grid>
                                         <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
