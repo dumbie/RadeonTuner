@@ -1,0 +1,5 @@
+namespace RadeonTuner
+{
+	[default_interface]
+	runtimeclass App : Windows.UI.Xaml.Application {}
+}
