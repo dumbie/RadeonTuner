@@ -1,9 +1,9 @@
-![AmdDriverTool](Screenshots/screenshot1.png)
-![AmdDriverTool](Screenshots/screenshot2.png)
-![AmdDriverTool](Screenshots/screenshot3.png)
+![RadeonTuner](Screenshots/screenshot1.png)
+![RadeonTuner](Screenshots/screenshot2.png)
+![RadeonTuner](Screenshots/screenshot3.png)
 
 ## Application Description
-AMD Driver Tool is an easy to use alternative for the AMD Adrenalin Software for users that just want the basics or use the driver only install type.
+RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for users that just want the basics or use the driver only install type.
 
 ## Application Features
 - Change gaming graphic settings.
@@ -11,12 +11,12 @@ AMD Driver Tool is an easy to use alternative for the AMD Adrenalin Software for
 - Change your display settings.
 
 ## Installation Instructions
-1) Extract the AMD Driver Tool folder to any directory you want on your device.
+1) Extract the RadeonTuner folder to any directory you want on your device.
 2) Make sure that you have installed all the requirements listed below.
-3) Run the AMD Driver Tool executable file.
+3) Run the RadeonTuner executable file.
 
 ## Uninstallation Instructions
-1) Remove the extracted AMD Driver Tool folder.
+1) Remove the extracted RadeonTuner folder.
 
 ## Tips and tricks
 - When installing your AMD drivers you can choose 'Driver Only' install type.

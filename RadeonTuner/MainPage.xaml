@@ -950,7 +950,7 @@
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <Button x:Name="button_Website_Project" Content="Visit Project Website" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
                                 <Button x:Name="button_Website_Donation" Content="Open Donation Page" Style="{ThemeResource ApplicationButton}" Margin="10,0,0,0" Click="button_Website_Donation_Click"/>
-                                <Button x:Name="button_Fps_Overlayer" Margin="10,0,0,0" Content="Get Fps Overlayer" Style="{ThemeResource ApplicationButton}" Click="button_Fps_Overlayer_Click"/>
+                                <Button x:Name="button_Fps_Overlayer" Margin="10,0,0,0" Content="Get FpsOverlayer" Style="{ThemeResource ApplicationButton}" Click="button_Fps_Overlayer_Click"/>
                                 <Button x:Name="button_Check_Update" Margin="10,0,0,0" Content="Check for update" Style="{ThemeResource ApplicationButton}" Click="button_Check_Update_Click"/>
                             </StackPanel>
                         </Grid>
