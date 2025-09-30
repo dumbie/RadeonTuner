@@ -78,14 +78,39 @@ namespace winrt::RadeonTuner::implementation
 			AdlxValuesLoadSelectOther();
 
 			//Select default indexes
-			listbox_Main().SelectedIndex(0);
-			combobox_GpuSelect().SelectedIndex(0);
-			combobox_DisplaySelect().SelectedIndex(0);
-			combobox_AppSelect().SelectedIndex(0);
+			SelectIndexes();
 
 			//Start adlx update loop
 			std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
 			threadUpdateLoop.detach();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::SelectIndexes()
+	{
+		try
+		{
+			//Select default indexes
+			combobox_GpuSelect().SelectedIndex(0);
+			combobox_DisplaySelect().SelectedIndex(0);
+			combobox_AppSelect().SelectedIndex(0);
+
+			//Select previous menu index
+			int mainSelectIndex = 0;
+			std::optional<int> prevMenuIndex = AppVariables::Settings.Load<int>("MenuIndex");
+			if (prevMenuIndex.has_value())
+			{
+				mainSelectIndex = prevMenuIndex.value();
+			}
+			try
+			{
+				listbox_Main().SelectedIndex(mainSelectIndex);
+			}
+			catch (...)
+			{
+				listbox_Main().SelectedIndex(0);
+			}
 		}
 		catch (...) {}
 	}
@@ -95,7 +120,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get selected index
-			auto selectedIndex = sender.as<ListBox>().SelectedIndex();
+			int selectedIndex = sender.as<ListBox>().SelectedIndex();
+
+			//Save selected index
+			AppVariables::Settings.Set("MenuIndex", selectedIndex);
 
 			//Hide all pages
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);

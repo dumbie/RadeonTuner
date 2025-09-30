@@ -32,6 +32,7 @@ namespace winrt::RadeonTuner::implementation
 		void ValidateFanSettings();
 		void SettingCheck();
 		void SettingLoad();
+		void SelectIndexes();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
