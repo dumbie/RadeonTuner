@@ -44,6 +44,7 @@ using namespace Windows::UI::Xaml::Media;
 #include "..\..\ArnoldVinkCode\CPP\AVFiles.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFinally.h"
 #include "..\..\ArnoldVinkCode\CPP\AVHighResDelay.h"
+#include "..\..\ArnoldVinkCode\CPP\AVSettingsJson.h"
 #include "..\..\ArnoldVinkCode\CPP\AVString.h"
 #include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
 #include "..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp"

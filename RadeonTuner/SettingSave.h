@@ -11,12 +11,14 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
+				AppVariables::Settings.Set("SetTopMost", true);
 				AppVariables::App.SetTopMost(true);
 				textblock_Status().Text(L"Set window on top");
 				AVDebugWriteLine(L"Set window on top");
 			}
 			else
 			{
+				AppVariables::Settings.Set("SetTopMost", false);
 				AppVariables::App.SetTopMost(false);
 				textblock_Status().Text(L"Set window not on top");
 				AVDebugWriteLine(L"Set window not on top");

@@ -164,7 +164,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SettingEvents.h" />
+    <ClInclude Include="SettingCheck.h" />
+    <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
   </ItemGroup>
   <ItemGroup>

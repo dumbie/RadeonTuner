@@ -234,10 +234,13 @@
     <ClInclude Include="AdlxValuesLoadPower.h">
       <Filter>Page Files</Filter>
     </ClInclude>
+    <ClInclude Include="SettingCheck.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
     <ClInclude Include="SettingLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="SettingEvents.h">
+    <ClInclude Include="SettingSave.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="ADL\adl_defines.h">

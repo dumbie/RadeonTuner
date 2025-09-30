@@ -25,7 +25,8 @@
 #include "AdlxEventsPower.h"
 #include "AdlxEventsTuning.h"
 
-#include "SettingEvents.h"
+#include "SettingCheck.h"
+#include "SettingSave.h"
 #include "SettingLoad.h"
 
 #include "MainPage.h"
@@ -66,6 +67,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Prepare adl values
 			//AdlValuesPrepare();
+
+			//Check settings
+			SettingCheck();
 
 			//Load settings
 			SettingLoad();

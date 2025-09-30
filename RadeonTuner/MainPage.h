@@ -30,6 +30,7 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxUpdateLoop();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
+		void SettingCheck();
 		void SettingLoad();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
