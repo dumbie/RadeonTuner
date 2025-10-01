@@ -13,7 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			wchar_t lpstrFileName[MAX_PATH] = {};
 			OPENFILENAMEW openFileName = {};
 			openFileName.lStructSize = sizeof(openFileName);
-			openFileName.lpstrTitle = L"Import setting file...";
+			openFileName.lpstrTitle = L"Import tuning and fans settings...";
 			openFileName.lpstrFilter = L"Setting files (radt)\0*.radt\0";
 			openFileName.lpstrFile = lpstrFileName;
 			openFileName.nMaxFile = MAX_PATH;
@@ -28,6 +28,28 @@ namespace winrt::RadeonTuner::implementation
 
 			//Parse settings file
 			nlohmann::json jsonData = nlohmann::json::parse(settings);
+
+			//Check device identifier
+			if (jsonData.contains("DeviceId"))
+			{
+				std::string device_id_importa = jsonData["DeviceId"].get<std::string>();
+				std::wstring device_id_importw = string_to_wstring(device_id_importa);
+				std::wstring device_id_current = AdlxGetDeviceIdentifier();
+				if (!device_id_importw.empty() && !device_id_current.empty())
+				{
+					if (device_id_importw != device_id_current)
+					{
+						int messageResult = MessageBoxW(NULL, L"Tuning and fans profile does not match current device, continue import?", L"RadeonTuner", MB_YESNO);
+						if (messageResult == IDNO)
+						{
+							//Set result
+							textblock_Status().Text(L"Tuning and fans no match");
+							AVDebugWriteLine(L"Tuning and fans no match");
+							return;
+						}
+					}
+				}
+			}
 
 			//Set settings values
 			if (jsonData.contains("CoreMin"))

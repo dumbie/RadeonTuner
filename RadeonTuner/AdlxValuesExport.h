@@ -13,7 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			wchar_t lpstrFileName[MAX_PATH] = {};
 			OPENFILENAMEW openFileName = {};
 			openFileName.lStructSize = sizeof(openFileName);
-			openFileName.lpstrTitle = L"Export setting file...";
+			openFileName.lpstrTitle = L"Export tuning and fans settings...";
 			openFileName.lpstrFilter = L"Setting files (radt)\0*.radt\0";
 			openFileName.lpstrDefExt = L"radt";
 			openFileName.lpstrFile = lpstrFileName;
@@ -46,6 +46,13 @@ namespace winrt::RadeonTuner::implementation
 			jsonData["FanTemp3"] = slider_Fan_Temp_3().Value();
 			jsonData["FanSpeed4"] = slider_Fan_Speed_4().Value();
 			jsonData["FanTemp4"] = slider_Fan_Temp_4().Value();
+
+			//Device identifier
+			std::wstring device_id = AdlxGetDeviceIdentifier();
+			if (!device_id.empty())
+			{
+				jsonData["DeviceId"] = device_id.c_str();
+			}
 
 			//Convert json to string
 			std::string jsonString = jsonData.dump();
