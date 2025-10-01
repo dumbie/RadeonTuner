@@ -11,6 +11,8 @@ namespace winrt::RadeonTuner::implementation
 		void AdlValuesPrepare();
 
 		std::wstring AdlxInitialize();
+		std::wstring AdlxGetDeviceIdentifier();
+
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectOther();
 		void AdlxValuesLoadSelectGpu();

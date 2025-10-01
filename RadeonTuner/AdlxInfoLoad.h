@@ -14,23 +14,30 @@ namespace winrt::RadeonTuner::implementation
 			//Device information string
 			std::wstring device_info = L"";
 
-			//Vendor identifier
-			try
-			{
-				const char* vendorId = NULL;
-				adlx_Res0 = ppGpuInfo->VendorId(&vendorId);
-				device_info += L"Vendor identifier: " + char_to_wstring(vendorId);
-			}
-			catch (...) {}
-
-			//Product name
+			//Device name
 			try
 			{
 				const char* productName = NULL;
-				adlx_Res0 = ppGpuInfo->ProductName(&productName);
-				device_info += L"\nProduct name: " + char_to_wstring(productName);
+				adlx_Res0 = ppGpuInfo->Name(&productName);
+				device_info += L"Device name: " + char_to_wstring(productName);
 			}
 			catch (...) {}
+
+			//Device codename
+			try
+			{
+				const char* codeName = NULL;
+				adlx_Res0 = ppGpuInfo->ProductName(&codeName);
+				device_info += L"\nDevice codename: " + char_to_wstring(codeName);
+			}
+			catch (...) {}
+
+			//Device identifier
+			std::wstring device_id = AdlxGetDeviceIdentifier();
+			if (!device_id.empty())
+			{
+				device_info += L"\nDevice identifier: " + device_id;
+			}
 
 			//Load driver version
 			try
@@ -46,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Load bios version
+			//Bios information
 			try
 			{
 				const char* biosPart = NULL;
@@ -57,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Total memory
+			//Memory information
 			try
 			{
 				adlx_uint totalVRAM;
@@ -81,7 +88,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Load Resizable BAR status
+			//Resizable BAR status
 			try
 			{
 				IADLXSmartAccessMemoryPtr ppSmartAccessMemory;
@@ -115,6 +122,62 @@ namespace winrt::RadeonTuner::implementation
 			//Set result
 			AVDebugWriteLine("ADLX failed loading information.");
 		}
+	}
+
+	std::wstring MainPage::AdlxGetDeviceIdentifier()
+	{
+		std::wstring device_id = L"";
+		try
+		{
+			const char* vendorId = NULL;
+			adlx_Res0 = ppGpuInfo->VendorId(&vendorId);
+			if (vendorId != NULL)
+			{
+				device_id += char_to_wstring(vendorId);
+				device_id += L" ";
+			}
+
+			const char* deviceId = NULL;
+			adlx_Res0 = ppGpuInfo->DeviceId(&deviceId);
+			if (deviceId != NULL)
+			{
+				device_id += char_to_wstring(deviceId);
+				device_id += L" - ";
+			}
+
+			const char* subSystemVendorId = NULL;
+			adlx_Res0 = ppGpuInfo->SubSystemVendorId(&subSystemVendorId);
+			if (subSystemVendorId != NULL)
+			{
+				device_id += char_to_wstring(subSystemVendorId);
+				device_id += L" ";
+			}
+
+			const char* subSystemId = NULL;
+			adlx_Res0 = ppGpuInfo->SubSystemId(&subSystemId);
+			if (subSystemId != NULL)
+			{
+				device_id += char_to_wstring(subSystemId);
+				device_id += L" - ";
+			}
+
+			const char* revisionId = NULL;
+			adlx_Res0 = ppGpuInfo->RevisionId(&revisionId);
+			if (revisionId != NULL)
+			{
+				device_id += char_to_wstring(revisionId);
+				device_id += L" - ";
+			}
+
+			int uniqueId = -1;
+			adlx_Res0 = ppGpuInfo->UniqueId(&uniqueId);
+			if (uniqueId > 0)
+			{
+				device_id += number_to_wstring(uniqueId);
+			}
+		}
+		catch (...) {}
+		return device_id;
 	}
 
 	void MainPage::button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e)
