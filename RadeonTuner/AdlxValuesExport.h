@@ -14,8 +14,8 @@ namespace winrt::RadeonTuner::implementation
 			OPENFILENAMEW openFileName = {};
 			openFileName.lStructSize = sizeof(openFileName);
 			openFileName.lpstrTitle = L"Export setting file...";
-			openFileName.lpstrFilter = L"Setting files (adtx)\0*.adtx\0";
-			openFileName.lpstrDefExt = L"adtx";
+			openFileName.lpstrFilter = L"Setting files (radt)\0*.radt\0";
+			openFileName.lpstrDefExt = L"radt";
 			openFileName.lpstrFile = lpstrFileName;
 			openFileName.nMaxFile = MAX_PATH;
 			openFileName.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
