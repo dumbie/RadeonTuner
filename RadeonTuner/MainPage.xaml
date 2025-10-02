@@ -74,6 +74,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -111,8 +112,24 @@
                     </StackPanel>
                 </Border>
 
+                <!-- Buttons -->
+                <StackPanel x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
+                    <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
+                    <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
+                    <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
+                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" Content="Keep" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Keep current tuning and fans settings active after driver resets when 'Keep active' setting is enabled."/>
+                </StackPanel>
+                <StackPanel x:Name="stackpanel_Fan_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
+                    <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
+                    <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
+                    <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
+                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" Content="Keep" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Keep current tuning and fans settings active after driver resets when 'Keep active' setting is enabled."/>
+                </StackPanel>
+
                 <!-- Main -->
-                <ScrollViewer Grid.Row="2" Margin="5,0,5,0" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="3" Margin="5,0,5,0" VerticalScrollBarVisibility="Auto">
                     <Grid Margin="0,0,10,10">
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
@@ -314,14 +331,7 @@
 
                         <!-- Tuning -->
                         <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
-                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                            </StackPanel>
-
-                            <TextBlock Text="GPU Tuning" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="GPU Tuning" FontSize="20" FontWeight="Medium"/>
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -441,14 +451,7 @@
 
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
-                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                                <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}"/>
-                            </StackPanel>
-
-                            <TextBlock Text="Fans Options" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Fans Options" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve durability."/>
                                 <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>

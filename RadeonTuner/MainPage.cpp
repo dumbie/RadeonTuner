@@ -130,6 +130,10 @@ namespace winrt::RadeonTuner::implementation
 			//Save selected index
 			AppVariables::Settings.Set("MenuIndex", selectedIndex);
 
+			//Hide all buttons
+			stackpanel_Tuning_Buttons().Visibility(Visibility::Collapsed);
+			stackpanel_Fan_Buttons().Visibility(Visibility::Collapsed);
+
 			//Hide all pages
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);
 			stackpanel_Tuning().Visibility(Visibility::Collapsed);
@@ -150,11 +154,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Tuning().Visibility(Visibility::Visible);
+				stackpanel_Tuning_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 1)
 			{
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Fans().Visibility(Visibility::Visible);
+				stackpanel_Fan_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 2)
 			{
