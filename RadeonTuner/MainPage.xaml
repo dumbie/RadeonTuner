@@ -136,7 +136,7 @@
 
                             <!-- Radeon Fluid Motion Frames -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games.&#10;&#10;* This setting can only be enabled when using 'Default' driver software type installation."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
                             </StackPanel>
 
@@ -926,10 +926,20 @@
                         <!-- Settings -->
                         <StackPanel x:Name="stackpanel_Settings" Visibility="Collapsed">
                             <TextBlock Text="Overclock Settings" FontSize="20" FontWeight="Medium"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Re-applies your tuning and fans settings when those have been reset to defaults by GPU drivers."/>
-                                <ToggleSwitch x:Name="toggleswitch_Active_Overclock" IsEnabled="False" Margin="10,0,0,0" OffContent="Keep overclock active" OnContent="Keep overclock active"/>
-                            </StackPanel>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Re-applies your tuning and fans settings when those have been reset to defaults by the GPU driver.&#10;&#10;* Make sure you are using stable tuning settings."/>
+                                        <ToggleSwitch x:Name="toggleswitch_ActiveOverclock" Margin="10,0,0,0" OffContent="Keep tuning and fan settings active" OnContent="Keep tuning and fan settings active" Toggled="toggleswitch_ActiveOverclock_Toggled"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Button x:Name="button_ActiveOverclockFileSelect" Content="Select setting file" Style="{ThemeResource ApplicationButton}" Click="button_ActiveOverclockFileSelect_Click"/>
+                                        <TextBlock x:Name="textblock_ActiveOverclockFile" Margin="10,0,0,0" VerticalAlignment="Center" Text="..."/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <TextBlock Text="Window Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">

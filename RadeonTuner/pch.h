@@ -38,6 +38,9 @@ using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Markup;
 using namespace Windows::UI::Xaml::Media;
 
+//Classes
+#include "TuningFanSettings.h"
+
 //Arnold Vink Code
 #include "..\..\ArnoldVinkCode\CPP\AVDebug.h"
 #include "..\..\ArnoldVinkCode\CPP\AVDownloader.h"

@@ -7,7 +7,8 @@
 
 #include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
-#include "AdlxUpdateLoop.h"
+#include "AdlxLoopMetrics.h"
+#include "AdlxLoopOverclock.h"
 
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
@@ -80,9 +81,13 @@ namespace winrt::RadeonTuner::implementation
 			//Select default indexes
 			SelectIndexes();
 
-			//Start adlx update loop
-			std::thread threadUpdateLoop(&MainPage::AdlxUpdateLoop, this);
-			threadUpdateLoop.detach();
+			//Start adlx loop metrics
+			std::thread threadLoopMetrics(&MainPage::AdlxLoopMetrics, this);
+			threadLoopMetrics.detach();
+
+			//Start adlx loop overclock
+			std::thread threadLoopOverclock(&MainPage::AdlxLoopOverclock, this);
+			threadLoopOverclock.detach();
 		}
 		catch (...) {}
 	}

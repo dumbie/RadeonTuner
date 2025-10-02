@@ -51,7 +51,7 @@
     <ClInclude Include="AdlxInfoLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxUpdateLoop.h">
+    <ClInclude Include="AdlxLoopMetrics.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h">
@@ -264,6 +264,12 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
+    <ClInclude Include="AdlxLoopOverclock.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettings.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -294,6 +300,9 @@
     </Filter>
     <Filter Include="Include Files\ArnoldVinkCode">
       <UniqueIdentifier>{0f92a15f-2eca-475b-8ce4-8f1c5cb88717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Files">
+      <UniqueIdentifier>{a677d221-0f74-45b6-afbe-1204126b2666}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

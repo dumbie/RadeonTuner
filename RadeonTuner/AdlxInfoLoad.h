@@ -33,7 +33,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Device identifier
-			std::wstring device_id = AdlxGetDeviceIdentifier();
+			std::wstring device_id = AdlxGetDeviceIdentifier(ppGpuInfo);
 			if (!device_id.empty())
 			{
 				device_info += L"\nDevice identifier: " + device_id;
@@ -124,13 +124,13 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::wstring MainPage::AdlxGetDeviceIdentifier()
+	std::wstring MainPage::AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr)
 	{
 		std::wstring device_id = L"";
 		try
 		{
 			const char* vendorId = NULL;
-			adlx_Res0 = ppGpuInfo->VendorId(&vendorId);
+			adlx_Res0 = ppGpuPtr->VendorId(&vendorId);
 			if (vendorId != NULL)
 			{
 				device_id += char_to_wstring(vendorId);
@@ -138,7 +138,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* deviceId = NULL;
-			adlx_Res0 = ppGpuInfo->DeviceId(&deviceId);
+			adlx_Res0 = ppGpuPtr->DeviceId(&deviceId);
 			if (deviceId != NULL)
 			{
 				device_id += char_to_wstring(deviceId);
@@ -146,7 +146,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* subSystemVendorId = NULL;
-			adlx_Res0 = ppGpuInfo->SubSystemVendorId(&subSystemVendorId);
+			adlx_Res0 = ppGpuPtr->SubSystemVendorId(&subSystemVendorId);
 			if (subSystemVendorId != NULL)
 			{
 				device_id += char_to_wstring(subSystemVendorId);
@@ -154,7 +154,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* subSystemId = NULL;
-			adlx_Res0 = ppGpuInfo->SubSystemId(&subSystemId);
+			adlx_Res0 = ppGpuPtr->SubSystemId(&subSystemId);
 			if (subSystemId != NULL)
 			{
 				device_id += char_to_wstring(subSystemId);
@@ -162,7 +162,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* revisionId = NULL;
-			adlx_Res0 = ppGpuInfo->RevisionId(&revisionId);
+			adlx_Res0 = ppGpuPtr->RevisionId(&revisionId);
 			if (revisionId != NULL)
 			{
 				device_id += char_to_wstring(revisionId);
@@ -170,7 +170,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			int uniqueId = -1;
-			adlx_Res0 = ppGpuInfo->UniqueId(&uniqueId);
+			adlx_Res0 = ppGpuPtr->UniqueId(&uniqueId);
 			if (uniqueId > 0)
 			{
 				device_id += number_to_wstring(uniqueId);

@@ -18,6 +18,16 @@ namespace winrt::RadeonTuner::implementation
 				AppVariables::Settings.Set("SetTopMost", false);
 			}
 
+			if (!AppVariables::Settings.Check("ActiveOverclock"))
+			{
+				AppVariables::Settings.Set("ActiveOverclock", false);
+			}
+
+			if (!AppVariables::Settings.Check("ActiveOverclockFile"))
+			{
+				AppVariables::Settings.Set("ActiveOverclockFile", "...");
+			}
+
 			AVDebugWriteLine("Application settings checked.");
 		}
 		catch (...)

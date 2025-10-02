@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxUpdateLoop()
+	void MainPage::AdlxLoopMetrics()
 	{
 		while (true)
 		{

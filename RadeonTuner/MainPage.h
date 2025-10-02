@@ -11,7 +11,10 @@ namespace winrt::RadeonTuner::implementation
 		void AdlValuesPrepare();
 
 		std::wstring AdlxInitialize();
-		std::wstring AdlxGetDeviceIdentifier();
+		std::wstring AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr);
+
+		TuningFanSettings GenerateStruct_TuningFanSettings();
+		TuningFanSettings GenerateStruct_TuningFanSettings(nlohmann::json jsonData);
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectOther();
@@ -26,10 +29,11 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesExport();
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();
-		bool AdlxApplyTuning();
+		bool AdlxApplyTuning(TuningFanSettings tuningFanSettings);
 		bool AdlxResetTuning();
 		void AdlxInfoLoad();
-		void AdlxUpdateLoop();
+		void AdlxLoopMetrics();
+		void AdlxLoopOverclock();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
 		void SettingCheck();
@@ -104,7 +108,9 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_AppSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void button_Fps_Overlayer_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-	};
+		void toggleswitch_ActiveOverclock_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_ActiveOverclockFileSelect_Click(IInspectable const& sender, RoutedEventArgs const& e);
+};
 }
 
 namespace winrt::RadeonTuner::factory_implementation

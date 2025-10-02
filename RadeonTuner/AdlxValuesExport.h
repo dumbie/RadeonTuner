@@ -26,33 +26,30 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fix add option to export graphics and display settings
 
-			//Create json settings
-			nlohmann::json jsonData;
-			jsonData["CoreMin"] = slider_Core_Min().Value();
-			jsonData["CoreMax"] = slider_Core_Max().Value();
-			jsonData["MemoryTiming"] = combobox_Memory_Timing().SelectedIndex();
-			jsonData["MemoryMax"] = slider_Memory_Max().Value();
-			jsonData["PowerLimit"] = slider_Power_Limit().Value();
-			jsonData["PowerVoltage"] = slider_Power_Voltage().Value();
-			jsonData["PowerTDC"] = slider_Power_TDC().Value();
-			jsonData["FanZeroRpm"] = toggleswitch_Fan_Zero_Rpm().IsOn();
-			jsonData["FanSpeed0"] = slider_Fan_Speed_0().Value();
-			jsonData["FanTemp0"] = slider_Fan_Temp_0().Value();
-			jsonData["FanSpeed1"] = slider_Fan_Speed_1().Value();
-			jsonData["FanTemp1"] = slider_Fan_Temp_1().Value();
-			jsonData["FanSpeed2"] = slider_Fan_Speed_2().Value();
-			jsonData["FanTemp2"] = slider_Fan_Temp_2().Value();
-			jsonData["FanSpeed3"] = slider_Fan_Speed_3().Value();
-			jsonData["FanTemp3"] = slider_Fan_Temp_3().Value();
-			jsonData["FanSpeed4"] = slider_Fan_Speed_4().Value();
-			jsonData["FanTemp4"] = slider_Fan_Temp_4().Value();
+			//Generate tuning fan settings
+			TuningFanSettings tuningFanSettings = GenerateStruct_TuningFanSettings();
 
-			//Device identifier
-			std::wstring device_id = AdlxGetDeviceIdentifier();
-			if (!device_id.empty())
-			{
-				jsonData["DeviceId"] = device_id.c_str();
-			}
+			//Create json settings
+			nlohmann::json jsonData{};
+			jsonData["DeviceId"] = tuningFanSettings.DeviceId;
+			jsonData["CoreMin"] = tuningFanSettings.CoreMin;
+			jsonData["CoreMax"] = tuningFanSettings.CoreMax;
+			jsonData["MemoryTiming"] = tuningFanSettings.MemoryTiming;
+			jsonData["MemoryMax"] = tuningFanSettings.MemoryMax;
+			jsonData["PowerLimit"] = tuningFanSettings.PowerLimit;
+			jsonData["PowerVoltage"] = tuningFanSettings.PowerVoltage;
+			jsonData["PowerTDC"] = tuningFanSettings.PowerTDC;
+			jsonData["FanZeroRpm"] = tuningFanSettings.FanZeroRpm;
+			jsonData["FanSpeed0"] = tuningFanSettings.FanSpeed0;
+			jsonData["FanTemp0"] = tuningFanSettings.FanTemp0;
+			jsonData["FanSpeed1"] = tuningFanSettings.FanSpeed1;
+			jsonData["FanTemp1"] = tuningFanSettings.FanTemp1;
+			jsonData["FanSpeed2"] = tuningFanSettings.FanSpeed2;
+			jsonData["FanTemp2"] = tuningFanSettings.FanTemp2;
+			jsonData["FanSpeed3"] = tuningFanSettings.FanSpeed3;
+			jsonData["FanTemp3"] = tuningFanSettings.FanTemp3;
+			jsonData["FanSpeed4"] = tuningFanSettings.FanSpeed4;
+			jsonData["FanTemp4"] = tuningFanSettings.FanTemp4;
 
 			//Convert json to string
 			std::string jsonString = jsonData.dump();

@@ -34,12 +34,12 @@ namespace winrt::RadeonTuner::implementation
 			{
 				std::string device_id_importa = jsonData["DeviceId"].get<std::string>();
 				std::wstring device_id_importw = string_to_wstring(device_id_importa);
-				std::wstring device_id_current = AdlxGetDeviceIdentifier();
+				std::wstring device_id_current = AdlxGetDeviceIdentifier(ppGpuInfo);
 				if (!device_id_importw.empty() && !device_id_current.empty())
 				{
 					if (device_id_importw != device_id_current)
 					{
-						int messageResult = MessageBoxW(NULL, L"Tuning and fans profile does not match current device, continue import?", L"RadeonTuner", MB_YESNO);
+						int messageResult = MessageBoxW(NULL, L"Tuning and fans settings do not match current device, continue import?", L"RadeonTuner", MB_YESNO);
 						if (messageResult == IDNO)
 						{
 							//Set result
@@ -60,13 +60,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				slider_Core_Max().Value(jsonData["CoreMax"]);
 			}
-			if (jsonData.contains("MemoryTiming"))
-			{
-				combobox_Memory_Timing().SelectedIndex(jsonData["MemoryTiming"]);
-			}
 			if (jsonData.contains("MemoryMax"))
 			{
 				slider_Memory_Max().Value(jsonData["MemoryMax"]);
+			}
+			if (jsonData.contains("MemoryTiming"))
+			{
+				combobox_Memory_Timing().SelectedIndex(jsonData["MemoryTiming"]);
 			}
 			if (jsonData.contains("PowerLimit"))
 			{
