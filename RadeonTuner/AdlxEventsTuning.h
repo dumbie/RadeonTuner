@@ -167,6 +167,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable active overclock setting
+			toggleswitch_ActiveOverclock().IsOn(false);
+
 			//Generate tuning and fans settings
 			TuningFanSettings tuningFanSettings = Generate_TuningFanSettings();
 

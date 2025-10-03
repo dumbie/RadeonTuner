@@ -12,10 +12,18 @@ namespace winrt::RadeonTuner::implementation
 			if (senderElement.IsOn())
 			{
 				AppVariables::Settings.Set("ActiveOverclock", true);
+
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Fan_Keep().Background(colorValid);
+				button_Tuning_Keep().Background(colorValid);
 			}
 			else
 			{
 				AppVariables::Settings.Set("ActiveOverclock", false);
+
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				button_Fan_Keep().Background(colorInvalid);
+				button_Tuning_Keep().Background(colorInvalid);
 			}
 		}
 		catch (...) {}

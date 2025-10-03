@@ -73,8 +73,6 @@ namespace winrt::RadeonTuner::implementation
 							}
 						}
 					}
-
-					AVDebugWriteLine("ADLX active overclock time");
 				}
 			}
 			catch (...) {}
