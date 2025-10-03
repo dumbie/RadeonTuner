@@ -13,13 +13,37 @@
             <Color x:Key="SystemAccentColorLight2">#fb3c3c</Color>
             <Color x:Key="SystemAccentColorLight3">#fe5252</Color>
 
+            <!-- Accent Color -->
+            <Color x:Key="ApplicationAccentLightColor">#DF2020</Color>
+            <SolidColorBrush x:Key="ApplicationAccentLightBrush">#DF2020</SolidColorBrush>
+            <Color x:Key="ApplicationAccentDimColor">#b81717</Color>
+            <SolidColorBrush x:Key="ApplicationAccentDimBrush">#b81717</SolidColorBrush>
+            <Color x:Key="ApplicationAccentDarkColor">#911111</Color>
+            <SolidColorBrush x:Key="ApplicationAccentDarkBrush">#911111</SolidColorBrush>
+            <Color x:Key="ApplicationAccentVoidColor">#690c0c</Color>
+            <SolidColorBrush x:Key="ApplicationAccentVoidBrush">#690c0c</SolidColorBrush>
+
             <!-- Basic Color -->
             <Color x:Key="ApplicationWhiteColor">#F1F1F1</Color>
+            <SolidColorBrush x:Key="ApplicationWhiteBrush">#F1F1F1</SolidColorBrush>
             <Color x:Key="ApplicationBlackColor">#1D1D1D</Color>
+            <SolidColorBrush x:Key="ApplicationBlackBrush">#1D1D1D</SolidColorBrush>
             <Color x:Key="ApplicationLightGrayColor">#DBDBDB</Color>
+            <SolidColorBrush x:Key="ApplicationLightGrayBrush">#DBDBDB</SolidColorBrush>
             <Color x:Key="ApplicationDimGrayColor">#888888</Color>
+            <SolidColorBrush x:Key="ApplicationDimGrayBrush">#888888</SolidColorBrush>
             <Color x:Key="ApplicationDarkGrayColor">#555555</Color>
+            <SolidColorBrush x:Key="ApplicationDarkGrayBrush">#555555</SolidColorBrush>
             <Color x:Key="ApplicationVoidGrayColor">#2A2A2A</Color>
+            <SolidColorBrush x:Key="ApplicationVoidGrayBrush">#2A2A2A</SolidColorBrush>
+
+            <!-- Other Color -->
+            <Color x:Key="ApplicationValidColor">#1EB955</Color>
+            <SolidColorBrush x:Key="ApplicationValidBrush">#1EB955</SolidColorBrush>
+            <Color x:Key="ApplicationInvalidColor">#CD1928</Color>
+            <SolidColorBrush x:Key="ApplicationInvalidBrush">#CD1928</SolidColorBrush>
+            <Color x:Key="ApplicationIgnoredColor">#EE8F3F</Color>
+            <SolidColorBrush x:Key="ApplicationIgnoredBrush">#EE8F3F</SolidColorBrush>
 
             <!-- Elements -->
             <Style x:Name="ApplicationListBox" TargetType="ListBox">

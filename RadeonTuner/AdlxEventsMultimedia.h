@@ -113,14 +113,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				slider_VideoUpscale_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				slider_VideoUpscale_Sharpening().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting video sharpening");
 				AVDebugWriteLine(L"Failed setting video sharpening");
 			}
 			else
 			{
 				//Set result
-				slider_VideoUpscale_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				slider_VideoUpscale_Sharpening().Foreground(colorValid);
 				textblock_Status().Text(L"Video sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Video sharpening set to " << newValue);
 			}

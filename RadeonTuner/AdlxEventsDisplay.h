@@ -261,14 +261,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_ColorTemperature().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_ColorTemperature().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting color temperature");
 				AVDebugWriteLine(L"Failed setting color temperature");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_ColorTemperature().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_ColorTemperature().Foreground(colorValid);
 				textblock_Status().Text(L"Color temperature set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Color temperature set to " << newValue);
 			}
@@ -295,14 +297,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_Brightness().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Brightness().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting brightness");
 				AVDebugWriteLine(L"Failed setting brightness");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_Brightness().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Brightness().Foreground(colorValid);
 				textblock_Status().Text(L"Brightness set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Brightness set to " << newValue);
 			}
@@ -329,14 +333,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_Contrast().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Contrast().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting contrast");
 				AVDebugWriteLine(L"Failed setting contrast");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_Contrast().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Contrast().Foreground(colorValid);
 				textblock_Status().Text(L"Contrast set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Contrast set to " << newValue);
 			}
@@ -363,14 +369,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_Saturation().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Saturation().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting saturation");
 				AVDebugWriteLine(L"Failed setting saturation");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_Saturation().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Saturation().Foreground(colorValid);
 				textblock_Status().Text(L"Saturation set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Saturation set to " << newValue);
 			}
@@ -397,14 +405,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_Hue().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Hue().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting hue");
 				AVDebugWriteLine(L"Failed setting hue");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_Hue().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Hue().Foreground(colorValid);
 				textblock_Status().Text(L"Hue set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Hue set to " << newValue);
 			}
@@ -721,14 +731,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_RelativeVoltageSwing().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_RelativeVoltageSwing().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting voltage swing");
 				AVDebugWriteLine(L"Failed setting voltage swing");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_RelativeVoltageSwing().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_RelativeVoltageSwing().Foreground(colorValid);
 				textblock_Status().Text(L"Voltage swing set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Voltage swing set to " << newValue);
 			}
@@ -755,14 +767,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Display_RelativePreEmphasis().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_RelativePreEmphasis().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting preset emphasis");
 				AVDebugWriteLine(L"Failed setting preset emphasis");
 			}
 			else
 			{
 				//Set result
-				textbox_Display_RelativePreEmphasis().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_RelativePreEmphasis().Foreground(colorValid);
 				textblock_Status().Text(L"Preset emphasis set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"Preset emphasis set to " << newValue);
 			}

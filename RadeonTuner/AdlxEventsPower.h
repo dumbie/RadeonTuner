@@ -111,14 +111,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_SmartShiftMaxBias().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_SmartShiftMaxBias().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting SmartShift bias");
 				AVDebugWriteLine(L"Failed setting SmartShift bias");
 			}
 			else
 			{
 				//Set result
-				textbox_SmartShiftMaxBias().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_SmartShiftMaxBias().Foreground(colorValid);
 				textblock_Status().Text(L"SmartShift bias set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"SmartShift bias set to " << newValue);
 			}

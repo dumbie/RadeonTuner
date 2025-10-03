@@ -74,14 +74,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonSuperResolution_Sharpening().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting sharpening");
 				AVDebugWriteLine(L"Failed setting sharpening");
 			}
 			else
 			{
 				//Set result
-				textbox_RadeonSuperResolution_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonSuperResolution_Sharpening().Foreground(colorValid);
 				textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Sharpening set to " << newValue);
 			}
@@ -308,7 +310,8 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonChill_Min().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting chill fps");
 				AVDebugWriteLine(L"Failed setting chill fps");
 			}
@@ -321,7 +324,8 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Set result
-				textbox_RadeonChill_Min().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonChill_Min().Foreground(colorValid);
 				textblock_Status().Text(L"Chill minimum set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Chill minimum set to " << newValue);
 			}
@@ -346,7 +350,8 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonChill_Max().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting chill fps");
 				AVDebugWriteLine(L"Failed setting chill fps");
 			}
@@ -359,7 +364,8 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Set result
-				textbox_RadeonChill_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonChill_Max().Foreground(colorValid);
 				textblock_Status().Text(L"Chill maximum set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Chill maximum set to " << newValue);
 			}
@@ -435,14 +441,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonBoost_MinRes().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting min. resolution");
 				AVDebugWriteLine(L"Failed setting min. resolution");
 			}
 			else
 			{
 				//Set result
-				textbox_RadeonBoost_MinRes().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonBoost_MinRes().Foreground(colorValid);
 				textblock_Status().Text(L"Min. resolution set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Min. resolution set to " << newValue);
 			}
@@ -528,14 +536,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonImageSharpening_Sharpening().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting sharpening");
 				AVDebugWriteLine(L"Failed setting sharpening");
 			}
 			else
 			{
 				//Set result
-				textbox_RadeonImageSharpening_Sharpening().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonImageSharpening_Sharpening().Foreground(colorValid);
 				textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Sharpening set to " << newValue);
 			}
@@ -651,14 +661,16 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textbox_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Red()));
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Frtc_Max().Foreground(colorInvalid);
 				textblock_Status().Text(L"Failed setting FRTC");
 				AVDebugWriteLine(L"Failed setting FRTC");
 			}
 			else
 			{
 				//Set result
-				textbox_Frtc_Max().Foreground(SolidColorBrush(Windows::UI::Colors::Green()));
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Frtc_Max().Foreground(colorValid);
 				textblock_Status().Text(L"FRTC set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"FRTC set to " << newValue);
 			}
