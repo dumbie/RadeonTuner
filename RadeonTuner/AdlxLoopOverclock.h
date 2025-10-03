@@ -20,55 +20,61 @@ namespace winrt::RadeonTuner::implementation
 				std::optional<bool> ActiveOverclock = AppVariables::Settings.Load<bool>("ActiveOverclock");
 				if (ActiveOverclock.has_value() && ActiveOverclock.value())
 				{
-					std::optional<std::string> ActiveOverclockFile = AppVariables::Settings.Load<std::string>("ActiveOverclockFile");
-					if (ActiveOverclockFile.has_value())
+					//Get active overclock path
+					std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
+					std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+
+					//Open settings file
+					std::string settings = file_to_string(pathSettingFileA);
+
+					//Parse settings file
+					nlohmann::json jsonData = nlohmann::json::parse(settings);
+
+					//Convert json to struct
+					TuningFanSettings targetSettings = Generate_TuningFanSettings(jsonData);
+
+					//Loop through all gpus
+					for (UINT i = 0; i < ppGpuList->Size(); i++)
 					{
-						//Open settings file
-						std::string settings = file_to_string(ActiveOverclockFile.value());
+						//Get gpu pointer
+						IADLXGPU2Ptr ppGpuPtr;
+						ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
 
-						//Parse settings file
-						nlohmann::json jsonData = nlohmann::json::parse(settings);
+						//Get gpu identifier
+						std::wstring device_current_id_w = AdlxGetDeviceIdentifier(ppGpuPtr);
+						std::string device_current_id_a = wstring_to_string(device_current_id_w);
 
-						//Convert json to struct
-						TuningFanSettings targetSettings = GenerateStruct_TuningFanSettings(jsonData);
-
-						//Loop through all gpus
-						for (UINT i = 0; i < ppGpuList->Size(); i++)
+						//Check gpu identifier
+						if (targetSettings.DeviceId == device_current_id_a)
 						{
-							//Get gpu pointer
-							IADLXGPU2Ptr ppGpuPtr;
-							ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+							//Get current gpu clock speed
+							IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
+							adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
 
-							//Get gpu identifier
-							std::wstring device_current_id_w = AdlxGetDeviceIdentifier(ppGpuPtr);
-							std::string device_current_id_a = wstring_to_string(device_current_id_w);
+							int device_current_coremax = 0;
+							adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&device_current_coremax);
 
-							//Check gpu identifier
-							if (targetSettings.DeviceId == device_current_id_a)
+							//Check gpu clock speed
+							if (device_current_coremax != targetSettings.CoreMax)
 							{
-								//Get current gpu clock speed
-								IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
-								adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
+								AVDebugWriteLine("Target overclock settings do not match, applying overclock.");
+								std::function<void()> updateFunction = [&]
+									{
+										//Apply tuning and fans settings
+										AdlxApplyTuning(targetSettings);
 
-								int device_current_coremax = 0;
-								adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&device_current_coremax);
+										//Load tuning settings
+										AdlxValuesLoadTuning();
 
-								//Check gpu clock speed
-								if (device_current_coremax != targetSettings.CoreMax)
-								{
-									AVDebugWriteLine("Target overclock settings do not match, applying overclock.");
-
-									//Apply tuning and fan settings
-									AdlxApplyTuning(targetSettings);
-
-									//Reload tuning and fan settings
-									//fix
-								}
+										//Load fans settings
+										AdlxValuesLoadFans();
+									};
+								AppVariables::App.DispatcherInvoke(updateFunction);
 							}
 						}
-
-						AVDebugWriteLine("ADLX active overclock time");
 					}
+
+					AVDebugWriteLine("ADLX active overclock time");
 				}
 			}
 			catch (...) {}

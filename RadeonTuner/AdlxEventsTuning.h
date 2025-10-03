@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	TuningFanSettings MainPage::GenerateStruct_TuningFanSettings()
+	TuningFanSettings MainPage::Generate_TuningFanSettings()
 	{
 		TuningFanSettings tuningFanSettings{};
 		try
@@ -40,7 +40,7 @@ namespace winrt::RadeonTuner::implementation
 		return tuningFanSettings;
 	}
 
-	TuningFanSettings MainPage::GenerateStruct_TuningFanSettings(nlohmann::json jsonData)
+	TuningFanSettings MainPage::Generate_TuningFanSettings(nlohmann::json jsonData)
 	{
 		TuningFanSettings tuningFanSettings{};
 		try
@@ -133,14 +133,44 @@ namespace winrt::RadeonTuner::implementation
 		return tuningFanSettings;
 	}
 
+	nlohmann::json MainPage::Generate_TuningFanSettings(TuningFanSettings tuningFanSettings)
+	{
+		nlohmann::json jsonData{};
+		try
+		{
+			//Set settings values
+			jsonData["DeviceId"] = tuningFanSettings.DeviceId;
+			jsonData["CoreMin"] = tuningFanSettings.CoreMin;
+			jsonData["CoreMax"] = tuningFanSettings.CoreMax;
+			jsonData["MemoryTiming"] = tuningFanSettings.MemoryTiming;
+			jsonData["MemoryMax"] = tuningFanSettings.MemoryMax;
+			jsonData["PowerLimit"] = tuningFanSettings.PowerLimit;
+			jsonData["PowerVoltage"] = tuningFanSettings.PowerVoltage;
+			jsonData["PowerTDC"] = tuningFanSettings.PowerTDC;
+			jsonData["FanZeroRpm"] = tuningFanSettings.FanZeroRpm;
+			jsonData["FanSpeed0"] = tuningFanSettings.FanSpeed0;
+			jsonData["FanTemp0"] = tuningFanSettings.FanTemp0;
+			jsonData["FanSpeed1"] = tuningFanSettings.FanSpeed1;
+			jsonData["FanTemp1"] = tuningFanSettings.FanTemp1;
+			jsonData["FanSpeed2"] = tuningFanSettings.FanSpeed2;
+			jsonData["FanTemp2"] = tuningFanSettings.FanTemp2;
+			jsonData["FanSpeed3"] = tuningFanSettings.FanSpeed3;
+			jsonData["FanTemp3"] = tuningFanSettings.FanTemp3;
+			jsonData["FanSpeed4"] = tuningFanSettings.FanSpeed4;
+			jsonData["FanTemp4"] = tuningFanSettings.FanTemp4;
+		}
+		catch (...) {}
+		return jsonData;
+	}
+
 	void MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
-			//Generate tuning fan settings
-			TuningFanSettings tuningFanSettings = GenerateStruct_TuningFanSettings();
+			//Generate tuning and fans settings
+			TuningFanSettings tuningFanSettings = Generate_TuningFanSettings();
 
-			//Apply tuning and fan settings
+			//Apply tuning and fans settings
 			adlx_Bool = AdlxApplyTuning(tuningFanSettings);
 			if (adlx_Bool)
 			{
@@ -167,6 +197,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Import settings from file
 			AdlxValuesImport();
 		}
 		catch (...) {}
@@ -176,7 +207,22 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Export current settings to file
 			AdlxValuesExport();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Get active overclock file path
+			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
+			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+
+			//Export current settings to file
+			AdlxValuesExport(pathSettingFileA);
 		}
 		catch (...) {}
 	}

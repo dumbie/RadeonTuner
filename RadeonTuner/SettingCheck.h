@@ -23,11 +23,6 @@ namespace winrt::RadeonTuner::implementation
 				AppVariables::Settings.Set("ActiveOverclock", false);
 			}
 
-			if (!AppVariables::Settings.Check("ActiveOverclockFile"))
-			{
-				AppVariables::Settings.Set("ActiveOverclockFile", "...");
-			}
-
 			AVDebugWriteLine("Application settings checked.");
 		}
 		catch (...)

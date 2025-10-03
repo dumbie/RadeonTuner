@@ -135,6 +135,7 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(true);
 				button_Fan_Import().IsEnabled(true);
 				button_Fan_Export().IsEnabled(true);
+				button_Fan_Keep().IsEnabled(true);
 
 				//Update fan graph
 				UpdateFanGraph();
@@ -157,6 +158,7 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(false);
 				button_Fan_Import().IsEnabled(false);
 				button_Fan_Export().IsEnabled(false);
+				button_Fan_Keep().IsEnabled(false);
 			}
 
 			//Set result
@@ -180,6 +182,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Reset().IsEnabled(false);
 			button_Fan_Import().IsEnabled(false);
 			button_Fan_Export().IsEnabled(false);
+			button_Fan_Keep().IsEnabled(false);
 
 			//Set result
 			AVDebugWriteLine("ADLX failed loading fan values.");

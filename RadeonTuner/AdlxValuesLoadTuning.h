@@ -193,6 +193,15 @@ namespace winrt::RadeonTuner::implementation
 				button_Tuning_Reset().IsEnabled(false);
 				button_Tuning_Import().IsEnabled(false);
 				button_Tuning_Export().IsEnabled(false);
+				button_Tuning_Keep().IsEnabled(false);
+			}
+			else
+			{
+				button_Tuning_Apply().IsEnabled(true);
+				button_Tuning_Reset().IsEnabled(true);
+				button_Tuning_Import().IsEnabled(true);
+				button_Tuning_Export().IsEnabled(true);
+				button_Tuning_Keep().IsEnabled(true);
 			}
 
 			//Set result
@@ -212,6 +221,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Tuning_Reset().IsEnabled(false);
 			button_Tuning_Import().IsEnabled(false);
 			button_Tuning_Export().IsEnabled(false);
+			button_Tuning_Keep().IsEnabled(false);
 
 			//Set result
 			AVDebugWriteLine("ADLX failed loading tuning values.");
