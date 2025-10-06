@@ -67,6 +67,12 @@
                         <TextBlock HorizontalAlignment="Center" Text="Information"/>
                     </StackPanel>
                 </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Exit" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Shutdown.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Exit"/>
+                    </StackPanel>
+                </ListBoxItem>
             </ListBox>
 
             <!-- Content -->

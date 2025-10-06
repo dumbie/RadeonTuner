@@ -329,6 +329,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="Shutdown.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Information.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>

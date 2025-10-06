@@ -127,6 +127,13 @@ namespace winrt::RadeonTuner::implementation
 			//Get selected index
 			int selectedIndex = sender.as<ListBox>().SelectedIndex();
 
+			//Exit application
+			if (selectedIndex == 8)
+			{
+				PostQuitMessage(0);
+				return;
+			}
+
 			//Save selected index
 			AppVariables::Settings.Set("MenuIndex", selectedIndex);
 
