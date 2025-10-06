@@ -12,15 +12,95 @@ namespace winrt::RadeonTuner::implementation
 	HWND _hWnd_MainWindow = NULL;
 	HWND _hWnd_XamlWindow = NULL;
 
+	//Constants
+	const UINT WM_TRAYICON_CALL = 0x8001;
+	const UINT TM_SETTINGS = 0x8002;
+	const UINT TM_WEBSITE = 0x8003;
+	const UINT TM_EXIT = 0x8004;
+
+	//Application tray callback
+	void AppTrayCallback(LPARAM lParam)
+	{
+		switch (lParam)
+		{
+		case WM_LBUTTONDBLCLK:
+		{
+			//Show window in normal state
+			ShowWindow(_hWnd_MainWindow, SW_SHOWNORMAL);
+			return;
+		}
+		case WM_RBUTTONUP:
+		{
+			//Get cursor position
+			POINT pointCursor;
+			GetCursorPos(&pointCursor);
+
+			//Show tray menu
+			HMENU hMenu = CreatePopupMenu();
+			InsertMenuW(hMenu, 0, MF_BYPOSITION | MF_STRING, TM_SETTINGS, L"Settings");
+			InsertMenuW(hMenu, 1, MF_BYPOSITION | MF_SEPARATOR, NULL, NULL);
+			InsertMenuW(hMenu, 2, MF_BYPOSITION | MF_STRING, TM_WEBSITE, L"Website");
+			InsertMenuW(hMenu, 3, MF_BYPOSITION | MF_SEPARATOR, NULL, NULL);
+			InsertMenuW(hMenu, 4, MF_BYPOSITION | MF_STRING, TM_EXIT, L"Exit");
+
+			//Track tray menu
+			SetForegroundWindow(_hWnd_MainWindow);
+			TrackPopupMenuEx(hMenu, TPM_RIGHTBUTTON | TPM_LEFTALIGN | TPM_BOTTOMALIGN, pointCursor.x, pointCursor.y, _hWnd_MainWindow, NULL);
+
+			//Destroy tray menu
+			DestroyMenu(hMenu);
+			return;
+		}
+		}
+	}
+
+	//Application tray click
+	void AppTrayClick(WPARAM wParam)
+	{
+		switch (wParam)
+		{
+		case TM_SETTINGS:
+		{
+			//Show window in normal state
+			ShowWindow(_hWnd_MainWindow, SW_SHOWNORMAL);
+			return;
+		}
+		case TM_WEBSITE:
+		{
+			//Open project website
+			ShellExecuteW(0, 0, L"https://projects.arnoldvink.com", 0, 0, 0);
+			return;
+		}
+		case TM_EXIT:
+		{
+			//Exit application
+			PostQuitMessage(0);
+			return;
+		}
+		}
+	}
+
 	//Callbacks
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT messageCode, WPARAM wParam, LPARAM lParam)
 	{
 		switch (messageCode)
 		{
-		case WM_DESTROY:
-			PostQuitMessage(0);
+		case WM_TRAYICON_CALL:
+			//Hande tray icon callback
+			AppTrayCallback(lParam);
+			return 0;
+		case WM_COMMAND:
+		{
+			//Hande tray icon click
+			AppTrayClick(wParam);
+			return 0;
+		}
+		case WM_CLOSE:
+			//Show window in hidden state
+			ShowWindow(_hWnd_MainWindow, SW_HIDE);
 			return 0;
 		case WM_SIZE:
+			//Resize xaml window
 			RECT rectClient;
 			GetClientRect(hWnd, &rectClient);
 			MoveWindow(_hWnd_XamlWindow, 0, 0, rectClient.right, rectClient.bottom, true);
@@ -79,7 +159,28 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void App::Initialize(HINSTANCE hInstance)
+	void App::CreateTrayIcon(HINSTANCE hInstance)
+	{
+		//Load tray icon
+		HICON hTrayIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));
+
+		//Create tray data
+		NOTIFYICONDATA notifyIcon = { };
+		notifyIcon.cbSize = sizeof(notifyIcon);
+		notifyIcon.hWnd = _hWnd_MainWindow;
+		notifyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+		notifyIcon.uCallbackMessage = WM_TRAYICON_CALL;
+		notifyIcon.hIcon = hTrayIcon;
+
+		//Set tray strings
+		std::wstring szTrayTip = L"RadeonTuner";
+		lstrcpynW(notifyIcon.szTip, szTrayTip.c_str(), 127);
+
+		//Show tray icon
+		Shell_NotifyIconW(NIM_ADD, &notifyIcon);
+	}
+
+	void App::CreateWindowXaml(HINSTANCE hInstance)
 	{
 		//Initialize for current thread
 		winrt::init_apartment(apartment_type::multi_threaded);
@@ -145,10 +246,18 @@ namespace winrt::RadeonTuner::implementation
 		//Update DesktopWindowXamlSource window size
 		RECT rectClient;
 		GetClientRect(_hWnd_MainWindow, &rectClient);
-		SetWindowPos(_hWnd_XamlWindow, 0, 0, 0, rectClient.right, rectClient.bottom, SWP_SHOWWINDOW);
+
+		//Set xaml window size and location
+		MoveWindow(_hWnd_XamlWindow, 0, 0, rectClient.right, rectClient.bottom, true);
+
+		//Show xaml window in normal state
+		ShowWindow(_hWnd_XamlWindow, SW_SHOWNORMAL);
 
 		//Set DesktopWindowXamlSource content
 		_desktopWindowXamlSource.Content(MainPage());
+
+		//Create application tray icon
+		CreateTrayIcon(hInstance);
 
 		//Window message loop
 		MSG msg;

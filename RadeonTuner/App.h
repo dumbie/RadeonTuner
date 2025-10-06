@@ -11,7 +11,8 @@ namespace winrt::RadeonTuner::implementation
 		App();
 		void SetTopMost(bool topMost);
 		void SetContent(FrameworkElement const& content);
-		void Initialize(HINSTANCE hInstance);
+		void CreateTrayIcon(HINSTANCE hInstance);
+		void CreateWindowXaml(HINSTANCE hInstance);
 		void DispatcherInvoke(std::function<void()> const& action);
 
 	private:

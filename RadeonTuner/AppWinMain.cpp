@@ -12,8 +12,8 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 	AppVariables::Settings = AVSettingsJson(pathSettingFileA);
 
-	//Initialize application
-	AppVariables::App.Initialize(hInstance);
+	//Create application window
+	AppVariables::App.CreateWindowXaml(hInstance);
 
 	//Return result
 	return 0;
