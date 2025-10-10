@@ -83,8 +83,11 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlValuesPrepare.h" />
     <ClInclude Include="AdlVariables.h" />
@@ -157,6 +160,8 @@
     <ClInclude Include="ADL\adl_sdk.h" />
     <ClInclude Include="ADL\adl_structures.h" />
     <ClInclude Include="AppVariables.h" />
+    <ClInclude Include="RegEvents.h" />
+    <ClInclude Include="RegValuesLoad.h" />
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>

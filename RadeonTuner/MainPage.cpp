@@ -26,6 +26,8 @@
 #include "AdlxEventsPower.h"
 #include "AdlxEventsTuning.h"
 
+#include "RegEvents.h"
+
 #include "SettingCheck.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"
@@ -75,11 +77,11 @@ namespace winrt::RadeonTuner::implementation
 			//Load settings
 			SettingLoad();
 
-			//Load other values
-			AdlxValuesLoadSelectOther();
-
 			//Select default indexes
 			SelectIndexes();
+
+			//Load power values
+			AdlxValuesLoadSelectPower();
 
 			//Start adlx loop metrics
 			std::thread threadLoopMetrics(&MainPage::AdlxLoopMetrics, this);

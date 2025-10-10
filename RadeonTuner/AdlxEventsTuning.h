@@ -220,6 +220,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Fix add right mouse click enable/disable setting
+
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
 			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);

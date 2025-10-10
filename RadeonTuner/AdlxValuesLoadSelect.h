@@ -8,25 +8,10 @@
 #include "AdlxValuesLoadPower.h"
 #include "AdlxValuesLoadDisplay.h"
 #include "AdlxValuesLoadTuning.h"
+#include "RegValuesLoad.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Fix ADLX missing Texture Filtering Quality
-	//Fix ADLX missing Surface Format Optimization
-	//Fix ADLX missing AFMF Search and Performance mode
-	//Fix ADLX missing OpenGL Triple Buffering
-	//Fix ADLX missing 10-Bit Pixel Format
-	//Fix ADLX missing Display Color Enhancement
-	//Fix ADLX missing Color Deficiency Correction
-	//Fix ADLX missing AMD Privacy View
-	//Fix ADLX missing AMD Noise Suppression
-	//Fix ADLX missing Platform Compatibility (Group A, B, C)
-	//Fix GetCustomResolution support (Custom Resolution Utility)
-	//Fix IADLXEyefinityDesktop support
-	//Fix Get3DLUT support
-	//Fix GetGamut support
-	//Fix GetGamma support
-
 	void MainPage::AdlxValuesLoadSelectApp()
 	{
 		try
@@ -52,7 +37,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlxValuesLoadSelectOther()
+	void MainPage::AdlxValuesLoadSelectPower()
 	{
 		try
 		{
@@ -71,12 +56,12 @@ namespace winrt::RadeonTuner::implementation
 			threadEnableSaving.detach();
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded other values.");
+			AVDebugWriteLine("ADLX loaded power values.");
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX failed loading other values.");
+			AVDebugWriteLine("ADLX failed loading power values.");
 		}
 	}
 
@@ -147,6 +132,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Load gpu information
 			AdlxInfoLoad();
+
+			//Load registry settings
+			RegValuesLoad();
 
 			//Enable saving
 			std::thread threadEnableSaving([]()

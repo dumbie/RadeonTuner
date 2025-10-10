@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 		nlohmann::json Generate_TuningFanSettings(TuningFanSettings tuningFanSettings);
 
 		void AdlxValuesLoadSelectApp();
-		void AdlxValuesLoadSelectOther();
+		void AdlxValuesLoadSelectPower();
 		void AdlxValuesLoadSelectGpu();
 		void AdlxValuesLoadSelectDisplay();
 		void AdlxValuesLoadFans();
@@ -35,6 +35,7 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxInfoLoad();
 		void AdlxLoopMetrics();
 		void AdlxLoopOverclock();
+		void RegValuesLoad();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
 		void SettingCheck();
@@ -111,6 +112,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_ActiveOverclock_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

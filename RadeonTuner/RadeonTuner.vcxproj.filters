@@ -270,6 +270,21 @@
     <ClInclude Include="TuningFanSettings.h">
       <Filter>Class Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="RegValuesLoad.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegEvents.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">

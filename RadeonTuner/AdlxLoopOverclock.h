@@ -9,6 +9,7 @@ namespace winrt::RadeonTuner::implementation
 	void MainPage::AdlxLoopOverclock()
 	{
 		//Fix switch to IADLXGPUTuningChangedEvent?
+		//Fix skip overclock when AMDSoftwareInstaller.exe is running
 		while (true)
 		{
 			try

@@ -331,6 +331,12 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- OpenGL Triple Buffering -->
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="An alternative vsync mode exclusively for OpenGL applications.&#10;&#10;* Changing this setting requires admin access."/>
+                                <ToggleSwitch x:Name="toggleswitch_OpenGLTripleBuffering" Margin="10,0,0,0" OffContent="OpenGL Triple Buffering" OnContent="OpenGL Triple Buffering" Toggled="toggleswitch_OpenGLTripleBuffering_Toggled"/>
+                            </StackPanel>
+
                             <!-- Reset Shader Cache -->
                             <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                         </StackPanel>
