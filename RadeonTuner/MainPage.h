@@ -113,6 +113,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_ActiveOverclock_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 
