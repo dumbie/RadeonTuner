@@ -8,6 +8,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Note: setting names can be found in amdadlx64.dll and amdkmdag.sys
+
 			//OpenGL Triple Buffering
 			if (RegistryCheck(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering"))
 			{
@@ -55,6 +57,21 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Enable or disable interface
 				toggleswitch_OpenGL10Bit().IsEnabled(false);
+			}
+
+			//Microsoft HAGS Support
+			//KMD_DisableNv2x3DCGWithMSHWS / KMD_EnableMSHWSQESSupport
+			std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS");
+			if (dword.has_value())
+			{
+				if (dword.value() == 2)
+				{
+					toggleswitch_HagsSupport().IsOn(true);
+				}
+				else
+				{
+					toggleswitch_HagsSupport().IsOn(false);
+				}
 			}
 
 			//Set result

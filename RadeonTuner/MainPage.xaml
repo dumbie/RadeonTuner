@@ -343,6 +343,12 @@
                                 <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
                             </StackPanel>
 
+                            <!-- Microsoft HAGS Support -->
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Hardware-Accelerated GPU Scheduling (HAGS) reduces latency and improves performance by moving more work to the graphics card.&#10;&#10;* System restart required to take effect.&#10;&#10;* Changing this setting requires admin access."/>
+                                <ToggleSwitch x:Name="toggleswitch_HagsSupport" Margin="10,0,0,0" OffContent="Microsoft HAGS Support" OnContent="Microsoft HAGS Support" Toggled="toggleswitch_HagsSupport_Toggled"/>
+                            </StackPanel>
+
                             <!-- Reset Shader Cache -->
                             <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                         </StackPanel>

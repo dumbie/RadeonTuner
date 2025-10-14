@@ -77,4 +77,41 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::toggleswitch_HagsSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				DWORD settingDword = 2;
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS", settingDword))
+				{
+					textblock_Status().Text(L"Failed enabling HAGS support");
+					AVDebugWriteLine(L"Failed enabling HAGS support");
+					disable_saving = true;
+					senderElement.IsOn(false);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"HAGS support enabled");
+					AVDebugWriteLine(L"HAGS support enabled");
+				}
+			}
+			else
+			{
+				DWORD settingDword = 0;
+				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS", settingDword);
+
+				textblock_Status().Text(L"HAGS support disabled");
+				AVDebugWriteLine(L"HAGS support disabled");
+			}
+		}
+		catch (...) {}
+	}
 }
