@@ -7,6 +7,7 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 
 ## Application Features
 - Automatically reapply tuning settings on driver resets.
+- Import and export your settings to a file.
 - Change gpu and fan tuning settings.
 - Change gaming graphic settings.
 - Change your display settings.
