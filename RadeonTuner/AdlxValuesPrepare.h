@@ -127,8 +127,20 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all smartshift max modes
 			itemCollection = combobox_SmartShiftMaxMode().Items();
-			itemCollection.Append(box_value(L"Auto"));
+			itemCollection.Append(box_value(L"Automatic"));
 			itemCollection.Append(box_value(L"Manual"));
+
+			//List all fluid motion search modes
+			itemCollection = combobox_FrameGenSearchMode().Items();
+			itemCollection.Append(box_value(L"Automatic"));
+			itemCollection.Append(box_value(L"Standard"));
+			itemCollection.Append(box_value(L"High"));
+
+			//List all fluid motion performance modes
+			itemCollection = combobox_FrameGenPerfMode().Items();
+			itemCollection.Append(box_value(L"Automatic"));
+			itemCollection.Append(box_value(L"Quality"));
+			itemCollection.Append(box_value(L"Performance"));
 
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");

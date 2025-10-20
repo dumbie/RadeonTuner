@@ -4,12 +4,13 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	//Note: setting names can be found in amdadlx64.dll and amdkmdag.sys
+	//Fix second gpu support
+
 	void MainPage::RegValuesLoad()
 	{
 		try
 		{
-			//Note: setting names can be found in amdadlx64.dll and amdkmdag.sys
-
 			//OpenGL Triple Buffering
 			if (RegistryCheck(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering"))
 			{
@@ -72,6 +73,21 @@ namespace winrt::RadeonTuner::implementation
 				{
 					toggleswitch_HagsSupport().IsOn(false);
 				}
+			}
+
+			//Fluid Motion Search Mode
+			//FrameGenAlgorithm / FrameGenFallbackMode
+			dword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode");
+			if (dword.has_value())
+			{
+				combobox_FrameGenSearchMode().SelectedIndex(dword.value());
+			}
+
+			//Fluid Motion Performance Mode
+			dword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode");
+			if (dword.has_value())
+			{
+				combobox_FrameGenPerfMode().SelectedIndex(dword.value());
 			}
 
 			//Set result

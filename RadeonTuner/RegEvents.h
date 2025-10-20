@@ -4,6 +4,8 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	//Fix second gpu support
+
 	void MainPage::toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -110,6 +112,56 @@ namespace winrt::RadeonTuner::implementation
 
 				textblock_Status().Text(L"HAGS support disabled");
 				AVDebugWriteLine(L"HAGS support disabled");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			DWORD newValue = sender.as<ComboBox>().SelectedIndex();
+			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue))
+			{
+				//Set result
+				textblock_Status().Text(L"Failed setting motion search mode");
+				AVDebugWriteLine(L"Failed setting motion search mode");
+			}
+			else
+			{
+				//Set result
+				textblock_Status().Text(L"Motion search mode set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Motion search mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			DWORD newValue = sender.as<ComboBox>().SelectedIndex();
+			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue))
+			{
+				//Set result
+				textblock_Status().Text(L"Failed setting motion performance mode");
+				AVDebugWriteLine(L"Failed setting motion performance mode");
+			}
+			else
+			{
+				//Set result
+				textblock_Status().Text(L"Motion performance mode set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Motion performance mode set to " << newValue);
 			}
 		}
 		catch (...) {}

@@ -74,17 +74,23 @@ namespace winrt::RadeonTuner::implementation
 
 					//Enable or disable interface
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(true);
+					combobox_FrameGenSearchMode().IsEnabled(true);
+					combobox_FrameGenPerfMode().IsEnabled(true);
 				}
 				else
 				{
 					//Enable or disable interface
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
+					combobox_FrameGenSearchMode().IsEnabled(false);
+					combobox_FrameGenPerfMode().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
 				//Enable or disable interface
 				toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
+				combobox_FrameGenSearchMode().IsEnabled(false);
+				combobox_FrameGenPerfMode().IsEnabled(false);
 			}
 
 			//Get Radeon Anti-Lag setting

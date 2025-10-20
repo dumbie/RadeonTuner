@@ -158,10 +158,28 @@
                             </Border>
 
                             <!-- Radeon Fluid Motion Frames -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games.&#10;&#10;* This setting can only be enabled when using 'Default' driver software type installation."/>
-                                <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games.&#10;&#10;* This setting requires 'Default' driver software type installation."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,5,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjusts Fluid Motion Frames search algorithm to respond better to high-motion scenes and improve smoothness."/>
+                                            <TextBlock Margin="10,0,0,0" Text="Search Mode" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_FrameGenSearchMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenSearchMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reduces the potential performance overhead of Fluid Motion but may lower the image quality during high-motion scenes."/>
+                                            <TextBlock Margin="10,0,0,0" Text="Performance Mode" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <!-- Radeon Anti-Lag -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
