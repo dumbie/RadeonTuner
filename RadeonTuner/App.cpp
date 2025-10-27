@@ -1,4 +1,5 @@
 #pragma once
+#include "AppVariables.h"
 #include "pch.h"
 #include "resource.h"
 #include "App.h"
@@ -80,25 +81,46 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
+	//Application close click
+	BOOL AppCloseClick()
+	{
+		std::optional<bool> CloseTray = AppVariables::Settings.Load<bool>("CloseTray");
+		if (CloseTray.has_value() && CloseTray.value())
+		{
+			AVDebugWriteLine("Closing application to tray.");
+
+			//Show window in hidden state
+			ShowWindow(_hWnd_MainWindow, SW_HIDE);
+			return 0;
+		}
+		else
+		{
+			AVDebugWriteLine("Exiting application.");
+
+			//Exit application
+			PostQuitMessage(0);
+			return 0;
+		}
+	}
+
 	//Callbacks
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT messageCode, WPARAM wParam, LPARAM lParam)
 	{
 		switch (messageCode)
 		{
 		case WM_TRAYICON_CALL:
-			//Hande tray icon callback
+			//Handle tray icon callback
 			AppTrayCallback(lParam);
 			return 0;
 		case WM_COMMAND:
 		{
-			//Hande tray icon click
+			//Handle tray icon click
 			AppTrayClick(wParam);
 			return 0;
 		}
 		case WM_CLOSE:
-			//Show window in hidden state
-			ShowWindow(_hWnd_MainWindow, SW_HIDE);
-			return 0;
+			//Handle app close click
+			return AppCloseClick();
 		case WM_SIZE:
 			//Resize xaml window
 			RECT rectClient;

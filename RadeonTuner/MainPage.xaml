@@ -981,6 +981,11 @@
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show this window on top of other applications."/>
                                 <ToggleSwitch x:Name="toggleswitch_Window_Top" Margin="10,0,0,0" OffContent="Show window on top" OnContent="Show window on top" Toggled="toggleswitch_Window_Top_Toggled"/>
                             </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Close application to system tray menu instead of exiting."/>
+                                <ToggleSwitch x:Name="toggleswitch_Close_Tray" Margin="10,0,0,0" OffContent="Close to system tray" OnContent="Close to system tray" Toggled="toggleswitch_Close_Tray_Toggled"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <!-- Information -->

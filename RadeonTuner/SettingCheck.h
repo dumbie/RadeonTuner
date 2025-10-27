@@ -18,6 +18,11 @@ namespace winrt::RadeonTuner::implementation
 				AppVariables::Settings.Set("SetTopMost", false);
 			}
 
+			if (!AppVariables::Settings.Check("CloseTray"))
+			{
+				AppVariables::Settings.Set("CloseTray", false);
+			}
+
 			if (!AppVariables::Settings.Check("ActiveOverclock"))
 			{
 				AppVariables::Settings.Set("ActiveOverclock", false);

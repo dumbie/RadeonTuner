@@ -51,4 +51,21 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::toggleswitch_Close_Tray_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				AppVariables::Settings.Set("CloseTray", true);
+			}
+			else
+			{
+				AppVariables::Settings.Set("CloseTray", false);
+			}
+		}
+		catch (...) {}
+	}
 }

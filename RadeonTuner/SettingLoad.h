@@ -14,6 +14,12 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Window_Top().IsOn(SetTopMost.value());
 			}
 
+			std::optional<bool> CloseTray = AppVariables::Settings.Load<bool>("CloseTray");
+			if (CloseTray.has_value())
+			{
+				toggleswitch_Close_Tray().IsOn(CloseTray.value());
+			}
+
 			std::optional<bool> ActiveOverclock = AppVariables::Settings.Load<bool>("ActiveOverclock");
 			if (ActiveOverclock.has_value())
 			{
