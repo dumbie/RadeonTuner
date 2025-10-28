@@ -83,6 +83,7 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVProcesses.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
