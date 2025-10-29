@@ -142,6 +142,12 @@ namespace winrt::RadeonTuner::implementation
 			itemCollection.Append(box_value(L"Quality"));
 			itemCollection.Append(box_value(L"Performance"));
 
+			//List all texture filtering qualities
+			itemCollection = combobox_TextureFilteringQuality().Items();
+			itemCollection.Append(box_value(L"High"));
+			itemCollection.Append(box_value(L"Standard"));
+			itemCollection.Append(box_value(L"Performance"));
+
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");
 		}

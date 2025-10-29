@@ -12,13 +12,9 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//OpenGL Triple Buffering
-			if (RegistryCheck(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering"))
+			std::vector<BYTE> binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering");
+			if (!binary.empty())
 			{
-				//Enable or disable interface
-				toggleswitch_OpenGLTripleBuffering().IsEnabled(true);
-
-				//Check value
-				std::vector<BYTE> binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering");
 				if (binary[0] == 48)
 				{
 					toggleswitch_OpenGLTripleBuffering().IsOn(false);
@@ -28,41 +24,24 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_OpenGLTripleBuffering().IsOn(true);
 				}
 			}
-			else
-			{
-				//Enable or disable interface
-				toggleswitch_OpenGLTripleBuffering().IsEnabled(false);
-			}
 
 			//OpenGL 10-Bit Pixel Format
-			if (RegistryCheck(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode"))
+			std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode");
+			if (dword.has_value())
 			{
-				//Enable or disable interface
-				toggleswitch_OpenGL10Bit().IsEnabled(true);
-
-				//Check value
-				std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode");
-				if (dword.has_value())
+				if (dword.value() == 1)
 				{
-					if (dword.value() == 1)
-					{
-						toggleswitch_OpenGL10Bit().IsOn(true);
-					}
-					else
-					{
-						toggleswitch_OpenGL10Bit().IsOn(false);
-					}
+					toggleswitch_OpenGL10Bit().IsOn(true);
 				}
-			}
-			else
-			{
-				//Enable or disable interface
-				toggleswitch_OpenGL10Bit().IsEnabled(false);
+				else
+				{
+					toggleswitch_OpenGL10Bit().IsOn(false);
+				}
 			}
 
 			//Microsoft HAGS Support
 			//KMD_DisableNv2x3DCGWithMSHWS / KMD_EnableMSHWSQESSupport
-			std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS");
+			dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS");
 			if (dword.has_value())
 			{
 				if (dword.value() == 2)
@@ -72,6 +51,41 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					toggleswitch_HagsSupport().IsOn(false);
+				}
+			}
+
+			//Texture Filtering Quality
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"TFQ");
+			if (!binary.empty())
+			{
+				if (binary[0] == 48)
+				{
+					//48 High
+					combobox_TextureFilteringQuality().SelectedIndex(0);
+				}
+				else if (binary[0] == 49)
+				{
+					//49 Standard
+					combobox_TextureFilteringQuality().SelectedIndex(1);
+				}
+				else if (binary[0] == 50)
+				{
+					//50 Performance
+					combobox_TextureFilteringQuality().SelectedIndex(2);
+				}
+			}
+
+			//Surface Format Optimization
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"SurfaceFormatReplacements");
+			if (!binary.empty())
+			{
+				if (binary[0] == 48)
+				{
+					toggleswitch_SurfaceFormatOptimization().IsOn(false);
+				}
+				else
+				{
+					toggleswitch_SurfaceFormatOptimization().IsOn(true);
 				}
 			}
 
