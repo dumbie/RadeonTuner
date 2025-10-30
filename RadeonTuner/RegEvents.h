@@ -4,8 +4,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Fix second gpu support
-
 	void MainPage::toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -17,7 +15,7 @@ namespace winrt::RadeonTuner::implementation
 			if (senderElement.IsOn())
 			{
 				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering", settingBinary))
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"EnableTripleBuffering", settingBinary))
 				{
 					textblock_Status().Text(L"Failed enabling triple buffering");
 					AVDebugWriteLine(L"Failed enabling triple buffering");
@@ -34,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				std::vector<BYTE> settingBinary = { 48, 00 };
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering", settingBinary);
+				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"EnableTripleBuffering", settingBinary);
 
 				textblock_Status().Text(L"Triple buffering disabled");
 				AVDebugWriteLine(L"Triple buffering disabled");
@@ -54,7 +52,7 @@ namespace winrt::RadeonTuner::implementation
 			if (senderElement.IsOn())
 			{
 				DWORD settingDword = 1;
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode", settingDword))
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_10BitMode", settingDword))
 				{
 					textblock_Status().Text(L"Failed enabling 10-Bit pixel format");
 					AVDebugWriteLine(L"Failed enabling 10-Bit pixel format");
@@ -71,7 +69,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				DWORD settingDword = 2;
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode", settingDword);
+				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_10BitMode", settingDword);
 
 				textblock_Status().Text(L"10-Bit pixel format disabled");
 				AVDebugWriteLine(L"10-Bit pixel format disabled");
@@ -91,7 +89,7 @@ namespace winrt::RadeonTuner::implementation
 			if (senderElement.IsOn())
 			{
 				DWORD settingDword = 2;
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS", settingDword))
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_EnableMSHWS", settingDword))
 				{
 					textblock_Status().Text(L"Failed enabling HAGS support");
 					AVDebugWriteLine(L"Failed enabling HAGS support");
@@ -108,7 +106,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				DWORD settingDword = 0;
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS", settingDword);
+				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_EnableMSHWS", settingDword);
 
 				textblock_Status().Text(L"HAGS support disabled");
 				AVDebugWriteLine(L"HAGS support disabled");
@@ -198,7 +196,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set setting value
-			if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"TFQ", settingBinary))
+			if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"TFQ", settingBinary))
 			{
 				//Set result
 				textblock_Status().Text(L"Failed setting filtering quality");
@@ -225,7 +223,7 @@ namespace winrt::RadeonTuner::implementation
 			if (senderElement.IsOn())
 			{
 				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"SurfaceFormatReplacements", settingBinary))
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"SurfaceFormatReplacements", settingBinary))
 				{
 					textblock_Status().Text(L"Failed enabling format optimization");
 					AVDebugWriteLine(L"Failed enabling format optimization");
@@ -242,7 +240,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				std::vector<BYTE> settingBinary = { 48, 00 };
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"SurfaceFormatReplacements", settingBinary);
+				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"SurfaceFormatReplacements", settingBinary);
 
 				textblock_Status().Text(L"Format optimization disabled");
 				AVDebugWriteLine(L"Format optimization disabled");

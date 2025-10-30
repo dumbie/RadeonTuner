@@ -5,14 +5,12 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Note: setting names can be found in amdadlx64.dll and amdkmdag.sys
-	//Fix second gpu support
-
 	void MainPage::RegValuesLoad()
 	{
 		try
 		{
 			//OpenGL Triple Buffering
-			std::vector<BYTE> binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"EnableTripleBuffering");
+			std::vector<BYTE> binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"EnableTripleBuffering");
 			if (!binary.empty())
 			{
 				if (binary[0] == 48)
@@ -26,7 +24,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL 10-Bit Pixel Format
-			std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_10BitMode");
+			std::optional<DWORD> dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_10BitMode");
 			if (dword.has_value())
 			{
 				if (dword.value() == 1)
@@ -41,7 +39,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Microsoft HAGS Support
 			//KMD_DisableNv2x3DCGWithMSHWS / KMD_EnableMSHWSQESSupport
-			dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000", L"KMD_EnableMSHWS");
+			dword = RegistryGetDword(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_EnableMSHWS");
 			if (dword.has_value())
 			{
 				if (dword.value() == 2)
@@ -55,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Texture Filtering Quality
-			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"TFQ");
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"TFQ");
 			if (!binary.empty())
 			{
 				if (binary[0] == 48)
@@ -76,7 +74,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Surface Format Optimization
-			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\0000\\UMD", L"SurfaceFormatReplacements");
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"SurfaceFormatReplacements");
 			if (!binary.empty())
 			{
 				if (binary[0] == 48)

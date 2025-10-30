@@ -118,6 +118,11 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Get gpu registry path
+			const char* driverPath = NULL;
+			adlx_Res0 = ppGpuInfo->DriverPath(&driverPath);
+			gpuRegistryPath = string_to_wstring(driverPath);
+
 			//Load tuning settings
 			AdlxValuesLoadTuning();
 
