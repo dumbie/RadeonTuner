@@ -56,6 +56,7 @@ namespace winrt::RadeonTuner::implementation
 							adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&device_current_coremax);
 
 							//Check gpu clock speed
+							//Fix add more checks including fan speed
 							if (device_current_coremax != targetSettings.CoreMax)
 							{
 								AVDebugWriteLine("Target overclock settings do not match, applying overclock.");

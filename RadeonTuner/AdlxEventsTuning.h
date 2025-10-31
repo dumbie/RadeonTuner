@@ -220,14 +220,38 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix add right mouse click enable/disable setting
-
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
 			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 
 			//Export current settings to file
 			AdlxValuesExport(pathSettingFileA);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Tuning_Keep_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e)
+	{
+		try
+		{
+			if (e.Pointer().PointerDeviceType() == PointerDeviceType::Mouse)
+			{
+				//Get pointer properties
+				PointerPointProperties pointerProps = e.GetCurrentPoint(NULL).Properties();
+
+				//Check which mouse button is pressed
+				if (pointerProps.IsRightButtonPressed())
+				{
+					if (toggleswitch_ActiveOverclock().IsOn())
+					{
+						toggleswitch_ActiveOverclock().IsOn(false);
+					}
+					else
+					{
+						toggleswitch_ActiveOverclock().IsOn(true);
+					}
+				}
+			}
 		}
 		catch (...) {}
 	}
