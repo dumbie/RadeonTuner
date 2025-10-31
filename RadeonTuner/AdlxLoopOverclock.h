@@ -9,7 +9,6 @@ namespace winrt::RadeonTuner::implementation
 	void MainPage::AdlxLoopOverclock()
 	{
 		//Fix switch to IADLXGPUTuningChangedEvent?
-		//Fix skip overclock when AMDSoftwareInstaller.exe is running
 		while (true)
 		{
 			try
@@ -48,10 +47,11 @@ namespace winrt::RadeonTuner::implementation
 						//Check gpu identifier
 						if (targetSettings.DeviceId == device_current_id_a)
 						{
-							//Get current gpu clock speed
+							//Get current gpu tuning
 							IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
 							adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
 
+							//Get gpu clock speed
 							int device_current_coremax = 0;
 							adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&device_current_coremax);
 
@@ -59,6 +59,22 @@ namespace winrt::RadeonTuner::implementation
 							if (device_current_coremax != targetSettings.CoreMax)
 							{
 								AVDebugWriteLine("Target overclock settings do not match, applying overclock.");
+
+								//Check if AMDSoftwareInstaller is running
+								std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("AMDSoftwareInstaller.exe");
+								if (processList.size() > 0)
+								{
+									std::function<void()> updateFunction = [&]
+										{
+											//Set result
+											textblock_Status().Text(L"Skipped overclock");
+											AVDebugWriteLine("AMDSoftwareInstaller is running, skipped overclock.");
+										};
+									AppVariables::App.DispatcherInvoke(updateFunction);
+									continue;
+								}
+
+								//Apply overclock
 								std::function<void()> updateFunction = [&]
 									{
 										//Apply tuning and fans settings
