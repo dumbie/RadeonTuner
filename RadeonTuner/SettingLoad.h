@@ -8,6 +8,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable saving
+			disable_saving_settings = true;
+
 			std::optional<bool> SetTopMost = AppVariables::Settings.Load<bool>("SetTopMost");
 			if (SetTopMost.has_value())
 			{
@@ -38,6 +41,18 @@ namespace winrt::RadeonTuner::implementation
 					button_Tuning_Keep().Background(colorInvalid);
 				}
 			}
+
+			//Check startup shortcut
+			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner");
+			toggleswitch_Launch_Startup().IsOn(startupShortcut);
+
+			//Enable saving
+			std::thread threadEnableSaving([]()
+				{
+					Sleep(1000);
+					disable_saving_settings = false;
+				});
+			threadEnableSaving.detach();
 
 			AVDebugWriteLine("Application settings loaded.");
 		}

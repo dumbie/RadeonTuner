@@ -4,6 +4,7 @@
 //namespace ADLXVariables
 //{
 inline bool disable_saving = true;
+inline bool disable_saving_settings = true;
 inline std::wstring gpuRegistryPath = L"{4d36e968-e325-11ce-bfc1-08002be10318}\\0000";
 
 inline bool adlx_Bool = false;

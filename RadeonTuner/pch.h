@@ -28,33 +28,38 @@
 #include <winrt/Windows.UI.Xaml.Input.h>
 
 //Namespaces
-using namespace winrt;
-using namespace Windows::Devices::Input;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::UI::Core;
-using namespace Windows::UI::Input;
-using namespace Windows::UI::Xaml;
-using namespace Windows::UI::Xaml::Controls;
-using namespace Windows::UI::Xaml::Controls::Primitives;
-using namespace Windows::UI::Xaml::Shapes;
-using namespace Windows::UI::Xaml::Hosting;
-using namespace Windows::UI::Xaml::Markup;
-using namespace Windows::UI::Xaml::Media;
-using namespace Windows::UI::Xaml::Input;
+namespace winrt
+{
+	using namespace Windows::Devices::Input;
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Windows::UI::Core;
+	using namespace Windows::UI::Input;
+	using namespace Windows::UI::Xaml;
+	using namespace Windows::UI::Xaml::Controls;
+	using namespace Windows::UI::Xaml::Controls::Primitives;
+	using namespace Windows::UI::Xaml::Shapes;
+	using namespace Windows::UI::Xaml::Hosting;
+	using namespace Windows::UI::Xaml::Markup;
+	using namespace Windows::UI::Xaml::Media;
+	using namespace Windows::UI::Xaml::Input;
+}
 
 //Classes
 #include "TuningFanSettings.h"
 
 //Arnold Vink Code
+#include "..\..\ArnoldVinkCode\CPP\AVAdmin.h"
 #include "..\..\ArnoldVinkCode\CPP\AVDebug.h"
 #include "..\..\ArnoldVinkCode\CPP\AVDownloader.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFiles.h"
 #include "..\..\ArnoldVinkCode\CPP\AVFinally.h"
 #include "..\..\ArnoldVinkCode\CPP\AVHighResDelay.h"
+#include "..\..\ArnoldVinkCode\CPP\AVPaths.h"
 #include "..\..\ArnoldVinkCode\CPP\AVProcesses.h"
 #include "..\..\ArnoldVinkCode\CPP\AVRegistry.h"
 #include "..\..\ArnoldVinkCode\CPP\AVSettingsJson.h"
+#include "..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h"
 #include "..\..\ArnoldVinkCode\CPP\AVString.h"
 #include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
 #include "..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp"

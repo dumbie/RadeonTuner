@@ -288,6 +288,15 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVProcesses.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPaths.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVAdmin.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">

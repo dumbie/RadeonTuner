@@ -78,14 +78,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVAdmin.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPaths.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVProcesses.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp" />
