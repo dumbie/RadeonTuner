@@ -38,7 +38,6 @@ namespace winrt::RadeonTuner::implementation
 		void RegValuesLoad();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
-		void SettingCheck();
 		void SettingLoad();
 		void SelectIndexes();
 
@@ -122,6 +121,7 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_TextureFilteringQuality_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_SurfaceFormatOptimization_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Launch_Startup_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_StartWindowVisible_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

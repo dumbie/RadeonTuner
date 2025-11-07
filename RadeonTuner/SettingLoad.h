@@ -23,6 +23,12 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Close_Tray().IsOn(CloseTray.value());
 			}
 
+			std::optional<bool> StartWindowVisible = AppVariables::Settings.Load<bool>("StartWindowVisible");
+			if (StartWindowVisible.has_value())
+			{
+				toggleswitch_StartWindowVisible().IsOn(StartWindowVisible.value());
+			}
+
 			std::optional<bool> ActiveOverclock = AppVariables::Settings.Load<bool>("ActiveOverclock");
 			if (ActiveOverclock.has_value())
 			{

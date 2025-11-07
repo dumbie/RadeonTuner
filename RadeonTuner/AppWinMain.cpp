@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "AppVariables.h"
+#include "SettingCheck.h"
 
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -20,8 +21,16 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 	AppVariables::Settings = AVSettingsJson(pathSettingFileA);
 
+	//Check settings
+	SettingCheck();
+
 	//Create application window
-	AppVariables::App.CreateWindowXaml(hInstance);
+	std::optional<bool> StartWindowVisible = AppVariables::Settings.Load<bool>("StartWindowVisible");
+	if (StartWindowVisible.has_value())
+	{
+		bool settingValue = StartWindowVisible.value();
+		AppVariables::App.CreateWindowXaml(hInstance, settingValue);
+	}
 
 	//Return result
 	return 0;

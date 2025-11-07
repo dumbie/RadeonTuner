@@ -28,7 +28,6 @@
 
 #include "RegEvents.h"
 
-#include "SettingCheck.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"
 
@@ -70,9 +69,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Prepare adl values
 			//AdlValuesPrepare();
-
-			//Check settings
-			SettingCheck();
 
 			//Load settings
 			SettingLoad();

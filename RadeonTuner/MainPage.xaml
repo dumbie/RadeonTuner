@@ -999,6 +999,11 @@
                                 <ToggleSwitch x:Name="toggleswitch_Launch_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Launch_Startup_Toggled"/>
                             </StackPanel>
 
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show settings window when lauching this application."/>
+                                <ToggleSwitch x:Name="toggleswitch_StartWindowVisible" Margin="10,0,0,0" OffContent="Show window on startup" OnContent="Show window on startup" Toggled="toggleswitch_StartWindowVisible_Toggled"/>
+                            </StackPanel>
+
                             <TextBlock Text="Window Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show this window on top of other applications."/>

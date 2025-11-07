@@ -202,7 +202,7 @@ namespace winrt::RadeonTuner::implementation
 		Shell_NotifyIconW(NIM_ADD, &notifyIcon);
 	}
 
-	void App::CreateWindowXaml(HINSTANCE hInstance)
+	void App::CreateWindowXaml(HINSTANCE hInstance, bool visible)
 	{
 		//Initialize for current thread
 		winrt::init_apartment(apartment_type::multi_threaded);
@@ -236,7 +236,13 @@ namespace winrt::RadeonTuner::implementation
 		//Create main window
 		int windowWidth = 1280;
 		int windowHeight = 960;
-		_hWnd_MainWindow = CreateWindowW(szWindowClass, szWindowTitle, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight, NULL, NULL, hInstance, NULL);
+		long dwStyle = WS_OVERLAPPEDWINDOW;
+		if (visible)
+		{
+			dwStyle |= WS_VISIBLE;
+		}
+
+		_hWnd_MainWindow = CreateWindowW(szWindowClass, szWindowTitle, dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight, NULL, NULL, hInstance, NULL);
 		if (_hWnd_MainWindow == NULL)
 		{
 			MessageBoxW(NULL, L"CreateWindowW failed", L"Error", NULL);

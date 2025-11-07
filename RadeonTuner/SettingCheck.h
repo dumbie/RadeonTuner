@@ -1,38 +1,39 @@
 #pragma once
 #include "pch.h"
-#include "MainPage.h"
 
-namespace winrt::RadeonTuner::implementation
+void SettingCheck()
 {
-	void MainPage::SettingCheck()
+	try
 	{
-		try
+		if (!AppVariables::Settings.Check("MenuIndex"))
 		{
-			if (!AppVariables::Settings.Check("MenuIndex"))
-			{
-				AppVariables::Settings.Set("MenuIndex", 0);
-			}
-
-			if (!AppVariables::Settings.Check("SetTopMost"))
-			{
-				AppVariables::Settings.Set("SetTopMost", false);
-			}
-
-			if (!AppVariables::Settings.Check("CloseTray"))
-			{
-				AppVariables::Settings.Set("CloseTray", false);
-			}
-
-			if (!AppVariables::Settings.Check("ActiveOverclock"))
-			{
-				AppVariables::Settings.Set("ActiveOverclock", false);
-			}
-
-			AVDebugWriteLine("Application settings checked.");
+			AppVariables::Settings.Set("MenuIndex", 0);
 		}
-		catch (...)
+
+		if (!AppVariables::Settings.Check("StartWindowVisible"))
 		{
-			AVDebugWriteLine("Failed checking application settings.");
+			AppVariables::Settings.Set("StartWindowVisible", true);
 		}
+
+		if (!AppVariables::Settings.Check("SetTopMost"))
+		{
+			AppVariables::Settings.Set("SetTopMost", false);
+		}
+
+		if (!AppVariables::Settings.Check("CloseTray"))
+		{
+			AppVariables::Settings.Set("CloseTray", false);
+		}
+
+		if (!AppVariables::Settings.Check("ActiveOverclock"))
+		{
+			AppVariables::Settings.Set("ActiveOverclock", false);
+		}
+
+		AVDebugWriteLine("Application settings checked.");
+	}
+	catch (...)
+	{
+		AVDebugWriteLine("Failed checking application settings.");
 	}
 }

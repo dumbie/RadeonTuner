@@ -45,6 +45,26 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_StartWindowVisible_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				AppVariables::Settings.Set("StartWindowVisible", true);
+			}
+			else
+			{
+				AppVariables::Settings.Set("StartWindowVisible", false);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
