@@ -40,6 +40,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load driver version
+			//Note: this may cause ntdll crash that cannot be catched with old drivers
 			try
 			{
 				const char* driverVersion = NULL;
@@ -84,7 +85,10 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppGpuInfo->PCIBusLaneWidth(&busLaneWidth);
 				std::vector<std::wstring> busTypeStrings = { L"Unknown", L"PCI", L"AGP", L"PCIE 1.0", L"PCIE 2.0", L"PCIE 3.0", L"PCIE 4.0", L"PCIE 5.0", L"PCIE 6.0" };
 				//Fix what if bustype > busTypeStrings size
-				device_info += L"\nBus type: " + busTypeStrings[busType] + L" x" + number_to_wstring(busLaneWidth);
+				if (busLaneWidth > 0)
+				{
+					device_info += L"\nBus type: " + busTypeStrings[busType] + L" x" + number_to_wstring(busLaneWidth);
+				}
 			}
 			catch (...) {}
 
