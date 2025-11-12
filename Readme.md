@@ -39,6 +39,12 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.5.0.0 (12-November-2025)
+- Added setting to launch application on windows startup.
+
+v0.4.0.0 (31-October-2025)
+- Added registry based graphics settings.
+
 v0.3.0.0 (12-September-2025)
 - Updated design to be more clear.
 - Added more graphics options.
