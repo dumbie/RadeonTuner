@@ -39,6 +39,7 @@ namespace winrt::RadeonTuner::implementation
 		void UpdateFanGraph();
 		void ValidateFanSettings();
 		void SettingLoad();
+		void SettingAdmin();
 		void SelectIndexes();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);

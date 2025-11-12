@@ -28,6 +28,7 @@
 
 #include "RegEvents.h"
 
+#include "SettingAdmin.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"
 
@@ -69,6 +70,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Prepare adl values
 			//AdlValuesPrepare();
+
+			//Check admin setttings
+			SettingAdmin();
 
 			//Load settings
 			SettingLoad();

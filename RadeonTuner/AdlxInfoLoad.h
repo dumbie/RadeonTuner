@@ -83,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 				ADLX_PCI_BUS_TYPE busType = UNDEFINED;
 				adlx_Res0 = ppGpuInfo->PCIBusType(&busType);
 				adlx_Res0 = ppGpuInfo->PCIBusLaneWidth(&busLaneWidth);
-				std::vector<std::wstring> busTypeStrings = { L"Unknown", L"PCI", L"AGP", L"PCIE 1.0", L"PCIE 2.0", L"PCIE 3.0", L"PCIE 4.0", L"PCIE 5.0", L"PCIE 6.0" };
+				std::vector<std::wstring> busTypeStrings = { L"Unknown", L"PCI", L"AGP", L"PCIE 1.0", L"PCIE 2.0", L"PCIE 3.0", L"PCIE 4.0", L"PCIE 5.0", L"PCIE 6.0", L"PCIE 7.0", L"PCIE 8.0", L"PCIE 9.0" };
 				//Fix what if bustype > busTypeStrings size
 				if (busLaneWidth > 0)
 				{
