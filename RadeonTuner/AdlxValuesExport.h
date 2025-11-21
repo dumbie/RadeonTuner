@@ -5,36 +5,61 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesExport(std::string exportPath="")
+	void MainPage::AdlxValuesExport(std::string exportPath = "")
 	{
+		IFileSaveDialog* pFileDialog = NULL;
+		IShellItem* pShellItem = NULL;
+		AVFinallySafe(
+			{
+				pFileDialog->Release();
+				pShellItem->Release();
+			});
 		try
 		{
-			//Check export path
+			//Check file path
 			std::string exportPathFinal;
 			if (exportPath.empty())
 			{
-				//Select settings file
-				wchar_t lpstrFileName[MAX_PATH] = {};
-				OPENFILENAMEW openFileName = {};
-				openFileName.lStructSize = sizeof(openFileName);
-				openFileName.lpstrTitle = L"Export tuning and fans settings...";
-				openFileName.lpstrFilter = L"Setting files (radt)\0*.radt\0";
-				openFileName.lpstrDefExt = L"radt";
-				openFileName.lpstrFile = lpstrFileName;
-				openFileName.nMaxFile = MAX_PATH;
-				openFileName.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-				if (!GetSaveFileNameW(&openFileName))
+				HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog);
+				if (SUCCEEDED(hResult))
 				{
-					return;
-				}
-				else
-				{
-					exportPathFinal = wchar_to_string(lpstrFileName);
+					//Set file dialog
+					COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+					pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+					pFileDialog->SetTitle(L"Export tuning and fans settings...");
+					pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
+					pFileDialog->SetDefaultExtension(L"radt");
+
+					//Show file dialog
+					hResult = pFileDialog->Show(NULL);
+
+					//Get file dialog result
+					if (SUCCEEDED(hResult))
+					{
+						hResult = pFileDialog->GetResult(&pShellItem);
+						if (SUCCEEDED(hResult))
+						{
+							PWSTR pszFilePath;
+							hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+							if (SUCCEEDED(hResult))
+							{
+								exportPathFinal = wchar_to_string(pszFilePath);
+							}
+						}
+					}
 				}
 			}
 			else
 			{
 				exportPathFinal = exportPath;
+			}
+
+			//Check file path
+			if (exportPathFinal.empty())
+			{
+				textblock_Status().Text(L"Tuning and fans not exported");
+				AVDebugWriteLine(L"File export path is not set.");
+				return;
 			}
 
 			//Fix add option to export graphics and display settings
@@ -59,7 +84,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Set result
 			textblock_Status().Text(L"Tuning and fans not exported");
-			AVDebugWriteLine(L"Tuning and fans not exported");
+			AVDebugWriteLine(L"Tuning and fans export error");
 		}
 	}
 }

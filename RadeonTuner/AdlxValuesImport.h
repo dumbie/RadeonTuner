@@ -7,24 +7,54 @@ namespace winrt::RadeonTuner::implementation
 {
 	void MainPage::AdlxValuesImport()
 	{
+		IFileOpenDialog* pFileDialog = NULL;
+		IShellItem* pShellItem = NULL;
+		AVFinallySafe(
+			{
+				pFileDialog->Release();
+				pShellItem->Release();
+			});
 		try
 		{
-			//Select settings file
-			wchar_t lpstrFileName[MAX_PATH] = {};
-			OPENFILENAMEW openFileName = {};
-			openFileName.lStructSize = sizeof(openFileName);
-			openFileName.lpstrTitle = L"Import tuning and fans settings...";
-			openFileName.lpstrFilter = L"Setting files (radt)\0*.radt\0";
-			openFileName.lpstrFile = lpstrFileName;
-			openFileName.nMaxFile = MAX_PATH;
-			openFileName.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-			if (!GetOpenFileNameW(&openFileName))
+			std::string filePathFinal;
+			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog);
+			if (SUCCEEDED(hResult))
 			{
+				//Set file dialog
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+				pFileDialog->SetTitle(L"Import tuning and fans settings...");
+				pFileDialog->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
+
+				//Show file dialog
+				hResult = pFileDialog->Show(NULL);
+
+				//Get file dialog result
+				if (SUCCEEDED(hResult))
+				{
+					hResult = pFileDialog->GetResult(&pShellItem);
+					if (SUCCEEDED(hResult))
+					{
+						PWSTR pszFilePath;
+						hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+						if (SUCCEEDED(hResult))
+						{
+							filePathFinal = wchar_to_string(pszFilePath);
+						}
+					}
+				}
+			}
+
+			//Check file path
+			if (filePathFinal.empty())
+			{
+				textblock_Status().Text(L"Tuning and fans not imported");
+				AVDebugWriteLine(L"File import path is not set.");
 				return;
 			}
 
 			//Open settings file
-			std::string settings = file_to_string(wchar_to_string(lpstrFileName));
+			std::string settings = file_to_string(filePathFinal);
 
 			//Parse settings file
 			nlohmann::json jsonData = nlohmann::json::parse(settings);
@@ -133,7 +163,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Set result
 			textblock_Status().Text(L"Tuning and fans not imported");
-			AVDebugWriteLine(L"Tuning and fans not imported");
+			AVDebugWriteLine(L"Tuning and fans import error");
 		}
 	}
 }
