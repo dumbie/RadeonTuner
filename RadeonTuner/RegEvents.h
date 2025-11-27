@@ -169,6 +169,33 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			DWORD newValue = sender.as<ComboBox>().SelectedIndex();
+
+			//Set setting value
+			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue))
+			{
+				//Set result
+				textblock_Status().Text(L"Failed setting motion response mode");
+				AVDebugWriteLine(L"Failed setting motion response mode");
+			}
+			else
+			{
+				//Set result
+				textblock_Status().Text(L"Motion response mode set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Motion response mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::combobox_TextureFilteringQuality_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try

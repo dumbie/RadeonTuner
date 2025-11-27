@@ -142,6 +142,11 @@ namespace winrt::RadeonTuner::implementation
 			itemCollection.Append(box_value(L"Quality"));
 			itemCollection.Append(box_value(L"Performance"));
 
+			//List all fluid motion response modes
+			itemCollection = combobox_FrameGenResponseMode().Items();
+			itemCollection.Append(box_value(L"Blended Frame"));
+			itemCollection.Append(box_value(L"Repeat Frame"));
+
 			//List all texture filtering qualities
 			itemCollection = combobox_TextureFilteringQuality().Items();
 			itemCollection.Append(box_value(L"High"));

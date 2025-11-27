@@ -178,6 +178,13 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+                                    <StackPanel Margin="0,10,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Configure AFMF's response to fast motion to either use a 'Repeat Frame' to maintain image quality or 'Blended Frame' for smoother motion."/>
+                                            <TextBlock Margin="10,0,0,0" Text="Fast Motion Response" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_FrameGenResponseMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenResponseMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 

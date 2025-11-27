@@ -88,7 +88,6 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fluid Motion Search Mode
-			//FrameGenAlgorithm / FrameGenFallbackMode
 			dword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode");
 			if (dword.has_value())
 			{
@@ -101,6 +100,16 @@ namespace winrt::RadeonTuner::implementation
 			{
 				combobox_FrameGenPerfMode().SelectedIndex(dword.value());
 			}
+
+			//Fluid Motion Response Mode
+			dword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode");
+			if (dword.has_value())
+			{
+				combobox_FrameGenResponseMode().SelectedIndex(dword.value());
+			}
+
+			//Fluid Motion Algorithm
+			//FrameGenAlgorithm
 
 			//Set result
 			AVDebugWriteLine("Registry values loaded.");

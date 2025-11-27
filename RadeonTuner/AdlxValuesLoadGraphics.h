@@ -76,6 +76,7 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(true);
 					combobox_FrameGenSearchMode().IsEnabled(true);
 					combobox_FrameGenPerfMode().IsEnabled(true);
+					combobox_FrameGenResponseMode().IsEnabled(true);
 				}
 				else
 				{
@@ -83,6 +84,7 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
 					combobox_FrameGenSearchMode().IsEnabled(false);
 					combobox_FrameGenPerfMode().IsEnabled(false);
+					combobox_FrameGenResponseMode().IsEnabled(false);
 				}
 			}
 			catch (...)
@@ -91,6 +93,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
 				combobox_FrameGenSearchMode().IsEnabled(false);
 				combobox_FrameGenPerfMode().IsEnabled(false);
+				combobox_FrameGenResponseMode().IsEnabled(false);
 			}
 
 			//Get Radeon Anti-Lag setting
