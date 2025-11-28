@@ -12,7 +12,7 @@ namespace winrt::RadeonTuner::implementation
 		void SetTopMost(bool topMost);
 		void SetContent(FrameworkElement const& content);
 		void CreateTrayIcon(HINSTANCE hInstance);
-		void CreateWindowXaml(HINSTANCE hInstance, bool visible);
+		void CreateWindowXaml(HINSTANCE hInstance, bool winVisible, bool winOnTop);
 		void DispatcherInvoke(std::function<void()> const& action);
 
 	private:

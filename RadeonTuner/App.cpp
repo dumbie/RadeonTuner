@@ -234,7 +234,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void App::CreateWindowXaml(HINSTANCE hInstance, bool visible)
+	void App::CreateWindowXaml(HINSTANCE hInstance, bool winVisible, bool winOnTop)
 	{
 		try
 		{
@@ -312,9 +312,15 @@ namespace winrt::RadeonTuner::implementation
 			ShowWindow(_hWnd_XamlWindow, SW_SHOWNORMAL);
 
 			//Hide main window based on setting
-			if (!visible)
+			if (!winVisible)
 			{
 				ShowWindow(_hWnd_MainWindow, SW_HIDE);
+			}
+
+			//Set main window on top based on setting
+			if (winOnTop)
+			{
+				SetTopMost(winOnTop);
 			}
 
 			//Set DesktopWindowXamlSource content

@@ -26,13 +26,23 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		//Check settings
 		SettingCheck();
 
-		//Create application window
-		std::optional<bool> StartWindowVisible = AppVariables::Settings.Load<bool>("StartWindowVisible");
-		if (StartWindowVisible.has_value())
+		//Load window settings
+		bool StartWindowVisibleBool = false;
+		std::optional<bool> StartWindowVisibleSetting = AppVariables::Settings.Load<bool>("StartWindowVisible");
+		if (StartWindowVisibleSetting.has_value())
 		{
-			bool settingValue = StartWindowVisible.value();
-			AppVariables::App.CreateWindowXaml(hInstance, settingValue);
+			StartWindowVisibleBool = StartWindowVisibleSetting.value();
 		}
+
+		bool SetTopMostBool = false;
+		std::optional<bool> SetTopMostSetting = AppVariables::Settings.Load<bool>("SetTopMost");
+		if (SetTopMostSetting.has_value())
+		{
+			SetTopMostBool = SetTopMostSetting.value();
+		}
+
+		//Create application window
+		AppVariables::App.CreateWindowXaml(hInstance, StartWindowVisibleBool, SetTopMostBool);
 
 		//Return result
 		return 0;
