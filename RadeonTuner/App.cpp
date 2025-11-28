@@ -270,11 +270,7 @@ namespace winrt::RadeonTuner::implementation
 			//Create main window
 			int windowWidth = 1280;
 			int windowHeight = 960;
-			long dwStyle = WS_OVERLAPPEDWINDOW;
-			if (visible)
-			{
-				dwStyle |= WS_VISIBLE;
-			}
+			long dwStyle = WS_VISIBLE | WS_OVERLAPPEDWINDOW;
 
 			_hWnd_MainWindow = CreateWindowW(szWindowClass, szWindowTitle, dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, windowWidth, windowHeight, NULL, NULL, hInstance, NULL);
 			if (_hWnd_MainWindow == NULL)
@@ -314,6 +310,12 @@ namespace winrt::RadeonTuner::implementation
 
 			//Show xaml window in normal state
 			ShowWindow(_hWnd_XamlWindow, SW_SHOWNORMAL);
+
+			//Hide main window based on setting
+			if (!visible)
+			{
+				ShowWindow(_hWnd_MainWindow, SW_HIDE);
+			}
 
 			//Set DesktopWindowXamlSource content
 			_desktopWindowXamlSource.Content(MainPage());
