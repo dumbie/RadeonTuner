@@ -124,14 +124,14 @@
                     <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
                     <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Set current tuning and fans settings as the keep active settings.&#10;&#10;* Right mouse click enables or disables keep active."/>
+                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings."/>
                 </StackPanel>
                 <StackPanel x:Name="stackpanel_Fan_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
                     <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
                     <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Set current tuning and fans settings as the keep active settings.&#10;&#10;* Right mouse click enables or disables keep active."/>
+                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings."/>
                 </StackPanel>
 
                 <!-- Main -->
@@ -994,13 +994,7 @@
 
                         <!-- Settings -->
                         <StackPanel x:Name="stackpanel_Settings" Visibility="Collapsed">
-                            <TextBlock Text="Overclock Settings" FontSize="20" FontWeight="Medium"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;* You can set the tuning and fans settings to keep active by clicking on 'Keep active' on the tuning tab.&#10;&#10;* Make sure you are using stable tuning settings."/>
-                                <ToggleSwitch x:Name="toggleswitch_ActiveOverclock" Margin="10,0,0,0" OffContent="Keep tuning and fans settings active" OnContent="Keep tuning and fans settings active" Toggled="toggleswitch_ActiveOverclock_Toggled"/>
-                            </StackPanel>
-
-                            <TextBlock Text="Launch Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
+                            <TextBlock Text="Launch Settings" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Launch this application on Windows startup automatically."/>
                                 <ToggleSwitch x:Name="toggleswitch_Launch_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Launch_Startup_Toggled"/>

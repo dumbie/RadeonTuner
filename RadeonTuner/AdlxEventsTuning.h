@@ -163,12 +163,102 @@ namespace winrt::RadeonTuner::implementation
 		return jsonData;
 	}
 
+	bool MainPage::ActiveOverclock_Export()
+	{
+		try
+		{
+			//Get active overclock file path
+			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
+			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+
+			//Export current settings to file
+			AdlxValuesExport(pathSettingFileA);
+
+			//Return result
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::ActiveOverclock_Enable()
+	{
+		try
+		{
+			//Update setting
+			AppVariables::Settings.Set("ActiveOverclock", true);
+
+			//Set button color
+			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+			button_Fan_Keep().Background(colorValid);
+			button_Tuning_Keep().Background(colorValid);
+
+			//Return result
+			textblock_Status().Text(L"Keep active enabled");
+			AVDebugWriteLine(L"Keep active enabled");
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::ActiveOverclock_Disable()
+	{
+		try
+		{
+			//Update setting
+			AppVariables::Settings.Set("ActiveOverclock", false);
+
+			//Set button color
+			SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+			button_Fan_Keep().Background(colorInvalid);
+			button_Tuning_Keep().Background(colorInvalid);
+
+			//Return result
+			textblock_Status().Text(L"Keep active disabled");
+			AVDebugWriteLine(L"Keep active disabled");
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::ActiveOverclock_Toggle()
+	{
+		try
+		{
+			std::optional<bool> ActiveOverclock = AppVariables::Settings.Load<bool>("ActiveOverclock");
+			if (ActiveOverclock.has_value() && ActiveOverclock.value())
+			{
+				return ActiveOverclock_Disable();
+			}
+			else
+			{
+				return ActiveOverclock_Enable();
+			}
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
 	void MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Disable active overclock setting
-			toggleswitch_ActiveOverclock().IsOn(false);
+			ActiveOverclock_Disable();
 
 			//Generate tuning and fans settings
 			TuningFanSettings tuningFanSettings = Generate_TuningFanSettings();
@@ -220,12 +310,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get active overclock file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"ActiveOverclock.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
-
-			//Export current settings to file
-			AdlxValuesExport(pathSettingFileA);
+			//Export active overclock settings
+			ActiveOverclock_Export();
 		}
 		catch (...) {}
 	}
@@ -242,14 +328,8 @@ namespace winrt::RadeonTuner::implementation
 				//Check which mouse button is pressed
 				if (pointerProps.IsRightButtonPressed())
 				{
-					if (toggleswitch_ActiveOverclock().IsOn())
-					{
-						toggleswitch_ActiveOverclock().IsOn(false);
-					}
-					else
-					{
-						toggleswitch_ActiveOverclock().IsOn(true);
-					}
+					//Toggle active overclock on or off
+					ActiveOverclock_Toggle();
 				}
 			}
 		}

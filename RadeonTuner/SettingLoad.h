@@ -33,7 +33,6 @@ namespace winrt::RadeonTuner::implementation
 			if (ActiveOverclock.has_value())
 			{
 				bool settingValue = ActiveOverclock.value();
-				toggleswitch_ActiveOverclock().IsOn(settingValue);
 				if (settingValue)
 				{
 					SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();

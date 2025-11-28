@@ -41,6 +41,10 @@ namespace winrt::RadeonTuner::implementation
 		void SettingLoad();
 		void SettingAdmin();
 		void SelectIndexes();
+		bool ActiveOverclock_Export();
+		bool ActiveOverclock_Enable();
+		bool ActiveOverclock_Disable();
+		bool ActiveOverclock_Toggle();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
@@ -110,7 +114,6 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_AppSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void button_Fps_Overlayer_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_ActiveOverclock_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Keep_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
 		void toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
