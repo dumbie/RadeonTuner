@@ -39,6 +39,9 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.5.2.0 (28-November-2025)
+- Added AFMF Fast Motion Response setting.
+
 v0.5.0.0 (12-November-2025)
 - Added setting to launch application on windows startup.
 
