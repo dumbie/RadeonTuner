@@ -78,20 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVAdmin.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPaths.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVProcesses.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h" />
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp" />
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlValuesPrepare.h" />
     <ClInclude Include="AdlVariables.h" />
@@ -275,7 +262,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" />
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.3537.50\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.3537.50\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.3595.46\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.3595.46\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -285,6 +272,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.250303.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3537.50\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3537.50\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3595.46\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3595.46\build\native\Microsoft.Web.WebView2.targets'))" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(Configuration) == Release (&#xD;&#xA;$(SolutionDir)SignToolExe.exe)&#xD;&#xA;)" />
   </Target>
 </Project>

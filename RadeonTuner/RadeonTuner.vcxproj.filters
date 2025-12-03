@@ -24,18 +24,6 @@
     <ClInclude Include="pch.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDebug.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFinally.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVHighResDelay.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVString.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxVariables.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -186,12 +174,6 @@
     <ClInclude Include="AdlxValuesExport.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVFiles.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVVersion.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesPrepare.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -261,23 +243,11 @@
     <ClInclude Include="AdlValuesPrepare.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVDownloader.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxLoopOverclock.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="TuningFanSettings.h">
       <Filter>Class Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVRegistry.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsJson.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
     <ClInclude Include="RegValuesLoad.h">
       <Filter>Page Files</Filter>
@@ -285,20 +255,11 @@
     <ClInclude Include="RegEvents.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVProcesses.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPaths.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVAdmin.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h">
-      <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
     <ClInclude Include="SettingAdmin.h">
       <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h">
+      <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
