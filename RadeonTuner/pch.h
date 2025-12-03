@@ -49,20 +49,7 @@ namespace winrt
 #include "TuningFanSettings.h"
 
 //Arnold Vink Code
-#include "..\..\ArnoldVinkCode\CPP\AVAdmin.h"
-#include "..\..\ArnoldVinkCode\CPP\AVDebug.h"
-#include "..\..\ArnoldVinkCode\CPP\AVDownloader.h"
-#include "..\..\ArnoldVinkCode\CPP\AVFiles.h"
-#include "..\..\ArnoldVinkCode\CPP\AVFinally.h"
-#include "..\..\ArnoldVinkCode\CPP\AVHighResDelay.h"
-#include "..\..\ArnoldVinkCode\CPP\AVPaths.h"
-#include "..\..\ArnoldVinkCode\CPP\AVProcesses.h"
-#include "..\..\ArnoldVinkCode\CPP\AVRegistry.h"
-#include "..\..\ArnoldVinkCode\CPP\AVSettingsJson.h"
-#include "..\..\ArnoldVinkCode\CPP\AVSettingsStartup.h"
-#include "..\..\ArnoldVinkCode\CPP\AVString.h"
-#include "..\..\ArnoldVinkCode\CPP\AVVersion.h"
-#include "..\..\ArnoldVinkCode\CPP\nlohmann_json.hpp"
+#include "..\..\ArnoldVinkCode\CPP\AVPch.h"
 
 //ADL
 #include "ADL\adl_sdk.h"

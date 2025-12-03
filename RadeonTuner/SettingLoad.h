@@ -48,8 +48,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check startup shortcut
-			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner");
-			toggleswitch_Launch_Startup().IsOn(startupShortcut);
+			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
+			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);
+
+			//Check start menu shortcut
+			bool startMenuShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::StartMenu);
+			toggleswitch_Shortcut_StartMenu().IsOn(startMenuShortcut);
 
 			//Enable saving
 			std::thread threadEnableSaving([]()

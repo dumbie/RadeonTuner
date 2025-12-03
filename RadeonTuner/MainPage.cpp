@@ -132,6 +132,7 @@ namespace winrt::RadeonTuner::implementation
 			//Exit application
 			if (selectedIndex == 8)
 			{
+				//Exit application
 				PostQuitMessage(0);
 				return;
 			}

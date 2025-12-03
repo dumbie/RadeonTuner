@@ -4,7 +4,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::toggleswitch_Launch_Startup_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Shortcut_Startup_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -12,7 +12,20 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving_settings) { return; }
 
 			//Create or delete startup shortcut
-			StartupShortcutManage(L"RadeonTuner", false);
+			StartupShortcutManage(L"RadeonTuner", false, StartupShortcutType::Startup);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_Shortcut_StartMenu_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			//Create or delete start menu shortcut
+			StartupShortcutManage(L"RadeonTuner", false, StartupShortcutType::StartMenu);
 		}
 		catch (...) {}
 	}

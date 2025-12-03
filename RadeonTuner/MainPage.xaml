@@ -997,7 +997,12 @@
                             <TextBlock Text="Launch Settings" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Launch this application on Windows startup automatically."/>
-                                <ToggleSwitch x:Name="toggleswitch_Launch_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Launch_Startup_Toggled"/>
+                                <ToggleSwitch x:Name="toggleswitch_Shortcut_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Shortcut_Startup_Toggled"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add a RadeonTuner shortcut to the start menu application list."/>
+                                <ToggleSwitch x:Name="toggleswitch_Shortcut_StartMenu" Margin="10,0,0,0" OffContent="Add application to start menu" OnContent="Add application to start menu" Toggled="toggleswitch_Shortcut_StartMenu_Toggled"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
