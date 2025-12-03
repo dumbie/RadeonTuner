@@ -353,5 +353,8 @@
     <CopyFileToFolders Include="Power.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Shield.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

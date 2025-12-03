@@ -18,6 +18,11 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_OpenGLTripleBuffering().IsEnabled(false);
 				toggleswitch_OpenGL10Bit().IsEnabled(false);
 				toggleswitch_HagsSupport().IsEnabled(false);
+				toggleswitch_Shortcut_ContextMenu().IsEnabled(false);
+			}
+			else
+			{
+				//Fix hide administrator shield icons
 			}
 
 			AVDebugWriteLine("Application admin settings checked.");
