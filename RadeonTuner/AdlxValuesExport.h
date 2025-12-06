@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesExport(std::string exportPath = "")
+	void MainPage::AdlxValuesExport()
 	{
 		IFileSaveDialog* pFileDialog = NULL;
 		IShellItem* pShellItem = NULL;
@@ -16,46 +16,38 @@ namespace winrt::RadeonTuner::implementation
 			});
 		try
 		{
-			//Check file path
-			std::string exportPathFinal;
-			if (exportPath.empty())
+			std::string exportPath;
+			HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog);
+			if (SUCCEEDED(hResult))
 			{
-				HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog);
+				//Set file dialog
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+				pFileDialog->SetTitle(L"Export tuning and fans settings...");
+				pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
+				pFileDialog->SetDefaultExtension(L"radt");
+
+				//Show file dialog
+				hResult = pFileDialog->Show(NULL);
+
+				//Get file dialog result
 				if (SUCCEEDED(hResult))
 				{
-					//Set file dialog
-					COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
-					pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-					pFileDialog->SetTitle(L"Export tuning and fans settings...");
-					pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
-					pFileDialog->SetDefaultExtension(L"radt");
-
-					//Show file dialog
-					hResult = pFileDialog->Show(NULL);
-
-					//Get file dialog result
+					hResult = pFileDialog->GetResult(&pShellItem);
 					if (SUCCEEDED(hResult))
 					{
-						hResult = pFileDialog->GetResult(&pShellItem);
+						PWSTR pszFilePath;
+						hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 						if (SUCCEEDED(hResult))
 						{
-							PWSTR pszFilePath;
-							hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-							if (SUCCEEDED(hResult))
-							{
-								exportPathFinal = wchar_to_string(pszFilePath);
-							}
+							exportPath = wchar_to_string(pszFilePath);
 						}
 					}
 				}
 			}
-			else
-			{
-				exportPathFinal = exportPath;
-			}
 
 			//Check file path
-			if (exportPathFinal.empty())
+			if (exportPath.empty())
 			{
 				textblock_Status().Text(L"Tuning and fans not exported");
 				AVDebugWriteLine(L"File export path is not set.");
@@ -65,20 +57,22 @@ namespace winrt::RadeonTuner::implementation
 			//Fix add option to export graphics and display settings
 
 			//Generate tuning fan settings
-			TuningFanSettings tuningFanSettings = Generate_TuningFanSettings();
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
 
-			//Convert tuning fan settings
-			nlohmann::json jsonData = Generate_TuningFanSettings(tuningFanSettings);
-
-			//Convert json to string
-			std::string jsonString = jsonData.dump();
-
-			//Save settings file
-			string_to_file(exportPathFinal, jsonString);
+			//Save tuning fan settings to file
+			bool saveResult = TuningFanSettings_Save(tuningFanSettings, exportPath);
 
 			//Set result
-			textblock_Status().Text(L"Tuning and fans exported");
-			AVDebugWriteLine(L"Tuning and fans exported");
+			if (saveResult)
+			{
+				textblock_Status().Text(L"Tuning and fans exported");
+				AVDebugWriteLine(L"Tuning and fans exported");
+			}
+			else
+			{
+				textblock_Status().Text(L"Tuning and fans export failed");
+				AVDebugWriteLine(L"Tuning and fans export failed");
+			}
 		}
 		catch (...)
 		{

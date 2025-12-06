@@ -85,13 +85,14 @@
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxEventsPower.h" />
-    <ClInclude Include="AdlxLoopOverclock.h" />
+    <ClInclude Include="AdlxLoopKeepActive.h" />
     <ClInclude Include="AdlxLoopMetrics.h" />
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadFans.h" />
     <ClInclude Include="AdlxValuesLoadGraphics.h" />
+    <ClInclude Include="KeepActiveFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesLoadPower.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
     <ClInclude Include="TuningFanSettings.h" />
+    <ClInclude Include="TuningFanSettingsFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

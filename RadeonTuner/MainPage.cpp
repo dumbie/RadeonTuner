@@ -8,7 +8,7 @@
 #include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
 #include "AdlxLoopMetrics.h"
-#include "AdlxLoopOverclock.h"
+#include "AdlxLoopKeepActive.h"
 
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
@@ -25,6 +25,9 @@
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsPower.h"
 #include "AdlxEventsTuning.h"
+
+#include "KeepActiveFunc.h"
+#include "TuningFanSettingsFunc.h"
 
 #include "RegEvents.h"
 
@@ -88,7 +91,7 @@ namespace winrt::RadeonTuner::implementation
 			threadLoopMetrics.detach();
 
 			//Start adlx loop overclock
-			std::thread threadLoopOverclock(&MainPage::AdlxLoopOverclock, this);
+			std::thread threadLoopOverclock(&MainPage::AdlxLoopKeepActive, this);
 			threadLoopOverclock.detach();
 		}
 		catch (...) {}

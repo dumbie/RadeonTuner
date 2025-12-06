@@ -123,6 +123,9 @@ namespace winrt::RadeonTuner::implementation
 			adlx_Res0 = ppGpuInfo->DriverPath(&driverPath);
 			gpuRegistryPath = string_to_wstring(driverPath);
 
+			//Load keep active setting
+			KeepActive_Load_UI();
+
 			//Load tuning settings
 			AdlxValuesLoadTuning();
 

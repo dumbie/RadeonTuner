@@ -25,11 +25,6 @@ void SettingCheck()
 			AppVariables::Settings.Set("CloseTray", false);
 		}
 
-		if (!AppVariables::Settings.Check("ActiveOverclock"))
-		{
-			AppVariables::Settings.Set("ActiveOverclock", false);
-		}
-
 		AVDebugWriteLine("Application settings checked.");
 	}
 	catch (...)

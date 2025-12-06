@@ -12,6 +12,8 @@ namespace winrt::RadeonTuner::implementation
 		{
 			try
 			{
+				//Fix skip when window is not visible
+
 				//Delay next update
 				Sleep(1000);
 

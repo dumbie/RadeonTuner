@@ -243,7 +243,7 @@
     <ClInclude Include="AdlValuesPrepare.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoopOverclock.h">
+    <ClInclude Include="AdlxLoopKeepActive.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="TuningFanSettings.h">
@@ -260,6 +260,12 @@
     </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsFunc.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeepActiveFunc.h">
+      <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

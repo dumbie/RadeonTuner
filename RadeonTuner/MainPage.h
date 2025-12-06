@@ -13,9 +13,12 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlxInitialize();
 		std::wstring AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr);
 
-		TuningFanSettings Generate_TuningFanSettings();
-		TuningFanSettings Generate_TuningFanSettings(nlohmann::json jsonData);
-		nlohmann::json Generate_TuningFanSettings(TuningFanSettings tuningFanSettings);
+		TuningFanSettings TuningFanSettings_Load(std::string loadPath);
+		bool TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath);
+		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
+		TuningFanSettings TuningFanSettings_Generate_FromJson(nlohmann::json jsonData);
+		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool ignoreKeepActive);
+		nlohmann::json TuningFanSettings_Convert_ToJson(TuningFanSettings tuningFanSettings);
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectPower();
@@ -27,24 +30,26 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadPower();
 		void AdlxValuesLoadDisplay();
 		void AdlxValuesLoadTuning();
-		void AdlxValuesExport(std::string exportPath);
+		void AdlxValuesExport();
 		void AdlxValuesImport();
 		void AdlxValuesPrepare();
-		bool AdlxApplyTuning(TuningFanSettings tuningFanSettings);
+		bool AdlxApplyTuning(IADLXGPU2Ptr ppGpuPtr, TuningFanSettings tuningFanSettings);
 		bool AdlxResetTuning();
 		void AdlxInfoLoad();
 		void AdlxLoopMetrics();
-		void AdlxLoopOverclock();
+		void AdlxLoopKeepActive();
 		void RegValuesLoad();
 		void UpdateFanGraph();
 		void ValidateFanSettings();
 		void SettingLoad();
 		void SettingAdmin();
 		void SelectIndexes();
-		bool ActiveOverclock_Export();
-		bool ActiveOverclock_Enable();
-		bool ActiveOverclock_Disable();
-		bool ActiveOverclock_Toggle();
+
+		void KeepActive_Load_UI();
+		bool KeepActive_Export();
+		bool KeepActive_Enable();
+		bool KeepActive_Disable();
+		bool KeepActive_Toggle();
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);

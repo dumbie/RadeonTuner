@@ -29,24 +29,6 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_StartWindowVisible().IsOn(StartWindowVisible.value());
 			}
 
-			std::optional<bool> ActiveOverclock = AppVariables::Settings.Load<bool>("ActiveOverclock");
-			if (ActiveOverclock.has_value())
-			{
-				bool settingValue = ActiveOverclock.value();
-				if (settingValue)
-				{
-					SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-					button_Fan_Keep().Background(colorValid);
-					button_Tuning_Keep().Background(colorValid);
-				}
-				else
-				{
-					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-					button_Fan_Keep().Background(colorInvalid);
-					button_Tuning_Keep().Background(colorInvalid);
-				}
-			}
-
 			//Check startup shortcut
 			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
 			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);
