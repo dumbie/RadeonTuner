@@ -63,7 +63,7 @@ namespace winrt::RadeonTuner::implementation
 					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 					button_Fan_Keep().Background(colorInvalid);
 					button_Tuning_Keep().Background(colorInvalid);
-				}	
+				}
 			}
 			if (tuningFanSettings.CoreMin.has_value())
 			{
@@ -146,6 +146,341 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			return false;
 		}
+	}
+
+	TuningFanSettings MainPage::TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr)
+	{
+		TuningFanSettings tuningFanSettings{};
+		try
+		{
+			//Device identifier
+			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuPtr);
+			if (!device_id_w.empty())
+			{
+				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
+			}
+
+			//Check manual support
+			try
+			{
+				adlx_Res0 = ppGPUTuningServices->IsSupportedManualGFXTuning(ppGpuPtr, &adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.SupportManualGPU = adlx_Bool;
+				}
+				else
+				{
+					tuningFanSettings.SupportManualGPU = false;
+				}
+
+				adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuPtr, &adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.SupportManualVRAM = adlx_Bool;
+				}
+				else
+				{
+					tuningFanSettings.SupportManualVRAM = false;
+				}
+
+				adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuPtr, &adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.SupportManualPower = adlx_Bool;
+				}
+				else
+				{
+					tuningFanSettings.SupportManualPower = false;
+				}
+
+				adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuPtr, &adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.SupportManualFAN = adlx_Bool;
+				}
+				else
+				{
+					tuningFanSettings.SupportManualFAN = false;
+				}
+			}
+			catch (...)
+			{
+				AVDebugWriteLine("Failed to generate tuning support settings.");
+			}
+
+			//Note: some gpus seem to return ADLX_NOT_SUPPORTED when reading returning invalid 0 or 1 values
+
+			//Get gpu manual tuning
+			try
+			{
+				IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
+				adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
+
+				//Get gpu frequency setting
+				adlx_Res0 = ppManualGFXTuning->GetGPUMinFrequencyRange(&adlx_IntRange0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.CoreMinMin = adlx_IntRange0.minValue;
+					tuningFanSettings.CoreMinMax = adlx_IntRange0.maxValue;
+					tuningFanSettings.CoreMinStep = adlx_IntRange0.step;
+				}
+
+				adlx_Res0 = ppManualGFXTuning->GetGPUMinFrequency(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.CoreMin = adlx_Int0;
+				}
+
+				adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequencyRange(&adlx_IntRange0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.CoreMaxMin = adlx_IntRange0.minValue;
+					tuningFanSettings.CoreMaxMax = adlx_IntRange0.maxValue;
+					tuningFanSettings.CoreMaxStep = adlx_IntRange0.step;
+				}
+
+				adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.CoreMax = adlx_Int0;
+				}
+
+				//Get gpu voltage setting
+				adlx_Res0 = ppManualGFXTuning->GetGPUVoltageRange(&adlx_IntRange0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.PowerVoltageMin = adlx_IntRange0.minValue;
+					tuningFanSettings.PowerVoltageMax = adlx_IntRange0.maxValue;
+					tuningFanSettings.PowerVoltageStep = adlx_IntRange0.step;
+				}
+
+				adlx_Res0 = ppManualGFXTuning->GetGPUVoltage(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.PowerVoltage = adlx_Int0;
+				}
+			}
+			catch (...)
+			{
+				AVDebugWriteLine("Failed to generate tuning gpu settings.");
+			}
+
+			//Get memory manual tuning
+			try
+			{
+				IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
+				adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuPtr, (IADLXInterface**)&ppManualVRAMTuning);
+
+				//Get memory frequency setting
+				adlx_Res0 = ppManualVRAMTuning->GetMaxVRAMFrequencyRange(&adlx_IntRange0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.MemoryMaxMin = adlx_IntRange0.minValue;
+					tuningFanSettings.MemoryMaxMax = adlx_IntRange0.maxValue;
+					tuningFanSettings.MemoryMaxStep = adlx_IntRange0.step;
+				}
+
+				adlx_Res0 = ppManualVRAMTuning->GetMaxVRAMFrequency(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.MemoryMax = adlx_Int0;
+				}
+
+				//Get memory timing settting
+				adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				{
+					ADLX_MEMORYTIMING_DESCRIPTION memoryTimingDescription;
+					adlx_Res0 = ppManualVRAMTuning->GetMemoryTimingDescription(&memoryTimingDescription);
+					if (ADLX_SUCCEEDED(adlx_Res0))
+					{
+						tuningFanSettings.MemoryTiming = memoryTimingDescription;
+					}
+				}
+			}
+			catch (...)
+			{
+				AVDebugWriteLine("Failed to generate tuning memory settings.");
+			}
+
+			//Get power manual tuning
+			try
+			{
+				IADLXManualPowerTuning1Ptr ppManualPowerTuning;
+				adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuPtr, (IADLXInterface**)&ppManualPowerTuning);
+
+				//Get power limit setting
+				adlx_Res0 = ppManualPowerTuning->GetPowerLimitRange(&adlx_IntRange0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.PowerLimitMin = adlx_IntRange0.minValue;
+					tuningFanSettings.PowerLimitMax = adlx_IntRange0.maxValue;
+					tuningFanSettings.PowerLimitStep = adlx_IntRange0.step;
+				}
+
+				adlx_Res0 = ppManualPowerTuning->GetPowerLimit(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.PowerLimit = adlx_Int0;
+				}
+
+				//Get power tdc setting
+				adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				{
+					adlx_Res0 = ppManualPowerTuning->GetTDCLimitRange(&adlx_IntRange0);
+					if (ADLX_SUCCEEDED(adlx_Res0))
+					{
+						tuningFanSettings.PowerTDCMin = adlx_IntRange0.minValue;
+						tuningFanSettings.PowerTDCMax = adlx_IntRange0.maxValue;
+						tuningFanSettings.PowerTDCStep = adlx_IntRange0.step;
+					}
+
+					adlx_Res0 = ppManualPowerTuning->GetTDCLimit(&adlx_Int0);
+					if (ADLX_SUCCEEDED(adlx_Res0))
+					{
+						tuningFanSettings.PowerTDC = adlx_Int0;
+					}
+				}
+			}
+			catch (...)
+			{
+				AVDebugWriteLine("Failed to generate tuning power settings.");
+			}
+
+			//Get fan manual tuning
+			try
+			{
+				IADLXManualFanTuningPtr ppManualFanTuning;
+				adlx_Res0 = ppGPUTuningServices->GetManualFanTuning(ppGpuPtr, (IADLXInterface**)&ppManualFanTuning);
+
+				//Get fan zero rpm setting
+				adlx_Res0 = ppManualFanTuning->IsSupportedZeroRPM(&adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				{
+					adlx_Res0 = ppManualFanTuning->GetZeroRPMState(&adlx_Bool);
+					if (ADLX_SUCCEEDED(adlx_Res0))
+					{
+						tuningFanSettings.FanZeroRpm = adlx_Bool;
+					}
+				}
+
+				//Get fan range setting
+				adlx_Res0 = ppManualFanTuning->GetFanTuningRanges(&adlx_IntRange0, &adlx_IntRange1);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeedMin0 = adlx_IntRange0.minValue;
+					tuningFanSettings.FanSpeedMax0 = adlx_IntRange0.maxValue;
+					tuningFanSettings.FanSpeedStep0 = adlx_IntRange0.step;
+					tuningFanSettings.FanTempMin0 = adlx_IntRange1.minValue;
+					tuningFanSettings.FanTempMax0 = adlx_IntRange1.maxValue;
+					tuningFanSettings.FanTempStep0 = adlx_IntRange1.step;
+
+					tuningFanSettings.FanSpeedMin1 = adlx_IntRange0.minValue;
+					tuningFanSettings.FanSpeedMax1 = adlx_IntRange0.maxValue;
+					tuningFanSettings.FanSpeedStep1 = adlx_IntRange0.step;
+					tuningFanSettings.FanTempMin1 = adlx_IntRange1.minValue;
+					tuningFanSettings.FanTempMax1 = adlx_IntRange1.maxValue;
+					tuningFanSettings.FanTempStep1 = adlx_IntRange1.step;
+
+					tuningFanSettings.FanSpeedMin2 = adlx_IntRange0.minValue;
+					tuningFanSettings.FanSpeedMax2 = adlx_IntRange0.maxValue;
+					tuningFanSettings.FanSpeedStep2 = adlx_IntRange0.step;
+					tuningFanSettings.FanTempMin2 = adlx_IntRange1.minValue;
+					tuningFanSettings.FanTempMax2 = adlx_IntRange1.maxValue;
+					tuningFanSettings.FanTempStep2 = adlx_IntRange1.step;
+
+					tuningFanSettings.FanSpeedMin3 = adlx_IntRange0.minValue;
+					tuningFanSettings.FanSpeedMax3 = adlx_IntRange0.maxValue;
+					tuningFanSettings.FanSpeedStep3 = adlx_IntRange0.step;
+					tuningFanSettings.FanTempMin3 = adlx_IntRange1.minValue;
+					tuningFanSettings.FanTempMax3 = adlx_IntRange1.maxValue;
+					tuningFanSettings.FanTempStep3 = adlx_IntRange1.step;
+
+					tuningFanSettings.FanSpeedMin4 = adlx_IntRange0.minValue;
+					tuningFanSettings.FanSpeedMax4 = adlx_IntRange0.maxValue;
+					tuningFanSettings.FanSpeedStep4 = adlx_IntRange0.step;
+					tuningFanSettings.FanTempMin4 = adlx_IntRange1.minValue;
+					tuningFanSettings.FanTempMax4 = adlx_IntRange1.maxValue;
+					tuningFanSettings.FanTempStep4 = adlx_IntRange1.step;
+				}
+
+				//Get fan curve setting
+				IADLXManualFanTuningStatePtr ppFanState;
+				IADLXManualFanTuningStateListPtr ppFanStates;
+				adlx_Res0 = ppManualFanTuning->GetFanTuningStates(&ppFanStates);
+
+				//Fan Zero
+				ppFanStates->At(0, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeed0 = adlx_Int0;
+				}
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanTemp0 = adlx_Int0;
+				}
+
+				ppFanStates->At(1, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeed1 = adlx_Int0;
+				}
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanTemp1 = adlx_Int0;
+				}
+
+				ppFanStates->At(2, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeed2 = adlx_Int0;
+				}
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanTemp2 = adlx_Int0;
+				}
+
+				ppFanStates->At(3, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeed3 = adlx_Int0;
+				}
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanTemp3 = adlx_Int0;
+				}
+
+				ppFanStates->At(4, &ppFanState);
+				adlx_Res0 = ppFanState->GetFanSpeed(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanSpeed4 = adlx_Int0;
+				}
+				adlx_Res0 = ppFanState->GetTemperature(&adlx_Int0);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					tuningFanSettings.FanTemp4 = adlx_Int0;
+				}
+			}
+			catch (...)
+			{
+				AVDebugWriteLine("Failed to generate tuning fan settings.");
+			}
+		}
+		catch (...)
+		{
+			AVDebugWriteLine("Failed to generate tuning and fan settings from adlx GPU ptr.");
+		}
+		return tuningFanSettings;
 	}
 
 	TuningFanSettings MainPage::TuningFanSettings_Generate_FromUI(bool keepActive)
