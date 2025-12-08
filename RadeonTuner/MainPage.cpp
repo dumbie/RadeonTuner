@@ -90,9 +90,9 @@ namespace winrt::RadeonTuner::implementation
 			std::thread threadLoopMetrics(&MainPage::AdlxLoopMetrics, this);
 			threadLoopMetrics.detach();
 
-			//Start adlx loop overclock
-			std::thread threadLoopOverclock(&MainPage::AdlxLoopKeepActive, this);
-			threadLoopOverclock.detach();
+			//Start adlx loop keep active
+			std::thread threadLoopKeepActive(&MainPage::AdlxLoopKeepActive, this);
+			threadLoopKeepActive.detach();
 		}
 		catch (...) {}
 	}

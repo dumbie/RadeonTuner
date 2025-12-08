@@ -3,6 +3,42 @@
 #include "AppVariables.h"
 #include "SettingCheck.h"
 
+void ShowProcessMainWindow(std::vector<ProcessMulti> processList)
+{
+	try
+	{
+		//Get current process identifier
+		DWORD currentProcessId = GetCurrentProcessId();
+
+		for (ProcessMulti process : processList)
+		{
+			try
+			{
+				//Fix ADLX creates a window that is not needed (AMD:ADLX-CapturingWindow / ADLXEventWindowClass)
+
+				//Check process identifier
+				if (currentProcessId == process.Identifier())
+				{
+					continue;
+				}
+
+				//Get process main window handle
+				HWND windowHandle = process.WindowHandleMain();
+
+				//Show process main window handle
+				if (windowHandle != NULL)
+				{
+					ShowWindow(windowHandle, SW_SHOWNORMAL);
+					SetForegroundWindow(windowHandle);
+					AVDebugWriteLine("Showing window handle: " << windowHandle);
+				}
+			}
+			catch (...) {}
+		}
+	}
+	catch (...) {}
+}
+
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
 	try
@@ -11,7 +47,8 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("RadeonTuner.exe");
 		if (processList.size() > 1)
 		{
-			AVDebugWriteLine("Application is already running, exiting.");
+			AVDebugWriteLine("Application is already running, exiting and showing window.");
+			ShowProcessMainWindow(processList);
 			return 0;
 		}
 
@@ -22,6 +59,10 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Settings.json");
 		std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 		AppVariables::Settings = AVSettingsJson(pathSettingFileA);
+
+		//Create Active folder
+		std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
+		FolderCreate(pathActiveFolderW);
 
 		//Check settings
 		SettingCheck();
