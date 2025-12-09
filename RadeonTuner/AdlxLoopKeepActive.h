@@ -8,15 +8,28 @@ namespace winrt::RadeonTuner::implementation
 {
 	void MainPage::AdlxLoopKeepActive()
 	{
-		//Fix switch to IADLXGPUTuningChangedEvent?
 		while (true)
 		{
 			try
 			{
-				//Delay next overclock
-				Sleep(5000);
+				//Delay next keep active
+				Sleep(10000);
 
-				//Get active overclock folder path
+				//Check if AMDSoftwareInstaller is running
+				std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("AMDSoftwareInstaller.exe");
+				if (processList.size() > 0)
+				{
+					std::function<void()> updateFunction = [&]
+						{
+							//Set result
+							textblock_Status().Text(L"Skipped keep active");
+							AVDebugWriteLine("AMDSoftwareInstaller is running, skipped keep active.");
+						};
+					AppVariables::App.DispatcherInvoke(updateFunction);
+					continue;
+				}
+
+				//Get keep active folder path
 				std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
 
 				//List active overlock setting files
@@ -25,21 +38,21 @@ namespace winrt::RadeonTuner::implementation
 				{
 					try
 					{
-						//Load tuning fan settings from file
-						TuningFanSettings tuningFanSettings = TuningFanSettings_Load(file.path().string());
+						//Load tuning fans settings from file
+						TuningFanSettings tuningFanSettingsKeepActive = TuningFanSettings_Load(file.path().string());
 
 						//Check keep active setting
-						if (tuningFanSettings.KeepActive.has_value())
+						if (tuningFanSettingsKeepActive.KeepActive.has_value())
 						{
-							if (!tuningFanSettings.KeepActive.value())
+							if (!tuningFanSettingsKeepActive.KeepActive.value())
 							{
-								//AVDebugWriteLine("Keep active is disabled, skipped overclock.");
+								//AVDebugWriteLine("Keep active is disabled, skipped keep active.");
 								continue;
 							}
 						}
 						else
 						{
-							//AVDebugWriteLine("Keep active is missing, skipped overclock.");
+							//AVDebugWriteLine("Keep active is missing, skipped keep active.");
 							continue;
 						}
 
@@ -57,43 +70,21 @@ namespace winrt::RadeonTuner::implementation
 								std::string device_current_id_a = wstring_to_string(device_current_id_w);
 
 								//Check gpu identifier
-								if (tuningFanSettings.DeviceId.value() == device_current_id_a)
+								if (tuningFanSettingsKeepActive.DeviceId.value() == device_current_id_a)
 								{
-									//Get current gpu tuning
-									IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
-									adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
+									//Get current gpu tuning and fans settings
+									TuningFanSettings tuningFanSettingsCurrent = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuPtr);
 
-									//Get gpu clock speed
-									int device_current_coremax = 0;
-									adlx_Res0 = ppManualGFXTuning->GetGPUMaxFrequency(&device_current_coremax);
-
-									//Check gpu clock speed
-									//Fix add more checks including fan speed
-									//Fix some gpus don't support frequency always returning 0 or 1
-									//Fix value CoreMax has_value
-									if (device_current_coremax != tuningFanSettings.CoreMax.value())
+									//Check if tuning and fans settings match
+									if (!TuningFanSettings_Match(tuningFanSettingsKeepActive, tuningFanSettingsCurrent))
 									{
-										AVDebugWriteLine("Target overclock settings do not match, applying overclock.");
+										AVDebugWriteLine("Tuning and fans settings do not match, applying keep active settings.");
 
-										//Check if AMDSoftwareInstaller is running
-										std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("AMDSoftwareInstaller.exe");
-										if (processList.size() > 0)
-										{
-											std::function<void()> updateFunction = [&]
-												{
-													//Set result
-													textblock_Status().Text(L"Skipped overclock");
-													AVDebugWriteLine("AMDSoftwareInstaller is running, skipped overclock.");
-												};
-											AppVariables::App.DispatcherInvoke(updateFunction);
-											continue;
-										}
-
-										//Apply overclock
+										//Apply tuning and fans settings
 										std::function<void()> updateFunction = [&]
 											{
 												//Apply tuning and fans settings
-												AdlxApplyTuning(ppGpuPtr, tuningFanSettings);
+												AdlxApplyTuning(ppGpuPtr, tuningFanSettingsKeepActive);
 
 												//Load tuning and fans settings
 												AdlxValuesLoadTuning();

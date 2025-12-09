@@ -1025,10 +1025,10 @@ namespace winrt::RadeonTuner::implementation
 		{
 			if (jsonData.contains("DeviceId"))
 			{
-				std::string device_id_importa = jsonData["DeviceId"].get<std::string>();
-				if (!device_id_importa.empty())
+				std::string device_id_a = jsonData["DeviceId"].get<std::string>();
+				if (!device_id_a.empty())
 				{
-					tuningFanSettings.DeviceId = device_id_importa;
+					tuningFanSettings.DeviceId = device_id_a;
 				}
 			}
 			if (jsonData.contains("KeepActive"))
@@ -1200,5 +1200,121 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 		return jsonData;
+	}
+
+	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch)
+	{
+		try
+		{
+			//Gpu Core Minimum
+			if (tuningFanSettings.CoreMin.has_value() && tuningFanSettingsMatch.CoreMin.has_value())
+			{
+				if (tuningFanSettings.CoreMin.value() != tuningFanSettingsMatch.CoreMin.value()) { return false; }
+			}
+
+			//Gpu Core Maximum
+			if (tuningFanSettings.CoreMax.has_value() && tuningFanSettingsMatch.CoreMax.has_value())
+			{
+				if (tuningFanSettings.CoreMax.value() != tuningFanSettingsMatch.CoreMax.value()) { return false; }
+			}
+
+			//Memory timing
+			if (tuningFanSettings.MemoryTiming.has_value() && tuningFanSettingsMatch.MemoryTiming.has_value())
+			{
+				if (tuningFanSettings.MemoryTiming.value() != tuningFanSettingsMatch.MemoryTiming.value()) { return false; }
+			}
+
+			//Memory frequency
+			if (tuningFanSettings.MemoryMax.has_value() && tuningFanSettingsMatch.MemoryMax.has_value())
+			{
+				if (tuningFanSettings.MemoryMax.value() != tuningFanSettingsMatch.MemoryMax.value()) { return false; }
+			}
+
+			//Power limit
+			if (tuningFanSettings.PowerLimit.has_value() && tuningFanSettingsMatch.PowerLimit.has_value())
+			{
+				if (tuningFanSettings.PowerLimit.value() != tuningFanSettingsMatch.PowerLimit.value()) { return false; }
+			}
+
+			//Power voltage
+			if (tuningFanSettings.PowerVoltage.has_value() && tuningFanSettingsMatch.PowerVoltage.has_value())
+			{
+				if (tuningFanSettings.PowerVoltage.value() != tuningFanSettingsMatch.PowerVoltage.value()) { return false; }
+			}
+
+			//Power TDC
+			if (tuningFanSettings.PowerTDC.has_value() && tuningFanSettingsMatch.PowerTDC.has_value())
+			{
+				if (tuningFanSettings.PowerTDC.value() != tuningFanSettingsMatch.PowerTDC.value()) { return false; }
+			}
+
+			//Fan Zero RPM
+			if (tuningFanSettings.FanZeroRpm.has_value() && tuningFanSettingsMatch.FanZeroRpm.has_value())
+			{
+				if (tuningFanSettings.FanZeroRpm.value() != tuningFanSettingsMatch.FanZeroRpm.value()) { return false; }
+			}
+
+			//Fan Speed 0
+			if (tuningFanSettings.FanSpeed0.has_value() && tuningFanSettingsMatch.FanSpeed0.has_value())
+			{
+				if (tuningFanSettings.FanSpeed0.value() != tuningFanSettingsMatch.FanSpeed0.value()) { return false; }
+			}
+
+			//Fan Temperature 0
+			if (tuningFanSettings.FanTemp0.has_value() && tuningFanSettingsMatch.FanTemp0.has_value())
+			{
+				if (tuningFanSettings.FanTemp0.value() != tuningFanSettingsMatch.FanTemp0.value()) { return false; }
+			}
+
+			//Fan Speed 1
+			if (tuningFanSettings.FanSpeed1.has_value() && tuningFanSettingsMatch.FanSpeed1.has_value())
+			{
+				if (tuningFanSettings.FanSpeed1.value() != tuningFanSettingsMatch.FanSpeed1.value()) { return false; }
+			}
+
+			//Fan Temperature 1
+			if (tuningFanSettings.FanTemp1.has_value() && tuningFanSettingsMatch.FanTemp1.has_value())
+			{
+				if (tuningFanSettings.FanTemp1.value() != tuningFanSettingsMatch.FanTemp1.value()) { return false; }
+			}
+
+			//Fan Speed 2
+			if (tuningFanSettings.FanSpeed2.has_value() && tuningFanSettingsMatch.FanSpeed2.has_value())
+			{
+				if (tuningFanSettings.FanSpeed2.value() != tuningFanSettingsMatch.FanSpeed2.value()) { return false; }
+			}
+
+			//Fan Temperature 2
+			if (tuningFanSettings.FanTemp2.has_value() && tuningFanSettingsMatch.FanTemp2.has_value())
+			{
+				if (tuningFanSettings.FanTemp2.value() != tuningFanSettingsMatch.FanTemp2.value()) { return false; }
+			}
+
+			//Fan Speed 3
+			if (tuningFanSettings.FanSpeed3.has_value() && tuningFanSettingsMatch.FanSpeed3.has_value())
+			{
+				if (tuningFanSettings.FanSpeed3.value() != tuningFanSettingsMatch.FanSpeed3.value()) { return false; }
+			}
+
+			//Fan Temperature 3
+			if (tuningFanSettings.FanTemp3.has_value() && tuningFanSettingsMatch.FanTemp3.has_value())
+			{
+				if (tuningFanSettings.FanTemp3.value() != tuningFanSettingsMatch.FanTemp3.value()) { return false; }
+			}
+
+			//Fan Speed 4
+			if (tuningFanSettings.FanSpeed4.has_value() && tuningFanSettingsMatch.FanSpeed4.has_value())
+			{
+				if (tuningFanSettings.FanSpeed4.value() != tuningFanSettingsMatch.FanSpeed4.value()) { return false; }
+			}
+
+			//Fan Temperature 4
+			if (tuningFanSettings.FanTemp4.has_value() && tuningFanSettingsMatch.FanTemp4.has_value())
+			{
+				if (tuningFanSettings.FanTemp4.value() != tuningFanSettingsMatch.FanTemp4.value()) { return false; }
+			}
+		}
+		catch (...) {}
+		return true;
 	}
 }
