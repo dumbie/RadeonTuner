@@ -35,6 +35,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonSuperResolution_Sharpening().Minimum(adlx_IntRange0.minValue);
 					slider_RadeonSuperResolution_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonSuperResolution_Sharpening().StepFrequency(adlx_IntRange0.step);
+					slider_RadeonSuperResolution_Sharpening().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_RadeonSuperResolution().IsEnabled(true);
@@ -139,6 +140,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonBoost_MinRes().Minimum(adlx_IntRange0.minValue);
 					slider_RadeonBoost_MinRes().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonBoost_MinRes().StepFrequency(adlx_IntRange0.step);
+					slider_RadeonBoost_MinRes().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_RadeonBoost().IsEnabled(true);
@@ -183,10 +185,12 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonChill_Min().Minimum(adlx_IntRange0.minValue);
 					slider_RadeonChill_Min().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonChill_Min().StepFrequency(adlx_IntRange0.step);
+					slider_RadeonChill_Min().SmallChange(adlx_IntRange0.step);
 					slider_RadeonChill_Max().Value(adlx_Int1);
 					slider_RadeonChill_Max().Minimum(adlx_IntRange0.minValue);
 					slider_RadeonChill_Max().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonChill_Max().StepFrequency(adlx_IntRange0.step);
+					slider_RadeonChill_Max().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_RadeonChill().IsEnabled(true);
@@ -234,6 +238,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonImageSharpening_Sharpening().Minimum(adlx_IntRange0.minValue);
 					slider_RadeonImageSharpening_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_RadeonImageSharpening_Sharpening().StepFrequency(adlx_IntRange0.step);
+					slider_RadeonImageSharpening_Sharpening().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_RadeonImageSharpening().IsEnabled(true);
@@ -363,6 +368,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Frtc_Max().Minimum(adlx_IntRange0.minValue);
 					slider_Frtc_Max().Maximum(adlx_IntRange0.maxValue);
 					slider_Frtc_Max().StepFrequency(adlx_IntRange0.step);
+					slider_Frtc_Max().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_Frtc().IsEnabled(true);

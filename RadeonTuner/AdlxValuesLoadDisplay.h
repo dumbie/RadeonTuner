@@ -291,6 +291,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_ColorTemperature().Minimum(adlx_IntRange0.minValue);
 					slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
+					slider_Display_ColorTemperature().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					slider_Display_ColorTemperature().IsEnabled(true);
@@ -311,6 +312,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Brightness().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Brightness().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Brightness().StepFrequency(adlx_IntRange0.step);
+					slider_Display_Brightness().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					slider_Display_Brightness().IsEnabled(true);
@@ -331,6 +333,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Contrast().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Contrast().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Contrast().StepFrequency(adlx_IntRange0.step);
+					slider_Display_Contrast().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					slider_Display_Contrast().IsEnabled(true);
@@ -351,6 +354,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Saturation().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Saturation().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Saturation().StepFrequency(adlx_IntRange0.step);
+					slider_Display_Saturation().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					slider_Display_Saturation().IsEnabled(true);
@@ -371,6 +375,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Hue().Minimum(adlx_IntRange0.minValue);
 					slider_Display_Hue().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_Hue().StepFrequency(adlx_IntRange0.step);
+					slider_Display_Hue().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					slider_Display_Hue().IsEnabled(true);
@@ -498,6 +503,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_RelativeVoltageSwing().Minimum(-2);
 					slider_Display_RelativeVoltageSwing().Maximum(2);
 					slider_Display_RelativeVoltageSwing().StepFrequency(1);
+					slider_Display_RelativeVoltageSwing().SmallChange(1);
 					//Fix find way to check support and get ranges
 
 					//Enable or disable interface
@@ -527,6 +533,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_RelativePreEmphasis().Minimum(-2);
 					slider_Display_RelativePreEmphasis().Maximum(2);
 					slider_Display_RelativePreEmphasis().StepFrequency(1);
+					slider_Display_RelativePreEmphasis().SmallChange(1);
 					//Fix find way to check support and get ranges
 
 					//Enable or disable interface

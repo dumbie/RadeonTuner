@@ -124,14 +124,14 @@
                     <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
                     <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings."/>
+                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </StackPanel>
                 <StackPanel x:Name="stackpanel_Fan_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
                     <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
                     <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file."/>
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings."/>
+                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </StackPanel>
 
                 <!-- Main -->
@@ -1001,12 +1001,12 @@
                         <StackPanel x:Name="stackpanel_Settings" Visibility="Collapsed">
                             <TextBlock Text="Launch Settings" FontSize="20" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Launch this application on Windows startup automatically."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Launch RadeonTuner on Windows startup automatically."/>
                                 <ToggleSwitch x:Name="toggleswitch_Shortcut_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Shortcut_Startup_Toggled"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add a RadeonTuner shortcut to the start menu application list."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner shortcut to the start menu application list."/>
                                 <ToggleSwitch x:Name="toggleswitch_Shortcut_StartMenu" Margin="10,0,0,0" OffContent="Add application to start menu" OnContent="Add application to start menu" Toggled="toggleswitch_Shortcut_StartMenu_Toggled"/>
                             </StackPanel>
 
@@ -1016,12 +1016,12 @@
                                 <ToggleSwitch x:Name="toggleswitch_Shortcut_ContextMenu" Margin="10,0,0,0" OffContent="Add application to context menu" OnContent="Add application to context menu" Toggled="toggleswitch_Shortcut_ContextMenu_Toggled"/>
                             </StackPanel>
 
+                            <TextBlock Text="Window Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show settings window when lauching this application."/>
                                 <ToggleSwitch x:Name="toggleswitch_StartWindowVisible" Margin="10,0,0,0" OffContent="Show window on startup" OnContent="Show window on startup" Toggled="toggleswitch_StartWindowVisible_Toggled"/>
                             </StackPanel>
 
-                            <TextBlock Text="Window Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show this window on top of other applications."/>
                                 <ToggleSwitch x:Name="toggleswitch_Window_Top" Margin="10,0,0,0" OffContent="Show window on top" OnContent="Show window on top" Toggled="toggleswitch_Window_Top_Toggled"/>

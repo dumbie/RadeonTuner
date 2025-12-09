@@ -248,7 +248,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set window strings
 			const LPCWSTR szWindowTitle = L"RadeonTuner";
-			const LPCWSTR szWindowClass = L"MainWindow";
+			const LPCWSTR szWindowClass = L"RadeonTunerMainWindow";
 
 			//Load window icon
 			HICON hWindowIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));

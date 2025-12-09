@@ -14,6 +14,7 @@ void ShowProcessMainWindow(std::vector<ProcessMulti> processList)
 		{
 			try
 			{
+				//Fix does not work when process is running as administrator, add pipe or socket workaround?
 				//Fix ADLX creates a window that is not needed (AMD:ADLX-CapturingWindow / ADLXEventWindowClass)
 
 				//Check process identifier

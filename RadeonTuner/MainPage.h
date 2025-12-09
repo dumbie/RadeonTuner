@@ -20,6 +20,7 @@ namespace winrt::RadeonTuner::implementation
 		TuningFanSettings TuningFanSettings_Generate_FromJson(nlohmann::json jsonData);
 		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool disableUI);
 		nlohmann::json TuningFanSettings_Convert_ToJson(TuningFanSettings tuningFanSettings);
+		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch);
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectPower();

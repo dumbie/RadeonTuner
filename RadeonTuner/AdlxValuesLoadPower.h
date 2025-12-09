@@ -64,6 +64,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_SmartShiftMaxBias().Minimum(adlx_IntRange0.minValue);
 					slider_SmartShiftMaxBias().Maximum(adlx_IntRange0.maxValue);
 					slider_SmartShiftMaxBias().StepFrequency(adlx_IntRange0.step);
+					slider_SmartShiftMaxBias().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					combobox_SmartShiftMaxMode().IsEnabled(true);

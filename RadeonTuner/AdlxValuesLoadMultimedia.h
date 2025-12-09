@@ -61,6 +61,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_VideoUpscale_Sharpening().Minimum(adlx_IntRange0.minValue);
 					slider_VideoUpscale_Sharpening().Maximum(adlx_IntRange0.maxValue);
 					slider_VideoUpscale_Sharpening().StepFrequency(adlx_IntRange0.step);
+					slider_VideoUpscale_Sharpening().SmallChange(adlx_IntRange0.step);
 
 					//Enable or disable interface
 					toggleswitch_VideoUpscale().IsEnabled(true);

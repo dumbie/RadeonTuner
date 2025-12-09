@@ -124,55 +124,55 @@ namespace winrt::RadeonTuner::implementation
 					{
 						if (tuningFanSettings.FanSpeed0.has_value())
 						{
-							ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed0.value());
+							adlx_Res0 = ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed0.value());
 						}
 						if (tuningFanSettings.FanTemp0.has_value())
 						{
-							ppFanState->SetTemperature(tuningFanSettings.FanTemp0.value());
+							adlx_Res0 = ppFanState->SetTemperature(tuningFanSettings.FanTemp0.value());
 						}
 					}
 					else if (i == 1)
 					{
 						if (tuningFanSettings.FanSpeed1.has_value())
 						{
-							ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed1.value());
+							adlx_Res0 = ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed1.value());
 						}
 						if (tuningFanSettings.FanTemp1.has_value())
 						{
-							ppFanState->SetTemperature(tuningFanSettings.FanTemp1.value());
+							adlx_Res0 = ppFanState->SetTemperature(tuningFanSettings.FanTemp1.value());
 						}
 					}
 					else if (i == 2)
 					{
 						if (tuningFanSettings.FanSpeed2.has_value())
 						{
-							ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed2.value());
+							adlx_Res0 = ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed2.value());
 						}
 						if (tuningFanSettings.FanTemp2.has_value())
 						{
-							ppFanState->SetTemperature(tuningFanSettings.FanTemp2.value());
+							adlx_Res0 = ppFanState->SetTemperature(tuningFanSettings.FanTemp2.value());
 						}
 					}
 					else if (i == 3)
 					{
 						if (tuningFanSettings.FanSpeed3.has_value())
 						{
-							ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed3.value());
+							adlx_Res0 = ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed3.value());
 						}
 						if (tuningFanSettings.FanTemp3.has_value())
 						{
-							ppFanState->SetTemperature(tuningFanSettings.FanTemp3.value());
+							adlx_Res0 = ppFanState->SetTemperature(tuningFanSettings.FanTemp3.value());
 						}
 					}
 					else if (i == 4)
 					{
 						if (tuningFanSettings.FanSpeed4.has_value())
 						{
-							ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed4.value());
+							adlx_Res0 = ppFanState->SetFanSpeed(tuningFanSettings.FanSpeed4.value());
 						}
 						if (tuningFanSettings.FanTemp4.has_value())
 						{
-							ppFanState->SetTemperature(tuningFanSettings.FanTemp4.value());
+							adlx_Res0 = ppFanState->SetTemperature(tuningFanSettings.FanTemp4.value());
 						}
 					}
 				}
@@ -255,14 +255,14 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set result
 			textblock_Status().Text(L"Tuning and fans applied");
-			AVDebugWriteLine(L"Tuning and fans applied");
+			AVDebugWriteLine(L"Tuning and fans settings applied.");
 			return true;
 		}
 		catch (...)
 		{
 			//Set result
 			textblock_Status().Text(L"Failed applying tuning and fans");
-			AVDebugWriteLine(L"Failed applying tuning and fans");
+			AVDebugWriteLine(L"Failed applying tuning and fans settings.");
 			return false;
 		}
 	}
