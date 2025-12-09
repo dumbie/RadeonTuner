@@ -95,11 +95,8 @@ namespace winrt::RadeonTuner::implementation
 												//Apply tuning and fans settings
 												AdlxApplyTuning(ppGpuPtr, tuningFanSettings);
 
-												//Load tuning settings
+												//Load tuning and fans settings
 												AdlxValuesLoadTuning();
-
-												//Load fans settings
-												AdlxValuesLoadFans();
 											};
 										AppVariables::App.DispatcherInvoke(updateFunction);
 									}

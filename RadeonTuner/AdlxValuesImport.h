@@ -76,7 +76,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set settings values
-			TuningFanSettings_Convert_ToUI(tuningFanSettings, true);
+			TuningFanSettings_Convert_ToUI(tuningFanSettings, false);
 
 			//Set result
 			textblock_Status().Text(L"Tuning and fans imported");

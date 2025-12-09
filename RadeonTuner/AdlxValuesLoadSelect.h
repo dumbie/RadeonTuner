@@ -2,7 +2,6 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlxVariables.h"
-#include "AdlxValuesLoadFans.h"
 #include "AdlxValuesLoadGraphics.h"
 #include "AdlxValuesLoadMultimedia.h"
 #include "AdlxValuesLoadPower.h"
@@ -126,11 +125,8 @@ namespace winrt::RadeonTuner::implementation
 			//Load keep active setting
 			KeepActive_Load_UI();
 
-			//Load tuning settings
+			//Load tuning and fans settings
 			AdlxValuesLoadTuning();
-
-			//Load fans settings
-			AdlxValuesLoadFans();
 
 			//Load graphics settings
 			AdlxValuesLoadGraphics();
@@ -153,12 +149,12 @@ namespace winrt::RadeonTuner::implementation
 			threadEnableSaving.detach();
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded gpu values.");
+			AVDebugWriteLine("ADLX loaded selected gpu values.");
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX failed loading gpu values.");
+			AVDebugWriteLine("ADLX failed loading selected gpu values.");
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace winrt
 }
 
 //Classes
-#include "TuningFanSettings.h"
+#include "TuningFanSettingsClass.h"
 
 //Arnold Vink Code
 #include "..\..\ArnoldVinkCode\CPP\AVPch.h"

@@ -27,6 +27,7 @@
 #include "AdlxEventsTuning.h"
 
 #include "KeepActiveFunc.h"
+#include "TuningFanSettingsClass.h"
 #include "TuningFanSettingsFunc.h"
 
 #include "RegEvents.h"

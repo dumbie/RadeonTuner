@@ -90,7 +90,6 @@
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
-    <ClInclude Include="AdlxValuesLoadFans.h" />
     <ClInclude Include="AdlxValuesLoadGraphics.h" />
     <ClInclude Include="KeepActiveFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
@@ -166,7 +165,7 @@
     <ClInclude Include="SettingCheck.h" />
     <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
-    <ClInclude Include="TuningFanSettings.h" />
+    <ClInclude Include="TuningFanSettingsClass.h" />
     <ClInclude Include="TuningFanSettingsFunc.h" />
   </ItemGroup>
   <ItemGroup>

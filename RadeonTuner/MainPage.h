@@ -15,16 +15,16 @@ namespace winrt::RadeonTuner::implementation
 
 		TuningFanSettings TuningFanSettings_Load(std::string loadPath);
 		bool TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath);
+		TuningFanSettings TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
 		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
 		TuningFanSettings TuningFanSettings_Generate_FromJson(nlohmann::json jsonData);
-		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool ignoreKeepActive);
+		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool disableUI);
 		nlohmann::json TuningFanSettings_Convert_ToJson(TuningFanSettings tuningFanSettings);
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectPower();
 		void AdlxValuesLoadSelectGpu();
 		void AdlxValuesLoadSelectDisplay();
-		void AdlxValuesLoadFans();
 		void AdlxValuesLoadGraphics();
 		void AdlxValuesLoadMultimedia();
 		void AdlxValuesLoadPower();

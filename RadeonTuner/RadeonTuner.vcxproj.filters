@@ -183,9 +183,6 @@
     <ClInclude Include="AdlxValuesLoadDisplay.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesLoadFans.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesLoadGraphics.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -246,7 +243,7 @@
     <ClInclude Include="AdlxLoopKeepActive.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettings.h">
+    <ClInclude Include="TuningFanSettingsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
     <ClInclude Include="RegValuesLoad.h">
