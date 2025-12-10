@@ -30,7 +30,7 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 - Microsoft Windows 10 or higher is required.
 
 ## Known Issues
-- None
+- Bug in AMD ADLX SDK returns wrong clock values on some videocards.
 
 ## Support and bug reporting
 When you are walking into any problems or a bug you can go to my help page at https://help.arnoldvink.com so I can try to help you out and get everything working.
@@ -39,6 +39,13 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.6.0.0 (9-December-2025)
+- Added option to add RadeonTuner to start menu.
+- Added option to add RadeonTuner to desktop context menu.
+- Show application window when it is already running in background.
+- Added keep active support for multiple videocards.
+- Added administrator setting hint icons.
+
 v0.5.2.0 (28-November-2025)
 - Added AFMF Fast Motion Response setting.
 
