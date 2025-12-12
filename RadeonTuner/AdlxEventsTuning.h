@@ -195,7 +195,7 @@ namespace winrt::RadeonTuner::implementation
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualGFXTuning(ppGpuPtr, &adlx_Bool);
 			if (adlx_Bool)
 			{
-				IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
+				IADLXManualGraphicsTuning2_1Ptr ppManualGFXTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
 				if (tuningFanSettings.CoreMin.has_value())
 				{

@@ -650,7 +650,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get gpu manual tuning
 			try
 			{
-				IADLXManualGraphicsTuning2Ptr ppManualGFXTuning;
+				IADLXManualGraphicsTuning2_1Ptr ppManualGFXTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
 
 				//Get gpu frequency setting

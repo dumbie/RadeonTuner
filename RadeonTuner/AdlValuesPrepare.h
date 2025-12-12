@@ -9,10 +9,16 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Application profiles location
+			//%WINDIR%\System32\atiapfxx.blb
+			//%LOCALAPPDATA%\AMD\CN\gmdb.blb
+			//%LOCALAPPDATA%\ATI\ACE\APL\User.blb
+			//Computer\HKEY_LOCAL_MACHINE\SOFTWARE\AMD\CN
+
 			//Get application profiles from ADL
 			//Fix find way to list all apps not just apps with PXDynamic
-			//To allow FSR4 you need to set FSROVR to FsrOvrWhitelistProfile
-			//To allow Frame Generation you need to set FRAMEGEN to FrameGenWhitelistProfile
+			//To allow FSR4 you need to set FSROVR to FsrOvrWhitelistProfile (FsrOvr_WListed = 1 / FsrOverride = 1)
+			//To allow Frame Generation you need to set FRAMEGEN to FrameGenWhitelistProfile (WListed = 1 / AFMF3 = 1)
 			int numApps = 0;
 			ADLApplicationRecord* adlApplications = NULL;
 			std::wstring driverArea = L"PXDynamic";
