@@ -54,6 +54,38 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_ApplicationProfiles_Applications_Get";
 			}
 
+			_ADL2_Adapter_RegValueInt_Get = (ADL2_ADAPTER_REGVALUEINT_GET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Get");
+			if (_ADL2_Adapter_RegValueInt_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_RegValueInt_Get");
+				return L"Failed to init _ADL2_Adapter_RegValueInt_Get";
+			}
+
+			_ADL2_Adapter_RegValueInt_Set = (ADL2_ADAPTER_REGVALUEINT_SET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Set");
+			if (_ADL2_Adapter_RegValueInt_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_RegValueInt_Set");
+				return L"Failed to init _ADL2_Adapter_RegValueInt_Set";
+			}
+
+			_ADL2_Adapter_RegValueString_Get = (ADL2_ADAPTER_REGVALUESTRING_GET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Get");
+			if (_ADL2_Adapter_RegValueString_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_RegValueString_Get");
+				return L"Failed to init _ADL2_Adapter_RegValueString_Get";
+			}
+
+			_ADL2_Adapter_RegValueString_Set = (ADL2_ADAPTER_REGVALUESTRING_SET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Set");
+			if (_ADL2_Adapter_RegValueString_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_RegValueString_Set");
+				return L"Failed to init _ADL2_Adapter_RegValueString_Set";
+			}
+
 			//Create ADL main control
 			if (_ADL2_Main_Control_Create(ADL_Main_Memory_Alloc, 1, &_ADL2_Context) != ADL_OK)
 			{

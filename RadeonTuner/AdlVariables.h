@@ -18,4 +18,16 @@ inline ADL2_ApplicationProfiles_Applications_Get _ADL2_ApplicationProfiles_Appli
 
 typedef int (*ADL2_GRAPHICS_VERSIONSX2_GET)(ADL_CONTEXT_HANDLE context, ADLVersionsInfoX2* lpVersionsInfo);
 inline ADL2_GRAPHICS_VERSIONSX2_GET _ADL2_Graphics_VersionsX2_Get;
+
+typedef int(*ADL2_ADAPTER_REGVALUESTRING_SET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
+inline ADL2_ADAPTER_REGVALUESTRING_SET _ADL2_Adapter_RegValueString_Set;
+
+typedef int(*ADL2_ADAPTER_REGVALUESTRING_GET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
+inline ADL2_ADAPTER_REGVALUESTRING_GET _ADL2_Adapter_RegValueString_Get;
+
+typedef int(*ADL2_ADAPTER_REGVALUEINT_SET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int* lpKeyValue);
+inline ADL2_ADAPTER_REGVALUEINT_SET _ADL2_Adapter_RegValueInt_Set;
+
+typedef int(*ADL2_ADAPTER_REGVALUEINT_GET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int* lpKeyValue);
+inline ADL2_ADAPTER_REGVALUEINT_GET _ADL2_Adapter_RegValueInt_Get;
 //}

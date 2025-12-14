@@ -9,6 +9,8 @@ namespace winrt::RadeonTuner::implementation
 
 		std::wstring AdlInitialize();
 		void AdlValuesPrepare();
+		bool AdlRegistrySettingSet(ADLDisplayID displayID, std::string subKey, std::string key, std::string value);
+		std::string AdlRegistrySettingGet(ADLDisplayID displayID, std::string subKey, std::string key);
 
 		std::wstring AdlxInitialize();
 		std::wstring AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr);

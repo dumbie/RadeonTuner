@@ -12,8 +12,10 @@ namespace winrt::RadeonTuner::implementation
 			//Application profiles location
 			//%WINDIR%\System32\atiapfxx.blb
 			//%LOCALAPPDATA%\AMD\CN\gmdb.blb
+			//%LOCALAPPDATA%\AMD\CN\GExDb.blb
 			//%LOCALAPPDATA%\ATI\ACE\APL\User.blb
-			//Computer\HKEY_LOCAL_MACHINE\SOFTWARE\AMD\CN
+			//Computer\HKEY_CURRENT_USER\Software\AMD\CN
+			//Computer\HKEY_LOCAL_MACHINE\Software\AMD\CN
 
 			//Get application profiles from ADL
 			//Fix find way to list all apps not just apps with PXDynamic
