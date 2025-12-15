@@ -111,6 +111,36 @@ namespace winrt::RadeonTuner::implementation
 			//Fluid Motion Algorithm
 			//FrameGenAlgorithm
 
+			//FSR Override Upscaling
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"FsrOverride");
+			if (!binary.empty())
+			{
+				if (binary[0] == 48)
+				{
+					toggleswitch_FsrOverrideUpscaling().IsOn(false);
+				}
+				else
+				{
+					toggleswitch_FsrOverrideUpscaling().IsOn(true);
+				}
+			}
+
+			//FSR Override Frame Generation
+			//MlfiOverride = Machine Learning Frame Interpolation
+			//MfgOverride = Machine Learning Multi Frame Generation
+			binary = RegistryGetBinary(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"MlfiOverride");
+			if (!binary.empty())
+			{
+				if (binary[0] == 48)
+				{
+					toggleswitch_FsrOverrideFrameGen().IsOn(false);
+				}
+				else
+				{
+					toggleswitch_FsrOverrideFrameGen().IsOn(true);
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("Registry values loaded.");
 		}

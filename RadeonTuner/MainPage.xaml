@@ -188,6 +188,22 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Radeon FSR Override -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR upscaling version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
+                                        <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="Radeon FSR Upscaling Override" OnContent="Radeon FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR frame generation version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1.4 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
+                                        <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideFrameGen" Margin="10,0,0,0" OffContent="Radeon FSR Frame Generation Override" OnContent="Radeon FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideFrameGen_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                             <!-- Radeon Anti-Lag -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU."/>

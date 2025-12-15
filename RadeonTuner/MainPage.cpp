@@ -30,7 +30,8 @@
 #include "TuningFanSettingsClass.h"
 #include "TuningFanSettingsFunc.h"
 
-#include "RegEvents.h"
+#include "RegValuesSave.h"
+#include "RegValuesLoad.h"
 
 #include "SettingAdmin.h"
 #include "SettingSave.h"

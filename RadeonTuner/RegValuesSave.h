@@ -275,4 +275,96 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::toggleswitch_FsrOverrideUpscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				std::vector<BYTE> settingBinary = { 49, 00 };
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"FsrOverride", settingBinary))
+				{
+					textblock_Status().Text(L"Failed enabling FSR override");
+					AVDebugWriteLine(L"Failed enabling FSR override");
+					disable_saving = true;
+					senderElement.IsOn(false);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"FSR override enabled");
+					AVDebugWriteLine(L"FSR override enabled");
+				}
+			}
+			else
+			{
+				std::vector<BYTE> settingBinary = { 48, 00 };
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"FsrOverride", settingBinary))
+				{
+					textblock_Status().Text(L"Failed disabling FSR override");
+					AVDebugWriteLine(L"Failed disabling FSR override");
+					disable_saving = true;
+					senderElement.IsOn(true);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"FSR override disabled");
+					AVDebugWriteLine(L"FSR override disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FsrOverrideFrameGen_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				std::vector<BYTE> settingBinary = { 49, 00 };
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"MlfiOverride", settingBinary))
+				{
+					textblock_Status().Text(L"Failed enabling FSR override");
+					AVDebugWriteLine(L"Failed enabling FSR override");
+					disable_saving = true;
+					senderElement.IsOn(false);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"FSR override enabled");
+					AVDebugWriteLine(L"FSR override enabled");
+				}
+			}
+			else
+			{
+				std::vector<BYTE> settingBinary = { 48, 00 };
+				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"MlfiOverride", settingBinary))
+				{
+					textblock_Status().Text(L"Failed disabling FSR override");
+					AVDebugWriteLine(L"Failed disabling FSR override");
+					disable_saving = true;
+					senderElement.IsOn(true);
+					disable_saving = false;
+				}
+				else
+				{
+					textblock_Status().Text(L"FSR override disabled");
+					AVDebugWriteLine(L"FSR override disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
 }

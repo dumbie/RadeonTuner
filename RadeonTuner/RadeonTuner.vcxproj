@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h" />
     <ClInclude Include="AdlInitialize.h" />
+    <ClInclude Include="AdlRegistry.h" />
     <ClInclude Include="AdlValuesPrepare.h" />
     <ClInclude Include="AdlVariables.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
@@ -151,7 +152,7 @@
     <ClInclude Include="ADL\adl_sdk.h" />
     <ClInclude Include="ADL\adl_structures.h" />
     <ClInclude Include="AppVariables.h" />
-    <ClInclude Include="RegEvents.h" />
+    <ClInclude Include="RegValuesSave.h" />
     <ClInclude Include="RegValuesLoad.h" />
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>

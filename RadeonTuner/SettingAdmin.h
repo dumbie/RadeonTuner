@@ -19,6 +19,8 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_OpenGL10Bit().IsEnabled(false);
 				toggleswitch_HagsSupport().IsEnabled(false);
 				toggleswitch_Shortcut_ContextMenu().IsEnabled(false);
+				toggleswitch_FsrOverrideUpscaling().IsEnabled(false);
+				toggleswitch_FsrOverrideFrameGen().IsEnabled(false);
 			}
 			else
 			{

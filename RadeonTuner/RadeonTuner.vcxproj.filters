@@ -249,7 +249,7 @@
     <ClInclude Include="RegValuesLoad.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="RegEvents.h">
+    <ClInclude Include="RegValuesSave.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="SettingAdmin.h">
@@ -262,6 +262,9 @@
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="KeepActiveFunc.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlRegistry.h">
       <Filter>Page Files</Filter>
     </ClInclude>
   </ItemGroup>
