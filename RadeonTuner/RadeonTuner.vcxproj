@@ -164,6 +164,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingAdmin.h" />
     <ClInclude Include="SettingCheck.h" />
+    <ClInclude Include="SettingFunc.h" />
     <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
@@ -241,6 +242,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Updater.json">
+      <DestinationFolders>$(OutDir)\Updater</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

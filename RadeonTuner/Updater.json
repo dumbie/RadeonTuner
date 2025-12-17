@@ -1,0 +1,13 @@
+{
+  "UserName": "Dumbie",
+  "RepoName": "RadeonTuner",
+  "FileName": "RadeonTuner.zip",
+  "ExtractName": "RadeonTuner",
+  "ExtractPathRemove": [ "RadeonTuner" ],
+  "ProcessLaunch": [
+    "RadeonTuner.exe"
+  ],
+  "ProcessClose": [
+    "RadeonTuner"
+  ]
+}

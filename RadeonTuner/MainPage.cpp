@@ -33,6 +33,7 @@
 #include "RegValuesSave.h"
 #include "RegValuesLoad.h"
 
+#include "SettingFunc.h"
 #include "SettingAdmin.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"

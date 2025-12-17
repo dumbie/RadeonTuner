@@ -267,6 +267,9 @@
     <ClInclude Include="AdlRegistry.h">
       <Filter>Page Files</Filter>
     </ClInclude>
+    <ClInclude Include="SettingFunc.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -300,6 +303,9 @@
     </Filter>
     <Filter Include="Class Files">
       <UniqueIdentifier>{a677d221-0f74-45b6-afbe-1204126b2666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Updater Files">
+      <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
       <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Updater.json">
+      <Filter>Updater Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>
