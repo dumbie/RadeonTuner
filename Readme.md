@@ -28,10 +28,10 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 - Supported AMD Radeon graphics card and drivers.
 - Microsoft Visual C++ Redistributable installed.
 - Microsoft .NET Runtime installed.
-- Microsoft Windows 10 or higher is required.
+- Microsoft Windows 10 64-bit or higher is required.
 
 ## Known Issues
-You can find all known issues at https://github.com/dumbie/Issues/issues?q=label%3A%23RadeonTuner
+You can find all known issues at https://issues.arnoldvink.com/?p=RadeonTuner
 
 ## Support and bug reporting
 When you are walking into any problems or a bug you can go to my help page at https://help.arnoldvink.com so I can try to help you out and get everything working.
