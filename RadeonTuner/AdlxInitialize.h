@@ -5,18 +5,31 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	//Memory release
+	void __stdcall ADL_Main_Memory_Free_Client(void** lpBuffer)
+	{
+		if (nullptr != lpBuffer && nullptr != *lpBuffer)
+		{
+			free(*lpBuffer);
+			*lpBuffer = nullptr;
+		}
+	}
+
 	std::wstring MainPage::AdlxInitialize()
 	{
 		try
 		{
 			//Initialize ADLX
-			adlx_Res0 = ppADLXHelper.Initialize();
+			adlx_Res0 = ppADLXHelper.InitializeWithCallerAdl(_ADL2_Context, ADL_Main_Memory_Free_Client);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
 				AVDebugWriteLine("Failed initializing ADLX (" << adlx_Res0 << ")");
 				return std::wstring(L"Failed initializing ADLX (") + number_to_wstring(adlx_Res0) + std::wstring(L")");
 			}
+
+			//Get ADL mapping
+			ppAdlMapping = ppADLXHelper.GetAdlMapping();
 
 			//Get system services
 			IADLXSystem* pSystemServices0 = ppADLXHelper.GetSystemServices();

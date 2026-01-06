@@ -20,6 +20,8 @@ inline int adlx_Int4 = 0;
 inline int adlx_Int5 = 0;
 
 inline ADLXHelper ppADLXHelper;
+inline IADLMapping* ppAdlMapping;
+
 inline IADLXGPU2Ptr ppGpuInfo;
 inline IADLXGPUListPtr ppGpuList;
 inline IADLXDisplayPtr ppDisplayInfo;

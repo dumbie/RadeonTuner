@@ -49,16 +49,16 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			////Initialize adl
-			//std::wstring initResult_Adl = AdlInitialize();
-			//if (!initResult_Adl.empty())
-			//{
-			//	grid_Main().IsHitTestVisible(false);
-			//	grid_Overlay().Visibility(Visibility::Visible);
-			//	textblock_Overlay_Text().Text(L"Failed initializing ADL, please install or update your AMD drivers.");
-			//	textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
-			//	return;
-			//}
+			//Initialize adl
+			std::wstring initResult_Adl = AdlInitialize();
+			if (!initResult_Adl.empty())
+			{
+				grid_Main().IsHitTestVisible(false);
+				grid_Overlay().Visibility(Visibility::Visible);
+				textblock_Overlay_Text().Text(L"Failed initializing ADL, please install or update your AMD drivers.");
+				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
+				return;
+			}
 
 			//Initialize adlx
 			std::wstring initResult_Adlx = AdlxInitialize();
