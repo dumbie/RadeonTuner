@@ -5,6 +5,7 @@
 //{
 //Variables
 inline ADL_CONTEXT_HANDLE _ADL2_Context = NULL;
+inline int adl_AdapterIndex = 0;
 
 //Definitions
 typedef int(*ADL2_MAIN_CONTROL_CREATE)(ADL_MAIN_MALLOC_CALLBACK callback, int iEnumConnectedAdapters, ADL_CONTEXT_HANDLE* context);

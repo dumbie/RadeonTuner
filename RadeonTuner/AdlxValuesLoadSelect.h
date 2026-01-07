@@ -117,6 +117,9 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Get ADL adapter index
+			ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_AdapterIndex);
+
 			//Get gpu registry path
 			const char* driverPath = NULL;
 			adlx_Res0 = ppGpuInfo->DriverPath(&driverPath);
