@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
+#include "AdlRegistry.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -14,8 +15,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"EnableTripleBuffering", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "EnableTripleBuffering", "1"))
 				{
 					textblock_Status().Text(L"Failed enabling triple buffering");
 					AVDebugWriteLine(L"Failed enabling triple buffering");
@@ -31,8 +31,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				std::vector<BYTE> settingBinary = { 48, 00 };
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"EnableTripleBuffering", settingBinary);
+				AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "EnableTripleBuffering", "0");
 
 				textblock_Status().Text(L"Triple buffering disabled");
 				AVDebugWriteLine(L"Triple buffering disabled");
@@ -51,8 +50,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				DWORD settingDword = 1;
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_10BitMode", settingDword))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_10BitMode", 1))
 				{
 					textblock_Status().Text(L"Failed enabling 10-Bit pixel format");
 					AVDebugWriteLine(L"Failed enabling 10-Bit pixel format");
@@ -68,8 +66,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				DWORD settingDword = 2;
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_10BitMode", settingDword);
+				AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_10BitMode", 2);
 
 				textblock_Status().Text(L"10-Bit pixel format disabled");
 				AVDebugWriteLine(L"10-Bit pixel format disabled");
@@ -88,8 +85,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				DWORD settingDword = 2;
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_EnableMSHWS", settingDword))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_EnableMSHWS", 2))
 				{
 					textblock_Status().Text(L"Failed enabling HAGS support");
 					AVDebugWriteLine(L"Failed enabling HAGS support");
@@ -105,8 +101,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				DWORD settingDword = 0;
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath, L"KMD_EnableMSHWS", settingDword);
+				AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_EnableMSHWS", 0);
 
 				textblock_Status().Text(L"HAGS support disabled");
 				AVDebugWriteLine(L"HAGS support disabled");
@@ -205,25 +200,25 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			DWORD newValue = sender.as<ComboBox>().SelectedIndex();
-			std::vector<BYTE> settingBinary = { 00, 00 };
+			std::string settingBinary = "";
 			if (newValue == 0)
 			{
-				//48 High
-				settingBinary = { 48, 00 };
+				//High
+				settingBinary = "0";
 			}
 			else if (newValue == 1)
 			{
-				//49 Standard
-				settingBinary = { 49, 00 };
+				//Standard
+				settingBinary = "1";
 			}
 			else if (newValue == 2)
 			{
-				//50 Performance
-				settingBinary = { 50, 00 };
+				//Performance
+				settingBinary = "2";
 			}
 
 			//Set setting value
-			if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"TFQ", settingBinary))
+			if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "TFQ", settingBinary))
 			{
 				//Set result
 				textblock_Status().Text(L"Failed setting filtering quality");
@@ -249,8 +244,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"SurfaceFormatReplacements", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements", "1"))
 				{
 					textblock_Status().Text(L"Failed enabling format optimization");
 					AVDebugWriteLine(L"Failed enabling format optimization");
@@ -266,8 +260,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				std::vector<BYTE> settingBinary = { 48, 00 };
-				RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"SurfaceFormatReplacements", settingBinary);
+				AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements", "0");
 
 				textblock_Status().Text(L"Format optimization disabled");
 				AVDebugWriteLine(L"Format optimization disabled");
@@ -286,8 +279,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"FsrOverride", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "FsrOverride", "1"))
 				{
 					textblock_Status().Text(L"Failed enabling FSR override");
 					AVDebugWriteLine(L"Failed enabling FSR override");
@@ -303,8 +295,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				std::vector<BYTE> settingBinary = { 48, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"FsrOverride", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "FsrOverride", "0"))
 				{
 					textblock_Status().Text(L"Failed disabling FSR override");
 					AVDebugWriteLine(L"Failed disabling FSR override");
@@ -332,8 +323,7 @@ namespace winrt::RadeonTuner::implementation
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
-				std::vector<BYTE> settingBinary = { 49, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"MlfiOverride", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "MlfiOverride", "1"))
 				{
 					textblock_Status().Text(L"Failed enabling FSR override");
 					AVDebugWriteLine(L"Failed enabling FSR override");
@@ -349,8 +339,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				std::vector<BYTE> settingBinary = { 48, 00 };
-				if (!RegistrySet(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\UMD", L"MlfiOverride", settingBinary))
+				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "MlfiOverride", "0"))
 				{
 					textblock_Status().Text(L"Failed disabling FSR override");
 					AVDebugWriteLine(L"Failed disabling FSR override");
