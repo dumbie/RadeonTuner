@@ -40,6 +40,9 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.7.1.0 (12-January-2026)
+- Changing registry based graphics setting no longer requires admin access.
+
 v0.7.0.0 (17-December-2025)
 - Added Radeon FSR 4 (ML Redstone) override graphics setting.
 - Added application updater to easily install updates.
