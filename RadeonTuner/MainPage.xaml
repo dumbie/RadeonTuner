@@ -193,12 +193,10 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR upscaling version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
-                                        <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="Radeon FSR Upscaling Override" OnContent="Radeon FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR frame generation version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1.4 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
-                                        <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideFrameGen" Margin="10,0,0,0" OffContent="Radeon FSR Frame Generation Override" OnContent="Radeon FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideFrameGen_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -355,7 +353,6 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering."/>
-                                        <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                         <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -365,7 +362,6 @@
                             <!-- Surface Format Optimization -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance."/>
-                                <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                 <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
                             </StackPanel>
 
@@ -394,21 +390,18 @@
                             <!-- OpenGL Triple Buffering -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="An alternative vsync mode exclusively for OpenGL applications."/>
-                                <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                 <ToggleSwitch x:Name="toggleswitch_OpenGLTripleBuffering" Margin="10,0,0,0" OffContent="OpenGL Triple Buffering" OnContent="OpenGL Triple Buffering" Toggled="toggleswitch_OpenGLTripleBuffering_Toggled"/>
                             </StackPanel>
 
                             <!-- OpenGL 10-Bit Pixel Format -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL buffer support for compatible displays and applications.&#10;&#10;* System restart required to take effect."/>
-                                <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                 <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
                             </StackPanel>
 
                             <!-- Microsoft HAGS Support -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="Collapsed">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Hardware-Accelerated GPU Scheduling (HAGS) reduces latency and improves performance by moving more work to the graphics card.&#10;&#10;* System restart required to take effect."/>
-                                <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                 <ToggleSwitch x:Name="toggleswitch_HagsSupport" Margin="10,0,0,0" OffContent="Microsoft HAGS Support" OnContent="Microsoft HAGS Support" Toggled="toggleswitch_HagsSupport_Toggled"/>
                             </StackPanel>
 
@@ -1028,7 +1021,7 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner to the Windows desktop context (right click) menu."/>
-                                <Image Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
+                                <Image x:Name="toggleswitch_Shortcut_ContextMenu_AdminShield" Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
                                 <ToggleSwitch x:Name="toggleswitch_Shortcut_ContextMenu" Margin="10,0,0,0" OffContent="Add application to context menu" OnContent="Add application to context menu" Toggled="toggleswitch_Shortcut_ContextMenu_Toggled"/>
                             </StackPanel>
 

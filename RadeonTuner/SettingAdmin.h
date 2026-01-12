@@ -13,18 +13,12 @@ namespace winrt::RadeonTuner::implementation
 			if (!adminAccess)
 			{
 				//Disable registry based settings that require admin
-				combobox_TextureFilteringQuality().IsEnabled(false);
-				toggleswitch_SurfaceFormatOptimization().IsEnabled(false);
-				toggleswitch_OpenGLTripleBuffering().IsEnabled(false);
-				toggleswitch_OpenGL10Bit().IsEnabled(false);
-				toggleswitch_HagsSupport().IsEnabled(false);
 				toggleswitch_Shortcut_ContextMenu().IsEnabled(false);
-				toggleswitch_FsrOverrideUpscaling().IsEnabled(false);
-				toggleswitch_FsrOverrideFrameGen().IsEnabled(false);
 			}
 			else
 			{
-				//Fix hide administrator shield icons
+				//Hide admin shield icons for registry based settings
+				toggleswitch_Shortcut_ContextMenu_AdminShield().Visibility(Visibility::Collapsed);
 			}
 
 			AVDebugWriteLine("Application admin settings checked.");
