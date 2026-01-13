@@ -88,10 +88,18 @@ namespace winrt::RadeonTuner::implementation
 						{
 							textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
 						}
+						else
+						{
+							textblock_Current_Temp_Hotspot().Text(L"");
+						}
 
 						if (gpuTemperatureIntakeSupported)
 						{
 							textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
+						}
+						else
+						{
+							textblock_Current_Temp_Intake().Text(L"");
 						}
 					};
 				AppVariables::App.DispatcherInvoke(updateFunction);

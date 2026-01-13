@@ -34,20 +34,16 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Download releases from Github
-			std::string releasesJson = DownloadString("https://api.github.com", "repos/dumbie/RadeonTuner/releases/latest", "RadeonTuner", "");
-
-			//Parse json data
-			nlohmann::json parsedJson = nlohmann::json::parse(releasesJson);
+			AVDebugWriteLine("Checking for application update.");
 
 			//Get available version
-			std::string availableVersion = parsedJson["name"];
+			std::string availableVersion = GitHub::GetLatestVersion("dumbie", "RadeonTuner");
 
 			//Get current version
 			std::string currentVersion = "v" + GetVersionFromResource(AppVariables::hInstance);
 
 			//Check if version matches
-			if (currentVersion != availableVersion)
+			if (!availableVersion.empty() && currentVersion != availableVersion)
 			{
 				int messageResult = MessageBoxW(NULL, L"Newer version has been found, would you like to update the application to the newest version available?", L"RadeonTuner", MB_YESNO);
 				if (messageResult == IDYES)

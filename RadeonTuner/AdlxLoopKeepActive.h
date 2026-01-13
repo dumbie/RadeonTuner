@@ -6,6 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	//Fix switch to IADLXGPUTuningChangedEvent, force once on startup
 	void MainPage::AdlxLoopKeepActive()
 	{
 		while (true)
@@ -13,7 +14,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Delay next keep active
-				Sleep(10000);
+				Sleep(20000);
 
 				//Check if AMDSoftwareInstaller is running
 				std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("AMDSoftwareInstaller.exe");
