@@ -56,6 +56,12 @@ namespace winrt::RadeonTuner::implementation
 			itemCollection.Append(box_value(L"RGB 4:4:4 Studio (Limited RGB)"));
 			itemCollection.Append(box_value(L"YCbCr 4:2:0"));
 
+			//List all display color enhancement
+			itemCollection = combobox_Display_DisplayColorEnhancement().Items();
+			itemCollection.Append(box_value(L"Disabled"));
+			itemCollection.Append(box_value(L"Vivid Gaming"));
+			itemCollection.Append(box_value(L"Dynamic Contrast"));
+
 			//List all vari-bright level
 			itemCollection = combobox_Display_VariBright_Level().Items();
 			itemCollection.Append(box_value(L"Maximize Brightness"));

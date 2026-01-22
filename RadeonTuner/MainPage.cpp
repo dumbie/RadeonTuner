@@ -180,23 +180,23 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 2)
 			{
-				stackpanel_Power().Visibility(Visibility::Visible);
-			}
-			else if (selectedIndex == 3)
-			{
 				combobox_AppSelect().IsEnabled(true);
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 			}
-			else if (selectedIndex == 4)
+			else if (selectedIndex == 3)
 			{
 				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Display().Visibility(Visibility::Visible);
 			}
-			else if (selectedIndex == 5)
+			else if (selectedIndex == 4)
 			{
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
+			}
+			else if (selectedIndex == 5)
+			{
+				stackpanel_Power().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 6)
 			{

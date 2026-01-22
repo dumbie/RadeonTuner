@@ -31,12 +31,6 @@
                         <TextBlock HorizontalAlignment="Center" Text="Fans"/>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Power" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="/Assets/Power.png" Width="50" Height="50"/>
-                        <TextBlock HorizontalAlignment="Center" Text="Power"/>
-                    </StackPanel>
-                </ListBoxItem>
                 <ListBoxItem x:Name="listboxitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Graphics.png" Width="50" Height="50"/>
@@ -53,6 +47,12 @@
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Multimedia.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Multimedia"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem x:Name="listboxitem_Power" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <Image HorizontalAlignment="Center" Source="/Assets/Power.png" Width="50" Height="50"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Power"/>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem x:Name="listboxitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -848,6 +848,19 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Display Color Enhancement -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Boosts brightness low and mid tone areas while leaving other areas almost untouched."/>
+                                            <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                             <TextBlock Text="Custom Color" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Color Temperature -->
@@ -931,6 +944,67 @@
                                     </Grid>
                                 </StackPanel>
                             </Border>
+
+                            <StackPanel Visibility="Collapsed">
+                                <TextBlock Text="Color Deficiency Correction" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+
+                                <!-- Protanopia -->
+                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for red color blindness."/>
+                                            <TextBlock Text="Protanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <Slider Grid.Column="2" x:Name="slider_Display_Protanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Protanopia_ValueChanged"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Deuteranopia -->
+                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for green color blindness."/>
+                                            <TextBlock Text="Deuteranopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <Slider Grid.Column="2" x:Name="slider_Display_Deuteranopia" Margin="10,0,0,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Tritanopia -->
+                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for blue color blindness."/>
+                                            <TextBlock Text="Tritanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <Slider Grid.Column="2" x:Name="slider_Display_Tritanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Tritanopia_ValueChanged"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
 
                             <TextBlock Text="Overrides" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 

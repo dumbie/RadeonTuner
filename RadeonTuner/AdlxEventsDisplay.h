@@ -239,6 +239,52 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::combobox_Display_DisplayColorEnhancement_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get color enhancement value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+
+			//Get display color enhancement
+			IADLXDisplay3DLUTPtr pp3DLUT;
+			adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
+
+			//Set display color enhancement
+			if (newValue == 0)
+			{
+				adlx_Res0 = pp3DLUT->SetSCEDisabled();
+			}
+			else if (newValue == 1)
+			{
+				adlx_Res0 = pp3DLUT->SetSCEVividGaming();
+			}
+			else
+			{
+				//Fix add contrast slider
+				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(50);
+			}
+
+			//Show result
+			if (ADLX_FAILED(adlx_Res0))
+			{
+				//Set result
+				textblock_Status().Text(L"Failed setting color enhancement");
+				AVDebugWriteLine(L"Failed setting color enhancement");
+			}
+			else
+			{
+				//Set result
+				textblock_Status().Text(L"Color enhancement set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Color enhancement set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Display_ColorTemperature_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -420,6 +466,21 @@ namespace winrt::RadeonTuner::implementation
 			}
 		}
 		catch (...) {}
+	}
+
+	void MainPage::slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
+	}
+
+	void MainPage::slider_Display_Deuteranopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
+	}
+
+	void MainPage::slider_Display_Tritanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
 	}
 
 	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)

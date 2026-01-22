@@ -275,6 +275,45 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_PixelFormat().IsEnabled(false);
 			}
 
+			//Get display color enhancement
+			try
+			{
+				IADLXDisplay3DLUTPtr pp3DLUT;
+				adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
+				adlx_Res0 = pp3DLUT->IsSupportedSCE(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = pp3DLUT->IsCurrentSCEDisabled(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_DisplayColorEnhancement().SelectedIndex(0);
+					}
+					adlx_Res0 = pp3DLUT->IsCurrentSCEVividGaming(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_DisplayColorEnhancement().SelectedIndex(1);
+					}
+					adlx_Res0 = pp3DLUT->IsCurrentSCEDynamicContrast(&adlx_Bool);
+					if (adlx_Bool)
+					{
+						combobox_Display_DisplayColorEnhancement().SelectedIndex(2);
+					}
+
+					//Enable or disable interface
+					combobox_Display_DisplayColorEnhancement().IsEnabled(true);
+				}
+				else
+				{
+					//Enable or disable interface
+					combobox_Display_DisplayColorEnhancement().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
+			}
+
 			//Get display custom color profile
 			try
 			{
