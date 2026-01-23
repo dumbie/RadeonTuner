@@ -11,7 +11,8 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//List all gpus
 			auto itemCollection = combobox_GpuSelect().Items();
-			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			UINT appendCount = ppGpuList->Size();
+			for (UINT i = 0; i < appendCount; i++)
 			{
 				const char* gpuName;
 				ppGpuList->At(i, (IADLXGPU**)&ppGpuInfo);
@@ -21,7 +22,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all displays
 			itemCollection = combobox_DisplaySelect().Items();
-			for (UINT i = 0; i < ppDisplayList->Size(); i++)
+			appendCount = ppDisplayList->Size();
+			for (UINT i = 0; i < appendCount; i++)
 			{
 				const char* displayName;
 				ppDisplayList->At(i, &ppDisplayInfo);
@@ -35,129 +37,147 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all scaling mode
 			itemCollection = combobox_Display_ScalingMode().Items();
-			itemCollection.Append(box_value(L"Preserve aspect ratio"));
-			itemCollection.Append(box_value(L"Full panel"));
-			itemCollection.Append(box_value(L"Center"));
+			appendCount = ADLX_SCALE_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_SCALE_MODE_STRING[i]));
+			}
 
 			//List all color depth
 			itemCollection = combobox_Display_ColorDepth().Items();
-			itemCollection.Append(box_value(L"6 bits per color"));
-			itemCollection.Append(box_value(L"8 bits per color"));
-			itemCollection.Append(box_value(L"10 bits per color"));
-			itemCollection.Append(box_value(L"12 bits per color"));
-			itemCollection.Append(box_value(L"14 bits per color"));
-			itemCollection.Append(box_value(L"16 bits per color"));
+			appendCount = ADLX_COLOR_DEPTH_STRING.size();
+			for (UINT i = 1; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_COLOR_DEPTH_STRING[i]));
+			}
 
 			//List all pixel format
 			itemCollection = combobox_Display_PixelFormat().Items();
-			itemCollection.Append(box_value(L"RGB 4:4:4 PC Standard (Full RGB)"));
-			itemCollection.Append(box_value(L"YCbCr 4:4:4"));
-			itemCollection.Append(box_value(L"YCbCr 4:2:2"));
-			itemCollection.Append(box_value(L"RGB 4:4:4 Studio (Limited RGB)"));
-			itemCollection.Append(box_value(L"YCbCr 4:2:0"));
+			appendCount = ADLX_PIXEL_FORMAT_STRING.size();
+			for (UINT i = 1; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_PIXEL_FORMAT_STRING[i]));
+			}
 
 			//List all display color enhancement
 			itemCollection = combobox_Display_DisplayColorEnhancement().Items();
-			itemCollection.Append(box_value(L"Disabled"));
-			itemCollection.Append(box_value(L"Vivid Gaming"));
-			itemCollection.Append(box_value(L"Dynamic Contrast"));
+			appendCount = ADLX_SCE_PROFILE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_SCE_PROFILE_STRING[i]));
+			}
 
 			//List all vari-bright level
 			itemCollection = combobox_Display_VariBright_Level().Items();
-			itemCollection.Append(box_value(L"Maximize Brightness"));
-			itemCollection.Append(box_value(L"Optimize Brightness"));
-			itemCollection.Append(box_value(L"Balanced"));
-			itemCollection.Append(box_value(L"Optimize Battery"));
-			itemCollection.Append(box_value(L"Maximize Battery"));
+			appendCount = ADLX_VARIBRIGHT_LEVEL_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_VARIBRIGHT_LEVEL_STRING[i]));
+			}
 
 			//List all vertical sync
 			itemCollection = combobox_VerticalRefresh().Items();
-			itemCollection.Append(box_value(L"Always Off"));
-			itemCollection.Append(box_value(L"Off, unless application specifies"));
-			itemCollection.Append(box_value(L"On, unless application specifies"));
-			itemCollection.Append(box_value(L"Always On"));
+			appendCount = ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[i]));
+			}
 
 			//List all anti-aliasing mode
 			itemCollection = combobox_AntiAliasingMode().Items();
-			itemCollection.Append(box_value(L"Use application settings"));
-			itemCollection.Append(box_value(L"Enhance application settings"));
-			itemCollection.Append(box_value(L"Override application settings"));
+			appendCount = ADLX_ANTI_ALIASING_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_ANTI_ALIASING_MODE_STRING[i]));
+			}
 
 			//List all anti-aliasing method
 			itemCollection = combobox_AntiAliasingMethod().Items();
-			itemCollection.Append(box_value(L"Multisampling"));
-			itemCollection.Append(box_value(L"Adaptive multisampling"));
-			itemCollection.Append(box_value(L"Supersampling"));
+			appendCount = ADLX_ANTI_ALIASING_METHOD_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_ANTI_ALIASING_METHOD_STRING[i]));
+			}
 
 			//List all anti-aliasing level
 			itemCollection = combobox_AntiAliasingLevel().Items();
-			itemCollection.Append(box_value(L"2X"));
-			itemCollection.Append(box_value(L"2XEQ"));
-			itemCollection.Append(box_value(L"4X"));
-			itemCollection.Append(box_value(L"4XEQ"));
-			itemCollection.Append(box_value(L"8X"));
-			itemCollection.Append(box_value(L"8XEQ"));
+			appendCount = ADLX_ANTI_ALIASING_LEVEL_STRING.size();
+			for (UINT i = 1; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_ANTI_ALIASING_LEVEL_STRING[i]));
+			}
 
-			//List all Anisotropic texture filtering
+			//List all anisotropic texture filtering
 			itemCollection = combobox_AnisotropicTextureFilteringQuality().Items();
-			itemCollection.Append(box_value(L"2X"));
-			itemCollection.Append(box_value(L"4X"));
-			itemCollection.Append(box_value(L"8X"));
-			itemCollection.Append(box_value(L"16X"));
+			appendCount = ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING.size();
+			for (UINT i = 1; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[i]));
+			}
 
 			//List all tessellation mode
 			itemCollection = combobox_Tessellation_Mode().Items();
-			itemCollection.Append(box_value(L"AMD optimized"));
-			itemCollection.Append(box_value(L"Use application settings"));
-			itemCollection.Append(box_value(L"Override application settings"));
+			appendCount = ADLX_TESSELLATION_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_TESSELLATION_MODE_STRING[i]));
+			}
 
 			//List all tessellation level
 			itemCollection = combobox_Tessellation_Level().Items();
-			itemCollection.Append(box_value(L"Off"));
-			itemCollection.Append(box_value(L"2X"));
-			itemCollection.Append(box_value(L"4X"));
-			itemCollection.Append(box_value(L"6X"));
-			itemCollection.Append(box_value(L"8X"));
-			itemCollection.Append(box_value(L"16X"));
-			itemCollection.Append(box_value(L"32X"));
-			itemCollection.Append(box_value(L"64X"));
+			appendCount = ADLX_TESSELLATION_LEVEL_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_TESSELLATION_LEVEL_STRING[i]));
+			}
 
 			//List all memory timing
 			itemCollection = combobox_Memory_Timing().Items();
-			itemCollection.Append(box_value(L"Default"));
-			itemCollection.Append(box_value(L"Fast Timing 1"));
-			itemCollection.Append(box_value(L"Fast Timing 2"));
-			itemCollection.Append(box_value(L"Automatic Timing"));
-			itemCollection.Append(box_value(L"Memory Timing 1"));
-			itemCollection.Append(box_value(L"Memory Timing 2"));
+			appendCount = ADLX_MEMORYTIMING_DESCRIPTION_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_MEMORYTIMING_DESCRIPTION_STRING[i]));
+			}
 
 			//List all smartshift max modes
 			itemCollection = combobox_SmartShiftMaxMode().Items();
-			itemCollection.Append(box_value(L"Automatic"));
-			itemCollection.Append(box_value(L"Manual"));
+			appendCount = ADLX_SSM_BIAS_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADLX_SSM_BIAS_MODE_STRING[i]));
+			}
 
 			//List all fluid motion search modes
 			itemCollection = combobox_FrameGenSearchMode().Items();
-			itemCollection.Append(box_value(L"Automatic"));
-			itemCollection.Append(box_value(L"Standard"));
-			itemCollection.Append(box_value(L"High"));
+			appendCount = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[i]));
+			}
 
 			//List all fluid motion performance modes
 			itemCollection = combobox_FrameGenPerfMode().Items();
-			itemCollection.Append(box_value(L"Automatic"));
-			itemCollection.Append(box_value(L"Quality"));
-			itemCollection.Append(box_value(L"Performance"));
+			appendCount = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[i]));
+			}
 
 			//List all fluid motion response modes
 			itemCollection = combobox_FrameGenResponseMode().Items();
-			itemCollection.Append(box_value(L"Blended Frame"));
-			itemCollection.Append(box_value(L"Repeat Frame"));
+			appendCount = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[i]));
+			}
 
 			//List all texture filtering qualities
 			itemCollection = combobox_TextureFilteringQuality().Items();
-			itemCollection.Append(box_value(L"High"));
-			itemCollection.Append(box_value(L"Standard"));
-			itemCollection.Append(box_value(L"Performance"));
+			appendCount = REGISTRY_TEXTURE_FILTERING_QUALITY_STRING.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(REGISTRY_TEXTURE_FILTERING_QUALITY_STRING[i]));
+			}
 
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");

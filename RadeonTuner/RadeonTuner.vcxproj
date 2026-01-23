@@ -162,6 +162,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SettingEnumStrings.h" />
     <ClInclude Include="SettingAdmin.h" />
     <ClInclude Include="SettingCheck.h" />
     <ClInclude Include="SettingFunc.h" />
