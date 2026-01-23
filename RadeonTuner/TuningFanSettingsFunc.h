@@ -85,6 +85,16 @@ namespace winrt::RadeonTuner::implementation
 					slider_Core_Max().Maximum(tuningFanSettings.CoreMaxMax.value());
 					slider_Core_Max().StepFrequency(tuningFanSettings.CoreMaxStep.value());
 					slider_Core_Max().SmallChange(tuningFanSettings.CoreMaxStep.value());
+
+					//Check if value is offset (RDNA4+)
+					if (tuningFanSettings.CoreMaxMin.value() < 0)
+					{
+						textblock_Core_Max().Text(L"Maximum Frequency Offset (MHz)");
+					}
+					else
+					{
+						textblock_Core_Max().Text(L"Maximum Frequency (MHz)");
+					}
 				}
 
 				//Enable or disable interface
@@ -186,6 +196,16 @@ namespace winrt::RadeonTuner::implementation
 					slider_Power_Voltage().Maximum(tuningFanSettings.PowerVoltageMax.value());
 					slider_Power_Voltage().StepFrequency(tuningFanSettings.PowerVoltageStep.value());
 					slider_Power_Voltage().SmallChange(tuningFanSettings.PowerVoltageStep.value());
+
+					//Check if value is offset (RDNA4+)
+					if (tuningFanSettings.PowerVoltageMin.value() < 0)
+					{
+						textblock_Power_Voltage().Text(L"Voltage Offset (mV)");
+					}
+					else
+					{
+						textblock_Power_Voltage().Text(L"Voltage (mV)");
+					}
 				}
 
 				//Enable or disable interface

@@ -193,8 +193,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Create fan point ellipses
 			grid_Fan_Dots().Children().Clear();
-			auto fanPointsSize = fanPoints.Size();
-			for (int i = 0; i < fanPointsSize; i++)
+			UINT fanPointsSize = fanPoints.Size();
+			for (UINT i = 0; i < fanPointsSize; i++)
 			{
 				if (i == 0 || i == fanPointsSize - 1) { continue; }
 				Point fanPoint = fanPoints.GetAt(i);

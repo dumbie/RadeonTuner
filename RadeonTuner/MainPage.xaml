@@ -433,7 +433,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable graphics frequency."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Maximum Frequency (MHz)" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_Core_Max" Margin="10,0,0,0" Text="Maximum Frequency (MHz)" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -498,7 +498,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the voltage offset across the entire clock range of the GPU, a lower voltage increases performance."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Voltage (mV)" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_Power_Voltage" Margin="10,0,0,0" Text="Voltage (mV)" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>

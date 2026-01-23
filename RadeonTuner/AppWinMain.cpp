@@ -24,7 +24,7 @@ void ShowProcessMainWindow(std::vector<ProcessMulti> processList)
 				}
 
 				//Get process main window handle
-				HWND windowHandle = process.WindowHandleMain();
+				HWND windowHandle = process.WindowHandleMain(false);
 
 				//Show process main window handle
 				if (windowHandle != NULL)

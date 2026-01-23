@@ -101,7 +101,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Show window in hidden state
 				ShowWindow(_hWnd_MainWindow, SW_HIDE);
-				return 0;
 			}
 			else
 			{
@@ -109,10 +108,10 @@ namespace winrt::RadeonTuner::implementation
 
 				//Exit application
 				PostQuitMessage(0);
-				return 0;
 			}
 		}
 		catch (...) {}
+		return 0;
 	}
 
 	//Callbacks
@@ -146,6 +145,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 		}
 		catch (...) {}
+		return 0;
 	}
 
 	//Functions
