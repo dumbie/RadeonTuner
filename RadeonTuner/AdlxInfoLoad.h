@@ -4,22 +4,23 @@
 #include "MainPage.h"
 #include "AdlxVariables.h"
 #include "AppVariables.h"
+#include "SettingEnumStrings.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxInfoLoad()
+	std::wstring MainPage::AdlxInfoGpu()
 	{
 		try
 		{
-			//Device information string
-			std::wstring device_info = L"";
+			//Set gpu information
+			std::wstring gpu_info = L"";
 
 			//Device name
 			try
 			{
 				const char* productName = NULL;
 				adlx_Res0 = ppGpuInfo->Name(&productName);
-				device_info += L"Device name: " + char_to_wstring(productName);
+				gpu_info += L"Device name: " + char_to_wstring(productName);
 			}
 			catch (...) {}
 
@@ -28,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				const char* codeName = NULL;
 				adlx_Res0 = ppGpuInfo->ProductName(&codeName);
-				device_info += L"\nDevice codename: " + char_to_wstring(codeName);
+				gpu_info += L"\nDevice codename: " + char_to_wstring(codeName);
 			}
 			catch (...) {}
 
@@ -36,7 +37,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring device_id = AdlxGetDeviceIdentifier(ppGpuInfo);
 			if (!device_id.empty())
 			{
-				device_info += L"\nDevice identifier: " + device_id;
+				gpu_info += L"\nDevice identifier: " + device_id;
 			}
 
 			//Load driver version
@@ -50,7 +51,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppGpuInfo->AMDWindowsDriverVersion(&driverWindows);
 				adlx_Res0 = ppGpuInfo->AMDSoftwareReleaseDate(&driverYear, &driverMonth, &driverDay);
 				std::wstring driverDate = number_to_wstring(driverYear) + L"/" + number_to_wstring(driverMonth) + L"/" + number_to_wstring(driverDay);
-				device_info += L"\nDriver version: " + char_to_wstring(driverVersion) + L" / " + char_to_wstring(driverWindows) + L" / " + driverDate;
+				gpu_info += L"\nDriver version: " + char_to_wstring(driverVersion) + L" / " + char_to_wstring(driverWindows) + L" / " + driverDate;
 			}
 			catch (...) {}
 
@@ -61,7 +62,7 @@ namespace winrt::RadeonTuner::implementation
 				const char* biosVersion = NULL;
 				const char* biosDate = NULL;
 				ppGpuInfo->BIOSInfo(&biosPart, &biosVersion, &biosDate);
-				device_info += L"\nBios version: " + char_to_wstring(biosPart) + L" / " + char_to_wstring(biosVersion) + L" / " + char_to_wstring(biosDate);
+				gpu_info += L"\nBios version: " + char_to_wstring(biosPart) + L" / " + char_to_wstring(biosVersion) + L" / " + char_to_wstring(biosDate);
 			}
 			catch (...) {}
 
@@ -72,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 				const char* typeVRAM = NULL;
 				adlx_Res0 = ppGpuInfo->TotalVRAM(&totalVRAM);
 				adlx_Res0 = ppGpuInfo->VRAMType(&typeVRAM);
-				device_info += L"\nMemory: " + number_to_wstring(totalVRAM) + L"MB " + char_to_wstring(typeVRAM);
+				gpu_info += L"\nMemory: " + number_to_wstring(totalVRAM) + L"MB " + char_to_wstring(typeVRAM);
 			}
 			catch (...) {}
 
@@ -83,11 +84,11 @@ namespace winrt::RadeonTuner::implementation
 				ADLX_PCI_BUS_TYPE busType = UNDEFINED;
 				adlx_Res0 = ppGpuInfo->PCIBusType(&busType);
 				adlx_Res0 = ppGpuInfo->PCIBusLaneWidth(&busLaneWidth);
-				std::vector<std::wstring> busTypeStrings = { L"Unknown", L"PCI", L"AGP", L"PCIE 1.0", L"PCIE 2.0", L"PCIE 3.0", L"PCIE 4.0", L"PCIE 5.0", L"PCIE 6.0", L"PCIE 7.0", L"PCIE 8.0", L"PCIE 9.0" };
 				//Fix what if bustype > busTypeStrings size
+				gpu_info += L"\nBus type: " + ADLX_PCI_BUS_TYPE_STRING[busType];
 				if (busLaneWidth > 0)
 				{
-					device_info += L"\nBus type: " + busTypeStrings[busType] + L" x" + number_to_wstring(busLaneWidth);
+					gpu_info += L" x" + number_to_wstring(busLaneWidth);
 				}
 			}
 			catch (...) {}
@@ -102,21 +103,141 @@ namespace winrt::RadeonTuner::implementation
 					adlx_Res0 = ppSmartAccessMemory->IsEnabled(&adlx_Bool);
 					if (adlx_Bool)
 					{
-						device_info += L"\nResizable BAR / SAM: Enabled";
+						gpu_info += L"\nResizable BAR / SAM: Enabled";
 					}
 					else
 					{
-						device_info += L"\nResizable BAR / SAM: Disabled";
+						gpu_info += L"\nResizable BAR / SAM: Disabled";
 					}
 				}
 			}
 			catch (...) {}
 
-			//Set application version
-			device_info += L"\n\nMade by Arnold Vink\nV" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+			//Return information
+			return gpu_info;
+		}
+		catch (...) {}
+		return L"Failed to load gpu information.";
+	}
 
-			//Set device information
-			textblock_DeviceInfo().Text(device_info);
+	std::wstring MainPage::AdlxInfoDisplay()
+	{
+		try
+		{
+			//Set display information
+			std::wstring display_info = L"";
+
+			//Display name
+			try
+			{
+				const char* displayName = NULL;
+				adlx_Res0 = ppDisplayInfo->Name(&displayName);
+				display_info += L"Display name: " + char_to_wstring(displayName);
+			}
+			catch (...) {}
+
+			//Native resolution
+			try
+			{
+				adlx_int hResolution, vResolution;
+				adlx_Res0 = ppDisplayInfo->NativeResolution(&hResolution, &vResolution);
+				display_info += L"\nNative resolution: " + number_to_wstring(hResolution) + L"x" + number_to_wstring(vResolution);
+			}
+			catch (...) {}
+
+			//Refresh rate
+			try
+			{
+				adlx_double refreshRate;
+				adlx_Res0 = ppDisplayInfo->RefreshRate(&refreshRate);
+				display_info += L"\nRefresh rate: " + number_to_wstring((int)refreshRate) + L" Hz";
+			}
+			catch (...) {}
+
+			//Pixel clock
+			try
+			{
+				adlx_uint pixelClock;
+				adlx_Res0 = ppDisplayInfo->PixelClock(&pixelClock);
+				display_info += L"\nPixel clock: " + number_to_wstring(pixelClock) + L" KHz";
+			}
+			catch (...) {}
+
+			//Connector type
+			try
+			{
+				ADLX_DISPLAY_CONNECTOR_TYPE connectType;
+				adlx_Res0 = ppDisplayInfo->ConnectorType(&connectType);
+				display_info += L"\nConnector type: " + ADLX_DISPLAY_CONNECTOR_TYPE_STRING[connectType];
+			}
+			catch (...) {}
+
+			//Scan type
+			try
+			{
+				ADLX_DISPLAY_SCAN_TYPE scanType;
+				adlx_Res0 = ppDisplayInfo->ScanType(&scanType);
+				display_info += L"\nScan type: " + ADLX_DISPLAY_SCAN_TYPE_STRING[scanType];
+			}
+			catch (...) {}
+
+			//Get display connectivity experience
+			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+			try
+			{
+				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+			}
+			catch (...) {}
+
+			//DP link rate
+			try
+			{
+				ADLX_DP_LINK_RATE dpLinkRate;
+				adlx_Res0 = ppDisplayConnectivityExperience->GetDPLinkRate(&dpLinkRate);
+				if (dpLinkRate > 0)
+				{
+					display_info += L"\nDP link rate: " + ADLX_DP_LINK_RATE_STRING[dpLinkRate];
+				}
+			}
+			catch (...) {}
+
+			//Link protection
+			try
+			{
+				adlx_bool linkProtection;
+				adlx_Res0 = ppDisplayConnectivityExperience->IsEnabledLinkProtection(&linkProtection);
+				std::wstring linkProtectionString = linkProtection ? L"Disabled" : L"Enabled";
+				display_info += L"\nLink protection: " + linkProtectionString;
+			}
+			catch (...) {}
+
+			//Fix add current resolution, FreeSync range and HDR status
+
+			//Return information
+			return display_info;
+		}
+		catch (...) {}
+		return L"Failed to load display information.";
+	}
+
+	std::wstring MainPage::AdlxInfoApplication()
+	{
+		try
+		{
+			return L"Made by Arnold Vink\nV" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+		}
+		catch (...) {}
+		return L"Failed to load application information.";
+	}
+
+	void MainPage::AdlxInfoLoad()
+	{
+		try
+		{
+			//Set information
+			textblock_GpuInfo().Text(AdlxInfoGpu());
+			textblock_DisplayInfo().Text(AdlxInfoDisplay());
+			textblock_AppInfo().Text(AdlxInfoApplication());
 
 			//Set result
 			AVDebugWriteLine("ADLX loaded information.");

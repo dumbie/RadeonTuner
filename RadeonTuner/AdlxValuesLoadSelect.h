@@ -83,6 +83,9 @@ namespace winrt::RadeonTuner::implementation
 			//Load display settings
 			AdlxValuesLoadDisplay();
 
+			//Load information
+			AdlxInfoLoad();
+
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
@@ -137,7 +140,7 @@ namespace winrt::RadeonTuner::implementation
 			//Load multimedia settings
 			AdlxValuesLoadMultimedia();
 
-			//Load gpu information
+			//Load information
 			AdlxInfoLoad();
 
 			//Load registry settings

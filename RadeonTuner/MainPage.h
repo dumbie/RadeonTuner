@@ -41,6 +41,9 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlxApplyTuning(IADLXGPU2Ptr ppGpuPtr, TuningFanSettings tuningFanSettings);
 		bool AdlxResetTuning();
 		void AdlxInfoLoad();
+		std::wstring AdlxInfoGpu();
+		std::wstring AdlxInfoDisplay();
+		std::wstring AdlxInfoApplication();
 		void AdlxLoopMetrics();
 		void AdlxLoopKeepActive();
 		void RegValuesLoad();
