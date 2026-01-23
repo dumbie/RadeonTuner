@@ -858,6 +858,21 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+
+                                    <StackPanel Margin="0,10,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic contrast intensity used in the display color enchancement profile.&#10;&#10;To update the intensity disable and enabled the Color Enhancement setting."/>
+                                            <TextBlock Margin="10,0,0,0" Text="Dynamic Contrast Intensity" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_DynamicContrastIntensity" Text="{Binding ElementName=slider_DynamicContrastIntensity, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_DynamicContrastIntensity" Margin="10,0,0,0"/>
+                                        </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
@@ -1123,7 +1138,14 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" x:Name="textblock_DeviceInfo">Loading...</TextBlock>
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="GPU Information" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_GpuInfo" Text="Loading..."/>
+                                <TextBlock Margin="0,10,0,0" Text="Display Information" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_DisplayInfo"/>
+                                <TextBlock Margin="0,10,0,0" Text="Application Information" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock x:Name="textblock_AppInfo"/>
+                            </StackPanel>
 
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <Button x:Name="button_Website_Project" Content="Visit Project Website" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
@@ -1136,6 +1158,16 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
+
+        <!-- Notification -->
+        <Border x:Name="grid_Notification" Margin="0,114,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource ApplicationAccentDimColor}" Opacity="0.90"/>
+            </Border.Background>
+            <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="textblock_Notification_Text" Text="..." TextWrapping="Wrap" FontSize="20" TextAlignment="Center" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+            </StackPanel>
+        </Border>
 
         <!-- Overlay -->
         <Grid x:Name="grid_Overlay" Visibility="Collapsed">

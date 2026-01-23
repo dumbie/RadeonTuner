@@ -314,6 +314,37 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
 			}
 
+			//Get dynamic contrast intensity
+			try
+			{
+				IADLXDisplay3DLUTPtr pp3DLUT;
+				adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
+				adlx_Res0 = pp3DLUT->IsSupportedSCEDynamicContrast(&adlx_Bool);
+				if (adlx_Bool)
+				{
+					adlx_Res0 = pp3DLUT->GetSCEDynamicContrast(&adlx_Int0);
+					adlx_Res0 = pp3DLUT->GetSCEDynamicContrastRange(&adlx_IntRange0);
+					slider_DynamicContrastIntensity().Value(adlx_Int0);
+					slider_DynamicContrastIntensity().Minimum(adlx_IntRange0.minValue);
+					slider_DynamicContrastIntensity().Maximum(adlx_IntRange0.maxValue);
+					slider_DynamicContrastIntensity().StepFrequency(adlx_IntRange0.step);
+					slider_DynamicContrastIntensity().SmallChange(adlx_IntRange0.step);
+
+					//Enable or disable interface
+					slider_DynamicContrastIntensity().IsEnabled(true);
+				}
+				else
+				{
+					//Enable or disable interface
+					slider_DynamicContrastIntensity().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_DynamicContrastIntensity().IsEnabled(false);
+			}
+
 			//Get display custom color profile
 			try
 			{

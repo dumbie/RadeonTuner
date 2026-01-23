@@ -4,6 +4,7 @@
 namespace AppVariables
 {
 	inline HINSTANCE hInstance = NULL;
-	inline winrt::RadeonTuner::implementation::App App = winrt::RadeonTuner::implementation::App();
 	inline AVSettingsJson Settings = AVSettingsJson();
+	inline winrt::RadeonTuner::implementation::App App = winrt::RadeonTuner::implementation::App();
+	inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 }

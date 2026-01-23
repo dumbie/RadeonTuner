@@ -196,14 +196,14 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting color depth");
+				ShowNotification(L"Failed setting color depth");
 				AVDebugWriteLine(L"Failed setting color depth");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Color depth set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Color depth set to " << newValue);
+				ShowNotification(L"Color depth set to " + ADLX_COLOR_DEPTH_STRING[newValue]);
+				AVDebugWriteLine(L"Color depth set to " << ADLX_COLOR_DEPTH_STRING[newValue]);
 			}
 		}
 		catch (...) {}
@@ -264,8 +264,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Fix add contrast slider
-				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(50);
+				//Get dynamic contrast intensity value
+				auto newValue = slider_DynamicContrastIntensity().Value();
+				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(newValue);
 			}
 
 			//Show result
@@ -598,14 +599,14 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting scaling mode");
+				ShowNotification(L"Failed setting scaling mode");
 				AVDebugWriteLine(L"Failed setting scaling mode");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Scaling mode set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Scaling mode set to " << newValue);
+				ShowNotification(L"Scaling mode set to " + ADLX_SCALE_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Scaling mode set to " << ADLX_SCALE_MODE_STRING[newValue]);
 			}
 		}
 		catch (...) {}

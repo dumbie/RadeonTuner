@@ -49,6 +49,7 @@ namespace winrt::RadeonTuner::implementation
 		void SettingLoad();
 		void SettingAdmin();
 		void SelectIndexes();
+		void ShowNotification(std::wstring text);
 
 		void KeepActive_Load_UI();
 		bool KeepActive_Export();

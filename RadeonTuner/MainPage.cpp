@@ -205,6 +205,7 @@ namespace winrt::RadeonTuner::implementation
 			else if (selectedIndex == 7)
 			{
 				combobox_GpuSelect().IsEnabled(true);
+				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Information().Visibility(Visibility::Visible);
 			}
 		}
@@ -237,6 +238,40 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Load adlx values
 			AdlxValuesLoadSelectApp();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::ShowNotification(std::wstring text)
+	{
+		try
+		{
+			//Set notification text
+			grid_Notification().Visibility(Visibility::Visible);
+			textblock_Notification_Text().Text(text);
+
+			//Notification timer tick
+			std::function<void(IInspectable const& sender, IInspectable const& e)> tickFunction = [&](auto, auto)
+				{
+					try
+					{
+						//Hide notification text
+						grid_Notification().Visibility(Visibility::Collapsed);
+
+						//Stop notification timer
+						AppVariables::TimerNotification.Stop();
+					}
+					catch (...) {}
+				};
+
+			//Start notification timer
+			if (AppVariables::TimerNotification == NULL)
+			{
+				AppVariables::TimerNotification = winrt::Windows::UI::Xaml::DispatcherTimer();
+			}
+			AppVariables::TimerNotification.Interval(TimeSpan(40000000));
+			AppVariables::TimerNotification.Tick(tickFunction);
+			AppVariables::TimerNotification.Start();
 		}
 		catch (...) {}
 	}
