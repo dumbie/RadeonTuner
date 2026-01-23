@@ -40,6 +40,10 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.8.0.0 (23-January-2026)
+- Added display color enhancement setting.
+- Show display information on the info tab.
+
 v0.7.1.0 (12-January-2026)
 - Changing registry based graphics setting no longer requires admin access.
 
