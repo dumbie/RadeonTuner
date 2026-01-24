@@ -14,23 +14,23 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Tuning and fans reset failed");
-				AVDebugWriteLine(L"Tuning and fans reset failed");
+				ShowNotification(L"Failed resetting tuning and fans settings");
+				AVDebugWriteLine(L"Failed resetting tuning and fans settings");
 				return false;
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Tuning and fans reset");
-				AVDebugWriteLine(L"Tuning and fans reset");
+				ShowNotification(L"Tuning and fans settings reset");
+				AVDebugWriteLine(L"Tuning and fans settings reset");
 				return true;
 			}
 		}
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Tuning and fans reset exception");
-			AVDebugWriteLine(L"Tuning and fans reset exception");
+			ShowNotification(L"Failed resetting tuning and fans settings");
+			AVDebugWriteLine(L"Failed resetting tuning and fans settings");
 			return false;
 		}
 	}

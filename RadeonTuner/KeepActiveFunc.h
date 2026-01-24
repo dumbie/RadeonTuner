@@ -80,12 +80,12 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			if (saveResult)
 			{
-				textblock_Status().Text(L"Keep active exported");
+				ShowNotification(L"Keep active exported");
 				AVDebugWriteLine(L"Keep active exported");
 			}
 			else
 			{
-				textblock_Status().Text(L"Keep active export failed");
+				ShowNotification(L"Keep active export failed");
 				AVDebugWriteLine(L"Keep active export failed");
 			}
 			return saveResult;
@@ -123,7 +123,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Tuning_Keep().Background(colorValid);
 
 			//Return result
-			textblock_Status().Text(L"Keep active enabled");
+			ShowNotification(L"Keep active enabled");
 			AVDebugWriteLine(L"Keep active enabled");
 			return true;
 		}
@@ -160,7 +160,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Tuning_Keep().Background(colorInvalid);
 
 			//Return result
-			textblock_Status().Text(L"Keep active disabled");
+			ShowNotification(L"Keep active disabled");
 			AVDebugWriteLine(L"Keep active disabled");
 			return true;
 		}

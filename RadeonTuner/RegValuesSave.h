@@ -17,7 +17,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "EnableTripleBuffering", "1"))
 				{
-					textblock_Status().Text(L"Failed enabling triple buffering");
+					ShowNotification(L"Failed enabling triple buffering");
 					AVDebugWriteLine(L"Failed enabling triple buffering");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -25,7 +25,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Triple buffering enabled");
+					ShowNotification(L"Triple buffering enabled");
 					AVDebugWriteLine(L"Triple buffering enabled");
 				}
 			}
@@ -33,7 +33,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "EnableTripleBuffering", "0");
 
-				textblock_Status().Text(L"Triple buffering disabled");
+				ShowNotification(L"Triple buffering disabled");
 				AVDebugWriteLine(L"Triple buffering disabled");
 			}
 		}
@@ -52,7 +52,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_10BitMode", 1))
 				{
-					textblock_Status().Text(L"Failed enabling 10-Bit pixel format");
+					ShowNotification(L"Failed enabling 10-Bit pixel format");
 					AVDebugWriteLine(L"Failed enabling 10-Bit pixel format");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -60,7 +60,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"10-Bit pixel format enabled");
+					ShowNotification(L"10-Bit pixel format enabled");
 					AVDebugWriteLine(L"10-Bit pixel format enabled");
 				}
 			}
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_10BitMode", 2);
 
-				textblock_Status().Text(L"10-Bit pixel format disabled");
+				ShowNotification(L"10-Bit pixel format disabled");
 				AVDebugWriteLine(L"10-Bit pixel format disabled");
 			}
 		}
@@ -87,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_EnableMSHWS", 2))
 				{
-					textblock_Status().Text(L"Failed enabling HAGS support");
+					ShowNotification(L"Failed enabling HAGS support");
 					AVDebugWriteLine(L"Failed enabling HAGS support");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -95,7 +95,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"HAGS support enabled");
+					ShowNotification(L"HAGS support enabled");
 					AVDebugWriteLine(L"HAGS support enabled");
 				}
 			}
@@ -103,7 +103,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AdlRegistrySettingSet(adl_AdapterIndex, "", "KMD_EnableMSHWS", 0);
 
-				textblock_Status().Text(L"HAGS support disabled");
+				ShowNotification(L"HAGS support disabled");
 				AVDebugWriteLine(L"HAGS support disabled");
 			}
 		}
@@ -124,13 +124,13 @@ namespace winrt::RadeonTuner::implementation
 			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting motion search mode");
+				ShowNotification(L"Failed setting motion search mode");
 				AVDebugWriteLine(L"Failed setting motion search mode");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Motion search mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"Motion search mode set to " + REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion search mode set to " << newValue);
 			}
 		}
@@ -151,13 +151,13 @@ namespace winrt::RadeonTuner::implementation
 			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting motion performance mode");
+				ShowNotification(L"Failed setting motion performance mode");
 				AVDebugWriteLine(L"Failed setting motion performance mode");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Motion performance mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"Motion performance mode set to " + REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion performance mode set to " << newValue);
 			}
 		}
@@ -178,13 +178,13 @@ namespace winrt::RadeonTuner::implementation
 			if (!RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting motion response mode");
+				ShowNotification(L"Failed setting motion response mode");
 				AVDebugWriteLine(L"Failed setting motion response mode");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Motion response mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"Motion response mode set to " + REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion response mode set to " << newValue);
 			}
 		}
@@ -221,13 +221,13 @@ namespace winrt::RadeonTuner::implementation
 			if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "TFQ", settingBinary))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting filtering quality");
+				ShowNotification(L"Failed setting filtering quality");
 				AVDebugWriteLine(L"Failed setting filtering quality");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Filtering quality set to " + number_to_wstring(newValue));
+				ShowNotification(L"Filtering quality set to " + REGISTRY_TEXTURE_FILTERING_QUALITY_STRING[newValue]);
 				AVDebugWriteLine(L"Filtering quality set to " << newValue);
 			}
 		}
@@ -246,7 +246,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements", "1"))
 				{
-					textblock_Status().Text(L"Failed enabling format optimization");
+					ShowNotification(L"Failed enabling format optimization");
 					AVDebugWriteLine(L"Failed enabling format optimization");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -254,7 +254,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Format optimization enabled");
+					ShowNotification(L"Format optimization enabled");
 					AVDebugWriteLine(L"Format optimization enabled");
 				}
 			}
@@ -262,7 +262,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements", "0");
 
-				textblock_Status().Text(L"Format optimization disabled");
+				ShowNotification(L"Format optimization disabled");
 				AVDebugWriteLine(L"Format optimization disabled");
 			}
 		}
@@ -281,32 +281,32 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "FsrOverride", "1"))
 				{
-					textblock_Status().Text(L"Failed enabling FSR override");
-					AVDebugWriteLine(L"Failed enabling FSR override");
+					ShowNotification(L"Failed enabling FSR upscaling override");
+					AVDebugWriteLine(L"Failed enabling FSR upscaling override");
 					disable_saving = true;
 					senderElement.IsOn(false);
 					disable_saving = false;
 				}
 				else
 				{
-					textblock_Status().Text(L"FSR override enabled");
-					AVDebugWriteLine(L"FSR override enabled");
+					ShowNotification(L"FSR upscaling override enabled");
+					AVDebugWriteLine(L"FSR upscaling override enabled");
 				}
 			}
 			else
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "FsrOverride", "0"))
 				{
-					textblock_Status().Text(L"Failed disabling FSR override");
-					AVDebugWriteLine(L"Failed disabling FSR override");
+					ShowNotification(L"Failed disabling FSR upscaling override");
+					AVDebugWriteLine(L"Failed disabling FSR upscaling override");
 					disable_saving = true;
 					senderElement.IsOn(true);
 					disable_saving = false;
 				}
 				else
 				{
-					textblock_Status().Text(L"FSR override disabled");
-					AVDebugWriteLine(L"FSR override disabled");
+					ShowNotification(L"FSR upscaling override disabled");
+					AVDebugWriteLine(L"FSR upscaling override disabled");
 				}
 			}
 		}
@@ -325,32 +325,32 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "MlfiOverride", "1"))
 				{
-					textblock_Status().Text(L"Failed enabling FSR override");
-					AVDebugWriteLine(L"Failed enabling FSR override");
+					ShowNotification(L"Failed enabling FSR frame generation override");
+					AVDebugWriteLine(L"Failed enabling FSR frame generation override");
 					disable_saving = true;
 					senderElement.IsOn(false);
 					disable_saving = false;
 				}
 				else
 				{
-					textblock_Status().Text(L"FSR override enabled");
-					AVDebugWriteLine(L"FSR override enabled");
+					ShowNotification(L"FSR frame generation override enabled");
+					AVDebugWriteLine(L"FSR frame generation override enabled");
 				}
 			}
 			else
 			{
 				if (!AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "MlfiOverride", "0"))
 				{
-					textblock_Status().Text(L"Failed disabling FSR override");
-					AVDebugWriteLine(L"Failed disabling FSR override");
+					ShowNotification(L"Failed disabling FSR frame generation override");
+					AVDebugWriteLine(L"Failed disabling FSR frame generation override");
 					disable_saving = true;
 					senderElement.IsOn(true);
 					disable_saving = false;
 				}
 				else
 				{
-					textblock_Status().Text(L"FSR override disabled");
-					AVDebugWriteLine(L"FSR override disabled");
+					ShowNotification(L"FSR frame generation override disabled");
+					AVDebugWriteLine(L"FSR frame generation override disabled");
 				}
 			}
 		}

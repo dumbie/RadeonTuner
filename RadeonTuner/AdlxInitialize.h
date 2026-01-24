@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlxVariables.h"
+#include "SettingEnumStrings.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -25,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed initializing ADLX (" << adlx_Res0 << ")");
-				return std::wstring(L"Failed initializing ADLX (") + number_to_wstring(adlx_Res0) + std::wstring(L")");
+				return std::wstring(L"Failed initializing ADLX (") + ADLX_RESULT_STRING[adlx_Res0] + std::wstring(L")");
 			}
 
 			//Get ADL mapping

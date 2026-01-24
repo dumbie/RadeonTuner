@@ -49,8 +49,8 @@ namespace winrt::RadeonTuner::implementation
 			//Check file path
 			if (exportPath.empty())
 			{
-				textblock_Status().Text(L"Tuning and fans not exported");
-				AVDebugWriteLine(L"File export path is not set.");
+				ShowNotification(L"Tuning and fans not exported, no path set");
+				AVDebugWriteLine(L"Tuning and fans not exported, no path set");
 				return;
 			}
 
@@ -65,20 +65,20 @@ namespace winrt::RadeonTuner::implementation
 			//Set result
 			if (saveResult)
 			{
-				textblock_Status().Text(L"Tuning and fans exported");
+				ShowNotification(L"Tuning and fans exported");
 				AVDebugWriteLine(L"Tuning and fans exported");
 			}
 			else
 			{
-				textblock_Status().Text(L"Tuning and fans export failed");
+				ShowNotification(L"Tuning and fans export failed");
 				AVDebugWriteLine(L"Tuning and fans export failed");
 			}
 		}
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Tuning and fans not exported");
-			AVDebugWriteLine(L"Tuning and fans export error");
+			ShowNotification(L"Tuning and fans not exported, exception");
+			AVDebugWriteLine(L"Tuning and fans not exported, exception");
 		}
 	}
 }

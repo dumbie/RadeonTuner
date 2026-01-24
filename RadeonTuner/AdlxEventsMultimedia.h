@@ -22,7 +22,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppVideoSuperResolution->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Video Super Resolution");
+					ShowNotification(L"Failed enabling Video Super Resolution");
 					AVDebugWriteLine(L"Failed enabling Video Super Resolution");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -30,14 +30,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Video Super Resolution enabled");
+					ShowNotification(L"Video Super Resolution enabled");
 					AVDebugWriteLine(L"Video Super Resolution enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = ppVideoSuperResolution->SetEnabled(false);
-				textblock_Status().Text(L"Video Super Resolution disabled");
+				ShowNotification(L"Video Super Resolution disabled");
 				AVDebugWriteLine(L"Video Super Resolution disabled");
 			}
 		}
@@ -61,7 +61,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppVideoupscale->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Video Upscale");
+					ShowNotification(L"Failed enabling Video Upscale");
 					AVDebugWriteLine(L"Failed enabling Video Upscale");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -78,7 +78,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_VideoUpscale_Sharpening().Value(adlx_Int0);
 					disable_saving = false;
 
-					textblock_Status().Text(L"Video Upscale enabled");
+					ShowNotification(L"Video Upscale enabled");
 					AVDebugWriteLine(L"Video Upscale enabled");
 				}
 			}
@@ -88,7 +88,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_VideoUpscale_Sharpening().IsEnabled(false);
 
 				adlx_Res0 = ppVideoupscale->SetEnabled(false);
-				textblock_Status().Text(L"Video Upscale disabled");
+				ShowNotification(L"Video Upscale disabled");
 				AVDebugWriteLine(L"Video Upscale disabled");
 			}
 		}
@@ -115,7 +115,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				slider_VideoUpscale_Sharpening().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting video sharpening");
+				ShowNotification(L"Failed setting video sharpening");
 				AVDebugWriteLine(L"Failed setting video sharpening");
 			}
 			else
@@ -123,7 +123,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				slider_VideoUpscale_Sharpening().Foreground(colorValid);
-				textblock_Status().Text(L"Video sharpening set to " + number_to_wstring(newValue));
+				ShowNotification(L"Video sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Video sharpening set to " << newValue);
 			}
 		}

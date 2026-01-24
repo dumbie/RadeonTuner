@@ -22,7 +22,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppSmartShiftEco->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling SmartShift Eco");
+					ShowNotification(L"Failed enabling SmartShift Eco");
 					AVDebugWriteLine(L"Failed enabling SmartShift Eco");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -30,14 +30,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"SmartShift Eco enabled");
+					ShowNotification(L"SmartShift Eco enabled");
 					AVDebugWriteLine(L"SmartShift Eco enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = ppSmartShiftEco->SetEnabled(false);
-				textblock_Status().Text(L"SmartShift Eco disabled");
+				ShowNotification(L"SmartShift Eco disabled");
 				AVDebugWriteLine(L"SmartShift Eco disabled");
 			}
 		}
@@ -63,7 +63,7 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting SmartShift mode");
+				ShowNotification(L"Failed setting SmartShift mode");
 				AVDebugWriteLine(L"Failed setting SmartShift mode");
 			}
 			else
@@ -85,7 +85,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Set result
-				textblock_Status().Text(L"SmartShift mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"SmartShift mode set to " + ADLX_SSM_BIAS_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"SmartShift mode set to " << newValue);
 			}
 		}
@@ -113,7 +113,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_SmartShiftMaxBias().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting SmartShift bias");
+				ShowNotification(L"Failed setting SmartShift bias");
 				AVDebugWriteLine(L"Failed setting SmartShift bias");
 			}
 			else
@@ -121,7 +121,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_SmartShiftMaxBias().Foreground(colorValid);
-				textblock_Status().Text(L"SmartShift bias set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"SmartShift bias set to " + number_to_wstring((int)newValue));
 				AVDebugWriteLine(L"SmartShift bias set to " << newValue);
 			}
 		}

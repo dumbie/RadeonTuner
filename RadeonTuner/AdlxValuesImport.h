@@ -48,8 +48,8 @@ namespace winrt::RadeonTuner::implementation
 			//Check file path
 			if (importPath.empty())
 			{
-				textblock_Status().Text(L"Tuning and fans not imported");
-				AVDebugWriteLine(L"File import path is not set.");
+				ShowNotification(L"Tuning and fans not imported, no path set");
+				AVDebugWriteLine(L"Tuning and fans not imported, no path set");
 				return;
 			}
 
@@ -64,12 +64,12 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (device_id_import_w != device_id_current)
 				{
-					int messageResult = MessageBoxW(NULL, L"Tuning and fans settings do not match current device, continue import?", L"RadeonTuner", MB_YESNO);
+					int messageResult = MessageBoxW(NULL, L"Tuning and fans settings do not match current gpu, continue import?", L"RadeonTuner", MB_YESNO);
 					if (messageResult == IDNO)
 					{
 						//Set result
-						textblock_Status().Text(L"Tuning and fans no match");
-						AVDebugWriteLine(L"Tuning and fans no match");
+						ShowNotification(L"Tuning and fans gpu does not match");
+						AVDebugWriteLine(L"Tuning and fans gpu does not match");
 						return;
 					}
 				}
@@ -79,14 +79,14 @@ namespace winrt::RadeonTuner::implementation
 			TuningFanSettings_Convert_ToUI(tuningFanSettings, false);
 
 			//Set result
-			textblock_Status().Text(L"Tuning and fans imported");
+			ShowNotification(L"Tuning and fans imported");
 			AVDebugWriteLine(L"Tuning and fans imported");
 		}
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Tuning and fans not imported");
-			AVDebugWriteLine(L"Tuning and fans import error");
+			ShowNotification(L"Tuning and fans not imported, exception");
+			AVDebugWriteLine(L"Tuning and fans not imported, exception");
 		}
 	}
 }

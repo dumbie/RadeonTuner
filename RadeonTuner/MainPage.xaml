@@ -87,9 +87,7 @@
                 <!-- Header -->
                 <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <Grid>
-                        <!-- Status text -->
-                        <TextBlock x:Name="textblock_Status" Text="RadeonTuner" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-
+                        <TextBlock Text="RadeonTuner" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                         <StackPanel Orientation="Horizontal">
                             <!-- Gpu Select -->
                             <ComboBox x:Name="combobox_GpuSelect" IsEnabled="False" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_GpuSelect_SelectionChanged"/>
@@ -1160,7 +1158,7 @@
         </Grid>
 
         <!-- Notification -->
-        <Border x:Name="grid_Notification" Margin="0,114,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
+        <Border x:Name="grid_Notification" Margin="0,114,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
             <Border.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationAccentDimColor}" Opacity="0.90"/>
             </Border.Background>

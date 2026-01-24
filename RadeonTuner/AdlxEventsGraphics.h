@@ -22,7 +22,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Super Resolution");
+					ShowNotification(L"Failed enabling Super Resolution");
 					AVDebugWriteLine(L"Failed enabling Super Resolution");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -39,7 +39,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonSuperResolution_Sharpening().Value(adlx_Int0);
 					disable_saving = false;
 
-					textblock_Status().Text(L"Super Resolution enabled");
+					ShowNotification(L"Super Resolution enabled");
 					AVDebugWriteLine(L"Super Resolution enabled");
 				}
 			}
@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
 
 				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(false);
-				textblock_Status().Text(L"Super Resolution disabled");
+				ShowNotification(L"Super Resolution disabled");
 				AVDebugWriteLine(L"Super Resolution disabled");
 			}
 		}
@@ -76,7 +76,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_RadeonSuperResolution_Sharpening().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting sharpening");
+				ShowNotification(L"Failed setting sharpening");
 				AVDebugWriteLine(L"Failed setting sharpening");
 			}
 			else
@@ -84,7 +84,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonSuperResolution_Sharpening().Foreground(colorValid);
-				textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
+				ShowNotification(L"Sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Sharpening set to " << newValue);
 			}
 		}
@@ -108,7 +108,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Fluid Motion Frames");
+					ShowNotification(L"Failed enabling Fluid Motion Frames");
 					AVDebugWriteLine(L"Failed enabling Fluid Motion Frames");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -116,14 +116,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Fluid Motion Frames enabled");
+					ShowNotification(L"Fluid Motion Frames enabled");
 					AVDebugWriteLine(L"Fluid Motion Frames enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(false);
-				textblock_Status().Text(L"Fluid Motion Frames disabled");
+				ShowNotification(L"Fluid Motion Frames disabled");
 				AVDebugWriteLine(L"Fluid Motion Frames disabled");
 			}
 		}
@@ -147,7 +147,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DAntiLag->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Anti-Lag");
+					ShowNotification(L"Failed enabling Anti-Lag");
 					AVDebugWriteLine(L"Failed enabling Anti-Lag");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -155,14 +155,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Anti-Lag enabled");
+					ShowNotification(L"Anti-Lag enabled");
 					AVDebugWriteLine(L"Anti-Lag enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = pp3DAntiLag->SetEnabled(false);
-				textblock_Status().Text(L"Anti-Lag disabled");
+				ShowNotification(L"Anti-Lag disabled");
 				AVDebugWriteLine(L"Anti-Lag disabled");
 			}
 		}
@@ -186,7 +186,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DEnhancedSync->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Enhanced Sync");
+					ShowNotification(L"Failed enabling Enhanced Sync");
 					AVDebugWriteLine(L"Failed enabling Enhanced Sync");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -194,14 +194,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Enhanced Sync enabled");
+					ShowNotification(L"Enhanced Sync enabled");
 					AVDebugWriteLine(L"Enhanced Sync enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = pp3DEnhancedSync->SetEnabled(false);
-				textblock_Status().Text(L"Enhanced Sync disabled");
+				ShowNotification(L"Enhanced Sync disabled");
 				AVDebugWriteLine(L"Enhanced Sync disabled");
 			}
 		}
@@ -225,13 +225,13 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting vertical refresh");
+				ShowNotification(L"Failed setting vertical refresh");
 				AVDebugWriteLine(L"Failed setting vertical refresh");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Vertical refresh set to " + number_to_wstring(newValue));
+				ShowNotification(L"Vertical refresh set to " + ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Vertical refresh set to " << newValue);
 			}
 		}
@@ -255,7 +255,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DChill->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Radeon Chill");
+					ShowNotification(L"Failed enabling Radeon Chill");
 					AVDebugWriteLine(L"Failed enabling Radeon Chill");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -275,7 +275,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonChill_Max().Value(adlx_Int1);
 					disable_saving = false;
 
-					textblock_Status().Text(L"Radeon Chill enabled");
+					ShowNotification(L"Radeon Chill enabled");
 					AVDebugWriteLine(L"Radeon Chill enabled");
 				}
 			}
@@ -286,7 +286,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonChill_Max().IsEnabled(false);
 
 				adlx_Res0 = pp3DChill->SetEnabled(false);
-				textblock_Status().Text(L"Radeon Chill disabled");
+				ShowNotification(L"Radeon Chill disabled");
 				AVDebugWriteLine(L"Radeon Chill disabled");
 			}
 		}
@@ -312,8 +312,8 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_RadeonChill_Min().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting chill fps");
-				AVDebugWriteLine(L"Failed setting chill fps");
+				ShowNotification(L"Failed setting chill minimum fps");
+				AVDebugWriteLine(L"Failed setting chill minimum fps");
 			}
 			else
 			{
@@ -326,8 +326,8 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonChill_Min().Foreground(colorValid);
-				textblock_Status().Text(L"Chill minimum set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Chill minimum set to " << newValue);
+				ShowNotification(L"Chill minimum fps set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Chill minimum fps set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -352,8 +352,8 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_RadeonChill_Max().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting chill fps");
-				AVDebugWriteLine(L"Failed setting chill fps");
+				ShowNotification(L"Failed setting chill maximum fps");
+				AVDebugWriteLine(L"Failed setting chill maximum fps");
 			}
 			else
 			{
@@ -366,8 +366,8 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonChill_Max().Foreground(colorValid);
-				textblock_Status().Text(L"Chill maximum set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Chill maximum set to " << newValue);
+				ShowNotification(L"Chill maximum fps set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Chill maximum fps set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -390,7 +390,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DBoost->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Radeon Boost");
+					ShowNotification(L"Failed enabling Radeon Boost");
 					AVDebugWriteLine(L"Failed enabling Radeon Boost");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -407,7 +407,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonBoost_MinRes().Value(adlx_Int0);
 					disable_saving = false;
 
-					textblock_Status().Text(L"Radeon Boost enabled");
+					ShowNotification(L"Radeon Boost enabled");
 					AVDebugWriteLine(L"Radeon Boost enabled");
 				}
 			}
@@ -417,7 +417,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonBoost_MinRes().IsEnabled(false);
 
 				adlx_Res0 = pp3DBoost->SetEnabled(false);
-				textblock_Status().Text(L"Radeon Boost disabled");
+				ShowNotification(L"Radeon Boost disabled");
 				AVDebugWriteLine(L"Radeon Boost disabled");
 			}
 		}
@@ -443,16 +443,16 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_RadeonBoost_MinRes().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting min. resolution");
-				AVDebugWriteLine(L"Failed setting min. resolution");
+				ShowNotification(L"Failed setting minimum resolution");
+				AVDebugWriteLine(L"Failed setting minimum resolution");
 			}
 			else
 			{
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonBoost_MinRes().Foreground(colorValid);
-				textblock_Status().Text(L"Min. resolution set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Min. resolution set to " << newValue);
+				ShowNotification(L"Minimum resolution set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Minimum resolution set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -478,7 +478,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DImageSharpening->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Image Sharpening");
+					ShowNotification(L"Failed enabling Image Sharpening");
 					AVDebugWriteLine(L"Failed enabling Image Sharpening");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -500,7 +500,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonImageSharpening_Sharpening().Value(adlx_Int0);
 					disable_saving = false;
 
-					textblock_Status().Text(L"Image Sharpening enabled");
+					ShowNotification(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
 				}
 			}
@@ -511,7 +511,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 
 				adlx_Res0 = pp3DImageSharpening->SetEnabled(false);
-				textblock_Status().Text(L"Image Sharpening disabled");
+				ShowNotification(L"Image Sharpening disabled");
 				AVDebugWriteLine(L"Image Sharpening disabled");
 			}
 		}
@@ -538,7 +538,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_RadeonImageSharpening_Sharpening().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting sharpening");
+				ShowNotification(L"Failed setting sharpening");
 				AVDebugWriteLine(L"Failed setting sharpening");
 			}
 			else
@@ -546,7 +546,7 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonImageSharpening_Sharpening().Foreground(colorValid);
-				textblock_Status().Text(L"Sharpening set to " + number_to_wstring(newValue));
+				ShowNotification(L"Sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Sharpening set to " << newValue);
 			}
 		}
@@ -570,7 +570,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DImageSharpenDesktop->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Desktop Sharpening");
+					ShowNotification(L"Failed enabling Desktop Sharpening");
 					AVDebugWriteLine(L"Failed enabling Desktop Sharpening");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -578,14 +578,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Desktop Sharpening enabled");
+					ShowNotification(L"Desktop Sharpening enabled");
 					AVDebugWriteLine(L"Desktop Sharpening enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = pp3DImageSharpenDesktop->SetEnabled(false);
-				textblock_Status().Text(L"Desktop Sharpening disabled");
+				ShowNotification(L"Desktop Sharpening disabled");
 				AVDebugWriteLine(L"Desktop Sharpening disabled");
 			}
 		}
@@ -609,7 +609,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling FRTC");
+					ShowNotification(L"Failed enabling FRTC");
 					AVDebugWriteLine(L"Failed enabling FRTC");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -626,7 +626,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Frtc_Max().Value(adlx_Int0);
 					disable_saving = false;
 
-					textblock_Status().Text(L"FRTC enabled");
+					ShowNotification(L"FRTC enabled");
 					AVDebugWriteLine(L"FRTC enabled");
 				}
 			}
@@ -636,7 +636,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_Frtc_Max().IsEnabled(false);
 
 				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(false);
-				textblock_Status().Text(L"FRTC disabled");
+				ShowNotification(L"FRTC disabled");
 				AVDebugWriteLine(L"FRTC disabled");
 			}
 		}
@@ -663,16 +663,16 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Frtc_Max().Foreground(colorInvalid);
-				textblock_Status().Text(L"Failed setting FRTC");
-				AVDebugWriteLine(L"Failed setting FRTC");
+				ShowNotification(L"Failed setting FRTC maximum");
+				AVDebugWriteLine(L"Failed setting FRTC maximum");
 			}
 			else
 			{
 				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Frtc_Max().Foreground(colorValid);
-				textblock_Status().Text(L"FRTC set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"FRTC set to " << newValue);
+				ShowNotification(L"FRTC maximum set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"FRTC maximum set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -695,7 +695,7 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting AA mode");
+				ShowNotification(L"Failed setting AA mode");
 				AVDebugWriteLine(L"Failed setting AA mode");
 			}
 			else
@@ -741,7 +741,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Set result
-				textblock_Status().Text(L"AA mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"AA mode set to " + ADLX_ANTI_ALIASING_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"AA mode set to " << newValue);
 			}
 		}
@@ -765,13 +765,13 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting AA method");
+				ShowNotification(L"Failed setting AA method");
 				AVDebugWriteLine(L"Failed setting AA method");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"AA method set to " + number_to_wstring(newValue));
+				ShowNotification(L"AA method set to " + ADLX_ANTI_ALIASING_METHOD_STRING[newValue]);
 				AVDebugWriteLine(L"AA method set to " << newValue);
 			}
 		}
@@ -790,45 +790,46 @@ namespace winrt::RadeonTuner::implementation
 			adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
 
 			//Enumeration index correction
-			if (newValue == 0)
+			int setValue = 0;
+			if (newValue == 1)
 			{
-				newValue = 2;
-			}
-			else if (newValue == 1)
-			{
-				newValue = 3;
+				setValue = 2;
 			}
 			else if (newValue == 2)
 			{
-				newValue = 4;
+				setValue = 3;
 			}
 			else if (newValue == 3)
 			{
-				newValue = 5;
+				setValue = 4;
 			}
 			else if (newValue == 4)
 			{
-				newValue = 8;
+				setValue = 5;
 			}
 			else if (newValue == 5)
 			{
-				newValue = 9;
+				setValue = 8;
+			}
+			else if (newValue == 6)
+			{
+				setValue = 9;
 			}
 
-			adlx_Res0 = pp3DAntiAliasing->SetLevel((ADLX_ANTI_ALIASING_LEVEL)newValue);
+			adlx_Res0 = pp3DAntiAliasing->SetLevel((ADLX_ANTI_ALIASING_LEVEL)setValue);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting AA level");
+				ShowNotification(L"Failed setting AA level");
 				AVDebugWriteLine(L"Failed setting AA level");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"AA level set to " + number_to_wstring(newValue));
+				ShowNotification(L"AA level set to " + ADLX_ANTI_ALIASING_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"AA level set to " << newValue);
 			}
 		}
@@ -852,7 +853,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DMorphologicalAntiAliasing->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Morphological AA");
+					ShowNotification(L"Failed enabling Morphological AA");
 					AVDebugWriteLine(L"Failed enabling Morphological AA");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -860,14 +861,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
-					textblock_Status().Text(L"Morphological AA enabled");
+					ShowNotification(L"Morphological AA enabled");
 					AVDebugWriteLine(L"Morphological AA enabled");
 				}
 			}
 			else
 			{
 				adlx_Res0 = pp3DMorphologicalAntiAliasing->SetEnabled(false);
-				textblock_Status().Text(L"Morphological AA disabled");
+				ShowNotification(L"Morphological AA disabled");
 				AVDebugWriteLine(L"Morphological AA disabled");
 			}
 		}
@@ -891,7 +892,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(true);
 				if (ADLX_FAILED(adlx_Res0))
 				{
-					textblock_Status().Text(L"Failed enabling Anisotropic");
+					ShowNotification(L"Failed enabling Anisotropic");
 					AVDebugWriteLine(L"Failed enabling Anisotropic");
 					disable_saving = true;
 					senderElement.IsOn(false);
@@ -924,7 +925,7 @@ namespace winrt::RadeonTuner::implementation
 					}
 					disable_saving = false;
 
-					textblock_Status().Text(L"Anisotropic enabled");
+					ShowNotification(L"Anisotropic enabled");
 					AVDebugWriteLine(L"Anisotropic enabled");
 				}
 			}
@@ -934,7 +935,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_AnisotropicTextureFilteringQuality().IsEnabled(false);
 
 				adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(false);
-				textblock_Status().Text(L"Anisotropic disabled");
+				ShowNotification(L"Anisotropic disabled");
 				AVDebugWriteLine(L"Anisotropic disabled");
 			}
 		}
@@ -953,37 +954,38 @@ namespace winrt::RadeonTuner::implementation
 			adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
 
 			//Enumeration index correction
-			if (newValue == 0)
+			int setValue = 0;
+			if (newValue == 1)
 			{
-				newValue = 2;
-			}
-			else if (newValue == 1)
-			{
-				newValue = 4;
+				setValue = 2;
 			}
 			else if (newValue == 2)
 			{
-				newValue = 8;
+				setValue = 4;
 			}
 			else if (newValue == 3)
 			{
-				newValue = 16;
+				setValue = 8;
+			}
+			else if (newValue == 4)
+			{
+				setValue = 16;
 			}
 
-			adlx_Res0 = pp3DAnisotropicFiltering->SetLevel((ADLX_ANISOTROPIC_FILTERING_LEVEL)newValue);
+			adlx_Res0 = pp3DAnisotropicFiltering->SetLevel((ADLX_ANISOTROPIC_FILTERING_LEVEL)setValue);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting Anisotropic level");
+				ShowNotification(L"Failed setting Anisotropic level");
 				AVDebugWriteLine(L"Failed setting Anisotropic level");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Anisotropic level set to " + number_to_wstring(newValue));
+				ShowNotification(L"Anisotropic level set to " + ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"Anisotropic level set to " << newValue);
 			}
 		}
@@ -1007,7 +1009,7 @@ namespace winrt::RadeonTuner::implementation
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting Tessellation mode");
+				ShowNotification(L"Failed setting Tessellation mode");
 				AVDebugWriteLine(L"Failed setting Tessellation mode");
 			}
 			else
@@ -1061,7 +1063,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Set result
-				textblock_Status().Text(L"Tessellation mode set to " + number_to_wstring(newValue));
+				ShowNotification(L"Tessellation mode set to " + ADLX_TESSELLATION_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Tessellation mode set to " << newValue);
 			}
 		}
@@ -1083,50 +1085,51 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 
 			//Enumeration index correction
+			int setValue = 0;
 			if (newValue == 0)
 			{
-				newValue = 1;
+				setValue = 1;
 			}
 			else if (newValue == 1)
 			{
-				newValue = 2;
+				setValue = 2;
 			}
 			else if (newValue == 2)
 			{
-				newValue = 4;
+				setValue = 4;
 			}
 			else if (newValue == 3)
 			{
-				newValue = 6;
+				setValue = 6;
 			}
 			else if (newValue == 4)
 			{
-				newValue = 8;
+				setValue = 8;
 			}
 			else if (newValue == 5)
 			{
-				newValue = 16;
+				setValue = 16;
 			}
 			else if (newValue == 6)
 			{
-				newValue = 32;
+				setValue = 32;
 			}
 			else if (newValue == 7)
 			{
-				newValue = 64;
+				setValue = 64;
 			}
 
-			adlx_Res0 = pp3DTessellation->SetLevel((ADLX_TESSELLATION_LEVEL)newValue);
+			adlx_Res0 = pp3DTessellation->SetLevel((ADLX_TESSELLATION_LEVEL)setValue);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result
-				textblock_Status().Text(L"Failed setting Tessellation level");
+				ShowNotification(L"Failed setting Tessellation level");
 				AVDebugWriteLine(L"Failed setting Tessellation level");
 			}
 			else
 			{
 				//Set result
-				textblock_Status().Text(L"Tessellation level set to " + number_to_wstring(newValue));
+				ShowNotification(L"Tessellation level set to " + ADLX_TESSELLATION_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"Tessellation level set to " << newValue);
 			}
 		}
@@ -1150,18 +1153,18 @@ namespace winrt::RadeonTuner::implementation
 			//Set result
 			if (ADLX_FAILED(adlx_Res0))
 			{
-				textblock_Status().Text(L"Failed resetting shader cache");
+				ShowNotification(L"Failed resetting shader cache");
 				AVDebugWriteLine(L"Failed resetting shader cache");
 			}
 			else
 			{
-				textblock_Status().Text(L"Shader cache is reset");
+				ShowNotification(L"Shader cache is reset");
 				AVDebugWriteLine(L"Shader cache is reset");
 			}
 		}
 		catch (...)
 		{
-			textblock_Status().Text(L"Failed resetting shader cache");
+			ShowNotification(L"Failed resetting shader cache");
 			AVDebugWriteLine(L"Failed resetting shader cache");
 		}
 	}

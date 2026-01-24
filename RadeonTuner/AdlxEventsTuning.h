@@ -182,7 +182,7 @@ namespace winrt::RadeonTuner::implementation
 				if (ADLX_FAILED(adlx_Res0))
 				{
 					//Set result
-					textblock_Status().Text(L"Invalid fan curve");
+					ShowNotification(L"Invalid fan curve");
 					AVDebugWriteLine(L"Invalid fan curve");
 					return false;
 				}
@@ -254,15 +254,15 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set result
-			textblock_Status().Text(L"Tuning and fans applied");
-			AVDebugWriteLine(L"Tuning and fans settings applied.");
+			ShowNotification(L"Tuning and fans settings applied");
+			AVDebugWriteLine(L"Tuning and fans settings applied");
 			return true;
 		}
 		catch (...)
 		{
 			//Set result
-			textblock_Status().Text(L"Failed applying tuning and fans");
-			AVDebugWriteLine(L"Failed applying tuning and fans settings.");
+			ShowNotification(L"Failed applying tuning and fans settings");
+			AVDebugWriteLine(L"Failed applying tuning and fans settings");
 			return false;
 		}
 	}
