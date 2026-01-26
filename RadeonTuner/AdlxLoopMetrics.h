@@ -13,6 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Fix skip when window is not visible
+				//Fix check if AFMF, Super Resolution and FSR Override is active and update status
 
 				//Delay next update
 				Sleep(1000);
