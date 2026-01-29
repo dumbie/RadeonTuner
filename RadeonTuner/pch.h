@@ -45,11 +45,13 @@ namespace winrt
 	using namespace Windows::UI::Xaml::Input;
 }
 
-//Classes
-#include "TuningFanSettingsClass.h"
-
 //Arnold Vink Code
 #include "..\..\ArnoldVinkCode\CPP\AVPch.h"
+
+//Classes
+#include "DisplaySettingsClass.h"
+#include "GraphicsSettingsClass.h"
+#include "TuningFanSettingsClass.h"
 
 //ADL
 #include "ADL\adl_sdk.h"

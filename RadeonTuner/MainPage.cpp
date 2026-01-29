@@ -12,8 +12,13 @@
 
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
-#include "AdlxValuesExport.h"
-#include "AdlxValuesImport.h"
+
+#include "AdlxValuesExportDisplay.h"
+#include "AdlxValuesImportDisplay.h"
+#include "AdlxValuesExportGraphics.h"
+#include "AdlxValuesImportGraphics.h"
+#include "AdlxValuesExportTuning.h"
+#include "AdlxValuesImportTuning.h"
 
 #include "AdlxResetDisplay.h"
 #include "AdlxResetGraphics.h"
@@ -27,6 +32,10 @@
 #include "AdlxEventsTuning.h"
 
 #include "KeepActiveFunc.h"
+#include "DisplaySettingsClass.h"
+#include "DisplaySettingsFunc.h"
+#include "GraphicsSettingsClass.h"
+#include "GraphicsSettingsFunc.h"
 #include "TuningFanSettingsClass.h"
 #include "TuningFanSettingsFunc.h"
 
@@ -76,6 +85,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Prepare adl values
 			//AdlValuesPrepare();
+
+			//Fix check driver installation software type Default / Minimal / Driver Only
 
 			//Check admin setttings
 			SettingAdmin();
@@ -149,6 +160,8 @@ namespace winrt::RadeonTuner::implementation
 			//Hide all buttons
 			stackpanel_Tuning_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Fan_Buttons().Visibility(Visibility::Collapsed);
+			stackpanel_Graphics_Buttons().Visibility(Visibility::Collapsed);
+			stackpanel_Display_Buttons().Visibility(Visibility::Collapsed);
 
 			//Hide all pages
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);
@@ -183,11 +196,13 @@ namespace winrt::RadeonTuner::implementation
 				combobox_AppSelect().IsEnabled(true);
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
+				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 3)
 			{
 				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Display().Visibility(Visibility::Visible);
+				stackpanel_Display_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 4)
 			{

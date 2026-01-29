@@ -5,6 +5,26 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::button_Graphics_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Import settings from file
+			AdlxValuesImportGraphics();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Graphics_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Export current settings to file
+			AdlxValuesExportGraphics();
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_RadeonSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

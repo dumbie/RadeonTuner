@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesExport()
+	void MainPage::AdlxValuesExportGraphics()
 	{
 		IFileSaveDialog* pFileDialog = NULL;
 		IShellItem* pShellItem = NULL;
@@ -21,11 +21,11 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radg)", L"*.radg"} };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog->SetTitle(L"Export tuning and fans settings...");
+				pFileDialog->SetTitle(L"Export graphics settings...");
 				pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
-				pFileDialog->SetDefaultExtension(L"radt");
+				pFileDialog->SetDefaultExtension(L"radg");
 
 				//Show file dialog
 				hResult = pFileDialog->Show(NULL);
@@ -49,36 +49,34 @@ namespace winrt::RadeonTuner::implementation
 			//Check file path
 			if (exportPath.empty())
 			{
-				ShowNotification(L"Tuning and fans not exported, no path set");
-				AVDebugWriteLine(L"Tuning and fans not exported, no path set");
+				ShowNotification(L"Graphics not exported, no path set");
+				AVDebugWriteLine(L"Graphics not exported, no path set");
 				return;
 			}
 
-			//Fix add option to export graphics and display settings
+			//Generate settings
+			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromUI();
 
-			//Generate tuning fan settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
-
-			//Save tuning fan settings to file
-			bool saveResult = TuningFanSettings_Save(tuningFanSettings, exportPath);
+			//Save settings to file
+			bool saveResult = GraphicsSettings_Save(graphicsSettings, exportPath);
 
 			//Set result
 			if (saveResult)
 			{
-				ShowNotification(L"Tuning and fans exported");
-				AVDebugWriteLine(L"Tuning and fans exported");
+				ShowNotification(L"Graphics exported");
+				AVDebugWriteLine(L"Graphics exported");
 			}
 			else
 			{
-				ShowNotification(L"Tuning and fans export failed");
-				AVDebugWriteLine(L"Tuning and fans export failed");
+				ShowNotification(L"Graphics export failed");
+				AVDebugWriteLine(L"Graphics export failed");
 			}
 		}
 		catch (...)
 		{
 			//Set result
-			ShowNotification(L"Tuning and fans not exported, exception");
-			AVDebugWriteLine(L"Tuning and fans not exported, exception");
+			ShowNotification(L"Graphics not exported, exception");
+			AVDebugWriteLine(L"Graphics not exported, exception");
 		}
 	}
 }

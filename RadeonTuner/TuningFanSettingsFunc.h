@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Load TuningFanSettings from file
+	//Load settings from file
 	TuningFanSettings MainPage::TuningFanSettings_Load(std::string loadPath)
 	{
 		try
@@ -13,26 +13,20 @@ namespace winrt::RadeonTuner::implementation
 			//Open settings file
 			std::string jsonString = file_to_string(loadPath);
 
-			//Parse settings file
-			nlohmann::json jsonData = nlohmann::json::parse(jsonString);
-
-			//Convert json to tuning fan settings
-			return TuningFanSettings_Generate_FromJson(jsonData);
+			//Convert json to struct
+			return jsonstring_to_struct<TuningFanSettings>(jsonString);
 		}
 		catch (...) {}
 		return TuningFanSettings{};
 	}
 
-	//Save TuningFanSettings to file
+	//Save settings to file
 	bool MainPage::TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath)
 	{
 		try
 		{
-			//Convert tuning fan settings
-			nlohmann::json jsonData = TuningFanSettings_Convert_ToJson(tuningFanSettings);
-
 			//Convert json to string
-			std::string jsonString = jsonData.dump();
+			std::string jsonString = struct_to_jsonstring(tuningFanSettings, false);
 
 			//Save settings file
 			return string_to_file(savePath, jsonString);
@@ -611,7 +605,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuPtr);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
 			if (!device_id_w.empty())
 			{
 				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
@@ -951,8 +945,8 @@ namespace winrt::RadeonTuner::implementation
 		TuningFanSettings tuningFanSettings{};
 		try
 		{
-			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			//Identifier
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 			if (!device_id_w.empty())
 			{
 				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
@@ -961,6 +955,7 @@ namespace winrt::RadeonTuner::implementation
 			//Keep active
 			tuningFanSettings.KeepActive = keepActive;
 
+			//Settings
 			if (slider_Core_Min().IsEnabled())
 			{
 				tuningFanSettings.CoreMin = (int)slider_Core_Min().Value();
@@ -1036,190 +1031,6 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 		return tuningFanSettings;
-	}
-
-	TuningFanSettings MainPage::TuningFanSettings_Generate_FromJson(nlohmann::json jsonData)
-	{
-		TuningFanSettings tuningFanSettings{};
-		try
-		{
-			if (jsonData.contains("DeviceId"))
-			{
-				std::string device_id_a = jsonData["DeviceId"].get<std::string>();
-				if (!device_id_a.empty())
-				{
-					tuningFanSettings.DeviceId = device_id_a;
-				}
-			}
-			if (jsonData.contains("KeepActive"))
-			{
-				tuningFanSettings.KeepActive = (bool)jsonData["KeepActive"];
-			}
-			if (jsonData.contains("CoreMin"))
-			{
-				tuningFanSettings.CoreMin = (int)jsonData["CoreMin"];
-			}
-			if (jsonData.contains("CoreMax"))
-			{
-				tuningFanSettings.CoreMax = (int)jsonData["CoreMax"];
-			}
-			if (jsonData.contains("MemoryMax"))
-			{
-				tuningFanSettings.MemoryMax = (int)jsonData["MemoryMax"];
-			}
-			if (jsonData.contains("MemoryTiming"))
-			{
-				tuningFanSettings.MemoryTiming = (int)jsonData["MemoryTiming"];
-			}
-			if (jsonData.contains("PowerLimit"))
-			{
-				tuningFanSettings.PowerLimit = (int)jsonData["PowerLimit"];
-			}
-			if (jsonData.contains("PowerVoltage"))
-			{
-				tuningFanSettings.PowerVoltage = (int)jsonData["PowerVoltage"];
-			}
-			if (jsonData.contains("PowerTDC"))
-			{
-				tuningFanSettings.PowerTDC = (int)jsonData["PowerTDC"];
-			}
-			if (jsonData.contains("FanZeroRpm"))
-			{
-				tuningFanSettings.FanZeroRpm = (bool)jsonData["FanZeroRpm"];
-			}
-			if (jsonData.contains("FanSpeed0"))
-			{
-				tuningFanSettings.FanSpeed0 = (int)jsonData["FanSpeed0"];
-			}
-			if (jsonData.contains("FanTemp0"))
-			{
-				tuningFanSettings.FanTemp0 = (int)jsonData["FanTemp0"];
-			}
-			if (jsonData.contains("FanSpeed1"))
-			{
-				tuningFanSettings.FanSpeed1 = (int)jsonData["FanSpeed1"];
-			}
-			if (jsonData.contains("FanTemp1"))
-			{
-				tuningFanSettings.FanTemp1 = (int)jsonData["FanTemp1"];
-			}
-			if (jsonData.contains("FanSpeed2"))
-			{
-				tuningFanSettings.FanSpeed2 = (int)jsonData["FanSpeed2"];
-			}
-			if (jsonData.contains("FanTemp2"))
-			{
-				tuningFanSettings.FanTemp2 = (int)jsonData["FanTemp2"];
-			}
-			if (jsonData.contains("FanSpeed3"))
-			{
-				tuningFanSettings.FanSpeed3 = (int)jsonData["FanSpeed3"];
-			}
-			if (jsonData.contains("FanTemp3"))
-			{
-				tuningFanSettings.FanTemp3 = (int)jsonData["FanTemp3"];
-			}
-			if (jsonData.contains("FanSpeed4"))
-			{
-				tuningFanSettings.FanSpeed4 = (int)jsonData["FanSpeed4"];
-			}
-			if (jsonData.contains("FanTemp4"))
-			{
-				tuningFanSettings.FanTemp4 = (int)jsonData["FanTemp4"];
-			}
-		}
-		catch (...) {}
-		return tuningFanSettings;
-	}
-
-	nlohmann::json MainPage::TuningFanSettings_Convert_ToJson(TuningFanSettings tuningFanSettings)
-	{
-		nlohmann::json jsonData{};
-		try
-		{
-			if (tuningFanSettings.DeviceId.has_value())
-			{
-				jsonData["DeviceId"] = tuningFanSettings.DeviceId.value();
-			}
-			if (tuningFanSettings.KeepActive.has_value())
-			{
-				jsonData["KeepActive"] = tuningFanSettings.KeepActive.value();
-			}
-			if (tuningFanSettings.CoreMin.has_value())
-			{
-				jsonData["CoreMin"] = tuningFanSettings.CoreMin.value();
-			}
-			if (tuningFanSettings.CoreMax.has_value())
-			{
-				jsonData["CoreMax"] = tuningFanSettings.CoreMax.value();
-			}
-			if (tuningFanSettings.MemoryTiming.has_value())
-			{
-				jsonData["MemoryTiming"] = tuningFanSettings.MemoryTiming.value();
-			}
-			if (tuningFanSettings.MemoryMax.has_value())
-			{
-				jsonData["MemoryMax"] = tuningFanSettings.MemoryMax.value();
-			}
-			if (tuningFanSettings.PowerLimit.has_value())
-			{
-				jsonData["PowerLimit"] = tuningFanSettings.PowerLimit.value();
-			}
-			if (tuningFanSettings.PowerVoltage.has_value())
-			{
-				jsonData["PowerVoltage"] = tuningFanSettings.PowerVoltage.value();
-			}
-			if (tuningFanSettings.PowerTDC.has_value())
-			{
-				jsonData["PowerTDC"] = tuningFanSettings.PowerTDC.value();
-			}
-			if (tuningFanSettings.FanZeroRpm.has_value())
-			{
-				jsonData["FanZeroRpm"] = tuningFanSettings.FanZeroRpm.value();
-			}
-			if (tuningFanSettings.FanSpeed0.has_value())
-			{
-				jsonData["FanSpeed0"] = tuningFanSettings.FanSpeed0.value();
-			}
-			if (tuningFanSettings.FanTemp0.has_value())
-			{
-				jsonData["FanTemp0"] = tuningFanSettings.FanTemp0.value();
-			}
-			if (tuningFanSettings.FanSpeed1.has_value())
-			{
-				jsonData["FanSpeed1"] = tuningFanSettings.FanSpeed1.value();
-			}
-			if (tuningFanSettings.FanTemp1.has_value())
-			{
-				jsonData["FanTemp1"] = tuningFanSettings.FanTemp1.value();
-			}
-			if (tuningFanSettings.FanSpeed2.has_value())
-			{
-				jsonData["FanSpeed2"] = tuningFanSettings.FanSpeed2.value();
-			}
-			if (tuningFanSettings.FanTemp2.has_value())
-			{
-				jsonData["FanTemp2"] = tuningFanSettings.FanTemp2.value();
-			}
-			if (tuningFanSettings.FanSpeed3.has_value())
-			{
-				jsonData["FanSpeed3"] = tuningFanSettings.FanSpeed3.value();
-			}
-			if (tuningFanSettings.FanTemp3.has_value())
-			{
-				jsonData["FanTemp3"] = tuningFanSettings.FanTemp3.value();
-			}
-			if (tuningFanSettings.FanSpeed4.has_value())
-			{
-				jsonData["FanSpeed4"] = tuningFanSettings.FanSpeed4.value();
-			}
-			if (tuningFanSettings.FanTemp4.has_value())
-			{
-				jsonData["FanTemp4"] = tuningFanSettings.FanTemp4.value();
-			}
-		}
-		catch (...) {}
-		return jsonData;
 	}
 
 	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch)

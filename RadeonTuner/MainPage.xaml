@@ -131,6 +131,14 @@
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
                     <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </StackPanel>
+                <StackPanel x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
+                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
+                </StackPanel>
+                <StackPanel x:Name="stackpanel_Display_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import display settings from file."/>
+                    <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current display settings to file."/>
+                </StackPanel>
 
                 <!-- Main -->
                 <ScrollViewer Grid.Row="3" Margin="5,0,5,0" VerticalScrollBarVisibility="Auto">

@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Active\\" + device_id_w + L".radt");
@@ -60,7 +60,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Active\\" + device_id_w + L".radt");
@@ -102,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Active\\" + device_id_w + L".radt");
@@ -139,7 +139,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Active\\" + device_id_w + L".radt");
@@ -176,7 +176,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring device_id_w = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 
 			//Get active overclock file path
 			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Active\\" + device_id_w + L".radt");

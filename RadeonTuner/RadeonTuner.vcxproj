@@ -97,8 +97,12 @@
     <ClInclude Include="AdlxValuesLoadPower.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />
-    <ClInclude Include="AdlxValuesExport.h" />
-    <ClInclude Include="AdlxValuesImport.h" />
+    <ClInclude Include="AdlxValuesExportDisplay.h" />
+    <ClInclude Include="AdlxValuesExportGraphics.h" />
+    <ClInclude Include="AdlxValuesExportTuning.h" />
+    <ClInclude Include="AdlxValuesImportDisplay.h" />
+    <ClInclude Include="AdlxValuesImportGraphics.h" />
+    <ClInclude Include="AdlxValuesImportTuning.h" />
     <ClInclude Include="AdlxInfoLoad.h" />
     <ClInclude Include="AdlxValuesLoadSelect.h" />
     <ClInclude Include="AdlxResetTuning.h" />
@@ -168,6 +172,10 @@
     <ClInclude Include="SettingFunc.h" />
     <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
+    <ClInclude Include="DisplaySettingsClass.h" />
+    <ClInclude Include="DisplaySettingsFunc.h" />
+    <ClInclude Include="GraphicsSettingsClass.h" />
+    <ClInclude Include="GraphicsSettingsFunc.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
     <ClInclude Include="TuningFanSettingsFunc.h" />
   </ItemGroup>

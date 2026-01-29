@@ -15,16 +15,32 @@ namespace winrt::RadeonTuner::implementation
 		int AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key);
 
 		std::wstring AdlxInitialize();
-		std::wstring AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr);
+		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr);
+		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo);
+
+		GraphicsSettings GraphicsSettings_Load(std::string loadPath);
+		bool GraphicsSettings_Save(GraphicsSettings graphicsSettings, std::string savePath);
+		bool GraphicsSettings_Convert_ToUI(GraphicsSettings graphicsSettings);
+		GraphicsSettings GraphicsSettings_Generate_FromUI();
+
+		DisplaySettings DisplaySettings_Load(std::string loadPath);
+		bool DisplaySettings_Save(DisplaySettings displaySettings, std::string savePath);
+		bool DisplaySettings_Convert_ToUI(DisplaySettings displaySettings);
+		DisplaySettings DisplaySettings_Generate_FromUI();
 
 		TuningFanSettings TuningFanSettings_Load(std::string loadPath);
 		bool TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath);
-		TuningFanSettings TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
-		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
-		TuningFanSettings TuningFanSettings_Generate_FromJson(nlohmann::json jsonData);
 		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool disableUI);
-		nlohmann::json TuningFanSettings_Convert_ToJson(TuningFanSettings tuningFanSettings);
+		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
+		TuningFanSettings TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
 		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch);
+
+		void AdlxValuesExportDisplay();
+		void AdlxValuesImportDisplay();
+		void AdlxValuesExportGraphics();
+		void AdlxValuesImportGraphics();
+		void AdlxValuesExportTuning();
+		void AdlxValuesImportTuning();
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectPower();
@@ -35,8 +51,6 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadPower();
 		void AdlxValuesLoadDisplay();
 		void AdlxValuesLoadTuning();
-		void AdlxValuesExport();
-		void AdlxValuesImport();
 		void AdlxValuesPrepare();
 		bool AdlxApplyTuning(IADLXGPU2Ptr ppGpuPtr, TuningFanSettings tuningFanSettings);
 		bool AdlxResetTuning();
@@ -149,6 +163,10 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Deuteranopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Tritanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void button_Graphics_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Graphics_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Display_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

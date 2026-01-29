@@ -47,7 +47,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Import settings from file
-			AdlxValuesImport();
+			AdlxValuesImportTuning();
 		}
 		catch (...) {}
 	}
@@ -57,7 +57,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Export current settings to file
-			AdlxValuesExport();
+			AdlxValuesExportTuning();
 		}
 		catch (...) {}
 	}

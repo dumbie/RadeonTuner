@@ -5,6 +5,26 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Import settings from file
+			AdlxValuesImportDisplay();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Display_Export_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Export current settings to file
+			AdlxValuesExportDisplay();
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

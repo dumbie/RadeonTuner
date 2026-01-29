@@ -168,12 +168,6 @@
     <ClInclude Include="AdlxEventsTuning.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesImport.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesExport.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesPrepare.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -258,9 +252,6 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsFunc.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="KeepActiveFunc.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -272,6 +263,39 @@
     </ClInclude>
     <ClInclude Include="SettingEnumStrings.h">
       <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsFunc.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesExportTuning.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesImportTuning.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesImportDisplay.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesImportGraphics.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesExportDisplay.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesExportGraphics.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsFunc.h">
+      <Filter>Page Files\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsFunc.h">
+      <Filter>Page Files\ImportExport</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +333,9 @@
     </Filter>
     <Filter Include="Updater Files">
       <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\ImportExport">
+      <UniqueIdentifier>{471fb1ca-7d28-43c8-a820-21c0057d8471}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

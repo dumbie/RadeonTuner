@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesImport()
+	void MainPage::AdlxValuesImportDisplay()
 	{
 		IFileOpenDialog* pFileDialog = NULL;
 		IShellItem* pShellItem = NULL;
@@ -21,9 +21,9 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radd)", L"*.radd"} };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog->SetTitle(L"Import tuning and fans settings...");
+				pFileDialog->SetTitle(L"Import display settings...");
 				pFileDialog->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
 
 				//Show file dialog
@@ -48,45 +48,45 @@ namespace winrt::RadeonTuner::implementation
 			//Check file path
 			if (importPath.empty())
 			{
-				ShowNotification(L"Tuning and fans not imported, no path set");
-				AVDebugWriteLine(L"Tuning and fans not imported, no path set");
+				ShowNotification(L"Display not imported, no path set");
+				AVDebugWriteLine(L"Display not imported, no path set");
 				return;
 			}
 
-			//Load tuning fan settings from file
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Load(importPath);
+			//Load settings from file
+			DisplaySettings displaySettings = DisplaySettings_Load(importPath);
 
 			//Check device identifier
-			std::string device_id_import_a = tuningFanSettings.DeviceId.value();
+			std::string device_id_import_a = displaySettings.DeviceId.value();
 			std::wstring device_id_import_w = string_to_wstring(device_id_import_a);
-			std::wstring device_id_current = AdlxGetDeviceIdentifier(ppGpuInfo);
-			if (!device_id_import_w.empty() && !device_id_current.empty())
+			std::wstring device_id_current_w = AdlxGetDisplayIdentifier(ppDisplayInfo);
+			if (!device_id_import_w.empty() && !device_id_current_w.empty())
 			{
-				if (device_id_import_w != device_id_current)
+				if (device_id_import_w != device_id_current_w)
 				{
-					int messageResult = MessageBoxW(NULL, L"Tuning and fans settings do not match current gpu, continue import?", L"RadeonTuner", MB_YESNO);
+					int messageResult = MessageBoxW(NULL, L"Display settings do not match current display, continue import?", L"RadeonTuner", MB_YESNO);
 					if (messageResult == IDNO)
 					{
 						//Set result
-						ShowNotification(L"Tuning and fans gpu does not match");
-						AVDebugWriteLine(L"Tuning and fans gpu does not match");
+						ShowNotification(L"Display does not match");
+						AVDebugWriteLine(L"Display does not match");
 						return;
 					}
 				}
 			}
 
 			//Set settings values
-			TuningFanSettings_Convert_ToUI(tuningFanSettings, false);
+			DisplaySettings_Convert_ToUI(displaySettings);
 
 			//Set result
-			ShowNotification(L"Tuning and fans imported");
-			AVDebugWriteLine(L"Tuning and fans imported");
+			ShowNotification(L"Display imported");
+			AVDebugWriteLine(L"Display imported");
 		}
 		catch (...)
 		{
 			//Set result
-			ShowNotification(L"Tuning and fans not imported, exception");
-			AVDebugWriteLine(L"Tuning and fans not imported, exception");
+			ShowNotification(L"Display not imported, exception");
+			AVDebugWriteLine(L"Display not imported, exception");
 		}
 	}
 }
