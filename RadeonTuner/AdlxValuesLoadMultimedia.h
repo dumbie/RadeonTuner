@@ -24,7 +24,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
 				ppMultiMediaServices->GetVideoSuperResolution(ppGpuInfo, &ppVideoSuperResolution);
 				adlx_Res0 = ppVideoSuperResolution->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = ppVideoSuperResolution->IsEnabled(&adlx_Bool);
 					toggleswitch_VideoSuperResolution().IsOn(adlx_Bool);
@@ -50,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLXVideoUpscalePtr ppVideoupscale;
 				ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
 				adlx_Res0 = ppVideoupscale->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = ppVideoupscale->IsEnabled(&adlx_Bool);
 					adlx_Res0 = ppVideoupscale->GetSharpness(&adlx_Int0);

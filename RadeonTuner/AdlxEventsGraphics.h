@@ -518,7 +518,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable interface
 					adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
 					}

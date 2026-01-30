@@ -16,8 +16,7 @@ namespace winrt::RadeonTuner::implementation
 			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
 
 			//Apply tuning and fans settings
-			adlx_Bool = AdlxApplyTuning(ppGpuInfo, tuningFanSettings);
-			if (adlx_Bool)
+			if (AdlxApplyTuning(ppGpuInfo, tuningFanSettings))
 			{
 				AdlxValuesLoadSelectGpu();
 			}
@@ -33,8 +32,7 @@ namespace winrt::RadeonTuner::implementation
 			KeepActive_Disable();
 
 			//Reset tuning and fans settings
-			adlx_Bool = AdlxResetTuning();
-			if (adlx_Bool)
+			if (AdlxResetTuning())
 			{
 				AdlxValuesLoadSelectGpu();
 			}
@@ -98,14 +96,14 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Get fan manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuPtr, &adlx_Bool);
-			if (adlx_Bool)
+			if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 			{
 				IADLXManualFanTuningPtr ppManualFanTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualFanTuning(ppGpuPtr, (IADLXInterface**)&ppManualFanTuning);
 
 				//Set fan zero rpm setting
 				adlx_Res0 = ppManualFanTuning->IsSupportedZeroRPM(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					if (tuningFanSettings.FanZeroRpm.has_value())
 					{
@@ -193,7 +191,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get gpu manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualGFXTuning(ppGpuPtr, &adlx_Bool);
-			if (adlx_Bool)
+			if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 			{
 				IADLXManualGraphicsTuning2_1Ptr ppManualGFXTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
@@ -213,7 +211,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get memory manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuPtr, &adlx_Bool);
-			if (adlx_Bool)
+			if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 			{
 				IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuPtr, (IADLXInterface**)&ppManualVRAMTuning);
@@ -223,7 +221,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					if (tuningFanSettings.MemoryTiming.has_value())
 					{
@@ -234,7 +232,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get power manual tuning
 			adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuPtr, &adlx_Bool);
-			if (adlx_Bool)
+			if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 			{
 				IADLXManualPowerTuning1Ptr ppManualPowerTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuPtr, (IADLXInterface**)&ppManualPowerTuning);
@@ -244,7 +242,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					if (tuningFanSettings.PowerTDC.has_value())
 					{

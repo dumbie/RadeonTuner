@@ -24,7 +24,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLXSmartShiftEcoPtr ppSmartShiftEco;
 				adlx_Res0 = ppPowerTuningServices->GetSmartShiftEco(&ppSmartShiftEco);
 				adlx_Res0 = ppSmartShiftEco->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = ppSmartShiftEco->IsEnabled(&adlx_Bool);
 					toggleswitch_SmartShiftEco().IsOn(adlx_Bool);
@@ -50,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLXSmartShiftMaxPtr ppSmartShiftMax;
 				adlx_Res0 = ppPowerTuningServices->GetSmartShiftMax(&ppSmartShiftMax);
 				adlx_Res0 = ppSmartShiftMax->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					//Set setting mode
 					ADLX_SSM_BIAS_MODE currentMode;

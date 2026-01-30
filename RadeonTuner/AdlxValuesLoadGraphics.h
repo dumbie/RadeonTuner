@@ -24,7 +24,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
 				adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
 				adlx_Res0 = pp3DRadeonSuperResolution->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DRadeonSuperResolution->IsEnabled(&adlx_Bool);
 					adlx_Res0 = pp3DRadeonSuperResolution->GetSharpness(&adlx_Int0);
@@ -75,7 +75,7 @@ namespace winrt::RadeonTuner::implementation
 
 					//Enable or disable interface
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(true);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+					if (adlx_Bool)
 					{
 						combobox_FrameGenSearchMode().IsEnabled(true);
 						combobox_FrameGenPerfMode().IsEnabled(true);
@@ -112,7 +112,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DAntiLagPtr pp3DAntiLag;
 				adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
 				adlx_Res0 = pp3DAntiLag->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DAntiLag->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonAntiLag().IsOn(adlx_Bool);
@@ -138,7 +138,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DBoostPtr pp3DBoost;
 				adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
 				adlx_Res0 = pp3DBoost->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DBoost->IsEnabled(&adlx_Bool);
 					adlx_Res0 = pp3DBoost->GetResolution(&adlx_Int0);
@@ -182,7 +182,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DChillPtr pp3DChill;
 				adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
 				adlx_Res0 = pp3DChill->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DChill->IsEnabled(&adlx_Bool);
 					adlx_Res0 = pp3DChill->GetMinFPS(&adlx_Int0);
@@ -236,7 +236,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DImageSharpeningPtr pp3DImageSharpening;
 				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
 				adlx_Res0 = pp3DImageSharpening->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DImageSharpening->IsEnabled(&adlx_Bool);
 					adlx_Res0 = pp3DImageSharpening->GetSharpness(&adlx_Int0);
@@ -280,7 +280,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
 				adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
 				adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DImageSharpenDesktop->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonSharpenDesktop().IsOn(adlx_Bool);
@@ -313,7 +313,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DWaitForVerticalRefreshPtr pp3DWaitForVerticalRefresh;
 				adlx_Res0 = pp3DSettingsServices->GetWaitForVerticalRefresh(ppGpuInfo, &pp3DWaitForVerticalRefresh);
 				adlx_Res0 = pp3DWaitForVerticalRefresh->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE verticalRefreshMode;
 					adlx_Res0 = pp3DWaitForVerticalRefresh->GetMode(&verticalRefreshMode);
@@ -340,7 +340,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DEnhancedSyncPtr pp3DEnhancedSync;
 				adlx_Res0 = pp3DSettingsServices->GetEnhancedSync(ppGpuInfo, &pp3DEnhancedSync);
 				adlx_Res0 = pp3DEnhancedSync->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DEnhancedSync->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonEnhancedSync().IsOn(adlx_Bool);
@@ -366,7 +366,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
 				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
 				adlx_Res0 = pp3DFrameRateTargetControl->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DFrameRateTargetControl->IsEnabled(&adlx_Bool);
 					adlx_Res0 = pp3DFrameRateTargetControl->GetFPS(&adlx_Int0);
@@ -410,7 +410,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DAntiAliasingPtr pp3DAntiAliasing;
 				adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
 				adlx_Res0 = pp3DAntiAliasing->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					ADLX_ANTI_ALIASING_MODE currentMode;
 					adlx_Res0 = pp3DAntiAliasing->GetMode(&currentMode);
@@ -487,7 +487,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DMorphologicalAntiAliasingPtr pp3DMorphologicalAntiAliasing;
 				adlx_Res0 = pp3DSettingsServices->GetMorphologicalAntiAliasing(ppGpuInfo, &pp3DMorphologicalAntiAliasing);
 				adlx_Res0 = pp3DMorphologicalAntiAliasing->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DMorphologicalAntiAliasing->IsEnabled(&adlx_Bool);
 					toggleswitch_MorphologicAntiAliasing().IsOn(adlx_Bool);
@@ -513,7 +513,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
 				adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
 				adlx_Res0 = pp3DAnisotropicFiltering->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					//Set Anisotropic
 					adlx_Res0 = pp3DAnisotropicFiltering->IsEnabled(&adlx_Bool);
@@ -576,7 +576,7 @@ namespace winrt::RadeonTuner::implementation
 				IADLX3DTessellationPtr pp3DTessellation;
 				adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
 				adlx_Res0 = pp3DTessellation->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					ADLX_TESSELLATION_MODE currentMode;
 					adlx_Res0 = pp3DTessellation->GetMode(&currentMode);

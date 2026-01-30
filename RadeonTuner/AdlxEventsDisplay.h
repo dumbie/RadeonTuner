@@ -55,6 +55,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable interface
 					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
 
@@ -534,7 +535,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable interface
 					adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						toggleswitch_IntegerScaling().IsEnabled(true);
 
@@ -702,27 +703,27 @@ namespace winrt::RadeonTuner::implementation
 					//Reload settings to get current value
 					disable_saving = true;
 					adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().SelectedIndex(0);
 					}
 					adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().SelectedIndex(1);
 					}
 					adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().SelectedIndex(2);
 					}
 					adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().SelectedIndex(3);
 					}
 					adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						combobox_Display_VariBright_Level().SelectedIndex(4);
 					}

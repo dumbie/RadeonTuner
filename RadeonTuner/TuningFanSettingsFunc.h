@@ -615,7 +615,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualGFXTuning(ppGpuPtr, &adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0))
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					tuningFanSettings.SupportManualGPU = adlx_Bool;
 				}
@@ -625,7 +625,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualVRAMTuning(ppGpuPtr, &adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0))
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					tuningFanSettings.SupportManualVRAM = adlx_Bool;
 				}
@@ -635,7 +635,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualPowerTuning(ppGpuPtr, &adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0))
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					tuningFanSettings.SupportManualPower = adlx_Bool;
 				}
@@ -645,7 +645,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				adlx_Res0 = ppGPUTuningServices->IsSupportedManualFanTuning(ppGpuPtr, &adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0))
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					tuningFanSettings.SupportManualFAN = adlx_Bool;
 				}

@@ -101,7 +101,7 @@ namespace winrt::RadeonTuner::implementation
 				if (ppSmartAccessMemory != NULL)
 				{
 					adlx_Res0 = ppSmartAccessMemory->IsEnabled(&adlx_Bool);
-					if (adlx_Bool)
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						gpu_info += L"\nResizable BAR / SAM: Enabled";
 					}
@@ -204,10 +204,12 @@ namespace winrt::RadeonTuner::implementation
 			//Link protection
 			try
 			{
-				adlx_bool linkProtection;
-				adlx_Res0 = ppDisplayConnectivityExperience->IsEnabledLinkProtection(&linkProtection);
-				std::wstring linkProtectionString = linkProtection ? L"Disabled" : L"Enabled";
-				display_info += L"\nLink protection: " + linkProtectionString;
+				adlx_Res0 = ppDisplayConnectivityExperience->IsEnabledLinkProtection(&adlx_Bool);
+				if (ADLX_SUCCEEDED(adlx_Res0))
+				{
+					std::wstring linkProtectionString = adlx_Bool ? L"Disabled" : L"Enabled";
+					display_info += L"\nLink protection: " + linkProtectionString;
+				}
 			}
 			catch (...) {}
 
