@@ -252,6 +252,9 @@
     <CopyFileToFolders Include="Shield.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Warning.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <DestinationFolders>$(OutDir)\Updater</DestinationFolders>
     </CopyFileToFolders>

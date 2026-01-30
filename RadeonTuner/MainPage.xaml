@@ -151,7 +151,8 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an upscaling feature for faster frame rates on any game that runs exclusively in full-screen mode.&#10;&#10;This feature is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Super Resolution is an in-driver upscaling feature for faster frame rates on any game."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting is inactive until the in-game resolution is set lower than the monitor's native resolution. Radeon Super Resolution automatically detects the resolution change, upscales to the native monitor resolution and delivers extra performance.&#10;&#10;* This setting is only available when using the 'Default' driver software installation type."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonSuperResolution" Margin="10,0,0,0" OffContent="Radeon Super Resolution" OnContent="Radeon Super Resolution" Toggled="toggleswitch_RadeonSuperResolution_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -167,16 +168,23 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames for supported games.&#10;&#10;* This setting requires 'Default' driver software type installation."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames beyond the in-game limit, resulting in a smoother experience.&#10;&#10;As this feature may introduce additional latency in games, it is recommended to utilize Radeon Anti-Lag for optimal performance."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting is only available when using the 'Default' driver software installation type."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonFluidMotionFrames" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_RadeonFluidMotionFrames_Toggled"/>
                                     </StackPanel>
-                                    <StackPanel Margin="0,5,0,0">
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjusts Fluid Motion Frames search algorithm to respond better to high-motion scenes and improve smoothness."/>
                                             <TextBlock Margin="10,0,0,0" Text="Search Mode" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_FrameGenSearchMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenSearchMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                     <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reduces the potential performance overhead of Fluid Motion but may lower the image quality during high-motion scenes."/>
@@ -184,6 +192,9 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                     <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Configure AFMF's response to fast motion to either use a 'Repeat Frame' to maintain image quality or 'Blended Frame' for smoother motion."/>
@@ -198,11 +209,16 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR upscaling version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR upscaling version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and graphics card."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;* An application restart may be required to activate or disable the FSR upgrade override."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="Radeon FSR Upscaling Override" OnContent="Radeon FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR frame generation version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and videocard.&#10;&#10;To activate the upgrade override, first enable FSR3.1.4 (or newer) in the application's graphics settings.&#10;&#10;An application restart may be required to activate or disable the FSR upgrade override."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR frame generation version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and graphics card."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;* An application restart may be required to activate or disable the FSR upgrade override."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideFrameGen" Margin="10,0,0,0" OffContent="Radeon FSR Frame Generation Override" OnContent="Radeon FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideFrameGen_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -210,7 +226,7 @@
 
                             <!-- Radeon Anti-Lag -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
                                 <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" Margin="10,0,0,0" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled"/>
                             </StackPanel>
 
@@ -218,7 +234,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with little perceptible impact on image quality."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -234,7 +250,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves GPU power and reduces heat by adjusting the FPS based on the intensity of in-game movement."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves power and reduces heat by adjusting the frame rate based on the intensity of in-game movement."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -249,11 +265,12 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Radeon Image Sharpening -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- Radeon Image Sharpening -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, and select productivity and media applications."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode, unless you also enable the 'Radeon Sharpen Desktop' setting."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -262,26 +279,30 @@
                                         <Slider x:Name="slider_RadeonImageSharpening_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Radeon Sharpen Desktop -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When Radeon Image sharpening is enabled and Sharpen Desktop is enabled, the sharpening is applied for both windowed applications and for applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon Image sharpening is enabled and Sharpen Desktop is disabled, the sharpening is only applied to applications that run in fullscreen exclusive mode."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonSharpenDesktop" Margin="10,0,0,0" OffContent="Radeon Sharpen Desktop" OnContent="Radeon Sharpen Desktop" Toggled="toggleswitch_RadeonSharpenDesktop_Toggled"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Radeon Sharpen Desktop -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When AMD Radeon Image sharpening is enabled and Sharpen Desktop is enabled, the sharpening is applied for both windowed applications and for applications that run in fullscreen exclusive mode.&#10;&#10;When AMD Radeon Image sharpening is enabled and Sharpen Desktop is disabled, the sharpening is only applied to applications that run in fullscreen exclusive mode."/>
-                                <ToggleSwitch x:Name="toggleswitch_RadeonSharpenDesktop" Margin="10,0,0,0" OffContent="Radeon Sharpen Desktop" OnContent="Radeon Sharpen Desktop" Toggled="toggleswitch_RadeonSharpenDesktop_Toggled"/>
-                            </StackPanel>
-
-                            <!-- Radeon Enhanced Sync -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so no tearing is visible between frames.&#10;&#10;Does not limit the frame rate at the display’s refresh rate."/>
-                                <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
-                            </StackPanel>
-
-                            <!-- Vertical Refresh -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- Radeon Enhanced Sync -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="VSync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;Limits the frame rate at the display’s refresh rate."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so minimal tearing is visible between frames.&#10;&#10;Does not limit the frame rate at the display's refresh rate."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Vertical Refresh -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="VSync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;Limits the frame rate at the display's refresh rate."/>
                                         <TextBlock Margin="10,0,0,0" Text="Wait for Vertical Refresh" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_VerticalRefresh" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalRefresh_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -292,7 +313,8 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets a user-defined target maximum frame rate in full-screen applications to reduce GPU power consumption."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets a user-defined target maximum frame rate to reduce power consumption."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode."/>
                                         <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -308,47 +330,47 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance and video memory usage."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only affects DirectX 9 applications."/>
                                         <TextBlock Text="Anti-Aliasing Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AntiAliasingMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                </StackPanel>
-                            </Border>
 
-                            <!-- Anti-Aliasing Method -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance."/>
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Anti-Aliasing Method -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the method used to smooth object edges, more sampling improves quality but reduces performance.&#10;&#10;* Multisampling (MSAA) targets only object edges.&#10;&#10;* Adaptive Multisampling (Adaptive MSAA) smooths both edges and transparent textures.&#10;&#10;* Supersampling (SSAA/FSAA) covers every pixel for excellent quality but a substantial performance cost."/>
                                         <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AntiAliasingMethod" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                </StackPanel>
-                            </Border>
 
-                            <!-- Anti-Aliasing Level -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance.&#10;&#10;* Requires mode to be set to override settings."/>
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Anti-Aliasing Level -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the number of samples used for edge anti-aliasing, higher sample counts improve image quality at the cost of performance."/>
                                         <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AntiAliasingLevel" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Morphologic Anti-Aliasing -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode."/>
+                                        <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" Margin="10,0,0,0" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-
-                            <!-- Morphologic Anti-Aliasing -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
-                                <ToggleSwitch x:Name="toggleswitch_MorphologicAntiAliasing" Margin="10,0,0,0" OffContent="Morphologic Anti-Aliasing" OnContent="Morphologic Anti-Aliasing" Toggled="toggleswitch_MorphologicAntiAliasing_Toggled"/>
-                            </StackPanel>
 
                             <!-- Anisotropic Texture Filtering -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles – such as roads or trees – at the cost of some frame rate performance.&#10;&#10;Only affects DirectX® 9 applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" Margin="10,0,0,0" OffContent="Force Anisotropic Texture Filtering" OnContent="Force Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled"/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
+                                        <ToggleSwitch x:Name="toggleswitch_AnisotropicTextureFiltering" Margin="10,0,0,0" OffContent="Anisotropic Texture Filtering" OnContent="Anisotropic Texture Filtering" Toggled="toggleswitch_AnisotropicTextureFiltering_Toggled"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AnisotropicTextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
@@ -358,18 +380,20 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
                                         <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Surface Format Optimization -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
+                                        <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-
-                            <!-- Surface Format Optimization -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance."/>
-                                <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
-                            </StackPanel>
 
                             <!-- Tessellation Mode -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -379,14 +403,12 @@
                                         <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Tessellation_Mode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                </StackPanel>
-                            </Border>
 
-                            <!-- Tessellation Level -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance.&#10;&#10;* Requires mode to be set to override settings."/>
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Tessellation Level -->
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the number of polygons to be produced during the tessellation of objects, setting a limit can prevent excessive tessellation with little or no benefit in image quality and performance."/>
                                         <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -401,7 +423,8 @@
 
                             <!-- OpenGL 10-Bit Pixel Format -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL buffer support for compatible displays and applications.&#10;&#10;* System restart required to take effect."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL buffer support for compatible displays and applications."/>
+                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
                                 <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
                             </StackPanel>
 
@@ -763,9 +786,12 @@
                                 <StackPanel>
                                     <!-- FreeSync -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate of AMD FreeSync compatible graphics card to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
                                         <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- FreeSync Color Accuracy-->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
@@ -777,13 +803,14 @@
 
                             <!-- Virtual Super Resolution -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native pixel grid and then scales images down to fit the display, producing higher quality visuals at the expense of performance."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native resolution and then scales the image down to match the display, producing higher quality visuals at the expense of performance.&#10;&#10;VSR is beneficial for games lacking anti-aliasing options or those with insufficient anti-aliasing, this is often seen in older gaming titles."/>
                                 <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
                             </StackPanel>
 
                             <!-- Dynamic Refresh Rate Control -->
                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic Refresh Rate Control saves power by switching to low panel refresh rate, or boosts performance by switching to high panel refresh rate when laptop is plugged."/>
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic Refresh Rate Control saves power by switching to low panel refresh rate, or boosts performance by switching to high panel refresh rate."/>
+                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
                                 <ToggleSwitch x:Name="toggleswitch_DynamicRefreshRateControl" Margin="10,0,0,0" OffContent="Dynamic Refresh Rate Control" OnContent="Dynamic Refresh Rate Control" Toggled="toggleswitch_DynamicRefreshRateControl_Toggled"/>
                             </StackPanel>
 
@@ -795,11 +822,15 @@
                                         <ToggleSwitch x:Name="toggleswitch_GPUScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GPUScaling_Toggled"/>
                                     </StackPanel>
 
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                     <!-- Integer Scaling -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Display Scaling gives a sharp, pixelated look to images scaled up to fit the display. Images that can't be scaled to match the display's exact size and shape will be centered on screen. Integer Display Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display.&#10;&#10;Integer Display Scaling is not supported when GPU Scaling is disabled."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Scaling gives a sharp, pixelated look to images scaled up to fit the display, images that can't be scaled to match the display's exact size and shape will be centered on screen.&#10;&#10;Integer Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display."/>
                                         <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Scaling Mode -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Vertical">
@@ -817,8 +848,11 @@
                                     <!-- Vari-Bright -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
                                         <ToggleSwitch x:Name="toggleswitch_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_VariBright_Toggled"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Vari-Bright Level -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Vertical">
@@ -854,9 +888,9 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Display Color Enhancement -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- Display Color Enhancement -->
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Boosts brightness low and mid tone areas while leaving other areas almost untouched."/>
@@ -865,6 +899,9 @@
                                         <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
 
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Dynamic Contrast Intensity -->
                                     <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic contrast intensity used in the display color enchancement profile.&#10;&#10;To update the intensity disable and enabled the Color Enhancement setting."/>
