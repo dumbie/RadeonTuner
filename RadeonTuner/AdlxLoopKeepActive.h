@@ -75,7 +75,7 @@ namespace winrt::RadeonTuner::implementation
 								ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
 
 								//Get gpu identifier
-								std::wstring device_current_id_w = AdlxGetDeviceIdentifier(ppGpuPtr);
+								std::wstring device_current_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
 								std::string device_current_id_a = wstring_to_string(device_current_id_w);
 
 								//Check gpu identifier

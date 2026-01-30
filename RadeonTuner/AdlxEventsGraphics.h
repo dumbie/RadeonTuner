@@ -136,12 +136,22 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
+					//Enable or disable interface
+					combobox_FrameGenSearchMode().IsEnabled(true);
+					combobox_FrameGenPerfMode().IsEnabled(true);
+					combobox_FrameGenResponseMode().IsEnabled(true);
+
 					ShowNotification(L"Fluid Motion Frames enabled");
 					AVDebugWriteLine(L"Fluid Motion Frames enabled");
 				}
 			}
 			else
 			{
+				//Enable or disable interface
+				combobox_FrameGenSearchMode().IsEnabled(false);
+				combobox_FrameGenPerfMode().IsEnabled(false);
+				combobox_FrameGenResponseMode().IsEnabled(false);
+
 				adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(false);
 				ShowNotification(L"Fluid Motion Frames disabled");
 				AVDebugWriteLine(L"Fluid Motion Frames disabled");

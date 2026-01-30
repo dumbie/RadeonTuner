@@ -34,7 +34,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Device identifier
-			std::wstring device_id = AdlxGetDeviceIdentifier(ppGpuInfo);
+			std::wstring device_id = AdlxGetGpuIdentifier(ppGpuInfo);
 			if (!device_id.empty())
 			{
 				gpu_info += L"\nDevice identifier: " + device_id;
@@ -224,7 +224,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			return L"Made by Arnold Vink\nV" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+			//Get versions
+			std::wstring app_version = L"V" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+			std::wstring adlx_version = L" / ADLX " + char_to_wstring(ppADLXHelper.QueryVersion());
+
+			return L"Made by Arnold Vink\n" + app_version + adlx_version;
 		}
 		catch (...) {}
 		return L"Failed to load application information.";
@@ -249,7 +253,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::wstring MainPage::AdlxGetDeviceIdentifier(IADLXGPU2Ptr ppGpuPtr)
+	std::wstring MainPage::AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr)
 	{
 		std::wstring device_id = L"";
 		try
@@ -296,6 +300,38 @@ namespace winrt::RadeonTuner::implementation
 
 			int uniqueId = -1;
 			adlx_Res0 = ppGpuPtr->UniqueId(&uniqueId);
+			if (uniqueId > 0)
+			{
+				device_id += number_to_wstring(uniqueId);
+			}
+		}
+		catch (...) {}
+		return device_id;
+	}
+
+	std::wstring MainPage::AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo)
+	{
+		std::wstring device_id = L"";
+		try
+		{
+			uint32_t manufacturerId = NULL;
+			adlx_Res0 = ppDisplayInfo->ManufacturerID(&manufacturerId);
+			if (manufacturerId != NULL)
+			{
+				device_id += number_to_wstring(manufacturerId);
+				device_id += L" ";
+			}
+
+			const char* displayName = NULL;
+			adlx_Res0 = ppDisplayInfo->Name(&displayName);
+			if (displayName != NULL)
+			{
+				device_id += char_to_wstring(displayName);
+				device_id += L" ";
+			}
+
+			size_t uniqueId = -1;
+			adlx_Res0 = ppDisplayInfo->UniqueId(&uniqueId);
 			if (uniqueId > 0)
 			{
 				device_id += number_to_wstring(uniqueId);

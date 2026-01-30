@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get super resolution
+			//Get super resolution setting
 			try
 			{
 				IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
@@ -67,17 +67,26 @@ namespace winrt::RadeonTuner::implementation
 			{
 				IADLX3DAMDFluidMotionFramesPtr pp3DAMDFluidMotionFrames;
 				adlx_Res0 = pp3DSettingsServices->GetAMDFluidMotionFrames(&pp3DAMDFluidMotionFrames);
-				adlx_Res0 = pp3DAMDFluidMotionFrames->IsSupported(&adlx_Bool);
-				if (adlx_Bool)
+				adlx_Res0 = pp3DAMDFluidMotionFrames->IsSupported(&adlx_Bool); //Fix bug in ADLX always reports supported
+				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
 					adlx_Res0 = pp3DAMDFluidMotionFrames->IsEnabled(&adlx_Bool);
 					toggleswitch_RadeonFluidMotionFrames().IsOn(adlx_Bool);
 
 					//Enable or disable interface
 					toggleswitch_RadeonFluidMotionFrames().IsEnabled(true);
-					combobox_FrameGenSearchMode().IsEnabled(true);
-					combobox_FrameGenPerfMode().IsEnabled(true);
-					combobox_FrameGenResponseMode().IsEnabled(true);
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+					{
+						combobox_FrameGenSearchMode().IsEnabled(true);
+						combobox_FrameGenPerfMode().IsEnabled(true);
+						combobox_FrameGenResponseMode().IsEnabled(true);
+					}
+					else
+					{
+						combobox_FrameGenSearchMode().IsEnabled(false);
+						combobox_FrameGenPerfMode().IsEnabled(false);
+						combobox_FrameGenResponseMode().IsEnabled(false);
+					}
 				}
 				else
 				{
