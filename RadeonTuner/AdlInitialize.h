@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
+#include "AdlDefinitions.h"
 #include "AdlVariables.h"
 
 namespace winrt::RadeonTuner::implementation
@@ -54,6 +55,54 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_ApplicationProfiles_Applications_Get";
 			}
 
+			_ADL2_ApplicationProfiles_RemoveApplication = (ADL2_ApplicationProfiles_RemoveApplication)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_RemoveApplication");
+			if (_ADL2_ApplicationProfiles_RemoveApplication == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_RemoveApplication");
+				return L"Failed to init _ADL2_ApplicationProfiles_RemoveApplication";
+			}
+
+			_ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search = (ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search");
+			if (_ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search");
+				return L"Failed to init _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search";
+			}
+
+			_ADL2_ApplicationProfiles_ProfileApplicationX2_Assign = (ADL2_ApplicationProfiles_ProfileApplicationX2_Assign)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_ProfileApplicationX2_Assign");
+			if (_ADL2_ApplicationProfiles_ProfileApplicationX2_Assign == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign");
+				return L"Failed to init _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign";
+			}
+
+			_ADL2_ApplicationProfiles_Profile_Create = (ADL2_ApplicationProfiles_Profile_Create)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_Profile_Create");
+			if (_ADL2_ApplicationProfiles_Profile_Create == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_Profile_Create");
+				return L"Failed to init _ADL2_ApplicationProfiles_Profile_Create";
+			}
+
+			_ADL2_ApplicationProfiles_Profile_Remove = (ADL2_ApplicationProfiles_Profile_Remove)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_Profile_Remove");
+			if (_ADL2_ApplicationProfiles_Profile_Remove == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_Profile_Remove");
+				return L"Failed to init _ADL2_ApplicationProfiles_Profile_Remove";
+			}
+
+			_ADL2_ApplicationProfiles_PropertyType_Get = (ADL2_ApplicationProfiles_PropertyType_Get)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_PropertyType_Get");
+			if (_ADL2_ApplicationProfiles_PropertyType_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_PropertyType_Get");
+				return L"Failed to init _ADL2_ApplicationProfiles_PropertyType_Get";
+			}
+
 			_ADL2_Adapter_RegValueInt_Get = (ADL2_ADAPTER_REGVALUEINT_GET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Get");
 			if (_ADL2_Adapter_RegValueInt_Get == NULL)
 			{
@@ -87,7 +136,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Create ADL main control
-			if (_ADL2_Main_Control_Create(ADL_Main_Memory_Alloc, 1, &_ADL2_Context) != ADL_OK)
+			if (_ADL2_Main_Control_Create(ADL_Main_Memory_Alloc, 1, &adl_Context) != ADL_OK)
 			{
 				//Set result
 				AVDebugWriteLine("Failed to create ADL main control");

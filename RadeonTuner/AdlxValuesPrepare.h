@@ -31,10 +31,6 @@ namespace winrt::RadeonTuner::implementation
 				itemCollection.Append(box_value(char_to_wstring(displayName)));
 			}
 
-			//List all applications
-			itemCollection = combobox_AppSelect().Items();
-			itemCollection.Append(box_value(L"Global"));
-
 			//List all scaling mode
 			itemCollection = combobox_Display_ScalingMode().Items();
 			appendCount = ADLX_SCALE_MODE_STRING.size();

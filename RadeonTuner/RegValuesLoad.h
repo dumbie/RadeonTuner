@@ -176,6 +176,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Override Frame Generation
+			//NRC = Neural Radiance Cache
+			//MLD = Machine Learning Ray Regeneration Denoiser
 			//MlfiOverride = Machine Learning Frame Interpolation
 			//MfgOverride = Machine Learning Multi Frame Generation
 			//MlfiOverride (Binary (string) 3000 = 0 (Off) / 3100 = 1 (On))

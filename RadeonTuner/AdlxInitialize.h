@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Initialize ADLX
-			adlx_Res0 = ppADLXHelper.InitializeWithCallerAdl(_ADL2_Context, ADL_Main_Memory_Free_Client);
+			adlx_Res0 = ppADLXHelper.InitializeWithCallerAdl(adl_Context, ADL_Main_Memory_Free_Client);
 			if (ADLX_FAILED(adlx_Res0))
 			{
 				//Set result

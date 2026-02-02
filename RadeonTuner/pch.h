@@ -21,6 +21,7 @@
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Windows.UI.Xaml.Data.h>
 #include <winrt/Windows.UI.Xaml.Shapes.h>
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Xaml.Markup.h>
@@ -48,11 +49,6 @@ namespace winrt
 //Arnold Vink Code
 #include "..\..\ArnoldVinkCode\CPP\AVPch.h"
 
-//Classes
-#include "DisplaySettingsClass.h"
-#include "GraphicsSettingsClass.h"
-#include "TuningFanSettingsClass.h"
-
 //ADL
 #include "ADL\adl_sdk.h"
 
@@ -75,3 +71,9 @@ namespace winrt
 #include "ADLX\Include\IGPUManualPowerTuning.h"
 #include "ADLX\Include\IGPUManualVRAMTuning.h"
 using namespace adlx;
+
+//Classes
+#include "AdlAppsClass.h"
+#include "DisplaySettingsClass.h"
+#include "GraphicsSettingsClass.h"
+#include "TuningFanSettingsClass.h"

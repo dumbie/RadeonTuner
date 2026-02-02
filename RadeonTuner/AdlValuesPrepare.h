@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
+#include "AdlDefinitions.h"
 #include "AdlVariables.h"
 
 namespace winrt::RadeonTuner::implementation
@@ -9,36 +10,17 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Application profiles location
-			//%WINDIR%\System32\atiapfxx.blb
-			//%LOCALAPPDATA%\AMD\CN\gmdb.blb
-			//%LOCALAPPDATA%\AMD\CN\GExDb.blb
-			//%LOCALAPPDATA%\ATI\ACE\APL\User.blb
-			//Computer\HKEY_CURRENT_USER\Software\AMD\CN
-			//Computer\HKEY_LOCAL_MACHINE\Software\AMD\CN
+			//Get combobox items
+			ItemCollection itemCollection = combobox_AppSelect().Items();
 
-			//Get application profiles from ADL
-			//Fix find way to list all apps not just apps with PXDynamic
-			//To allow FSR4 you need to set FSROVR to FsrOvrWhitelistProfile (FsrOvr_WListed = 1 / FsrOverride = 1)
-			//To allow Frame Generation you need to set FRAMEGEN to FrameGenWhitelistProfile (WListed = 1 / AFMF3 = 1)
-			int numApps = 0;
-			ADLApplicationRecord* adlApplications = NULL;
-			std::wstring driverArea = L"PXDynamic";
-			if (_ADL2_ApplicationProfiles_Applications_Get(_ADL2_Context, driverArea.c_str(), &numApps, &adlApplications) != ADL_OK)
-			{
-				AVDebugWriteLine("Failed getting ADL application profiles.");
-			}
-			else
-			{
-				//List all applications
-				auto itemCollection = combobox_AppSelect().Items();
-				for (int i = 0; i < numApps; i++)
-				{
-					std::wstring appTitle = adlApplications[i].strTitle;
-					itemCollection.Append(box_value(appTitle));
-				}
+			//Load applications
+			adl_Apps = AdlAppsLoad(L"3D_User");
 
-				AVDebugWriteLine("Listed ADL application profiles: " << itemCollection.Size());
+			//Add apps to combobox
+			itemCollection.Append(box_value(L"Global"));
+			for (AdlApps adlApp : adl_Apps)
+			{
+				itemCollection.Append(box_value(adlApp.FileName));
 			}
 
 			//Set result

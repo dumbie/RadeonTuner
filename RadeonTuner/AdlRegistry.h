@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
+#include "AdlDefinitions.h"
 #include "AdlVariables.h"
 
 namespace winrt::RadeonTuner::implementation
@@ -13,7 +14,7 @@ namespace winrt::RadeonTuner::implementation
 			const int charsize = (int)(value.length()) * sizeof(wchar_t);
 			char* chararray = (char*)value.c_str();
 
-			int adlResult = _ADL2_Adapter_RegValueString_Set(_ADL2_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			int adlResult = _ADL2_Adapter_RegValueString_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
 			AVDebugWriteLine("ADL set string registry setting: " << adlResult);
 			return adlResult == ADL_OK;
 		}
@@ -30,7 +31,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Fix does not seem to save value as expected REG_DWORD but REG_BINARY using UTF-16LE instead
-			int adlResult = _ADL2_Adapter_RegValueInt_Set(_ADL2_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
+			int adlResult = _ADL2_Adapter_RegValueInt_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
 			AVDebugWriteLine("ADL set int registry setting: " << adlResult);
 			return adlResult == ADL_OK;
 		}
@@ -50,7 +51,7 @@ namespace winrt::RadeonTuner::implementation
 			const int charsize = 1024;
 			char chararray[charsize]{};
 
-			int adlResult = _ADL2_Adapter_RegValueString_Get(_ADL2_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			int adlResult = _ADL2_Adapter_RegValueString_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
 			if (adlResult == ADL_OK)
 			{
 				//Remove \0 from string
@@ -85,7 +86,7 @@ namespace winrt::RadeonTuner::implementation
 		int returnInt = -1;
 		try
 		{
-			int adlResult = _ADL2_Adapter_RegValueInt_Get(_ADL2_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
+			int adlResult = _ADL2_Adapter_RegValueInt_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
 			AVDebugWriteLine("ADL get int registry setting: " << adlResult);
 		}
 		catch (...)
