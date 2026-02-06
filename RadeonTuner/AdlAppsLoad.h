@@ -80,11 +80,11 @@ namespace winrt::RadeonTuner::implementation
 									//Create adl application property
 									AdlAppProperty adlAppProperty{};
 
-									//Get property type
-									adlAppProperty.Type = AdlPropertyGetType(adlAppProperty.Name, adlApp.DriverArea);
-
 									//Get property name
 									adlAppProperty.Name = char_to_wstring(propertyRecord->strName);
+
+									//Get property type
+									adlAppProperty.Type = AdlPropertyGetType(adlAppProperty.Name, adlApp.DriverArea);
 
 									//Set driver area
 									adlAppProperty.DriverArea = adlApp.DriverArea;
