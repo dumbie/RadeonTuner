@@ -32,52 +32,57 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayFreeSyncPtr ppFreeSync;
 			adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
+			adlx_Res0 = ppFreeSync->SetEnabled(newValue);
 
-			IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
-			adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppFreeSync->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
-					ShowNotification(L"Failed enabling AMD FreeSync");
-					AVDebugWriteLine(L"Failed enabling AMD FreeSync");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
+					ShowNotification(L"Failed enabling FreeSync");
+					AVDebugWriteLine(L"Failed enabling FreeSync");
 				}
 				else
 				{
-					//Enable or disable interface
-					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
-
-						//Reload settings to get current value
-						disable_saving = true;
-						adlx_Res0 = ppFSCA->IsEnabled(&adlx_Bool);
-						toggleswitch_FreeSyncColorAccuracy().IsOn(adlx_Bool);
-						disable_saving = false;
-					}
-
-					ShowNotification(L"AMD FreeSync enabled");
-					AVDebugWriteLine(L"AMD FreeSync enabled");
+					ShowNotification(L"Failed disabling FreeSync");
+					AVDebugWriteLine(L"Failed disabling FreeSync");
 				}
 			}
 			else
 			{
-				//Enable or disable interface
-				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+				if (newValue)
+				{
+					IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
+					adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
+					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+					{
+						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
+					}
 
-				adlx_Res0 = ppFreeSync->SetEnabled(false);
-				ShowNotification(L"AMD FreeSync disabled");
-				AVDebugWriteLine(L"AMD FreeSync disabled");
+					ShowNotification(L"FreeSync enabled");
+					AVDebugWriteLine(L"FreeSync enabled");
+				}
+				else
+				{
+					toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
+					ShowNotification(L"FreeSync disabled");
+					AVDebugWriteLine(L"FreeSync disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -90,33 +95,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
 			adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
+			adlx_Res0 = ppFSCA->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppFSCA->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
-					ShowNotification(L"Failed enabling AMD FreeSync Color Accuracy");
-					AVDebugWriteLine(L"Failed enabling AMD FreeSync Color Accuracy");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
+					ShowNotification(L"Failed enabling FreeSync Color Accuracy");
+					AVDebugWriteLine(L"Failed enabling FreeSync Color Accuracy");
 				}
 				else
 				{
-					ShowNotification(L"AMD FreeSync Color Accuracy enabled");
-					AVDebugWriteLine(L"AMD FreeSync Color Accuracy enabled");
+					ShowNotification(L"Failed disabling FreeSync Color Accuracy");
+					AVDebugWriteLine(L"Failed disabling FreeSync Color Accuracy");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppFSCA->SetEnabled(false);
-				ShowNotification(L"AMD FreeSync Color Accuracy disabled");
-				AVDebugWriteLine(L"AMD FreeSync Color Accuracy disabled");
+				if (newValue)
+				{
+					ShowNotification(L"FreeSync Color Accuracy enabled");
+					AVDebugWriteLine(L"FreeSync Color Accuracy enabled");
+				}
+				else
+				{
+					ShowNotification(L"FreeSync Color Accuracy disabled");
+					AVDebugWriteLine(L"FreeSync Color Accuracy disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -129,33 +149,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayVSRPtr ppVSR;
 			adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
+			adlx_Res0 = ppVSR->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppVSR->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
-					ShowNotification(L"Failed enabling AMD VSR");
-					AVDebugWriteLine(L"Failed enabling AMD VSR");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
+					ShowNotification(L"Failed enabling Virtual Super Resolution");
+					AVDebugWriteLine(L"Failed enabling Virtual Super Resolution");
 				}
 				else
 				{
-					ShowNotification(L"AMD VSR enabled");
-					AVDebugWriteLine(L"AMD VSR enabled");
+					ShowNotification(L"Failed disabling Virtual Super Resolution");
+					AVDebugWriteLine(L"Failed disabling Virtual Super Resolution");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppVSR->SetEnabled(false);
-				ShowNotification(L"AMD VSR disabled");
-				AVDebugWriteLine(L"AMD VSR disabled");
+				if (newValue)
+				{
+					ShowNotification(L"Virtual Super Resolution enabled");
+					AVDebugWriteLine(L"Virtual Super Resolution enabled");
+				}
+				else
+				{
+					ShowNotification(L"Virtual Super Resolution disabled");
+					AVDebugWriteLine(L"Virtual Super Resolution disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -168,33 +203,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
 			adlx_Res0 = ppDispServices->GetDynamicRefreshRateControl(ppDisplayInfo, &ppDRRC);
+			adlx_Res0 = ppDRRC->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppDRRC->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling Dynamic Refresh Rate");
 					AVDebugWriteLine(L"Failed enabling Dynamic Refresh Rate");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					ShowNotification(L"Dynamic Refresh Rate enabled");
-					AVDebugWriteLine(L"Dynamic Refresh Rate enabled");
+					ShowNotification(L"Failed disabling Dynamic Refresh Rate");
+					AVDebugWriteLine(L"Failed disabling Dynamic Refresh Rate");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppDRRC->SetEnabled(false);
-				ShowNotification(L"Dynamic Refresh Rate disabled");
-				AVDebugWriteLine(L"Dynamic Refresh Rate disabled");
+				if (newValue)
+				{
+					ShowNotification(L"Dynamic Refresh Rate enabled");
+					AVDebugWriteLine(L"Dynamic Refresh Rate enabled");
+				}
+				else
+				{
+					ShowNotification(L"Dynamic Refresh Rate disabled");
+					AVDebugWriteLine(L"Dynamic Refresh Rate disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -207,24 +257,28 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get color depth value
+			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			bool newFailed = true;
 
-			//Get display color depth
+			//Set setting
 			IADLXDisplayColorDepthPtr ppColorDepth;
 			adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);
 			adlx_Res0 = ppColorDepth->SetValue((ADLX_COLOR_DEPTH)newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
-				ShowNotification(L"Failed setting color depth");
-				AVDebugWriteLine(L"Failed setting color depth");
+				ShowNotification(L"Failed setting Color depth");
+				AVDebugWriteLine(L"Failed setting Color depth");
 			}
 			else
 			{
-				//Set result
 				ShowNotification(L"Color depth set to " + ADLX_COLOR_DEPTH_STRING[newValue]);
-				AVDebugWriteLine(L"Color depth set to " << ADLX_COLOR_DEPTH_STRING[newValue]);
+				AVDebugWriteLine(L"Color depth set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -237,22 +291,26 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get pixel format value
+			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			bool newFailed = true;
 
-			//Get display pixel format
+			//Set setting
 			IADLXDisplayPixelFormatPtr ppPixelFormat;
 			adlx_Res0 = ppDispServices->GetPixelFormat(ppDisplayInfo, &ppPixelFormat);
 			adlx_Res0 = ppPixelFormat->SetValue((ADLX_PIXEL_FORMAT)newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
-				ShowNotification(L"Failed setting pixel format");
-				AVDebugWriteLine(L"Failed setting pixel format");
+				ShowNotification(L"Failed setting Pixel format");
+				AVDebugWriteLine(L"Failed setting Pixel format");
 			}
 			else
 			{
-				//Set result
 				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[newValue]);
 				AVDebugWriteLine(L"Pixel format set to " << newValue);
 			}
@@ -267,14 +325,15 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get color enhancement value
+			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
 
-			//Get display color enhancement
+			//Set setting
 			IADLXDisplay3DLUTPtr pp3DLUT;
 			adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
 
-			//Set display color enhancement
+			//Enumeration index correction
 			if (newValue == 0)
 			{
 				adlx_Res0 = pp3DLUT->SetSCEDisabled();
@@ -283,23 +342,24 @@ namespace winrt::RadeonTuner::implementation
 			{
 				adlx_Res0 = pp3DLUT->SetSCEVividGaming();
 			}
-			else
+			else if (newValue == 2)
 			{
 				//Get dynamic contrast intensity value
-				auto newValue = slider_DynamicContrastIntensity().Value();
-				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(newValue);
+				auto newValueIntensity = slider_DynamicContrastIntensity().Value();
+				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(newValueIntensity);
 			}
 
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
 			//Show result
-			if (ADLX_FAILED(adlx_Res0))
+			if (newFailed)
 			{
-				//Set result
-				ShowNotification(L"Failed setting color enhancement");
-				AVDebugWriteLine(L"Failed setting color enhancement");
+				ShowNotification(L"Failed setting Color enhancement");
+				AVDebugWriteLine(L"Failed setting Color enhancement");
 			}
 			else
 			{
-				//Set result
 				ShowNotification(L"Color enhancement set to " + ADLX_SCE_PROFILE_STRING[newValue]);
 				AVDebugWriteLine(L"Color enhancement set to " << newValue);
 			}
@@ -314,32 +374,33 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display custom color profile
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-			//Enable color temperature control
 			//Fix find way to enable color temperature control when disabled in AMD Adrenalin
 
-			//Set display color temperature
+			//Set setting
+			IADLXDisplayCustomColorPtr ppCustomColor;
+			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 			adlx_Res0 = ppCustomColor->SetTemperature(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_ColorTemperature().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting color temperature");
-				AVDebugWriteLine(L"Failed setting color temperature");
+				ShowNotification(L"Failed setting Color temperature");
+				AVDebugWriteLine(L"Failed setting Color temperature");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_ColorTemperature().Foreground(colorValid);
-				ShowNotification(L"Color temperature set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Color temperature set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Color temperature set to " << newValue);
 			}
 		}
@@ -353,29 +414,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display custom color profile
+			//Set setting
 			IADLXDisplayCustomColorPtr ppCustomColor;
 			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-			//Set display brightness
 			adlx_Res0 = ppCustomColor->SetBrightness(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_Brightness().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting brightness");
-				AVDebugWriteLine(L"Failed setting brightness");
+				ShowNotification(L"Failed setting Brightness");
+				AVDebugWriteLine(L"Failed setting Brightness");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_Brightness().Foreground(colorValid);
-				ShowNotification(L"Brightness set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Brightness set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Brightness set to " << newValue);
 			}
 		}
@@ -389,29 +452,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display custom color profile
+			//Set setting
 			IADLXDisplayCustomColorPtr ppCustomColor;
 			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-			//Set display contrast
 			adlx_Res0 = ppCustomColor->SetContrast(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_Contrast().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting contrast");
-				AVDebugWriteLine(L"Failed setting contrast");
+				ShowNotification(L"Failed setting Contrast");
+				AVDebugWriteLine(L"Failed setting Contrast");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_Contrast().Foreground(colorValid);
-				ShowNotification(L"Contrast set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Contrast set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Contrast set to " << newValue);
 			}
 		}
@@ -425,29 +490,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get saturation value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display custom color profile
+			//Set setting
 			IADLXDisplayCustomColorPtr ppCustomColor;
 			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-			//Set display saturation
 			adlx_Res0 = ppCustomColor->SetSaturation(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_Saturation().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting saturation");
-				AVDebugWriteLine(L"Failed setting saturation");
+				ShowNotification(L"Failed setting Saturation");
+				AVDebugWriteLine(L"Failed setting Saturation");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_Saturation().Foreground(colorValid);
-				ShowNotification(L"Saturation set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Saturation set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Saturation set to " << newValue);
 			}
 		}
@@ -461,29 +528,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get saturation value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display custom color profile
+			//Set setting
 			IADLXDisplayCustomColorPtr ppCustomColor;
 			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-			//Set display hue
 			adlx_Res0 = ppCustomColor->SetHue(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_Hue().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting hue");
-				AVDebugWriteLine(L"Failed setting hue");
+				ShowNotification(L"Failed setting Hue");
+				AVDebugWriteLine(L"Failed setting Hue");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_Hue().Foreground(colorValid);
-				ShowNotification(L"Hue set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Hue set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Hue set to " << newValue);
 			}
 		}
@@ -512,52 +581,57 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayGPUScalingPtr ppGPUScaling;
 			adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
+			adlx_Res0 = ppGPUScaling->SetEnabled(newValue);
 
-			IADLXDisplayIntegerScalingPtr ppIntegerScaling;
-			adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppGPUScaling->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling GPU Scaling");
 					AVDebugWriteLine(L"Failed enabling GPU Scaling");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					//Enable or disable interface
+					ShowNotification(L"Failed disabling GPU Scaling");
+					AVDebugWriteLine(L"Failed disabling GPU Scaling");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					IADLXDisplayIntegerScalingPtr ppIntegerScaling;
+					adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
 					adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
 					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 					{
 						toggleswitch_IntegerScaling().IsEnabled(true);
-
-						//Reload settings to get current value
-						disable_saving = true;
-						adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
-						toggleswitch_IntegerScaling().IsOn(adlx_Bool);
-						disable_saving = false;
 					}
 
 					ShowNotification(L"GPU Scaling enabled");
 					AVDebugWriteLine(L"GPU Scaling enabled");
 				}
-			}
-			else
-			{
-				//Enable or disable interface
-				toggleswitch_IntegerScaling().IsEnabled(false);
-
-				adlx_Res0 = ppGPUScaling->SetEnabled(false);
-				ShowNotification(L"GPU Scaling disabled");
-				AVDebugWriteLine(L"GPU Scaling disabled");
+				else
+				{
+					toggleswitch_IntegerScaling().IsEnabled(false);
+					ShowNotification(L"GPU Scaling disabled");
+					AVDebugWriteLine(L"GPU Scaling disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -570,33 +644,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayIntegerScalingPtr ppIntegerScaling;
 			adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
+			adlx_Res0 = ppIntegerScaling->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppIntegerScaling->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling Integer Scaling");
 					AVDebugWriteLine(L"Failed enabling Integer Scaling");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					ShowNotification(L"Integer Scaling enabled");
-					AVDebugWriteLine(L"Integer Scaling enabled");
+					ShowNotification(L"Failed disabling Integer Scaling");
+					AVDebugWriteLine(L"Failed disabling Integer Scaling");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppIntegerScaling->SetEnabled(false);
-				ShowNotification(L"Integer Scaling disabled");
-				AVDebugWriteLine(L"Integer Scaling disabled");
+				if (newValue)
+				{
+					ShowNotification(L"Integer Scaling enabled");
+					AVDebugWriteLine(L"Integer Scaling enabled");
+				}
+				else
+				{
+					ShowNotification(L"Integer Scaling disabled");
+					AVDebugWriteLine(L"Integer Scaling disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -609,25 +698,28 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get selection
+			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
 
-			//Get settings
+			//Set setting
 			IADLXDisplayScalingModePtr ppScalingMode;
 			adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
-
 			adlx_Res0 = ppScalingMode->SetMode((ADLX_SCALE_MODE)newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
-				ShowNotification(L"Failed setting scaling mode");
-				AVDebugWriteLine(L"Failed setting scaling mode");
+				ShowNotification(L"Failed setting Scaling mode");
+				AVDebugWriteLine(L"Failed setting Scaling mode");
 			}
 			else
 			{
-				//Set result
 				ShowNotification(L"Scaling mode set to " + ADLX_SCALE_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Scaling mode set to " << ADLX_SCALE_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Scaling mode set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -640,33 +732,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayHDCPPtr ppHDCP;
 			adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
+			adlx_Res0 = ppHDCP->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppHDCP->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling HDCP Support");
 					AVDebugWriteLine(L"Failed enabling HDCP Support");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					ShowNotification(L"HDCP Support enabled");
-					AVDebugWriteLine(L"HDCP Support enabled");
+					ShowNotification(L"Failed disabling HDCP Support");
+					AVDebugWriteLine(L"Failed disabling HDCP Support");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppHDCP->SetEnabled(false);
-				ShowNotification(L"HDCP Support disabled");
-				AVDebugWriteLine(L"HDCP Support disabled");
+				if (newValue)
+				{
+					ShowNotification(L"HDCP Support enabled");
+					AVDebugWriteLine(L"HDCP Support enabled");
+				}
+				else
+				{
+					ShowNotification(L"HDCP Support disabled");
+					AVDebugWriteLine(L"HDCP Support disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -679,68 +786,50 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXDisplayVariBrightPtr ppVariBright;
 			adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
+			adlx_Res0 = ppVariBright->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppVariBright->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling Vari-Bright");
 					AVDebugWriteLine(L"Failed enabling Vari-Bright");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					//Enable or disable interface
-					combobox_Display_VariBright_Level().IsEnabled(true);
-
-					//Reload settings to get current value
-					disable_saving = true;
-					adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(0);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(1);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(2);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(3);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(4);
-					}
-					disable_saving = false;
-
-					ShowNotification(L"Vari-Bright enabled");
-					AVDebugWriteLine(L"Vari-Bright enabled");
+					ShowNotification(L"Failed disabling Vari-Bright");
+					AVDebugWriteLine(L"Failed disabling Vari-Bright");
 				}
 			}
 			else
 			{
-				//Enable or disable interface
-				combobox_Display_VariBright_Level().IsEnabled(false);
-
-				adlx_Res0 = ppVariBright->SetEnabled(false);
-				ShowNotification(L"Vari-Bright disabled");
-				AVDebugWriteLine(L"Vari-Bright disabled");
+				if (newValue)
+				{
+					combobox_Display_VariBright_Level().IsEnabled(true);
+					ShowNotification(L"Vari-Bright enabled");
+					AVDebugWriteLine(L"Vari-Bright enabled");
+				}
+				else
+				{
+					combobox_Display_VariBright_Level().IsEnabled(false);
+					ShowNotification(L"Vari-Bright disabled");
+					AVDebugWriteLine(L"Vari-Bright disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -753,43 +842,49 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get selection
+			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
 
-			//Get settings
+			//Set setting
 			IADLXDisplayVariBrightPtr ppVariBright;
 			adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
 
-			//Set Vari-Bright Level
+			//Enumeration index correction
 			if (newValue == 0)
 			{
 				adlx_Res0 = ppVariBright->SetMaximizeBrightness();
-				ShowNotification(L"Vari-Bright set to maximize brightness");
-				AVDebugWriteLine(L"Vari-Bright set to maximize brightness");
 			}
 			else if (newValue == 1)
 			{
 				adlx_Res0 = ppVariBright->SetOptimizeBrightness();
-				ShowNotification(L"Vari-Bright set to optimize brightness");
-				AVDebugWriteLine(L"Vari-Bright set to optimize brightness");
 			}
 			else if (newValue == 2)
 			{
 				adlx_Res0 = ppVariBright->SetBalanced();
-				ShowNotification(L"Vari-Bright set to balanced");
-				AVDebugWriteLine(L"Vari-Bright set to balanced");
 			}
 			else if (newValue == 3)
 			{
 				adlx_Res0 = ppVariBright->SetOptimizeBattery();
-				ShowNotification(L"Vari-Bright set to optimize battery");
-				AVDebugWriteLine(L"Vari-Bright set to optimize battery");
 			}
 			else if (newValue == 4)
 			{
 				adlx_Res0 = ppVariBright->SetMaximizeBattery();
-				ShowNotification(L"Vari-Bright set to maximize battery");
-				AVDebugWriteLine(L"Vari-Bright set to maximize battery");
+			}
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting Vari-Bright level");
+				AVDebugWriteLine(L"Failed setting Vari-Bright level");
+			}
+			else
+			{
+				ShowNotification(L"Vari-Bright set to " + ADLX_VARIBRIGHT_LEVEL_STRING[newValue]);
+				AVDebugWriteLine(L"Vari-Bright set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -802,29 +897,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display connectivity experience
+			//Set setting
 			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
 			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+			adlx_Res0 = ppDisplayConnectivityExperience->SetRelativeVoltageSwing(newValue);
 
-			//Set display relative voltage swing
-			ppDisplayConnectivityExperience->SetRelativeVoltageSwing(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_RelativeVoltageSwing().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting voltage swing");
-				AVDebugWriteLine(L"Failed setting voltage swing");
+				ShowNotification(L"Failed setting Voltage swing");
+				AVDebugWriteLine(L"Failed setting Voltage swing");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_RelativeVoltageSwing().Foreground(colorValid);
-				ShowNotification(L"Voltage swing set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Voltage swing set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Voltage swing set to " << newValue);
 			}
 		}
@@ -838,29 +935,31 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get display connectivity experience
+			//Set setting
 			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
 			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+			adlx_Res0 = ppDisplayConnectivityExperience->SetRelativePreEmphasis(newValue);
 
-			//Set display relative preset emphasis
-			ppDisplayConnectivityExperience->SetRelativePreEmphasis(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_Display_RelativePreEmphasis().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting preset emphasis");
-				AVDebugWriteLine(L"Failed setting preset emphasis");
+				ShowNotification(L"Failed setting Preset emphasis");
+				AVDebugWriteLine(L"Failed setting Preset emphasis");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_Display_RelativePreEmphasis().Foreground(colorValid);
-				ShowNotification(L"Preset emphasis set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"Preset emphasis set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Preset emphasis set to " << newValue);
 			}
 		}

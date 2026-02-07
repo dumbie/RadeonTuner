@@ -12,33 +12,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
 			IADLXSmartShiftEcoPtr ppSmartShiftEco;
 			adlx_Res0 = ppPowerTuningServices->GetSmartShiftEco(&ppSmartShiftEco);
+			adlx_Res0 = ppSmartShiftEco->SetEnabled(newValue);
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppSmartShiftEco->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling SmartShift Eco");
 					AVDebugWriteLine(L"Failed enabling SmartShift Eco");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					ShowNotification(L"SmartShift Eco enabled");
-					AVDebugWriteLine(L"SmartShift Eco enabled");
+					ShowNotification(L"Failed disabling SmartShift Eco");
+					AVDebugWriteLine(L"Failed disabling SmartShift Eco");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppSmartShiftEco->SetEnabled(false);
-				ShowNotification(L"SmartShift Eco disabled");
-				AVDebugWriteLine(L"SmartShift Eco disabled");
+				if (newValue)
+				{
+					ShowNotification(L"SmartShift Eco enabled");
+					AVDebugWriteLine(L"SmartShift Eco enabled");
+				}
+				else
+				{
+					ShowNotification(L"SmartShift Eco disabled");
+					AVDebugWriteLine(L"SmartShift Eco disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -51,24 +66,26 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
+			//Get setting value
 			ADLX_SSM_BIAS_MODE newValue = (ADLX_SSM_BIAS_MODE)sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
 
-			//Get settings
+			//Set setting
 			IADLXSmartShiftMaxPtr ppSmartShiftMax;
 			adlx_Res0 = ppPowerTuningServices->GetSmartShiftMax(&ppSmartShiftMax);
-
-			//Set settings
 			adlx_Res0 = ppSmartShiftMax->SetBiasMode(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				ShowNotification(L"Failed setting SmartShift mode");
 				AVDebugWriteLine(L"Failed setting SmartShift mode");
 			}
 			else
 			{
-				//Enable or disable interface
 				if (newValue == ADLX_SSM_BIAS_MODE::SSM_BIAS_AUTO)
 				{
 					slider_SmartShiftMaxBias().IsEnabled(false);
@@ -76,15 +93,8 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					slider_SmartShiftMaxBias().IsEnabled(true);
-
-					//Reload settings to get current value
-					disable_saving = true;
-					adlx_Res0 = ppSmartShiftMax->GetBias(&adlx_Int0);
-					slider_SmartShiftMaxBias().Value(adlx_Int0);
-					disable_saving = false;
 				}
 
-				//Set result
 				ShowNotification(L"SmartShift mode set to " + ADLX_SSM_BIAS_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"SmartShift mode set to " << newValue);
 			}
@@ -99,18 +109,21 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get value
-			auto newValue = sender.as<Slider>().Value();
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get settings
+			//Set setting
 			IADLXSmartShiftMaxPtr ppSmartShiftMax;
 			adlx_Res0 = ppPowerTuningServices->GetSmartShiftMax(&ppSmartShiftMax);
-
-			//Set settings
 			adlx_Res0 = ppSmartShiftMax->SetBias(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 				textbox_SmartShiftMaxBias().Foreground(colorInvalid);
 				ShowNotification(L"Failed setting SmartShift bias");
@@ -118,10 +131,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_SmartShiftMaxBias().Foreground(colorValid);
-				ShowNotification(L"SmartShift bias set to " + number_to_wstring((int)newValue));
+				ShowNotification(L"SmartShift bias set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"SmartShift bias set to " << newValue);
 			}
 		}

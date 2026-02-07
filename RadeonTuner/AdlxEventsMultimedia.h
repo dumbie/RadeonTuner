@@ -12,33 +12,48 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get settings
-			IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
-			ppMultiMediaServices->GetVideoSuperResolution(ppGpuInfo, &ppVideoSuperResolution);
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set setting
+			IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
+			adlx_Res0 = ppMultiMediaServices->GetVideoSuperResolution(ppGpuInfo, &ppVideoSuperResolution);
+			adlx_Res0 = ppVideoSuperResolution->SetEnabled(newValue);
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppVideoSuperResolution->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling Video Super Resolution");
 					AVDebugWriteLine(L"Failed enabling Video Super Resolution");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					ShowNotification(L"Video Super Resolution enabled");
-					AVDebugWriteLine(L"Video Super Resolution enabled");
+					ShowNotification(L"Failed disabling Video Super Resolution");
+					AVDebugWriteLine(L"Failed disabling Video Super Resolution");
 				}
 			}
 			else
 			{
-				adlx_Res0 = ppVideoSuperResolution->SetEnabled(false);
-				ShowNotification(L"Video Super Resolution disabled");
-				AVDebugWriteLine(L"Video Super Resolution disabled");
+				if (newValue)
+				{
+					ShowNotification(L"Video Super Resolution enabled");
+					AVDebugWriteLine(L"Video Super Resolution enabled");
+				}
+				else
+				{
+					ShowNotification(L"Video Super Resolution disabled");
+					AVDebugWriteLine(L"Video Super Resolution disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -51,45 +66,50 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get setting
-			IADLXVideoUpscalePtr ppVideoupscale;
-			ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Set setting
+			IADLXVideoUpscalePtr ppVideoupscale;
+			adlx_Res0 = ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
+			adlx_Res0 = ppVideoupscale->SetEnabled(newValue);
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				adlx_Res0 = ppVideoupscale->SetEnabled(true);
-				if (ADLX_FAILED(adlx_Res0))
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
 				{
 					ShowNotification(L"Failed enabling Video Upscale");
 					AVDebugWriteLine(L"Failed enabling Video Upscale");
-					disable_saving = true;
-					senderElement.IsOn(false);
-					disable_saving = false;
 				}
 				else
 				{
-					//Enable or disable interface
-					slider_VideoUpscale_Sharpening().IsEnabled(true);
-
-					//Reload settings to get current value
-					disable_saving = true;
-					adlx_Res0 = ppVideoupscale->GetSharpness(&adlx_Int0);
-					slider_VideoUpscale_Sharpening().Value(adlx_Int0);
-					disable_saving = false;
-
-					ShowNotification(L"Video Upscale enabled");
-					AVDebugWriteLine(L"Video Upscale enabled");
+					ShowNotification(L"Failed disabling Video Upscale");
+					AVDebugWriteLine(L"Failed disabling Video Upscale");
 				}
 			}
 			else
 			{
-				//Enable or disable interface
-				slider_VideoUpscale_Sharpening().IsEnabled(false);
-
-				adlx_Res0 = ppVideoupscale->SetEnabled(false);
-				ShowNotification(L"Video Upscale disabled");
-				AVDebugWriteLine(L"Video Upscale disabled");
+				if (newValue)
+				{
+					slider_VideoUpscale_Sharpening().IsEnabled(true);
+					ShowNotification(L"Video Upscale enabled");
+					AVDebugWriteLine(L"Video Upscale enabled");
+				}
+				else
+				{
+					slider_VideoUpscale_Sharpening().IsEnabled(false);
+					ShowNotification(L"Video Upscale disabled");
+					AVDebugWriteLine(L"Video Upscale disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -102,27 +122,30 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Convert new value
+			//Get setting value
 			int newValue = (int)e.NewValue();
+			bool newFailed = true;
 
-			//Get setting
+			//Set setting
 			IADLXVideoUpscalePtr ppVideoupscale;
-			ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
-
+			adlx_Res0 = ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
 			adlx_Res0 = ppVideoupscale->SetSharpness(newValue);
-			if (ADLX_FAILED(adlx_Res0))
+
+			//Set result
+			newFailed = adlx_Res0 != ADLX_OK;
+
+			//Show result
+			if (newFailed)
 			{
-				//Set result
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				slider_VideoUpscale_Sharpening().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting video sharpening");
-				AVDebugWriteLine(L"Failed setting video sharpening");
+				textbox_VideoUpscale_Sharpening().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Video sharpening");
+				AVDebugWriteLine(L"Failed setting Video sharpening");
 			}
 			else
 			{
-				//Set result
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				slider_VideoUpscale_Sharpening().Foreground(colorValid);
+				textbox_VideoUpscale_Sharpening().Foreground(colorValid);
 				ShowNotification(L"Video sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Video sharpening set to " << newValue);
 			}

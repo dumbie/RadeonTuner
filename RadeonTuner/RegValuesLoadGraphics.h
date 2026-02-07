@@ -6,7 +6,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Note: setting names can be found in amdadlx64.dll and amdkmdag.sys
-	void MainPage::RegValuesLoad()
+	void MainPage::RegValuesLoadGraphics()
 	{
 		try
 		{
@@ -17,7 +17,7 @@ namespace winrt::RadeonTuner::implementation
 			std::string resultString = "";
 			int resultInt = -1;
 
-			//OpenGL Triple Buffering
+			//Get OpenGL Triple Buffering setting
 			//EnableTripleBuffering (Binary (string) 3000 = 0 (Off) / 3100 = 1 (On))
 			resultString = AdlRegistrySettingGetString(adl_AdapterIndex, "UMD", "EnableTripleBuffering");
 			if (!resultString.empty())
@@ -36,7 +36,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_OpenGLTripleBuffering().IsOn(false);
 			}
 
-			//OpenGL 10-Bit Pixel Format
+			//Get OpenGL 10-Bit Pixel Format setting
 			//KMD_10BitMode (Dword (int) 1 = On / 2 = Off)
 			resultInt = AdlRegistrySettingGetInt(adl_AdapterIndex, "", "KMD_10BitMode");
 			if (resultInt > 0)
@@ -55,27 +55,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_OpenGL10Bit().IsOn(false);
 			}
 
-			//Microsoft HAGS Support
-			//KMD_EnableMSHWS (Dword (int) 2 = On / 0 = Off)
-			//KMD_DisableNv2x3DCGWithMSHWS / KMD_EnableMSHWSQESSupport
-			resultInt = AdlRegistrySettingGetInt(adl_AdapterIndex, "", "KMD_EnableMSHWS");
-			if (resultInt > 0)
-			{
-				if (resultInt == 2)
-				{
-					toggleswitch_HagsSupport().IsOn(true);
-				}
-				else
-				{
-					toggleswitch_HagsSupport().IsOn(false);
-				}
-			}
-			else
-			{
-				toggleswitch_HagsSupport().IsOn(false);
-			}
-
-			//Texture Filtering Quality
+			//Get Texture Filtering Quality setting
 			//TFQ (Binary (string) 3000 = 0 (High) / 3100 = 1 (Standard) / 3200 = 2 (Performance))
 			resultString = AdlRegistrySettingGetString(adl_AdapterIndex, "UMD", "TFQ");
 			if (!resultString.empty())
@@ -98,7 +78,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_TextureFilteringQuality().SelectedIndex(1);
 			}
 
-			//Surface Format Optimization
+			//Get Surface Format Optimization setting
 			//SurfaceFormatReplacements (Binary (string) 3000 = 0 (Off) / 3100 = 1 (On))
 			resultString = AdlRegistrySettingGetString(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements");
 			if (!resultString.empty())
@@ -117,7 +97,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_SurfaceFormatOptimization().IsOn(false);
 			}
 
-			//Fluid Motion Search Mode
+			//Get Fluid Motion Search Mode setting
 			//FrameGenSearchMode (Dword (int) 0 = Auto / 1 = Standard / 2 = High)
 			resultDword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode");
 			if (resultDword.has_value())
@@ -129,7 +109,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_FrameGenSearchMode().SelectedIndex(0);
 			}
 
-			//Fluid Motion Performance Mode
+			//Get Fluid Motion Performance Mode setting
 			//FrameGenPerfMode (Dword (int) 0 = Auto / 1 = Quality / 2 = Performance)
 			resultDword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode");
 			if (resultDword.has_value())
@@ -141,7 +121,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_FrameGenPerfMode().SelectedIndex(0);
 			}
 
-			//Fluid Motion Response Mode
+			//Get Fluid Motion Response Mode setting
 			//FrameGenFallbackMode (Dword (int) 0 = Blended Frame / 1 = Repeat Frame)
 			resultDword = RegistryGetDword(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode");
 			if (resultDword.has_value())
@@ -153,10 +133,10 @@ namespace winrt::RadeonTuner::implementation
 				combobox_FrameGenResponseMode().SelectedIndex(0);
 			}
 
-			//Fluid Motion Algorithm
+			//Get Fluid Motion Algorithm setting
 			//FrameGenAlgorithm
 
-			//FSR Override Upscaling
+			//Get FSR Override Upscaling setting
 			//FsrOverride (Binary (string) 3000 = 0 (Off) / 3100 = 1 (On))
 			resultString = AdlRegistrySettingGetString(adl_AdapterIndex, "UMD", "FsrOverride");
 			if (!resultString.empty())
@@ -175,7 +155,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FsrOverrideUpscaling().IsOn(false);
 			}
 
-			//FSR Override Frame Generation
+			//Get FSR Override Frame Generation setting
 			//NRC = Neural Radiance Cache
 			//MLD = Machine Learning Ray Regeneration Denoiser
 			//MlfiOverride = Machine Learning Frame Interpolation
