@@ -1,14 +1,27 @@
 #pragma once
 #include "pch.h"
 
+enum AdlAppPropertyType
+{
+	ADL_APP_PROPERTY_TYPE_UNKNOWN = -1,
+	ADL_APP_PROPERTY_TYPE_BINARY,
+	ADL_APP_PROPERTY_TYPE_BOOLEAN,
+	ADL_APP_PROPERTY_TYPE_DWORD,
+	ADL_APP_PROPERTY_TYPE_QWORD,
+	ADL_APP_PROPERTY_TYPE_ENUMERATED,
+	ADL_APP_PROPERTY_TYPE_STRING
+};
+
 struct AdlAppPropertyValue
 {
 	//Unique identifier gpu header
 	//Example: VsyncControl 0x1000::3;;0x2000::0;;
+	//GpuId 0x0000 seems to be working as global gpu
+	std::wstring Name;
 	std::wstring GpuId;
 	std::wstring Value;
 
-	std::wstring GetString()
+	std::wstring GetValueString()
 	{
 		if (!GpuId.empty())
 		{
@@ -23,14 +36,14 @@ struct AdlAppPropertyValue
 
 struct AdlAppProperty
 {
-	ADLProfilePropertyType Type;
+	AdlAppPropertyType Type;
 	std::wstring Name;
 	std::wstring DriverArea;
 	std::vector<AdlAppPropertyValue> Values;
 
 	bool UseGpuId()
 	{
-		return DriverArea == L"3D_User" && Type == ADL_PROFILEPROPERTY_TYPE_STRING;
+		return DriverArea == L"3D_User" && Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_STRING;
 	}
 
 	std::wstring GetValuesString()
@@ -38,7 +51,7 @@ struct AdlAppProperty
 		std::wstring valueString;
 		for (AdlAppPropertyValue adlAppPropertyValue : Values)
 		{
-			valueString += adlAppPropertyValue.GetString();
+			valueString += adlAppPropertyValue.GetValueString();
 		}
 		return valueString;
 	}
@@ -56,25 +69,8 @@ struct AdlApplication
 	ADL_AP_DATABASE RecordSource;
 	std::vector<AdlAppProperty> Properties{};
 
-	std::vector<ADLPropertyRecordCreate> GetRecordCreate()
+	bool Initialized()
 	{
-		std::vector<ADLPropertyRecordCreate> recordProperties;
-		try
-		{
-			for (AdlAppProperty property : Properties)
-			{
-				try
-				{
-					ADLPropertyRecordCreate propertyRecordCreate{};
-					propertyRecordCreate.eType = property.Type;
-					propertyRecordCreate.strPropertyName = _wcsdup(property.Name.c_str());
-					propertyRecordCreate.strPropertyValue = _wcsdup(property.GetValuesString().c_str());
-					recordProperties.push_back(propertyRecordCreate);
-				}
-				catch (...) {}
-			}
-		}
-		catch (...) {}
-		return recordProperties;
+		return !FileName.empty();
 	}
 };
