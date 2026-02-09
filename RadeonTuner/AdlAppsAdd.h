@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppsAdd(std::wstring filePath, std::wstring driverArea)
+	bool MainPage::AdlAppAdd(std::wstring filePath, std::wstring driverArea)
 	{
 		try
 		{
@@ -33,7 +33,7 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Adding application: " << addFileName << " / " << addFilePath << " / " << driverArea);
 
 			//Generate profile name
-			std::wstring profileName = AdlProfileGenerateName();
+			std::wstring profileName = AdlAppProfileGenerateName();
 
 			//Create adl application
 			AdlApplication adlApp{};
@@ -44,20 +44,18 @@ namespace winrt::RadeonTuner::implementation
 
 			//Create adl application property
 			AdlAppProperty adlAppProperty{};
-			adlAppProperty.Type = AdlPropertyGetType(L"Main3D", driverArea);
+			adlAppProperty.Type = AdlAppPropertyTypeGet(L"Main3D", driverArea);
 			adlAppProperty.Name = L"Main3D";
 			adlAppProperty.DriverArea = driverArea;
 			adlApp.Properties.push_back(adlAppProperty);
 
 			//Get record properties
-			std::vector<ADLPropertyRecordCreate> recordCreate = adlApp.GetRecordCreate();
+			std::vector<ADLPropertyRecordCreate> recordCreate = AdlAppPropertyRecordCreateGet(adlApp);
 
 			//Check if application exists and skip
-			ADLApplicationProfile* lppProfile;
-			adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, addFileName.c_str(), addFilePath.c_str(), NULL, driverArea.c_str(), &lppProfile);
-			if (adl_Res0 == ADL_OK && lppProfile->iCount > 0)
+			if (AdlAppExists(addFileName, addFilePath, driverArea))
 			{
-				AVDebugWriteLine("Application already exists: " << filePath << " / " << lppProfile->iCount);
+				AVDebugWriteLine("Application already exists: " << filePath);
 				return false;
 			}
 

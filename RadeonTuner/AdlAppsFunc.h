@@ -26,7 +26,31 @@ namespace winrt::RadeonTuner::implementation
 		return L"";
 	}
 
-	bool MainPage::AdlAppPropertyExists(std::wstring propertyName, std::wstring driverArea)
+	bool MainPage::AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea)
+	{
+		try
+		{
+			//Get applications
+			int adlApplicationsCount = 0;
+			ADLApplicationRecord* adlApplications;
+			adl_Res0 = _ADL2_ApplicationProfiles_Applications_Get(adl_Context, driverArea.c_str(), &adlApplicationsCount, &adlApplications);
+			if (adl_Res0 == ADL_OK)
+			{
+				for (int i = 0; i < adlApplicationsCount; i++)
+				{
+					try
+					{
+						if (adlApplications[i].strFileName == fileName && adlApplications[i].strPathName == filePath && adlApplications[i].strArea == driverArea) { return true; }
+					}
+					catch (...) {}
+				}
+			}
+		}
+		catch (...) {}
+		return false;
+	}
+
+	bool MainPage::AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea)
 	{
 		try
 		{
