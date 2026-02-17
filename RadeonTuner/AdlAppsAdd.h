@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -25,32 +25,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Convert file path to name
-			auto fileSystem = std::filesystem::path(filePath);
-			std::wstring addFileName = fileSystem.filename();
-			std::wstring addFilePath = fileSystem.parent_path();
-			addFilePath += L"*";
-
-			AVDebugWriteLine("Adding application: " << addFileName << " / " << addFilePath << " / " << driverArea);
-
-			//Generate profile name
-			std::wstring profileName = AdlAppProfileGenerateName();
-
-			//Create adl application
-			AdlApplication adlApp{};
-			adlApp.FileName = addFileName;
-			adlApp.FilePath = addFilePath;
-			adlApp.DriverArea = driverArea;
-			adlApp.ProfileName = profileName;
-
-			//Create adl application property
-			AdlAppProperty adlAppProperty{};
-			adlAppProperty.Type = AdlAppPropertyTypeGet(L"Main3D", driverArea);
-			adlAppProperty.Name = L"Main3D";
-			adlAppProperty.DriverArea = driverArea;
-			adlApp.Properties.push_back(adlAppProperty);
-
-			//Get record properties
-			std::vector<ADLPropertyRecordCreate> recordCreate = AdlAppPropertyRecordCreateGet(adlApp);
+			std::wstring addFileName;
+			std::wstring addFilePath;
+			std::wstring addProfileTag;
+			if (filePath == L"*.*")
+			{
+				addFileName = L"*.*";
+				addFilePath = L"*";
+			}
+			else
+			{
+				auto fileSystem = std::filesystem::path(filePath);
+				addFileName = fileSystem.filename().wstring();
+				addFilePath = L"*";
+			}
 
 			//Check if application exists and skip
 			if (AdlAppExists(addFileName, addFilePath, driverArea))
@@ -59,17 +47,19 @@ namespace winrt::RadeonTuner::implementation
 				return false;
 			}
 
-			//Create application profile
-			adl_Res0 = _ADL2_ApplicationProfiles_Profile_Create(adl_Context, driverArea.c_str(), profileName.c_str(), recordCreate.size(), recordCreate.data());
-			AVDebugWriteLine("Created application profile: " << adl_Res0);
-			//-3 invalid profile, atleast 1 property needed
-			//-16 invalid properties
-			//-18 already exists
+			AVDebugWriteLine("Adding application: " << addFileName << " / " << addFilePath << " / " << driverArea);
 
-			//Assign application profile
-			adl_Res0 = _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign(adl_Context, addFileName.c_str(), addFilePath.c_str(), NULL, NULL, driverArea.c_str(), profileName.c_str());
-			AVDebugWriteLine("Assigned application profile: " << adl_Res0);
-			//-15 profile not found or invalid
+			//Create adl application
+			AdlApplication adlApp{};
+			adlApp.FileName = addFileName;
+			adlApp.FilePath = addFilePath;
+			adlApp.DriverArea = driverArea;
+
+			//Set default properties
+			AdlAppDefaultPropertiesSet(adlApp);
+
+			//Set application settings
+			AdlAppPropertySet(adlApp);
 
 			//Set result
 			return adl_Res0 == ADL_OK;

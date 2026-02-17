@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -10,18 +10,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get combobox items
-			ItemCollection itemCollection = combobox_AppSelect().Items();
+			//Add global user application
+			AdlAppAdd(L"*.*", L"3D_User");
 
-			//Load applications
-			adl_Apps = AdlAppsLoad(L"3D_User");
-
-			//Add apps to combobox
-			itemCollection.Append(box_value(L"Global"));
-			for (AdlApps adlApp : adl_Apps)
-			{
-				itemCollection.Append(box_value(adlApp.FileName));
-			}
+			//Load and list applications
+			AdlAppInterfaceListLoad();
 
 			//Set result
 			AVDebugWriteLine("ADL prepared.");

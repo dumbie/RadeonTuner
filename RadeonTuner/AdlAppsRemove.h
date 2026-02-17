@@ -2,20 +2,27 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppsRemove(AdlApplication adlApp)
+	bool MainPage::AdlAppRemove(AdlApplication adlApp)
 	{
 		try
 		{
-			AVDebugWriteLine("Removing application and profile: " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.ProfileName);
+			//Check for global application
+			if (adlApp.FileName == L"*.*")
+			{
+				AVDebugWriteLine("Cannot remove Global application.");
+				return false;
+			}
 
-			//Remove application and assigned profile
-			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), adlApp.Version.c_str(), adlApp.DriverArea.c_str());
+			AVDebugWriteLine("Removing profile from application: " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea);
+			//Fix unassign all profiles without removing them
+
+			//Remove profile from application
+			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());
 			AVDebugWriteLine("Removed application profile: " << adl_Res0);
-			//-17 profile not found
 
 			//Set result
 			return adl_Res0 == ADL_OK;

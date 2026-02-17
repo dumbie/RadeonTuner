@@ -2,11 +2,11 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::wstring MainPage::AdlAppProfileGenerateName()
+	std::wstring MainPage::AdlAppProfileGenerateName(std::wstring profileHeader)
 	{
 		try
 		{
@@ -20,7 +20,7 @@ namespace winrt::RadeonTuner::implementation
 			hResult = StringFromGUID2(randomGuid, stringGuid.data(), stringGuid.size());
 
 			//Return result
-			return L"RADT" + stringGuid;
+			return profileHeader + stringGuid;
 		}
 		catch (...) {}
 		return L"";
@@ -100,12 +100,12 @@ namespace winrt::RadeonTuner::implementation
 		return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN;
 	}
 
-	std::vector<ADLPropertyRecordCreate> MainPage::AdlAppPropertyRecordCreateGet(AdlApplication adlApp)
+	std::vector<ADLPropertyRecordCreate> MainPage::AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties)
 	{
 		std::vector<ADLPropertyRecordCreate> recordProperties;
 		try
 		{
-			for (AdlAppProperty property : adlApp.Properties)
+			for (AdlAppProperty property : adlAppProperties)
 			{
 				try
 				{

@@ -2,12 +2,13 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 #include <regex>
 
 //Application profiles location
 //%WINDIR%\System32\atiapfxx.blb
 //%LOCALAPPDATA%\AMD\CN\gmdb.blb
+//%LOCALAPPDATA%\AMD\CN\gmrevert.blb
 //%LOCALAPPDATA%\AMD\CN\GExDb.blb
 //%LOCALAPPDATA%\ATI\ACE\APL\User.blb
 //%PROGRAMFILES%\AMD\CNext\CNext\cn.blb
@@ -17,7 +18,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::vector<AdlApplication> MainPage::AdlAppsLoad(std::wstring driverArea)
+	std::vector<AdlApplication> MainPage::AdlAppLoad(std::wstring driverArea)
 	{
 		std::vector<AdlApplication> adlApps{};
 		try
@@ -34,10 +35,6 @@ namespace winrt::RadeonTuner::implementation
 					{
 						//Create adl application
 						AdlApplication adlApp{};
-						if (adlApplications[i].strTitle != NULL)
-						{
-							adlApp.AppTitle = adlApplications[i].strTitle;
-						}
 						if (adlApplications[i].strFileName != NULL)
 						{
 							adlApp.FileName = adlApplications[i].strFileName;
@@ -54,19 +51,11 @@ namespace winrt::RadeonTuner::implementation
 						{
 							adlApp.DriverArea = adlApplications[i].strArea;
 						}
-						if (adlApplications[i].strVersion != NULL)
-						{
-							adlApp.Version = adlApplications[i].strVersion;
-						}
-						if (adlApplications[i].strNotes != NULL)
-						{
-							adlApp.Notes = adlApplications[i].strNotes;
-						}
 						adlApp.RecordSource = adlApplications[i].recordSource;
 
 						//Load application profile
 						ADLApplicationProfile* lppProfile;
-						adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), adlApp.Version.c_str(), adlApp.DriverArea.c_str(), &lppProfile);
+						adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str(), &lppProfile);
 						if (adl_Res0 == ADL_OK)
 						{
 							uint32_t propertyOffset = 0;
@@ -84,15 +73,12 @@ namespace winrt::RadeonTuner::implementation
 									adlAppProperty.Name = char_to_wstring(propertyRecord->strName);
 
 									//Get property type
-									adlAppProperty.Type = AdlPropertyGetType(adlAppProperty.Name, adlApp.DriverArea);
-
-									//Set driver area
-									adlAppProperty.DriverArea = adlApp.DriverArea;
+									adlAppProperty.Type = AdlAppPropertyTypeGet(adlAppProperty.Name, adlApp.DriverArea);
 
 									//Get property value
 									if (propertyRecord->iDataSize > 0)
 									{
-										if (adlAppProperty.Type == ADL_PROFILEPROPERTY_TYPE_STRING)
+										if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_STRING)
 										{
 											std::wstring convertedValue;
 											convertedValue.resize(propertyRecord->iDataSize / 2);
@@ -119,14 +105,14 @@ namespace winrt::RadeonTuner::implementation
 												adlAppProperty.Values.push_back(adlAppPropertyValue);
 											}
 										}
-										else if (adlAppProperty.Type == ADL_PROFILEPROPERTY_TYPE_BOOLEAN)
+										else if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_BOOLEAN)
 										{
 											bool convertedValue = (bool)propertyRecord->uData[0] ? true : false;
 											AdlAppPropertyValue adlAppPropertyValue{};
 											adlAppPropertyValue.Value = number_to_wstring(convertedValue);
 											adlAppProperty.Values.push_back(adlAppPropertyValue);
 										}
-										else if (adlAppProperty.Type == ADL_PROFILEPROPERTY_TYPE_DWORD)
+										else if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_DWORD)
 										{
 											UCHAR convertedValue = (UCHAR)propertyRecord->uData[0];
 											AdlAppPropertyValue adlAppPropertyValue{};

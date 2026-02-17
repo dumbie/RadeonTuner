@@ -32,19 +32,15 @@ struct AdlAppPropertyValue
 			return Value;
 		}
 	}
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(AdlAppPropertyValue, Name, GpuId, Value)
 };
 
 struct AdlAppProperty
 {
 	AdlAppPropertyType Type;
 	std::wstring Name;
-	std::wstring DriverArea;
 	std::vector<AdlAppPropertyValue> Values;
-
-	bool UseGpuId()
-	{
-		return DriverArea == L"3D_User" && Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_STRING;
-	}
 
 	std::wstring GetValuesString()
 	{
@@ -55,17 +51,16 @@ struct AdlAppProperty
 		}
 		return valueString;
 	}
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(AdlAppProperty, Type, Name, Values)
 };
 
 struct AdlApplication
 {
-	std::wstring AppTitle;
 	std::wstring FileName;
 	std::wstring FilePath;
 	std::wstring ProfileName;
 	std::wstring DriverArea;
-	std::wstring Version;
-	std::wstring Notes;
 	ADL_AP_DATABASE RecordSource;
 	std::vector<AdlAppProperty> Properties{};
 
@@ -73,4 +68,6 @@ struct AdlApplication
 	{
 		return !FileName.empty();
 	}
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(AdlApplication, FileName, FilePath, ProfileName, DriverArea, RecordSource, Properties)
 };

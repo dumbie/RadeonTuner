@@ -2,20 +2,19 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppInterfaceList()
+	bool MainPage::AdlAppInterfaceListLoad()
 	{
 		try
 		{
-			//Get combobox items
-			ItemCollection itemCollection = combobox_AppSelect().Items();
-
 			//Disable picking
 			disable_picking = true;
+
+			//Get combobox items
+			ItemCollection itemCollection = combobox_AppSelect().Items();
 
 			//Remove applications
 			int collectionSize = itemCollection.Size();
@@ -28,17 +27,20 @@ namespace winrt::RadeonTuner::implementation
 			adl_Apps = AdlAppLoad(L"3D_User");
 
 			//Add apps to combobox
-			itemCollection.Append(box_value(L"Global"));
 			for (AdlApplication adlApp : adl_Apps)
 			{
-				itemCollection.Append(box_value(adlApp.FileName));
+				if (adlApp.FileName == L"*.*")
+				{
+					itemCollection.Append(box_value(L"Global"));
+				}
+				else
+				{
+					itemCollection.Append(box_value(adlApp.FileName));
+				}
 			}
 
 			//Enable picking
 			disable_picking = false;
-
-			//Select first index
-			combobox_AppSelect().SelectedIndex(0);
 
 			//Set result
 			AVDebugWriteLine("Listed ADL applications in combobox.");
@@ -146,7 +148,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Show task dialog
-			int selectedIndex = AVTaskDialog(NULL, L"RadeonTuner", L"Which process would you like to add?", L"", processSelectString);
+			int selectedIndex = AVTaskDialog(NULL, L"RadeonTuner", L"Which process would you like to add?", L"", processSelectString, true);
 
 			//Get application file path
 			std::wstring importPath = string_to_wstring(processSelect[selectedIndex].ExePath());
