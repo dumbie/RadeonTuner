@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "resource.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 #include "AppVariables.h"
 #include "SettingEnumStrings.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radt)", L"*.radt"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radt" } };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
 				pFileDialog->SetTitle(L"Export tuning and fans settings...");
 				pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);

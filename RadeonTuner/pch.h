@@ -75,5 +75,4 @@ using namespace adlx;
 //Classes
 #include "AdlAppsClass.h"
 #include "DisplaySettingsClass.h"
-#include "GraphicsSettingsClass.h"
 #include "TuningFanSettingsClass.h"

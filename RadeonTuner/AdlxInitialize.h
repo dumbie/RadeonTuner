@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 #include "SettingEnumStrings.h"
 
 namespace winrt::RadeonTuner::implementation

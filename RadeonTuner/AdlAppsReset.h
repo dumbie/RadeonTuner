@@ -2,8 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {

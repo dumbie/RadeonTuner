@@ -50,7 +50,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		{
 			AVDebugWriteLine("Application is already running, exiting and showing window.");
 			ShowProcessMainWindow(processList);
-			return 0;
+			//return 0;
 		}
 
 		//Set instance handle
