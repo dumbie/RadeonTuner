@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radd)", L"*.radd"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radd" } };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
 				pFileDialog->SetTitle(L"Import display settings...");
 				pFileDialog->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
@@ -64,8 +64,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (device_id_import_w != device_id_current_w)
 				{
-					int messageResult = MessageBoxW(NULL, L"Display settings do not match current display, continue import?", L"RadeonTuner", MB_YESNO);
-					if (messageResult == IDNO)
+					std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Display settings do not match current display, continue import?", L"", { L"Yes", L"No" }, false);
+					if (messageResult == L"No")
 					{
 						//Set result
 						ShowNotification(L"Display does not match");

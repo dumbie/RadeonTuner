@@ -45,8 +45,8 @@ namespace winrt::RadeonTuner::implementation
 			//Check if version matches
 			if (!availableVersion.empty() && currentVersion != availableVersion)
 			{
-				int messageResult = MessageBoxW(NULL, L"Newer version has been found, would you like to update the application to the newest version available?", L"RadeonTuner", MB_YESNO);
-				if (messageResult == IDYES)
+				std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Newer version has been found, would you like to update the application to the newest version available?", L"", { L"Yes", L"No" }, false);
+				if (messageResult == L"Yes")
 				{
 					//ShellExecuteW(0, 0, L"https://github.com/dumbie/RadeonTuner/releases", 0, 0, 0);
 					std::wstring pathUpdaterExeW = PathMerge(PathGetExecutableDirectory(), L"Updater.exe");
@@ -55,12 +55,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				MessageBoxW(NULL, L"No new application update has been found.", L"RadeonTuner", MB_OK);
+				AVTaskDialogStr(NULL, L"RadeonTuner", L"No new application update has been found.", L"", { L"Ok" }, false);
 			}
 		}
 		catch (...)
 		{
-			MessageBoxW(NULL, L"Failed checking for application update.", L"RadeonTuner", MB_OK);
+			AVTaskDialogStr(NULL, L"RadeonTuner", L"Failed checking for application update.", L"", { L"Ok" }, false);
 		}
 	}
 }
