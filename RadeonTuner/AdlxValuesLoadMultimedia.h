@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get multimedia video super resolution
+			//Get Video Super Resolution
 			try
 			{
 				IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
@@ -44,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_VideoSuperResolution().IsEnabled(false);
 			}
 
-			//Get multimedia video upscale
+			//Get Video Upscale
 			try
 			{
 				IADLXVideoUpscalePtr ppVideoupscale;

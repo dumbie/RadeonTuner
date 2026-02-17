@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -10,15 +10,54 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			bool addResult = AdlInterfaceAppsAddDialog();
+			bool addResult = AdlAppInterfaceAddFile();
 
 			//Check result
 			if (addResult)
 			{
-				//Fix Show notification
-
 				//Reload applications
-				AdlInterfaceAppsList();
+				AdlAppInterfaceListLoad();
+
+				//Select application
+				combobox_AppSelect().SelectedIndex(0);
+
+				//Show notification
+				ShowNotification(L"Application added");
+				AVDebugWriteLine(L"Application added");
+			}
+			else
+			{
+				ShowNotification(L"Application not added");
+				AVDebugWriteLine(L"Application not added");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Graphics_AddProcess_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Show process dialog
+			bool addResult = AdlAppInterfaceAddProcess();
+
+			//Check result
+			if (addResult)
+			{
+				//Reload applications
+				AdlAppInterfaceListLoad();
+
+				//Select application
+				combobox_AppSelect().SelectedIndex(0);
+
+				//Show notification
+				ShowNotification(L"Application added");
+				AVDebugWriteLine(L"Application added");
+			}
+			else
+			{
+				ShowNotification(L"Application not added");
+				AVDebugWriteLine(L"Application not added");
 			}
 		}
 		catch (...) {}
@@ -29,15 +68,26 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Remove application and profile
-			bool removeResult = AdlAppsRemove(adl_AppSelected());
+			bool removeResult = AdlAppRemove(adl_AppSelected());
 
 			//Check result
 			if (removeResult)
 			{
-				//Fix Show notification
-
 				//Reload applications
-				AdlInterfaceAppsList();
+				AdlAppInterfaceListLoad();
+
+				//Select application
+				combobox_AppSelect().SelectedIndex(0);
+
+				//Show notification
+				ShowNotification(L"Application removed");
+				AVDebugWriteLine(L"Application removed");
+			}
+			else
+			{
+				//Show notification
+				ShowNotification(L"Application not removed");
+				AVDebugWriteLine(L"Application not removed");
 			}
 		}
 		catch (...) {}
@@ -47,13 +97,45 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			if (adl_AppSelected().Initialized())
+			//Reset graphics settings
+			bool resetResult = AdlxValuesResetGraphics();
+
+			//Check result
+			if (resetResult)
 			{
-				//Fix add code to reset settings
+				//Show notification
+				ShowNotification(L"Graphics settings reset");
+				AVDebugWriteLine(L"Graphics settings reset");
 			}
 			else
 			{
-				//Fix add code to reset settings
+				//Show notification
+				ShowNotification(L"Graphics settings not reset");
+				AVDebugWriteLine(L"Graphics settings not reset");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Graphics_Unlock_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Unlock application features
+			bool unlockResult = AdlAppUnlock(adl_AppSelected());
+
+			//Check result
+			if (unlockResult)
+			{
+				//Show notification
+				ShowNotification(L"Application features unlocked");
+				AVDebugWriteLine(L"Application features unlocked");
+			}
+			else
+			{
+				//Show notification
+				ShowNotification(L"Application not unlocked");
+				AVDebugWriteLine(L"Application not unlocked");
 			}
 		}
 		catch (...) {}
@@ -79,7 +161,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_RadeonSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FsrOverrideUpscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -91,22 +173,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
-				adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
-				adlx_Res0 = pp3DRadeonSuperResolution->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"FsrOverride", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -116,82 +184,33 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling Super Resolution");
-					AVDebugWriteLine(L"Failed enabling Super Resolution");
+					ShowNotification(L"Failed enabling FSR upscaling override");
+					AVDebugWriteLine(L"Failed enabling FSR upscaling override");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling Super Resolution");
-					AVDebugWriteLine(L"Failed disabling Super Resolution");
+					ShowNotification(L"Failed disabling FSR upscaling override");
+					AVDebugWriteLine(L"Failed disabling FSR upscaling override");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					slider_RadeonSuperResolution_Sharpening().IsEnabled(true);
-					ShowNotification(L"Super Resolution enabled");
-					AVDebugWriteLine(L"Super Resolution enabled");
+					ShowNotification(L"FSR upscaling override enabled");
+					AVDebugWriteLine(L"FSR upscaling override enabled");
 				}
 				else
 				{
-					slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
-					ShowNotification(L"Super Resolution disabled");
-					AVDebugWriteLine(L"Super Resolution disabled");
+					ShowNotification(L"FSR upscaling override disabled");
+					AVDebugWriteLine(L"FSR upscaling override disabled");
 				}
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::slider_RadeonSuperResolution_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			int newValue = (int)e.NewValue();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DRadeonSuperResolutionPtr pp3DRadeonSuperResolution;
-				adlx_Res0 = pp3DSettingsServices->GetRadeonSuperResolution(&pp3DRadeonSuperResolution);
-				adlx_Res0 = pp3DRadeonSuperResolution->SetSharpness(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_RadeonSuperResolution_Sharpening().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Sharpening");
-				AVDebugWriteLine(L"Failed setting Sharpening");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_RadeonSuperResolution_Sharpening().Foreground(colorValid);
-				ShowNotification(L"Sharpening set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Sharpening set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_RadeonFluidMotionFrames_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FsrOverrideFrameGen_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -203,22 +222,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAMDFluidMotionFramesPtr pp3DAMDFluidMotionFrames;
-				adlx_Res0 = pp3DSettingsServices->GetAMDFluidMotionFrames(&pp3DAMDFluidMotionFrames);
-				adlx_Res0 = pp3DAMDFluidMotionFrames->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"MlfiOverride", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -228,32 +233,26 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling Fluid Motion Frames");
-					AVDebugWriteLine(L"Failed enabling Fluid Motion Frames");
+					ShowNotification(L"Failed enabling FSR frame generation override");
+					AVDebugWriteLine(L"Failed enabling FSR frame generation override");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling Fluid Motion Frames");
-					AVDebugWriteLine(L"Failed disabling Fluid Motion Frames");
+					ShowNotification(L"Failed disabling FSR frame generation override");
+					AVDebugWriteLine(L"Failed disabling FSR frame generation override");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					combobox_FrameGenSearchMode().IsEnabled(true);
-					combobox_FrameGenPerfMode().IsEnabled(true);
-					combobox_FrameGenResponseMode().IsEnabled(true);
-					ShowNotification(L"Fluid Motion Frames enabled");
-					AVDebugWriteLine(L"Fluid Motion Frames enabled");
+					ShowNotification(L"FSR frame generation override enabled");
+					AVDebugWriteLine(L"FSR frame generation override enabled");
 				}
 				else
 				{
-					combobox_FrameGenSearchMode().IsEnabled(false);
-					combobox_FrameGenPerfMode().IsEnabled(false);
-					combobox_FrameGenResponseMode().IsEnabled(false);
-					ShowNotification(L"Fluid Motion Frames disabled");
-					AVDebugWriteLine(L"Fluid Motion Frames disabled");
+					ShowNotification(L"FSR frame generation override disabled");
+					AVDebugWriteLine(L"FSR frame generation override disabled");
 				}
 			}
 		}
@@ -272,22 +271,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Dlg_PFEnable", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAntiLagPtr pp3DAntiLag;
-				adlx_Res0 = pp3DSettingsServices->GetAntiLag(ppGpuInfo, &pp3DAntiLag);
-				adlx_Res0 = pp3DAntiLag->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Dlg_PFEnable", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -335,22 +320,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"TurboSync", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DEnhancedSyncPtr pp3DEnhancedSync;
-				adlx_Res0 = pp3DSettingsServices->GetEnhancedSync(ppGpuInfo, &pp3DEnhancedSync);
-				adlx_Res0 = pp3DEnhancedSync->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"TurboSync", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -373,11 +344,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
+					//combobox_VerticalRefresh().IsEnabled(false);
 					ShowNotification(L"Enhanced Sync enabled");
 					AVDebugWriteLine(L"Enhanced Sync enabled");
 				}
 				else
 				{
+					//combobox_VerticalRefresh().IsEnabled(true);
 					ShowNotification(L"Enhanced Sync disabled");
 					AVDebugWriteLine(L"Enhanced Sync disabled");
 				}
@@ -397,22 +370,8 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"VSyncControl", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DWaitForVerticalRefreshPtr pp3DWaitForVerticalRefresh;
-				adlx_Res0 = pp3DSettingsServices->GetWaitForVerticalRefresh(ppGpuInfo, &pp3DWaitForVerticalRefresh);
-				adlx_Res0 = pp3DWaitForVerticalRefresh->SetMode((ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE)newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"VSyncControl", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -441,22 +400,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Chil_PFEnable", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DChillPtr pp3DChill;
-				adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
-				adlx_Res0 = pp3DChill->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Chil_PFEnable", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -507,22 +452,8 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)e.NewValue();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Chil_MinFRate", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DChillPtr pp3DChill;
-				adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
-				adlx_Res0 = pp3DChill->SetMinFPS(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Chil_MinFRate", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -560,22 +491,8 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)e.NewValue();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Chil_MaxFRate", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DChillPtr pp3DChill;
-				adlx_Res0 = pp3DSettingsServices->GetChill(ppGpuInfo, &pp3DChill);
-				adlx_Res0 = pp3DChill->SetMaxFPS(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Chil_MaxFRate", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -614,22 +531,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Bst_PFEnable", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DBoostPtr pp3DBoost;
-				adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
-				adlx_Res0 = pp3DBoost->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -678,22 +581,8 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)e.NewValue();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Bst_MaxScale", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DBoostPtr pp3DBoost;
-				adlx_Res0 = pp3DSettingsServices->GetBoost(ppGpuInfo, &pp3DBoost);
-				adlx_Res0 = pp3DBoost->SetResolution(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Bst_MaxScale", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -726,22 +615,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Ris_PFEnable", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Ris_PFEnable", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -764,23 +639,12 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					if (!adl_AppSelected().Initialized())
-					{
-						IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
-						adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
-						adlx_Res0 = pp3DImageSharpenDesktop->IsSupported(&adlx_Bool);
-						if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-						{
-							toggleswitch_RadeonSharpenDesktop().IsEnabled(true);
-						}
-					}
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
 					ShowNotification(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
 				}
 				else
 				{
-					toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
 					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
 					ShowNotification(L"Image Sharpening disabled");
 					AVDebugWriteLine(L"Image Sharpening disabled");
@@ -801,23 +665,9 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)e.NewValue();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				float convertedValue = (float)newValue / 100;
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Ris_SHDegree", float_to_wstring(convertedValue, 1), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->SetSharpness(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			float convertedValue = (float)newValue / 100;
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Ris_SHDegree", float_to_wstring(convertedValue, 1));
 
 			//Show result
 			if (newFailed)
@@ -838,7 +688,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_RadeonSharpenDesktop_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_AntiAliasingOverride_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -850,22 +700,9 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DImageSharpenDesktopPtr pp3DImageSharpenDesktop;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpenDesktop(ppGpuInfo, &pp3DImageSharpenDesktop);
-				adlx_Res0 = pp3DImageSharpenDesktop->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			std::wstring convertedValue = newValue ? L"2" : L"1";
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"AntiAlias", convertedValue);
 
 			//Show result
 			if (newFailed)
@@ -875,204 +712,33 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling Desktop Sharpening");
-					AVDebugWriteLine(L"Failed enabling Desktop Sharpening");
+					ShowNotification(L"Failed enabling AA Override");
+					AVDebugWriteLine(L"Failed enabling AA Override");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling Desktop Sharpening");
-					AVDebugWriteLine(L"Failed disabling Desktop Sharpening");
+					ShowNotification(L"Failed disabling AA Override");
+					AVDebugWriteLine(L"Failed disabling AA Override");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					ShowNotification(L"Desktop Sharpening enabled");
-					AVDebugWriteLine(L"Desktop Sharpening enabled");
-				}
-				else
-				{
-					ShowNotification(L"Desktop Sharpening disabled");
-					AVDebugWriteLine(L"Desktop Sharpening disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling FRTC");
-					AVDebugWriteLine(L"Failed enabling FRTC");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling FRTC");
-					AVDebugWriteLine(L"Failed disabling FRTC");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					slider_Frtc_Fps().IsEnabled(true);
-					ShowNotification(L"FRTC enabled");
-					AVDebugWriteLine(L"FRTC enabled");
-				}
-				else
-				{
-					slider_Frtc_Fps().IsEnabled(false);
-					ShowNotification(L"FRTC disabled");
-					AVDebugWriteLine(L"FRTC disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			int newValue = (int)e.NewValue();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->SetFPS(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Frtc_Fps().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting FRTC fps");
-				AVDebugWriteLine(L"Failed setting FRTC fps");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Frtc_Fps().Foreground(colorValid);
-				ShowNotification(L"FRTC fps set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"FRTC fps set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_AntiAliasingMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			ADLX_ANTI_ALIASING_MODE newValue = (ADLX_ANTI_ALIASING_MODE)sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				if (newValue == ADLX_ANTI_ALIASING_MODE::AA_MODE_USE_APP_SETTINGS)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AntiAlias", L"1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"EQAA", L"0", gpuUniqueIdentifierHex);
-				}
-				else if (newValue == ADLX_ANTI_ALIASING_MODE::AA_MODE_ENHANCE_APP_SETTINGS)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AntiAlias", L"1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"EQAA", L"1", gpuUniqueIdentifierHex);
-				}
-				else if (newValue == ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AntiAlias", L"2", gpuUniqueIdentifierHex);
-				}
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAntiAliasingPtr pp3DAntiAliasing;
-				adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
-				adlx_Res0 = pp3DAntiAliasing->SetMode(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting AA mode");
-				AVDebugWriteLine(L"Failed setting AA mode");
-			}
-			else
-			{
-				if (newValue != ADLX_ANTI_ALIASING_MODE::AA_MODE_OVERRIDE_APP_SETTINGS)
-				{
-					combobox_AntiAliasingLevel().IsEnabled(false);
-				}
-				else
-				{
+					combobox_AntiAliasingMethod().IsEnabled(true);
 					combobox_AntiAliasingLevel().IsEnabled(true);
+					toggleswitch_EQAA().IsEnabled(true);
+					ShowNotification(L"AA Override enabled");
+					AVDebugWriteLine(L"AA Override enabled");
 				}
-
-				ShowNotification(L"AA mode set to " + ADLX_ANTI_ALIASING_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"AA mode set to " << newValue);
+				else
+				{
+					combobox_AntiAliasingMethod().IsEnabled(false);
+					combobox_AntiAliasingLevel().IsEnabled(false);
+					toggleswitch_EQAA().IsEnabled(false);
+					ShowNotification(L"AA Override disabled");
+					AVDebugWriteLine(L"AA Override disabled");
+				}
 			}
 		}
 		catch (...) {}
@@ -1089,38 +755,75 @@ namespace winrt::RadeonTuner::implementation
 			ADLX_ANTI_ALIASING_METHOD newValue = (ADLX_ANTI_ALIASING_METHOD)sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
+			//Set setting
+			if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_MULTISAMPLING)
 			{
-				//Set setting
-				if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_MULTISAMPLING)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASD", L"-1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASE", L"0", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASTT", L"0", gpuUniqueIdentifierHex);
-				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASD", L"1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASE", L"0", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASTT", L"1", gpuUniqueIdentifierHex);
-				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
-				{
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASD", L"1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASE", L"1", gpuUniqueIdentifierHex);
-					newFailed = !AdlAppPropertySet(adl_AppSelected(), L"ASTT", L"1", gpuUniqueIdentifierHex);
-				}
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAntiAliasingPtr pp3DAntiAliasing;
-				adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
-				adlx_Res0 = pp3DAntiAliasing->SetMethod(newValue);
+				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				AdlAppPropertyValue adlAppPropertyValue1{};
+				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue1.Name = L"ASD";
+				adlAppPropertyValue1.Value = L"-1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue1);
 
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				AdlAppPropertyValue adlAppPropertyValue2{};
+				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue2.Name = L"ASE";
+				adlAppPropertyValue2.Value = L"0";
+				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+
+				AdlAppPropertyValue adlAppPropertyValue3{};
+				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue3.Name = L"ASTT";
+				adlAppPropertyValue3.Value = L"0";
+				adlAppPropertyValues.push_back(adlAppPropertyValue3);
+
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
+			}
+			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
+			{
+				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				AdlAppPropertyValue adlAppPropertyValue1{};
+				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue1.Name = L"ASD";
+				adlAppPropertyValue1.Value = L"1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue1);
+
+				AdlAppPropertyValue adlAppPropertyValue2{};
+				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue2.Name = L"ASE";
+				adlAppPropertyValue2.Value = L"0";
+				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+
+				AdlAppPropertyValue adlAppPropertyValue3{};
+				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue3.Name = L"ASTT";
+				adlAppPropertyValue3.Value = L"1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue3);
+
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
+			}
+			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
+			{
+				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				AdlAppPropertyValue adlAppPropertyValue1{};
+				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue1.Name = L"ASD";
+				adlAppPropertyValue1.Value = L"1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue1);
+
+				AdlAppPropertyValue adlAppPropertyValue2{};
+				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue2.Name = L"ASE";
+				adlAppPropertyValue2.Value = L"1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+
+				AdlAppPropertyValue adlAppPropertyValue3{};
+				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue3.Name = L"ASTT";
+				adlAppPropertyValue3.Value = L"1";
+				adlAppPropertyValues.push_back(adlAppPropertyValue3);
+
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
 			}
 
 			//Show result
@@ -1146,87 +849,26 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
+			//Enumeration index correction
+			std::wstring setValue = L"";
+			if (newValue == 0)
 			{
-				//Enumeration index correction
-				std::wstring setValueEqaa = L"";
-				std::wstring setValueSamples = L"";
-				if (newValue == 1)
-				{
-					setValueEqaa = L"0";
-					setValueSamples = L"2";
-				}
-				else if (newValue == 2)
-				{
-					setValueEqaa = L"1";
-					setValueSamples = L"2";
-				}
-				else if (newValue == 3)
-				{
-					setValueEqaa = L"0";
-					setValueSamples = L"4";
-				}
-				else if (newValue == 4)
-				{
-					setValueEqaa = L"1";
-					setValueSamples = L"4";
-				}
-				else if (newValue == 5)
-				{
-					setValueEqaa = L"0";
-					setValueSamples = L"8";
-				}
-				else if (newValue == 6)
-				{
-					setValueEqaa = L"1";
-					setValueSamples = L"8";
-				}
-
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"EQAA", setValueEqaa, gpuUniqueIdentifierHex);
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AntiAliasSmpls", setValueSamples, gpuUniqueIdentifierHex);
+				setValue = L"2";
 			}
-			else
+			else if (newValue == 1)
 			{
-				//Enumeration index correction
-				int setValue = 0;
-				if (newValue == 1)
-				{
-					setValue = 2;
-				}
-				else if (newValue == 2)
-				{
-					setValue = 3;
-				}
-				else if (newValue == 3)
-				{
-					setValue = 4;
-				}
-				else if (newValue == 4)
-				{
-					setValue = 5;
-				}
-				else if (newValue == 5)
-				{
-					setValue = 8;
-				}
-				else if (newValue == 6)
-				{
-					setValue = 9;
-				}
-
-				//Set setting
-				IADLX3DAntiAliasingPtr pp3DAntiAliasing;
-				adlx_Res0 = pp3DSettingsServices->GetAntiAliasing(ppGpuInfo, &pp3DAntiAliasing);
-				adlx_Res0 = pp3DAntiAliasing->SetLevel((ADLX_ANTI_ALIASING_LEVEL)setValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				setValue = L"4";
 			}
+			else if (newValue == 2)
+			{
+				setValue = L"8";
+			}
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"AntiAliasSmpls", setValue);
 
 			//Show result
 			if (newFailed)
@@ -1243,7 +885,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_MorphologicAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_EQAA_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1255,22 +897,57 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"EQAA", number_to_wstring(newValue));
+
+			//Show result
+			if (newFailed)
 			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"MLF", number_to_wstring(newValue), gpuUniqueIdentifierHex);
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling EQAA");
+					AVDebugWriteLine(L"Failed enabling EQAA");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling EQAA");
+					AVDebugWriteLine(L"Failed disabling EQAA");
+				}
 			}
 			else
 			{
-				//Set setting
-				IADLX3DMorphologicalAntiAliasingPtr pp3DMorphologicalAntiAliasing;
-				adlx_Res0 = pp3DSettingsServices->GetMorphologicalAntiAliasing(ppGpuInfo, &pp3DMorphologicalAntiAliasing);
-				adlx_Res0 = pp3DMorphologicalAntiAliasing->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				if (newValue)
+				{
+					ShowNotification(L"EQAA enabled");
+					AVDebugWriteLine(L"EQAA enabled");
+				}
+				else
+				{
+					ShowNotification(L"EQAA disabled");
+					AVDebugWriteLine(L"EQAA disabled");
+				}
 			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_MorphologicalAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"MLF", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -1306,72 +983,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_AnisotropicTextureFiltering_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				std::wstring convertedValue = newValue ? L"2" : L"0";
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AnisoDegree", convertedValue, gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
-				adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
-				adlx_Res0 = pp3DAnisotropicFiltering->SetEnabled(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Anisotropic");
-					AVDebugWriteLine(L"Failed enabling Anisotropic");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Anisotropic");
-					AVDebugWriteLine(L"Failed disabling Anisotropic");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
-					ShowNotification(L"Anisotropic enabled");
-					AVDebugWriteLine(L"Anisotropic enabled");
-				}
-				else
-				{
-					combobox_AnisotropicTextureFiltering_Level().IsEnabled(false);
-					ShowNotification(L"Anisotropic disabled");
-					AVDebugWriteLine(L"Anisotropic disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
 	void MainPage::combobox_AnisotropicTextureFiltering_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
@@ -1380,12 +991,16 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
 			//Enumeration index correction
 			int setValue = 0;
-			if (newValue == 1)
+			if (newValue == 0)
+			{
+				setValue = 0;
+			}
+			else if (newValue == 1)
 			{
 				setValue = 2;
 			}
@@ -1402,22 +1017,8 @@ namespace winrt::RadeonTuner::implementation
 				setValue = 16;
 			}
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"AnisoDegree", number_to_wstring(setValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DAnisotropicFilteringPtr pp3DAnisotropicFiltering;
-				adlx_Res0 = pp3DSettingsServices->GetAnisotropicFiltering(ppGpuInfo, &pp3DAnisotropicFiltering);
-				adlx_Res0 = pp3DAnisotropicFiltering->SetLevel((ADLX_ANISOTROPIC_FILTERING_LEVEL)setValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"AnisoDegree", number_to_wstring(setValue));
 
 			//Show result
 			if (newFailed)
@@ -1445,22 +1046,8 @@ namespace winrt::RadeonTuner::implementation
 			ADLX_TESSELLATION_MODE newValue = (ADLX_TESSELLATION_MODE)sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Tessellation_OP", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DTessellationPtr pp3DTessellation;
-				adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
-				adlx_Res0 = pp3DTessellation->SetMode(newValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Tessellation_OP", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -1532,22 +1119,8 @@ namespace winrt::RadeonTuner::implementation
 				setValue = 64;
 			}
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"Tessellation", number_to_wstring(setValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				IADLX3DTessellationPtr pp3DTessellation;
-				adlx_Res0 = pp3DSettingsServices->GetTessellation(ppGpuInfo, &pp3DTessellation);
-				adlx_Res0 = pp3DTessellation->SetLevel((ADLX_TESSELLATION_LEVEL)setValue);
-
-				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"Tessellation", number_to_wstring(setValue));
 
 			//Show result
 			if (newFailed)
@@ -1605,17 +1178,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"EnableTrplBffr", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "EnableTripleBuffering", number_to_string(newValue));
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"EnableTrplBffr", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -1651,178 +1215,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "KMD_10BitMode", number_to_string(newValue));
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling 10-Bit pixel format");
-					AVDebugWriteLine(L"Failed enabling 10-Bit pixel format");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling 10-Bit pixel format");
-					AVDebugWriteLine(L"Failed disabling 10-Bit pixel format");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"10-Bit pixel format enabled");
-					AVDebugWriteLine(L"10-Bit pixel format enabled");
-				}
-				else
-				{
-					ShowNotification(L"10-Bit pixel format disabled");
-					AVDebugWriteLine(L"10-Bit pixel format disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue);
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Motion search mode");
-				AVDebugWriteLine(L"Failed setting Motion search mode");
-			}
-			else
-			{
-				ShowNotification(L"Motion search mode set to " + REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Motion search mode set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue);
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Motion performance mode");
-				AVDebugWriteLine(L"Failed setting Motion performance mode");
-			}
-			else
-			{
-				ShowNotification(L"Motion performance mode set to " + REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Motion performance mode set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"???", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !RegistrySet(HKEY_CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue);
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Motion response mode");
-				AVDebugWriteLine(L"Failed setting Motion response mode");
-			}
-			else
-			{
-				ShowNotification(L"Motion response mode set to " + REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Motion response mode set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
 	void MainPage::combobox_TextureFilteringQuality_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
@@ -1834,17 +1226,8 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"TFQ", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "TFQ", number_to_string(newValue));
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"TFQ", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -1874,17 +1257,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 			bool newFailed = true;
 
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"SrfcFrmtRplcmnt", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "SurfaceFormatReplacements", number_to_string(newValue));
-			}
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"SrfcFrmtRplcmnt", number_to_wstring(newValue));
 
 			//Show result
 			if (newFailed)
@@ -1914,122 +1288,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					ShowNotification(L"Format optimization disabled");
 					AVDebugWriteLine(L"Format optimization disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_FsrOverrideUpscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"FsrOverride", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "FsrOverride", number_to_string(newValue));
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling FSR upscaling override");
-					AVDebugWriteLine(L"Failed enabling FSR upscaling override");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling FSR upscaling override");
-					AVDebugWriteLine(L"Failed disabling FSR upscaling override");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"FSR upscaling override enabled");
-					AVDebugWriteLine(L"FSR upscaling override enabled");
-				}
-				else
-				{
-					ShowNotification(L"FSR upscaling override disabled");
-					AVDebugWriteLine(L"FSR upscaling override disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_FsrOverrideFrameGen_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Check used application
-			if (adl_AppSelected().Initialized())
-			{
-				//Set setting
-				newFailed = !AdlAppPropertySet(adl_AppSelected(), L"MlfiOverride", number_to_wstring(newValue), gpuUniqueIdentifierHex);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_AdapterIndex, "UMD", "MlfiOverride", number_to_string(newValue));
-			}
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling FSR frame generation override");
-					AVDebugWriteLine(L"Failed enabling FSR frame generation override");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling FSR frame generation override");
-					AVDebugWriteLine(L"Failed disabling FSR frame generation override");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"FSR frame generation override enabled");
-					AVDebugWriteLine(L"FSR frame generation override enabled");
-				}
-				else
-				{
-					ShowNotification(L"FSR frame generation override disabled");
-					AVDebugWriteLine(L"FSR frame generation override disabled");
 				}
 			}
 		}

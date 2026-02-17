@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get smartshift eco
+			//Get SmartShift Eco
 			try
 			{
 				IADLXSmartShiftEcoPtr ppSmartShiftEco;
@@ -44,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_SmartShiftEco().IsEnabled(false);
 			}
 
-			//Get smartshift max
+			//Get SmartShift Max
 			try
 			{
 				IADLXSmartShiftMaxPtr ppSmartShiftMax;

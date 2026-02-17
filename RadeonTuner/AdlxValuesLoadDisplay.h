@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get display freesync setting
+			//Get FreeSync
 			try
 			{
 				IADLXDisplayFreeSyncPtr ppFreeSync;
@@ -44,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FreeSync().IsEnabled(false);
 			}
 
-			//Get display freesync color accuracy setting
+			//Get FreeSync Color Accuracy
 			try
 			{
 				IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
@@ -77,7 +77,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 			}
 
-			//Get display VSR setting
+			//Get Virtual Super Resolution
 			try
 			{
 				IADLXDisplayVSRPtr ppVSR;
@@ -103,7 +103,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_VSR().IsEnabled(false);
 			}
 
-			//Get display Dynamic Refresh Rate Control setting
+			//Get Dynamic Refresh Rate Control
 			try
 			{
 				IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
@@ -129,7 +129,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
 			}
 
-			//Get display GPU Scaling setting
+			//Get GPU Scaling
 			try
 			{
 				IADLXDisplayGPUScalingPtr ppGPUScaling;
@@ -155,7 +155,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_GPUScaling().IsEnabled(false);
 			}
 
-			//Get display Integer Scaling setting
+			//Get Integer Scaling
 			try
 			{
 				IADLXDisplayIntegerScalingPtr ppIntegerScaling;
@@ -188,7 +188,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_IntegerScaling().IsEnabled(false);
 			}
 
-			//Get display scaling mode
+			//Get Scaling Mode
 			try
 			{
 				IADLXDisplayScalingModePtr ppScalingMode;
@@ -215,7 +215,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_ScalingMode().IsEnabled(false);
 			}
 
-			//Get display color depth
+			//Get Color Depth
 			try
 			{
 				IADLXDisplayColorDepthPtr ppColorDepth;
@@ -245,7 +245,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_ColorDepth().IsEnabled(false);
 			}
 
-			//Get display pixel format
+			//Get Pixel Format
 			try
 			{
 				IADLXDisplayPixelFormatPtr ppPixelFormat;
@@ -275,7 +275,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_PixelFormat().IsEnabled(false);
 			}
 
-			//Get display color enhancement
+			//Get Color Enhancement
 			try
 			{
 				IADLXDisplay3DLUTPtr pp3DLUT;
@@ -314,7 +314,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
 			}
 
-			//Get dynamic contrast intensity
+			//Get Dynamic Contrast Intensity
 			try
 			{
 				IADLXDisplay3DLUTPtr pp3DLUT;
@@ -345,13 +345,13 @@ namespace winrt::RadeonTuner::implementation
 				slider_DynamicContrastIntensity().IsEnabled(false);
 			}
 
-			//Get display custom color profile
+			//Get Custom Color Profile
 			try
 			{
 				IADLXDisplayCustomColorPtr ppCustomColor;
 				adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
 
-				//Get display color temperature
+				//Get Color Temperature
 				adlx_Res0 = ppCustomColor->IsTemperatureSupported(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -372,7 +372,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_ColorTemperature().IsEnabled(false);
 				}
 
-				//Get display brightness
+				//Get Brightness
 				adlx_Res0 = ppCustomColor->IsBrightnessSupported(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -393,7 +393,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Brightness().IsEnabled(false);
 				}
 
-				//Get display contrast
+				//Get Contrast
 				adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -414,7 +414,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Contrast().IsEnabled(false);
 				}
 
-				//Get display saturation
+				//Get Saturation
 				adlx_Res0 = ppCustomColor->IsSaturationSupported(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -435,7 +435,7 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_Saturation().IsEnabled(false);
 				}
 
-				//Get display hue
+				//Get Hue
 				adlx_Res0 = ppCustomColor->IsHueSupported(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -466,7 +466,36 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().IsEnabled(false);
 			}
 
-			//Get display vari-bright
+			////Get Color Vision Deficiency
+			//try
+			//{
+			//	IADLXDisplayCVDCPtr ppCVDC;
+			//	adlx_Res0 = ppDispServices->GetCVDC(ppDisplayInfo, &ppCVDC);
+			//	adlx_Res0 = ppCVDC->IsSupported(&adlx_Bool);
+			//	if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+			//	{
+			//		//Enable or disable interface
+			//		slider_Display_Protanopia().IsEnabled(true);
+			//		slider_Display_Deuteranopia().IsEnabled(true);
+			//		slider_Display_Tritanopia().IsEnabled(true);
+			//	}
+			//	else
+			//	{
+			//		//Enable or disable interface
+			//		slider_Display_Protanopia().IsEnabled(false);
+			//		slider_Display_Deuteranopia().IsEnabled(false);
+			//		slider_Display_Tritanopia().IsEnabled(false);
+			//	}
+			//}
+			//catch (...)
+			//{
+			//	//Enable or disable interface
+			//	slider_Display_Protanopia().IsEnabled(false);
+			//	slider_Display_Deuteranopia().IsEnabled(false);
+			//	slider_Display_Tritanopia().IsEnabled(false);
+			//}
+
+			//Get Vari-Bright
 			try
 			{
 				IADLXDisplayVariBrightPtr ppVariBright;
@@ -530,7 +559,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_VariBright().IsEnabled(false);
 			}
 
-			//Get display hdcp support
+			//Get HDCP Support
 			try
 			{
 				IADLXDisplayHDCPPtr ppHDCP;
@@ -556,7 +585,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_HDCPSupport().IsEnabled(false);
 			}
 
-			//Get display relative voltage swing
+			//Get Relative Voltage Swing
 			try
 			{
 				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
@@ -586,7 +615,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_RelativeVoltageSwing().IsEnabled(false);
 			}
 
-			//Get display relative preset emphasis
+			//Get Relative Preset Emphasis
 			try
 			{
 				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;

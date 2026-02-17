@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -16,550 +16,542 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get Radeon Super Resolution setting
-			//Fix Not stored in 3D_User or registry but gmdb.blb
-			//"upscaling_enabled": "TRUE", "upscaling_sharpness": 50 and "has_upscaling_profile": "TRUE"
-			toggleswitch_RadeonSuperResolution().IsEnabled(false);
-			slider_RadeonSuperResolution_Sharpening().IsEnabled(false);
+			//Set interface limits
+			slider_RadeonBoost_MinRes().Minimum(50);
+			slider_RadeonBoost_MinRes().Maximum(84);
+			slider_RadeonBoost_MinRes().StepFrequency(17);
+			slider_RadeonBoost_MinRes().SmallChange(17);
 
-			//Get Radeon Fluid Motion Frames setting
-			//Fix Not stored in 3D_User or registry but gmdb.blb
-			//"framegen_enabled": 1 and "has_framegen_profile": "TRUE"
-			toggleswitch_RadeonFluidMotionFrames().IsEnabled(false);
-			combobox_FrameGenSearchMode().IsEnabled(false);
-			combobox_FrameGenPerfMode().IsEnabled(false);
-			combobox_FrameGenResponseMode().IsEnabled(false);
+			slider_RadeonChill_Min().Minimum(30);
+			slider_RadeonChill_Min().Maximum(300);
+			slider_RadeonChill_Min().StepFrequency(1);
+			slider_RadeonChill_Min().SmallChange(1);
 
-			//Get FSR Override Upscaling setting
-			try
+			slider_RadeonChill_Max().Minimum(30);
+			slider_RadeonChill_Max().Maximum(300);
+			slider_RadeonChill_Max().StepFrequency(1);
+			slider_RadeonChill_Max().SmallChange(1);
+
+			slider_RadeonImageSharpening_Sharpening().Minimum(10);
+			slider_RadeonImageSharpening_Sharpening().Maximum(100);
+			slider_RadeonImageSharpening_Sharpening().StepFrequency(10);
+			slider_RadeonImageSharpening_Sharpening().SmallChange(10);
+
+			//Get FSR Override Upscaling
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FsrOverride");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FsrOverride");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_FsrOverrideUpscaling().IsOn(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get FSR Override Frame Generation setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MlfiOverride");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_FsrOverrideFrameGen().IsOn(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Anti-Lag setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Dlg_PFEnable");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_RadeonAntiLag().IsOn(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Boost setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_PFEnable");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_RadeonBoost().IsOn(convertedValue);
-						slider_RadeonBoost_MinRes().IsEnabled(convertedValue);
-						break;
-					}
-				}
-
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_MaxScale");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						int convertedValue = wstring_to_int(value.Value);
-						slider_RadeonBoost_MinRes().Value(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Chill setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_PFEnable");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_RadeonChill().IsOn(convertedValue);
-						slider_RadeonChill_Min().IsEnabled(convertedValue);
-						slider_RadeonChill_Max().IsEnabled(convertedValue);
-						break;
-					}
-				}
-
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MinFRate");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						int convertedValue = wstring_to_int(value.Value);
-						slider_RadeonChill_Min().Value(convertedValue);
-						break;
-					}
-				}
-
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MaxFRate");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						int convertedValue = wstring_to_int(value.Value);
-						slider_RadeonChill_Max().Value(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Image Sharpening setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_PFEnable");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_RadeonImageSharpening().IsOn(convertedValue);
-						slider_RadeonImageSharpening_Sharpening().IsEnabled(convertedValue);
-						break;
-					}
-				}
-
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_SHDegree");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						float convertedValue = wstring_to_float(value.Value) * 100;
-						slider_RadeonImageSharpening_Sharpening().Value(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Sharpen Desktop setting
-			//Global only setting
-			toggleswitch_RadeonSharpenDesktop().IsEnabled(false);
-
-			//Get vertical refresh setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"VSyncControl");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						int convertedValue = wstring_to_int(value.Value);
-						combobox_VerticalRefresh().SelectedIndex(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get enhanced sync setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TurboSync");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_RadeonEnhancedSync().IsOn(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Frame Rate Target Control (FRTC) setting
-			//Global only setting
-			toggleswitch_Frtc().IsEnabled(false);
-			slider_Frtc_Fps().IsEnabled(false);
-
-			//Get Anti-Aliasing Mode setting
-			try
-			{
-				int antiAliasValue = -1;
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAlias");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						antiAliasValue = wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				bool eqaaValue = false;
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EQAA");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						eqaaValue = (bool)wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				if (antiAliasValue == 1 && !eqaaValue)
-				{
-					combobox_AntiAliasingMode().SelectedIndex(0);
-					combobox_AntiAliasingLevel().IsEnabled(false);
-				}
-				else if (antiAliasValue == 1 && eqaaValue)
-				{
-					combobox_AntiAliasingMode().SelectedIndex(1);
-					combobox_AntiAliasingLevel().IsEnabled(false);
-				}
-				else if (antiAliasValue == 2)
-				{
-					combobox_AntiAliasingMode().SelectedIndex(2);
-					combobox_AntiAliasingLevel().IsEnabled(true);
-				}
-			}
-			catch (...) {}
-
-			//Get Anti-Aliasing Method setting
-			try
-			{
-				int asdValue = -1;
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"ASD");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						asdValue = wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				int aseValue = -1;
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"ASE");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						aseValue = wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				int asttValue = -1;
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"ASTT");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						asttValue = wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				if (asdValue == -1 && aseValue == 0 && asttValue == 0)
-				{
-					//Multisampling
-					combobox_AntiAliasingMethod().SelectedIndex(0);
-				}
-				else if (asdValue == 1 && aseValue == 0 && asttValue == 1)
-				{
-					//Adaptive Multisampling
-					combobox_AntiAliasingMethod().SelectedIndex(1);
-				}
-				else if (asdValue == 1 && aseValue == 1 && asttValue == 1)
-				{
-					//Supersampling
-					combobox_AntiAliasingMethod().SelectedIndex(2);
-				}
-			}
-			catch (...) {}
-
-			//Get Anti-Aliasing Level setting
-			try
-			{
-				int antiAliasSmplsValue = 0;
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAliasSmpls");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						antiAliasSmplsValue = wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				bool eqaaValue = false;
-				adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EQAA");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						eqaaValue = (bool)wstring_to_int(value.Value);
-						break;
-					}
-				}
-
-				//Enumeration index correction
-				if (antiAliasSmplsValue == 2 && !eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(0);
-				}
-				else if (antiAliasSmplsValue == 2 && eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(1);
-				}
-				else if (antiAliasSmplsValue == 4 && !eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(2);
-				}
-				else if (antiAliasSmplsValue == 4 && eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(3);
-				}
-				else if (antiAliasSmplsValue == 8 && !eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(4);
-				}
-				else if (antiAliasSmplsValue == 8 && eqaaValue)
-				{
-					combobox_AntiAliasingLevel().SelectedIndex(5);
-				}
-				else
-				{
-					AVDebugWriteLine("No Anti-Aliasing level set.");
-				}
-			}
-			catch (...) {}
-
-			//Get Morphologic Anti-Aliasing setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MLF");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_MorphologicAntiAliasing().IsOn(convertedValue);
-						break;
-					}
-				}
-			}
-			catch (...) {}
-
-			//Get Anisotropic Texture Filtering setting
-			try
-			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AnisoDegree");
-				for (AdlAppPropertyValue value : adlProperty.Values)
-				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
-					{
-						int convertedValue = wstring_to_int(value.Value);
-
-						//Enumeration index correction
-						if (convertedValue == 0)
+						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
-							toggleswitch_AnisotropicTextureFiltering().IsOn(false);
-							combobox_AnisotropicTextureFiltering_Level().IsEnabled(false);
-							combobox_AnisotropicTextureFiltering_Level().SelectedIndex(-1);
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_FsrOverrideUpscaling().IsOn(convertedValue);
+							break;
 						}
-						else if (convertedValue == 2)
-						{
-							toggleswitch_AnisotropicTextureFiltering().IsOn(true);
-							combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
-							combobox_AnisotropicTextureFiltering_Level().SelectedIndex(0);
-						}
-						else if (convertedValue == 4)
-						{
-							toggleswitch_AnisotropicTextureFiltering().IsOn(true);
-							combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
-							combobox_AnisotropicTextureFiltering_Level().SelectedIndex(1);
-						}
-						else if (convertedValue == 8)
-						{
-							toggleswitch_AnisotropicTextureFiltering().IsOn(true);
-							combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
-							combobox_AnisotropicTextureFiltering_Level().SelectedIndex(2);
-						}
-						else if (convertedValue == 16)
-						{
-							toggleswitch_AnisotropicTextureFiltering().IsOn(true);
-							combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
-							combobox_AnisotropicTextureFiltering_Level().SelectedIndex(3);
-						}
-						break;
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get Texture Filtering Quality setting
-			try
+			//Get FSR Override Frame Generation
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TFQ");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MlfiOverride");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						int convertedValue = wstring_to_int(value.Value);
-						combobox_TextureFilteringQuality().SelectedIndex(convertedValue);
-						break;
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_FsrOverrideFrameGen().IsOn(convertedValue);
+							break;
+						}
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get Surface Format Optimization setting
-			try
+			//Get Radeon Anti-Lag
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"SrfcFrmtRplcmnt");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Dlg_PFEnable");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_SurfaceFormatOptimization().IsOn(convertedValue);
-						break;
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_RadeonAntiLag().IsOn(convertedValue);
+							break;
+						}
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get Tesselation Mode setting
-			try
+			//Get Radeon Boost
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation_OP");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_PFEnable");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						int convertedValue = wstring_to_int(value.Value);
-						combobox_Tessellation_Mode().SelectedIndex(convertedValue);
-						if (convertedValue != 2)
+						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
-							combobox_Tessellation_Level().IsEnabled(false);
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_RadeonBoost().IsOn(convertedValue);
+							slider_RadeonBoost_MinRes().IsEnabled(convertedValue);
+							break;
 						}
-						else
-						{
-							combobox_Tessellation_Level().IsEnabled(true);
-						}
-						break;
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get Tesselation Level setting
-			try
+			//Get Radeon Boost Minimum Resolution
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_MaxScale");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						int convertedValue = wstring_to_int(value.Value);
-						AVDebugWriteLine(value.Value);
-
-						//Enumeration index correction
-						if (convertedValue == 1)
+						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
-							combobox_Tessellation_Level().SelectedIndex(0);
+							int convertedValue = wstring_to_int(value.Value);
+							slider_RadeonBoost_MinRes().Value(convertedValue);
+							break;
 						}
-						else if (convertedValue == 2)
-						{
-							combobox_Tessellation_Level().SelectedIndex(1);
-						}
-						else if (convertedValue == 4)
-						{
-							combobox_Tessellation_Level().SelectedIndex(2);
-						}
-						else if (convertedValue == 6)
-						{
-							combobox_Tessellation_Level().SelectedIndex(3);
-						}
-						else if (convertedValue == 8)
-						{
-							combobox_Tessellation_Level().SelectedIndex(4);
-						}
-						else if (convertedValue == 16)
-						{
-							combobox_Tessellation_Level().SelectedIndex(5);
-						}
-						else if (convertedValue == 32)
-						{
-							combobox_Tessellation_Level().SelectedIndex(6);
-						}
-						else if (convertedValue == 64)
-						{
-							combobox_Tessellation_Level().SelectedIndex(7);
-						}
-						break;
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get OpenGL Triple Buffering setting
-			try
+			//Get Radeon Chill
 			{
-				AdlAppProperty adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EnableTrplBffr");
-				for (AdlAppPropertyValue value : adlProperty.Values)
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_PFEnable");
+				if (adlProperty.has_value())
 				{
-					if (value.GpuId == gpuUniqueIdentifierHex)
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						bool convertedValue = (bool)wstring_to_int(value.Value);
-						toggleswitch_OpenGLTripleBuffering().IsOn(convertedValue);
-						break;
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_RadeonChill().IsOn(convertedValue);
+							slider_RadeonChill_Min().IsEnabled(convertedValue);
+							slider_RadeonChill_Max().IsEnabled(convertedValue);
+							break;
+						}
 					}
 				}
 			}
-			catch (...) {}
 
-			//Get OpenGL 10-Bit Pixel Format setting
-			//Global only setting
-			toggleswitch_OpenGL10Bit().IsEnabled(false);
+			//Get Radeon Chill Minimum
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MinFRate");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+							slider_RadeonChill_Min().Value(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Radeon Chill Maximum
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MaxFRate");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+							slider_RadeonChill_Max().Value(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Radeon Image Sharpening
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_PFEnable");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_RadeonImageSharpening().IsOn(convertedValue);
+							slider_RadeonImageSharpening_Sharpening().IsEnabled(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Radeon Image Sharpening Sharpness
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_SHDegree");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							float convertedValue = wstring_to_float(value.Value) * 100;
+							slider_RadeonImageSharpening_Sharpening().Value(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Enhanced Sync
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TurboSync");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_RadeonEnhancedSync().IsOn(convertedValue);
+							//combobox_VerticalRefresh().IsEnabled(!convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Vertical Refresh
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"VSyncControl");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+							combobox_VerticalRefresh().SelectedIndex(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Anti-Aliasing Override
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAlias");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = value.Value == L"2";
+							toggleswitch_AntiAliasingOverride().IsOn(convertedValue);
+							combobox_AntiAliasingMethod().IsEnabled(convertedValue);
+							combobox_AntiAliasingLevel().IsEnabled(convertedValue);
+							toggleswitch_EQAA().IsEnabled(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Anti-Aliasing Method
+			{
+				std::optional<AdlAppProperty> adlPropertyASD = AdlAppPropertyGet(adl_AppSelected(), L"ASD");
+				std::optional<AdlAppProperty> adlPropertyASE = AdlAppPropertyGet(adl_AppSelected(), L"ASE");
+				std::optional<AdlAppProperty> adlPropertyASTT = AdlAppPropertyGet(adl_AppSelected(), L"ASTT");
+				if (adlPropertyASD.has_value() && adlPropertyASE.has_value() && adlPropertyASTT.has_value())
+				{
+					int asdValue = -1;
+					for (AdlAppPropertyValue value : adlPropertyASD.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							asdValue = wstring_to_int(value.Value);
+							break;
+						}
+					}
+
+					int aseValue = 0;
+					for (AdlAppPropertyValue value : adlPropertyASE.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							aseValue = wstring_to_int(value.Value);
+							break;
+						}
+					}
+
+					int asttValue = 0;
+					for (AdlAppPropertyValue value : adlPropertyASTT.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							asttValue = wstring_to_int(value.Value);
+							break;
+						}
+					}
+
+					//Enumeration index correction
+					if (asdValue == -1 && aseValue == 0 && asttValue == 0)
+					{
+						//Multisampling
+						combobox_AntiAliasingMethod().SelectedIndex(0);
+					}
+					else if (asdValue == 1 && aseValue == 0 && asttValue == 1)
+					{
+						//Adaptive Multisampling
+						combobox_AntiAliasingMethod().SelectedIndex(1);
+					}
+					else if (asdValue == 1 && aseValue == 1 && asttValue == 1)
+					{
+						//Supersampling
+						combobox_AntiAliasingMethod().SelectedIndex(2);
+					}
+				}
+			}
+
+			//Get Anti-Aliasing Level
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAliasSmpls");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+
+							//Enumeration index correction
+							if (convertedValue == 2)
+							{
+								combobox_AntiAliasingLevel().SelectedIndex(0);
+							}
+							else if (convertedValue == 4)
+							{
+								combobox_AntiAliasingLevel().SelectedIndex(1);
+							}
+							else if (convertedValue == 8)
+							{
+								combobox_AntiAliasingLevel().SelectedIndex(2);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Enhanced Quality Anti-Aliasing
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EQAA");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_EQAA().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Morphological Anti-Aliasing
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MLF");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_MorphologicalAntiAliasing().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Anisotropic Texture Filtering Override
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AnisoDegree");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+
+							//Enumeration index correction
+							if (convertedValue == 0)
+							{
+								combobox_AnisotropicTextureFiltering_Level().SelectedIndex(0);
+							}
+							else if (convertedValue == 2)
+							{
+								combobox_AnisotropicTextureFiltering_Level().SelectedIndex(1);
+							}
+							else if (convertedValue == 4)
+							{
+								combobox_AnisotropicTextureFiltering_Level().SelectedIndex(2);
+							}
+							else if (convertedValue == 8)
+							{
+								combobox_AnisotropicTextureFiltering_Level().SelectedIndex(3);
+							}
+							else if (convertedValue == 16)
+							{
+								combobox_AnisotropicTextureFiltering_Level().SelectedIndex(4);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Texture Filtering Quality
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TFQ");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+							combobox_TextureFilteringQuality().SelectedIndex(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Surface Format Optimization
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"SrfcFrmtRplcmnt");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_SurfaceFormatOptimization().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Tessellation Mode
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation_OP");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+							combobox_Tessellation_Mode().SelectedIndex(convertedValue);
+							if (convertedValue != 2)
+							{
+								combobox_Tessellation_Level().IsEnabled(false);
+							}
+							else
+							{
+								combobox_Tessellation_Level().IsEnabled(true);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+			//Get Tessellation Level
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+
+							//Enumeration index correction
+							if (convertedValue == 1)
+							{
+								combobox_Tessellation_Level().SelectedIndex(0);
+							}
+							else if (convertedValue == 2)
+							{
+								combobox_Tessellation_Level().SelectedIndex(1);
+							}
+							else if (convertedValue == 4)
+							{
+								combobox_Tessellation_Level().SelectedIndex(2);
+							}
+							else if (convertedValue == 6)
+							{
+								combobox_Tessellation_Level().SelectedIndex(3);
+							}
+							else if (convertedValue == 8)
+							{
+								combobox_Tessellation_Level().SelectedIndex(4);
+							}
+							else if (convertedValue == 16)
+							{
+								combobox_Tessellation_Level().SelectedIndex(5);
+							}
+							else if (convertedValue == 32)
+							{
+								combobox_Tessellation_Level().SelectedIndex(6);
+							}
+							else if (convertedValue == 64)
+							{
+								combobox_Tessellation_Level().SelectedIndex(7);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+			//Get OpenGL Triple Buffering
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EnableTrplBffr");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_OpenGLTripleBuffering().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+			}
 
 			//Set result
-			AVDebugWriteLine("ADL loaded graphics values.");
+			AVDebugWriteLine("ADL graphics values loaded.");
 		}
 		catch (...)
 		{
