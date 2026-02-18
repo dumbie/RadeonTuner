@@ -17,15 +17,43 @@ namespace winrt::RadeonTuner::implementation
 				return false;
 			}
 
-			AVDebugWriteLine("Removing profile from application: " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea);
-			//Fix unassign all profiles without removing them
+			AVDebugWriteLine("Removing profiles from application: " << adlApp.FileName << " / " << adlApp.FilePath);
 
-			//Remove profile from application
-			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());
-			AVDebugWriteLine("Removed application profile: " << adl_Res0);
+			//Get profile customisations
+			CUSTOMISATIONS customisations{};
+			_ADL2_ApplicationProfiles_GetCustomization(adl_Context, ADL_AP_DATABASE__USER, &customisations);
+
+			//Get customisations area names
+			std::vector<std::wstring> areaNames{};
+			AREA* headArea = customisations.HeadArea;
+			while (headArea)
+			{
+				try
+				{
+					//Add area name to array
+					areaNames.push_back(headArea->DriverComponent->NameOfDriver);
+
+					//Move to next area
+					headArea = headArea->NextArea;
+				}
+				catch (...) {}
+			}
+
+			//Remove profiles from application
+			int removeCount = 0;
+			for (std::wstring areaName : areaNames)
+			{
+				try
+				{
+					adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, areaName.c_str());
+					if (adl_Res0 == ADL_OK) { removeCount++; }
+					AVDebugWriteLine("Removed application profile: " << areaName << " / " << adl_Res0);
+				}
+				catch (...) {}
+			}
 
 			//Set result
-			return adl_Res0 == ADL_OK;
+			return removeCount > 0;
 		}
 		catch (...)
 		{

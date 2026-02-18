@@ -19,6 +19,9 @@ namespace adlx
 {
     class ADLX_NO_VTABLE IADLXDisplayDynamicRefreshRateControl;
     class ADLX_NO_VTABLE IADLXDisplayFreeSyncColorAccuracy;
+    //class ADLX_NO_VTABLE IADLXDisplayAllColorFeaturesPartner_V1
+    //class ADLX_NO_VTABLE IADLXDisplayPanelFirmwareUpdatePartner_V1
+    //class ADLX_NO_VTABLE IADLXDisplayCVDC
     class ADLX_NO_VTABLE IADLXDisplayServices3 : public IADLXDisplayServices2
     {
     public:

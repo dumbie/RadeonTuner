@@ -3,12 +3,14 @@
 
 //namespace ADLDefinitions
 //{
-typedef int(*ADL2_MAIN_CONTROL_CREATE)(ADL_MAIN_MALLOC_CALLBACK callback, int iEnumConnectedAdapters, ADL_CONTEXT_HANDLE* context);
-inline ADL2_MAIN_CONTROL_CREATE _ADL2_Main_Control_Create;
+//Main
+typedef int(*ADL2_Main_Control_Create)(ADL_MAIN_MALLOC_CALLBACK callback, int iEnumConnectedAdapters, ADL_CONTEXT_HANDLE* context);
+inline ADL2_Main_Control_Create _ADL2_Main_Control_Create;
 
-typedef int (*ADL2_MAIN_CONTROL_DESTROY)(ADL_CONTEXT_HANDLE context);
-inline ADL2_MAIN_CONTROL_DESTROY _ADL2_Main_Control_Destroy;
+typedef int (*ADL2_Main_Control_Destroy)(ADL_CONTEXT_HANDLE context);
+inline ADL2_Main_Control_Destroy _ADL2_Main_Control_Destroy;
 
+//Applications
 typedef int (*ADL2_ApplicationProfiles_Applications_Get)(ADL_CONTEXT_HANDLE context, const wchar_t* driverArea, int* numApps, ADLApplicationRecord** adlApplications);
 inline ADL2_ApplicationProfiles_Applications_Get _ADL2_ApplicationProfiles_Applications_Get;
 
@@ -27,18 +29,26 @@ inline ADL2_ApplicationProfiles_Profile_Create _ADL2_ApplicationProfiles_Profile
 typedef int (*ADL2_ApplicationProfiles_Profile_Remove)(ADL_CONTEXT_HANDLE context, const wchar_t* driverArea, const wchar_t* profileName);
 inline ADL2_ApplicationProfiles_Profile_Remove _ADL2_ApplicationProfiles_Profile_Remove;
 
-typedef int (*ADL2_ApplicationProfiles_PropertyType_Get)(ADL_CONTEXT_HANDLE context, const wchar_t* driverArea, const wchar_t* propertyName, int* outType);
+typedef int (*ADL2_ApplicationProfiles_PropertyType_Get)(ADL_CONTEXT_HANDLE context, const wchar_t* driverArea, const wchar_t* propertyName, DATATYPES* outType);
 inline ADL2_ApplicationProfiles_PropertyType_Get _ADL2_ApplicationProfiles_PropertyType_Get;
 
-typedef int(*ADL2_ADAPTER_REGVALUESTRING_SET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
-inline ADL2_ADAPTER_REGVALUESTRING_SET _ADL2_Adapter_RegValueString_Set;
+typedef int (*ADL2_ApplicationProfiles_GetCustomization)(ADL_CONTEXT_HANDLE context, ADL_AP_DATABASE databaseIn, CUSTOMISATIONS* pCustomizationOut);
+inline ADL2_ApplicationProfiles_GetCustomization _ADL2_ApplicationProfiles_GetCustomization;
 
-typedef int(*ADL2_ADAPTER_REGVALUESTRING_GET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
-inline ADL2_ADAPTER_REGVALUESTRING_GET _ADL2_Adapter_RegValueString_Get;
+//Registry
+typedef int(*ADL2_Adapter_RegValueString_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
+inline ADL2_Adapter_RegValueString_Set _ADL2_Adapter_RegValueString_Set;
 
-typedef int(*ADL2_ADAPTER_REGVALUEINT_SET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int lpKeyValue);
-inline ADL2_ADAPTER_REGVALUEINT_SET _ADL2_Adapter_RegValueInt_Set;
+typedef int(*ADL2_Adapter_RegValueString_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int iSize, char* lpKeyValue);
+inline ADL2_Adapter_RegValueString_Get _ADL2_Adapter_RegValueString_Get;
 
-typedef int(*ADL2_ADAPTER_REGVALUEINT_GET)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int* lpKeyValue);
-inline ADL2_ADAPTER_REGVALUEINT_GET _ADL2_Adapter_RegValueInt_Get;
+typedef int(*ADL2_Adapter_RegValueInt_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int lpKeyValue);
+inline ADL2_Adapter_RegValueInt_Set _ADL2_Adapter_RegValueInt_Set;
+
+typedef int(*ADL2_Adapter_RegValueInt_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDriverPathOption, const char* szSubKey, const char* szKeyName, int* lpKeyValue);
+inline ADL2_Adapter_RegValueInt_Get _ADL2_Adapter_RegValueInt_Get;
+
+//Adapter
+typedef int (*ADL2_Adapter_Accessibility_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAccessibility);
+inline ADL2_Adapter_Accessibility_Get _ADL2_Adapter_Accessibility_Get;
 //}

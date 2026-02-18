@@ -32,6 +32,7 @@
 #define ADL_SDK_H_
 
 #include "adl_structures.h"
+#include "adl_structures_sdk.h"
 
 /// Memory Allocation Call back 
 typedef void* ( __stdcall *ADL_MAIN_MALLOC_CALLBACK )( int );
