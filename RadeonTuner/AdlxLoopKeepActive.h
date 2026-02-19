@@ -2,18 +2,19 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AppVariables.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Fix switch to IADLXGPUTuningChangedEvent
+	//Note: IADLXGPUTuningChangedEvent does not get triggered when tuning is reset by system failure so manual polling is needed.
+
 	void MainPage::AdlxLoopKeepActive()
 	{
 		while (true)
 		{
 			try
 			{
-				//Delay next keep active
+				//Delay next loop
 				if (!AppVariables::LaunchKeepActive)
 				{
 					Sleep(20000);
@@ -24,36 +25,50 @@ namespace winrt::RadeonTuner::implementation
 					AppVariables::LaunchKeepActive = false;
 				}
 
-				//Check if AMDSoftwareInstaller is running
-				std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("AMDSoftwareInstaller.exe");
-				if (processList.size() > 0)
+				//Check if loop is allowed
+				if (AppVariables::ApplicationExiting)
 				{
-					std::function<void()> updateFunction = [&]
-						{
-							//Set result
-							ShowNotification(L"Skipped keep active");
-							AVDebugWriteLine("AMDSoftwareInstaller is running, skipped keep active.");
-						};
-					AppVariables::App.DispatcherInvoke(updateFunction);
-					continue;
+					return;
 				}
 
-				//Get keep active folder path
-				std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
+				//Load and cache keep active setting files
+				if (!keepactive_cache_loaded)
+				{
+					//Get keep active folder path
+					std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
 
-				//List active overlock setting files
-				auto fileList = FileList(pathActiveFolderW, false);
-				for (auto file : fileList)
+					//Clear keep active setting cache
+					keepactive_cache.clear();
+
+					//List keep active setting files
+					auto fileList = FileList(pathActiveFolderW, false);
+					for (auto file : fileList)
+					{
+						try
+						{
+							//Load tuning fans settings from file
+							TuningFanSettings tuningFanSettingsKeepActive = TuningFanSettings_Load(file.path().string());
+
+							//Add settings to keep active cache
+							keepactive_cache.push_back(tuningFanSettingsKeepActive);
+						}
+						catch (...) {}
+					}
+
+					//Update status variable
+					keepactive_cache_loaded = true;
+					AVDebugWriteLine("Keep active setting cache updated.");
+				}
+
+				//Check keep active settings
+				for (auto keepActiveSettings : keepactive_cache)
 				{
 					try
 					{
-						//Load tuning fans settings from file
-						TuningFanSettings tuningFanSettingsKeepActive = TuningFanSettings_Load(file.path().string());
-
-						//Check keep active setting
-						if (tuningFanSettingsKeepActive.KeepActive.has_value())
+						//Check if keep active is enabled
+						if (keepActiveSettings.KeepActive.has_value())
 						{
-							if (!tuningFanSettingsKeepActive.KeepActive.value())
+							if (!keepActiveSettings.KeepActive.value())
 							{
 								//AVDebugWriteLine("Keep active is disabled, skipped keep active.");
 								continue;
@@ -79,13 +94,13 @@ namespace winrt::RadeonTuner::implementation
 								std::string device_current_id_a = wstring_to_string(device_current_id_w);
 
 								//Check gpu identifier
-								if (tuningFanSettingsKeepActive.DeviceId.value() == device_current_id_a)
+								if (keepActiveSettings.DeviceId.value() == device_current_id_a)
 								{
 									//Get current gpu tuning and fans settings
 									TuningFanSettings tuningFanSettingsCurrent = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuPtr);
 
 									//Check if tuning and fans settings match
-									if (!TuningFanSettings_Match(tuningFanSettingsKeepActive, tuningFanSettingsCurrent))
+									if (!TuningFanSettings_Match(keepActiveSettings, tuningFanSettingsCurrent))
 									{
 										AVDebugWriteLine("Tuning and fans settings do not match, applying keep active settings.");
 
@@ -93,7 +108,7 @@ namespace winrt::RadeonTuner::implementation
 										std::function<void()> updateFunction = [&]
 											{
 												//Apply tuning and fans settings
-												AdlxApplyTuning(ppGpuPtr, tuningFanSettingsKeepActive);
+												AdlxApplyTuning(ppGpuPtr, keepActiveSettings);
 
 												//Load tuning and fans settings
 												AdlxValuesLoadTuning();

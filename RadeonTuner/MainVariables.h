@@ -5,6 +5,9 @@ inline bool disable_picking = true;
 inline bool disable_saving = true;
 inline bool disable_saving_settings = true;
 
+inline bool keepactive_cache_loaded = false;
+inline std::vector<TuningFanSettings> keepactive_cache{};
+
 inline std::wstring gpuRegistryPath;
 inline std::wstring gpuUniqueIdentifierHex;
 inline int gpuUniqueIdentifier = -1;

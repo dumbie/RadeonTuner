@@ -80,6 +80,9 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			if (saveResult)
 			{
+				//Update status variable
+				keepactive_cache_loaded = false;
+
 				ShowNotification(L"Keep active exported");
 				AVDebugWriteLine(L"Keep active exported");
 			}
@@ -122,6 +125,9 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Keep().Background(colorValid);
 			button_Tuning_Keep().Background(colorValid);
 
+			//Update status variable
+			keepactive_cache_loaded = false;
+
 			//Return result
 			ShowNotification(L"Keep active enabled");
 			AVDebugWriteLine(L"Keep active enabled");
@@ -158,6 +164,9 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
 			button_Fan_Keep().Background(colorInvalid);
 			button_Tuning_Keep().Background(colorInvalid);
+
+			//Update status variable
+			keepactive_cache_loaded = false;
 
 			//Return result
 			ShowNotification(L"Keep active disabled");
