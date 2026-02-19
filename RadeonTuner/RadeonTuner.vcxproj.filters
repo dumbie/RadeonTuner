@@ -24,24 +24,6 @@
     <ClInclude Include="pch.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxVariables.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxInitialize.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsFans.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsDisplay.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxInfoLoad.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxLoopMetrics.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h">
       <Filter>Include Files\ADLX</Filter>
     </ClInclude>
@@ -165,48 +147,6 @@
     <ClInclude Include="ADLX\Include\ISystem2.h">
       <Filter>Include Files\ADLX</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxEventsTuning.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesPrepare.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsGraphics.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadDisplay.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadGraphics.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadMultimedia.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadSelect.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadTuning.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetDisplay.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetGraphics.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetTuning.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsMultimedia.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsPower.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadPower.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="SettingCheck.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -225,26 +165,8 @@
     <ClInclude Include="ADL\adl_structures.h">
       <Filter>Include Files\ADL</Filter>
     </ClInclude>
-    <ClInclude Include="AdlInitialize.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlVariables.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlValuesPrepare.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxLoopKeepActive.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="TuningFanSettingsClass.h">
       <Filter>Class Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegValuesLoad.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegValuesSave.h">
-      <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="SettingAdmin.h">
       <Filter>Page Files</Filter>
@@ -255,47 +177,149 @@
     <ClInclude Include="KeepActiveFunc.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlRegistry.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="SettingFunc.h">
       <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="SettingEnumStrings.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsSettingsClass.h">
-      <Filter>Class Files</Filter>
-    </ClInclude>
     <ClInclude Include="DisplaySettingsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
     <ClInclude Include="TuningFanSettingsFunc.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportTuning.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesImportTuning.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesImportDisplay.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesImportGraphics.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportDisplay.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportGraphics.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsFunc.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsProperty.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsFunc.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsLoad.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlDefinitions.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlInitialize.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlValuesPrepare.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxInfoLoad.h">
+      <Filter>Page Files\Adlx</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxInitialize.h">
+      <Filter>Page Files\Adlx</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesPrepare.h">
+      <Filter>Page Files\Adlx</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsAdd.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsInterface.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsRemove.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsDisplay.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsFans.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsGraphics.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsMultimedia.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsPower.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsTuning.h">
+      <Filter>Page Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopKeepActive.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopMetrics.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsUnlock.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsReset.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlRegistry.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlValuesLoadGraphics.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadDisplay.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadMultimedia.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadPower.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadSelect.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadTuning.h">
+      <Filter>Page Files\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetTuning.h">
+      <Filter>Page Files\Reset</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetDisplay.h">
+      <Filter>Page Files\Reset</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetGraphics.h">
+      <Filter>Page Files\Reset</Filter>
+    </ClInclude>
+    <ClInclude Include="MainVariables.h">
+      <Filter>Page Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopDevice.h">
+      <Filter>Page Files\Loop</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsSettingsFunc.h">
-      <Filter>Page Files\ImportExport</Filter>
+      <Filter>Page Files\ImExport</Filter>
+    </ClInclude>
+    <ClInclude Include="ADL\adl_structures_sdk.h">
+      <Filter>Include Files\ADL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,7 +358,25 @@
     <Filter Include="Updater Files">
       <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Page Files\ImportExport">
+    <Filter Include="Page Files\Adl">
+      <UniqueIdentifier>{f270d6ce-613c-4778-a5b1-0aaf7acc027c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Adlx">
+      <UniqueIdentifier>{7edceb55-fb87-47cc-87b3-2a948bc81981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Events">
+      <UniqueIdentifier>{88ab8735-b4bd-4491-9f2c-5350c1654c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Loop">
+      <UniqueIdentifier>{d5fafa34-da95-4614-b947-484c13f48b0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Reset">
+      <UniqueIdentifier>{ce4bf8e7-d864-41ab-a8e2-d842c663921e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Load">
+      <UniqueIdentifier>{a2dbf5a5-9766-4f32-8f24-f3c2408436be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\ImExport">
       <UniqueIdentifier>{471fb1ca-7d28-43c8-a820-21c0057d8471}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

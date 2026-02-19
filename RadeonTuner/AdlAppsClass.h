@@ -1,17 +1,6 @@
 #pragma once
 #include "pch.h"
 
-enum AdlAppPropertyType
-{
-	ADL_APP_PROPERTY_TYPE_UNKNOWN = -1,
-	ADL_APP_PROPERTY_TYPE_BINARY,
-	ADL_APP_PROPERTY_TYPE_BOOLEAN,
-	ADL_APP_PROPERTY_TYPE_DWORD,
-	ADL_APP_PROPERTY_TYPE_QWORD,
-	ADL_APP_PROPERTY_TYPE_ENUMERATED,
-	ADL_APP_PROPERTY_TYPE_STRING
-};
-
 struct AdlAppPropertyValue
 {
 	//Unique identifier gpu header
@@ -38,7 +27,7 @@ struct AdlAppPropertyValue
 
 struct AdlAppProperty
 {
-	AdlAppPropertyType Type;
+	DATATYPES Type;
 	std::wstring Name;
 	std::vector<AdlAppPropertyValue> Values;
 

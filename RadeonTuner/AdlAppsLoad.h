@@ -73,12 +73,12 @@ namespace winrt::RadeonTuner::implementation
 									adlAppProperty.Name = char_to_wstring(propertyRecord->strName);
 
 									//Get property type
-									adlAppProperty.Type = AdlAppPropertyTypeGet(adlAppProperty.Name, adlApp.DriverArea);
+									adlAppProperty.Type = AdlAppPropertyDataTypeGet(adlAppProperty.Name, adlApp.DriverArea);
 
 									//Get property value
 									if (propertyRecord->iDataSize > 0)
 									{
-										if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_STRING)
+										if (adlAppProperty.Type == DT_Stringed)
 										{
 											std::wstring convertedValue;
 											convertedValue.resize(propertyRecord->iDataSize / 2);
@@ -105,14 +105,14 @@ namespace winrt::RadeonTuner::implementation
 												adlAppProperty.Values.push_back(adlAppPropertyValue);
 											}
 										}
-										else if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_BOOLEAN)
+										else if (adlAppProperty.Type == DT_Boolean)
 										{
 											bool convertedValue = (bool)propertyRecord->uData[0] ? true : false;
 											AdlAppPropertyValue adlAppPropertyValue{};
 											adlAppPropertyValue.Value = number_to_wstring(convertedValue);
 											adlAppProperty.Values.push_back(adlAppPropertyValue);
 										}
-										else if (adlAppProperty.Type == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_DWORD)
+										else if (adlAppProperty.Type == DT_Dword)
 										{
 											UCHAR convertedValue = (UCHAR)propertyRecord->uData[0];
 											AdlAppPropertyValue adlAppPropertyValue{};

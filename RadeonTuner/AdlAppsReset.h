@@ -18,8 +18,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon FSR Upscaling Override
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"FsrOverride", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"FsrOverride", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"FsrOverride";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -33,8 +33,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon FSR Frame Generation Override
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"MlfiOverride", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"MlfiOverride", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"MlfiOverride";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -48,8 +48,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Anti-Lag
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Dlg_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Dlg_PFEnable", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Dlg_PFEnable";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -63,8 +63,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Bst_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Bst_PFEnable", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Bst_PFEnable";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -78,8 +78,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost Minimum Resolution
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Bst_MaxScale", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Bst_MaxScale", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Bst_MaxScale";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -93,8 +93,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Chil_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_PFEnable", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Chil_PFEnable";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -108,8 +108,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill Minimum
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Chil_MinFRate", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_MinFRate", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Chil_MinFRate";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -123,8 +123,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill Maximum
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Chil_MaxFRate", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_MaxFRate", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Chil_MaxFRate";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -138,8 +138,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Ris_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Ris_PFEnable", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Ris_PFEnable";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -153,8 +153,8 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening Sharpness
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Ris_SHDegree", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Ris_SHDegree", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Ris_SHDegree";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -168,8 +168,8 @@ namespace winrt::RadeonTuner::implementation
 			//Enhanced Sync
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"TurboSync", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"TurboSync", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"TurboSync";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -183,8 +183,8 @@ namespace winrt::RadeonTuner::implementation
 			//Vertical Refresh
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"VSyncControl", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"VSyncControl", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"VSyncControl";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -198,8 +198,8 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Override
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"AntiAlias", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AntiAlias", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"AntiAlias";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -213,8 +213,8 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Method
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"ASD", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASD", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"ASD";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -226,8 +226,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"ASE", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASE", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"ASE";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -239,8 +239,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"ASTT", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASTT", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"ASTT";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -254,8 +254,8 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Level
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"AntiAliasSmpls", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AntiAliasSmpls", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"AntiAliasSmpls";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -269,8 +269,8 @@ namespace winrt::RadeonTuner::implementation
 			//Enhanced Quality Anti-Aliasing
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"EQAA", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"EQAA", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"EQAA";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -284,8 +284,8 @@ namespace winrt::RadeonTuner::implementation
 			//Morphological Anti-Aliasing
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"MLF", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"MLF", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"MLF";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -299,8 +299,8 @@ namespace winrt::RadeonTuner::implementation
 			//Anisotropic Texture Filtering Override
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"AnisoDegree", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AnisoDegree", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"AnisoDegree";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -314,8 +314,8 @@ namespace winrt::RadeonTuner::implementation
 			//Texture Filtering Quality
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"TFQ", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"TFQ", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"TFQ";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -329,8 +329,8 @@ namespace winrt::RadeonTuner::implementation
 			//Surface Format Optimization
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"SrfcFrmtRplcmnt", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"SrfcFrmtRplcmnt", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"SrfcFrmtRplcmnt";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -344,8 +344,8 @@ namespace winrt::RadeonTuner::implementation
 			//Tessellation Mode
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Tessellation_OP", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Tessellation_OP", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Tessellation_OP";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -359,8 +359,8 @@ namespace winrt::RadeonTuner::implementation
 			//Tessellation Level
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"Tessellation", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Tessellation", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"Tessellation";
 					AdlAppPropertyValue adlAppPropertyValue{};
@@ -374,8 +374,8 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL Triple Buffering
 			{
 				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyTypeGet(L"EnableTrplBffr", adlApp.DriverArea);
-				if (adlAppProperty.Type != AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"EnableTrplBffr", adlApp.DriverArea);
+				if (adlAppProperty.Type != DT_Unknown)
 				{
 					adlAppProperty.Name = L"EnableTrplBffr";
 					AdlAppPropertyValue adlAppPropertyValue{};

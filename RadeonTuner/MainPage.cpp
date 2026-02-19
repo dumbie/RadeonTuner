@@ -2,17 +2,22 @@
 #include "pch.h"
 #include "AppVariables.h"
 
+#include "AdlAppsFunc.h"
+#include "AdlAppsUnlock.h"
+#include "AdlAppsReset.h"
+#include "AdlAppsInterface.h"
+#include "AdlAppsAdd.h"
+#include "AdlAppsLoad.h"
+#include "AdlAppsRemove.h"
+#include "AdlAppsProperty.h"
+#include "AdlRegistry.h"
 #include "AdlInitialize.h"
-#include "AdlValuesPrepare.h"
-
 #include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
-#include "AdlxLoopMetrics.h"
-#include "AdlxLoopKeepActive.h"
 
+#include "AdlValuesPrepare.h"
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
-
 #include "AdlxValuesExportDisplay.h"
 #include "AdlxValuesImportDisplay.h"
 #include "AdlxValuesExportGraphics.h"
@@ -32,20 +37,18 @@
 #include "AdlxEventsTuning.h"
 
 #include "KeepActiveFunc.h"
-#include "DisplaySettingsClass.h"
-#include "DisplaySettingsFunc.h"
-#include "GraphicsSettingsClass.h"
 #include "GraphicsSettingsFunc.h"
-#include "TuningFanSettingsClass.h"
+#include "DisplaySettingsFunc.h"
 #include "TuningFanSettingsFunc.h"
-
-#include "RegValuesSave.h"
-#include "RegValuesLoad.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"
+
+#include "AdlxLoopDevice.h"
+#include "AdlxLoopMetrics.h"
+#include "AdlxLoopKeepActive.h"
 
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
@@ -83,8 +86,14 @@ namespace winrt::RadeonTuner::implementation
 			//Prepare adlx values
 			AdlxValuesPrepare();
 
+			//Select default indexes
+			SelectIndexesAdlx();
+
 			//Prepare adl values
-			//AdlValuesPrepare();
+			AdlValuesPrepare();
+
+			//Select default indexes
+			SelectIndexesAdl();
 
 			//Fix check driver installation software type Default / Minimal / Driver Only
 
@@ -94,11 +103,15 @@ namespace winrt::RadeonTuner::implementation
 			//Load settings
 			SettingLoad();
 
-			//Select default indexes
-			SelectIndexes();
-
 			//Load power values
 			AdlxValuesLoadSelectPower();
+
+			//Select default indexes
+			SelectIndexesMenu();
+
+			//Start adlx loop device
+			std::thread threadLoopDevice(&MainPage::AdlxLoopDevice, this);
+			threadLoopDevice.detach();
 
 			//Start adlx loop metrics
 			std::thread threadLoopMetrics(&MainPage::AdlxLoopMetrics, this);
@@ -111,15 +124,31 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::SelectIndexes()
+	void MainPage::SelectIndexesAdl()
+	{
+		try
+		{
+			//Select default indexes
+			combobox_AppSelect().SelectedIndex(0);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::SelectIndexesAdlx()
 	{
 		try
 		{
 			//Select default indexes
 			combobox_GpuSelect().SelectedIndex(0);
 			combobox_DisplaySelect().SelectedIndex(0);
-			combobox_AppSelect().SelectedIndex(0);
+		}
+		catch (...) {}
+	}
 
+	void MainPage::SelectIndexesMenu()
+	{
+		try
+		{
 			//Select previous menu index
 			int mainSelectIndex = 0;
 			std::optional<int> prevMenuIndex = AppVariables::Settings.Load<int>("MenuIndex");
@@ -150,7 +179,7 @@ namespace winrt::RadeonTuner::implementation
 			if (selectedIndex == 8)
 			{
 				//Exit application
-				PostQuitMessage(0);
+				AppVariables::App.Exit(true);
 				return;
 			}
 

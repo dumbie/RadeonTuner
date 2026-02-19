@@ -2,13 +2,12 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	AdlAppProperty MainPage::AdlAppPropertyGet(AdlApplication adlApp, std::wstring propertyName)
+	std::optional<AdlAppProperty> MainPage::AdlAppPropertyGet(AdlApplication adlApp, std::wstring propertyName)
 	{
-		AdlAppProperty returnProperty{};
 		try
 		{
 			for (AdlAppProperty adlAppProperty : adlApp.Properties)
@@ -24,10 +23,52 @@ namespace winrt::RadeonTuner::implementation
 			}
 		}
 		catch (...) {}
-		return returnProperty;
+		return std::nullopt;
 	}
 
-	bool MainPage::AdlAppPropertySet(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue)
+	bool MainPage::AdlAppPropertySet(AdlApplication& adlApp)
+	{
+		try
+		{
+			//Get record properties
+			std::vector<ADLPropertyRecordCreate> recordCreate = AdlAppPropertyRecordCreateGet(adlApp.Properties);
+
+			//Generate profile name
+			if (adlApp.ProfileName.empty())
+			{
+				adlApp.ProfileName = AdlAppProfileGenerateName(L"RADT");
+			}
+
+			//Remove profile from application
+			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());
+			AVDebugWriteLine("Removed application profile: " << adl_Res0);
+			//-1 profile not found or invalid
+			//-17 profile not found
+
+			//Create application profile
+			adl_Res0 = _ADL2_ApplicationProfiles_Profile_Create(adl_Context, adlApp.DriverArea.c_str(), adlApp.ProfileName.c_str(), recordCreate.size(), recordCreate.data());
+			AVDebugWriteLine("Created application profile: " << adl_Res0);
+			//-3 invalid profile, atleast 1 property needed
+			//-16 invalid properties
+			//-18 already exists
+
+			//Assign application profile
+			adl_Res0 = _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, NULL, adlApp.DriverArea.c_str(), adlApp.ProfileName.c_str());
+			AVDebugWriteLine("Assigned application profile: " << adl_Res0);
+			//-15 profile not found or invalid or already assigned
+
+			//Set result
+			return adl_Res0 == ADL_OK;
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed setting application property (Exception)");
+			return false;
+		}
+	}
+
+	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue)
 	{
 		try
 		{
@@ -37,15 +78,17 @@ namespace winrt::RadeonTuner::implementation
 			adlAppPropertyValue.Name = propertyName;
 			adlAppPropertyValue.Value = propertyValue;
 			adlAppPropertyValues.push_back(adlAppPropertyValue);
-			return AdlAppPropertySet(adlApp, adlAppPropertyValues);
+			return AdlAppPropertyUpdate(adlApp, adlAppPropertyValues);
 		}
 		catch (...)
 		{
+			//Set result
+			AVDebugWriteLine("Failed updating application property (Exception)");
 			return false;
 		}
 	}
 
-	bool MainPage::AdlAppPropertySet(AdlApplication& adlApp, std::vector<AdlAppPropertyValue> properties)
+	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppPropertyValue> properties)
 	{
 		try
 		{
@@ -54,8 +97,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					AdlAppPropertyType propertyType = AdlAppPropertyTypeGet(property.Name, adlApp.DriverArea);
-					if (propertyType == AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN)
+					DATATYPES propertyType = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
+					if (propertyType == DT_Unknown)
 					{
 						AVDebugWriteLine(L"Unknown application property type: " << property.Name);
 						return false;
@@ -85,7 +128,7 @@ namespace winrt::RadeonTuner::implementation
 								{
 									try
 									{
-										if (adlAppProperty.UseGpuId())
+										if (!property.GpuId.empty())
 										{
 											if (adlAppPropertyValue.GpuId == property.GpuId)
 											{
@@ -118,7 +161,7 @@ namespace winrt::RadeonTuner::implementation
 								if (adlAppProperty.Name == property.Name)
 								{
 									AdlAppPropertyValue adlAppPropertyValue{};
-									if (adlAppProperty.UseGpuId())
+									if (!property.GpuId.empty())
 									{
 										adlAppPropertyValue.GpuId = property.GpuId;
 									}
@@ -137,12 +180,11 @@ namespace winrt::RadeonTuner::implementation
 					if (!propertyExists && !propertyUpdated)
 					{
 						AdlAppProperty adlAppProperty{};
-						adlAppProperty.Type = AdlAppPropertyTypeGet(property.Name, adlApp.DriverArea);
+						adlAppProperty.Type = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
 						adlAppProperty.Name = property.Name;
-						adlAppProperty.DriverArea = adlApp.DriverArea;
 
 						AdlAppPropertyValue adlAppPropertyValue{};
-						if (adlAppProperty.UseGpuId())
+						if (!property.GpuId.empty())
 						{
 							adlAppPropertyValue.GpuId = property.GpuId;
 						}
@@ -158,31 +200,13 @@ namespace winrt::RadeonTuner::implementation
 				catch (...) {}
 			}
 
-			//Get record properties
-			std::vector<ADLPropertyRecordCreate> recordCreate = AdlAppPropertyRecordCreateGet(adlApp);
-
-			//Generate profile name
-			std::wstring profileName = AdlAppProfileGenerateName();
-
-			//Remove application and assigned profile
-			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), adlApp.Version.c_str(), adlApp.DriverArea.c_str());
-			AVDebugWriteLine("Removed application profile: " << adl_Res0);
-
-			//Create application profile
-			adl_Res0 = _ADL2_ApplicationProfiles_Profile_Create(adl_Context, adlApp.DriverArea.c_str(), profileName.c_str(), recordCreate.size(), recordCreate.data());
-			AVDebugWriteLine("Created application profile: " << adl_Res0);
-
-			//Assign application profile
-			adl_Res0 = _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), adlApp.Version.c_str(), adlApp.AppTitle.c_str(), adlApp.DriverArea.c_str(), profileName.c_str());
-			AVDebugWriteLine("Assigned application profile: " << adl_Res0);
-
-			//Set result
-			return adl_Res0 == ADL_OK;
+			//Set application settings
+			return AdlAppPropertySet(adlApp);
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("Failed setting application property (Exception)");
+			AVDebugWriteLine("Failed updating application properties (Exception)");
 			return false;
 		}
 	}

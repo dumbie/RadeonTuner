@@ -54,7 +54,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			int targetType;
+			DATATYPES targetType;
 			adl_Res0 = _ADL2_ApplicationProfiles_PropertyType_Get(adl_Context, driverArea.c_str(), propertyName.c_str(), &targetType);
 			return adl_Res0 == ADL_OK;
 		}
@@ -62,42 +62,52 @@ namespace winrt::RadeonTuner::implementation
 		return false;
 	}
 
-	AdlAppPropertyType MainPage::AdlAppPropertyTypeGet(std::wstring propertyName, std::wstring driverArea)
+	DATATYPES MainPage::AdlAppPropertyDataTypeGet(std::wstring propertyName, std::wstring driverArea)
 	{
 		try
 		{
-			int targetType;
+			DATATYPES targetType;
 			adl_Res0 = _ADL2_ApplicationProfiles_PropertyType_Get(adl_Context, driverArea.c_str(), propertyName.c_str(), &targetType);
 			if (adl_Res0 == ADL_OK)
 			{
-				if (targetType == 1)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_BINARY;
-				}
-				else if (targetType == 2)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_QWORD;
-				}
-				else if (targetType == 3)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_DWORD;
-				}
-				else if (targetType == 4)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_BOOLEAN;
-				}
-				else if (targetType == 5)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_ENUMERATED;
-				}
-				else if (targetType == 6)
-				{
-					return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_STRING;
-				}
+				return targetType;
 			}
 		}
 		catch (...) {}
-		return AdlAppPropertyType::ADL_APP_PROPERTY_TYPE_UNKNOWN;
+		return DT_Unknown;
+	}
+
+	ADLProfilePropertyType MainPage::AdlAppConvertDataTypeToPropertyType(DATATYPES dataType)
+	{
+		try
+		{
+			if (dataType == DT_Unknown || dataType == DT_Binary)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_BINARY;
+			}
+			else if (dataType == DT_Qword)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_QWORD;
+			}
+			else if (dataType == DT_Dword)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_DWORD;
+			}
+			else if (dataType == DT_Boolean)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_BOOLEAN;
+			}
+			else if (dataType == DT_Enumerated)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_ENUMERATED;
+			}
+			else if (dataType == DT_Stringed)
+			{
+				return ADL_PROFILEPROPERTY_TYPE_STRING;
+			}
+		}
+		catch (...){}
+		return ADL_PROFILEPROPERTY_TYPE_BINARY;
 	}
 
 	std::vector<ADLPropertyRecordCreate> MainPage::AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties)
@@ -110,7 +120,7 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					ADLPropertyRecordCreate propertyRecordCreate{};
-					propertyRecordCreate.eType = (ADLProfilePropertyType)property.Type;
+					propertyRecordCreate.eType = AdlAppConvertDataTypeToPropertyType(property.Type);
 					propertyRecordCreate.strPropertyName = _wcsdup(property.Name.c_str());
 					propertyRecordCreate.strPropertyValue = _wcsdup(property.GetValuesString().c_str());
 					recordProperties.push_back(propertyRecordCreate);

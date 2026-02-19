@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -31,7 +31,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Initialize definitions
-			_ADL2_Main_Control_Create = (ADL2_MAIN_CONTROL_CREATE)GetProcAddress(hInstance, "ADL2_Main_Control_Create");
+			//Main
+			_ADL2_Main_Control_Create = (ADL2_Main_Control_Create)GetProcAddress(hInstance, "ADL2_Main_Control_Create");
 			if (_ADL2_Main_Control_Create == NULL)
 			{
 				//Set result
@@ -39,7 +40,7 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Main_Control_Create";
 			}
 
-			_ADL2_Main_Control_Destroy = (ADL2_MAIN_CONTROL_DESTROY)GetProcAddress(hInstance, "ADL2_Main_Control_Destroy");
+			_ADL2_Main_Control_Destroy = (ADL2_Main_Control_Destroy)GetProcAddress(hInstance, "ADL2_Main_Control_Destroy");
 			if (_ADL2_Main_Control_Destroy == NULL)
 			{
 				//Set result
@@ -47,6 +48,7 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Main_Control_Destroy";
 			}
 
+			//Application
 			_ADL2_ApplicationProfiles_Applications_Get = (ADL2_ApplicationProfiles_Applications_Get)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_Applications_Get");
 			if (_ADL2_ApplicationProfiles_Applications_Get == NULL)
 			{
@@ -103,7 +105,16 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_ApplicationProfiles_PropertyType_Get";
 			}
 
-			_ADL2_Adapter_RegValueInt_Get = (ADL2_ADAPTER_REGVALUEINT_GET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Get");
+			_ADL2_ApplicationProfiles_GetCustomization = (ADL2_ApplicationProfiles_GetCustomization)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_GetCustomization");
+			if (_ADL2_ApplicationProfiles_GetCustomization == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_ApplicationProfiles_GetCustomization");
+				return L"Failed to init _ADL2_ApplicationProfiles_GetCustomization";
+			}
+
+			//Registry
+			_ADL2_Adapter_RegValueInt_Get = (ADL2_Adapter_RegValueInt_Get)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Get");
 			if (_ADL2_Adapter_RegValueInt_Get == NULL)
 			{
 				//Set result
@@ -111,7 +122,7 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Adapter_RegValueInt_Get";
 			}
 
-			_ADL2_Adapter_RegValueInt_Set = (ADL2_ADAPTER_REGVALUEINT_SET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Set");
+			_ADL2_Adapter_RegValueInt_Set = (ADL2_Adapter_RegValueInt_Set)GetProcAddress(hInstance, "ADL2_Adapter_RegValueInt_Set");
 			if (_ADL2_Adapter_RegValueInt_Set == NULL)
 			{
 				//Set result
@@ -119,7 +130,7 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Adapter_RegValueInt_Set";
 			}
 
-			_ADL2_Adapter_RegValueString_Get = (ADL2_ADAPTER_REGVALUESTRING_GET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Get");
+			_ADL2_Adapter_RegValueString_Get = (ADL2_Adapter_RegValueString_Get)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Get");
 			if (_ADL2_Adapter_RegValueString_Get == NULL)
 			{
 				//Set result
@@ -127,12 +138,21 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Adapter_RegValueString_Get";
 			}
 
-			_ADL2_Adapter_RegValueString_Set = (ADL2_ADAPTER_REGVALUESTRING_SET)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Set");
+			_ADL2_Adapter_RegValueString_Set = (ADL2_Adapter_RegValueString_Set)GetProcAddress(hInstance, "ADL2_Adapter_RegValueString_Set");
 			if (_ADL2_Adapter_RegValueString_Set == NULL)
 			{
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Adapter_RegValueString_Set");
 				return L"Failed to init _ADL2_Adapter_RegValueString_Set";
+			}
+
+			//Adapter
+			_ADL2_Adapter_Accessibility_Get = (ADL2_Adapter_Accessibility_Get)GetProcAddress(hInstance, "ADL2_Adapter_Accessibility_Get");
+			if (_ADL2_Adapter_Accessibility_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_Accessibility_Get");
+				return L"Failed to init _ADL2_Adapter_Accessibility_Get";
 			}
 
 			//Create ADL main control

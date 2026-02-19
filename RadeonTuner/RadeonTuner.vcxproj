@@ -79,19 +79,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h" />
+    <ClInclude Include="AdlAppsClass.h" />
+    <ClInclude Include="AdlAppsFunc.h" />
+    <ClInclude Include="AdlAppsInterface.h" />
+    <ClInclude Include="AdlAppsLoad.h" />
+    <ClInclude Include="AdlAppsAdd.h" />
+    <ClInclude Include="AdlAppsProperty.h" />
+    <ClInclude Include="AdlAppsRemove.h" />
+    <ClInclude Include="AdlAppsReset.h" />
+    <ClInclude Include="AdlAppsUnlock.h" />
+    <ClInclude Include="AdlDefinitions.h" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlRegistry.h" />
+    <ClInclude Include="AdlValuesLoadGraphics.h" />
     <ClInclude Include="AdlValuesPrepare.h" />
-    <ClInclude Include="AdlVariables.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxEventsPower.h" />
+    <ClInclude Include="AdlxLoopDevice.h" />
     <ClInclude Include="AdlxLoopKeepActive.h" />
     <ClInclude Include="AdlxLoopMetrics.h" />
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
-    <ClInclude Include="AdlxValuesLoadGraphics.h" />
+    <ClInclude Include="ADL\adl_structures_sdk.h" />
+    <ClInclude Include="GraphicsSettingsFunc.h" />
     <ClInclude Include="KeepActiveFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesLoadPower.h" />
@@ -110,7 +122,7 @@
     <ClInclude Include="AdlxEventsFans.h" />
     <ClInclude Include="AdlxInitialize.h" />
     <ClInclude Include="AdlxResetGraphics.h" />
-    <ClInclude Include="AdlxVariables.h" />
+    <ClInclude Include="MainVariables.h" />
     <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h" />
     <ClInclude Include="ADLX\Include\ADLX.h" />
     <ClInclude Include="ADLX\Include\ADLXDefines.h" />
@@ -156,8 +168,6 @@
     <ClInclude Include="ADL\adl_sdk.h" />
     <ClInclude Include="ADL\adl_structures.h" />
     <ClInclude Include="AppVariables.h" />
-    <ClInclude Include="RegValuesSave.h" />
-    <ClInclude Include="RegValuesLoad.h" />
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
@@ -174,8 +184,6 @@
     <ClInclude Include="SettingLoad.h" />
     <ClInclude Include="DisplaySettingsClass.h" />
     <ClInclude Include="DisplaySettingsFunc.h" />
-    <ClInclude Include="GraphicsSettingsClass.h" />
-    <ClInclude Include="GraphicsSettingsFunc.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
     <ClInclude Include="TuningFanSettingsFunc.h" />
   </ItemGroup>
