@@ -1,10 +1,34 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Reset display settings
+			bool resetResult = AdlxValuesResetDisplay();
+
+			//Check result
+			if (resetResult)
+			{
+				//Show notification
+				ShowNotification(L"Display settings reset");
+				AVDebugWriteLine(L"Display settings reset");
+			}
+			else
+			{
+				//Show notification
+				ShowNotification(L"Display settings not reset");
+				AVDebugWriteLine(L"Display settings not reset");
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

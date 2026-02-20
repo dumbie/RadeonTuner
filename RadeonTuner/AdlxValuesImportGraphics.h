@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radg)", L"*.radg"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radg" } };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
 				pFileDialog->SetTitle(L"Import graphics settings...");
 				pFileDialog->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
@@ -54,38 +54,26 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load settings from file
-			GraphicsSettings graphicsSettings = GraphicsSettings_Load(importPath);
+			AdlApplication adlApplication = GraphicsSettings_Load(importPath);
 
-			//Check device identifier
-			std::string app_id_import_a = graphicsSettings.AppId.value();
-			std::string app_id_current_a = hstring_to_string(combobox_AppSelect().SelectedValue().as<hstring>());
-			if (!app_id_import_a.empty() && !app_id_current_a.empty())
-			{
-				if (app_id_import_a != app_id_current_a)
-				{
-					int messageResult = MessageBoxW(NULL, L"Graphics settings do not match current application, continue import?", L"RadeonTuner", MB_YESNO);
-					if (messageResult == IDNO)
-					{
-						//Set result
-						ShowNotification(L"Application does not match");
-						AVDebugWriteLine(L"Application does not match");
-						return;
-					}
-				}
-			}
+			//Set application settings
+			AdlAppPropertySet(adlApplication);
 
-			//Set settings values
-			GraphicsSettings_Convert_ToUI(graphicsSettings);
+			//Reload applications
+			AdlAppInterfaceListLoad();
+
+			//Select application
+			combobox_AppSelect().SelectedIndex(0);
 
 			//Set result
-			ShowNotification(L"Graphics imported");
-			AVDebugWriteLine(L"Graphics imported");
+			ShowNotification(L"Graphics imported " + adlApplication.FileName);
+			AVDebugWriteLine(L"Graphics imported " << adlApplication.FileName);
 		}
 		catch (...)
 		{
 			//Set result
-			ShowNotification(L"Graphics not imported, exception");
-			AVDebugWriteLine(L"Graphics not imported, exception");
+			ShowNotification(L"Graphics import failed, exception");
+			AVDebugWriteLine(L"Graphics import failed, exception");
 		}
 	}
 }

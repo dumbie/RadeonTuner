@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(tuningFanSettings, false);
+			std::string jsonString = struct_to_jsonstring(tuningFanSettings, true);
 
 			//Save settings file
 			return string_to_file(savePath, jsonString);

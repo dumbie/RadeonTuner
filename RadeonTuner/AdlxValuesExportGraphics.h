@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files (radg)", L"*.radg"} };
+				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radg"} };
 				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
 				pFileDialog->SetTitle(L"Export graphics settings...");
 				pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
@@ -54,29 +54,26 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Generate settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromUI();
-
 			//Save settings to file
-			bool saveResult = GraphicsSettings_Save(graphicsSettings, exportPath);
+			bool saveResult = GraphicsSettings_Save(adl_AppSelected(), exportPath);
 
 			//Set result
 			if (saveResult)
 			{
-				ShowNotification(L"Graphics exported");
-				AVDebugWriteLine(L"Graphics exported");
+				ShowNotification(L"Graphics exported " + adl_AppSelected().FileName);
+				AVDebugWriteLine(L"Graphics exported " << adl_AppSelected().FileName);
 			}
 			else
 			{
-				ShowNotification(L"Graphics export failed");
-				AVDebugWriteLine(L"Graphics export failed");
+				ShowNotification(L"Graphics export failed " + adl_AppSelected().FileName);
+				AVDebugWriteLine(L"Graphics export failed " << adl_AppSelected().FileName);
 			}
 		}
 		catch (...)
 		{
 			//Set result
-			ShowNotification(L"Graphics not exported, exception");
-			AVDebugWriteLine(L"Graphics not exported, exception");
+			ShowNotification(L"Graphics export failed, exception");
+			AVDebugWriteLine(L"Graphics export failed, exception");
 		}
 	}
 }

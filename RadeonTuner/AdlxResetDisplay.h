@@ -1,16 +1,37 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_Reset_ColorTemperature_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	bool MainPage::AdlxValuesResetDisplay()
 	{
 		try
 		{
+			//Color Temperature
 			slider_Display_ColorTemperature().Value(6500);
+
+			//Brightness
+			slider_Display_Brightness().Value(0);
+
+			//Contrast
+			slider_Display_Contrast().Value(100);
+
+			//Saturation
+			slider_Display_Saturation().Value(100);
+
+			//Hue
+			slider_Display_Hue().Value(0);
+
+			//Return result
+			return true;
 		}
-		catch (...) {}
+		catch (...)
+		{
+			//Return result
+			AVDebugWriteLine("Failed resetting display settings.");
+			return false;
+		}
 	}
 }
