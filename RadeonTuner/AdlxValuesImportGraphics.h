@@ -56,6 +56,34 @@ namespace winrt::RadeonTuner::implementation
 			//Load settings from file
 			AdlApplication adlApplication = GraphicsSettings_Load(importPath);
 
+			//Check if application already exists
+			bool appExits = false;
+			for (auto item : combobox_AppSelect().Items())
+			{
+				try
+				{
+					auto itemHString = winrt::unbox_value<hstring>(item);
+					std::wstring itemWString = hstring_to_wstring(itemHString);
+					if (itemWString == adlApplication.FileName)
+					{
+						appExits = true;
+						break;
+					}
+				}
+				catch (...) {}
+			}
+			if (appExits)
+			{
+				std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Application already exists and settings will be overwritten, continue import?", L"", { L"Yes", L"No" }, false);
+				if (messageResult == L"No")
+				{
+					//Set result
+					ShowNotification(L"Application already exists");
+					AVDebugWriteLine(L"Application already exists");
+					return;
+				}
+			}
+
 			//Set application settings
 			AdlAppPropertySet(adlApplication);
 
