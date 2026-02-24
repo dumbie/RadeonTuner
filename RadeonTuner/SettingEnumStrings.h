@@ -107,13 +107,13 @@ const std::vector<std::wstring> ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING =
 
 const std::vector<std::wstring> ADLX_ANTI_ALIASING_MODE_STRING =
 {
-	L"Use application settings", L"Enhance application settings", L"Override application settings"
+	L"Use application settings", L"Override application settings"
 };
 
 const std::vector<std::wstring> ADLX_ANTI_ALIASING_LEVEL_STRING =
 {
-	//Index 0, 2, 3, 4, 5, 8, 9
-	L"Invalid", L"2X", L"2XEQ", L"4X", L"4XEQ", L"8X", L"8XEQ"
+	//Index 2, 4, 8
+	L"2X", L"4X", L"8X"
 };
 
 const std::vector<std::wstring> ADLX_ANTI_ALIASING_METHOD_STRING =
@@ -124,7 +124,7 @@ const std::vector<std::wstring> ADLX_ANTI_ALIASING_METHOD_STRING =
 const std::vector<std::wstring> ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING =
 {
 	//Index 0, 2, 4, 8, 16
-	L"Invalid", L"2X", L"4X", L"8X", L"16X"
+	L"Use application settings", L"2X", L"4X", L"8X", L"16X"
 };
 
 const std::vector<std::wstring> ADLX_TESSELLATION_MODE_STRING =

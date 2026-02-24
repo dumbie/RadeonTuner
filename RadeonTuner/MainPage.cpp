@@ -124,6 +124,16 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Exit application
+			AppVariables::App.Exit(true);
+		}
+		catch (...) {}
+	}
+
 	void MainPage::SelectIndexesAdl()
 	{
 		try

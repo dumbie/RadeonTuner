@@ -185,6 +185,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_EQAA_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_AntiAliasingOverride_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

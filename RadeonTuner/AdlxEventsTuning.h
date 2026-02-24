@@ -253,14 +253,14 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set result
 			ShowNotification(L"Tuning and fans settings applied");
-			AVDebugWriteLine(L"Tuning and fans settings applied");
+			AVDebugWriteLine(L"Tuning and fans settings applied to gpu.");
 			return true;
 		}
 		catch (...)
 		{
 			//Set result
 			ShowNotification(L"Failed applying tuning and fans settings");
-			AVDebugWriteLine(L"Failed applying tuning and fans settings");
+			AVDebugWriteLine(L"Failed applying tuning and fans settings to gpu.");
 			return false;
 		}
 	}

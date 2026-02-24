@@ -2,21 +2,27 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AppVariables.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
+	//Fix skip when window is not visible
+	//Fix check if AFMF, Anti-Lag, Super Resolution or FSR Override is active and update status
+
 	void MainPage::AdlxLoopMetrics()
 	{
 		while (true)
 		{
 			try
 			{
-				//Fix skip when window is not visible
-				//Fix check if AFMF, Super Resolution and FSR Override is active and update status
-
-				//Delay next update
+				//Delay next loop
 				Sleep(1000);
+
+				//Check if loop is allowed
+				if (AppVariables::ApplicationExiting)
+				{
+					return;
+				}
 
 				//Check services
 				if (ppPerformanceMonitoringServices == NULL)

@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlxVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -79,14 +79,6 @@ namespace winrt::RadeonTuner::implementation
 				itemCollection.Append(box_value(ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[i]));
 			}
 
-			//List all anti-aliasing mode
-			itemCollection = combobox_AntiAliasingMode().Items();
-			appendCount = ADLX_ANTI_ALIASING_MODE_STRING.size();
-			for (UINT i = 0; i < appendCount; i++)
-			{
-				itemCollection.Append(box_value(ADLX_ANTI_ALIASING_MODE_STRING[i]));
-			}
-
 			//List all anti-aliasing method
 			itemCollection = combobox_AntiAliasingMethod().Items();
 			appendCount = ADLX_ANTI_ALIASING_METHOD_STRING.size();
@@ -98,15 +90,15 @@ namespace winrt::RadeonTuner::implementation
 			//List all anti-aliasing level
 			itemCollection = combobox_AntiAliasingLevel().Items();
 			appendCount = ADLX_ANTI_ALIASING_LEVEL_STRING.size();
-			for (UINT i = 1; i < appendCount; i++)
+			for (UINT i = 0; i < appendCount; i++)
 			{
 				itemCollection.Append(box_value(ADLX_ANTI_ALIASING_LEVEL_STRING[i]));
 			}
 
-			//List all anisotropic texture filtering
-			itemCollection = combobox_AnisotropicTextureFilteringQuality().Items();
+			//List all anisotropic texture filtering override
+			itemCollection = combobox_AnisotropicTextureFiltering_Level().Items();
 			appendCount = ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING.size();
-			for (UINT i = 1; i < appendCount; i++)
+			for (UINT i = 0; i < appendCount; i++)
 			{
 				itemCollection.Append(box_value(ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[i]));
 			}
@@ -141,30 +133,6 @@ namespace winrt::RadeonTuner::implementation
 			for (UINT i = 0; i < appendCount; i++)
 			{
 				itemCollection.Append(box_value(ADLX_SSM_BIAS_MODE_STRING[i]));
-			}
-
-			//List all fluid motion search modes
-			itemCollection = combobox_FrameGenSearchMode().Items();
-			appendCount = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING.size();
-			for (UINT i = 0; i < appendCount; i++)
-			{
-				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[i]));
-			}
-
-			//List all fluid motion performance modes
-			itemCollection = combobox_FrameGenPerfMode().Items();
-			appendCount = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING.size();
-			for (UINT i = 0; i < appendCount; i++)
-			{
-				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[i]));
-			}
-
-			//List all fluid motion response modes
-			itemCollection = combobox_FrameGenResponseMode().Items();
-			appendCount = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING.size();
-			for (UINT i = 0; i < appendCount; i++)
-			{
-				itemCollection.Append(box_value(REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[i]));
 			}
 
 			//List all texture filtering qualities
