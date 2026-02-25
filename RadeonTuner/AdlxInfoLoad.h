@@ -181,17 +181,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Get display connectivity experience
-			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
-			try
-			{
-				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
-			}
-			catch (...) {}
-
 			//DP link rate
 			try
 			{
+				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
+				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
+
 				ADLX_DP_LINK_RATE dpLinkRate;
 				adlx_Res0 = ppDisplayConnectivityExperience->GetDPLinkRate(&dpLinkRate);
 				if (dpLinkRate > 0)
@@ -202,16 +197,17 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Link protection
-			try
-			{
-				adlx_Res0 = ppDisplayConnectivityExperience->IsEnabledLinkProtection(&adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0))
-				{
-					std::wstring linkProtectionString = adlx_Bool ? L"Disabled" : L"Enabled";
-					display_info += L"\nLink protection: " + linkProtectionString;
-				}
-			}
-			catch (...) {}
+			//Note: this may cause ntdll crash that cannot be catched with old drivers
+			//try
+			//{
+			//	adlx_Res0 = ppDisplayConnectivityExperience->IsEnabledLinkProtection(&adlx_Bool);
+			//	if (ADLX_SUCCEEDED(adlx_Res0))
+			//	{
+			//		std::wstring linkProtectionString = adlx_Bool ? L"Disabled" : L"Enabled";
+			//		display_info += L"\nLink protection: " + linkProtectionString;
+			//	}
+			//}
+			//catch (...) {}
 
 			//Fix add current resolution, FreeSync range and HDR status
 
