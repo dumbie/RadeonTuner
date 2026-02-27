@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 		return std::nullopt;
 	}
 
-	bool MainPage::AdlAppPropertySet(AdlApplication& adlApp)
+	bool MainPage::AdlAppPropertySave(AdlApplication& adlApp)
 	{
 		try
 		{
@@ -92,21 +92,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check property types
-			for (AdlAppPropertyValue property : properties)
-			{
-				try
-				{
-					DATATYPES propertyType = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
-					if (propertyType == DT_Unknown)
-					{
-						AVDebugWriteLine(L"Unknown application property type: " << property.Name);
-						return false;
-					}
-				}
-				catch (...) {}
-			}
-
 			//Set properties values
 			for (AdlAppPropertyValue property : properties)
 			{
@@ -179,8 +164,16 @@ namespace winrt::RadeonTuner::implementation
 					//Add property if it does not exist
 					if (!propertyExists && !propertyUpdated)
 					{
+						//Check for unknown property type
+						DATATYPES propertyType = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
+						if (propertyType == DT_Unknown)
+						{
+							AVDebugWriteLine(L"Unknown property type, skipping: " << property.Name);
+							continue;
+						}
+
 						AdlAppProperty adlAppProperty{};
-						adlAppProperty.Type = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
+						adlAppProperty.Type = propertyType;
 						adlAppProperty.Name = property.Name;
 
 						AdlAppPropertyValue adlAppPropertyValue{};
@@ -200,8 +193,8 @@ namespace winrt::RadeonTuner::implementation
 				catch (...) {}
 			}
 
-			//Set application settings
-			return AdlAppPropertySet(adlApp);
+			//Save application settings
+			return AdlAppPropertySave(adlApp);
 		}
 		catch (...)
 		{
