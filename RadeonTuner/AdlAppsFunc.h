@@ -32,15 +32,33 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Get applications
 			int adlApplicationsCount = 0;
-			ADLApplicationRecord* adlApplications;
-			adl_Res0 = _ADL2_ApplicationProfiles_Applications_Get(adl_Context, driverArea.c_str(), &adlApplicationsCount, &adlApplications);
+			auto adlApplications = AVFin<ADLApplicationRecord*>(AVFinMethod::Custom);
+			adl_Res0 = _ADL2_ApplicationProfiles_Applications_Get(adl_Context, driverArea.c_str(), &adlApplicationsCount, &adlApplications.Get());
+
+			//Set memory releaser
+			adlApplications.SetReleaser([&](auto releasePointer)
+				{
+					for (int i = 0; i < adlApplicationsCount; i++)
+					{
+						delete[](releasePointer[i].strFileName);
+						delete[](releasePointer[i].strPathName);
+						delete[](releasePointer[i].strArea);
+						delete[](releasePointer[i].strTitle);
+						delete[](releasePointer[i].strVersion);
+						delete[](releasePointer[i].strNotes);
+						delete[](releasePointer[i].strProfileName);
+					}
+					delete[](releasePointer);
+				});
+
+			//Check result
 			if (adl_Res0 == ADL_OK)
 			{
 				for (int i = 0; i < adlApplicationsCount; i++)
 				{
 					try
 					{
-						if (adlApplications[i].strFileName == fileName && adlApplications[i].strPathName == filePath && adlApplications[i].strArea == driverArea) { return true; }
+						if (adlApplications.Get()[i].strFileName == fileName && adlApplications.Get()[i].strPathName == filePath && adlApplications.Get()[i].strArea == driverArea) { return true; }
 					}
 					catch (...) {}
 				}
@@ -106,7 +124,7 @@ namespace winrt::RadeonTuner::implementation
 				return ADL_PROFILEPROPERTY_TYPE_STRING;
 			}
 		}
-		catch (...){}
+		catch (...) {}
 		return ADL_PROFILEPROPERTY_TYPE_BINARY;
 	}
 

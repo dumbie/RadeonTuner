@@ -7,37 +7,32 @@ namespace winrt::RadeonTuner::implementation
 {
 	void MainPage::AdlxValuesExportDisplay()
 	{
-		IFileSaveDialog* pFileDialog = NULL;
-		IShellItem* pShellItem = NULL;
-		AVFinallySafe(
-			{
-				pFileDialog->Release();
-				pShellItem->Release();
-			});
 		try
 		{
 			std::string exportPath;
-			HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog);
+			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::Release);
+			HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog.Get());
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
 				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radd" } };
-				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog->SetTitle(L"Export display settings...");
-				pFileDialog->SetOptions(FOS_OVERWRITEPROMPT);
-				pFileDialog->SetDefaultExtension(L"radd");
+				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+				pFileDialog.Get()->SetTitle(L"Export display settings...");
+				pFileDialog.Get()->SetOptions(FOS_OVERWRITEPROMPT);
+				pFileDialog.Get()->SetDefaultExtension(L"radd");
 
 				//Show file dialog
-				hResult = pFileDialog->Show(NULL);
+				hResult = pFileDialog.Get()->Show(NULL);
 
 				//Get file dialog result
 				if (SUCCEEDED(hResult))
 				{
-					hResult = pFileDialog->GetResult(&pShellItem);
+					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::Release);
+					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
 					if (SUCCEEDED(hResult))
 					{
 						PWSTR pszFilePath;
-						hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 						if (SUCCEEDED(hResult))
 						{
 							exportPath = wchar_to_string(pszFilePath);

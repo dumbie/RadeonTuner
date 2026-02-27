@@ -7,36 +7,31 @@ namespace winrt::RadeonTuner::implementation
 {
 	void MainPage::AdlxValuesImportTuning()
 	{
-		IFileOpenDialog* pFileDialog = NULL;
-		IShellItem* pShellItem = NULL;
-		AVFinallySafe(
-			{
-				pFileDialog->Release();
-				pShellItem->Release();
-			});
 		try
 		{
 			std::string importPath;
-			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog);
+			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::Release);
+			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog.Get());
 			if (SUCCEEDED(hResult))
 			{
 				//Set file dialog
 				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radt" } };
-				pFileDialog->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog->SetTitle(L"Import tuning and fans settings...");
-				pFileDialog->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
+				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+				pFileDialog.Get()->SetTitle(L"Import tuning and fans settings...");
+				pFileDialog.Get()->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
 
 				//Show file dialog
-				hResult = pFileDialog->Show(NULL);
+				hResult = pFileDialog.Get()->Show(NULL);
 
 				//Get file dialog result
 				if (SUCCEEDED(hResult))
 				{
-					hResult = pFileDialog->GetResult(&pShellItem);
+					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::Release);
+					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
 					if (SUCCEEDED(hResult))
 					{
 						PWSTR pszFilePath;
-						hResult = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 						if (SUCCEEDED(hResult))
 						{
 							importPath = wchar_to_string(pszFilePath);

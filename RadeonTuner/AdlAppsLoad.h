@@ -25,8 +25,26 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Get applications
 			int adlApplicationsCount = 0;
-			ADLApplicationRecord* adlApplications;
-			adl_Res0 = _ADL2_ApplicationProfiles_Applications_Get(adl_Context, driverArea.c_str(), &adlApplicationsCount, &adlApplications);
+			auto adlApplications = AVFin<ADLApplicationRecord*>(AVFinMethod::Custom);
+			adl_Res0 = _ADL2_ApplicationProfiles_Applications_Get(adl_Context, driverArea.c_str(), &adlApplicationsCount, &adlApplications.Get());
+
+			//Set memory releaser
+			adlApplications.SetReleaser([&](auto releasePointer)
+				{
+					for (int i = 0; i < adlApplicationsCount; i++)
+					{
+						delete[](releasePointer[i].strFileName);
+						delete[](releasePointer[i].strPathName);
+						delete[](releasePointer[i].strArea);
+						delete[](releasePointer[i].strTitle);
+						delete[](releasePointer[i].strVersion);
+						delete[](releasePointer[i].strNotes);
+						delete[](releasePointer[i].strProfileName);
+					}
+					delete[](releasePointer);
+				});
+
+			//Check result
 			if (adl_Res0 == ADL_OK)
 			{
 				for (int i = 0; i < adlApplicationsCount; i++)
@@ -35,23 +53,23 @@ namespace winrt::RadeonTuner::implementation
 					{
 						//Create adl application
 						AdlApplication adlApp{};
-						if (adlApplications[i].strFileName != NULL)
+						if (adlApplications.Get()[i].strFileName != NULL)
 						{
-							adlApp.FileName = adlApplications[i].strFileName;
+							adlApp.FileName = adlApplications.Get()[i].strFileName;
 						}
-						if (adlApplications[i].strPathName != NULL)
+						if (adlApplications.Get()[i].strPathName != NULL)
 						{
-							adlApp.FilePath = adlApplications[i].strPathName;
+							adlApp.FilePath = adlApplications.Get()[i].strPathName;
 						}
-						if (adlApplications[i].strProfileName != NULL)
+						if (adlApplications.Get()[i].strProfileName != NULL)
 						{
-							adlApp.ProfileName = adlApplications[i].strProfileName;
+							adlApp.ProfileName = adlApplications.Get()[i].strProfileName;
 						}
-						if (adlApplications[i].strArea != NULL)
+						if (adlApplications.Get()[i].strArea != NULL)
 						{
-							adlApp.DriverArea = adlApplications[i].strArea;
+							adlApp.DriverArea = adlApplications.Get()[i].strArea;
 						}
-						adlApp.RecordSource = adlApplications[i].recordSource;
+						adlApp.RecordSource = adlApplications.Get()[i].recordSource;
 
 						//Load application profile
 						ADLApplicationProfile* lppProfile;
