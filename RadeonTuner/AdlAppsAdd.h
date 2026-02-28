@@ -56,13 +56,7 @@ namespace winrt::RadeonTuner::implementation
 			adlApp.DriverArea = driverArea;
 
 			//Set default properties
-			AdlAppDefaultPropertiesSet(adlApp);
-
-			//Set application settings
-			AdlAppPropertySet(adlApp);
-
-			//Set result
-			return adl_Res0 == ADL_OK;
+			return AdlAppDefaultProperties(adlApp, true);
 		}
 		catch (...)
 		{

@@ -72,13 +72,18 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
-			AdlAppPropertyValue adlAppPropertyValue{};
-			adlAppPropertyValue.GpuId = propertyGpuId;
-			adlAppPropertyValue.Name = propertyName;
-			adlAppPropertyValue.Value = propertyValue;
-			adlAppPropertyValues.push_back(adlAppPropertyValue);
-			return AdlAppPropertyUpdate(adlApp, adlAppPropertyValues);
+			//Set application properties
+			std::vector<AdlAppProperty> adlAppProperties{};
+			AdlAppProperty adlAppProperty0{};
+			adlAppProperty0.Name = propertyName;
+			AdlAppPropertyValue adlAppPropertyValue0{};
+			adlAppPropertyValue0.GpuId = propertyGpuId;
+			adlAppPropertyValue0.Value = propertyValue;
+			adlAppProperty0.Values = { adlAppPropertyValue0 };
+			adlAppProperties.push_back(adlAppProperty0);
+
+			//Update application properties
+			return AdlAppPropertyUpdate(adlApp, adlAppProperties);
 		}
 		catch (...)
 		{
@@ -88,12 +93,12 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppPropertyValue> properties)
+	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> newProperties)
 	{
 		try
 		{
 			//Set properties values
-			for (AdlAppPropertyValue property : properties)
+			for (AdlAppProperty newProperty : newProperties)
 			{
 				try
 				{
@@ -102,34 +107,38 @@ namespace winrt::RadeonTuner::implementation
 					bool propertyUpdated = false;
 
 					//Update property value if it exists
-					for (AdlAppProperty& adlAppProperty : adlApp.Properties)
+					for (AdlAppProperty& appProperty : adlApp.Properties)
 					{
 						try
 						{
-							if (adlAppProperty.Name == property.Name)
+							if (appProperty.Name == newProperty.Name)
 							{
 								propertyExists = true;
-								for (AdlAppPropertyValue& adlAppPropertyValue : adlAppProperty.Values)
+								for (AdlAppPropertyValue& appPropertyValue : appProperty.Values)
 								{
-									try
+									for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
 									{
-										if (!property.GpuId.empty())
+										try
 										{
-											if (adlAppPropertyValue.GpuId == property.GpuId)
+											//Update property value
+											if (!newPropertyValue.GpuId.empty())
 											{
-												adlAppPropertyValue.Value = property.Value;
+												if (appPropertyValue.GpuId == newPropertyValue.GpuId)
+												{
+													appPropertyValue.Value = newPropertyValue.Value;
+													propertyUpdated = true;
+													AVDebugWriteLine(L"Updated value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value << L" / " << newPropertyValue.GpuId);
+												}
+											}
+											else
+											{
+												appPropertyValue.Value = newPropertyValue.Value;
 												propertyUpdated = true;
-												AVDebugWriteLine(L"Updated value: " << adlAppProperty.Type << L" / " << property.Name << L" / " << property.Value << L" / " << property.GpuId);
+												AVDebugWriteLine(L"Updated value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value);
 											}
 										}
-										else
-										{
-											adlAppPropertyValue.Value = property.Value;
-											propertyUpdated = true;
-											AVDebugWriteLine(L"Updated value: " << adlAppProperty.Type << L" / " << property.Name << L" / " << property.Value);
-										}
+										catch (...) {}
 									}
-									catch (...) {}
 								}
 							}
 						}
@@ -139,55 +148,45 @@ namespace winrt::RadeonTuner::implementation
 					//Add property value if it does not exist
 					if (propertyExists && !propertyUpdated)
 					{
-						for (AdlAppProperty& adlAppProperty : adlApp.Properties)
+						for (AdlAppProperty& appProperty : adlApp.Properties)
 						{
-							try
+							for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
 							{
-								if (adlAppProperty.Name == property.Name)
+								try
 								{
-									AdlAppPropertyValue adlAppPropertyValue{};
-									if (!property.GpuId.empty())
+									if (appProperty.Name == newProperty.Name)
 									{
-										adlAppPropertyValue.GpuId = property.GpuId;
-									}
-									adlAppPropertyValue.Value = property.Value;
-									adlAppProperty.Values.insert(adlAppProperty.Values.begin(), adlAppPropertyValue);
+										//Add property value
+										appProperty.Values.insert(appProperty.Values.begin(), newPropertyValue);
 
-									propertyUpdated = true;
-									AVDebugWriteLine(L"Added value: " << adlAppProperty.Type << L" / " << property.Name << L" / " << property.Value << L" / " << property.GpuId);
+										propertyUpdated = true;
+										AVDebugWriteLine(L"Added value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value << L" / " << newPropertyValue.GpuId);
+									}
 								}
+								catch (...) {}
 							}
-							catch (...) {}
 						}
 					}
 
 					//Add property if it does not exist
 					if (!propertyExists && !propertyUpdated)
 					{
-						//Check for unknown property type
-						DATATYPES propertyType = AdlAppPropertyDataTypeGet(property.Name, adlApp.DriverArea);
+						//Check property type
+						DATATYPES propertyType = AdlAppPropertyDataTypeGet(newProperty.Name, adlApp.DriverArea);
 						if (propertyType == DT_Unknown)
 						{
-							AVDebugWriteLine(L"Unknown property type, skipping: " << property.Name);
+							AVDebugWriteLine(L"Unknown property type, not adding: " << newProperty.Name);
 							continue;
 						}
 
-						AdlAppProperty adlAppProperty{};
-						adlAppProperty.Type = propertyType;
-						adlAppProperty.Name = property.Name;
+						//Set property type
+						newProperty.Type = propertyType;
 
-						AdlAppPropertyValue adlAppPropertyValue{};
-						if (!property.GpuId.empty())
-						{
-							adlAppPropertyValue.GpuId = property.GpuId;
-						}
-						adlAppPropertyValue.Value = property.Value;
-						adlAppProperty.Values.insert(adlAppProperty.Values.begin(), adlAppPropertyValue);
-
-						adlApp.Properties.push_back(adlAppProperty);
+						//Add property
+						adlApp.Properties.insert(adlApp.Properties.begin(), newProperty);
 
 						propertyUpdated = true;
-						AVDebugWriteLine("Added property: " << adlAppProperty.Type << L" / " << property.Name << L" / " << property.Value << L" / " << property.GpuId);
+						AVDebugWriteLine("Added property: " << newProperty.Type << L" / " << newProperty.Name << L" / " << newProperty.GetValuesString());
 					}
 				}
 				catch (...) {}

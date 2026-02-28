@@ -69,7 +69,6 @@ namespace winrt::RadeonTuner::implementation
 						{
 							adlApp.DriverArea = adlApplications.Get()[i].strArea;
 						}
-						adlApp.RecordSource = adlApplications.Get()[i].recordSource;
 
 						//Load application profile
 						ADLApplicationProfile* lppProfile;

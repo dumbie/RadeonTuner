@@ -122,7 +122,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Unlock application features
-			bool unlockResult = AdlAppUnlock(adl_AppSelected());
+			bool unlockResult = AdlAppUnlock(adl_AppSelected(), true);
 
 			//Check result
 			if (unlockResult)
@@ -758,72 +758,96 @@ namespace winrt::RadeonTuner::implementation
 			//Set setting
 			if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_MULTISAMPLING)
 			{
-				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				std::vector<AdlAppProperty> adlAppProperties{};
+
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASD";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"-1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+
+				AdlAppProperty adlAppProperty1{};
+				adlAppProperty1.Name = L"ASE";
 				AdlAppPropertyValue adlAppPropertyValue1{};
 				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue1.Name = L"ASD";
-				adlAppPropertyValue1.Value = L"-1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue1);
+				adlAppPropertyValue1.Value = L"0";
+				adlAppProperty1.Values = { adlAppPropertyValue1 };
+				adlAppProperties.push_back(adlAppProperty1);
 
+				AdlAppProperty adlAppProperty2{};
+				adlAppProperty2.Name = L"ASTT";
 				AdlAppPropertyValue adlAppPropertyValue2{};
 				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue2.Name = L"ASE";
 				adlAppPropertyValue2.Value = L"0";
-				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+				adlAppProperty2.Values = { adlAppPropertyValue2 };
+				adlAppProperties.push_back(adlAppProperty2);
 
-				AdlAppPropertyValue adlAppPropertyValue3{};
-				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue3.Name = L"ASTT";
-				adlAppPropertyValue3.Value = L"0";
-				adlAppPropertyValues.push_back(adlAppPropertyValue3);
-
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
+				//Set setting
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
 			}
 			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
 			{
-				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				std::vector<AdlAppProperty> adlAppProperties{};
+
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASD";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+
+				AdlAppProperty adlAppProperty1{};
+				adlAppProperty1.Name = L"ASE";
 				AdlAppPropertyValue adlAppPropertyValue1{};
 				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue1.Name = L"ASD";
-				adlAppPropertyValue1.Value = L"1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue1);
+				adlAppPropertyValue1.Value = L"0";
+				adlAppProperty1.Values = { adlAppPropertyValue1 };
+				adlAppProperties.push_back(adlAppProperty1);
 
+				AdlAppProperty adlAppProperty2{};
+				adlAppProperty2.Name = L"ASTT";
 				AdlAppPropertyValue adlAppPropertyValue2{};
 				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue2.Name = L"ASE";
-				adlAppPropertyValue2.Value = L"0";
-				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+				adlAppPropertyValue2.Value = L"1";
+				adlAppProperty2.Values = { adlAppPropertyValue2 };
+				adlAppProperties.push_back(adlAppProperty2);
 
-				AdlAppPropertyValue adlAppPropertyValue3{};
-				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue3.Name = L"ASTT";
-				adlAppPropertyValue3.Value = L"1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue3);
-
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
+				//Set setting
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
 			}
 			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
 			{
-				std::vector<AdlAppPropertyValue> adlAppPropertyValues{};
+				std::vector<AdlAppProperty> adlAppProperties{};
+
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASD";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+
+				AdlAppProperty adlAppProperty1{};
+				adlAppProperty1.Name = L"ASE";
 				AdlAppPropertyValue adlAppPropertyValue1{};
 				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue1.Name = L"ASD";
 				adlAppPropertyValue1.Value = L"1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue1);
+				adlAppProperty1.Values = { adlAppPropertyValue1 };
+				adlAppProperties.push_back(adlAppProperty1);
 
+				AdlAppProperty adlAppProperty2{};
+				adlAppProperty2.Name = L"ASTT";
 				AdlAppPropertyValue adlAppPropertyValue2{};
 				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue2.Name = L"ASE";
 				adlAppPropertyValue2.Value = L"1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue2);
+				adlAppProperty2.Values = { adlAppPropertyValue2 };
+				adlAppProperties.push_back(adlAppProperty2);
 
-				AdlAppPropertyValue adlAppPropertyValue3{};
-				adlAppPropertyValue3.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue3.Name = L"ASTT";
-				adlAppPropertyValue3.Value = L"1";
-				adlAppPropertyValues.push_back(adlAppPropertyValue3);
-
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppPropertyValues);
+				//Set setting
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
 			}
 
 			//Show result

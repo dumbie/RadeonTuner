@@ -6,388 +6,294 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppDefaultPropertiesSet(AdlApplication& adlApp)
+	bool MainPage::AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties)
 	{
 		try
 		{
-			AVDebugWriteLine("Resetting application properties to defaults: " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
+			AVDebugWriteLine("Setting application properties to defaults: " << clearProperties << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
 
 			//Clear all application properties
-			adlApp.Properties.clear();
+			if (clearProperties)
+			{
+				adlApp.Properties.clear();
+			}
+
+			//Set default application properties
+			std::vector<AdlAppProperty> adlAppProperties{};
 
 			//Radeon FSR Upscaling Override
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"FsrOverride", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"FsrOverride";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"FsrOverride";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon FSR Frame Generation Override
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"MlfiOverride", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"MlfiOverride";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"MlfiOverride";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Anti-Lag
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Dlg_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Dlg_PFEnable";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Dlg_PFEnable";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Boost
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Bst_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Bst_PFEnable";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Bst_PFEnable";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Boost Minimum Resolution
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Bst_MaxScale", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Bst_MaxScale";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"84";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Bst_MaxScale";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"84";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Chill
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Chil_PFEnable";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Chil_PFEnable";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Chill Minimum
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_MinFRate", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Chil_MinFRate";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"75";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Chil_MinFRate";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"75";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Chill Maximum
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Chil_MaxFRate", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Chil_MaxFRate";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"140";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Chil_MaxFRate";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"140";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Image Sharpening
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Ris_PFEnable", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Ris_PFEnable";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Ris_PFEnable";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Radeon Image Sharpening Sharpness
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Ris_SHDegree", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Ris_SHDegree";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0.8";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Ris_SHDegree";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0.8";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Enhanced Sync
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"TurboSync", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"TurboSync";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"TurboSync";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Vertical Refresh
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"VSyncControl", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"VSyncControl";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"1";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"VSyncControl";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Anti-Aliasing Override
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AntiAlias", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"AntiAlias";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"1";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"AntiAlias";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Anti-Aliasing Method
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASD", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"ASD";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"-1";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASD";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"-1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASE", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"ASE";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASE";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"ASTT", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"ASTT";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASTT";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Anti-Aliasing Level
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AntiAliasSmpls", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"AntiAliasSmpls";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"8"; //AMD Default 2
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"AntiAliasSmpls";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"2";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Enhanced Quality Anti-Aliasing
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"EQAA", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"EQAA";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"EQAA";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Morphological Anti-Aliasing
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"MLF", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"MLF";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"MLF";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Anisotropic Texture Filtering Override
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"AnisoDegree", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"AnisoDegree";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"AnisoDegree";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Texture Filtering Quality
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"TFQ", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"TFQ";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"1";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"TFQ";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"1";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Surface Format Optimization
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"SrfcFrmtRplcmnt", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"SrfcFrmtRplcmnt";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"SrfcFrmtRplcmnt";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Tessellation Mode
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Tessellation_OP", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Tessellation_OP";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Tessellation_OP";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//Tessellation Level
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"Tessellation", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"Tessellation";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"64";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"Tessellation";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"64";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//OpenGL Triple Buffering
 			{
-				AdlAppProperty adlAppProperty{};
-				adlAppProperty.Type = AdlAppPropertyDataTypeGet(L"EnableTrplBffr", adlApp.DriverArea);
-				if (adlAppProperty.Type != DT_Unknown)
-				{
-					adlAppProperty.Name = L"EnableTrplBffr";
-					AdlAppPropertyValue adlAppPropertyValue{};
-					adlAppPropertyValue.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue.Value = L"0";
-					adlAppProperty.Values.push_back(adlAppPropertyValue);
-					adlApp.Properties.push_back(adlAppProperty);
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"EnableTrplBffr";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Set result
-			return true;
+			//Update application properties
+			return AdlAppPropertyUpdate(adlApp, adlAppProperties);
 		}
 		catch (...)
 		{
