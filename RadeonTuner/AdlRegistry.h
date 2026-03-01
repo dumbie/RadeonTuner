@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
-#include "AdlVariables.h"
+#include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -14,9 +14,9 @@ namespace winrt::RadeonTuner::implementation
 			const int charsize = (int)(value.length()) * sizeof(wchar_t);
 			char* chararray = (char*)value.c_str();
 
-			int adlResult = _ADL2_Adapter_RegValueString_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
-			AVDebugWriteLine("ADL set string registry setting: " << adlResult);
-			return adlResult == ADL_OK;
+			adl_Res0 = _ADL2_Adapter_RegValueString_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			AVDebugWriteLine("ADL set string registry setting: " << adl_Res0);
+			return adl_Res0 == ADL_OK;
 		}
 		catch (...)
 		{
@@ -31,9 +31,9 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Fix does not seem to save value as expected REG_DWORD but REG_BINARY using UTF-16LE instead
-			int adlResult = _ADL2_Adapter_RegValueInt_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
-			AVDebugWriteLine("ADL set int registry setting: " << adlResult);
-			return adlResult == ADL_OK;
+			adl_Res0 = _ADL2_Adapter_RegValueInt_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
+			AVDebugWriteLine("ADL set int registry setting: " << adl_Res0);
+			return adl_Res0 == ADL_OK;
 		}
 		catch (...)
 		{
@@ -43,17 +43,18 @@ namespace winrt::RadeonTuner::implementation
 	}
 
 	///Example: AdlRegistrySettingGetString(adlAdapterIndex, "UMD", "TurboSync");
-	std::string MainPage::AdlRegistrySettingGetString(int adlAdapterIndex, std::string subKey, std::string key)
+	std::optional<std::string> MainPage::AdlRegistrySettingGetString(int adlAdapterIndex, std::string subKey, std::string key)
 	{
-		std::string returnString;
 		try
 		{
 			const int charsize = 1024;
 			char chararray[charsize]{};
 
-			int adlResult = _ADL2_Adapter_RegValueString_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
-			if (adlResult == ADL_OK)
+			adl_Res0 = _ADL2_Adapter_RegValueString_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			if (adl_Res0 == ADL_OK)
 			{
+				AVDebugWriteLine("ADL get string registry setting: " << adl_Res0);
+
 				//Remove \0 from string
 				int string_position = 0;
 				for (int string_index = 0; string_index < charsize; string_index++)
@@ -68,31 +69,46 @@ namespace winrt::RadeonTuner::implementation
 					chararray[string_position] = '\0';
 				}
 
-				//Convert array to string
-				returnString = std::string(chararray);
+				//Return result
+				return chararray;
 			}
-			AVDebugWriteLine("ADL get string registry setting: " << adlResult);
+			else
+			{
+				//Return result
+				AVDebugWriteLine("ADL failed to get string registry setting.");
+				return std::nullopt;
+			}
 		}
 		catch (...)
 		{
+			//Return result
 			AVDebugWriteLine("ADL failed to get string registry setting.");
+			return std::nullopt;
 		}
-		return returnString;
 	}
 
 	///Example: AdlRegistrySettingGetInt(adlAdapterIndex, "", "KMD_10BitMode");
-	int MainPage::AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key)
+	std::optional<INT> MainPage::AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key)
 	{
-		int returnInt = -1;
 		try
 		{
-			int adlResult = _ADL2_Adapter_RegValueInt_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
-			AVDebugWriteLine("ADL get int registry setting: " << adlResult);
+			int returnInt = -1;
+			adl_Res0 = _ADL2_Adapter_RegValueInt_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
+			if (adl_Res0 == ADL_OK)
+			{
+				AVDebugWriteLine("ADL get int registry setting: " << adl_Res0);
+				return returnInt;
+			}
+			else
+			{
+				AVDebugWriteLine("ADL failed to get int registry setting.");
+				return std::nullopt;
+			}
 		}
 		catch (...)
 		{
 			AVDebugWriteLine("ADL failed to get int registry setting.");
+			return std::nullopt;
 		}
-		return returnInt;
 	}
 }
