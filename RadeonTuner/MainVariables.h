@@ -39,6 +39,7 @@ inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
 inline IADLXPowerTuningServices1Ptr ppPowerTuningServices;
 inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
 
+inline int adl_DisplayIndex = -1;
 inline int adl_AdapterIndex = -1;
 inline int adl_Res0 = ADL_ERR;
 

@@ -273,7 +273,7 @@
                                     <!-- Anti-Aliasing Override -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance and video memory usage."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Anti-Aliasing Override, Method, Level and EQAA only works on DirectX 9 (and older) and OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Anti-Aliasing Override, Method, Level and EQAA only works on DirectX 9 (and older) and some OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_AntiAliasingOverride" Margin="10,0,0,0" OffContent="Anti-Aliasing Override" OnContent="Anti-Aliasing Override" Toggled="toggleswitch_AntiAliasingOverride_Toggled"/>
                                     </StackPanel>
 
@@ -331,6 +331,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on DirectX 9 applications."/>
                                         <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -340,6 +341,7 @@
                                     <!-- Surface Format Optimization -->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -931,7 +933,8 @@
                                 </StackPanel>
                             </Border>
 
-                            <StackPanel Visibility="Collapsed">
+                            <!-- Color Deficiency Correction -->
+                            <StackPanel>
                                 <TextBlock Text="Color Deficiency Correction" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                                 <!-- Protanopia -->

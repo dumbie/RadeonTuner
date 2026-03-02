@@ -1,8 +1,8 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlValuesLoadGraphics.h"
 #include "MainVariables.h"
+#include "AdlValuesLoadGraphics.h"
 #include "AdlxValuesLoadMultimedia.h"
 #include "AdlxValuesLoadPower.h"
 #include "AdlxValuesLoadDisplay.h"
@@ -102,6 +102,10 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed getting selected display.");
 				return;
 			}
+
+			//Get ADL display index
+			int ppNullptr;
+			ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &ppNullptr, &adl_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
 
 			//Load display settings
 			AdlxValuesLoadDisplay();

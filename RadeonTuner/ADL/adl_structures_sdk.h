@@ -49,6 +49,14 @@ typedef enum DATATYPES {
 	DT_Stringed
 } DATATYPES;
 
+enum ADLCvdcType
+{
+	CVDC_ENABLED,
+	CVDC_PROTANOPIA,
+	CVDC_DEUTERANOPIA,
+	CVDC_TRITANOPIA
+};
+
 // Common typedef's for transitional and compacts
 
 typedef struct TABLES {

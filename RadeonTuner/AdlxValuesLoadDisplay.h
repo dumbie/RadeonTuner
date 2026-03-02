@@ -18,6 +18,22 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Set interface limits
+			slider_Display_Protanopia().Minimum(0);
+			slider_Display_Protanopia().Maximum(20);
+			slider_Display_Protanopia().StepFrequency(1);
+			slider_Display_Protanopia().SmallChange(1);
+
+			slider_Display_Deuteranopia().Minimum(0);
+			slider_Display_Deuteranopia().Maximum(20);
+			slider_Display_Deuteranopia().StepFrequency(1);
+			slider_Display_Deuteranopia().SmallChange(1);
+
+			slider_Display_Tritanopia().Minimum(0);
+			slider_Display_Tritanopia().Maximum(20);
+			slider_Display_Tritanopia().StepFrequency(1);
+			slider_Display_Tritanopia().SmallChange(1);
+
 			//Get FreeSync
 			try
 			{
@@ -466,34 +482,36 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().IsEnabled(false);
 			}
 
-			////Get Color Vision Deficiency
-			//try
-			//{
-			//	IADLXDisplayCVDCPtr ppCVDC;
-			//	adlx_Res0 = ppDispServices->GetCVDC(ppDisplayInfo, &ppCVDC);
-			//	adlx_Res0 = ppCVDC->IsSupported(&adlx_Bool);
-			//	if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-			//	{
-			//		//Enable or disable interface
-			//		slider_Display_Protanopia().IsEnabled(true);
-			//		slider_Display_Deuteranopia().IsEnabled(true);
-			//		slider_Display_Tritanopia().IsEnabled(true);
-			//	}
-			//	else
-			//	{
-			//		//Enable or disable interface
-			//		slider_Display_Protanopia().IsEnabled(false);
-			//		slider_Display_Deuteranopia().IsEnabled(false);
-			//		slider_Display_Tritanopia().IsEnabled(false);
-			//	}
-			//}
-			//catch (...)
-			//{
-			//	//Enable or disable interface
-			//	slider_Display_Protanopia().IsEnabled(false);
-			//	slider_Display_Deuteranopia().IsEnabled(false);
-			//	slider_Display_Tritanopia().IsEnabled(false);
-			//}
+			//Get Color Vision Deficiency
+			try
+			{
+				//Get Protanopia
+				int cvdcProtanopia;
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_PROTANOPIA, &cvdcProtanopia);
+				slider_Display_Protanopia().Value(cvdcProtanopia);
+
+				//Get Deuteranopia
+				int cvdcDeuteranopia;
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
+				slider_Display_Deuteranopia().Value(cvdcDeuteranopia);
+
+				//Get Tritanopia
+				int cvdcTritanopia;
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_TRITANOPIA, &cvdcTritanopia);
+				slider_Display_Tritanopia().Value(cvdcTritanopia);
+
+				//Enable or disable interface
+				slider_Display_Protanopia().IsEnabled(true);
+				slider_Display_Deuteranopia().IsEnabled(true);
+				slider_Display_Tritanopia().IsEnabled(true);
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_Display_Protanopia().IsEnabled(false);
+				slider_Display_Deuteranopia().IsEnabled(false);
+				slider_Display_Tritanopia().IsEnabled(false);
+			}
 
 			//Get Vari-Bright
 			try

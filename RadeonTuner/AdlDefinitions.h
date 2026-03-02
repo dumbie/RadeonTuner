@@ -51,4 +51,17 @@ inline ADL2_Adapter_RegValueInt_Get _ADL2_Adapter_RegValueInt_Get;
 //Adapter
 typedef int (*ADL2_Adapter_Accessibility_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAccessibility);
 inline ADL2_Adapter_Accessibility_Get _ADL2_Adapter_Accessibility_Get;
+
+//Display
+typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);
+inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;
+
+typedef int (*ADL2_Display_Color_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int iCurrent);
+inline ADL2_Display_Color_Set _ADL2_Display_Color_Set;
+
+typedef int (*ADL2_Display_CVDC_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int* cvdcValue);
+inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
+
+typedef int (*ADL2_Display_CVDC_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int cvdcValue);
+inline ADL2_Display_CVDC_Set _ADL2_Display_CVDC_Set;
 //}

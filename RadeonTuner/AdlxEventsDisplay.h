@@ -585,17 +585,113 @@ namespace winrt::RadeonTuner::implementation
 
 	void MainPage::slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
-		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_PROTANOPIA, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Protanopia().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Protanopia");
+				AVDebugWriteLine(L"Failed setting Protanopia");
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Protanopia().Foreground(colorValid);
+				ShowNotification(L"Protanopia set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Protanopia set to " << newValue);
+			}
+		}
+		catch (...) {}
 	}
 
 	void MainPage::slider_Display_Deuteranopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
-		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_DEUTERANOPIA, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Deuteranopia().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Deuteranopia");
+				AVDebugWriteLine(L"Failed setting Deuteranopia");
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Deuteranopia().Foreground(colorValid);
+				ShowNotification(L"Deuteranopia set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Deuteranopia set to " << newValue);
+			}
+		}
+		catch (...) {}
 	}
 
 	void MainPage::slider_Display_Tritanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
-		AVDebugWriteLine("Wait for ADLX v1.5 release, support has been added to driver 25.12.1");
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValue = (int)e.NewValue();
+			bool newFailed = true;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_TRITANOPIA, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_Tritanopia().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Tritanopia");
+				AVDebugWriteLine(L"Failed setting Tritanopia");
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_Tritanopia().Foreground(colorValid);
+				ShowNotification(L"Tritanopia set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Tritanopia set to " << newValue);
+			}
+		}
+		catch (...) {}
 	}
 
 	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)

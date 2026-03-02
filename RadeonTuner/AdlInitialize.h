@@ -155,6 +155,39 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Adapter_Accessibility_Get";
 			}
 
+			//Display
+			_ADL2_Display_Color_Get = (ADL2_Display_Color_Get)GetProcAddress(hInstance, "ADL2_Display_Color_Get");
+			if (_ADL2_Display_Color_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_Color_Get");
+				return L"Failed to init _ADL2_Display_Color_Get";
+			}
+
+			_ADL2_Display_Color_Set = (ADL2_Display_Color_Set)GetProcAddress(hInstance, "ADL2_Display_Color_Set");
+			if (_ADL2_Display_Color_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_Color_Set");
+				return L"Failed to init _ADL2_Display_Color_Set";
+			}
+
+			_ADL2_Display_CVDC_Get = (ADL2_Display_CVDC_Get)GetProcAddress(hInstance, "ADL2_Display_CVDC_Get");
+			if (_ADL2_Display_CVDC_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CVDC_Get");
+				return L"Failed to init _ADL2_Display_CVDC_Get";
+			}
+
+			_ADL2_Display_CVDC_Set = (ADL2_Display_CVDC_Set)GetProcAddress(hInstance, "ADL2_Display_CVDC_Set");
+			if (_ADL2_Display_CVDC_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CVDC_Set");
+				return L"Failed to init _ADL2_Display_CVDC_Set";
+			}
+
 			//Create ADL main control
 			if (_ADL2_Main_Control_Create(ADL_Main_Memory_Alloc, 1, &adl_Context) != ADL_OK)
 			{
