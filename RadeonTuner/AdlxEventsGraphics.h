@@ -785,7 +785,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty2);
 
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties, false);
 			}
 			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
 			{
@@ -816,7 +816,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty2);
 
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties, false);
 			}
 			else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
 			{
@@ -847,7 +847,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty2);
 
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties);
+				newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), adlAppProperties, false);
 			}
 
 			//Show result

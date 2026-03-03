@@ -16,9 +16,10 @@ namespace winrt::RadeonTuner::implementation
 		std::vector<AdlApplication> AdlAppLoad(std::wstring driverArea);
 		bool AdlAppAdd(std::wstring filePath, std::wstring driverArea);
 		bool AdlAppRemove(AdlApplication adlApp);
-		bool AdlAppUnlock(AdlApplication adlApp);
-		bool AdlAppDefaultPropertiesSet(AdlApplication& adlApp);
+		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
+		bool AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties, bool addOnly);
 		std::wstring AdlAppProfileGenerateName(std::wstring profileHeader);
+		void AdlAppSetUmdGpuId();
 
 		bool AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea);
 		bool AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea);
@@ -26,8 +27,8 @@ namespace winrt::RadeonTuner::implementation
 		ADLProfilePropertyType AdlAppConvertDataTypeToPropertyType(DATATYPES dataType);
 		std::vector<ADLPropertyRecordCreate> AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties);
 		std::optional<AdlAppProperty> AdlAppPropertyGet(AdlApplication adlApp, std::wstring propertyName);
-		bool AdlAppPropertySet(AdlApplication& adlApp);
-		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppPropertyValue> properties);
+		bool AdlAppPropertySave(AdlApplication& adlApp);
+		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> properties, bool addOnly);
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue);
 
 		bool AdlRegistrySettingSet(int adlAdapterIndex, std::string subKey, std::string key, std::string value);

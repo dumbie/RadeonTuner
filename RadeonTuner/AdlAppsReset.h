@@ -6,11 +6,11 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties)
+	bool MainPage::AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties, bool addOnly)
 	{
 		try
 		{
-			AVDebugWriteLine("Setting application properties to defaults: " << clearProperties << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
+			AVDebugWriteLine("Setting application properties to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
 
 			//Clear all application properties
 			if (clearProperties)
@@ -32,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon FSR Frame Generation Override
+			//Radeon FSR Interpolation Frame Generation Override
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MlfiOverride";
@@ -42,6 +42,48 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}
+
+			////Radeon FSR Multi Frame Generation Override
+			//{
+			//	AdlAppProperty adlAppProperty0{};
+			//	adlAppProperty0.Name = L"MfgOverride";
+			//	AdlAppPropertyValue adlAppPropertyValue0{};
+			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+			//	adlAppPropertyValue0.Value = L"0";
+			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
+			//	adlAppProperties.push_back(adlAppProperty0);
+			//}
+			//{
+			//	AdlAppProperty adlAppProperty0{};
+			//	adlAppProperty0.Name = L"MfgRatio";
+			//	AdlAppPropertyValue adlAppPropertyValue0{};
+			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+			//	adlAppPropertyValue0.Value = L"1";
+			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
+			//	adlAppProperties.push_back(adlAppProperty0);
+			//}
+
+			////Radeon FSR Ray Regeneration Denoiser Override
+			//{
+			//	AdlAppProperty adlAppProperty0{};
+			//	adlAppProperty0.Name = L"MldOverride";
+			//	AdlAppPropertyValue adlAppPropertyValue0{};
+			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+			//	adlAppPropertyValue0.Value = L"0";
+			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
+			//	adlAppProperties.push_back(adlAppProperty0);
+			//}
+
+			////Radeon FSR Neural Radiance Cache Override
+			//{
+			//	AdlAppProperty adlAppProperty0{};
+			//	adlAppProperty0.Name = L"NrcOverride";
+			//	AdlAppPropertyValue adlAppPropertyValue0{};
+			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+			//	adlAppPropertyValue0.Value = L"0";
+			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
+			//	adlAppProperties.push_back(adlAppProperty0);
+			//}
 
 			//Radeon Anti-Lag
 			{
@@ -293,7 +335,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update application properties
-			return AdlAppPropertyUpdate(adlApp, adlAppProperties);
+			return AdlAppPropertyUpdate(adlApp, adlAppProperties, addOnly);
 		}
 		catch (...)
 		{

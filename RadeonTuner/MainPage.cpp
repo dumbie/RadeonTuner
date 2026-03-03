@@ -95,6 +95,9 @@ namespace winrt::RadeonTuner::implementation
 			//Select default indexes
 			SelectIndexesAdl();
 
+			//Set adl app gpu identifier
+			AdlAppSetUmdGpuId();
+
 			//Fix check driver installation software type Default / Minimal / Driver Only
 
 			//Check admin setttings
@@ -232,8 +235,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 2)
 			{
+				//DriverBug#1 workaround
+				//combobox_GpuSelect().IsEnabled(true);
 				combobox_AppSelect().IsEnabled(true);
-				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);
 			}
@@ -270,7 +274,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Load adlx values
+			//Reload tuning and fans settings
 			AdlxValuesLoadSelectGpu();
 		}
 		catch (...) {}
@@ -280,7 +284,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Load adlx values
+			//Reload display settings
 			AdlxValuesLoadSelectDisplay();
 		}
 		catch (...) {}
@@ -290,7 +294,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Load adlx values
+			//Reload application settings
 			AdlxValuesLoadSelectApp();
 		}
 		catch (...) {}

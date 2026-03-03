@@ -6,6 +6,36 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::AdlAppSetUmdGpuId()
+	{
+		try
+		{
+			//DriverBug#1 workaround
+			//Bug or limitation in newer AMD drivers does not allow separate app settings for each GPU so settings must unfortunately be set the same for all GPU's.
+			//In older drivers you needed to set the used GpuID as 'UMD\AppGpuId' but for some reason they decided to remove this feature and no longer support separate settings.
+			//Driver stores settings like this GpuId1::SettingOn;;GpuId2::SettingOff;; but only the first value is used ignoring 'UMD\AppGpuId' in newer drivers breaking separate settings.
+			//Note: this breaks profile compatibility with Radeon Software but does make settings work on old and new drivers.
+
+			//Set gpu unique identifier
+			gpuUniqueIdentifierHex = L"0x0001";
+
+			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			{
+				//Get gpu pointer
+				IADLXGPU2Ptr ppGpuPtr;
+				ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+
+				//Get ADL adapter index
+				int adapterIndex;
+				ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+
+				//Set gpu application identifier
+				AdlRegistrySettingSet(adapterIndex, "UMD", "AppGpuId", "0x0001");
+			}
+		}
+		catch (...) {}
+	}
+
 	std::wstring MainPage::AdlAppProfileGenerateName(std::wstring profileHeader)
 	{
 		try

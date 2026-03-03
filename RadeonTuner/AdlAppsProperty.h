@@ -83,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 			adlAppProperties.push_back(adlAppProperty0);
 
 			//Update application properties
-			return AdlAppPropertyUpdate(adlApp, adlAppProperties);
+			return AdlAppPropertyUpdate(adlApp, adlAppProperties, false);
 		}
 		catch (...)
 		{
@@ -93,83 +93,91 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> newProperties)
+	bool MainPage::AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> newProperties, bool addOnly)
 	{
 		try
 		{
 			//Set properties values
+			bool saveNeeded = false;
 			for (AdlAppProperty newProperty : newProperties)
 			{
 				try
 				{
 					//Status variables
-					bool propertyExists = false;
-					bool propertyUpdated = false;
+					bool foundProperty = false;
+					bool foundValue = false;
 
 					//Update property value if it exists
 					for (AdlAppProperty& appProperty : adlApp.Properties)
 					{
-						try
+						if (appProperty.Name == newProperty.Name)
 						{
-							if (appProperty.Name == newProperty.Name)
+							foundProperty = true;
+							for (AdlAppPropertyValue& appPropertyValue : appProperty.Values)
 							{
-								propertyExists = true;
-								for (AdlAppPropertyValue& appPropertyValue : appProperty.Values)
+								for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
 								{
-									for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
+									try
 									{
-										try
+										//Update property value
+										if (!newPropertyValue.GpuId.empty())
 										{
-											//Update property value
-											if (!newPropertyValue.GpuId.empty())
+											if (appPropertyValue.GpuId == newPropertyValue.GpuId)
 											{
-												if (appPropertyValue.GpuId == newPropertyValue.GpuId)
+												foundValue = true;
+												if (!addOnly)
 												{
 													appPropertyValue.Value = newPropertyValue.Value;
-													propertyUpdated = true;
+
+													saveNeeded = true;
 													AVDebugWriteLine(L"Updated value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value << L" / " << newPropertyValue.GpuId);
 												}
 											}
-											else
+										}
+										else
+										{
+											foundValue = true;
+											if (!addOnly)
 											{
 												appPropertyValue.Value = newPropertyValue.Value;
-												propertyUpdated = true;
+
+												saveNeeded = true;
 												AVDebugWriteLine(L"Updated value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value);
 											}
 										}
-										catch (...) {}
 									}
+									catch (...) {}
 								}
 							}
 						}
-						catch (...) {}
 					}
 
 					//Add property value if it does not exist
-					if (propertyExists && !propertyUpdated)
+					if (foundProperty && !foundValue)
 					{
 						for (AdlAppProperty& appProperty : adlApp.Properties)
 						{
-							for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
+							if (appProperty.Name == newProperty.Name)
 							{
-								try
+								for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
 								{
-									if (appProperty.Name == newProperty.Name)
+									try
 									{
 										//Add property value
 										appProperty.Values.insert(appProperty.Values.begin(), newPropertyValue);
 
-										propertyUpdated = true;
+										foundValue = true;
+										saveNeeded = true;
 										AVDebugWriteLine(L"Added value: " << appProperty.Type << L" / " << newProperty.Name << L" / " << newPropertyValue.Value << L" / " << newPropertyValue.GpuId);
 									}
+									catch (...) {}
 								}
-								catch (...) {}
 							}
 						}
 					}
 
 					//Add property if it does not exist
-					if (!propertyExists && !propertyUpdated)
+					if (!foundProperty && !foundValue)
 					{
 						//Check property type
 						DATATYPES propertyType = AdlAppPropertyDataTypeGet(newProperty.Name, adlApp.DriverArea);
@@ -185,7 +193,9 @@ namespace winrt::RadeonTuner::implementation
 						//Add property
 						adlApp.Properties.insert(adlApp.Properties.begin(), newProperty);
 
-						propertyUpdated = true;
+						foundProperty = true;
+						foundValue = true;
+						saveNeeded = true;
 						AVDebugWriteLine("Added property: " << newProperty.Type << L" / " << newProperty.Name << L" / " << newProperty.GetValuesString());
 					}
 				}
@@ -193,7 +203,14 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save application settings
-			return AdlAppPropertySave(adlApp);
+			if (saveNeeded)
+			{
+				return AdlAppPropertySave(adlApp);
+			}
+			else
+			{
+				return true;
+			}
 		}
 		catch (...)
 		{

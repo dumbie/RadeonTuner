@@ -32,11 +32,16 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				button_Graphics_Unlock().IsEnabled(true);
+				button_Graphics_Unlock().IsEnabled(false);
 			}
 			textblock_GraphicsOptions_Name().Text(applicationFileName);
 			textblock_GraphicsOptions_Details().Text(applicationFilePath);
 			AVDebugWriteLine("Selected app: " << applicationFileName);
+
+			//Fix check if application executable exists and warn user profile might not work
+
+			//Check and set default application properties
+			AdlAppDefaultProperties(adl_AppSelected(), false, true);
 
 			//Load application graphics settings
 			AdlValuesLoadGraphicsApp();
@@ -157,7 +162,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get gpu unique identifier
 			adlx_Res0 = ppGpuInfo->UniqueId(&gpuUniqueIdentifier);
-			gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
+			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
+			//DriverBug#1 workaround
 
 			//Load keep active setting
 			KeepActive_Load_UI();
@@ -165,8 +171,11 @@ namespace winrt::RadeonTuner::implementation
 			//Load tuning and fans settings
 			AdlxValuesLoadTuning();
 
+			//DriverBug#1 workaround
+			//Check and set default application properties
+			//AdlAppDefaultProperties(adl_AppSelected(), false, true);
 			//Load application graphics settings
-			AdlValuesLoadGraphicsApp();
+			//AdlValuesLoadGraphicsApp();
 
 			//Load multimedia settings
 			AdlxValuesLoadMultimedia();
