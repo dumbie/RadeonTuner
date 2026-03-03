@@ -18,6 +18,7 @@ namespace winrt::RadeonTuner::implementation
 			//Apply tuning and fans settings
 			if (AdlxApplyTuning(ppGpuInfo, tuningFanSettings))
 			{
+				//Reload tuning and fans settings
 				AdlxValuesLoadSelectGpu();
 			}
 		}
@@ -34,6 +35,7 @@ namespace winrt::RadeonTuner::implementation
 			//Reset tuning and fans settings
 			if (AdlxResetTuning())
 			{
+				//Reload tuning and fans settings
 				AdlxValuesLoadSelectGpu();
 			}
 		}

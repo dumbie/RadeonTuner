@@ -48,6 +48,8 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			AVDebugWriteLine("Importing display settings: " << importPath.c_str());
+
 			//Load settings from file
 			DisplaySettings displaySettings = DisplaySettings_Load(importPath);
 

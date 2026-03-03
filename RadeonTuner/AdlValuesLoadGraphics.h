@@ -52,6 +52,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_FsrOverrideUpscaling().IsEnabled(false);
+				}
 			}
 
 			//Get FSR Override Frame Generation
@@ -69,6 +73,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_FsrOverrideFrameGen().IsEnabled(false);
+				}
 			}
 
 			//Get Radeon Anti-Lag
@@ -85,6 +93,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_RadeonAntiLag().IsEnabled(false);
 				}
 			}
 
@@ -104,6 +116,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_RadeonBoost().IsEnabled(false);
+					slider_RadeonBoost_MinRes().IsEnabled(false);
+				}
 			}
 
 			//Get Radeon Boost Minimum Resolution
@@ -120,6 +137,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					slider_RadeonBoost_MinRes().IsEnabled(false);
 				}
 			}
 
@@ -140,6 +161,12 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_RadeonChill().IsEnabled(false);
+					slider_RadeonChill_Min().IsEnabled(false);
+					slider_RadeonChill_Max().IsEnabled(false);
+				}
 			}
 
 			//Get Radeon Chill Minimum
@@ -157,6 +184,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					slider_RadeonChill_Min().IsEnabled(false);
+				}
 			}
 
 			//Get Radeon Chill Maximum
@@ -173,6 +204,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					slider_RadeonChill_Max().IsEnabled(false);
 				}
 			}
 
@@ -192,6 +227,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_RadeonImageSharpening().IsEnabled(false);
+					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+				}
 			}
 
 			//Get Radeon Image Sharpening Sharpness
@@ -209,6 +249,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+				}
 			}
 
 			//Get Enhanced Sync
@@ -222,10 +266,13 @@ namespace winrt::RadeonTuner::implementation
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							toggleswitch_RadeonEnhancedSync().IsOn(convertedValue);
-							//combobox_VerticalRefresh().IsEnabled(!convertedValue);
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 				}
 			}
 
@@ -243,6 +290,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					combobox_VerticalRefresh().IsEnabled(false);
 				}
 			}
 
@@ -263,6 +314,13 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_AntiAliasingOverride().IsEnabled(false);
+					combobox_AntiAliasingMethod().IsEnabled(false);
+					combobox_AntiAliasingLevel().IsEnabled(false);
+					toggleswitch_EQAA().IsEnabled(false);
 				}
 			}
 
@@ -320,6 +378,10 @@ namespace winrt::RadeonTuner::implementation
 						combobox_AntiAliasingMethod().SelectedIndex(2);
 					}
 				}
+				else
+				{
+					combobox_AntiAliasingMethod().IsEnabled(false);
+				}
 			}
 
 			//Get Anti-Aliasing Level
@@ -350,6 +412,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					combobox_AntiAliasingLevel().IsEnabled(false);
+				}
 			}
 
 			//Get Enhanced Quality Anti-Aliasing
@@ -367,6 +433,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					toggleswitch_EQAA().IsEnabled(false);
+				}
 			}
 
 			//Get Morphological Anti-Aliasing
@@ -383,6 +453,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_MorphologicalAntiAliasing().IsEnabled(false);
 				}
 			}
 
@@ -422,6 +496,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					combobox_AnisotropicTextureFiltering_Level().IsEnabled(false);
+				}
 			}
 
 			//Get Texture Filtering Quality
@@ -439,6 +517,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					combobox_TextureFilteringQuality().IsEnabled(false);
+				}
 			}
 
 			//Get Surface Format Optimization
@@ -455,6 +537,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_SurfaceFormatOptimization().IsEnabled(false);
 				}
 			}
 
@@ -480,6 +566,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					combobox_Tessellation_Mode().IsEnabled(false);
+					combobox_Tessellation_Level().IsEnabled(false);
 				}
 			}
 
@@ -531,6 +622,10 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					combobox_Tessellation_Level().IsEnabled(false);
+				}
 			}
 
 			//Get OpenGL Triple Buffering
@@ -547,6 +642,10 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					toggleswitch_OpenGLTripleBuffering().IsEnabled(false);
 				}
 			}
 

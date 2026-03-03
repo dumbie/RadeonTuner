@@ -48,6 +48,8 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			AVDebugWriteLine("Importing tuning and fans settings: " << importPath.c_str());
+
 			//Load settings from file
 			TuningFanSettings tuningFanSettings = TuningFanSettings_Load(importPath);
 

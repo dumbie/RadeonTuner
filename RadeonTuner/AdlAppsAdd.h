@@ -27,17 +27,19 @@ namespace winrt::RadeonTuner::implementation
 			//Convert file path to name
 			std::wstring addFileName;
 			std::wstring addFilePath;
-			std::wstring addProfileTag;
 			if (filePath == L"*.*")
 			{
 				addFileName = L"*.*";
-				addFilePath = L"*";
+				addFilePath = L"*\\*";
 			}
 			else
 			{
 				auto fileSystem = std::filesystem::path(filePath);
 				addFileName = fileSystem.filename().wstring();
-				addFilePath = L"*";
+				addFilePath = fileSystem.parent_path().wstring();
+				size_t lastFolderPosition = addFilePath.find_last_of(L"\\");
+				addFilePath = L"*" + addFilePath.substr(lastFolderPosition) + L"*";
+				//Note: this breaks profile compatibility with Radeon Software but allows user to move app folders.
 			}
 
 			//Check if application exists and skip
@@ -56,7 +58,7 @@ namespace winrt::RadeonTuner::implementation
 			adlApp.DriverArea = driverArea;
 
 			//Set default properties
-			return AdlAppDefaultProperties(adlApp, true);
+			return AdlAppDefaultProperties(adlApp, true, false);
 		}
 		catch (...)
 		{

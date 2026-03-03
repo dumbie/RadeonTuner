@@ -16,7 +16,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				const char* gpuName;
 				ppGpuList->At(i, (IADLXGPU**)&ppGpuInfo);
-				ppGpuInfo->Name(&gpuName);
+				adlx_Res0 = ppGpuInfo->Name(&gpuName);
 				itemCollection.Append(box_value(char_to_wstring(gpuName)));
 			}
 

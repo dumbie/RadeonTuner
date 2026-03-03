@@ -4,7 +4,7 @@
 //Registry
 const std::vector<std::wstring> REGISTRY_FSR_OTA_CONTROL_STRING =
 {
-	L"Use latest production"
+	L"Disabled", L"Use latest production"
 };
 
 const std::vector<std::wstring> REGISTRY_FRAMEGEN_SEARCH_MODE_STRING =

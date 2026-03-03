@@ -3,9 +3,6 @@
 
 struct AdlAppPropertyValue
 {
-	//Unique identifier gpu header
-	//Example: VsyncControl 0x1000::3;;0x2000::0;;
-	//GpuId 0x0000 seems to be working as global gpu
 	std::wstring GpuId;
 	std::wstring Value;
 

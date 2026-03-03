@@ -48,6 +48,8 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			AVDebugWriteLine("Importing graphics settings: " << importPath.c_str());
+
 			//Load settings from file
 			AdlApplication adlApplication = GraphicsSettings_Load(importPath);
 
