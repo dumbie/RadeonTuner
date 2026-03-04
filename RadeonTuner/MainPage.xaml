@@ -299,7 +299,7 @@
 
                                     <!-- Enhanced Quality Anti-Aliasing -->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enhanced Quality Anti-Aliasing (EQAA) is an anti-aliasing technology that offers advanced smoothing of aliased edges without requiring additional video memory, and with a minimal performance cost."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enhanced Quality Anti-Aliasing (EQAA) is an anti-aliasing technology that offers advanced smoothing of aliased edges without requiring additional video memory but comes with a small additional performance cost."/>
                                         <ToggleSwitch x:Name="toggleswitch_EQAA" Margin="10,0,0,0" OffContent="Enhanced Quality Anti-Aliasing" OnContent="Enhanced Quality Anti-Aliasing" Toggled="toggleswitch_EQAA_Toggled"/>
                                     </StackPanel>
 
@@ -317,42 +317,42 @@
                             <!-- Anisotropic Texture Filtering Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require you to set 'Texture Filtering' to 'Trilinear' for the override to work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
-                                        <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                            <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Texture Filtering Quality -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on DirectX 9 applications."/>
-                                        <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                    <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <!-- Surface Format Optimization -->
-                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
+                                    <!-- Texture Filtering Quality -->
+                                    <StackPanel Margin="0,10,0,0" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Requires a texture filtering type like 'Anisotropic' to be enabled in an application to work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                            <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <!-- Surface Format Optimization -->
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
+                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
+                            </StackPanel>
 
                             <!-- Tessellation Mode -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Tessellation Mode and Level do not work on OpenGL and DirectX 9 (and older) applications.&#10;&#10;* Tessellation must be enabled in your application for the override to work."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have 'Tessellation' enabled to make the override work.&#10;&#10;* Tessellation Mode and Level only works on DirectX 11 applications."/>
                                         <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Tessellation_Mode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -741,13 +741,6 @@
                                 <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
                             </StackPanel>
 
-                            <!-- Dynamic Refresh Rate Control -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic Refresh Rate Control saves power by switching to low panel refresh rate, or boosts performance by switching to high panel refresh rate."/>
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
-                                <ToggleSwitch x:Name="toggleswitch_DynamicRefreshRateControl" Margin="10,0,0,0" OffContent="Dynamic Refresh Rate Control" OnContent="Dynamic Refresh Rate Control" Toggled="toggleswitch_DynamicRefreshRateControl_Toggled"/>
-                            </StackPanel>
-
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- GPU Scaling -->
@@ -827,28 +820,10 @@
                                     <!-- Display Color Enhancement -->
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Boosts brightness low and mid tone areas while leaving other areas almost untouched."/>
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness."/>
                                             <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                    </StackPanel>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Dynamic Contrast Intensity -->
-                                    <StackPanel Margin="0,10,0,0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Dynamic contrast intensity used in the display color enchancement profile.&#10;&#10;* To update the intensity disable and enabled the Color Enhancement setting."/>
-                                            <TextBlock Margin="10,0,0,0" Text="Dynamic Contrast Intensity" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_DynamicContrastIntensity" Text="{Binding ElementName=slider_DynamicContrastIntensity, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_DynamicContrastIntensity" Margin="10,0,0,0"/>
-                                        </Grid>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1003,44 +978,6 @@
                                 <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
                                 <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
                             </StackPanel>
-
-                            <!-- Relative Voltage Swing -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows you to set the difference between maximum and minimum output voltage."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Relative Voltage Swing" VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_RelativeVoltageSwing" Text="{Binding ElementName=slider_Display_RelativeVoltageSwing, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_RelativeVoltageSwing" Margin="10,0,0,0" ValueChanged="slider_Display_RelativeVoltageSwing_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Relative Preset Emphasis -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="A process that is designed to improve overall signal-to-noise ratio."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Relative Preset Emphasis" VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_RelativePreEmphasis" Text="{Binding ElementName=slider_Display_RelativePreEmphasis, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_RelativePreEmphasis" Margin="10,0,0,0" ValueChanged="slider_Display_RelativePreEmphasis_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
                         </StackPanel>
 
                         <!-- Multimedia -->

@@ -12,8 +12,8 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//DriverBug#1 workaround
 			//Bug or limitation in newer AMD drivers does not allow separate app settings for each GPU so settings must unfortunately be set the same for all GPU's.
-			//In older drivers you needed to set the used GpuID as 'UMD\AppGpuId' but for some reason they decided to remove this feature and no longer support separate settings.
-			//Driver stores settings like this GpuId1::SettingOn;;GpuId2::SettingOff;; but only the first value is used ignoring 'UMD\AppGpuId' in newer drivers breaking separate settings.
+			//In older drivers you needed to set the used GpuID at 'UMD\AppGpuId' but for some reason in newer drivers this value seems to be ignored breaking support for separate settings.
+			//Driver stores settings like this GpuId1::SettingOn;;GpuId2::SettingOff;; but only the first value is used ignoring 'UMD\AppGpuId'.
 			//Note: this breaks profile compatibility with Radeon Software but does make settings work on old and new drivers.
 
 			//Set gpu unique identifier
@@ -23,11 +23,16 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get gpu pointer
 				IADLXGPU2Ptr ppGpuPtr;
-				ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
 
 				//Get ADL adapter index
 				int adapterIndex;
-				ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+
+				//Get gpu unique identifier
+				//int identifierInt;
+				//adlx_Res0 = ppGpuPtr->UniqueId(&identifierInt);
+				//std::string identifierHex = number_to_hexstring(identifierInt, 4);
 
 				//Set gpu application identifier
 				AdlRegistrySettingSet(adapterIndex, "UMD", "AppGpuId", "0x0001");

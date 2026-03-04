@@ -220,60 +220,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_DynamicRefreshRateControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Set setting
-			IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
-			adlx_Res0 = ppDispServices->GetDynamicRefreshRateControl(ppDisplayInfo, &ppDRRC);
-			adlx_Res0 = ppDRRC->SetEnabled(newValue);
-
-			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Dynamic Refresh Rate");
-					AVDebugWriteLine(L"Failed enabling Dynamic Refresh Rate");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Dynamic Refresh Rate");
-					AVDebugWriteLine(L"Failed disabling Dynamic Refresh Rate");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"Dynamic Refresh Rate enabled");
-					AVDebugWriteLine(L"Dynamic Refresh Rate enabled");
-				}
-				else
-				{
-					ShowNotification(L"Dynamic Refresh Rate disabled");
-					AVDebugWriteLine(L"Dynamic Refresh Rate disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
 	void MainPage::combobox_Display_ColorDepth_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
@@ -365,12 +311,6 @@ namespace winrt::RadeonTuner::implementation
 			else if (newValue == 1)
 			{
 				adlx_Res0 = pp3DLUT->SetSCEVividGaming();
-			}
-			else if (newValue == 2)
-			{
-				//Get dynamic contrast intensity value
-				auto newValueIntensity = slider_DynamicContrastIntensity().Value();
-				adlx_Res0 = pp3DLUT->SetSCEDynamicContrast(newValueIntensity);
 			}
 
 			//Set result
@@ -1005,82 +945,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Vari-Bright set to " + ADLX_VARIBRIGHT_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"Vari-Bright set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::slider_Display_RelativeVoltageSwing_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			int newValue = (int)e.NewValue();
-			bool newFailed = true;
-
-			//Set setting
-			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
-			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
-			adlx_Res0 = ppDisplayConnectivityExperience->SetRelativeVoltageSwing(newValue);
-
-			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_RelativeVoltageSwing().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Voltage swing");
-				AVDebugWriteLine(L"Failed setting Voltage swing");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_RelativeVoltageSwing().Foreground(colorValid);
-				ShowNotification(L"Voltage swing set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Voltage swing set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::slider_Display_RelativePreEmphasis_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			int newValue = (int)e.NewValue();
-			bool newFailed = true;
-
-			//Set setting
-			IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
-			adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
-			adlx_Res0 = ppDisplayConnectivityExperience->SetRelativePreEmphasis(newValue);
-
-			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_RelativePreEmphasis().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Preset emphasis");
-				AVDebugWriteLine(L"Failed setting Preset emphasis");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_RelativePreEmphasis().Foreground(colorValid);
-				ShowNotification(L"Preset emphasis set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Preset emphasis set to " << newValue);
 			}
 		}
 		catch (...) {}

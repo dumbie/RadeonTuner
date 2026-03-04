@@ -83,6 +83,9 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Set adl app gpu identifier
+			AdlAppSetUmdGpuId();
+
 			//Prepare adlx values
 			AdlxValuesPrepare();
 
@@ -94,9 +97,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Select default indexes
 			SelectIndexesAdl();
-
-			//Set adl app gpu identifier
-			AdlAppSetUmdGpuId();
 
 			//Fix check driver installation software type Default / Minimal / Driver Only
 

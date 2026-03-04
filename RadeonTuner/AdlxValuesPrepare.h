@@ -15,7 +15,7 @@ namespace winrt::RadeonTuner::implementation
 			for (UINT i = 0; i < appendCount; i++)
 			{
 				const char* gpuName;
-				ppGpuList->At(i, (IADLXGPU**)&ppGpuInfo);
+				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuInfo);
 				adlx_Res0 = ppGpuInfo->Name(&gpuName);
 				itemCollection.Append(box_value(char_to_wstring(gpuName)));
 			}
@@ -26,8 +26,8 @@ namespace winrt::RadeonTuner::implementation
 			for (UINT i = 0; i < appendCount; i++)
 			{
 				const char* displayName;
-				ppDisplayList->At(i, &ppDisplayInfo);
-				ppDisplayInfo->Name(&displayName);
+				adlx_Res0 = ppDisplayList->At(i, &ppDisplayInfo);
+				adlx_Res0 = ppDisplayInfo->Name(&displayName);
 				itemCollection.Append(box_value(char_to_wstring(displayName)));
 			}
 

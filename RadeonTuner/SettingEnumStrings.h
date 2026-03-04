@@ -151,7 +151,7 @@ const std::vector<std::wstring> ADLX_SSM_BIAS_MODE_STRING =
 //ADLX Custom
 const std::vector<std::wstring> ADLX_SCE_PROFILE_STRING =
 {
-	L"Disabled", L"Vivid Gaming", L"Dynamic Contrast"
+	L"Disabled", L"Vivid Gaming"
 };
 
 const std::vector<std::wstring> ADLX_VARIBRIGHT_LEVEL_STRING =

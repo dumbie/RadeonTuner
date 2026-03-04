@@ -101,7 +101,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get selected display
 			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
-			ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
+			adlx_Res0 = ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
 			if (ppDisplayInfo == NULL)
 			{
 				AVDebugWriteLine("Failed getting selected display.");
@@ -110,7 +110,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get ADL display index
 			int ppNullptr;
-			ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &ppNullptr, &adl_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
+			adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &ppNullptr, &adl_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
 
 			//Load display settings
 			AdlxValuesLoadDisplay();
@@ -145,7 +145,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get selected GPU
 			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
-			ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
+			adlx_Res0 = ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
 			if (ppGpuInfo == NULL)
 			{
 				AVDebugWriteLine("Failed getting selected gpu.");
@@ -153,7 +153,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get ADL adapter index
-			ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_AdapterIndex);
+			adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_AdapterIndex);
 
 			//Get gpu registry path
 			const char* driverPath = NULL;
@@ -172,9 +172,10 @@ namespace winrt::RadeonTuner::implementation
 			AdlxValuesLoadTuning();
 
 			//DriverBug#1 workaround
-			//Check and set default application properties
+			////Check and set default application properties
 			//AdlAppDefaultProperties(adl_AppSelected(), false, true);
-			//Load application graphics settings
+
+			////Load application graphics settings
 			//AdlValuesLoadGraphicsApp();
 
 			//Load multimedia settings

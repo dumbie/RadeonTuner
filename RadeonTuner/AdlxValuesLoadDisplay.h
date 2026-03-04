@@ -119,32 +119,6 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_VSR().IsEnabled(false);
 			}
 
-			//Get Dynamic Refresh Rate Control
-			try
-			{
-				IADLXDisplayDynamicRefreshRateControlPtr ppDRRC;
-				adlx_Res0 = ppDispServices->GetDynamicRefreshRateControl(ppDisplayInfo, &ppDRRC);
-				adlx_Res0 = ppDRRC->IsSupported(&adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-				{
-					adlx_Res0 = ppDRRC->IsEnabled(&adlx_Bool);
-					toggleswitch_DynamicRefreshRateControl().IsOn(adlx_Bool);
-
-					//Enable or disable interface
-					toggleswitch_DynamicRefreshRateControl().IsEnabled(true);
-				}
-				else
-				{
-					//Enable or disable interface
-					toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				toggleswitch_DynamicRefreshRateControl().IsEnabled(false);
-			}
-
 			//Get GPU Scaling
 			try
 			{
@@ -309,11 +283,6 @@ namespace winrt::RadeonTuner::implementation
 					{
 						combobox_Display_DisplayColorEnhancement().SelectedIndex(1);
 					}
-					adlx_Res0 = pp3DLUT->IsCurrentSCEDynamicContrast(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_DisplayColorEnhancement().SelectedIndex(2);
-					}
 
 					//Enable or disable interface
 					combobox_Display_DisplayColorEnhancement().IsEnabled(true);
@@ -328,37 +297,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Enable or disable interface
 				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
-			}
-
-			//Get Dynamic Contrast Intensity
-			try
-			{
-				IADLXDisplay3DLUTPtr pp3DLUT;
-				adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
-				adlx_Res0 = pp3DLUT->IsSupportedSCEDynamicContrast(&adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-				{
-					adlx_Res0 = pp3DLUT->GetSCEDynamicContrast(&adlx_Int0);
-					adlx_Res0 = pp3DLUT->GetSCEDynamicContrastRange(&adlx_IntRange0);
-					slider_DynamicContrastIntensity().Value(adlx_Int0);
-					slider_DynamicContrastIntensity().Minimum(adlx_IntRange0.minValue);
-					slider_DynamicContrastIntensity().Maximum(adlx_IntRange0.maxValue);
-					slider_DynamicContrastIntensity().StepFrequency(adlx_IntRange0.step);
-					slider_DynamicContrastIntensity().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					slider_DynamicContrastIntensity().IsEnabled(true);
-				}
-				else
-				{
-					//Enable or disable interface
-					slider_DynamicContrastIntensity().IsEnabled(false);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				slider_DynamicContrastIntensity().IsEnabled(false);
 			}
 
 			//Get Custom Color Profile
@@ -601,66 +539,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Enable or disable interface
 				toggleswitch_HDCPSupport().IsEnabled(false);
-			}
-
-			//Get Relative Voltage Swing
-			try
-			{
-				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
-				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
-				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativeVoltageSwing(&adlx_Int0);
-				if (ADLX_FAILED(adlx_Res0))
-				{
-					//Enable or disable interface
-					slider_Display_RelativeVoltageSwing().IsEnabled(false);
-				}
-				else
-				{
-					slider_Display_RelativeVoltageSwing().Value(adlx_Int0);
-					slider_Display_RelativeVoltageSwing().Minimum(-2);
-					slider_Display_RelativeVoltageSwing().Maximum(2);
-					slider_Display_RelativeVoltageSwing().StepFrequency(1);
-					slider_Display_RelativeVoltageSwing().SmallChange(1);
-					//Fix find way to check support and get ranges
-
-					//Enable or disable interface
-					slider_Display_RelativeVoltageSwing().IsEnabled(true);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				slider_Display_RelativeVoltageSwing().IsEnabled(false);
-			}
-
-			//Get Relative Preset Emphasis
-			try
-			{
-				IADLXDisplayConnectivityExperiencePtr ppDisplayConnectivityExperience;
-				adlx_Res0 = ppDispServices->GetDisplayConnectivityExperience(ppDisplayInfo, &ppDisplayConnectivityExperience);
-				adlx_Res0 = ppDisplayConnectivityExperience->GetRelativePreEmphasis(&adlx_Int0);
-				if (ADLX_FAILED(adlx_Res0))
-				{
-					//Enable or disable interface
-					slider_Display_RelativePreEmphasis().IsEnabled(false);
-				}
-				else
-				{
-					slider_Display_RelativePreEmphasis().Value(adlx_Int0);
-					slider_Display_RelativePreEmphasis().Minimum(-2);
-					slider_Display_RelativePreEmphasis().Maximum(2);
-					slider_Display_RelativePreEmphasis().StepFrequency(1);
-					slider_Display_RelativePreEmphasis().SmallChange(1);
-					//Fix find way to check support and get ranges
-
-					//Enable or disable interface
-					slider_Display_RelativePreEmphasis().IsEnabled(true);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				slider_Display_RelativePreEmphasis().IsEnabled(false);
 			}
 
 			//Set result
