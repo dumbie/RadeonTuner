@@ -39,8 +39,9 @@ inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
 inline IADLXPowerTuningServices1Ptr ppPowerTuningServices;
 inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
 
-inline int adl_DisplayIndex = -1;
-inline int adl_AdapterIndex = -1;
+inline int adl_Display_AdapterIndex = -1;
+inline int adl_Display_DisplayIndex = -1;
+inline int adl_Gpu_AdapterIndex = -1;
 inline int adl_Res0 = ADL_ERR;
 
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;

@@ -110,7 +110,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get ADL display index
 			int ppNullptr;
-			adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &ppNullptr, &adl_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
+			adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &adl_Display_AdapterIndex, &adl_Display_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
 
 			//Load display settings
 			AdlxValuesLoadDisplay();
@@ -153,7 +153,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get ADL adapter index
-			adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_AdapterIndex);
+			adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_Gpu_AdapterIndex);
 
 			//Get gpu registry path
 			const char* driverPath = NULL;

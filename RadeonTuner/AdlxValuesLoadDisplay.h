@@ -425,17 +425,17 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get Protanopia
 				int cvdcProtanopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_PROTANOPIA, &cvdcProtanopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, &cvdcProtanopia);
 				slider_Display_Protanopia().Value(cvdcProtanopia);
 
 				//Get Deuteranopia
 				int cvdcDeuteranopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
 				slider_Display_Deuteranopia().Value(cvdcDeuteranopia);
 
 				//Get Tritanopia
 				int cvdcTritanopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_TRITANOPIA, &cvdcTritanopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_TRITANOPIA, &cvdcTritanopia);
 				slider_Display_Tritanopia().Value(cvdcTritanopia);
 
 				//Enable or disable interface

@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					int lpAccess;
-					adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_AdapterIndex, &lpAccess);
+					adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
 					hasAccess = adl_Res0 == ADL_OK;
 				}
 				catch (...)

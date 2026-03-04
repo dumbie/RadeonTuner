@@ -535,8 +535,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_PROTANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -572,8 +572,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_DEUTERANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_DEUTERANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -609,8 +609,8 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_ENABLED, 1);
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_AdapterIndex, adl_DisplayIndex, CVDC_TRITANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_TRITANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
