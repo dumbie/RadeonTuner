@@ -424,8 +424,12 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					slider_RadeonChill_Min().IsEnabled(true);
+					if (!radeon_Chill_Linked)
+					{
+						slider_RadeonChill_Min().IsEnabled(true);
+					}
 					slider_RadeonChill_Max().IsEnabled(true);
+					button_RadeonChill_Link().IsEnabled(true);
 					ShowNotification(L"Radeon Chill enabled");
 					AVDebugWriteLine(L"Radeon Chill enabled");
 				}
@@ -433,6 +437,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					slider_RadeonChill_Min().IsEnabled(false);
 					slider_RadeonChill_Max().IsEnabled(false);
+					button_RadeonChill_Link().IsEnabled(false);
 					ShowNotification(L"Radeon Chill disabled");
 					AVDebugWriteLine(L"Radeon Chill disabled");
 				}
@@ -505,7 +510,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Match values
-				if (newValue < slider_RadeonChill_Min().Value())
+				if (radeon_Chill_Linked || newValue < slider_RadeonChill_Min().Value())
 				{
 					slider_RadeonChill_Min().Value(newValue);
 				}
@@ -514,6 +519,30 @@ namespace winrt::RadeonTuner::implementation
 				textbox_RadeonChill_Max().Foreground(colorValid);
 				ShowNotification(L"Chill maximum fps set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Chill maximum fps set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_RadeonChill_Link_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			auto newSender = sender.as<Button>();
+
+			if (!radeon_Chill_Linked)
+			{
+				AVDebugWriteLine("Link Radeon Chill.");
+				newSender.Opacity(1.00);
+				slider_RadeonChill_Min().IsEnabled(false);
+				radeon_Chill_Linked = true;
+			}
+			else
+			{
+				AVDebugWriteLine("Unlink Radeon Chill.");
+				newSender.Opacity(0.50);
+				slider_RadeonChill_Min().IsEnabled(true);
+				radeon_Chill_Linked = false;
 			}
 		}
 		catch (...) {}

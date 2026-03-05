@@ -155,8 +155,23 @@ namespace winrt::RadeonTuner::implementation
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							toggleswitch_RadeonChill().IsOn(convertedValue);
-							slider_RadeonChill_Min().IsEnabled(convertedValue);
+							if (convertedValue)
+							{
+								if (!radeon_Chill_Linked)
+								{
+									slider_RadeonChill_Min().IsEnabled(true);
+								}
+								else
+								{
+									slider_RadeonChill_Min().IsEnabled(false);
+								}
+							}
+							else
+							{
+								slider_RadeonChill_Min().IsEnabled(convertedValue);
+							}
 							slider_RadeonChill_Max().IsEnabled(convertedValue);
+							button_RadeonChill_Link().IsEnabled(convertedValue);
 							break;
 						}
 					}
@@ -166,6 +181,7 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_RadeonChill().IsEnabled(false);
 					slider_RadeonChill_Min().IsEnabled(false);
 					slider_RadeonChill_Max().IsEnabled(false);
+					button_RadeonChill_Link().IsEnabled(false);
 				}
 			}
 

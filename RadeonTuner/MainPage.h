@@ -112,6 +112,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_RadeonChill_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonChill_Min_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_RadeonChill_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void button_RadeonChill_Link_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_RadeonEnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_ColorDepth_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
@@ -155,6 +156,8 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_AppSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void button_Fps_Overlayer_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void slider_Core_Min_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_Core_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Keep_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
 		void toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e);

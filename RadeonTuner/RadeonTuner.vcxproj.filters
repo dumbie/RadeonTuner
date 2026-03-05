@@ -404,6 +404,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="Link.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Warning.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>

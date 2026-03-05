@@ -92,6 +92,49 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::slider_Core_Min_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Get setting value
+			int maxCurrent = (int)slider_Core_Max().Value();
+			int minLimits = maxCurrent - 100;
+			int minCurrent = (int)slider_Core_Min().Value();
+			int maxLimits = minCurrent + 100;
+
+			//Adjust values
+			if (minCurrent > minLimits)
+			{
+				slider_Core_Min().Value(minLimits);
+				slider_Core_Max().Value(maxLimits);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_Core_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			if (slider_Core_Min().IsEnabled())
+			{
+				//Get setting value
+				int maxCurrent = (int)slider_Core_Max().Value();
+				int minLimits = maxCurrent - 100;
+				int minCurrent = (int)slider_Core_Min().Value();
+				int maxLimits = minCurrent + 100;
+
+				//Adjust values
+				if (minCurrent > minLimits)
+				{
+					slider_Core_Min().Value(minLimits);
+					slider_Core_Max().Value(maxLimits);
+				}
+			}
+		}
+		catch (...) {}
+	}
+
 	bool MainPage::AdlxApplyTuning(IADLXGPU2Ptr ppGpuPtr, TuningFanSettings tuningFanSettings)
 	{
 		try
