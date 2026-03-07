@@ -25,9 +25,9 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 - You can show the window on top by enabling it on the settings tab.
 
 ## Requirements
-- Supported AMD Radeon graphics card and drivers.
-- Microsoft Visual C++ Redistributable installed.
+- AMD Radeon driver 25.5.1 or newer.
 - Microsoft .NET Runtime installed.
+- Microsoft Visual C++ Redistributable installed.
 - Microsoft Windows 10 64-bit or higher is required.
 
 ## Known Issues
@@ -40,6 +40,12 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.9.0.0 (7-March-2026)
+- Added graphics application profile support.
+- Added graphics settings requirement and compatibility hints.
+- Added graphics and display settings import and export.
+- Added Color Vision Deficiency display settings.
+
 v0.8.0.0 (23-January-2026)
 - Added display color enhancement setting.
 - Show display information on the info tab.
