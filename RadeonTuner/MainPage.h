@@ -11,11 +11,11 @@ namespace winrt::RadeonTuner::implementation
 		void AdlValuesPrepare();
 
 		bool AdlAppInterfaceListLoad();
-		bool AdlAppInterfaceAddFile();
-		bool AdlAppInterfaceAddProcess();
+		void AdlAppInterfaceAddFile();
+		void AdlAppInterfaceAddProcess();
 		std::vector<AdlApplication> AdlAppLoad(std::wstring driverArea);
-		bool AdlAppAdd(std::wstring filePath, std::wstring driverArea);
-		bool AdlAppRemove(AdlApplication adlApp);
+		std::wstring AdlAppAdd(std::wstring filePath, std::wstring driverArea);
+		std::wstring AdlAppRemove(AdlApplication adlApp);
 		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
 		bool AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties, bool addOnly);
 		std::wstring AdlAppProfileGenerateName(std::wstring profileHeader);
@@ -187,6 +187,8 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_AntiAliasingOverride_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_Display_ColorTemperature_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_Display_CVDC_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

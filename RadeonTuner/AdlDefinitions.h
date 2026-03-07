@@ -59,6 +59,12 @@ inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;
 typedef int (*ADL2_Display_Color_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int iCurrent);
 inline ADL2_Display_Color_Set _ADL2_Display_Color_Set;
 
+typedef int (*ADL2_Display_ColorTemperatureSource_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpTempSource);
+inline ADL2_Display_ColorTemperatureSource_Get _ADL2_Display_ColorTemperatureSource_Get;
+
+typedef int (*ADL2_Display_ColorTemperatureSource_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iTempSource);
+inline ADL2_Display_ColorTemperatureSource_Set _ADL2_Display_ColorTemperatureSource_Set;
+
 typedef int (*ADL2_Display_CVDC_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int* cvdcValue);
 inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
 

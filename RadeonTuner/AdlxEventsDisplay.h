@@ -331,6 +331,67 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_Display_ColorTemperature_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			if (newValue)
+			{
+				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER);
+			}
+			else
+			{
+				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_EDID);
+			}
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling Temperature Control");
+					AVDebugWriteLine(L"Failed enabling Temperature Control");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling Temperature Control");
+					AVDebugWriteLine(L"Failed disabling Temperature Control");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					slider_Display_ColorTemperature().IsEnabled(true);
+					ShowNotification(L"Temperature Control enabled");
+					AVDebugWriteLine(L"Temperature Control enabled");
+				}
+				else
+				{
+					slider_Display_ColorTemperature().IsEnabled(false);
+					ShowNotification(L"Temperature Control disabled");
+					AVDebugWriteLine(L"Temperature Control disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Display_ColorTemperature_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -341,8 +402,6 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			int newValue = (int)e.NewValue();
 			bool newFailed = true;
-
-			//Fix find way to enable color temperature control when disabled in AMD Adrenalin
 
 			//Set setting
 			IADLXDisplayCustomColorPtr ppCustomColor;
@@ -523,6 +582,64 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_Display_CVDC_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling CVDC Control");
+					AVDebugWriteLine(L"Failed enabling CVDC Control");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling CVDC Control");
+					AVDebugWriteLine(L"Failed disabling CVDC Control");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					slider_Display_Protanopia().IsEnabled(true);
+					slider_Display_Deuteranopia().IsEnabled(true);
+					slider_Display_Tritanopia().IsEnabled(true);
+					ShowNotification(L"CVDC Control enabled");
+					AVDebugWriteLine(L"CVDC Control enabled");
+				}
+				else
+				{
+					slider_Display_Protanopia().IsEnabled(false);
+					slider_Display_Deuteranopia().IsEnabled(false);
+					slider_Display_Tritanopia().IsEnabled(false);
+					ShowNotification(L"CVDC Control disabled");
+					AVDebugWriteLine(L"CVDC Control disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -535,7 +652,6 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
 			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, newValue);
 
 			//Set result
@@ -572,7 +688,6 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
 			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_DEUTERANOPIA, newValue);
 
 			//Set result
@@ -609,7 +724,6 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, 1);
 			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_TRITANOPIA, newValue);
 
 			//Set result

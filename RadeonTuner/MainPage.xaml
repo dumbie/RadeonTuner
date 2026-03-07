@@ -832,12 +832,79 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Custom Color -->
                             <TextBlock Text="Custom Color" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
-                            <!-- Color Temperature -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- Brightness -->
+                                    <TextBlock Text="Brightness"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Contrast -->
+                                    <TextBlock Text="Contrast" Margin="0,5,0,0"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Saturation -->
+                                    <TextBlock Text="Saturation" Margin="0,5,0,0"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Hue -->
+                                    <TextBlock Text="Hue" Margin="0,5,0,0"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Color Temperature -->
+                            <TextBlock Text="Color Temperature" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Control -->
                                     <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable color temperature control."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When 'Color Temperature Control' is disabled your colors will be limited to a narrow color gamut which may lead to oversaturated and incorrect color accuracy on HDR enabled displays."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_ColorTemperature_Control" Margin="10,0,0,0" OffContent="Color Temperature Control" OnContent="Color Temperature Control" Toggled="toggleswitch_Display_ColorTemperature_Control_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Temperature -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose how warm or cool images will look on your display."/>
                                         <TextBlock Text="Color Temperature" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -852,127 +919,69 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Brightness -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <TextBlock Text="Brightness"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Contrast -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <TextBlock Text="Contrast"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Saturation -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <TextBlock Text="Saturation"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Hue -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <TextBlock Text="Hue"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
                             <!-- Color Deficiency Correction -->
-                            <StackPanel>
-                                <TextBlock Text="Color Deficiency Correction" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Color Deficiency Correction" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
-                                <!-- Protanopia -->
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for red color blindness."/>
-                                            <TextBlock Text="Protanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                            <Slider Grid.Column="2" x:Name="slider_Display_Protanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Protanopia_ValueChanged"/>
-                                        </Grid>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Control -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_CVDC_Control" Margin="10,0,0,0" OffContent="Color Deficiency Correction Control" OnContent="Color Deficiency Correction Control" Toggled="toggleswitch_Display_CVDC_Control_Toggled"/>
                                     </StackPanel>
-                                </Border>
 
-                                <!-- Deuteranopia -->
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for green color blindness."/>
-                                            <TextBlock Text="Deuteranopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                            <Slider Grid.Column="2" x:Name="slider_Display_Deuteranopia" Margin="10,0,0,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged"/>
-                                        </Grid>
-                                    </StackPanel>
-                                </Border>
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                <!-- Tritanopia -->
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency.&#10;&#10;Adjustments for blue color blindness."/>
-                                            <TextBlock Text="Tritanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="1" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                            <Slider Grid.Column="2" x:Name="slider_Display_Tritanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Tritanopia_ValueChanged"/>
-                                        </Grid>
+                                    <!-- Protanopia -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for red color blindness."/>
+                                        <TextBlock Text="Protanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                </Border>
-                            </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Display_Protanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Protanopia_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Deuteranopia -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for green color blindness."/>
+                                        <TextBlock Text="Deuteranopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Display_Deuteranopia" Margin="10,0,0,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Tritanopia -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for blue color blindness."/>
+                                        <TextBlock Text="Tritanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Display_Tritanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Tritanopia_ValueChanged"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
 
                             <TextBlock Text="Overrides" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 

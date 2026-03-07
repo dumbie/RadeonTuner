@@ -299,6 +299,41 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
 			}
 
+			//Get Color Temperature Control
+			try
+			{
+				int lpTempSource;
+				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &lpTempSource);
+				if (adl_Res0 == ADL_OK)
+				{
+					bool userControlEnabled = lpTempSource == ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER;
+					toggleswitch_Display_ColorTemperature_Control().IsOn(userControlEnabled);
+
+					//Enable or disable interface
+					toggleswitch_Display_ColorTemperature_Control().IsEnabled(true);
+					if (userControlEnabled)
+					{
+						slider_Display_ColorTemperature().IsEnabled(true);
+					}
+					else
+					{
+						slider_Display_ColorTemperature().IsEnabled(false);
+					}
+				}
+				else
+				{
+					//Enable or disable interface
+					toggleswitch_Display_ColorTemperature_Control().IsEnabled(false);
+					slider_Display_ColorTemperature().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				toggleswitch_Display_ColorTemperature_Control().IsEnabled(false);
+				slider_Display_ColorTemperature().IsEnabled(false);
+			}
+
 			//Get Custom Color Profile
 			try
 			{
@@ -316,14 +351,6 @@ namespace winrt::RadeonTuner::implementation
 					slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
 					slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
 					slider_Display_ColorTemperature().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					slider_Display_ColorTemperature().IsEnabled(true);
-				}
-				else
-				{
-					//Enable or disable interface
-					slider_Display_ColorTemperature().IsEnabled(false);
 				}
 
 				//Get Brightness
@@ -423,6 +450,11 @@ namespace winrt::RadeonTuner::implementation
 			//Get Color Vision Deficiency
 			try
 			{
+				//Get Enabled
+				int cvdcEnabled;
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, &cvdcEnabled);
+				toggleswitch_Display_CVDC_Control().IsOn(cvdcEnabled);
+
 				//Get Protanopia
 				int cvdcProtanopia;
 				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, &cvdcProtanopia);
@@ -439,13 +471,15 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Tritanopia().Value(cvdcTritanopia);
 
 				//Enable or disable interface
-				slider_Display_Protanopia().IsEnabled(true);
-				slider_Display_Deuteranopia().IsEnabled(true);
-				slider_Display_Tritanopia().IsEnabled(true);
+				toggleswitch_Display_CVDC_Control().IsEnabled(true);
+				slider_Display_Protanopia().IsEnabled(cvdcEnabled);
+				slider_Display_Deuteranopia().IsEnabled(cvdcEnabled);
+				slider_Display_Tritanopia().IsEnabled(cvdcEnabled);
 			}
 			catch (...)
 			{
 				//Enable or disable interface
+				toggleswitch_Display_CVDC_Control().IsEnabled(false);
 				slider_Display_Protanopia().IsEnabled(false);
 				slider_Display_Deuteranopia().IsEnabled(false);
 				slider_Display_Tritanopia().IsEnabled(false);

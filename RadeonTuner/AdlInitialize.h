@@ -172,6 +172,22 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_Color_Set";
 			}
 
+			_ADL2_Display_ColorTemperatureSource_Get = (ADL2_Display_ColorTemperatureSource_Get)GetProcAddress(hInstance, "ADL2_Display_ColorTemperatureSource_Get");
+			if (_ADL2_Display_ColorTemperatureSource_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ColorTemperatureSource_Get");
+				return L"Failed to init _ADL2_Display_ColorTemperatureSource_Get";
+			}
+
+			_ADL2_Display_ColorTemperatureSource_Set = (ADL2_Display_ColorTemperatureSource_Set)GetProcAddress(hInstance, "ADL2_Display_ColorTemperatureSource_Set");
+			if (_ADL2_Display_ColorTemperatureSource_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ColorTemperatureSource_Set");
+				return L"Failed to init _ADL2_Display_ColorTemperatureSource_Set";
+			}
+
 			_ADL2_Display_CVDC_Get = (ADL2_Display_CVDC_Get)GetProcAddress(hInstance, "ADL2_Display_CVDC_Get");
 			if (_ADL2_Display_CVDC_Get == NULL)
 			{
