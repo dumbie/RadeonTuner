@@ -313,25 +313,25 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_Display_ColorTemperature_Control().IsEnabled(true);
 					if (userControlEnabled)
 					{
-						slider_Display_ColorTemperature().IsEnabled(true);
+						slider_Display_ColorTemperature_Kelvin().IsEnabled(true);
 					}
 					else
 					{
-						slider_Display_ColorTemperature().IsEnabled(false);
+						slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 					}
 				}
 				else
 				{
 					//Enable or disable interface
 					toggleswitch_Display_ColorTemperature_Control().IsEnabled(false);
-					slider_Display_ColorTemperature().IsEnabled(false);
+					slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 				}
 			}
 			catch (...)
 			{
 				//Enable or disable interface
 				toggleswitch_Display_ColorTemperature_Control().IsEnabled(false);
-				slider_Display_ColorTemperature().IsEnabled(false);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 			}
 
 			//Get Custom Color Profile
@@ -346,11 +346,11 @@ namespace winrt::RadeonTuner::implementation
 				{
 					adlx_Res0 = ppCustomColor->GetTemperature(&adlx_Int0);
 					adlx_Res0 = ppCustomColor->GetTemperatureRange(&adlx_IntRange0);
-					slider_Display_ColorTemperature().Value(adlx_Int0);
-					slider_Display_ColorTemperature().Minimum(adlx_IntRange0.minValue);
-					slider_Display_ColorTemperature().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_ColorTemperature().StepFrequency(adlx_IntRange0.step);
-					slider_Display_ColorTemperature().SmallChange(adlx_IntRange0.step);
+					slider_Display_ColorTemperature_Kelvin().Value(adlx_Int0);
+					slider_Display_ColorTemperature_Kelvin().Minimum(adlx_IntRange0.minValue);
+					slider_Display_ColorTemperature_Kelvin().Maximum(adlx_IntRange0.maxValue);
+					slider_Display_ColorTemperature_Kelvin().StepFrequency(adlx_IntRange0.step);
+					slider_Display_ColorTemperature_Kelvin().SmallChange(adlx_IntRange0.step);
 				}
 
 				//Get Brightness
@@ -440,7 +440,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...)
 			{
 				//Enable or disable interface
-				slider_Display_ColorTemperature().IsEnabled(false);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 				slider_Display_Brightness().IsEnabled(false);
 				slider_Display_Contrast().IsEnabled(false);
 				slider_Display_Saturation().IsEnabled(false);

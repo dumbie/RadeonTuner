@@ -377,13 +377,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					slider_Display_ColorTemperature().IsEnabled(true);
+					slider_Display_ColorTemperature_Kelvin().IsEnabled(true);
 					ShowNotification(L"Temperature Control enabled");
 					AVDebugWriteLine(L"Temperature Control enabled");
 				}
 				else
 				{
-					slider_Display_ColorTemperature().IsEnabled(false);
+					slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 					ShowNotification(L"Temperature Control disabled");
 					AVDebugWriteLine(L"Temperature Control disabled");
 				}
@@ -392,7 +392,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Display_ColorTemperature_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::slider_Display_ColorTemperature_Kelvin_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
 		{

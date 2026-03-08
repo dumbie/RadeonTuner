@@ -117,34 +117,34 @@
                 </Border>
 
                 <!-- Buttons -->
-                <StackPanel x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                <VariableSizedWrapGrid x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
-                    <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
-                    <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
-                    <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
-                </StackPanel>
-                <StackPanel x:Name="stackpanel_Fan_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
+                    <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
+                    <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
+                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                </VariableSizedWrapGrid>
+                <VariableSizedWrapGrid x:Name="stackpanel_Fan_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
-                    <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
-                    <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
-                    <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
-                </StackPanel>
-                <StackPanel x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
+                    <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
+                    <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
+                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                </VariableSizedWrapGrid>
+                <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add exe" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
-                    <Button x:Name="button_Graphics_AddProcess" Click="button_Graphics_AddProcess_Click" Content="Add process" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add process as application."/>
-                    <Button x:Name="button_Graphics_Remove" Click="button_Graphics_Remove_Click" Content="Remove" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                    <Button x:Name="button_Graphics_Reset" Click="button_Graphics_Reset_Click" Content="Reset" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
-                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
-                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
-                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' which are normally limited to white listed only applications."/>
-                </StackPanel>
-                <StackPanel x:Name="stackpanel_Display_Buttons" Grid.Row="2" Margin="5" Orientation="Horizontal">
-                    <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset custom color display settings to it's defaults."/>
-                    <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import custom color display settings from file."/>
-                    <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Margin="5,0,0,0" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current custom color display settings to file."/>
-                </StackPanel>
+                    <Button x:Name="button_Graphics_AddProcess" Click="button_Graphics_AddProcess_Click" Content="Add process" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add process as application."/>
+                    <Button x:Name="button_Graphics_Remove" Click="button_Graphics_Remove_Click" Content="Remove" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
+                    <Button x:Name="button_Graphics_Reset" Click="button_Graphics_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
+                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
+                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
+                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' which are normally limited to white listed only applications."/>
+                </VariableSizedWrapGrid>
+                <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
+                    <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display color settings to it's defaults."/>
+                    <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import display color settings from file."/>
+                    <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current display color settings to file."/>
+                </VariableSizedWrapGrid>
 
                 <!-- Main -->
                 <ScrollViewer Grid.Row="3" Margin="5,0,5,0" VerticalScrollBarVisibility="Auto">
@@ -229,7 +229,7 @@
                                     <!-- Radeon Image Sharpening -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled applications.&#10;&#10;* This setting does not work on OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on HDR enabled applications.&#10;&#10;* This setting does not work on OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
                                     </StackPanel>
 
@@ -903,18 +903,18 @@
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <!-- Temperature -->
+                                    <!-- Kelvin -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose how warm or cool images will look on your display."/>
-                                        <TextBlock Text="Color Temperature" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Color Temperature Kelvin" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_ValueChanged"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature_Kelvin, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature_Kelvin" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_Kelvin_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -935,7 +935,7 @@
                                     <!-- Protanopia -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for red color blindness."/>
-                                        <TextBlock Text="Protanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Protanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -952,7 +952,7 @@
                                     <!-- Deuteranopia -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for green color blindness."/>
-                                        <TextBlock Text="Deuteranopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Deuteranopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -969,7 +969,7 @@
                                     <!-- Tritanopia -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for blue color blindness."/>
-                                        <TextBlock Text="Tritanopia" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Tritanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
