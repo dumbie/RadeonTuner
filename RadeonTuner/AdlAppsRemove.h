@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppRemove(AdlApplication adlApp)
+	std::wstring MainPage::AdlAppRemove(AdlApplication adlApp)
 	{
 		try
 		{
@@ -14,7 +14,7 @@ namespace winrt::RadeonTuner::implementation
 			if (adlApp.FileName == L"*.*")
 			{
 				AVDebugWriteLine("Cannot remove Global application.");
-				return false;
+				return L"Cannot remove Global app";
 			}
 
 			AVDebugWriteLine("Removing profiles from application: " << adlApp.FileName << " / " << adlApp.FilePath);
@@ -53,13 +53,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set result
-			return removeCount > 0;
+			if (removeCount > 0)
+			{
+				return L"Application removed";
+			}
+			else
+			{
+				return L"Application not removed";
+			}
 		}
 		catch (...)
 		{
 			//Set result
 			AVDebugWriteLine("Failed removing application (Exception)");
-			return false;
+			return L"Failed removing application";
 		}
 	}
 }

@@ -53,6 +53,9 @@ namespace winrt::RadeonTuner::implementation
 			//Load settings from file
 			AdlApplication adlApplication = GraphicsSettings_Load(importPath);
 
+			//DriverBug#2
+			adlApplication.FilePath = L"*\\*";
+
 			//Check if application already exists
 			if (AdlAppExists(adlApplication.FileName, adlApplication.FilePath, adlApplication.DriverArea))
 			{

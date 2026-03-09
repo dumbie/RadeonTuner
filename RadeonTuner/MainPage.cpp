@@ -235,7 +235,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 2)
 			{
-				//DriverBug#1 workaround
+				//DriverBug#1
 				//combobox_GpuSelect().IsEnabled(true);
 				combobox_AppSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);

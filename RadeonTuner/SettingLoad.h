@@ -46,7 +46,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
-					Sleep(1000);
+					Sleep(500);
 					disable_saving_settings = false;
 				});
 			threadEnableSaving.detach();

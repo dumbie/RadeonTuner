@@ -96,6 +96,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Get setting value
 			int maxCurrent = (int)slider_Core_Max().Value();
 			int minLimits = maxCurrent - 100;
@@ -116,6 +119,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			if (slider_Core_Min().IsEnabled())
 			{
 				//Get setting value

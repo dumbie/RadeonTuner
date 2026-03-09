@@ -10,11 +10,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//DriverBug#1 workaround
+			//DriverBug#1
 			//Bug or limitation in newer AMD drivers does not allow separate app settings for each GPU so settings must unfortunately be set the same for all GPU's.
 			//In older drivers you needed to set the used GpuID at 'UMD\AppGpuId' but for some reason in newer drivers this value seems to be ignored breaking support for separate settings.
 			//Driver stores settings like this GpuId1::SettingOn;;GpuId2::SettingOff;; but only the first value is used ignoring 'UMD\AppGpuId'.
-			//Note: this breaks profile compatibility with Radeon Software but does make settings work on old and new drivers.
+			//Note: this workaround breaks profile compatibility with Radeon Software but does make settings work on old and new drivers.
 
 			//Set gpu unique identifier
 			gpuUniqueIdentifierHex = L"0x0001";
@@ -93,7 +93,10 @@ namespace winrt::RadeonTuner::implementation
 				{
 					try
 					{
-						if (adlApplications.Get()[i].strFileName == fileName && adlApplications.Get()[i].strPathName == filePath && adlApplications.Get()[i].strArea == driverArea) { return true; }
+						bool fileNameMatch = wstring_to_lower(adlApplications.Get()[i].strFileName) == wstring_to_lower(fileName);
+						bool filePathMatch = wstring_to_lower(adlApplications.Get()[i].strPathName) == wstring_to_lower(filePath);
+						bool driverAreaMatch = adlApplications.Get()[i].strArea == driverArea;
+						if (fileNameMatch && filePathMatch && driverAreaMatch) { return true; }
 					}
 					catch (...) {}
 				}

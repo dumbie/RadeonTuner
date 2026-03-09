@@ -26,6 +26,9 @@ namespace winrt::RadeonTuner::implementation
 			//Load applications
 			adl_Apps = AdlAppLoad(L"3D_User");
 
+			//Sort applications by file name
+			std::sort(adl_Apps.begin(), adl_Apps.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
+
 			//Add apps to combobox
 			for (AdlApplication adlApp : adl_Apps)
 			{
@@ -54,7 +57,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::AdlAppInterfaceAddFile()
+	void MainPage::AdlAppInterfaceAddFile()
 	{
 		try
 		{
@@ -89,25 +92,27 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Check file path
-			if (importPath.empty())
-			{
-				ShowNotification(L"Application not added, no path set");
-				AVDebugWriteLine(L"Application not added, no path set");
-				return false;
-			}
-
 			//Add application
-			return AdlAppAdd(importPath, L"3D_User");
+			std::wstring addResult = AdlAppAdd(importPath, L"3D_User");
+
+			//Show notification
+			ShowNotification(addResult);
+			AVDebugWriteLine(addResult);
+
+			//Check result
+			if (addResult == L"Application added")
+			{
+				//Reload applications
+				AdlAppInterfaceListLoad();
+
+				//Select application
+				combobox_AppSelect().SelectedIndex(0);
+			}
 		}
-		catch (...)
-		{
-			//Set result
-			return false;
-		}
+		catch (...) {}
 	}
 
-	bool MainPage::AdlAppInterfaceAddProcess()
+	void MainPage::AdlAppInterfaceAddProcess()
 	{
 		try
 		{
@@ -148,21 +153,23 @@ namespace winrt::RadeonTuner::implementation
 			//Get application file path
 			std::wstring importPath = string_to_wstring(processSelect[selectedIndex].ExePath());
 
-			//Check file path
-			if (importPath.empty())
-			{
-				ShowNotification(L"Application not added, no path set");
-				AVDebugWriteLine(L"Application not added, no path set");
-				return false;
-			}
-
 			//Add application
-			return AdlAppAdd(importPath, L"3D_User");
+			std::wstring addResult = AdlAppAdd(importPath, L"3D_User");
+
+			//Show notification
+			ShowNotification(addResult);
+			AVDebugWriteLine(addResult);
+
+			//Check result
+			if (addResult == L"Application added")
+			{
+				//Reload applications
+				AdlAppInterfaceListLoad();
+
+				//Select application
+				combobox_AppSelect().SelectedIndex(0);
+			}
 		}
-		catch (...)
-		{
-			//Set result
-			return false;
-		}
+		catch (...) {}
 	}
 }

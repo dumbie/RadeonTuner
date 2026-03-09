@@ -10,26 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			bool addResult = AdlAppInterfaceAddFile();
-
-			//Check result
-			if (addResult)
-			{
-				//Reload applications
-				AdlAppInterfaceListLoad();
-
-				//Select application
-				combobox_AppSelect().SelectedIndex(0);
-
-				//Show notification
-				ShowNotification(L"Application added");
-				AVDebugWriteLine(L"Application added");
-			}
-			else
-			{
-				ShowNotification(L"Application not added");
-				AVDebugWriteLine(L"Application not added");
-			}
+			AdlAppInterfaceAddFile();
 		}
 		catch (...) {}
 	}
@@ -39,26 +20,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show process dialog
-			bool addResult = AdlAppInterfaceAddProcess();
-
-			//Check result
-			if (addResult)
-			{
-				//Reload applications
-				AdlAppInterfaceListLoad();
-
-				//Select application
-				combobox_AppSelect().SelectedIndex(0);
-
-				//Show notification
-				ShowNotification(L"Application added");
-				AVDebugWriteLine(L"Application added");
-			}
-			else
-			{
-				ShowNotification(L"Application not added");
-				AVDebugWriteLine(L"Application not added");
-			}
+			AdlAppInterfaceAddProcess();
 		}
 		catch (...) {}
 	}
@@ -68,26 +30,20 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Remove application and profile
-			bool removeResult = AdlAppRemove(adl_AppSelected());
+			std::wstring removeResult = AdlAppRemove(adl_AppSelected());
+
+			//Show notification
+			ShowNotification(removeResult);
+			AVDebugWriteLine(removeResult);
 
 			//Check result
-			if (removeResult)
+			if (removeResult == L"Application removed")
 			{
 				//Reload applications
 				AdlAppInterfaceListLoad();
 
 				//Select application
 				combobox_AppSelect().SelectedIndex(0);
-
-				//Show notification
-				ShowNotification(L"Application removed");
-				AVDebugWriteLine(L"Application removed");
-			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Application not removed");
-				AVDebugWriteLine(L"Application not removed");
 			}
 		}
 		catch (...) {}
@@ -942,6 +898,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//DriverBug#3
+			//Bug in AMD driver sets Anti-Aliasing level to wrong value.
+			//When using the 'Override Application Settings' and set it to 8xEQ without having EQAA enabled it sets to 8x instead, picking 8xEQ in the combobox should also enable EQAA but it does not.
+			//To manually enable EQAA you first need to select 'Enhance Application Settings' before using 'Override Application Settings' to workaround this issue.
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
@@ -1040,6 +1001,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//DriverBug#4
+			//Bug in AMD driver resets Anisotropic level to 2x when disabled and enabled.
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 

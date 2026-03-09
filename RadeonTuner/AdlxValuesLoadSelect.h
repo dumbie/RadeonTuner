@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
-					Sleep(1000);
+					Sleep(500);
 					disable_saving = false;
 				});
 			threadEnableSaving.detach();
@@ -77,7 +77,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
-					Sleep(1000);
+					Sleep(500);
 					disable_saving = false;
 				});
 			threadEnableSaving.detach();
@@ -121,7 +121,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
-					Sleep(1000);
+					Sleep(500);
 					disable_saving = false;
 				});
 			threadEnableSaving.detach();
@@ -163,7 +163,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get gpu unique identifier
 			adlx_Res0 = ppGpuInfo->UniqueId(&gpuUniqueIdentifier);
 			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
-			//DriverBug#1 workaround
+			//DriverBug#1
 
 			//Load keep active setting
 			KeepActive_Load_UI();
@@ -171,7 +171,7 @@ namespace winrt::RadeonTuner::implementation
 			//Load tuning and fans settings
 			AdlxValuesLoadTuning();
 
-			//DriverBug#1 workaround
+			//DriverBug#1
 			////Check and set default application properties
 			//AdlAppDefaultProperties(adl_AppSelected(), false, true);
 
@@ -187,7 +187,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
-					Sleep(1000);
+					Sleep(500);
 					disable_saving = false;
 				});
 			threadEnableSaving.detach();
