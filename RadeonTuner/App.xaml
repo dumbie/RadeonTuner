@@ -45,20 +45,76 @@
             <Color x:Key="ApplicationIgnoredColor">#EE8F3F</Color>
             <SolidColorBrush x:Key="ApplicationIgnoredBrush">#EE8F3F</SolidColorBrush>
 
+            <!-- Templates -->
+            <ControlTemplate x:Name="ListBoxItemTemplateRound" TargetType="ListBoxItem">
+                <Border x:Name="LayoutRoot" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}">
+                    <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListLowBrush}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListMediumBrush}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemAccentColorDark1}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="SelectedUnfocused">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemAccentColorDark1}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="SelectedPointerOver">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemAccentColorDark2}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="SelectedPressed">
+                                <VisualState.Setters>
+                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemAccentColorDark3}"/>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Border>
+            </ControlTemplate>
+
             <!-- Elements -->
             <Style x:Name="ApplicationListBox" TargetType="ListBox">
+                <Setter Property="Padding" Value="0,0,5,0"/>
                 <Setter Property="ItemContainerStyle" Value="{ThemeResource ApplicationListBoxItem}"/>
                 <Setter Property="Background" Value="{ThemeResource ApplicationVoidGrayColor}"/>
             </Style>
 
             <Style x:Name="ApplicationListBoxItem" TargetType="ListBoxItem">
                 <Setter Property="Margin" Value="5"/>
-                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="CornerRadius" Value="8"/>
                 <Setter Property="Background" Value="{ThemeResource ApplicationDarkGrayColor}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Template" Value="{ThemeResource ListBoxItemTemplateRound}"/>
             </Style>
 
             <Style x:Name="ApplicationComboBox" TargetType="ComboBox">
