@@ -81,37 +81,12 @@ namespace winrt::RadeonTuner::implementation
 			case TM_EXIT:
 			{
 				//Exit application
-				PostQuitMessage(0);
+				AppVariables::App.Exit(true);
 				return;
 			}
 			}
 		}
 		catch (...) {}
-	}
-
-	//Application close click
-	BOOL AppCloseClick()
-	{
-		try
-		{
-			std::optional<bool> CloseTray = AppVariables::Settings.Load<bool>("CloseTray");
-			if (CloseTray.has_value() && CloseTray.value())
-			{
-				AVDebugWriteLine("Closing application to tray.");
-
-				//Show window in hidden state
-				ShowWindow(_hWnd_MainWindow, SW_HIDE);
-			}
-			else
-			{
-				AVDebugWriteLine("Exiting application.");
-
-				//Exit application
-				PostQuitMessage(0);
-			}
-		}
-		catch (...) {}
-		return 0;
 	}
 
 	//Callbacks
@@ -133,7 +108,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 			case WM_CLOSE:
 				//Handle app close click
-				return AppCloseClick();
+				AppVariables::App.Exit(false);
+				return 0;
 			case WM_SIZE:
 				//Resize xaml window
 				RECT rectClient;
@@ -150,6 +126,34 @@ namespace winrt::RadeonTuner::implementation
 
 	//Functions
 	App::App() {}
+
+	void App::Exit(bool forceExit)
+	{
+		try
+		{
+			std::optional<bool> CloseTray = AppVariables::Settings.Load<bool>("CloseTray");
+			if (!forceExit && CloseTray.has_value() && CloseTray.value())
+			{
+				AVDebugWriteLine("Closing application to tray.");
+
+				//Show window in hidden state
+				ShowWindow(_hWnd_MainWindow, SW_HIDE);
+			}
+			else
+			{
+				AVDebugWriteLine("Exiting application.");
+
+				//Fix stop and wait for loops
+
+				//Update variables
+				AppVariables::ApplicationExiting = true;
+
+				//Exit application
+				exit(0);
+			}
+		}
+		catch (...) {}
+	}
 
 	void App::DispatcherInvoke(std::function<void()> const& action)
 	{
@@ -170,6 +174,18 @@ namespace winrt::RadeonTuner::implementation
 			}
 		}
 		catch (...) {}
+	}
+
+	HWND App::GetHandle()
+	{
+		try
+		{
+			return _hWnd_MainWindow;
+		}
+		catch (...)
+		{
+			return NULL;
+		}
 	}
 
 	void App::SetContent(FrameworkElement const& content)
@@ -226,7 +242,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set tray strings
 			std::wstring szTrayTip = L"RadeonTuner";
-			lstrcpynW(notifyIcon.szTip, szTrayTip.c_str(), 127);
+			std::move(szTrayTip.begin(), szTrayTip.end(), notifyIcon.szTip);
 
 			//Show tray icon
 			Shell_NotifyIconW(NIM_ADD, &notifyIcon);
@@ -268,7 +284,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Create main window
-			int windowWidth = 1280;
+			int windowWidth = 1320;
 			int windowHeight = 960;
 			long dwStyle = WS_VISIBLE | WS_OVERLAPPEDWINDOW;
 
