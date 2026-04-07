@@ -62,7 +62,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			std::wstring importPath;
-			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::Release);
+			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
 			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog.Get());
 			if (SUCCEEDED(hResult))
 			{
@@ -78,7 +78,7 @@ namespace winrt::RadeonTuner::implementation
 				//Get file dialog result
 				if (SUCCEEDED(hResult))
 				{
-					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::Release);
+					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
 					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
 					if (SUCCEEDED(hResult))
 					{
@@ -117,21 +117,21 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get running processes
-			std::vector<ProcessMulti> processSelect{};
+			std::vector<AVProcess> processSelect{};
 			std::vector<std::wstring> processSelectString{};
-			std::vector<ProcessMulti> processList = Get_ProcessesMultiAll();
-			for (ProcessMulti processMulti : processList)
+			std::vector<AVProcess> processList = Get_ProcessAll();
+			for (AVProcess process : processList)
 			{
 				try
 				{
 					//Check if process is valid
-					if (!processMulti.Validate())
+					if (!process.Validate())
 					{
 						continue;
 					}
 
 					//Get application main window handle
-					HWND windowHandleMain = processMulti.WindowHandleMain();
+					HWND windowHandleMain = process.WindowHandleMain();
 
 					//Check if application has valid main window
 					if (windowHandleMain == NULL)
@@ -140,8 +140,8 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Add process
-					std::wstring processString = string_to_wstring(processMulti.ExeName()) + L" (" + number_to_wstring(processMulti.Identifier()) + L")";
-					processSelect.push_back(processMulti);
+					std::wstring processString = string_to_wstring(process.ExeName()) + L" (" + number_to_wstring(process.Identifier()) + L")";
+					processSelect.push_back(process);
 					processSelectString.push_back(processString);
 				}
 				catch (...) {}

@@ -50,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//ShellExecuteW(0, 0, L"https://github.com/dumbie/RadeonTuner/releases", 0, 0, 0);
 					std::wstring pathUpdaterExeW = PathMerge(PathGetExecutableDirectory(), L"Updater.exe");
-					Launch_ShellExecute(pathUpdaterExeW, L"", L"", true);
+					Launch_ApplicationDesktop(pathUpdaterExeW, L"", L"", true);
 				}
 			}
 			else

@@ -3,19 +3,18 @@
 #include "AppVariables.h"
 #include "SettingCheck.h"
 
-void ShowProcessMainWindow(std::vector<ProcessMulti> processList)
+void ShowProcessMainWindow(std::vector<AVProcess> processList)
 {
 	try
 	{
 		//Get current process identifier
 		DWORD currentProcessId = GetCurrentProcessId();
 
-		for (ProcessMulti process : processList)
+		for (AVProcess process : processList)
 		{
 			try
 			{
 				//Fix does not work when process is running as administrator, add pipe or socket workaround?
-				//Fix ADLX creates a window that is not needed (AMD:ADLX-CapturingWindow / ADLXEventWindowClass)
 
 				//Check process identifier
 				if (currentProcessId == process.Identifier())
@@ -23,16 +22,8 @@ void ShowProcessMainWindow(std::vector<ProcessMulti> processList)
 					continue;
 				}
 
-				//Get process main window handle
-				HWND windowHandle = process.WindowHandleMain(false);
-
-				//Show process main window handle
-				if (windowHandle != NULL)
-				{
-					ShowWindow(windowHandle, SW_SHOWNORMAL);
-					SetForegroundWindow(windowHandle);
-					AVDebugWriteLine("Showing window handle: " << windowHandle);
-				}
+				//Show process window
+				Show_ProcessByWindowHandle(process.WindowHandleMain(false));
 			}
 			catch (...) {}
 		}
@@ -45,7 +36,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	try
 	{
 		//Check if process is already running
-		std::vector<ProcessMulti> processList = Get_ProcessesMultiByName("RadeonTuner.exe");
+		std::vector<AVProcess> processList = Get_ProcessByName("RadeonTuner.exe", true);
 		if (processList.size() > 1)
 		{
 			AVDebugWriteLine("Application is already running, exiting and showing window.");

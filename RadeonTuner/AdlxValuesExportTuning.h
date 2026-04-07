@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			std::string exportPath;
-			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::Release);
+			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
 			HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog.Get());
 			if (SUCCEEDED(hResult))
 			{
@@ -27,7 +27,7 @@ namespace winrt::RadeonTuner::implementation
 				//Get file dialog result
 				if (SUCCEEDED(hResult))
 				{
-					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::Release);
+					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
 					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
 					if (SUCCEEDED(hResult))
 					{
