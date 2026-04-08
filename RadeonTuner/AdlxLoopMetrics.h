@@ -91,7 +91,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
 						textblock_Current_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
 
-						if (gpuTemperatureHotspotSupported)
+						if (gpuTemperatureHotspotSupported && gpuTemperatureHotspot < 1000)
 						{
 							textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
 						}
@@ -100,7 +100,7 @@ namespace winrt::RadeonTuner::implementation
 							textblock_Current_Temp_Hotspot().Text(L"");
 						}
 
-						if (gpuTemperatureIntakeSupported)
+						if (gpuTemperatureIntakeSupported && gpuTemperatureIntake < 1000)
 						{
 							textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
 						}
