@@ -120,8 +120,8 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Contrast_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Saturation_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void toggleswitch_RadeonAntiLag_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrLatencyReduction_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_RadeonBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonBoost_MinRes_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_RadeonImageSharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
@@ -169,7 +169,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_Shortcut_ContextMenu_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_StartWindowVisible_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FsrOverrideUpscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_FsrOverrideFrameGen_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_DisplayColorEnhancement_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Deuteranopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
@@ -178,7 +178,7 @@ namespace winrt::RadeonTuner::implementation
 		void button_Graphics_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Graphics_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Graphics_Reset_Settings_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_AddProcess_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
@@ -189,6 +189,12 @@ namespace winrt::RadeonTuner::implementation
 		void button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Display_ColorTemperature_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Display_CVDC_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrOverrideMultiFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrOverrideRayRegeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_MultiFrameGenerationRatio_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
+		void button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

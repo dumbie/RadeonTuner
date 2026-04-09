@@ -16,6 +16,8 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Fix find way to check if setting is supported and disable interface.
+
 			//Set interface limits
 			slider_RadeonBoost_MinRes().Minimum(50);
 			slider_RadeonBoost_MinRes().Maximum(84);
@@ -37,7 +39,7 @@ namespace winrt::RadeonTuner::implementation
 			slider_RadeonImageSharpening_Sharpening().StepFrequency(10);
 			slider_RadeonImageSharpening_Sharpening().SmallChange(10);
 
-			//Get FSR Override Upscaling
+			//Get FSR Upscaling Override
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FsrOverride");
 				if (adlProperty.has_value())
@@ -58,7 +60,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Override Frame Generation
+			//Get FSR Interpolation Frame Generation Override
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MlfiOverride");
 				if (adlProperty.has_value())
@@ -68,18 +70,157 @@ namespace winrt::RadeonTuner::implementation
 						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
-							toggleswitch_FsrOverrideFrameGen().IsOn(convertedValue);
+							toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(convertedValue);
 							break;
 						}
 					}
 				}
 				else
 				{
-					toggleswitch_FsrOverrideFrameGen().IsEnabled(false);
+					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsEnabled(false);
 				}
 			}
 
-			//Get Radeon Anti-Lag
+			//Get FSR Multi Frame Generation Override
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MfgOverride");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+				else
+				{
+					toggleswitch_FsrOverrideMultiFrameGeneration().IsEnabled(false);
+				}
+			}
+
+			//Get FSR Ray Regeneration Denoiser Override
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MldOverride");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_FsrOverrideRayRegeneration().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+				else
+				{
+					toggleswitch_FsrOverrideRayRegeneration().IsEnabled(false);
+				}
+			}
+
+			//Get FSR Neural Radiance Caching Override
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"NrcOverride");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(convertedValue);
+							break;
+						}
+					}
+				}
+				else
+				{
+					toggleswitch_FsrOverrideNeuralRadianceCaching().IsEnabled(false);
+				}
+			}
+
+			//Get FSR Multi Frame Generation Ratio
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MfgRatio");
+				if (adlProperty.has_value())
+				{
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							int convertedValue = wstring_to_int(value.Value);
+
+							//Enumeration index correction
+							if (convertedValue == 0)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(0);
+							}
+							else if (convertedValue == 1)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(1);
+							}
+							else if (convertedValue == 2)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(2);
+							}
+							else if (convertedValue == 4)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(3);
+							}
+							else if (convertedValue == 6)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(4);
+							}
+							else if (convertedValue == 8)
+							{
+								combobox_MultiFrameGenerationRatio().SelectedIndex(5);
+							}
+							break;
+						}
+					}
+				}
+				else
+				{
+					combobox_MultiFrameGenerationRatio().IsEnabled(false);
+				}
+			}
+
+			//FSR DLL Load Path
+			{
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FfxDllPath");
+				if (adlProperty.has_value())
+				{
+					std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == gpuUniqueIdentifierHex)
+						{
+							if (value.Value.empty() || wstring_contains(value.Value, system32path))
+							{
+								textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
+							}
+							else
+							{
+								textblock_FsrDllLoadPath().Text(value.Value);
+							}
+							break;
+						}
+					}
+				}
+				else
+				{
+					button_FsrDllLoadPath_Set().IsEnabled(false);
+					button_FsrDllLoadPath_Default().IsEnabled(false);
+					textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
+				}
+			}
+
+			//Get FSR Latency Reduction
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Dlg_PFEnable");
 				if (adlProperty.has_value())
@@ -89,14 +230,14 @@ namespace winrt::RadeonTuner::implementation
 						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
-							toggleswitch_RadeonAntiLag().IsOn(convertedValue);
+							toggleswitch_FsrLatencyReduction().IsOn(convertedValue);
 							break;
 						}
 					}
 				}
 				else
 				{
-					toggleswitch_RadeonAntiLag().IsEnabled(false);
+					toggleswitch_FsrLatencyReduction().IsEnabled(false);
 				}
 			}
 
@@ -185,7 +326,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Chill Minimum
+			//Get Radeon Chill Minimum Frame Rate
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MinFRate");
 				if (adlProperty.has_value())
@@ -206,7 +347,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Chill Maximum
+			//Get Radeon Chill Maximum Frame Rate
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MaxFRate");
 				if (adlProperty.has_value())

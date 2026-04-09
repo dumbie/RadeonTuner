@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			//Set default application properties
 			std::vector<AdlAppProperty> adlAppProperties{};
 
-			//Radeon FSR Upscaling Override
+			//FSR Upscaling Override
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"FsrOverride";
@@ -32,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon FSR Interpolation Frame Generation Override
+			//FSR Interpolation Frame Generation Override
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MlfiOverride";
@@ -43,49 +43,65 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			////Radeon FSR Multi Frame Generation Override
-			//{
-			//	AdlAppProperty adlAppProperty0{};
-			//	adlAppProperty0.Name = L"MfgOverride";
-			//	AdlAppPropertyValue adlAppPropertyValue0{};
-			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-			//	adlAppPropertyValue0.Value = L"0";
-			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
-			//	adlAppProperties.push_back(adlAppProperty0);
-			//}
-			//{
-			//	AdlAppProperty adlAppProperty0{};
-			//	adlAppProperty0.Name = L"MfgRatio";
-			//	AdlAppPropertyValue adlAppPropertyValue0{};
-			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-			//	adlAppPropertyValue0.Value = L"1";
-			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
-			//	adlAppProperties.push_back(adlAppProperty0);
-			//}
+			//FSR Multi Frame Generation Override
+			{
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"MfgOverride";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+			}
 
-			////Radeon FSR Ray Regeneration Denoiser Override
-			//{
-			//	AdlAppProperty adlAppProperty0{};
-			//	adlAppProperty0.Name = L"MldOverride";
-			//	AdlAppPropertyValue adlAppPropertyValue0{};
-			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-			//	adlAppPropertyValue0.Value = L"0";
-			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
-			//	adlAppProperties.push_back(adlAppProperty0);
-			//}
+			//FSR Multi Frame Generation Ratio
+			{
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"MfgRatio";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+			}
 
-			////Radeon FSR Neural Radiance Cache Override
-			//{
-			//	AdlAppProperty adlAppProperty0{};
-			//	adlAppProperty0.Name = L"NrcOverride";
-			//	AdlAppPropertyValue adlAppPropertyValue0{};
-			//	adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-			//	adlAppPropertyValue0.Value = L"0";
-			//	adlAppProperty0.Values = { adlAppPropertyValue0 };
-			//	adlAppProperties.push_back(adlAppProperty0);
-			//}
+			//FSR Ray Regeneration Denoiser Override
+			{
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"MldOverride";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+			}
 
-			//Radeon Anti-Lag
+			//FSR Neural Radiance Caching Override
+			{
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"NrcOverride";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"0";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+			}
+
+			//FSR DLL Load Path
+			{
+				//std::wstring system32path = PathGetFolderKnown(FOLDERID_System) + L"\\amdxcffx64.dll";
+				//Fix check if dll file is stored in System32 or DriverStore or if empty works as fallback.
+
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"FfxDllPath";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
+			}
+
+			//FSR Latency Reduction
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Dlg_PFEnable";
@@ -129,7 +145,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Chill Minimum
+			//Radeon Chill Minimum Frame Rate
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Chil_MinFRate";
@@ -140,7 +156,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Chill Maximum
+			//Radeon Chill Maximum Frame Rate
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Chil_MaxFRate";

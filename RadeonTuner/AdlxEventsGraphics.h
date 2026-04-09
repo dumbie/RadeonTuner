@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Graphics_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Graphics_Reset_Settings_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -140,33 +140,33 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling FSR upscaling override");
-					AVDebugWriteLine(L"Failed enabling FSR upscaling override");
+					ShowNotification(L"Failed enabling FSR Upscaling override");
+					AVDebugWriteLine(L"Failed enabling FSR Upscaling override");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling FSR upscaling override");
-					AVDebugWriteLine(L"Failed disabling FSR upscaling override");
+					ShowNotification(L"Failed disabling FSR Upscaling override");
+					AVDebugWriteLine(L"Failed disabling FSR Upscaling override");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					ShowNotification(L"FSR upscaling override enabled");
-					AVDebugWriteLine(L"FSR upscaling override enabled");
+					ShowNotification(L"FSR Upscaling override enabled");
+					AVDebugWriteLine(L"FSR Upscaling override enabled");
 				}
 				else
 				{
-					ShowNotification(L"FSR upscaling override disabled");
-					AVDebugWriteLine(L"FSR upscaling override disabled");
+					ShowNotification(L"FSR Upscaling override disabled");
+					AVDebugWriteLine(L"FSR Upscaling override disabled");
 				}
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_FsrOverrideFrameGen_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -189,33 +189,336 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling FSR frame generation override");
-					AVDebugWriteLine(L"Failed enabling FSR frame generation override");
+					ShowNotification(L"Failed enabling FSR Frame Generation override");
+					AVDebugWriteLine(L"Failed enabling FSR Frame Generation override");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling FSR frame generation override");
-					AVDebugWriteLine(L"Failed disabling FSR frame generation override");
+					ShowNotification(L"Failed disabling FSR Frame Generation override");
+					AVDebugWriteLine(L"Failed disabling FSR Frame Generation override");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					ShowNotification(L"FSR frame generation override enabled");
-					AVDebugWriteLine(L"FSR frame generation override enabled");
+					ShowNotification(L"FSR Frame Generation override enabled");
+					AVDebugWriteLine(L"FSR Frame Generation override enabled");
 				}
 				else
 				{
-					ShowNotification(L"FSR frame generation override disabled");
-					AVDebugWriteLine(L"FSR frame generation override disabled");
+					ShowNotification(L"FSR Frame Generation override disabled");
+					AVDebugWriteLine(L"FSR Frame Generation override disabled");
 				}
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_RadeonAntiLag_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FsrOverrideMultiFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"MfgOverride", number_to_wstring(newValue));
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling FSR Frame Generation override");
+					AVDebugWriteLine(L"Failed enabling FSR Frame Generation override");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling FSR Frame Generation override");
+					AVDebugWriteLine(L"Failed disabling FSR Frame Generation override");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					ShowNotification(L"FSR Frame Generation override enabled");
+					AVDebugWriteLine(L"FSR Frame Generation override enabled");
+				}
+				else
+				{
+					ShowNotification(L"FSR Frame Generation override disabled");
+					AVDebugWriteLine(L"FSR Frame Generation override disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FsrOverrideRayRegeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"MldOverride", number_to_wstring(newValue));
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling FSR Ray Regeneration override");
+					AVDebugWriteLine(L"Failed enabling FSR Ray Regeneration override");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling FSR Ray Regeneration override");
+					AVDebugWriteLine(L"Failed disabling FSR Ray Regeneration override");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					ShowNotification(L"FSR Ray Regeneration override enabled");
+					AVDebugWriteLine(L"FSR Ray Regeneration override enabled");
+				}
+				else
+				{
+					ShowNotification(L"FSR Ray Regeneration override disabled");
+					AVDebugWriteLine(L"FSR Ray Regeneration override disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"NrcOverride", number_to_wstring(newValue));
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling FSR Neural Radiance Caching override");
+					AVDebugWriteLine(L"Failed enabling FSR Neural Radiance Caching override");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling FSR Neural Radiance Caching override");
+					AVDebugWriteLine(L"Failed disabling FSR Neural Radiance Caching override");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					ShowNotification(L"FSR Neural Radiance Caching override enabled");
+					AVDebugWriteLine(L"FSR Neural Radiance Caching override enabled");
+				}
+				else
+				{
+					ShowNotification(L"FSR Neural Radiance Caching override disabled");
+					AVDebugWriteLine(L"FSR Neural Radiance Caching override disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_MultiFrameGenerationRatio_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Enumeration index correction
+			int setValue = 0;
+			if (newValue == 0)
+			{
+				setValue = 0;
+			}
+			else if (newValue == 1)
+			{
+				setValue = 1;
+			}
+			else if (newValue == 2)
+			{
+				setValue = 2;
+			}
+			else if (newValue == 3)
+			{
+				setValue = 4;
+			}
+			else if (newValue == 4)
+			{
+				setValue = 6;
+			}
+			else if (newValue == 5)
+			{
+				setValue = 8;
+			}
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"MfgRatio", number_to_wstring(setValue));
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting FSR Frame Generation Ratio");
+				AVDebugWriteLine(L"Failed setting FSR Frame Generation Ratio");
+			}
+			else
+			{
+				ShowNotification(L"FSR Frame Generation Ratio set to " + ADL_FSR_MULTIFRAMEGEN_RATIO[newValue]);
+				AVDebugWriteLine(L"FSR Frame Generation Ratio set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			std::wstring newValue;
+			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
+			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog.Get());
+			if (SUCCEEDED(hResult))
+			{
+				//Set file dialog
+				COMDLG_FILTERSPEC filterSpec[] = { { L"FSR DLL", L"amdxcffx64.dll" } };
+				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+				pFileDialog.Get()->SetTitle(L"Select FSR DLL file...");
+				pFileDialog.Get()->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
+
+				//Show file dialog
+				hResult = pFileDialog.Get()->Show(NULL);
+
+				//Get file dialog result
+				if (SUCCEEDED(hResult))
+				{
+					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
+					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
+					if (SUCCEEDED(hResult))
+					{
+						PWSTR pszFilePath;
+						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+						if (SUCCEEDED(hResult))
+						{
+							newValue = pszFilePath;
+						}
+					}
+				}
+			}
+
+			//Check file path
+			if (newValue.empty())
+			{
+				ShowNotification(L"FSR DLL not changed, no path set");
+				AVDebugWriteLine(L"FSR DLL not changed, no path set");
+				return;
+			}
+
+			//Get setting value
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting FSR DLL Load Path");
+				AVDebugWriteLine(L"Failed setting FSR DLL Load Path");
+			}
+			else
+			{
+				textblock_FsrDllLoadPath().Text(newValue);
+				ShowNotification(L"FSR DLL Load Path set to " + newValue);
+				AVDebugWriteLine(L"FSR DLL Load Path set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			//std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
+			//std::wstring newValue = system32path + L"\\amdxcffx64.dll";
+			std::wstring newValue = L"";
+			bool newFailed = true;
+
+			//Set setting
+			newFailed = !AdlAppPropertyUpdate(adl_AppSelected(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting FSR DLL Load Path");
+				AVDebugWriteLine(L"Failed setting FSR DLL Load Path");
+			}
+			else
+			{
+				textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
+				ShowNotification(L"FSR DLL Load Path set to default");
+				AVDebugWriteLine(L"FSR DLL Load Path set to default");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FsrLatencyReduction_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -238,26 +541,26 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling Anti-Lag");
-					AVDebugWriteLine(L"Failed enabling Anti-Lag");
+					ShowNotification(L"Failed enabling FSR Latency Reduction");
+					AVDebugWriteLine(L"Failed enabling FSR Latency Reduction");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling Anti-Lag");
-					AVDebugWriteLine(L"Failed disabling Anti-Lag");
+					ShowNotification(L"Failed disabling FSR Latency Reduction");
+					AVDebugWriteLine(L"Failed disabling FSR Latency Reduction");
 				}
 			}
 			else
 			{
 				if (newValue)
 				{
-					ShowNotification(L"Anti-Lag enabled");
-					AVDebugWriteLine(L"Anti-Lag enabled");
+					ShowNotification(L"FSR Latency Reduction enabled");
+					AVDebugWriteLine(L"FSR Latency Reduction enabled");
 				}
 				else
 				{
-					ShowNotification(L"Anti-Lag disabled");
-					AVDebugWriteLine(L"Anti-Lag disabled");
+					ShowNotification(L"FSR Latency Reduction disabled");
+					AVDebugWriteLine(L"FSR Latency Reduction disabled");
 				}
 			}
 		}
@@ -1154,7 +1457,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Reset_Shader_Cache_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{

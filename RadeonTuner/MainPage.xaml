@@ -131,14 +131,15 @@
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
                     <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </VariableSizedWrapGrid>
-                <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add exe" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
-                    <Button x:Name="button_Graphics_AddProcess" Click="button_Graphics_AddProcess_Click" Content="Add process" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add process as application."/>
-                    <Button x:Name="button_Graphics_Remove" Click="button_Graphics_Remove_Click" Content="Remove" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                    <Button x:Name="button_Graphics_Reset" Click="button_Graphics_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
-                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
-                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
-                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' which are normally limited to white listed only applications."/>
+                <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="125" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
+                    <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add executable" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
+                    <Button x:Name="button_Graphics_AddProcess" Click="button_Graphics_AddProcess_Click" Content="Add process" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add process as application."/>
+                    <Button x:Name="button_Graphics_Remove" Click="button_Graphics_Remove_Click" Content="Remove app" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
+                    <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
+                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
+                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
+                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' which are normally limited to white listed only applications."/>
+                    <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display color settings to it's defaults."/>
@@ -151,55 +152,110 @@
                     <Grid Margin="0,0,10,10">
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
-                                <TextBlock Margin="6,0,0,0" Text="Graphics Options for" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_GraphicsOptions_Name" Margin="6,0,0,0" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="5,0,0,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
+
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
+                                    <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
+                                    <Image Source="/Assets/Warning.png" Margin="6,2,0,0" Width="26" Height="26" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* FRTC is not available because RadeonTuner uses application profiles to set Graphics settings which does not support FRTC."/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Radeon FSR -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- FSR Latency Reduction -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="FSR Latency Reduction (Anti-Lag) helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- FSR Multi Frame Generation Ratio -->
+                                    <StackPanel>
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the frame rate multipier used by FSR Multi Frame Generation, a higher multiplier increases smoothness but may cause more graphical glitches based on the intensity of in-game movement."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <TextBlock Text="FSR Multi Frame Generation Ratio" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_MultiFrameGenerationRatio" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_MultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+                                    </StackPanel>
+
+                                    <!-- FSR DLL Load Path -->
+                                    <StackPanel>
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Button x:Name="button_FsrDllLoadPath_Set" Content="Set path" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
+                                            <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
+                                            <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <!-- Radeon FSR Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- FSR Upscaling Override -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR upscaling version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and graphics card."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR3.1 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="Radeon FSR Upscaling Override" OnContent="Radeon FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="FSR Upscaling Override" OnContent="FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
                                     </StackPanel>
 
                                     <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
+                                    <!-- FSR Interpolation Frame Generation Override -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR frame generation version with the latest FSR version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 (ML Redstone) or newer when using a supported application and graphics card."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR3.1.4 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideFrameGen" Margin="10,0,0,0" OffContent="Radeon FSR Frame Generation Override" OnContent="Radeon FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideFrameGen_Toggled"/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.4 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideInterpolationFrameGeneration" Margin="10,0,0,0" OffContent="FSR Frame Generation Override" OnContent="FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- FSR Multi Frame Generation Override -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- FSR Ray Regeneration Denoiser Override -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- FSR Neural Radiance Caching Override -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Radeon Anti-Lag -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Anti-Lag helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications."/>
-                                <ToggleSwitch x:Name="toggleswitch_RadeonAntiLag" Margin="10,0,0,0" OffContent="Radeon Anti-Lag" OnContent="Radeon Anti-Lag" Toggled="toggleswitch_RadeonAntiLag_Toggled"/>
-                            </StackPanel>
-
-                            <!-- Radeon Boost -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider x:Name="slider_RadeonBoost_MinRes" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinRes_ValueChanged"/>
-                                        <TextBlock Text="%" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
+                            <TextBlock Margin="5,10,0,0" Text="Limiter Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon Chill -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -224,6 +280,25 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Radeon Boost -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonBoost_MinRes" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinRes_ValueChanged"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Margin="5,10,0,0" Text="Sharpening Options" FontSize="20" FontWeight="Medium"/>
+
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Radeon Image Sharpening -->
@@ -242,6 +317,8 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <TextBlock Margin="5,10,0,0" Text="Vertical Refresh Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -270,6 +347,8 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <TextBlock Margin="5,10,0,0" Text="Anti-Aliasing Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -317,38 +396,44 @@
                                 </StackPanel>
                             </Border>
 
+                            <TextBlock Margin="5,10,0,0" Text="Texture Options" FontSize="20" FontWeight="Medium"/>
+
                             <!-- Anisotropic Texture Filtering Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
-                                            <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                        <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
+                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                </StackPanel>
+                            </Border>
 
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Texture Filtering Quality -->
-                                    <StackPanel Margin="0,10,0,0" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Requires a texture filtering type like 'Anisotropic' to be enabled in an application to work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
-                                            <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                            <!-- Texture Filtering Quality -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Requires a texture filtering type like 'Anisotropic' to be enabled in an application to work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                        <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
+                                    <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
 
                             <!-- Surface Format Optimization -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
-                                <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Margin="5,10,0,0" Text="Tessellation Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Tessellation Mode -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -370,9 +455,6 @@
                                     <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
-
-                            <!-- Reset Shader Cache -->
-                            <Button x:Name="button_Reset_Shader_Cache" Click="button_Reset_Shader_Cache_Click" Content="Reset Shader Cache" Margin="0,10,0,0" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                         </StackPanel>
 
                         <!-- Tuning -->
@@ -498,13 +580,7 @@
 
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
-                            <TextBlock Text="Fans Options" FontSize="20" FontWeight="Medium"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve durability."/>
-                                <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
-                            </StackPanel>
-
-                            <TextBlock Text="Fan Speed and Temperature" Margin="0,5,0,0" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -547,10 +623,19 @@
                                 </Grid>
                             </Grid>
 
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                             <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 1" FontSize="16"/>
+                                        <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -576,7 +661,7 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 2" FontSize="16"/>
+                                        <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -602,7 +687,7 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 3" FontSize="16"/>
+                                        <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -628,7 +713,7 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 4" FontSize="16"/>
+                                        <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -654,7 +739,7 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 5" FontSize="16"/>
+                                        <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -685,10 +770,14 @@
                             <TextBlock Text="Power Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- SmartShift Eco -->
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Eco reduces the power consumption by controlling application's running platform to deliver more mobile game time on battery."/>
-                                <ToggleSwitch x:Name="toggleswitch_SmartShiftEco" Margin="10,0,0,0" OffContent="AMD SmartShift Eco" OnContent="AMD SmartShift Eco" Toggled="toggleswitch_SmartShiftEco_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Eco reduces the power consumption by controlling application's running platform to deliver more mobile game time on battery."/>
+                                        <ToggleSwitch x:Name="toggleswitch_SmartShiftEco" Margin="10,0,0,0" OffContent="AMD SmartShift Eco" OnContent="AMD SmartShift Eco" Toggled="toggleswitch_SmartShiftEco_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <!-- SmartShift Max -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -718,7 +807,7 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
-                            <TextBlock Text="Display Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="FreeSync Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -739,11 +828,17 @@
                                 </StackPanel>
                             </Border>
 
+                            <TextBlock Margin="0,10,0,0" Text="Scaling Options" FontSize="20" FontWeight="Medium"/>
+
                             <!-- Virtual Super Resolution -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native resolution and then scales the image down to match the display, producing higher quality visuals at the expense of performance.&#10;&#10;VSR is beneficial for games lacking anti-aliasing options or those with insufficient anti-aliasing, this is often seen in older gaming titles."/>
-                                <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native resolution and then scales the image down to match the display, producing higher quality visuals at the expense of performance.&#10;&#10;VSR is beneficial for games lacking anti-aliasing options or those with insufficient anti-aliasing, this is often seen in older gaming titles."/>
+                                        <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -774,6 +869,8 @@
                                 </StackPanel>
                             </Border>
 
+                            <TextBlock Margin="0,10,0,0" Text="Power Options" FontSize="20" FontWeight="Medium"/>
+
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Vari-Bright -->
@@ -792,6 +889,8 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <TextBlock Margin="0,10,0,0" Text="Color Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Color Depth -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -986,11 +1085,15 @@
                             <TextBlock Text="Overrides" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- HDCP Support -->
-                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
-                                <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                        <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
 
                         <!-- Multimedia -->
@@ -998,10 +1101,14 @@
                             <TextBlock Text="Video Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Video Super Resolution -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Super Resolution improves video playback quality by upscaling the video."/>
-                                <ToggleSwitch x:Name="toggleswitch_VideoSuperResolution" Margin="10,0,0,0" OffContent="AMD Video Super Resolution" OnContent="AMD Video Super Resolution" Toggled="toggleswitch_VideoSuperResolution_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Super Resolution improves video playback quality by upscaling the video."/>
+                                        <ToggleSwitch x:Name="toggleswitch_VideoSuperResolution" Margin="10,0,0,0" OffContent="AMD Video Super Resolution" OnContent="AMD Video Super Resolution" Toggled="toggleswitch_VideoSuperResolution_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
                             <!-- Video Upscale -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">

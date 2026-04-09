@@ -7,7 +7,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Fix skip when window is not visible
-	//Fix check if AFMF, Anti-Lag, Super Resolution or FSR Override is active and update status
+	//Fix check if AFMF, FSR Latency Reduction, FSR Upscaling or FSR Feature Override is active and update status
 
 	void MainPage::AdlxLoopMetrics()
 	{

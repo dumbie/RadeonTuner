@@ -28,6 +28,11 @@ const std::vector<std::wstring> REGISTRY_TEXTURE_FILTERING_QUALITY_STRING =
 };
 
 //ADL
+const std::vector<std::wstring> ADL_FSR_MULTIFRAMEGEN_RATIO =
+{
+	//Index 0, 1, 2, 4, 6, 8
+	L"Use application settings", L"1X", L"2X", L"4X", L"6X", L"8X"
+};
 
 //ADLX
 const std::vector<std::wstring> ADLX_RESULT_STRING =

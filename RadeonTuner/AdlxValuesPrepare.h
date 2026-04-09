@@ -143,6 +143,14 @@ namespace winrt::RadeonTuner::implementation
 				itemCollection.Append(box_value(REGISTRY_TEXTURE_FILTERING_QUALITY_STRING[i]));
 			}
 
+			//List all fsr multi frame generation ratios
+			itemCollection = combobox_MultiFrameGenerationRatio().Items();
+			appendCount = ADL_FSR_MULTIFRAMEGEN_RATIO.size();
+			for (UINT i = 0; i < appendCount; i++)
+			{
+				itemCollection.Append(box_value(ADL_FSR_MULTIFRAMEGEN_RATIO[i]));
+			}
+
 			//Set result
 			AVDebugWriteLine("ADLX prepared.");
 		}

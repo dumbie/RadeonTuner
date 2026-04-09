@@ -16,7 +16,7 @@ namespace winrt::RadeonTuner::implementation
 			//Area: PXDynamic Profile: HighPerfGPUAffinity
 			//Area: FRAMEGEN Property: AFMF3
 
-			//Unlock FFX Super Resolution Override
+			//Unlock FSR Upscaling Override
 			{
 				std::wstring driverArea = L"FSROVR";
 				std::wstring profileName = L"RADU{FSROVR}";
@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set application properties
 					std::vector<AdlAppProperty> adlAppProperties{};
 
-					//FFX Super Resolution
+					//FSR Upscaling
 					AdlAppProperty adlAppProperty0{};
 					adlAppProperty0.Type = AdlAppPropertyDataTypeGet(L"FsrOvr_WListed", driverArea);
 					adlAppProperty0.Name = L"FsrOvr_WListed";
@@ -64,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set application properties
 					std::vector<AdlAppProperty> adlAppProperties{};
 
-					//FFX Neural Radiance Cache
+					//FSR Neural Radiance Caching
 					AdlAppProperty adlAppProperty0{};
 					adlAppProperty0.Type = AdlAppPropertyDataTypeGet(L"Nrc_WListed", driverArea);
 					adlAppProperty0.Name = L"Nrc_WListed";
@@ -73,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperty0.Values = { adlAppPropertyValue0 };
 					adlAppProperties.push_back(adlAppProperty0);
 
-					//FFX Interpolation Frame Generation
+					//FSR Interpolation Frame Generation
 					AdlAppProperty adlAppProperty1{};
 					adlAppProperty1.Type = AdlAppPropertyDataTypeGet(L"Mlfi_WListed", driverArea);
 					adlAppProperty1.Name = L"Mlfi_WListed";
@@ -82,7 +82,7 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperty1.Values = { adlAppPropertyValue1 };
 					adlAppProperties.push_back(adlAppProperty1);
 
-					//FFX Ray Regeneration Denoiser
+					//FSR Ray Regeneration Denoiser
 					AdlAppProperty adlAppProperty2{};
 					adlAppProperty2.Type = AdlAppPropertyDataTypeGet(L"Mld_WListed", driverArea);
 					adlAppProperty2.Name = L"Mld_WListed";
@@ -91,7 +91,7 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperty2.Values = { adlAppPropertyValue2 };
 					adlAppProperties.push_back(adlAppProperty2);
 
-					//FFX Multi Frame Generation
+					//FSR Multi Frame Generation
 					AdlAppProperty adlAppProperty3{};
 					adlAppProperty3.Type = AdlAppPropertyDataTypeGet(L"Mfg_WListed", driverArea);
 					adlAppProperty3.Name = L"Mfg_WListed";
@@ -172,7 +172,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Unlock Radeon Anti-Lag
+			//Unlock FSR Latency Reduction
 			{
 				//Set profile name
 				std::wstring driverArea = L"DELAG";
