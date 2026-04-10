@@ -112,6 +112,9 @@ namespace winrt::RadeonTuner::implementation
 			//Select default indexes
 			SelectIndexesMenu();
 
+			//Show or hide experimental settings
+			ShowExperimentalSettings(true);
+
 			//Start adlx loop device
 			std::thread threadLoopDevice(&MainPage::AdlxLoopDevice, this);
 			threadLoopDevice.detach();
@@ -176,6 +179,58 @@ namespace winrt::RadeonTuner::implementation
 			catch (...)
 			{
 				listbox_Main().SelectedIndex(0);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::ShowExperimentalSettings(BOOL silent)
+	{
+		try
+		{
+			std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
+			if (ShowExperimental.has_value())
+			{
+				if (ShowExperimental.value())
+				{
+					//Enable or disable graphics settings
+					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Visible);
+					stackpanel_FsrDllLoadPath().Visibility(Visibility::Visible);
+
+					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Visible);
+					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
+					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
+
+					//Enable or disable feature unlock button
+					button_Graphics_Unlock().IsEnabled(true);
+
+					//Show notification
+					if (!silent)
+					{
+						ShowNotification(L"Showing experimental settings");
+						AVDebugWriteLine(L"Showing experimental settings");
+					}
+				}
+				else
+				{
+					//Enable or disable graphics settings
+					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Collapsed);
+					stackpanel_FsrDllLoadPath().Visibility(Visibility::Collapsed);
+
+					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Collapsed);
+					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
+					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
+
+					//Enable or disable feature unlock button
+					button_Graphics_Unlock().IsEnabled(false);
+
+					//Show notification
+					if (!silent)
+					{
+						ShowNotification(L"Hiding experimental settings");
+						AVDebugWriteLine(L"Hiding experimental settings");
+					}
+				}
 			}
 		}
 		catch (...) {}

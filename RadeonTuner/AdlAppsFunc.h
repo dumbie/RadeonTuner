@@ -45,6 +45,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Fix check if guid already exists on other profile
+
 			//Create random guid
 			GUID randomGuid;
 			HRESULT hResult = CoCreateGuid(&randomGuid);

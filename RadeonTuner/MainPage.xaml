@@ -138,7 +138,7 @@
                     <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
                     <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
                     <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
-                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' which are normally limited to white listed only applications."/>
+                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' to work which are normally limited to white listed only applications.&#10;&#10;* For example this will allow you to use 'FSR Upscaling Override' on applications which are normally not officially supported."/>
                     <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
@@ -163,7 +163,7 @@
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                     <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
                                     <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                                    <Image Source="/Assets/Warning.png" Margin="6,2,0,0" Width="26" Height="26" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* FRTC is not available because RadeonTuner uses application profiles to set Graphics settings which does not support FRTC."/>
+                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* FRTC is not available because RadeonTuner uses application profiles to set Graphics settings which does not support changing FRTC."/>
                                 </StackPanel>
                             </Grid>
 
@@ -177,22 +177,22 @@
                                         <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
                                     </StackPanel>
 
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                                     <!-- FSR Multi Frame Generation Ratio -->
-                                    <StackPanel>
+                                    <StackPanel x:Name="stackpanel_MultiFrameGenerationRatio">
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the frame rate multipier used by FSR Multi Frame Generation, a higher multiplier increases smoothness but may cause more graphical glitches based on the intensity of in-game movement."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
                                             <TextBlock Text="FSR Multi Frame Generation Ratio" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_MultiFrameGenerationRatio" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_MultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
                                     </StackPanel>
 
                                     <!-- FSR DLL Load Path -->
-                                    <StackPanel>
+                                    <StackPanel x:Name="stackpanel_FsrDllLoadPath">
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
@@ -226,31 +226,37 @@
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideInterpolationFrameGeneration" Margin="10,0,0,0" OffContent="FSR Frame Generation Override" OnContent="FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled"/>
                                     </StackPanel>
 
-                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                                     <!-- FSR Multi Frame Generation Override -->
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
-                                    </StackPanel>
+                                    <StackPanel x:Name="stackpanel_FsrOverrideMultiFrameGeneration">
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
+                                        </StackPanel>
+                                    </StackPanel>
 
                                     <!-- FSR Ray Regeneration Denoiser Override -->
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
+                                    <StackPanel x:Name="stackpanel_FsrOverrideRayRegeneration">
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
+                                        </StackPanel>
                                     </StackPanel>
 
-                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                                     <!-- FSR Neural Radiance Caching Override -->
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
+                                    <StackPanel x:Name="stackpanel_FsrOverrideNeuralRadianceCaching">
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* To activate the override, first enable FSR 3.1.6 (or newer) in the application's graphics settings.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
+                                        </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1160,6 +1166,12 @@
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Close application to system tray menu instead of exiting."/>
                                 <ToggleSwitch x:Name="toggleswitch_Close_Tray" Margin="10,0,0,0" OffContent="Close to system tray" OnContent="Close to system tray" Toggled="toggleswitch_Close_Tray_Toggled"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Experimental Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable and show experimental settings used for testing purposes."/>
+                                <ToggleSwitch x:Name="toggleswitch_ShowExperimental" Margin="10,0,0,0" OffContent="Show experimental settings" OnContent="Show experimental settings" Toggled="toggleswitch_ShowExperimental_Toggled"/>
                             </StackPanel>
                         </StackPanel>
 

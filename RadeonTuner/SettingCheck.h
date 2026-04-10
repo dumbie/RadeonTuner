@@ -43,6 +43,11 @@ void SettingCheck()
 			AppVariables::Settings.Set("CloseTray", false);
 		}
 
+		if (!AppVariables::Settings.Check("ShowExperimental"))
+		{
+			AppVariables::Settings.Set("ShowExperimental", false);
+		}
+
 		AVDebugWriteLine("Application settings checked.");
 	}
 	catch (...)

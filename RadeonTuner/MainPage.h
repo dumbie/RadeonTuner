@@ -87,6 +87,7 @@ namespace winrt::RadeonTuner::implementation
 		void SelectIndexesAdl();
 		void SelectIndexesAdlx();
 		void SelectIndexesMenu();
+		void ShowExperimentalSettings(BOOL silent);
 		void ShowNotification(std::wstring text);
 
 		void AdlxLoopDevice();
@@ -195,6 +196,7 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_MultiFrameGenerationRatio_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
 		void button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

@@ -29,6 +29,12 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_StartWindowVisible().IsOn(StartWindowVisible.value());
 			}
 
+			std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
+			if (ShowExperimental.has_value())
+			{
+				toggleswitch_ShowExperimental().IsOn(ShowExperimental.value());
+			}
+
 			//Check startup shortcut
 			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
 			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);

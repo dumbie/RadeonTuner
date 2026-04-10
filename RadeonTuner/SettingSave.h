@@ -121,4 +121,27 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				AppVariables::Settings.Set("ShowExperimental", true);
+			}
+			else
+			{
+				AppVariables::Settings.Set("ShowExperimental", false);
+			}
+
+			//Show or hide experimental settings
+			ShowExperimentalSettings(false);
+		}
+		catch (...) {}
+	}
 }

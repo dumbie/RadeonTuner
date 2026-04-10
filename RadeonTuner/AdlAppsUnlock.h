@@ -19,7 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			//Unlock FSR Upscaling Override
 			{
 				std::wstring driverArea = L"FSROVR";
-				std::wstring profileName = L"RADU{FSROVR}";
+				std::wstring profileName = L"RADT{FSROVR}";
 
 				if (unlock)
 				{
@@ -57,7 +57,7 @@ namespace winrt::RadeonTuner::implementation
 			//Unlock FFX Features
 			{
 				std::wstring driverArea = L"FFX";
-				std::wstring profileName = L"RADU{FFX}";
+				std::wstring profileName = L"RADT{FFX}";
 
 				if (unlock)
 				{
@@ -123,7 +123,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set profile name
 				std::wstring driverArea = L"BOOST";
-				std::wstring profileName = L"RADU{BOOST}";
+				std::wstring profileName = L"RADT{BOOST}";
 
 				if (unlock)
 				{
@@ -176,7 +176,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set profile name
 				std::wstring driverArea = L"DELAG";
-				std::wstring profileName = L"RADU{DELAG}";
+				std::wstring profileName = L"RADT{DELAG}";
 
 				if (unlock)
 				{
@@ -213,7 +213,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set profile name
 				std::wstring driverArea = L"CHILL";
-				std::wstring profileName = L"RADU{CHILL}";
+				std::wstring profileName = L"RADT{CHILL}";
 
 				if (unlock)
 				{
@@ -250,7 +250,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set profile name
 				std::wstring driverArea = L"RTBOOST";
-				std::wstring profileName = L"RADU{RTBOOST}";
+				std::wstring profileName = L"RADT{RTBOOST}";
 
 				if (unlock)
 				{
