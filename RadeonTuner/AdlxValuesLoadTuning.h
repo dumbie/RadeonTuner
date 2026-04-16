@@ -21,8 +21,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load tuning and fan settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuInfo);
-			TuningFanSettings_Convert_ToUI(tuningFanSettings, true);
+			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuInfo);
+
+			//Add gpu tuning and fans settings profile
+			TuningFanSettings_Profile_Add(tuningFanSettingsGpu);
+
+			//Device identifier
+			std::wstring device_id_w = string_to_wstring(tuningFanSettingsGpu.DeviceId.value());
+
+			//Get tuning fan settings
+			TuningFanSettings& tuningFanSettingsProfile = TuningFanSettings_Profile_Get(device_id_w).value();
+
+			//Set settings values to interface
+			TuningFanSettings_GPU_Convert_ToUI(tuningFanSettingsGpu);
+			TuningFanSettings_Profile_Convert_ToUI(tuningFanSettingsProfile);
 
 			//Set result
 			AVDebugWriteLine("ADLX loaded tuning and fans values.");

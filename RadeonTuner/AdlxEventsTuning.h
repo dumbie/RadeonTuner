@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Disable active overclock setting
-			KeepActive_Disable();
+			KeepActive_Disable(false);
 
 			//Generate tuning and fans settings
 			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
@@ -18,8 +18,14 @@ namespace winrt::RadeonTuner::implementation
 			//Apply tuning and fans settings
 			if (AdlxApplyTuning(ppGpuInfo, tuningFanSettings))
 			{
-				//Reload tuning and fans settings
-				AdlxValuesLoadSelectGpu();
+				//Replace tuning and fans settings
+				TuningFanSettings_Profile_Replace(tuningFanSettings);
+
+				//Save tuning and fans settings
+				TuningFanSettings_Profiles_SaveToFile();
+
+				//Load tuning values to interface
+				AdlxValuesLoadTuning();
 			}
 		}
 		catch (...) {}
@@ -30,13 +36,22 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Disable active overclock setting
-			KeepActive_Disable();
+			KeepActive_Disable(false);
 
 			//Reset tuning and fans settings
 			if (AdlxResetTuning())
 			{
-				//Reload tuning and fans settings
-				AdlxValuesLoadSelectGpu();
+				//Device identifier
+				std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
+
+				//Remove tuning and fans settings
+				TuningFanSettings_Profile_Remove(device_id_w);
+
+				//Save tuning and fans settings
+				TuningFanSettings_Profiles_SaveToFile();
+
+				//Load tuning values to interface
+				AdlxValuesLoadTuning();
 			}
 		}
 		catch (...) {}
@@ -58,36 +73,6 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Export current settings to file
 			AdlxValuesExportTuning();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Export active overclock settings
-			KeepActive_Export();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::button_Tuning_Keep_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e)
-	{
-		try
-		{
-			if (e.Pointer().PointerDeviceType() == PointerDeviceType::Mouse)
-			{
-				//Get pointer properties
-				PointerPointProperties pointerProps = e.GetCurrentPoint(NULL).Properties();
-
-				//Check which mouse button is pressed
-				if (pointerProps.IsRightButtonPressed())
-				{
-					//Toggle active overclock on or off
-					KeepActive_Toggle();
-				}
-			}
 		}
 		catch (...) {}
 	}
@@ -246,17 +231,33 @@ namespace winrt::RadeonTuner::implementation
 			{
 				IADLXManualGraphicsTuning2_1Ptr ppManualGFXTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualGFXTuning(ppGpuPtr, (IADLXInterface**)&ppManualGFXTuning);
+
+				//Core Frequency Minimum
 				if (tuningFanSettings.CoreMin.has_value())
 				{
 					adlx_Res0 = ppManualGFXTuning->SetGPUMinFrequency(tuningFanSettings.CoreMin.value());
 				}
+
+				//Core Frequency Maximum
 				if (tuningFanSettings.CoreMax.has_value())
 				{
 					adlx_Res0 = ppManualGFXTuning->SetGPUMaxFrequency(tuningFanSettings.CoreMax.value());
 				}
-				if (tuningFanSettings.PowerVoltage.has_value())
+
+				//Power Voltage
+				if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
 				{
-					adlx_Res0 = ppManualGFXTuning->SetGPUVoltage(tuningFanSettings.PowerVoltage.value());
+					if (tuningFanSettings.PowerVoltagePB.has_value())
+					{
+						adlx_Res0 = ppManualGFXTuning->SetGPUVoltage(tuningFanSettings.PowerVoltagePB.value());
+					}
+				}
+				else
+				{
+					if (tuningFanSettings.PowerVoltage.has_value())
+					{
+						adlx_Res0 = ppManualGFXTuning->SetGPUVoltage(tuningFanSettings.PowerVoltage.value());
+					}
 				}
 			}
 
@@ -266,11 +267,14 @@ namespace winrt::RadeonTuner::implementation
 			{
 				IADLXManualVRAMTuning2Ptr ppManualVRAMTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualVRAMTuning(ppGpuPtr, (IADLXInterface**)&ppManualVRAMTuning);
+
+				//Memory Frequency
 				if (tuningFanSettings.MemoryMax.has_value())
 				{
 					adlx_Res0 = ppManualVRAMTuning->SetMaxVRAMFrequency(tuningFanSettings.MemoryMax.value());
 				}
 
+				//Memory Timing
 				adlx_Res0 = ppManualVRAMTuning->IsSupportedMemoryTiming(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
@@ -287,17 +291,40 @@ namespace winrt::RadeonTuner::implementation
 			{
 				IADLXManualPowerTuning1Ptr ppManualPowerTuning;
 				adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuPtr, (IADLXInterface**)&ppManualPowerTuning);
-				if (tuningFanSettings.PowerLimit.has_value())
+
+				//Power Limit
+				if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
 				{
-					adlx_Res0 = ppManualPowerTuning->SetPowerLimit(tuningFanSettings.PowerLimit.value());
+					if (tuningFanSettings.PowerLimitPB.has_value())
+					{
+						adlx_Res0 = ppManualPowerTuning->SetPowerLimit(tuningFanSettings.PowerLimitPB.value());
+					}
+				}
+				else
+				{
+					if (tuningFanSettings.PowerLimit.has_value())
+					{
+						adlx_Res0 = ppManualPowerTuning->SetPowerLimit(tuningFanSettings.PowerLimit.value());
+					}
 				}
 
+				//Power TDC
 				adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
-					if (tuningFanSettings.PowerTDC.has_value())
+					if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
 					{
-						adlx_Res0 = ppManualPowerTuning->SetTDCLimit(tuningFanSettings.PowerTDC.value());
+						if (tuningFanSettings.PowerTDCPB.has_value())
+						{
+							adlx_Res0 = ppManualPowerTuning->SetTDCLimit(tuningFanSettings.PowerTDCPB.value());
+						}
+					}
+					else
+					{
+						if (tuningFanSettings.PowerTDC.has_value())
+						{
+							adlx_Res0 = ppManualPowerTuning->SetTDCLimit(tuningFanSettings.PowerTDC.value());
+						}
 					}
 				}
 			}

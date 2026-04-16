@@ -52,9 +52,9 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 		AppVariables::Settings = AVSettingsJson(pathSettingFileA);
 
-		//Create Active folder
-		std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
-		FolderCreate(pathActiveFolderW);
+		//Create Profiles folder
+		std::wstring pathProfilesFolderW = PathMerge(PathGetExecutableDirectory(), L"Profiles");
+		FolderCreate(pathProfilesFolderW);
 
 		//Replace updater executable
 		ReplaceUpdater();

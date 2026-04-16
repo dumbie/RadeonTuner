@@ -5,7 +5,6 @@ struct TuningFanSettings
 {
 	//Settings
 	std::optional<std::string> DeviceId;
-	std::optional<bool> KeepActive;
 	std::optional<int> CoreMin;
 	std::optional<int> CoreMax;
 	std::optional<int> MemoryTiming;
@@ -25,11 +24,23 @@ struct TuningFanSettings
 	std::optional<int> FanSpeed4;
 	std::optional<int> FanTemp4;
 
-	//Interface
+	//Keep Active
+	std::optional<bool> KeepActive;
+
+	//Power Boost
+	std::optional<bool> PowerBoost;
+	std::optional<bool> PowerBoostActive;
+	std::optional<int> PowerLimitPB;
+	std::optional<int> PowerVoltagePB;
+	std::optional<int> PowerTDCPB;
+
+	//Support
 	std::optional<bool> SupportManualFAN;
 	std::optional<bool> SupportManualGPU;
 	std::optional<bool> SupportManualVRAM;
 	std::optional<bool> SupportManualPower;
+
+	//Interface
 	std::optional<int> CoreMinMin;
 	std::optional<int> CoreMinMax;
 	std::optional<int> CoreMinStep;
@@ -79,5 +90,5 @@ struct TuningFanSettings
 	std::optional<int> FanTempMax4;
 	std::optional<int> FanTempStep4;
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, KeepActive, CoreMin, CoreMax, MemoryTiming, MemoryMax, PowerLimit, PowerVoltage, PowerTDC, FanZeroRpm, FanSpeed0, FanTemp0, FanSpeed1, FanTemp1, FanSpeed2, FanTemp2, FanSpeed3, FanTemp3, FanSpeed4, FanTemp4)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, CoreMin, CoreMax, MemoryTiming, MemoryMax, PowerLimit, PowerVoltage, PowerTDC, FanZeroRpm, FanSpeed0, FanTemp0, FanSpeed1, FanTemp1, FanSpeed2, FanTemp2, FanSpeed3, FanTemp3, FanSpeed4, FanTemp4, KeepActive, PowerBoost, PowerLimitPB, PowerVoltagePB, PowerTDCPB)
 };

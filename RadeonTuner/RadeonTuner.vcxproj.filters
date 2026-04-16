@@ -174,9 +174,6 @@
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
     </ClInclude>
-    <ClInclude Include="KeepActiveFunc.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="SettingFunc.h">
       <Filter>Page Files</Filter>
     </ClInclude>
@@ -186,29 +183,11 @@
     <ClInclude Include="DisplaySettingsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsFunc.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesExportTuning.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesImportTuning.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesImportDisplay.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesImportGraphics.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesExportDisplay.h">
-      <Filter>Page Files\ImExport</Filter>
+      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportGraphics.h">
-      <Filter>Page Files\ImExport</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplaySettingsFunc.h">
-      <Filter>Page Files\ImExport</Filter>
+      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlAppsClass.h">
       <Filter>Class Files</Filter>
@@ -249,24 +228,6 @@
     <ClInclude Include="AdlAppsRemove.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxEventsDisplay.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsFans.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsGraphics.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsMultimedia.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsPower.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsTuning.h">
-      <Filter>Page Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxLoopKeepActive.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
@@ -281,24 +242,6 @@
     </ClInclude>
     <ClInclude Include="AdlRegistry.h">
       <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlValuesLoadGraphics.h">
-      <Filter>Page Files\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadDisplay.h">
-      <Filter>Page Files\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadMultimedia.h">
-      <Filter>Page Files\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadPower.h">
-      <Filter>Page Files\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadSelect.h">
-      <Filter>Page Files\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadTuning.h">
-      <Filter>Page Files\Load</Filter>
     </ClInclude>
     <ClInclude Include="AdlxResetTuning.h">
       <Filter>Page Files\Reset</Filter>
@@ -316,10 +259,79 @@
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsSettingsFunc.h">
-      <Filter>Page Files\ImExport</Filter>
+      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="ADL\adl_structures_sdk.h">
       <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="KeepActiveFunc.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerBoostFunc.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerBoostEvents.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="KeepActiveEvents.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsCacheFunc.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesExportTuning.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesImportTuning.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsFunc.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsFunc.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesImportDisplay.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesExportDisplay.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlValuesLoadGraphics.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsGraphics.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsPower.h">
+      <Filter>Page Files\Power</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadPower.h">
+      <Filter>Page Files\Power</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsMultimedia.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadMultimedia.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsDisplay.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsFans.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsTuning.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadDisplay.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadSelect.h">
+      <Filter>Page Files\Adlx</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadTuning.h">
+      <Filter>Page Files\Tuning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,20 +376,29 @@
     <Filter Include="Page Files\Adlx">
       <UniqueIdentifier>{7edceb55-fb87-47cc-87b3-2a948bc81981}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Page Files\Events">
-      <UniqueIdentifier>{88ab8735-b4bd-4491-9f2c-5350c1654c92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Page Files\Loop">
       <UniqueIdentifier>{d5fafa34-da95-4614-b947-484c13f48b0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Page Files\Reset">
       <UniqueIdentifier>{ce4bf8e7-d864-41ab-a8e2-d842c663921e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Page Files\Load">
-      <UniqueIdentifier>{a2dbf5a5-9766-4f32-8f24-f3c2408436be}</UniqueIdentifier>
+    <Filter Include="Profile Files">
+      <UniqueIdentifier>{3eada170-4d27-40c1-8b70-5e66fe9aaf23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Page Files\ImExport">
+    <Filter Include="Page Files\Tuning">
+      <UniqueIdentifier>{f7fc4c28-cc6e-48a2-b283-2496c826a67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Display">
+      <UniqueIdentifier>{c7e0a5f1-2d32-4846-8b67-aaa2520ec6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Graphics">
       <UniqueIdentifier>{471fb1ca-7d28-43c8-a820-21c0057d8471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Power">
+      <UniqueIdentifier>{5f93c04a-522d-4ea1-8ae2-77788b63e7d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Multimedia">
+      <UniqueIdentifier>{9924b21c-cff8-4017-87e6-22977fe3d6db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -443,11 +464,20 @@
     <CopyFileToFolders Include="Power.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerBoost.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <Filter>Updater Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Profiles will be placed here">
+      <Filter>Profile Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerBoostApps.json">
+      <Filter>Profile Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

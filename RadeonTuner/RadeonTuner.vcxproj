@@ -102,12 +102,13 @@
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
+    <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="ADL\adl_structures_sdk.h" />
     <ClInclude Include="GraphicsSettingsFunc.h" />
+    <ClInclude Include="KeepActiveEvents.h" />
     <ClInclude Include="KeepActiveFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesLoadPower.h" />
-    <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />
     <ClInclude Include="AdlxValuesExportDisplay.h" />
     <ClInclude Include="AdlxValuesExportGraphics.h" />
@@ -175,6 +176,8 @@
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="PowerBoostEvents.h" />
+    <ClInclude Include="PowerBoostFunc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingEnumStrings.h" />
     <ClInclude Include="SettingAdmin.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="DisplaySettingsFunc.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
     <ClInclude Include="TuningFanSettingsFunc.h" />
+    <ClInclude Include="TuningFanSettingsCacheFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -254,6 +258,9 @@
     <CopyFileToFolders Include="Power.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerBoost.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Shutdown.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
@@ -268,6 +275,12 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <DestinationFolders>$(OutDir)\Updater</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Profiles will be placed here">
+      <DestinationFolders>$(OutDir)\Profiles</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerBoostApps.json">
+      <DestinationFolders>$(OutDir)\Profiles</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

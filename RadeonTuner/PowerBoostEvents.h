@@ -25,7 +25,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring fileName = PathGetFileName(importPath);
 
 			//Check double application
-			if (array_contains(powerBoostApps, fileName))
+			if (array_contains(powerBoostAppsCache, fileName))
 			{
 				ShowNotification(L"Application not added, already exists");
 				AVDebugWriteLine(L"Application not added, already exists");
@@ -33,20 +33,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Add application to list
-			powerBoostApps.push_back(fileName);
+			powerBoostAppsCache.push_back(fileName);
 
-			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(powerBoostApps, true);
+			//Save applications
+			PowerBoost_Applications_SaveToFile();
 
-			//Get power boost apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\PowerBoostApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
-
-			//Save application json file
-			string_to_file(pathSettingFileA, jsonString);
-
-			//Reload applications
-			PowerBoost_LoadApplications();
+			//List applications
+			PowerBoost_Applications_List();
 
 			//Show notification
 			ShowNotification(L"Application added");
@@ -63,20 +56,13 @@ namespace winrt::RadeonTuner::implementation
 			int selectedIndex = combobox_PowerBoost_Applications().SelectedIndex();
 
 			//Remove application from list
-			powerBoostApps.erase(powerBoostApps.begin() + selectedIndex);
+			powerBoostAppsCache.erase(powerBoostAppsCache.begin() + selectedIndex);
 
-			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(powerBoostApps, true);
+			//Save applications
+			PowerBoost_Applications_SaveToFile();
 
-			//Get power boost apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\PowerBoostApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
-
-			//Save application json file
-			string_to_file(pathSettingFileA, jsonString);
-
-			//Reload applications
-			PowerBoost_LoadApplications();
+			//List applications
+			PowerBoost_Applications_List();
 
 			//Show notification
 			ShowNotification(L"Application removed");
@@ -89,9 +75,27 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			grid_Power_Limit_PB().Visibility(Visibility::Visible);
-			grid_Power_Voltage_PB().Visibility(Visibility::Visible);
-			grid_Power_TDC_PB().Visibility(Visibility::Visible);
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get toggle switch value
+			bool toggleSwitch = sender.as<ToggleSwitch>().IsOn();
+
+			//Check if Power Boost is enabled
+			if (toggleSwitch)
+			{
+				//Hide or show settings
+				grid_Power_Limit_PB().Visibility(Visibility::Visible);
+				grid_Power_Voltage_PB().Visibility(Visibility::Visible);
+				grid_Power_TDC_PB().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				//Hide or show settings
+				grid_Power_Limit_PB().Visibility(Visibility::Collapsed);
+				grid_Power_Voltage_PB().Visibility(Visibility::Collapsed);
+				grid_Power_TDC_PB().Visibility(Visibility::Collapsed);
+			}
 		}
 		catch (...) {}
 	}

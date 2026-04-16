@@ -5,40 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Load settings from file
-	TuningFanSettings MainPage::TuningFanSettings_Load(std::string loadPath)
-	{
-		try
-		{
-			//Open settings file
-			std::string jsonString = file_to_string(loadPath);
-
-			//Convert json to struct
-			return jsonstring_to_struct<TuningFanSettings>(jsonString);
-		}
-		catch (...) {}
-		return TuningFanSettings{};
-	}
-
-	//Save settings to file
-	bool MainPage::TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath)
-	{
-		try
-		{
-			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(tuningFanSettings, true);
-
-			//Save settings file
-			return string_to_file(savePath, jsonString);
-		}
-		catch (...)
-		{
-			//Return result
-			return false;
-		}
-	}
-
-	bool MainPage::TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool disableUI)
+	void MainPage::TuningFanSettings_Profile_Convert_ToUI(TuningFanSettings tuningFanSettings)
 	{
 		try
 		{
@@ -46,6 +13,201 @@ namespace winrt::RadeonTuner::implementation
 			if (tuningFanSettings.CoreMin.has_value())
 			{
 				slider_Core_Min().Value(tuningFanSettings.CoreMin.value());
+			}
+
+			//Gpu Core Maximum
+			if (tuningFanSettings.CoreMax.has_value())
+			{
+				slider_Core_Max().Value(tuningFanSettings.CoreMax.value());
+			}
+
+			//Memory timing
+			if (tuningFanSettings.MemoryTiming.has_value())
+			{
+				combobox_Memory_Timing().SelectedIndex(tuningFanSettings.MemoryTiming.value());
+			}
+
+			//Memory frequency
+			if (tuningFanSettings.MemoryMax.has_value())
+			{
+				slider_Memory_Max().Value(tuningFanSettings.MemoryMax.value());
+			}
+
+			//Power limit
+			if (tuningFanSettings.PowerLimit.has_value())
+			{
+				slider_Power_Limit().Value(tuningFanSettings.PowerLimit.value());
+			}
+
+			//Power voltage
+			if (tuningFanSettings.PowerVoltage.has_value())
+			{
+				slider_Power_Voltage().Value(tuningFanSettings.PowerVoltage.value());
+			}
+
+			//Power TDC
+			if (tuningFanSettings.PowerTDC.has_value())
+			{
+				slider_Power_TDC().Value(tuningFanSettings.PowerTDC.value());
+			}
+
+			//Fan Zero RPM
+			if (tuningFanSettings.FanZeroRpm.has_value())
+			{
+				toggleswitch_Fan_Zero_Rpm().IsOn(tuningFanSettings.FanZeroRpm.value());
+			}
+
+			//Fan Speed 0
+			if (tuningFanSettings.FanSpeed0.has_value())
+			{
+				slider_Fan_Speed_0().Value(tuningFanSettings.FanSpeed0.value());
+			}
+
+			//Fan Temperature 0
+			if (tuningFanSettings.FanTemp0.has_value())
+			{
+				slider_Fan_Temp_0().Value(tuningFanSettings.FanTemp0.value());
+			}
+
+			//Fan Speed 1
+			if (tuningFanSettings.FanSpeed1.has_value())
+			{
+				slider_Fan_Speed_1().Value(tuningFanSettings.FanSpeed1.value());
+			}
+
+			//Fan Temperature 1
+			if (tuningFanSettings.FanTemp1.has_value())
+			{
+				slider_Fan_Temp_1().Value(tuningFanSettings.FanTemp1.value());
+			}
+
+			//Fan Speed 2
+			if (tuningFanSettings.FanSpeed2.has_value())
+			{
+				slider_Fan_Speed_2().Value(tuningFanSettings.FanSpeed2.value());
+			}
+
+			//Fan Temperature 2
+			if (tuningFanSettings.FanTemp2.has_value())
+			{
+				slider_Fan_Temp_2().Value(tuningFanSettings.FanTemp2.value());
+			}
+
+			//Fan Speed 3
+			if (tuningFanSettings.FanSpeed3.has_value())
+			{
+				slider_Fan_Speed_3().Value(tuningFanSettings.FanSpeed3.value());
+			}
+
+			//Fan Temperature 3
+			if (tuningFanSettings.FanTemp3.has_value())
+			{
+				slider_Fan_Temp_3().Value(tuningFanSettings.FanTemp3.value());
+			}
+
+			//Fan Speed 4
+			if (tuningFanSettings.FanSpeed4.has_value())
+			{
+				slider_Fan_Speed_4().Value(tuningFanSettings.FanSpeed4.value());
+			}
+
+			//Fan Temperature 4
+			if (tuningFanSettings.FanTemp4.has_value())
+			{
+				slider_Fan_Temp_4().Value(tuningFanSettings.FanTemp4.value());
+			}
+
+			//Load keep active setting
+			if (tuningFanSettings.KeepActive.has_value())
+			{
+				if (tuningFanSettings.KeepActive.value())
+				{
+					//Set button color
+					SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+					button_Fan_Keep().Background(colorValid);
+					button_Tuning_Keep().Background(colorValid);
+				}
+				else
+				{
+					//Set button color
+					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+					button_Fan_Keep().Background(colorInvalid);
+					button_Tuning_Keep().Background(colorInvalid);
+				}
+			}
+			else
+			{
+				//Set button color
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				button_Fan_Keep().Background(colorInvalid);
+				button_Tuning_Keep().Background(colorInvalid);
+			}
+
+			//Load power boost setting
+			if (tuningFanSettings.PowerBoost.has_value())
+			{
+				bool powerBoost = tuningFanSettings.PowerBoost.value();
+				toggleswitch_PowerBoost().IsOn(powerBoost);
+
+				//Show or hide power boost settings
+				if (powerBoost)
+				{
+					grid_Power_Limit_PB().Visibility(Visibility::Visible);
+					grid_Power_Voltage_PB().Visibility(Visibility::Visible);
+					grid_Power_TDC_PB().Visibility(Visibility::Visible);
+				}
+				else
+				{
+					grid_Power_Limit_PB().Visibility(Visibility::Collapsed);
+					grid_Power_Voltage_PB().Visibility(Visibility::Collapsed);
+					grid_Power_TDC_PB().Visibility(Visibility::Collapsed);
+				}
+
+				//Power limit (Power Boost)
+				if (tuningFanSettings.PowerLimitPB.has_value())
+				{
+					slider_Power_Limit_PB().Value(tuningFanSettings.PowerLimitPB.value());
+				}
+
+				//Power voltage (Power Boost)
+				if (tuningFanSettings.PowerVoltagePB.has_value())
+				{
+					slider_Power_Voltage_PB().Value(tuningFanSettings.PowerVoltagePB.value());
+				}
+
+				//Power TDC (Power Boost)
+				if (tuningFanSettings.PowerTDCPB.has_value())
+				{
+					slider_Power_TDC_PB().Value(tuningFanSettings.PowerTDCPB.value());
+				}
+			}
+			else
+			{
+				toggleswitch_PowerBoost().IsOn(false);
+			}
+
+			//Set result
+			AVDebugWriteLine("Loaded profile tuning and fan settings.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed loading profile tuning and fan settings.");
+		}
+	}
+
+	void MainPage::TuningFanSettings_GPU_Convert_ToUI(TuningFanSettings tuningFanSettings)
+	{
+		try
+		{
+			//Gpu Core Minimum
+			if (tuningFanSettings.CoreMin.has_value())
+			{
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.CoreMin.value()) + L"MHz";
+				textblock_Core_Min_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.CoreMinMin.has_value())
 				{
 					slider_Core_Min().Minimum(tuningFanSettings.CoreMinMin.value());
@@ -55,24 +217,25 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Core_Min().IsEnabled(true);
-				}
+				slider_Core_Min().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Core_Min_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Core_Min().IsEnabled(false);
-				}
+				slider_Core_Min().IsEnabled(false);
 			}
 
 			//Gpu Core Maximum
 			if (tuningFanSettings.CoreMax.has_value())
 			{
-				slider_Core_Max().Value(tuningFanSettings.CoreMax.value());
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.CoreMax.value()) + L"MHz";
+				textblock_Core_Max_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.CoreMaxMin.has_value())
 				{
 					slider_Core_Max().Minimum(tuningFanSettings.CoreMaxMin.value());
@@ -83,53 +246,53 @@ namespace winrt::RadeonTuner::implementation
 					//Check if value is offset (RDNA4+)
 					if (tuningFanSettings.CoreMaxMin.value() < 0)
 					{
-						textblock_Core_Max().Text(L"Maximum Frequency Offset (MHz)");
+						textblock_Core_Max().Text(L"Maximum Frequency Offset");
 					}
 					else
 					{
-						textblock_Core_Max().Text(L"Maximum Frequency (MHz)");
+						textblock_Core_Max().Text(L"Maximum Frequency");
 					}
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Core_Max().IsEnabled(true);
-				}
+				slider_Core_Max().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Core_Max_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Core_Max().IsEnabled(false);
-				}
+				slider_Core_Max().IsEnabled(false);
 			}
 
 			//Memory timing
 			if (tuningFanSettings.MemoryTiming.has_value())
 			{
-				combobox_Memory_Timing().SelectedIndex(tuningFanSettings.MemoryTiming.value());
+				//Set value text
+				std::wstring valueText = ADLX_MEMORYTIMING_DESCRIPTION_STRING[tuningFanSettings.MemoryTiming.value()];
+				textblock_Memory_Timing_Value().Text(valueText);
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					combobox_Memory_Timing().IsEnabled(true);
-				}
+				combobox_Memory_Timing().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Memory_Timing_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					combobox_Memory_Timing().IsEnabled(false);
-				}
+				combobox_Memory_Timing().IsEnabled(false);
 			}
 
 			//Memory frequency
 			if (tuningFanSettings.MemoryMax.has_value())
 			{
-				slider_Memory_Max().Value(tuningFanSettings.MemoryMax.value());
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.MemoryMax.value()) + L"MT/s";
+				textblock_Memory_Max_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.MemoryMaxMin.has_value())
 				{
 					slider_Memory_Max().Minimum(tuningFanSettings.MemoryMaxMin.value());
@@ -139,116 +302,140 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Memory_Max().IsEnabled(true);
-				}
+				slider_Memory_Max().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Memory_Max_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Memory_Max().IsEnabled(false);
-				}
+				slider_Memory_Max().IsEnabled(false);
 			}
 
 			//Power limit
 			if (tuningFanSettings.PowerLimit.has_value())
 			{
-				slider_Power_Limit().Value(tuningFanSettings.PowerLimit.value());
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerLimit.value()) + L"%";
+				textblock_Power_Limit_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.PowerLimitMin.has_value())
 				{
 					slider_Power_Limit().Minimum(tuningFanSettings.PowerLimitMin.value());
 					slider_Power_Limit().Maximum(tuningFanSettings.PowerLimitMax.value());
 					slider_Power_Limit().StepFrequency(tuningFanSettings.PowerLimitStep.value());
 					slider_Power_Limit().SmallChange(tuningFanSettings.PowerLimitStep.value());
+					slider_Power_Limit_PB().Minimum(tuningFanSettings.PowerLimitMin.value());
+					slider_Power_Limit_PB().Maximum(tuningFanSettings.PowerLimitMax.value());
+					slider_Power_Limit_PB().StepFrequency(tuningFanSettings.PowerLimitStep.value());
+					slider_Power_Limit_PB().SmallChange(tuningFanSettings.PowerLimitStep.value());
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_Limit().IsEnabled(true);
-				}
+				slider_Power_Limit().IsEnabled(true);
+				slider_Power_Limit_PB().IsEnabled(true);
+				toggleswitch_PowerBoost().IsEnabled(true);
+				combobox_PowerBoost_Applications().IsEnabled(true);
+				button_PowerBoost_AddExe().IsEnabled(true);
+				button_PowerBoost_Remove().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Power_Limit_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_Limit().IsEnabled(false);
-				}
+				slider_Power_Limit().IsEnabled(false);
+				slider_Power_Limit_PB().IsEnabled(false);
+				toggleswitch_PowerBoost().IsEnabled(false);
+				combobox_PowerBoost_Applications().IsEnabled(false);
+				button_PowerBoost_AddExe().IsEnabled(false);
+				button_PowerBoost_Remove().IsEnabled(false);
 			}
 
 			//Power voltage
 			if (tuningFanSettings.PowerVoltage.has_value())
 			{
-				slider_Power_Voltage().Value(tuningFanSettings.PowerVoltage.value());
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerVoltage.value()) + L"mV";
+				textblock_Power_Voltage_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.PowerVoltageMin.has_value())
 				{
 					slider_Power_Voltage().Minimum(tuningFanSettings.PowerVoltageMin.value());
 					slider_Power_Voltage().Maximum(tuningFanSettings.PowerVoltageMax.value());
 					slider_Power_Voltage().StepFrequency(tuningFanSettings.PowerVoltageStep.value());
 					slider_Power_Voltage().SmallChange(tuningFanSettings.PowerVoltageStep.value());
+					slider_Power_Voltage_PB().Minimum(tuningFanSettings.PowerVoltageMin.value());
+					slider_Power_Voltage_PB().Maximum(tuningFanSettings.PowerVoltageMax.value());
+					slider_Power_Voltage_PB().StepFrequency(tuningFanSettings.PowerVoltageStep.value());
+					slider_Power_Voltage_PB().SmallChange(tuningFanSettings.PowerVoltageStep.value());
 
 					//Check if value is offset (RDNA4+)
 					if (tuningFanSettings.PowerVoltageMin.value() < 0)
 					{
-						textblock_Power_Voltage().Text(L"Voltage Offset (mV)");
+						textblock_Power_Voltage().Text(L"Voltage Offset");
 					}
 					else
 					{
-						textblock_Power_Voltage().Text(L"Voltage (mV)");
+						textblock_Power_Voltage().Text(L"Voltage");
 					}
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_Voltage().IsEnabled(true);
-				}
+				slider_Power_Voltage().IsEnabled(true);
+				slider_Power_Voltage_PB().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Power_Voltage_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_Voltage().IsEnabled(false);
-				}
+				slider_Power_Voltage().IsEnabled(false);
+				slider_Power_Voltage_PB().IsEnabled(false);
 			}
 
 			//Power TDC
 			if (tuningFanSettings.PowerTDC.has_value())
 			{
-				slider_Power_TDC().Value(tuningFanSettings.PowerTDC.value());
+				//Set value text
+				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerTDC.value()) + L"A";
+				textblock_Power_TDC_Value().Text(valueText);
+
+				//Set setting limits
 				if (tuningFanSettings.PowerTDCMin.has_value())
 				{
 					slider_Power_TDC().Minimum(tuningFanSettings.PowerTDCMin.value());
 					slider_Power_TDC().Maximum(tuningFanSettings.PowerTDCMax.value());
 					slider_Power_TDC().StepFrequency(tuningFanSettings.PowerTDCStep.value());
 					slider_Power_TDC().SmallChange(tuningFanSettings.PowerTDCStep.value());
+					slider_Power_TDC_PB().Minimum(tuningFanSettings.PowerTDCMin.value());
+					slider_Power_TDC_PB().Maximum(tuningFanSettings.PowerTDCMax.value());
+					slider_Power_TDC_PB().StepFrequency(tuningFanSettings.PowerTDCStep.value());
+					slider_Power_TDC_PB().SmallChange(tuningFanSettings.PowerTDCStep.value());
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_TDC().IsEnabled(true);
-				}
+				slider_Power_TDC().IsEnabled(true);
+				slider_Power_TDC_PB().IsEnabled(true);
 			}
 			else
 			{
+				//Set value text
+				textblock_Power_TDC_Value().Text(L"");
+
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Power_TDC().IsEnabled(false);
-				}
+				slider_Power_TDC().IsEnabled(false);
+				slider_Power_TDC_PB().IsEnabled(false);
 			}
 
 			//Fan Zero RPM
 			if (tuningFanSettings.FanZeroRpm.has_value())
 			{
-				toggleswitch_Fan_Zero_Rpm().IsOn(tuningFanSettings.FanZeroRpm.value());
-
 				//Show or hide Zero RPM line
 				if (tuningFanSettings.FanZeroRpm.value())
 				{
@@ -260,24 +447,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
-				}
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
-				}
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(false);
 			}
 
 			//Fan Speed 0
 			if (tuningFanSettings.FanSpeed0.has_value())
 			{
-				slider_Fan_Speed_0().Value(tuningFanSettings.FanSpeed0.value());
+				//Set setting limits
 				if (tuningFanSettings.FanSpeedMin0.has_value())
 				{
 					slider_Fan_Speed_0().Minimum(tuningFanSettings.FanSpeedMin0.value());
@@ -287,24 +468,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_0().IsEnabled(true);
-				}
+				slider_Fan_Speed_0().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_0().IsEnabled(false);
-				}
+				slider_Fan_Speed_0().IsEnabled(false);
 			}
 
 			//Fan Temperature 0
 			if (tuningFanSettings.FanTemp0.has_value())
 			{
-				slider_Fan_Temp_0().Value(tuningFanSettings.FanTemp0.value());
+				//Set setting limits
 				if (tuningFanSettings.FanTempMin0.has_value())
 				{
 					slider_Fan_Temp_0().Minimum(tuningFanSettings.FanTempMin0.value());
@@ -314,24 +489,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_0().IsEnabled(true);
-				}
+				slider_Fan_Temp_0().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_0().IsEnabled(false);
-				}
+				slider_Fan_Temp_0().IsEnabled(false);
 			}
 
 			//Fan Speed 1
 			if (tuningFanSettings.FanSpeed1.has_value())
 			{
-				slider_Fan_Speed_1().Value(tuningFanSettings.FanSpeed1.value());
+				//Set setting limits
 				if (tuningFanSettings.FanSpeedMin1.has_value())
 				{
 					slider_Fan_Speed_1().Minimum(tuningFanSettings.FanSpeedMin1.value());
@@ -341,24 +510,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_1().IsEnabled(true);
-				}
+				slider_Fan_Speed_1().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_1().IsEnabled(false);
-				}
+				slider_Fan_Speed_1().IsEnabled(false);
 			}
 
 			//Fan Temperature 1
 			if (tuningFanSettings.FanTemp1.has_value())
 			{
-				slider_Fan_Temp_1().Value(tuningFanSettings.FanTemp1.value());
+				//Set setting limits
 				if (tuningFanSettings.FanTempMin1.has_value())
 				{
 					slider_Fan_Temp_1().Minimum(tuningFanSettings.FanTempMin1.value());
@@ -368,24 +531,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_1().IsEnabled(true);
-				}
+				slider_Fan_Temp_1().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_1().IsEnabled(false);
-				}
+				slider_Fan_Temp_1().IsEnabled(false);
 			}
 
 			//Fan Speed 2
 			if (tuningFanSettings.FanSpeed2.has_value())
 			{
-				slider_Fan_Speed_2().Value(tuningFanSettings.FanSpeed2.value());
+				//Set setting limits
 				if (tuningFanSettings.FanSpeedMin2.has_value())
 				{
 					slider_Fan_Speed_2().Minimum(tuningFanSettings.FanSpeedMin2.value());
@@ -395,24 +552,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_2().IsEnabled(true);
-				}
+				slider_Fan_Speed_2().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_2().IsEnabled(false);
-				}
+				slider_Fan_Speed_2().IsEnabled(false);
 			}
 
 			//Fan Temperature 2
 			if (tuningFanSettings.FanTemp2.has_value())
 			{
-				slider_Fan_Temp_2().Value(tuningFanSettings.FanTemp2.value());
+				//Set setting limits
 				if (tuningFanSettings.FanTempMin2.has_value())
 				{
 					slider_Fan_Temp_2().Minimum(tuningFanSettings.FanTempMin2.value());
@@ -422,24 +573,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_2().IsEnabled(true);
-				}
+				slider_Fan_Temp_2().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_2().IsEnabled(false);
-				}
+				slider_Fan_Temp_2().IsEnabled(false);
 			}
 
 			//Fan Speed 3
 			if (tuningFanSettings.FanSpeed3.has_value())
 			{
-				slider_Fan_Speed_3().Value(tuningFanSettings.FanSpeed3.value());
+				//Set setting limits
 				if (tuningFanSettings.FanSpeedMin3.has_value())
 				{
 					slider_Fan_Speed_3().Minimum(tuningFanSettings.FanSpeedMin3.value());
@@ -449,24 +594,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_3().IsEnabled(true);
-				}
+				slider_Fan_Speed_3().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_3().IsEnabled(false);
-				}
+				slider_Fan_Speed_3().IsEnabled(false);
 			}
 
 			//Fan Temperature 3
 			if (tuningFanSettings.FanTemp3.has_value())
 			{
-				slider_Fan_Temp_3().Value(tuningFanSettings.FanTemp3.value());
+				//Set setting limits
 				if (tuningFanSettings.FanTempMin3.has_value())
 				{
 					slider_Fan_Temp_3().Minimum(tuningFanSettings.FanTempMin3.value());
@@ -476,24 +615,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_3().IsEnabled(true);
-				}
+				slider_Fan_Temp_3().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_3().IsEnabled(false);
-				}
+				slider_Fan_Temp_3().IsEnabled(false);
 			}
 
 			//Fan Speed 4
 			if (tuningFanSettings.FanSpeed4.has_value())
 			{
-				slider_Fan_Speed_4().Value(tuningFanSettings.FanSpeed4.value());
+				//Set setting limits
 				if (tuningFanSettings.FanSpeedMin4.has_value())
 				{
 					slider_Fan_Speed_4().Minimum(tuningFanSettings.FanSpeedMin4.value());
@@ -503,24 +636,18 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_4().IsEnabled(true);
-				}
+				slider_Fan_Speed_4().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Speed_4().IsEnabled(false);
-				}
+				slider_Fan_Speed_4().IsEnabled(false);
 			}
 
 			//Fan Temperature 4
 			if (tuningFanSettings.FanTemp4.has_value())
 			{
-				slider_Fan_Temp_4().Value(tuningFanSettings.FanTemp4.value());
+				//Set setting limits
 				if (tuningFanSettings.FanTempMin4.has_value())
 				{
 					slider_Fan_Temp_4().Minimum(tuningFanSettings.FanTempMin4.value());
@@ -530,72 +657,61 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_4().IsEnabled(true);
-				}
+				slider_Fan_Temp_4().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				if (disableUI)
-				{
-					slider_Fan_Temp_4().IsEnabled(false);
-				}
+				slider_Fan_Temp_4().IsEnabled(false);
 			}
 
-			//Enable or disable interface
-			if (disableUI)
+			//Enable or disable tuning interface
+			bool supportManualGPU = tuningFanSettings.SupportManualGPU.has_value() ? tuningFanSettings.SupportManualGPU.value() : false;
+			bool supportManualVRAM = tuningFanSettings.SupportManualVRAM.has_value() ? tuningFanSettings.SupportManualVRAM.value() : false;
+			bool supportManualPower = tuningFanSettings.SupportManualPower.has_value() ? tuningFanSettings.SupportManualPower.value() : false;
+			if (!supportManualGPU && !supportManualVRAM && !supportManualPower)
 			{
-				bool supportManualGPU = tuningFanSettings.SupportManualGPU.has_value() ? tuningFanSettings.SupportManualGPU.value() : false;
-				bool supportManualVRAM = tuningFanSettings.SupportManualVRAM.has_value() ? tuningFanSettings.SupportManualVRAM.value() : false;
-				bool supportManualPower = tuningFanSettings.SupportManualPower.has_value() ? tuningFanSettings.SupportManualPower.value() : false;
-				bool supportManualFAN = tuningFanSettings.SupportManualFAN.has_value() ? tuningFanSettings.SupportManualFAN.value() : false;
+				button_Tuning_Apply().IsEnabled(false);
+				button_Tuning_Reset().IsEnabled(false);
+				button_Tuning_Import().IsEnabled(false);
+				button_Tuning_Export().IsEnabled(false);
+				button_Tuning_Keep().IsEnabled(false);
+			}
+			else
+			{
+				button_Tuning_Apply().IsEnabled(true);
+				button_Tuning_Reset().IsEnabled(true);
+				button_Tuning_Import().IsEnabled(true);
+				button_Tuning_Export().IsEnabled(true);
+				button_Tuning_Keep().IsEnabled(true);
+			}
 
-				if (!supportManualGPU && !supportManualVRAM && !supportManualPower)
-				{
-					button_Tuning_Apply().IsEnabled(false);
-					button_Tuning_Reset().IsEnabled(false);
-					button_Tuning_Import().IsEnabled(false);
-					button_Tuning_Export().IsEnabled(false);
-					button_Tuning_Keep().IsEnabled(false);
-				}
-				else
-				{
-					button_Tuning_Apply().IsEnabled(true);
-					button_Tuning_Reset().IsEnabled(true);
-					button_Tuning_Import().IsEnabled(true);
-					button_Tuning_Export().IsEnabled(true);
-					button_Tuning_Keep().IsEnabled(true);
-				}
-
-				if (!supportManualFAN)
-				{
-					button_Fan_Apply().IsEnabled(false);
-					button_Fan_Reset().IsEnabled(false);
-					button_Fan_Import().IsEnabled(false);
-					button_Fan_Export().IsEnabled(false);
-					button_Fan_Keep().IsEnabled(false);
-				}
-				else
-				{
-					button_Fan_Apply().IsEnabled(true);
-					button_Fan_Reset().IsEnabled(true);
-					button_Fan_Import().IsEnabled(true);
-					button_Fan_Export().IsEnabled(true);
-					button_Fan_Keep().IsEnabled(true);
-				}
+			//Enable or disable fan interface
+			bool supportManualFAN = tuningFanSettings.SupportManualFAN.has_value() ? tuningFanSettings.SupportManualFAN.value() : false;
+			if (!supportManualFAN)
+			{
+				button_Fan_Apply().IsEnabled(false);
+				button_Fan_Reset().IsEnabled(false);
+				button_Fan_Import().IsEnabled(false);
+				button_Fan_Export().IsEnabled(false);
+				button_Fan_Keep().IsEnabled(false);
+			}
+			else
+			{
+				button_Fan_Apply().IsEnabled(true);
+				button_Fan_Reset().IsEnabled(true);
+				button_Fan_Import().IsEnabled(true);
+				button_Fan_Export().IsEnabled(true);
+				button_Fan_Keep().IsEnabled(true);
 			}
 
 			//Return result
 			AVDebugWriteLine(L"Tuning and fans settings applied to interface.");
-			return true;
 		}
 		catch (...)
 		{
 			//Return result
 			AVDebugWriteLine(L"Failed applying tuning and fans settings to interface.");
-			return false;
 		}
 	}
 
@@ -952,10 +1068,10 @@ namespace winrt::RadeonTuner::implementation
 				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
 			}
 
-			//Keep active
+			//Keep Active
 			tuningFanSettings.KeepActive = keepActive;
 
-			//Settings
+			//GPU
 			if (slider_Core_Min().IsEnabled())
 			{
 				tuningFanSettings.CoreMin = (int)slider_Core_Min().Value();
@@ -964,6 +1080,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				tuningFanSettings.CoreMax = (int)slider_Core_Max().Value();
 			}
+
+			//Memory
 			if (slider_Memory_Max().IsEnabled())
 			{
 				tuningFanSettings.MemoryMax = (int)slider_Memory_Max().Value();
@@ -972,6 +1090,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				tuningFanSettings.MemoryTiming = (int)combobox_Memory_Timing().SelectedIndex();
 			}
+
+			//Power
 			if (slider_Power_Limit().IsEnabled())
 			{
 				tuningFanSettings.PowerLimit = (int)slider_Power_Limit().Value();
@@ -984,6 +1104,26 @@ namespace winrt::RadeonTuner::implementation
 			{
 				tuningFanSettings.PowerTDC = (int)slider_Power_TDC().Value();
 			}
+
+			//Power Boost
+			if (toggleswitch_PowerBoost().IsEnabled())
+			{
+				tuningFanSettings.PowerBoost = (bool)toggleswitch_PowerBoost().IsOn();
+			}
+			if (slider_Power_Limit_PB().IsEnabled())
+			{
+				tuningFanSettings.PowerLimitPB = (int)slider_Power_Limit_PB().Value();
+			}
+			if (slider_Power_Voltage_PB().IsEnabled())
+			{
+				tuningFanSettings.PowerVoltagePB = (int)slider_Power_Voltage_PB().Value();
+			}
+			if (slider_Power_TDC_PB().IsEnabled())
+			{
+				tuningFanSettings.PowerTDCPB = (int)slider_Power_TDC_PB().Value();
+			}
+
+			//Fans
 			if (toggleswitch_Fan_Zero_Rpm().IsEnabled())
 			{
 				tuningFanSettings.FanZeroRpm = (bool)toggleswitch_Fan_Zero_Rpm().IsOn();
@@ -1033,116 +1173,140 @@ namespace winrt::RadeonTuner::implementation
 		return tuningFanSettings;
 	}
 
-	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch)
+	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu)
 	{
 		try
 		{
 			//Gpu Core Minimum
-			if (tuningFanSettings.CoreMin.has_value() && tuningFanSettingsMatch.CoreMin.has_value())
+			if (tuningFanSettingsProfile.CoreMin.has_value() && tuningFanSettingsGpu.CoreMin.has_value())
 			{
-				if (tuningFanSettings.CoreMin.value() != tuningFanSettingsMatch.CoreMin.value()) { return false; }
+				if (tuningFanSettingsProfile.CoreMin.value() != tuningFanSettingsGpu.CoreMin.value()) { return false; }
 			}
 
 			//Gpu Core Maximum
-			if (tuningFanSettings.CoreMax.has_value() && tuningFanSettingsMatch.CoreMax.has_value())
+			if (tuningFanSettingsProfile.CoreMax.has_value() && tuningFanSettingsGpu.CoreMax.has_value())
 			{
-				if (tuningFanSettings.CoreMax.value() != tuningFanSettingsMatch.CoreMax.value()) { return false; }
+				if (tuningFanSettingsProfile.CoreMax.value() != tuningFanSettingsGpu.CoreMax.value()) { return false; }
 			}
 
 			//Memory timing
-			if (tuningFanSettings.MemoryTiming.has_value() && tuningFanSettingsMatch.MemoryTiming.has_value())
+			if (tuningFanSettingsProfile.MemoryTiming.has_value() && tuningFanSettingsGpu.MemoryTiming.has_value())
 			{
-				if (tuningFanSettings.MemoryTiming.value() != tuningFanSettingsMatch.MemoryTiming.value()) { return false; }
+				if (tuningFanSettingsProfile.MemoryTiming.value() != tuningFanSettingsGpu.MemoryTiming.value()) { return false; }
 			}
 
 			//Memory frequency
-			if (tuningFanSettings.MemoryMax.has_value() && tuningFanSettingsMatch.MemoryMax.has_value())
+			if (tuningFanSettingsProfile.MemoryMax.has_value() && tuningFanSettingsGpu.MemoryMax.has_value())
 			{
-				if (tuningFanSettings.MemoryMax.value() != tuningFanSettingsMatch.MemoryMax.value()) { return false; }
+				if (tuningFanSettingsProfile.MemoryMax.value() != tuningFanSettingsGpu.MemoryMax.value()) { return false; }
 			}
 
-			//Power limit
-			if (tuningFanSettings.PowerLimit.has_value() && tuningFanSettingsMatch.PowerLimit.has_value())
+			//Power Boost
+			if (tuningFanSettingsProfile.PowerBoostActive.has_value() && tuningFanSettingsProfile.PowerBoostActive.value())
 			{
-				if (tuningFanSettings.PowerLimit.value() != tuningFanSettingsMatch.PowerLimit.value()) { return false; }
-			}
+				//Power limit (Power Boost)
+				if (tuningFanSettingsProfile.PowerLimitPB.has_value() && tuningFanSettingsGpu.PowerLimit.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerLimitPB.value() != tuningFanSettingsGpu.PowerLimit.value()) { return false; }
+				}
 
-			//Power voltage
-			if (tuningFanSettings.PowerVoltage.has_value() && tuningFanSettingsMatch.PowerVoltage.has_value())
-			{
-				if (tuningFanSettings.PowerVoltage.value() != tuningFanSettingsMatch.PowerVoltage.value()) { return false; }
-			}
+				//Power voltage (Power Boost)
+				if (tuningFanSettingsProfile.PowerVoltagePB.has_value() && tuningFanSettingsGpu.PowerVoltage.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerVoltagePB.value() != tuningFanSettingsGpu.PowerVoltage.value()) { return false; }
+				}
 
-			//Power TDC
-			if (tuningFanSettings.PowerTDC.has_value() && tuningFanSettingsMatch.PowerTDC.has_value())
+				//Power TDC (Power Boost)
+				if (tuningFanSettingsProfile.PowerTDCPB.has_value() && tuningFanSettingsGpu.PowerTDC.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerTDCPB.value() != tuningFanSettingsGpu.PowerTDC.value()) { return false; }
+				}
+			}
+			else
 			{
-				if (tuningFanSettings.PowerTDC.value() != tuningFanSettingsMatch.PowerTDC.value()) { return false; }
+				//Power limit
+				if (tuningFanSettingsProfile.PowerLimit.has_value() && tuningFanSettingsGpu.PowerLimit.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerLimit.value() != tuningFanSettingsGpu.PowerLimit.value()) { return false; }
+				}
+
+				//Power voltage
+				if (tuningFanSettingsProfile.PowerVoltage.has_value() && tuningFanSettingsGpu.PowerVoltage.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerVoltage.value() != tuningFanSettingsGpu.PowerVoltage.value()) { return false; }
+				}
+
+				//Power TDC
+				if (tuningFanSettingsProfile.PowerTDC.has_value() && tuningFanSettingsGpu.PowerTDC.has_value())
+				{
+					if (tuningFanSettingsProfile.PowerTDC.value() != tuningFanSettingsGpu.PowerTDC.value()) { return false; }
+				}
 			}
 
 			//Fan Zero RPM
-			if (tuningFanSettings.FanZeroRpm.has_value() && tuningFanSettingsMatch.FanZeroRpm.has_value())
+			if (tuningFanSettingsProfile.FanZeroRpm.has_value() && tuningFanSettingsGpu.FanZeroRpm.has_value())
 			{
-				if (tuningFanSettings.FanZeroRpm.value() != tuningFanSettingsMatch.FanZeroRpm.value()) { return false; }
+				if (tuningFanSettingsProfile.FanZeroRpm.value() != tuningFanSettingsGpu.FanZeroRpm.value()) { return false; }
 			}
 
 			//Fan Speed 0
-			if (tuningFanSettings.FanSpeed0.has_value() && tuningFanSettingsMatch.FanSpeed0.has_value())
+			if (tuningFanSettingsProfile.FanSpeed0.has_value() && tuningFanSettingsGpu.FanSpeed0.has_value())
 			{
-				if (tuningFanSettings.FanSpeed0.value() != tuningFanSettingsMatch.FanSpeed0.value()) { return false; }
+				if (tuningFanSettingsProfile.FanSpeed0.value() != tuningFanSettingsGpu.FanSpeed0.value()) { return false; }
 			}
 
 			//Fan Temperature 0
-			if (tuningFanSettings.FanTemp0.has_value() && tuningFanSettingsMatch.FanTemp0.has_value())
+			if (tuningFanSettingsProfile.FanTemp0.has_value() && tuningFanSettingsGpu.FanTemp0.has_value())
 			{
-				if (tuningFanSettings.FanTemp0.value() != tuningFanSettingsMatch.FanTemp0.value()) { return false; }
+				if (tuningFanSettingsProfile.FanTemp0.value() != tuningFanSettingsGpu.FanTemp0.value()) { return false; }
 			}
 
 			//Fan Speed 1
-			if (tuningFanSettings.FanSpeed1.has_value() && tuningFanSettingsMatch.FanSpeed1.has_value())
+			if (tuningFanSettingsProfile.FanSpeed1.has_value() && tuningFanSettingsGpu.FanSpeed1.has_value())
 			{
-				if (tuningFanSettings.FanSpeed1.value() != tuningFanSettingsMatch.FanSpeed1.value()) { return false; }
+				if (tuningFanSettingsProfile.FanSpeed1.value() != tuningFanSettingsGpu.FanSpeed1.value()) { return false; }
 			}
 
 			//Fan Temperature 1
-			if (tuningFanSettings.FanTemp1.has_value() && tuningFanSettingsMatch.FanTemp1.has_value())
+			if (tuningFanSettingsProfile.FanTemp1.has_value() && tuningFanSettingsGpu.FanTemp1.has_value())
 			{
-				if (tuningFanSettings.FanTemp1.value() != tuningFanSettingsMatch.FanTemp1.value()) { return false; }
+				if (tuningFanSettingsProfile.FanTemp1.value() != tuningFanSettingsGpu.FanTemp1.value()) { return false; }
 			}
 
 			//Fan Speed 2
-			if (tuningFanSettings.FanSpeed2.has_value() && tuningFanSettingsMatch.FanSpeed2.has_value())
+			if (tuningFanSettingsProfile.FanSpeed2.has_value() && tuningFanSettingsGpu.FanSpeed2.has_value())
 			{
-				if (tuningFanSettings.FanSpeed2.value() != tuningFanSettingsMatch.FanSpeed2.value()) { return false; }
+				if (tuningFanSettingsProfile.FanSpeed2.value() != tuningFanSettingsGpu.FanSpeed2.value()) { return false; }
 			}
 
 			//Fan Temperature 2
-			if (tuningFanSettings.FanTemp2.has_value() && tuningFanSettingsMatch.FanTemp2.has_value())
+			if (tuningFanSettingsProfile.FanTemp2.has_value() && tuningFanSettingsGpu.FanTemp2.has_value())
 			{
-				if (tuningFanSettings.FanTemp2.value() != tuningFanSettingsMatch.FanTemp2.value()) { return false; }
+				if (tuningFanSettingsProfile.FanTemp2.value() != tuningFanSettingsGpu.FanTemp2.value()) { return false; }
 			}
 
 			//Fan Speed 3
-			if (tuningFanSettings.FanSpeed3.has_value() && tuningFanSettingsMatch.FanSpeed3.has_value())
+			if (tuningFanSettingsProfile.FanSpeed3.has_value() && tuningFanSettingsGpu.FanSpeed3.has_value())
 			{
-				if (tuningFanSettings.FanSpeed3.value() != tuningFanSettingsMatch.FanSpeed3.value()) { return false; }
+				if (tuningFanSettingsProfile.FanSpeed3.value() != tuningFanSettingsGpu.FanSpeed3.value()) { return false; }
 			}
 
 			//Fan Temperature 3
-			if (tuningFanSettings.FanTemp3.has_value() && tuningFanSettingsMatch.FanTemp3.has_value())
+			if (tuningFanSettingsProfile.FanTemp3.has_value() && tuningFanSettingsGpu.FanTemp3.has_value())
 			{
-				if (tuningFanSettings.FanTemp3.value() != tuningFanSettingsMatch.FanTemp3.value()) { return false; }
+				if (tuningFanSettingsProfile.FanTemp3.value() != tuningFanSettingsGpu.FanTemp3.value()) { return false; }
 			}
 
 			//Fan Speed 4
-			if (tuningFanSettings.FanSpeed4.has_value() && tuningFanSettingsMatch.FanSpeed4.has_value())
+			if (tuningFanSettingsProfile.FanSpeed4.has_value() && tuningFanSettingsGpu.FanSpeed4.has_value())
 			{
-				if (tuningFanSettings.FanSpeed4.value() != tuningFanSettingsMatch.FanSpeed4.value()) { return false; }
+				if (tuningFanSettingsProfile.FanSpeed4.value() != tuningFanSettingsGpu.FanSpeed4.value()) { return false; }
 			}
 
 			//Fan Temperature 4
-			if (tuningFanSettings.FanTemp4.has_value() && tuningFanSettingsMatch.FanTemp4.has_value())
+			if (tuningFanSettingsProfile.FanTemp4.has_value() && tuningFanSettingsGpu.FanTemp4.has_value())
 			{
-				if (tuningFanSettings.FanTemp4.value() != tuningFanSettingsMatch.FanTemp4.value()) { return false; }
+				if (tuningFanSettingsProfile.FanTemp4.value() != tuningFanSettingsGpu.FanTemp4.value()) { return false; }
 			}
 		}
 		catch (...) {}

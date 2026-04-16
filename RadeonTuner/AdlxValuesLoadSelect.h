@@ -176,10 +176,7 @@ namespace winrt::RadeonTuner::implementation
 			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
 			//DriverBug#1
 
-			//Load keep active setting
-			KeepActive_Load_UI();
-
-			//Load tuning and fans settings
+			//Load tuning values to interface
 			AdlxValuesLoadTuning();
 
 			//DriverBug#1

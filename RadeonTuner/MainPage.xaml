@@ -118,18 +118,18 @@
 
                 <!-- Buttons -->
                 <VariableSizedWrapGrid x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
+                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings and set as the current keep active settings."/>
                     <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Fan_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply current tuning and fans settings."/>
+                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings and set as the current keep active settings."/>
                     <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" PointerPressed="button_Tuning_Keep_PointerPressed" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;Left mouse click: Set current tuning and fans settings as the keep active settings.&#10;&#10;Right mouse click: Enable or disable keep active.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="125" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add executable" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
@@ -138,8 +138,8 @@
                     <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
                     <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
                     <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
-                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features like 'FSR Override' to work which are normally limited to white listed only applications.&#10;&#10;* For example this will allow you to use 'FSR Upscaling Override' on applications which are normally not officially supported."/>
-                    <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clears contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
+                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features which are normally limited to white listed only applications.&#10;&#10;* For example this will allow you to use 'FSR Upscaling Override' on applications that are normally not officially supported."/>
+                    <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clear contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display color settings to it's defaults."/>
@@ -158,12 +158,12 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Margin="5,0,0,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock Grid.Column="0" Margin="5,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
 
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                     <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
                                     <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* FRTC is not available because RadeonTuner uses application profiles to set Graphics settings which does not support changing FRTC."/>
+                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* Frame Rate Target Control is not available because RadeonTuner uses application profiles to set Graphics settings which does not support changing FRTC."/>
                                 </StackPanel>
                             </Grid>
 
@@ -173,7 +173,7 @@
                                     <!-- FSR Latency Reduction -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="FSR Latency Reduction (Anti-Lag) helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Using this setting in the Global profile may increase your CPU load usage even on your desktop because it gets enabled for any running process using 3D rendering including system processes.&#10;&#10;* This setting does not work on OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
                                     </StackPanel>
 
@@ -195,7 +195,7 @@
 
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
                                             <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
@@ -471,7 +471,8 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the minimum graphics frequency."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Setting the minimum frequency close to the maximum frequency can lead to a big performance loss so make sure to find the sweet spot by testing the performance or leave it at default."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Minimum Frequency (MHz)" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Minimum Frequency" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Min_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -481,14 +482,13 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Core_Min" Text="{Binding ElementName=slider_Core_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Core_Min" ValueChanged="slider_Core_Min_ValueChanged" Margin="10,0,0,0"/>
                                     </Grid>
-                                </StackPanel>
-                            </Border>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable graphics frequency."/>
-                                        <TextBlock x:Name="textblock_Core_Max" Margin="10,0,0,0" Text="Maximum Frequency (MHz)" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_Core_Max" Margin="10,0,0,0" Text="Maximum Frequency" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -508,16 +508,16 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the memory timing profile, faster memory latency timings increases performance."/>
                                         <TextBlock Margin="10,0,0,0" Text="Memory Timing" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Timing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Memory_Timing" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                </StackPanel>
-                            </Border>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable memory frequency."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Maximum Frequency (MHz)" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Maximum Frequency" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -536,7 +536,8 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable power consumption of the GPU, a higher power limit increases performance."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Power Limit (%)" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Power Limit" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Limit_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -546,14 +547,24 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" Text="{Binding ElementName=slider_Power_Limit, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0"/>
                                     </Grid>
-                                </StackPanel>
-                            </Border>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                    <Grid x:Name="grid_Power_Limit_PB" Margin="0,10,0,0" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png"/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Limit_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Limit_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_Limit_PB" Margin="10,0,0,0"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the voltage offset across the entire clock range of the GPU, a lower voltage increases performance."/>
-                                        <TextBlock x:Name="textblock_Power_Voltage" Margin="10,0,0,0" Text="Voltage (mV)" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_Power_Voltage" Margin="10,0,0,0" Text="Voltage" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Voltage_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -563,14 +574,24 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
                                     </Grid>
-                                </StackPanel>
-                            </Border>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                    <Grid x:Name="grid_Power_Voltage_PB" Margin="0,5,0,0" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png"/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Voltage_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Voltage_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_Voltage_PB" Margin="10,0,0,0"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the Thermal Design Current (TDC) limit of a GPU, a higher TDC limit increases performance."/>
-                                        <TextBlock Margin="10,0,0,0" Text="TDC Limit (A)" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="10,0,0,0" Text="TDC Limit" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_TDC_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -580,6 +601,34 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0"/>
                                     </Grid>
+
+                                    <Grid x:Name="grid_Power_TDC_PB" Margin="0,5,0,0" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png"/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_TDC_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_TDC_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_TDC_PB" Margin="10,0,0,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Text="Power Boost" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to adjust your GPU's power seperately for high demanding applications.&#10;&#10;* It may take a few seconds before Power Boost is activated.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
+                                        <ToggleSwitch x:Name="toggleswitch_PowerBoost" Margin="10,0,0,0" OffContent="Enable Power Boost" OnContent="Enable Power Boost" Toggled="toggleswitch_PowerBoost_Toggled"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <ComboBox x:Name="combobox_PowerBoost_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                                        <Button x:Name="button_PowerBoost_AddExe" Content="Add executable" Click="button_PowerBoost_AddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable file as application."/>
+                                        <Button x:Name="button_PowerBoost_Remove" Content="Remove" Click="button_PowerBoost_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>

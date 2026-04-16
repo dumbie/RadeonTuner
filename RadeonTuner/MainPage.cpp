@@ -36,9 +36,14 @@
 #include "AdlxEventsPower.h"
 #include "AdlxEventsTuning.h"
 
-#include "KeepActiveFunc.h"
 #include "GraphicsSettingsFunc.h"
 #include "DisplaySettingsFunc.h"
+
+#include "KeepActiveFunc.h"
+#include "KeepActiveEvents.h"
+#include "PowerBoostFunc.h"
+#include "PowerBoostEvents.h"
+#include "TuningFanSettingsCacheFunc.h"
 #include "TuningFanSettingsFunc.h"
 
 #include "SettingFunc.h"
@@ -82,6 +87,15 @@ namespace winrt::RadeonTuner::implementation
 				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adlx);
 				return;
 			}
+
+			//Load tuning profiles file
+			TuningFanSettings_Profiles_LoadFromFile();
+
+			//Load power boost applications
+			PowerBoost_Applications_LoadFromFile();
+
+			//List power boost applications
+			PowerBoost_Applications_List();
 
 			//Set adl app gpu identifier
 			AdlAppSetUmdGpuId();

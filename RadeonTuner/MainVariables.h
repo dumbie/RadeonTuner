@@ -6,9 +6,6 @@ inline bool disable_saving = true;
 inline bool disable_saving_settings = true;
 inline bool radeon_Chill_Linked = false;
 
-inline bool keepactive_cache_loaded = false;
-inline std::vector<TuningFanSettings> keepactive_cache{};
-
 inline std::wstring gpuRegistryPath;
 inline std::wstring gpuUniqueIdentifierHex;
 inline int gpuUniqueIdentifier = -1;
@@ -47,9 +44,13 @@ inline int adl_Res0 = ADL_ERR;
 
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;
 
+//Fix use ObservableCollection instead
+inline std::vector<std::wstring> powerBoostAppsCache{};
+inline std::vector<TuningFanSettings> tuningFanSettingsCache{};
+
 inline int adl_AppSelectedIndex = -1;
-inline AdlApplication adl_AppEmpty{};
 inline std::vector<AdlApplication> adl_Apps{};
+
 //Fix replace with C++26 std::optional<T&>
 inline AdlApplication& adl_AppSelected()
 {
@@ -59,7 +60,7 @@ inline AdlApplication& adl_AppSelected()
 	}
 	else
 	{
-		adl_AppEmpty.FileName = L"";
-		return adl_AppEmpty;
+		static AdlApplication adlApplicationDefaults{};
+		return adlApplicationDefaults;
 	}
 }

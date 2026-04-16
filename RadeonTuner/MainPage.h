@@ -25,7 +25,7 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea);
 		DATATYPES AdlAppPropertyDataTypeGet(std::wstring propertyName, std::wstring driverArea);
 		ADLProfilePropertyType AdlAppConvertDataTypeToPropertyType(DATATYPES dataType);
-		std::vector<ADLPropertyRecordCreate> AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties);
+		std::vector<AdlPropertyRecordCreateWrap> AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties);
 		std::optional<AdlAppProperty> AdlAppPropertyGet(AdlApplication adlApp, std::wstring propertyName);
 		bool AdlAppPropertySave(AdlApplication& adlApp);
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> properties, bool addOnly);
@@ -40,20 +40,30 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr);
 		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo);
 
-		AdlApplication GraphicsSettings_Load(std::string loadPath);
-		bool GraphicsSettings_Save(AdlApplication graphicsSettings, std::string savePath);
+		AdlApplication GraphicsSettings_FileLoad(std::string loadPath);
+		bool GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath);
 
-		DisplaySettings DisplaySettings_Load(std::string loadPath);
-		bool DisplaySettings_Save(DisplaySettings displaySettings, std::string savePath);
+		DisplaySettings DisplaySettings_FileLoad(std::string loadPath);
+		bool DisplaySettings_FileSave(DisplaySettings displaySettings, std::string savePath);
 		bool DisplaySettings_Convert_ToUI(DisplaySettings displaySettings);
 		DisplaySettings DisplaySettings_Generate_FromUI();
 
-		TuningFanSettings TuningFanSettings_Load(std::string loadPath);
-		bool TuningFanSettings_Save(TuningFanSettings tuningFanSettings, std::string savePath);
-		bool TuningFanSettings_Convert_ToUI(TuningFanSettings tuningFanSettings, bool disableUI);
+		void TuningFanSettings_Profile_Convert_ToUI(TuningFanSettings tuningFanSettings);
+		void TuningFanSettings_GPU_Convert_ToUI(TuningFanSettings tuningFanSettings);
+		bool TuningFanSettings_Profiles_SaveToFile();
+		bool TuningFanSettings_Profiles_LoadFromFile();
+		TuningFanSettings TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
+		bool TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath);
 		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
 		TuningFanSettings TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
-		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettings, TuningFanSettings tuningFanSettingsMatch);
+		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu);
+		bool TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings);
+		bool TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettings);
+		std::optional<std::reference_wrapper<TuningFanSettings>> TuningFanSettings_Profile_Get(std::wstring gpuIdentifier);
+		bool TuningFanSettings_Profile_Remove(std::wstring gpuIdentifier);
+		bool KeepActive_Enable(bool saveProfile);
+		bool KeepActive_Disable(bool saveProfile);
+		void KeepActive_Toggle();
 
 		bool AdlxValuesResetDisplay();
 		void AdlxValuesExportDisplay();
@@ -94,11 +104,12 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxLoopMetrics();
 		void AdlxLoopKeepActive();
 
-		void KeepActive_Load_UI();
-		bool KeepActive_Export();
-		bool KeepActive_Enable();
-		bool KeepActive_Disable();
-		bool KeepActive_Toggle();
+		bool PowerBoost_Applications_List();
+		bool PowerBoost_Applications_LoadFromFile();
+		bool PowerBoost_Applications_SaveToFile();
+		void button_PowerBoost_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_PowerBoost_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_PowerBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
@@ -106,6 +117,7 @@ namespace winrt::RadeonTuner::implementation
 		void button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Donation_Click(IInspectable const& sender, RoutedEventArgs const& e);
 
@@ -159,8 +171,6 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Core_Min_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Core_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Tuning_Keep_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
 		void toggleswitch_OpenGLTripleBuffering_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Close_Tray_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_TextureFilteringQuality_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
