@@ -6,7 +6,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Load settings from file
-	AdlApplication MainPage::GraphicsSettings_Load(std::string loadPath)
+	std::optional<AdlApplication> MainPage::GraphicsSettings_FileLoad(std::string loadPath)
 	{
 		try
 		{
@@ -17,11 +17,11 @@ namespace winrt::RadeonTuner::implementation
 			return jsonstring_to_struct<AdlApplication>(jsonString);
 		}
 		catch (...) {}
-		return AdlApplication{};
+		return std::nullopt;
 	}
 
 	//Save settings to file
-	bool MainPage::GraphicsSettings_Save(AdlApplication graphicsSettings, std::string savePath)
+	bool MainPage::GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath)
 	{
 		try
 		{

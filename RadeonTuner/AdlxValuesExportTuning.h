@@ -9,37 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			std::string exportPath;
-			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
-			HRESULT hResult = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, (void**)&pFileDialog.Get());
-			if (SUCCEEDED(hResult))
-			{
-				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radt" } };
-				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog.Get()->SetTitle(L"Export tuning and fans settings...");
-				pFileDialog.Get()->SetOptions(FOS_OVERWRITEPROMPT);
-				pFileDialog.Get()->SetDefaultExtension(L"radt");
-
-				//Show file dialog
-				hResult = pFileDialog.Get()->Show(NULL);
-
-				//Get file dialog result
-				if (SUCCEEDED(hResult))
-				{
-					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
-					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
-					if (SUCCEEDED(hResult))
-					{
-						PWSTR pszFilePath;
-						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-						if (SUCCEEDED(hResult))
-						{
-							exportPath = wchar_to_string(pszFilePath);
-						}
-					}
-				}
-			}
+			//Show file dialog
+			std::wstring exportPath = filepicker_save(L"Export tuning and fans settings...", { { L"Setting files", L"*.radt"} });
 
 			//Check file path
 			if (exportPath.empty())
@@ -50,10 +21,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Generate settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false).value();
 
 			//Save settings to file
-			bool saveResult = TuningFanSettings_Save(tuningFanSettings, exportPath);
+			std::string exportPathA = wstring_to_string(exportPath);
+			bool saveResult = TuningFanSettings_Profile_SaveToFile(tuningFanSettings, exportPathA);
 
 			//Set result
 			if (saveResult)

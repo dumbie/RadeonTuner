@@ -120,6 +120,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//List all memory timing
+			//Fix only load available timings
 			itemCollection = combobox_Memory_Timing().Items();
 			appendCount = ADLX_MEMORYTIMING_DESCRIPTION_STRING.size();
 			for (UINT i = 0; i < appendCount; i++)

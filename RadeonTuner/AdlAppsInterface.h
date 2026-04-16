@@ -24,13 +24,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load applications
-			adl_Apps = AdlAppLoad(L"3D_User");
+			adlAppsCache = AdlAppsLoad(L"3D_User");
 
 			//Sort applications by file name
-			std::sort(adl_Apps.begin(), adl_Apps.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
+			std::sort(adlAppsCache.begin(), adlAppsCache.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
 
 			//Add apps to combobox
-			for (AdlApplication adlApp : adl_Apps)
+			for (AdlApplication adlApp : adlAppsCache)
 			{
 				if (adlApp.FileName == L"*.*")
 				{
@@ -61,35 +61,15 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			std::wstring importPath;
-			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
-			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog.Get());
-			if (SUCCEEDED(hResult))
+			//Show file dialog
+			std::wstring importPath = filepicker_open(L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
+
+			//Check file path
+			if (importPath.empty())
 			{
-				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } };
-				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog.Get()->SetTitle(L"Select application executable...");
-				pFileDialog.Get()->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
-
-				//Show file dialog
-				hResult = pFileDialog.Get()->Show(NULL);
-
-				//Get file dialog result
-				if (SUCCEEDED(hResult))
-				{
-					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
-					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
-					if (SUCCEEDED(hResult))
-					{
-						PWSTR pszFilePath;
-						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-						if (SUCCEEDED(hResult))
-						{
-							importPath = pszFilePath;
-						}
-					}
-				}
+				ShowNotification(L"Application not added, no path set");
+				AVDebugWriteLine(L"Application not added, no path set");
+				return;
 			}
 
 			//Add application

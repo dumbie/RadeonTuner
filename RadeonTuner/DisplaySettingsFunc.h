@@ -6,7 +6,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Load settings from file
-	DisplaySettings MainPage::DisplaySettings_Load(std::string loadPath)
+	std::optional<DisplaySettings> MainPage::DisplaySettings_FileLoad(std::string loadPath)
 	{
 		try
 		{
@@ -17,11 +17,11 @@ namespace winrt::RadeonTuner::implementation
 			return jsonstring_to_struct<DisplaySettings>(jsonString);
 		}
 		catch (...) {}
-		return DisplaySettings{};
+		return std::nullopt;
 	}
 
 	//Save settings to file
-	bool MainPage::DisplaySettings_Save(DisplaySettings displaySettings, std::string savePath)
+	bool MainPage::DisplaySettings_FileSave(DisplaySettings displaySettings, std::string savePath)
 	{
 		try
 		{
@@ -114,11 +114,12 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	DisplaySettings MainPage::DisplaySettings_Generate_FromUI()
+	std::optional<DisplaySettings> MainPage::DisplaySettings_Generate_FromUI()
 	{
-		DisplaySettings displaySettings{};
 		try
 		{
+			DisplaySettings displaySettings{};
+
 			//Identifier
 			std::wstring device_id_w = AdlxGetDisplayIdentifier(ppDisplayInfo);
 			if (!device_id_w.empty())
@@ -185,8 +186,14 @@ namespace winrt::RadeonTuner::implementation
 			{
 				displaySettings.CVDCTritanopia = slider_Display_Tritanopia().Value();
 			}
+
+			//Return result
+			return displaySettings;
 		}
-		catch (...) {}
-		return displaySettings;
+		catch (...)
+		{
+			//Return result
+			return std::nullopt;
+		}
 	}
 }

@@ -13,7 +13,8 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppInterfaceListLoad();
 		void AdlAppInterfaceAddFile();
 		void AdlAppInterfaceAddProcess();
-		std::vector<AdlApplication> AdlAppLoad(std::wstring driverArea);
+		std::optional<std::reference_wrapper<AdlApplication>> AdlAppSelectedGet();
+		std::vector<AdlApplication> AdlAppsLoad(std::wstring driverArea);
 		std::wstring AdlAppAdd(std::wstring filePath, std::wstring driverArea);
 		std::wstring AdlAppRemove(AdlApplication adlApp);
 		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
@@ -25,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea);
 		DATATYPES AdlAppPropertyDataTypeGet(std::wstring propertyName, std::wstring driverArea);
 		ADLProfilePropertyType AdlAppConvertDataTypeToPropertyType(DATATYPES dataType);
-		std::vector<AdlPropertyRecordCreateWrap> AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties);
+		std::vector<ADLPropertyRecordCreate> AdlAppPropertyRecordCreateGet(std::vector<AdlAppProperty> adlAppProperties);
 		std::optional<AdlAppProperty> AdlAppPropertyGet(AdlApplication adlApp, std::wstring propertyName);
 		bool AdlAppPropertySave(AdlApplication& adlApp);
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> properties, bool addOnly);
@@ -40,22 +41,22 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr);
 		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo);
 
-		AdlApplication GraphicsSettings_FileLoad(std::string loadPath);
+		std::optional<AdlApplication> GraphicsSettings_FileLoad(std::string loadPath);
 		bool GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath);
 
-		DisplaySettings DisplaySettings_FileLoad(std::string loadPath);
+		std::optional<DisplaySettings> DisplaySettings_FileLoad(std::string loadPath);
 		bool DisplaySettings_FileSave(DisplaySettings displaySettings, std::string savePath);
 		bool DisplaySettings_Convert_ToUI(DisplaySettings displaySettings);
-		DisplaySettings DisplaySettings_Generate_FromUI();
+		std::optional<DisplaySettings> DisplaySettings_Generate_FromUI();
 
 		void TuningFanSettings_Profile_Convert_ToUI(TuningFanSettings tuningFanSettings);
 		void TuningFanSettings_GPU_Convert_ToUI(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profiles_SaveToFile();
 		bool TuningFanSettings_Profiles_LoadFromFile();
-		TuningFanSettings TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
+		std::optional<TuningFanSettings> TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
 		bool TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath);
-		TuningFanSettings TuningFanSettings_Generate_FromUI(bool keepActive);
-		TuningFanSettings TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
+		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromUI(bool keepActive);
+		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
 		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu);
 		bool TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettings);

@@ -715,11 +715,12 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	TuningFanSettings MainPage::TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr)
 	{
-		TuningFanSettings tuningFanSettings{};
 		try
 		{
+			TuningFanSettings tuningFanSettings{};
+
 			//Device identifier
 			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
 			if (!device_id_w.empty())
@@ -1048,19 +1049,24 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AVDebugWriteLine("Failed to generate tuning fan settings.");
 			}
+
+			//Return result
+			return tuningFanSettings;
 		}
 		catch (...)
 		{
+			//Return result
 			AVDebugWriteLine("Failed to generate tuning and fan settings from adlx GPU ptr.");
+			return std::nullopt;
 		}
-		return tuningFanSettings;
 	}
 
-	TuningFanSettings MainPage::TuningFanSettings_Generate_FromUI(bool keepActive)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromUI(bool keepActive)
 	{
-		TuningFanSettings tuningFanSettings{};
 		try
 		{
+			TuningFanSettings tuningFanSettings{};
+
 			//Identifier
 			std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
 			if (!device_id_w.empty())
@@ -1168,9 +1174,15 @@ namespace winrt::RadeonTuner::implementation
 			{
 				tuningFanSettings.FanTemp4 = (int)slider_Fan_Temp_4().Value();
 			}
+
+			//Return result
+			return tuningFanSettings;
 		}
-		catch (...) {}
-		return tuningFanSettings;
+		catch (...)
+		{
+			//Return result
+			return std::nullopt;
+		}
 	}
 
 	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu)

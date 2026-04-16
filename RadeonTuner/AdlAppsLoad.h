@@ -18,7 +18,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::vector<AdlApplication> MainPage::AdlAppLoad(std::wstring driverArea)
+	std::vector<AdlApplication> MainPage::AdlAppsLoad(std::wstring driverArea)
 	{
 		std::vector<AdlApplication> adlApps{};
 		try

@@ -20,12 +20,15 @@ namespace winrt::RadeonTuner::implementation
 			//Disable saving
 			disable_saving = true;
 
-			//Get selected index
+			//Set selected index
 			adl_AppSelectedIndex = combobox_AppSelect().SelectedIndex();
 
+			//Get selected application
+			AdlApplication& selectedApp = AdlAppSelectedGet().value();
+
 			//Get application details
-			std::wstring applicationFileName = adl_AppSelected().FileName;
-			std::wstring applicationFilePath = adl_AppSelected().FilePath;
+			std::wstring applicationFileName = selectedApp.FileName;
+			std::wstring applicationFilePath = selectedApp.FilePath;
 			if (applicationFileName == L"*.*")
 			{
 				applicationFileName = L"Global";
@@ -52,7 +55,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fix check if application executable exists and warn user profile might not work
 
 			//Check and set default application properties
-			AdlAppDefaultProperties(adl_AppSelected(), false, true);
+			AdlAppDefaultProperties(selectedApp, false, true);
 
 			//Load application graphics settings
 			AdlValuesLoadGraphicsApp();
@@ -181,7 +184,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//DriverBug#1
 			////Check and set default application properties
-			//AdlAppDefaultProperties(adl_AppSelected(), false, true);
+			//AdlAppDefaultProperties(AdlAppSelectedGet().value(), false, true);
 
 			////Load application graphics settings
 			//AdlValuesLoadGraphicsApp();

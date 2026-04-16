@@ -83,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 					{
 						textblock_Current_Gpu_Usage().Text(number_to_wstring((int)gpuUsage) + L"%");
 						textblock_Current_Core_Speed().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
-						textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MTs");
+						textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MT/s");
 
 						textblock_Current_Power_Watt().Text(number_to_wstring((int)gpuWatt) + L"W");
 						textblock_Current_Power_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");

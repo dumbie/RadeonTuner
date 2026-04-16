@@ -9,8 +9,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check application
-			if (!adl_AppSelected().Initialized())
+			//Get selected application
+			auto selectedApp = AdlAppSelectedGet();
+
+			//Check selected application
+			if (!selectedApp.has_value())
 			{
 				AVDebugWriteLine("ADL application is not selected.");
 				return;
@@ -41,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Upscaling Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FsrOverride");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"FsrOverride");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -62,7 +65,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Interpolation Frame Generation Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MlfiOverride");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MlfiOverride");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -83,7 +86,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Multi Frame Generation Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MfgOverride");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MfgOverride");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -104,7 +107,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Ray Regeneration Denoiser Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MldOverride");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MldOverride");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -125,7 +128,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Neural Radiance Caching Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"NrcOverride");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"NrcOverride");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -146,7 +149,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Multi Frame Generation Ratio
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MfgRatio");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MfgRatio");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -192,7 +195,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//FSR DLL Load Path
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"FfxDllPath");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"FfxDllPath");
 				if (adlProperty.has_value())
 				{
 					std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
@@ -222,7 +225,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get FSR Latency Reduction
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Dlg_PFEnable");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Dlg_PFEnable");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -243,7 +246,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Boost
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_PFEnable");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Bst_PFEnable");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -266,7 +269,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Boost Minimum Resolution
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Bst_MaxScale");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Bst_MaxScale");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -287,7 +290,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Chill
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_PFEnable");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_PFEnable");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -328,7 +331,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Chill Minimum Frame Rate
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MinFRate");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_MinFRate");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -349,7 +352,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Chill Maximum Frame Rate
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Chil_MaxFRate");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_MaxFRate");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -370,7 +373,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Image Sharpening
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_PFEnable");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Ris_PFEnable");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -393,7 +396,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Radeon Image Sharpening Sharpness
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Ris_SHDegree");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Ris_SHDegree");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -414,7 +417,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Enhanced Sync
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TurboSync");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"TurboSync");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -435,7 +438,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Vertical Refresh
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"VSyncControl");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"VSyncControl");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -456,7 +459,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Anti-Aliasing Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAlias");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AntiAlias");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -483,9 +486,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Anti-Aliasing Method
 			{
-				std::optional<AdlAppProperty> adlPropertyASD = AdlAppPropertyGet(adl_AppSelected(), L"ASD");
-				std::optional<AdlAppProperty> adlPropertyASE = AdlAppPropertyGet(adl_AppSelected(), L"ASE");
-				std::optional<AdlAppProperty> adlPropertyASTT = AdlAppPropertyGet(adl_AppSelected(), L"ASTT");
+				std::optional<AdlAppProperty> adlPropertyASD = AdlAppPropertyGet(selectedApp.value(), L"ASD");
+				std::optional<AdlAppProperty> adlPropertyASE = AdlAppPropertyGet(selectedApp.value(), L"ASE");
+				std::optional<AdlAppProperty> adlPropertyASTT = AdlAppPropertyGet(selectedApp.value(), L"ASTT");
 				if (adlPropertyASD.has_value() && adlPropertyASE.has_value() && adlPropertyASTT.has_value())
 				{
 					int asdValue = -1;
@@ -543,7 +546,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Anti-Aliasing Level
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AntiAliasSmpls");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AntiAliasSmpls");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -577,7 +580,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Enhanced Quality Anti-Aliasing
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EQAA");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"EQAA");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -598,7 +601,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Morphological Anti-Aliasing
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"MLF");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MLF");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -619,7 +622,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Anisotropic Texture Filtering Override
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"AnisoDegree");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AnisoDegree");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -661,7 +664,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Texture Filtering Quality
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"TFQ");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"TFQ");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -682,7 +685,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Surface Format Optimization
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"SrfcFrmtRplcmnt");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"SrfcFrmtRplcmnt");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -703,7 +706,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Tessellation Mode
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation_OP");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Tessellation_OP");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -733,7 +736,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get Tessellation Level
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"Tessellation");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Tessellation");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
@@ -787,7 +790,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get OpenGL Triple Buffering
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adl_AppSelected(), L"EnableTrplBffr");
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"EnableTrplBffr");
 				if (adlProperty.has_value())
 				{
 					for (AdlAppPropertyValue value : adlProperty.value().Values)

@@ -6,6 +6,28 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	std::optional<std::reference_wrapper<AdlApplication>> MainPage::AdlAppSelectedGet()
+	{
+		try
+		{
+			if (adlAppsCache.size() > 0 && adl_AppSelectedIndex >= 0)
+			{
+				//Return result
+				return adlAppsCache[adl_AppSelectedIndex];
+			}
+			else
+			{
+				//Return result
+				return std::nullopt;
+			}
+		}
+		catch (...)
+		{
+			//Return result
+			return std::nullopt;
+		}
+	}
+
 	void MainPage::AdlAppSetUmdGpuId()
 	{
 		try

@@ -102,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 		return std::nullopt;
 	}
 
-	TuningFanSettings MainPage::TuningFanSettings_Profile_LoadFromFile(std::string loadPath)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Profile_LoadFromFile(std::string loadPath)
 	{
 		try
 		{
@@ -113,7 +113,7 @@ namespace winrt::RadeonTuner::implementation
 			return jsonstring_to_struct<TuningFanSettings>(jsonString);
 		}
 		catch (...) {}
-		return TuningFanSettings{};
+		return std::nullopt;
 	}
 
 	bool MainPage::TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath)

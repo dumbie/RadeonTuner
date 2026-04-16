@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Default application settings
-			if (AdlAppDefaultProperties(adl_AppSelected(), true, false))
+			if (AdlAppDefaultProperties(AdlAppSelectedGet().value(), true, false))
 			{
 				//Reload application settings
 				AdlxValuesLoadSelectApp();

@@ -39,6 +39,8 @@ namespace winrt::RadeonTuner::implementation
 				adlApp.ProfileName = AdlAppProfileGenerateName(L"RADT");
 			}
 
+			//Fix memory leak happens when calling ADL functions, leak happening in ADL?
+
 			//Remove profile from application
 			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());
 			AVDebugWriteLine("Removed application profile: " << adl_Res0);

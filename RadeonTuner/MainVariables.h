@@ -49,18 +49,4 @@ inline std::vector<std::wstring> powerBoostAppsCache{};
 inline std::vector<TuningFanSettings> tuningFanSettingsCache{};
 
 inline int adl_AppSelectedIndex = -1;
-inline std::vector<AdlApplication> adl_Apps{};
-
-//Fix replace with C++26 std::optional<T&>
-inline AdlApplication& adl_AppSelected()
-{
-	if (adl_Apps.size() > 0 && adl_AppSelectedIndex >= 0)
-	{
-		return adl_Apps[adl_AppSelectedIndex];
-	}
-	else
-	{
-		static AdlApplication adlApplicationDefaults{};
-		return adlApplicationDefaults;
-	}
-}
+inline std::vector<AdlApplication> adlAppsCache{};

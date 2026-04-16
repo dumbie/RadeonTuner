@@ -9,36 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			std::string importPath;
-			auto pFileDialog = AVFin<IFileOpenDialog*>(AVFinMethod::ReleaseInterface);
-			HRESULT hResult = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&pFileDialog.Get());
-			if (SUCCEEDED(hResult))
-			{
-				//Set file dialog
-				COMDLG_FILTERSPEC filterSpec[] = { { L"Setting files", L"*.radd" } };
-				pFileDialog.Get()->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
-				pFileDialog.Get()->SetTitle(L"Import display settings...");
-				pFileDialog.Get()->SetOptions(FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST);
-
-				//Show file dialog
-				hResult = pFileDialog.Get()->Show(NULL);
-
-				//Get file dialog result
-				if (SUCCEEDED(hResult))
-				{
-					auto pShellItem = AVFin<IShellItem*>(AVFinMethod::ReleaseInterface);
-					hResult = pFileDialog.Get()->GetResult(&pShellItem.Get());
-					if (SUCCEEDED(hResult))
-					{
-						PWSTR pszFilePath;
-						hResult = pShellItem.Get()->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-						if (SUCCEEDED(hResult))
-						{
-							importPath = wchar_to_string(pszFilePath);
-						}
-					}
-				}
-			}
+			//Show file dialog
+			std::wstring importPath = filepicker_open(L"Import display settings...", { { L"Setting files", L"*.radd" } });
 
 			//Check file path
 			if (importPath.empty())
@@ -51,7 +23,8 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Importing display settings: " << importPath.c_str());
 
 			//Load settings from file
-			DisplaySettings displaySettings = DisplaySettings_Load(importPath);
+			std::string importPathA = wstring_to_string(importPath);
+			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPathA).value();
 
 			//Check device identifier
 			std::string device_id_import_a = displaySettings.DeviceId.value();

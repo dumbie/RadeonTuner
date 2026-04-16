@@ -13,7 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			KeepActive_Disable(false);
 
 			//Generate tuning and fans settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false);
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false).value();
 
 			//Apply tuning and fans settings
 			if (AdlxApplyTuning(ppGpuInfo, tuningFanSettings))

@@ -13,6 +13,15 @@ namespace winrt::RadeonTuner::implementation
 		return lpBuffer;
 	}
 
+	void __stdcall ADL_Main_Memory_Free(void** lpBuffer)
+	{
+		if (NULL != *lpBuffer)
+		{
+			free(*lpBuffer);
+			*lpBuffer = NULL;
+		}
+	}
+
 	std::wstring MainPage::AdlInitialize()
 	{
 		try
