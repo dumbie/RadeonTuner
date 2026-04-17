@@ -9,11 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Disable active overclock setting
-			KeepActive_Disable(false);
-
 			//Generate tuning and fans settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false).value();
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI().value();
 
 			//Apply tuning and fans settings
 			if (AdlxApplyTuning(ppGpuInfo, tuningFanSettings))
@@ -35,9 +32,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Disable active overclock setting
-			KeepActive_Disable(false);
-
 			//Reset tuning and fans settings
 			if (AdlxResetTuning())
 			{
@@ -245,7 +239,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Power Voltage
-				if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
+				if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
 				{
 					if (tuningFanSettings.PowerVoltagePB.has_value())
 					{
@@ -293,7 +287,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppGPUTuningServices->GetManualPowerTuning(ppGpuPtr, (IADLXInterface**)&ppManualPowerTuning);
 
 				//Power Limit
-				if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
+				if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
 				{
 					if (tuningFanSettings.PowerLimitPB.has_value())
 					{
@@ -312,7 +306,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppManualPowerTuning->IsSupportedTDCLimit(&adlx_Bool);
 				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
 				{
-					if (tuningFanSettings.PowerBoostActive.has_value() && tuningFanSettings.PowerBoostActive.value())
+					if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
 					{
 						if (tuningFanSettings.PowerTDCPB.has_value())
 						{

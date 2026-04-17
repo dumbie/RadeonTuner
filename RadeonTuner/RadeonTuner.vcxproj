@@ -105,8 +105,6 @@
     <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="ADL\adl_structures_sdk.h" />
     <ClInclude Include="GraphicsSettingsFunc.h" />
-    <ClInclude Include="KeepActiveEvents.h" />
-    <ClInclude Include="KeepActiveFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesLoadPower.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />

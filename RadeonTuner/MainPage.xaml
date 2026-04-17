@@ -118,18 +118,16 @@
 
                 <!-- Buttons -->
                 <VariableSizedWrapGrid x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings and set as the current keep active settings."/>
+                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings."/>
                     <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Tuning_Keep" Click="button_Tuning_Keep_Click" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Fan_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings and set as the current keep active settings."/>
+                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings."/>
                     <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
-                    <Button x:Name="button_Fan_Keep" Click="button_Tuning_Keep_Click" Content="Keep active" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason.&#10;&#10;* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="125" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add executable" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
@@ -465,7 +463,18 @@
 
                         <!-- Tuning -->
                         <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
-                            <TextBlock Text="GPU Tuning" FontSize="20" FontWeight="Medium"/>
+                            <!-- Keep Active -->
+                            <TextBlock Text="Keep Active" FontSize="20" FontWeight="Medium"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
+                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                                    <ToggleSwitch x:Name="toggleswitch_KeepActive" Margin="10,0,0,0" OffContent="Enable Keep Active" OnContent="Enable Keep Active"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Core Tuning -->
+                            <TextBlock Text="Core Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -501,8 +510,8 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Memory Tuning -->
                             <TextBlock Text="Memory Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -530,8 +539,8 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Power Tuning -->
                             <TextBlock Text="Power Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -615,12 +624,13 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Power Boost -->
                             <TextBlock Text="Power Boost" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to adjust your GPU's power seperately for high demanding applications.&#10;&#10;* It may take a few seconds before Power Boost is activated.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to adjust your GPU's power seperately for high demanding applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Power Boost is activated.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
                                         <ToggleSwitch x:Name="toggleswitch_PowerBoost" Margin="10,0,0,0" OffContent="Enable Power Boost" OnContent="Enable Power Boost" Toggled="toggleswitch_PowerBoost_Toggled"/>
                                     </StackPanel>
 

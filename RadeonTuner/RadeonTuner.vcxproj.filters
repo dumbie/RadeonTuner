@@ -264,16 +264,10 @@
     <ClInclude Include="ADL\adl_structures_sdk.h">
       <Filter>Include Files\ADL</Filter>
     </ClInclude>
-    <ClInclude Include="KeepActiveFunc.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
     <ClInclude Include="PowerBoostFunc.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="PowerBoostEvents.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
-    <ClInclude Include="KeepActiveEvents.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="TuningFanSettingsCacheFunc.h">

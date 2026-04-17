@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Generate settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI(false).value();
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI().value();
 
 			//Save settings to file
 			std::string exportPathA = wstring_to_string(exportPath);

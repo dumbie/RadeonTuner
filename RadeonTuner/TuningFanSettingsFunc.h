@@ -120,27 +120,11 @@ namespace winrt::RadeonTuner::implementation
 			//Load keep active setting
 			if (tuningFanSettings.KeepActive.has_value())
 			{
-				if (tuningFanSettings.KeepActive.value())
-				{
-					//Set button color
-					SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-					button_Fan_Keep().Background(colorValid);
-					button_Tuning_Keep().Background(colorValid);
-				}
-				else
-				{
-					//Set button color
-					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-					button_Fan_Keep().Background(colorInvalid);
-					button_Tuning_Keep().Background(colorInvalid);
-				}
+				toggleswitch_KeepActive().IsOn(tuningFanSettings.KeepActive.value());
 			}
 			else
 			{
-				//Set button color
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Fan_Keep().Background(colorInvalid);
-				button_Tuning_Keep().Background(colorInvalid);
+				toggleswitch_KeepActive().IsOn(false);
 			}
 
 			//Load power boost setting
@@ -152,15 +136,27 @@ namespace winrt::RadeonTuner::implementation
 				//Show or hide power boost settings
 				if (powerBoost)
 				{
+					//Hide or show settings
 					grid_Power_Limit_PB().Visibility(Visibility::Visible);
 					grid_Power_Voltage_PB().Visibility(Visibility::Visible);
 					grid_Power_TDC_PB().Visibility(Visibility::Visible);
+
+					//Enable or disable settings
+					combobox_PowerBoost_Applications().IsEnabled(true);
+					button_PowerBoost_AddExe().IsEnabled(true);
+					button_PowerBoost_Remove().IsEnabled(true);
 				}
 				else
 				{
+					//Hide or show settings
 					grid_Power_Limit_PB().Visibility(Visibility::Collapsed);
 					grid_Power_Voltage_PB().Visibility(Visibility::Collapsed);
 					grid_Power_TDC_PB().Visibility(Visibility::Collapsed);
+
+					//Enable or disable settings
+					combobox_PowerBoost_Applications().IsEnabled(false);
+					button_PowerBoost_AddExe().IsEnabled(false);
+					button_PowerBoost_Remove().IsEnabled(false);
 				}
 
 				//Power limit (Power Boost)
@@ -671,19 +667,25 @@ namespace winrt::RadeonTuner::implementation
 			bool supportManualPower = tuningFanSettings.SupportManualPower.has_value() ? tuningFanSettings.SupportManualPower.value() : false;
 			if (!supportManualGPU && !supportManualVRAM && !supportManualPower)
 			{
+				//Top buttons
 				button_Tuning_Apply().IsEnabled(false);
 				button_Tuning_Reset().IsEnabled(false);
 				button_Tuning_Import().IsEnabled(false);
 				button_Tuning_Export().IsEnabled(false);
-				button_Tuning_Keep().IsEnabled(false);
+
+				//Custom settings
+				toggleswitch_KeepActive().IsEnabled(false);
 			}
 			else
 			{
+				//Top buttons
 				button_Tuning_Apply().IsEnabled(true);
 				button_Tuning_Reset().IsEnabled(true);
 				button_Tuning_Import().IsEnabled(true);
 				button_Tuning_Export().IsEnabled(true);
-				button_Tuning_Keep().IsEnabled(true);
+
+				//Custom settings
+				toggleswitch_KeepActive().IsEnabled(true);
 			}
 
 			//Enable or disable fan interface
@@ -694,7 +696,6 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(false);
 				button_Fan_Import().IsEnabled(false);
 				button_Fan_Export().IsEnabled(false);
-				button_Fan_Keep().IsEnabled(false);
 			}
 			else
 			{
@@ -702,7 +703,6 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(true);
 				button_Fan_Import().IsEnabled(true);
 				button_Fan_Export().IsEnabled(true);
-				button_Fan_Keep().IsEnabled(true);
 			}
 
 			//Return result
@@ -1061,7 +1061,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromUI(bool keepActive)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromUI()
 	{
 		try
 		{
@@ -1075,9 +1075,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Keep Active
-			tuningFanSettings.KeepActive = keepActive;
+			if (toggleswitch_KeepActive().IsEnabled())
+			{
+				tuningFanSettings.KeepActive = (bool)toggleswitch_KeepActive().IsOn();
+			}
 
-			//GPU
+			//Core
 			if (slider_Core_Min().IsEnabled())
 			{
 				tuningFanSettings.CoreMin = (int)slider_Core_Min().Value();
@@ -1214,7 +1217,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Power Boost
-			if (tuningFanSettingsProfile.PowerBoostActive.has_value() && tuningFanSettingsProfile.PowerBoostActive.value())
+			if (tuningFanSettingsProfile.PowerBoostUse.has_value() && tuningFanSettingsProfile.PowerBoostUse.value())
 			{
 				//Power limit (Power Boost)
 				if (tuningFanSettingsProfile.PowerLimitPB.has_value() && tuningFanSettingsGpu.PowerLimit.has_value())

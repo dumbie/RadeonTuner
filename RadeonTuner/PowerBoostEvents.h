@@ -88,6 +88,11 @@ namespace winrt::RadeonTuner::implementation
 				grid_Power_Limit_PB().Visibility(Visibility::Visible);
 				grid_Power_Voltage_PB().Visibility(Visibility::Visible);
 				grid_Power_TDC_PB().Visibility(Visibility::Visible);
+
+				//Enable or disable settings
+				combobox_PowerBoost_Applications().IsEnabled(true);
+				button_PowerBoost_AddExe().IsEnabled(true);
+				button_PowerBoost_Remove().IsEnabled(true);
 			}
 			else
 			{
@@ -95,6 +100,11 @@ namespace winrt::RadeonTuner::implementation
 				grid_Power_Limit_PB().Visibility(Visibility::Collapsed);
 				grid_Power_Voltage_PB().Visibility(Visibility::Collapsed);
 				grid_Power_TDC_PB().Visibility(Visibility::Collapsed);
+
+				//Enable or disable settings
+				combobox_PowerBoost_Applications().IsEnabled(false);
+				button_PowerBoost_AddExe().IsEnabled(false);
+				button_PowerBoost_Remove().IsEnabled(false);
 			}
 		}
 		catch (...) {}

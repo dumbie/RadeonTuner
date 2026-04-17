@@ -29,10 +29,12 @@ struct TuningFanSettings
 
 	//Power Boost
 	std::optional<bool> PowerBoost;
-	std::optional<bool> PowerBoostActive;
 	std::optional<int> PowerLimitPB;
 	std::optional<int> PowerVoltagePB;
 	std::optional<int> PowerTDCPB;
+
+	//Status
+	std::optional<bool> PowerBoostUse;
 
 	//Support
 	std::optional<bool> SupportManualFAN;

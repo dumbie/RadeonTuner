@@ -292,6 +292,36 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
+	IADLXGPU2Ptr MainPage::AdlxGetGpuPointer(std::string gpuIdentifier)
+	{
+		try
+		{
+			//Loop through all gpus
+			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			{
+				try
+				{
+					//Get gpu pointer
+					IADLXGPU2Ptr ppGpuPtr;
+					adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+
+					//Get gpu identifier
+					std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
+					std::string device_id_a = wstring_to_string(device_id_w);
+
+					//Check gpu identifier
+					if (device_id_a == gpuIdentifier)
+					{
+						return ppGpuPtr;
+					}
+				}
+				catch (...) {}
+			}
+		}
+		catch (...) {}
+		return nullptr;
+	}
+
 	std::wstring MainPage::AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr)
 	{
 		std::wstring device_id = L"";

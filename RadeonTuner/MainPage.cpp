@@ -39,8 +39,6 @@
 #include "GraphicsSettingsFunc.h"
 #include "DisplaySettingsFunc.h"
 
-#include "KeepActiveFunc.h"
-#include "KeepActiveEvents.h"
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
 #include "TuningFanSettingsCacheFunc.h"

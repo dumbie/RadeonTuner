@@ -7,6 +7,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Note: IADLXGPUTuningChangedEvent does not get triggered when tuning is reset by system failure so manual polling is needed.
+	//Fix: Change power boost and eyefinity to event that triggers on process launch and close or check foreground window.
 
 	void MainPage::AdlxLoopKeepActive()
 	{
@@ -17,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				//Delay next loop
 				if (!AppVariables::LaunchKeepActive)
 				{
-					Sleep(20000);
+					Sleep(15000);
 				}
 				else
 				{
@@ -31,93 +32,87 @@ namespace winrt::RadeonTuner::implementation
 					return;
 				}
 
-				//Load and cache keep active setting files
-				if (!keepactive_cache_loaded)
-				{
-					//Get keep active folder path
-					std::wstring pathActiveFolderW = PathMerge(PathGetExecutableDirectory(), L"Active");
-
-					//Clear keep active setting cache
-					keepactive_cache.clear();
-
-					//List keep active setting files
-					auto fileList = FileList(pathActiveFolderW, false);
-					for (auto file : fileList)
-					{
-						try
-						{
-							//Load tuning fans settings from file
-							TuningFanSettings tuningFanSettingsKeepActive = TuningFanSettings_Load(file.path().string());
-
-							//Add settings to keep active cache
-							keepactive_cache.push_back(tuningFanSettingsKeepActive);
-						}
-						catch (...) {}
-					}
-
-					//Update status variable
-					keepactive_cache_loaded = true;
-					AVDebugWriteLine("Keep active setting cache updated.");
-				}
-
-				//Check keep active settings
-				for (auto keepActiveSettings : keepactive_cache)
+				//Get running processes
+				bool powerBoostProcessRunning = false;
+				for (AVProcess process : Get_ProcessAll())
 				{
 					try
 					{
-						//Check if keep active is enabled
-						if (keepActiveSettings.KeepActive.has_value())
+						//Fix lower upper case matching
+
+						//Check if Power Boost process is running
+						std::wstring exeNameW = string_to_wstring(process.ExeName());
+						if (array_contains(powerBoostAppsCache, exeNameW))
 						{
-							if (!keepActiveSettings.KeepActive.value())
-							{
-								//AVDebugWriteLine("Keep active is disabled, skipped keep active.");
-								continue;
-							}
+							//AVDebugWriteLine("Power Boost process is running: " << exeNameW);
+							powerBoostProcessRunning = true;
+							break;
 						}
-						else
+					}
+					catch (...) {}
+				}
+
+				//Check tuning fan settings
+				for (TuningFanSettings& tuningFanSettingsProfile : tuningFanSettingsCache)
+				{
+					try
+					{
+						//Check if Keep Active is enabled
+						bool keepActiveEnabled = false;
+						if (tuningFanSettingsProfile.KeepActive.has_value())
 						{
-							//AVDebugWriteLine("Keep active is missing, skipped keep active.");
+							keepActiveEnabled = tuningFanSettingsProfile.KeepActive.value();
+						}
+
+						//Check if Power Boost is enabled
+						bool powerBoostEnabled = false;
+						if (tuningFanSettingsProfile.PowerBoost.has_value())
+						{
+							powerBoostEnabled = tuningFanSettingsProfile.PowerBoost.value();
+						}
+
+						//Check enabled settings
+						if (!keepActiveEnabled && !powerBoostEnabled)
+						{
 							continue;
 						}
 
-						//Loop through all gpus
-						for (UINT i = 0; i < ppGpuList->Size(); i++)
+						//Get GPU pointer
+						IADLXGPU2Ptr gpuPointer = AdlxGetGpuPointer(tuningFanSettingsProfile.DeviceId.value());
+						if (gpuPointer == nullptr)
 						{
-							try
-							{
-								//Get gpu pointer
-								IADLXGPU2Ptr ppGpuPtr;
-								adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+							continue;
+						}
 
-								//Get gpu identifier
-								std::wstring device_current_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
-								std::string device_current_id_a = wstring_to_string(device_current_id_w);
+						//Get current gpu tuning and fans settings
+						TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromAdlxGpuPtr(gpuPointer).value();
 
-								//Check gpu identifier
-								if (keepActiveSettings.DeviceId.value() == device_current_id_a)
+						//Check if Power Boost is enabled and used
+						if (powerBoostEnabled)
+						{
+							tuningFanSettingsProfile.PowerBoostUse = powerBoostProcessRunning;
+						}
+						else
+						{
+							tuningFanSettingsProfile.PowerBoostUse = false;
+						}
+
+						//Check if tuning and fans settings match
+						if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsGpu))
+						{
+							AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
+
+							//Apply tuning and fans settings
+							std::function<void()> updateFunction = [&]
 								{
-									//Get current gpu tuning and fans settings
-									TuningFanSettings tuningFanSettingsCurrent = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuPtr);
-
-									//Check if tuning and fans settings match
-									if (!TuningFanSettings_Match(keepActiveSettings, tuningFanSettingsCurrent))
+									//Apply tuning and fans settings
+									if (AdlxApplyTuning(gpuPointer, tuningFanSettingsProfile))
 									{
-										AVDebugWriteLine("Tuning and fans settings do not match, applying keep active settings.");
-
-										//Apply tuning and fans settings
-										std::function<void()> updateFunction = [&]
-											{
-												//Apply tuning and fans settings
-												AdlxApplyTuning(ppGpuPtr, keepActiveSettings);
-
-												//Load tuning and fans settings
-												AdlxValuesLoadTuning();
-											};
-										AppVariables::App.DispatcherInvoke(updateFunction);
+										//Load tuning and fans settings
+										AdlxValuesLoadTuning();
 									}
-								}
-							}
-							catch (...) {}
+								};
+							AppVariables::App.DispatcherInvoke(updateFunction);
 						}
 					}
 					catch (...) {}

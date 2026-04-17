@@ -38,6 +38,7 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<INT> AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key);
 
 		std::wstring AdlxInitialize();
+		IADLXGPU2Ptr AdlxGetGpuPointer(std::string gpuIdentifier);
 		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr);
 		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo);
 
@@ -55,16 +56,13 @@ namespace winrt::RadeonTuner::implementation
 		bool TuningFanSettings_Profiles_LoadFromFile();
 		std::optional<TuningFanSettings> TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
 		bool TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath);
-		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromUI(bool keepActive);
+		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromUI();
 		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromAdlxGpuPtr(IADLXGPU2Ptr ppGpuPtr);
 		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu);
 		bool TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettings);
 		std::optional<std::reference_wrapper<TuningFanSettings>> TuningFanSettings_Profile_Get(std::wstring gpuIdentifier);
 		bool TuningFanSettings_Profile_Remove(std::wstring gpuIdentifier);
-		bool KeepActive_Enable(bool saveProfile);
-		bool KeepActive_Disable(bool saveProfile);
-		void KeepActive_Toggle();
 
 		bool AdlxValuesResetDisplay();
 		void AdlxValuesExportDisplay();
@@ -118,7 +116,6 @@ namespace winrt::RadeonTuner::implementation
 		void button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Tuning_Export_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Tuning_Keep_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Project_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Website_Donation_Click(IInspectable const& sender, RoutedEventArgs const& e);
 
