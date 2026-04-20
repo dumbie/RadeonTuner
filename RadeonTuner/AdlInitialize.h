@@ -213,6 +213,31 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_CVDC_Set";
 			}
 
+			//Overdrive
+			_ADL2_Overdrive8_Init_SettingX2_Get = (ADL2_Overdrive8_Init_SettingX2_Get)GetProcAddress(hInstance, "ADL2_Overdrive8_Init_SettingX2_Get");
+			if (_ADL2_Overdrive8_Init_SettingX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Overdrive8_Init_SettingX2_Get");
+				return L"Failed to init _ADL2_Overdrive8_Init_SettingX2_Get";
+			}
+
+			_ADL2_Overdrive8_Current_SettingX2_Get = (ADL2_Overdrive8_Current_SettingX2_Get)GetProcAddress(hInstance, "ADL2_Overdrive8_Current_SettingX2_Get");
+			if (_ADL2_Overdrive8_Current_SettingX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Overdrive8_Current_SettingX2_Get");
+				return L"Failed to init _ADL2_Overdrive8_Current_SettingX2_Get";
+			}
+
+			_ADL2_Overdrive8_Setting_Set = (ADL2_Overdrive8_Setting_Set)GetProcAddress(hInstance, "ADL2_Overdrive8_Setting_Set");
+			if (_ADL2_Overdrive8_Setting_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Overdrive8_Setting_Set");
+				return L"Failed to init _ADL2_Overdrive8_Setting_Set";
+			}
+
 			//Create ADL main control
 			if (_ADL2_Main_Control_Create(ADL_Main_Memory_Alloc, 1, &adl_Context) != ADL_OK)
 			{

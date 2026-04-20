@@ -53,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_Adapter_RegValueString_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
 			if (adl_Res0 == ADL_OK)
 			{
-				AVDebugWriteLine("ADL get string registry setting: " << adl_Res0);
+				//AVDebugWriteLine("ADL get string registry setting: " << adl_Res0);
 
 				//Remove \0 from string
 				int string_position = 0;
@@ -96,7 +96,7 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_Adapter_RegValueInt_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
 			if (adl_Res0 == ADL_OK)
 			{
-				AVDebugWriteLine("ADL get int registry setting: " << adl_Res0);
+				//AVDebugWriteLine("ADL get int registry setting: " << adl_Res0);
 				return returnInt;
 			}
 			else

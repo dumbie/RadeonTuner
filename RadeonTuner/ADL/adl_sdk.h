@@ -32,6 +32,7 @@
 #define ADL_SDK_H_
 
 #include "adl_structures.h"
+#include "adl_structures_custom.h"
 #include "adl_structures_sdk.h"
 
 /// Memory Allocation Call back 
