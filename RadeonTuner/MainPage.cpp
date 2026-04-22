@@ -10,11 +10,13 @@
 #include "AdlAppsLoad.h"
 #include "AdlAppsRemove.h"
 #include "AdlAppsProperty.h"
+#include "AdlOverdrive.h"
 #include "AdlRegistry.h"
 #include "AdlInitialize.h"
+#include "AdlCheck.h"
+
 #include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
-
 #include "AdlValuesPrepare.h"
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
@@ -42,7 +44,8 @@
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
 #include "TuningFanSettingsCacheFunc.h"
-#include "TuningFanSettingsFunc.h"
+#include "TuningFanSettingsLoadFunc.h"
+#include "TuningFanSettingsSaveFunc.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
@@ -86,6 +89,16 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			////Check driver software type
+			//if (AdlCheckDriverOnlySoftware())
+			//{
+			//	grid_Main().IsHitTestVisible(false);
+			//	grid_Overlay().Visibility(Visibility::Visible);
+			//	textblock_Overlay_Text().Text(L"Incompatible driver software type.");
+			//	textblock_Overlay_Sub_Text().Text(L"To prevent possible issues with RadeonTuner please install your drivers using the 'Driver Only' software type.");
+			//	return;
+			//}
+
 			//Load tuning profiles file
 			TuningFanSettings_Profiles_LoadFromFile();
 
@@ -101,16 +114,8 @@ namespace winrt::RadeonTuner::implementation
 			//Prepare adlx values
 			AdlxValuesPrepare();
 
-			//Select default indexes
-			SelectIndexesAdlx();
-
 			//Prepare adl values
 			AdlValuesPrepare();
-
-			//Select default indexes
-			SelectIndexesAdl();
-
-			//Fix check driver installation software type Default / Minimal / Driver Only
 
 			//Check admin setttings
 			SettingAdmin();
@@ -121,11 +126,11 @@ namespace winrt::RadeonTuner::implementation
 			//Load power values
 			AdlxValuesLoadSelectPower();
 
-			//Select default indexes
-			SelectIndexesMenu();
-
 			//Show or hide experimental settings
 			ShowExperimentalSettings(true);
+
+			//Select default indexes
+			SelectDefaultIndexes();
 
 			//Start adlx loop device
 			std::thread threadLoopDevice(&MainPage::AdlxLoopDevice, this);
@@ -152,31 +157,17 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::SelectIndexesAdl()
+	void MainPage::SelectDefaultIndexes()
 	{
 		try
 		{
-			//Select default indexes
-			combobox_AppSelect().SelectedIndex(0);
-		}
-		catch (...) {}
-	}
-
-	void MainPage::SelectIndexesAdlx()
-	{
-		try
-		{
-			//Select default indexes
+			//Select gpu and display
 			combobox_GpuSelect().SelectedIndex(0);
 			combobox_DisplaySelect().SelectedIndex(0);
-		}
-		catch (...) {}
-	}
 
-	void MainPage::SelectIndexesMenu()
-	{
-		try
-		{
+			//Select application
+			combobox_AppSelect().SelectedIndex(0);
+
 			//Select previous menu index
 			int mainSelectIndex = 0;
 			std::optional<int> prevMenuIndex = AppVariables::Settings.Load<int>("MenuIndex");
@@ -215,6 +206,7 @@ namespace winrt::RadeonTuner::implementation
 
 					//Enable or disable feature unlock button
 					button_Graphics_Unlock().IsEnabled(true);
+					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
 
 					//Show notification
 					if (!silent)
@@ -235,6 +227,7 @@ namespace winrt::RadeonTuner::implementation
 
 					//Enable or disable feature unlock button
 					button_Graphics_Unlock().IsEnabled(false);
+					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 
 					//Show notification
 					if (!silent)

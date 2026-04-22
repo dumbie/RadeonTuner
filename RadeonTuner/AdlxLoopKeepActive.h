@@ -57,6 +57,8 @@ namespace winrt::RadeonTuner::implementation
 				{
 					try
 					{
+						//AVDebugWriteLine("Checking tuning and fans settings for device: " << tuningFanSettingsProfile.DeviceId.value().c_str());
+
 						//Check if Keep Active is enabled
 						bool keepActiveEnabled = false;
 						if (tuningFanSettingsProfile.KeepActive.has_value())
@@ -78,14 +80,18 @@ namespace winrt::RadeonTuner::implementation
 						}
 
 						//Get GPU pointer
-						IADLXGPU2Ptr gpuPointer = AdlxGetGpuPointer(tuningFanSettingsProfile.DeviceId.value());
-						if (gpuPointer == nullptr)
+						std::pair<IADLXGPU2Ptr, int> gpuPointer = AdlxGetGpuPointer(tuningFanSettingsProfile.DeviceId.value());
+						if (gpuPointer.first == nullptr)
 						{
 							continue;
 						}
 
 						//Get current gpu tuning and fans settings
-						TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromAdlxGpuPtr(gpuPointer).value();
+						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(gpuPointer.first, gpuPointer.second);
+						if (!tuningFanSettingsGpu.has_value())
+						{
+							continue;
+						}
 
 						//Check if Power Boost is enabled and used
 						if (powerBoostEnabled)
@@ -98,7 +104,7 @@ namespace winrt::RadeonTuner::implementation
 						}
 
 						//Check if tuning and fans settings match
-						if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsGpu))
+						if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsGpu.value()))
 						{
 							AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
 
@@ -106,7 +112,7 @@ namespace winrt::RadeonTuner::implementation
 							std::function<void()> updateFunction = [&]
 								{
 									//Apply tuning and fans settings
-									if (AdlxApplyTuning(gpuPointer, tuningFanSettingsProfile))
+									if (AdlTuningApply(gpuPointer.second, tuningFanSettingsProfile))
 									{
 										//Load tuning and fans settings
 										AdlxValuesLoadTuning();

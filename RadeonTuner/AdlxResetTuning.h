@@ -5,13 +5,12 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlxResetTuning()
+	bool MainPage::AdlTuningReset()
 	{
 		try
 		{
 			//Reset gpu tuning and fan settings
-			adlx_Res0 = ppGPUTuningServices->ResetToFactory(ppGpuInfo);
-			if (ADLX_FAILED(adlx_Res0))
+			if (!Adl_Overdrive_Reset(adl_Gpu_AdapterIndex))
 			{
 				//Set result
 				ShowNotification(L"Failed resetting tuning and fans settings");

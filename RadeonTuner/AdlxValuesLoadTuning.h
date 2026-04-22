@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load tuning and fan settings
-			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromAdlxGpuPtr(ppGpuInfo).value();
+			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(ppGpuInfo, adl_Gpu_AdapterIndex).value();
 
 			//Add gpu tuning and fans settings profile
 			TuningFanSettings_Profile_Add(tuningFanSettingsGpu);

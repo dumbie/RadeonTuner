@@ -48,7 +48,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
 
 				//Get ADL adapter index
-				int adapterIndex;
+				int adapterIndex = -1;
 				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
 
 				//Get gpu unique identifier

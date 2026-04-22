@@ -5,20 +5,52 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::toggleswitch_Fan_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			bool fanControl = senderElement.IsOn();
+
+			//Enable or disable interface
+			toggleswitch_Fan_Zero_Rpm().IsEnabled(fanControl);
+			slider_Fan_Speed_0().IsEnabled(fanControl);
+			slider_Fan_Temp_0().IsEnabled(fanControl);
+			slider_Fan_Speed_1().IsEnabled(fanControl);
+			slider_Fan_Temp_1().IsEnabled(fanControl);
+			slider_Fan_Speed_2().IsEnabled(fanControl);
+			slider_Fan_Temp_2().IsEnabled(fanControl);
+			slider_Fan_Speed_3().IsEnabled(fanControl);
+			slider_Fan_Temp_3().IsEnabled(fanControl);
+			slider_Fan_Speed_4().IsEnabled(fanControl);
+			slider_Fan_Temp_4().IsEnabled(fanControl);
+
+			//Update fan graph opacity
+			grid_Fan_Graph().Opacity(fanControl ? 1.0 : 0.4);
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{
 				//Show or hide Zero RPM line
-				grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Visible);
+				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Visible);
 			}
 			else
 			{
 				//Show or hide Zero RPM line
-				grid_Fan_Zero_Rpm_Line().Visibility(Visibility::Collapsed);
+				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Collapsed);
 			}
 		}
 		catch (...) {}
@@ -28,13 +60,16 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Fix prevent setvalue exception without thread workaround
 			std::function<void()> threadVoid = [&]()
 				{
 					std::function<void()> invokeVoid = [&]
 						{
 							ValidateFanSettings();
-							UpdateFanGraph();
+							UpdateFanGraphProfile();
 						};
 					AppVariables::App.DispatcherInvoke(invokeVoid);
 				};
@@ -146,7 +181,61 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::UpdateFanGraph()
+	void MainPage::UpdateFanGraphGpu(TuningFanSettings tuningFanSettings)
+	{
+		try
+		{
+			//Speed vertical Y
+			//Temperature horizontal X
+			PointCollection fanPoints;
+
+			//Get minimum and maximum
+			int fanSpeedMinimum = tuningFanSettings.FanSpeedMin0.value();
+			int fanSpeedMaximum = tuningFanSettings.FanSpeedMax0.value();
+
+			//Get graph size
+			int graphWidth = 500;
+			int graphHeight = 100;
+
+			//Add fan points
+			float fanSpeedStart = fanSpeedMaximum - tuningFanSettings.FanSpeed0.value();
+			float fanTempStart = 0;
+			fanPoints.Append(Point{ fanTempStart, fanSpeedStart });
+
+			float fanSpeed0 = fanSpeedMaximum - tuningFanSettings.FanSpeed0.value();
+			float fanTemp0 = (double)tuningFanSettings.FanTemp0.value() / 100 * graphWidth;
+			fanPoints.Append(Point{ fanTemp0, fanSpeed0 });
+
+			float fanSpeed1 = fanSpeedMaximum - tuningFanSettings.FanSpeed1.value();
+			float fanTemp1 = (double)tuningFanSettings.FanTemp1.value() / 100 * graphWidth;
+			fanPoints.Append(Point{ fanTemp1, fanSpeed1 });
+
+			float fanSpeed2 = fanSpeedMaximum - tuningFanSettings.FanSpeed2.value();
+			float fanTemp2 = (double)tuningFanSettings.FanTemp2.value() / 100 * graphWidth;
+			fanPoints.Append(Point{ fanTemp2, fanSpeed2 });
+
+			float fanSpeed3 = fanSpeedMaximum - tuningFanSettings.FanSpeed3.value();
+			float fanTemp3 = (double)tuningFanSettings.FanTemp3.value() / 100 * graphWidth;
+			fanPoints.Append(Point{ fanTemp3, fanSpeed3 });
+
+			float fanSpeed4 = fanSpeedMaximum - tuningFanSettings.FanSpeed4.value();
+			float fanTemp4 = (double)tuningFanSettings.FanTemp4.value() / 100 * graphWidth;
+			fanPoints.Append(Point{ fanTemp4, fanSpeed4 });
+
+			float fanSpeedEnd = fanSpeedMaximum - tuningFanSettings.FanSpeed4.value();
+			float fanTempEnd = graphWidth;
+			fanPoints.Append(Point{ fanTempEnd, fanSpeedEnd });
+
+			//Set fan points to polyline
+			polyline_Fan_Lines_Gpu().Points(fanPoints);
+
+			//Set result
+			//AVDebugWriteLine("Updated gpu fan graph.");
+		}
+		catch (...) {}
+	}
+
+	void MainPage::UpdateFanGraphProfile()
 	{
 		try
 		{
@@ -191,6 +280,9 @@ namespace winrt::RadeonTuner::implementation
 			float fanTempEnd = graphWidth;
 			fanPoints.Append(Point{ fanTempEnd, fanSpeedEnd });
 
+			//Set fan points to polyline
+			polyline_Fan_Lines_Profile().Points(fanPoints);
+
 			//Create fan point ellipses
 			grid_Fan_Dots().Children().Clear();
 			UINT fanPointsSize = fanPoints.Size();
@@ -208,11 +300,8 @@ namespace winrt::RadeonTuner::implementation
 				grid_Fan_Dots().Children().Append(ellipse);
 			}
 
-			//Set fan points to polyline
-			polyline_Fan_Lines().Points(fanPoints);
-
 			//Set result
-			//AVDebugWriteLine("ADLX updated fan graph.");
+			//AVDebugWriteLine("Updated profile fan graph.");
 		}
 		catch (...) {}
 	}

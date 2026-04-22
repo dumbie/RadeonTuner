@@ -45,10 +45,12 @@ namespace winrt::RadeonTuner::implementation
 				if (ShowExperimental.value())
 				{
 					button_Graphics_Unlock().IsEnabled(true);
+					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
 				}
 				else
 				{
 					button_Graphics_Unlock().IsEnabled(false);
+					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 				}
 			}
 

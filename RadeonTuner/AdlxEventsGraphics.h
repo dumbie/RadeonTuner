@@ -9,6 +9,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Show file dialog
 			AdlAppInterfaceAddFile();
 		}
@@ -19,6 +22,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Show process dialog
 			AdlAppInterfaceAddProcess();
 		}
@@ -29,6 +35,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Remove application and profile
 			std::wstring removeResult = AdlAppRemove(AdlAppSelectedGet().value());
 
@@ -53,6 +62,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Reset graphics settings
 			bool resetResult = AdlxValuesResetGraphics();
 
@@ -77,6 +89,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Unlock application features
 			bool unlockResult = AdlAppUnlock(AdlAppSelectedGet().value(), true);
 
@@ -101,6 +116,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Import settings from file
 			AdlxValuesImportGraphics();
 		}
@@ -111,6 +129,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Export current settings to file
 			AdlxValuesExportGraphics();
 		}
@@ -764,6 +785,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			auto newSender = sender.as<Button>();
 
 			if (!radeon_Chill_Linked)

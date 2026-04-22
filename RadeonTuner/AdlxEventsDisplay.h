@@ -9,6 +9,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Reset display settings
 			bool resetResult = AdlxValuesResetDisplay();
 
@@ -33,6 +36,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Import settings from file
 			AdlxValuesImportDisplay();
 		}
@@ -43,6 +49,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Export current settings to file
 			AdlxValuesExportDisplay();
 		}

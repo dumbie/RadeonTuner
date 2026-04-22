@@ -10,6 +10,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Show file dialog
 			std::wstring importPath = filepicker_open(L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
 
@@ -52,6 +55,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			//Get selected index
 			int selectedIndex = combobox_PowerBoost_Applications().SelectedIndex();
 

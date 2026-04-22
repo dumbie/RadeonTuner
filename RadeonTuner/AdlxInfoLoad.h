@@ -292,7 +292,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	IADLXGPU2Ptr MainPage::AdlxGetGpuPointer(std::string gpuIdentifier)
+	std::pair<IADLXGPU2Ptr, int> MainPage::AdlxGetGpuPointer(std::string gpuIdentifier)
 	{
 		try
 		{
@@ -312,14 +312,19 @@ namespace winrt::RadeonTuner::implementation
 					//Check gpu identifier
 					if (device_id_a == gpuIdentifier)
 					{
-						return ppGpuPtr;
+						//Get ADL adapter index
+						int adapterIndex = -1;
+						adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+
+						//Return result
+						return { ppGpuPtr, adapterIndex };
 					}
 				}
 				catch (...) {}
 			}
 		}
 		catch (...) {}
-		return nullptr;
+		return { nullptr, -1 };
 	}
 
 	std::wstring MainPage::AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr)

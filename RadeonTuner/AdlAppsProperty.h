@@ -59,6 +59,9 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Assigned application profile: " << adl_Res0);
 			//-15 profile not found or invalid or already assigned
 
+			//Fix find way to make settings work on already running processes without needing to restart them
+			//Note _ADL2_User_Settings_Notify does not work
+
 			//Set result
 			return adl_Res0 == ADL_OK;
 		}

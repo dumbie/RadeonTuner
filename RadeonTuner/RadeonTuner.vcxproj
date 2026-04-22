@@ -88,8 +88,10 @@
     <ClInclude Include="AdlAppsRemove.h" />
     <ClInclude Include="AdlAppsReset.h" />
     <ClInclude Include="AdlAppsUnlock.h" />
+    <ClInclude Include="AdlCheck.h" />
     <ClInclude Include="AdlDefinitions.h" />
     <ClInclude Include="AdlInitialize.h" />
+    <ClInclude Include="AdlOverdrive.h" />
     <ClInclude Include="AdlRegistry.h" />
     <ClInclude Include="AdlValuesLoadGraphics.h" />
     <ClInclude Include="AdlValuesPrepare.h" />
@@ -103,6 +105,7 @@
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
+    <ClInclude Include="ADL\adl_structures_custom.h" />
     <ClInclude Include="ADL\adl_structures_sdk.h" />
     <ClInclude Include="GraphicsSettingsFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
@@ -186,8 +189,9 @@
     <ClInclude Include="DisplaySettingsClass.h" />
     <ClInclude Include="DisplaySettingsFunc.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
-    <ClInclude Include="TuningFanSettingsFunc.h" />
+    <ClInclude Include="TuningFanSettingsLoadFunc.h" />
     <ClInclude Include="TuningFanSettingsCacheFunc.h" />
+    <ClInclude Include="TuningFanSettingsSaveFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -259,6 +263,9 @@
     <CopyFileToFolders Include="PowerBoost.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerReduce.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Shutdown.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
@@ -266,6 +273,9 @@
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Warning.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="WarningRed.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Link.png">

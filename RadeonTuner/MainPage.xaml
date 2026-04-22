@@ -171,7 +171,7 @@
                                     <!-- FSR Latency Reduction -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="FSR Latency Reduction (Anti-Lag) helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Using this setting in the Global profile may increase your CPU load usage even on your desktop because it gets enabled for any running process using 3D rendering including system processes.&#10;&#10;* This setting does not work on OpenGL applications."/>
+                                        <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Using this setting in the Global profile may increase your CPU load usage even on your desktop because it gets enabled for any running process using 3D rendering including system processes.&#10;&#10;* This setting does not work on OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
                                     </StackPanel>
 
@@ -469,12 +469,13 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
-                                    <ToggleSwitch x:Name="toggleswitch_KeepActive" Margin="10,0,0,0" OffContent="Enable Keep Active" OnContent="Enable Keep Active"/>
+                                    <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Core Tuning -->
-                            <TextBlock Text="Core Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <!-- GPU Tuning -->
+                            <TextBlock Text="GPU Tuning" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -629,9 +630,10 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to adjust your GPU's power seperately for high demanding applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Power Boost is activated.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
-                                        <ToggleSwitch x:Name="toggleswitch_PowerBoost" Margin="10,0,0,0" OffContent="Enable Power Boost" OnContent="Enable Power Boost" Toggled="toggleswitch_PowerBoost_Toggled"/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to automatically adjust your GPU's power for high demanding applications.&#10;&#10;When one of the applications in the list below is running the Power Boost values will be applied and restored to normal when no longer running."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Power Boost is activated when launching an application.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
+                                        <ToggleSwitch x:Name="toggleswitch_PowerBoost" Width="135" Margin="10,0,0,0" OffContent="Power Boost" OnContent="Power Boost" Toggled="toggleswitch_PowerBoost_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_PowerBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -646,7 +648,27 @@
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
                             <TextBlock Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
-                            <Grid Margin="0,10,0,0">
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Let the driver take control over your GPU fans and use a custom fan curve, when disabled the GPU will manage the fans as set in the bios."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Fan_Control" Width="128" Margin="10,0,0,0" OffContent="Fan Control" OnContent="Fan Control" Toggled="toggleswitch_Fan_Control_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Width="185" Margin="10,0,0,0" OffContent="Fan Zero RPM Mode" OnContent="Fan Zero RPM Mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Zero_Rpm_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Grid x:Name="grid_Fan_Graph" Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -665,11 +687,11 @@
                                             <Line Margin="125,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="250,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="375,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Grid x:Name="grid_Fan_Zero_Rpm_Line" Visibility="Collapsed">
-                                                <TextBlock Text="Zero RPM" Margin="143,23,0,0" Foreground="{ThemeResource ApplicationWhiteColor}" FontSize="20" FontWeight="Medium"/>
-                                                <Line Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationWhiteColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
-                                            </Grid>
-                                            <Polyline x:Name="polyline_Fan_Lines" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
+
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="2"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
                                         </Grid>
                                         <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     </Grid>
@@ -688,19 +710,14 @@
                                 </Grid>
                             </Grid>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
-                                        <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Margin="10,0,0,0" OffContent="Zero RPM fan mode" OnContent="Zero RPM fan mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
                             <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -726,7 +743,11 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -752,7 +773,11 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -778,7 +803,11 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -804,7 +833,11 @@
 
                                 <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
-                                        <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>

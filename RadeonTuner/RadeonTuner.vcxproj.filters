@@ -279,7 +279,7 @@
     <ClInclude Include="AdlxValuesImportTuning.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsFunc.h">
+    <ClInclude Include="TuningFanSettingsLoadFunc.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsFunc.h">
@@ -326,6 +326,18 @@
     </ClInclude>
     <ClInclude Include="AdlxValuesLoadTuning.h">
       <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlOverdrive.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsSaveFunc.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="ADL\adl_structures_custom.h">
+      <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlCheck.h">
+      <Filter>Page Files\Adl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +437,9 @@
     <CopyFileToFolders Include="Warning.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="WarningRed.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Shutdown.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
@@ -459,6 +474,9 @@
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="PowerBoost.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PowerReduce.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
