@@ -55,6 +55,10 @@ namespace winrt::RadeonTuner::implementation
 				//Get GPU power watt
 				double gpuWatt = 0;
 				adlx_Res0 = ppGpuMetrics->GPUPower(&gpuWatt);
+				if (ADLX_FAILED(adlx_Res0) || gpuWatt <= 0)
+				{
+					adlx_Res0 = ppGpuMetrics->GPUTotalBoardPower(&gpuWatt);
+				}
 
 				//Get GPU power voltage
 				int gpuVoltage = 0;
