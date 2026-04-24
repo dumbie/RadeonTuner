@@ -3,7 +3,7 @@
 ![RadeonTuner](Screenshots/screenshot3.png)
 
 ## Application Description
-RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for users that just want the basics or use the driver only install type.
+RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for users that just want the basics and use the driver only software install type.
 
 ## Application Features
 - Automatically reapply tuning settings on driver resets.
@@ -21,11 +21,13 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 1) Remove the extracted RadeonTuner folder.
 
 ## Tips and tricks
-- When installing your AMD drivers you can choose 'Driver Only' install type.
+- When installing your drivers please choose 'Driver Only' software type.
 - You can show the window on top by enabling it on the settings tab.
 
 ## Requirements
 - AMD Radeon driver 25.5.1 or newer.
+- AMD Radeon driver only software type.
+- AMD Radeon RDNA or newer architecture.
 - Microsoft .NET Runtime installed.
 - Microsoft Visual C++ Redistributable installed.
 - Microsoft Windows 10 64-bit or higher is required.
@@ -40,6 +42,11 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.10.0.0 (24-April-2026)
+- Added tuning Power Boost feature allowing to increase power when certain apps run.
+- Added tuning Fan Control setting to switch between bios and driver control.
+- Fixed application not running on older Windows 10 versions.
+
 v0.9.0.0 (7-March-2026)
 - Added graphics application profile support.
 - Added graphics settings requirement and compatibility hints.

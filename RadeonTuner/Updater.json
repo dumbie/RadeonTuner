@@ -9,5 +9,8 @@
   ],
   "ProcessClose": [
     "RadeonTuner"
+  ],
+  "FoldersIgnore": [
+    "Profiles"
   ]
 }
