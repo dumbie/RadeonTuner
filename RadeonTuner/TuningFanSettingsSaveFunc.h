@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlTuningApply(int adapterIndex, TuningFanSettings tuningFanSettings)
+	bool MainPage::AdlTuningApply(int gpuAdapterIndex, TuningFanSettings tuningFanSettings)
 	{
 		try
 		{
@@ -161,7 +161,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save settings
-			Adl_Overdrive_Set(adapterIndex, saveSettings);
+			Adl_Overdrive_Set(gpuAdapterIndex, saveSettings);
 
 			//Set result
 			ShowNotification(L"Tuning and fans settings applied");

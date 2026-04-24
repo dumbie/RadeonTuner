@@ -302,22 +302,22 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Get gpu pointer
-					IADLXGPU2Ptr ppGpuPtr;
-					adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+					IADLXGPU2Ptr gpuPointer;
+					adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuPointer);
 
 					//Get gpu identifier
-					std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
+					std::wstring device_id_w = AdlxGetGpuIdentifier(gpuPointer);
 					std::string device_id_a = wstring_to_string(device_id_w);
 
 					//Check gpu identifier
 					if (device_id_a == gpuIdentifier)
 					{
 						//Get ADL adapter index
-						int adapterIndex = -1;
-						adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+						int gpuAdapterIndex = -1;
+						adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(gpuPointer, &gpuAdapterIndex);
 
 						//Return result
-						return { ppGpuPtr, adapterIndex };
+						return { gpuPointer, gpuAdapterIndex };
 					}
 				}
 				catch (...) {}
@@ -327,13 +327,13 @@ namespace winrt::RadeonTuner::implementation
 		return { nullptr, -1 };
 	}
 
-	std::wstring MainPage::AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr)
+	std::wstring MainPage::AdlxGetGpuIdentifier(IADLXGPU2Ptr gpuPointer)
 	{
 		std::wstring device_id = L"";
 		try
 		{
 			const char* vendorId = NULL;
-			adlx_Res0 = ppGpuPtr->VendorId(&vendorId);
+			adlx_Res0 = gpuPointer->VendorId(&vendorId);
 			if (vendorId != NULL)
 			{
 				device_id += char_to_wstring(vendorId);
@@ -341,7 +341,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* deviceId = NULL;
-			adlx_Res0 = ppGpuPtr->DeviceId(&deviceId);
+			adlx_Res0 = gpuPointer->DeviceId(&deviceId);
 			if (deviceId != NULL)
 			{
 				device_id += char_to_wstring(deviceId);
@@ -349,7 +349,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* subSystemVendorId = NULL;
-			adlx_Res0 = ppGpuPtr->SubSystemVendorId(&subSystemVendorId);
+			adlx_Res0 = gpuPointer->SubSystemVendorId(&subSystemVendorId);
 			if (subSystemVendorId != NULL)
 			{
 				device_id += char_to_wstring(subSystemVendorId);
@@ -357,7 +357,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* subSystemId = NULL;
-			adlx_Res0 = ppGpuPtr->SubSystemId(&subSystemId);
+			adlx_Res0 = gpuPointer->SubSystemId(&subSystemId);
 			if (subSystemId != NULL)
 			{
 				device_id += char_to_wstring(subSystemId);
@@ -365,7 +365,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* revisionId = NULL;
-			adlx_Res0 = ppGpuPtr->RevisionId(&revisionId);
+			adlx_Res0 = gpuPointer->RevisionId(&revisionId);
 			if (revisionId != NULL)
 			{
 				device_id += char_to_wstring(revisionId);
@@ -373,7 +373,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			int uniqueId = -1;
-			adlx_Res0 = ppGpuPtr->UniqueId(&uniqueId);
+			adlx_Res0 = gpuPointer->UniqueId(&uniqueId);
 			if (uniqueId > 0)
 			{
 				device_id += number_to_wstring(uniqueId);
@@ -383,13 +383,13 @@ namespace winrt::RadeonTuner::implementation
 		return device_id;
 	}
 
-	std::wstring MainPage::AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo)
+	std::wstring MainPage::AdlxGetDisplayIdentifier(IADLXDisplayPtr displayPointer)
 	{
 		std::wstring device_id = L"";
 		try
 		{
 			uint32_t manufacturerId = NULL;
-			adlx_Res0 = ppDisplayInfo->ManufacturerID(&manufacturerId);
+			adlx_Res0 = displayPointer->ManufacturerID(&manufacturerId);
 			if (manufacturerId != NULL)
 			{
 				device_id += number_to_wstring(manufacturerId);
@@ -397,7 +397,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			const char* displayName = NULL;
-			adlx_Res0 = ppDisplayInfo->Name(&displayName);
+			adlx_Res0 = displayPointer->Name(&displayName);
 			if (displayName != NULL)
 			{
 				device_id += char_to_wstring(displayName);
@@ -405,7 +405,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			size_t uniqueId = -1;
-			adlx_Res0 = ppDisplayInfo->UniqueId(&uniqueId);
+			adlx_Res0 = displayPointer->UniqueId(&uniqueId);
 			if (uniqueId > 0)
 			{
 				device_id += number_to_wstring(uniqueId);

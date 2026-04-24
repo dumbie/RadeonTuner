@@ -89,22 +89,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//FSR DLL Load Path
 			{
-				//std::wstring system32path = PathGetFolderKnown(FOLDERID_System) + L"\\amdxcffx64.dll";
-				//Fix check if dll file is stored in System32 or DriverStore or if empty works as fallback.
-				std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
-				if (ShowExperimental.has_value())
-				{
-					if (ShowExperimental.value())
-					{
-						AdlAppProperty adlAppProperty0{};
-						adlAppProperty0.Name = L"FfxDllPath";
-						AdlAppPropertyValue adlAppPropertyValue0{};
-						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-						adlAppPropertyValue0.Value = L"";
-						adlAppProperty0.Values = { adlAppPropertyValue0 };
-						adlAppProperties.push_back(adlAppProperty0);
-					}
-				}
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"FfxDllPath";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = L"";
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
 			//FSR Latency Reduction

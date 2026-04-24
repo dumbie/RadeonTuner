@@ -23,11 +23,11 @@ namespace winrt::RadeonTuner::implementation
 		void AdlAppSetUmdGpuId();
 		bool AdlCheckDriverOnlySoftware();
 
-		bool Adl_Overdrive_Reset(int adapterIndex);
-		bool Adl_Overdrive_Set(int adapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
-		std::optional<int> Adl_Overdrive_Load_Value(int adapterIndex, ADLOD8SettingId settingId);
-		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive_Load_Default(int adapterIndex, ADLOD8SettingId settingId);
-		bool Adl_Overdrive_Feature_Supported(int adapterIndex, ADLOD8FeatureControl featureId);
+		bool Adl_Overdrive_Reset(int gpuAdapterIndex);
+		bool Adl_Overdrive_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
+		std::optional<int> Adl_Overdrive_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId);
+		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
+		bool Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
 
 		bool AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea);
 		bool AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea);
@@ -39,15 +39,15 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> properties, bool addOnly);
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue);
 
-		bool AdlRegistrySettingSet(int adlAdapterIndex, std::string subKey, std::string key, std::string value);
-		bool AdlRegistrySettingSet(int adlAdapterIndex, std::string subKey, std::string key, int value);
-		std::optional<std::string> AdlRegistrySettingGetString(int adlAdapterIndex, std::string subKey, std::string key);
-		std::optional<INT> AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key);
+		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, std::string value);
+		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, int value);
+		std::optional<std::string> AdlRegistrySettingGetString(int gpuAdapterIndex, std::string subKey, std::string key);
+		std::optional<INT> AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string key);
 
 		std::wstring AdlxInitialize();
 		std::pair<IADLXGPU2Ptr, int> AdlxGetGpuPointer(std::string gpuIdentifier);
-		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr ppGpuPtr);
-		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr ppDisplayInfo);
+		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr gpuPointer);
+		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr displayPointer);
 
 		std::optional<AdlApplication> GraphicsSettings_FileLoad(std::string loadPath);
 		bool GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath);
@@ -64,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<TuningFanSettings> TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
 		bool TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath);
 		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromUI();
-		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr ppGpuPtr, int adapterIndex);
+		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr gpuPointer, int gpuAdapterIndex);
 		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu);
 		bool TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettings);
@@ -90,8 +90,8 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadDisplay();
 		void AdlxValuesLoadTuning();
 		void AdlxValuesPrepare();
-		bool AdlTuningApply(int adapterIndex, TuningFanSettings tuningFanSettings);
-		bool AdlTuningReset();
+		bool AdlTuningApply(int gpuAdapterIndex, TuningFanSettings tuningFanSettings);
+		bool AdlTuningReset(int gpuAdapterIndex);
 		void AdlxInfoLoad();
 		std::wstring AdlxInfoGpu();
 		std::wstring AdlxInfoDisplay();

@@ -447,7 +447,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Show file dialog
-			std::wstring newValue = filepicker_open(L"Select FSR DLL file...", { { L"FSR DLL", L"amdxcffx64.dll" } });
+			std::wstring newValue = filepicker_open(L"Select FSR DLL file...", { { L"FSR DLL", L"amdxcffx64*.dll" } });
 
 			//Check file path
 			if (newValue.empty())
@@ -487,8 +487,6 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			//std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
-			//std::wstring newValue = system32path + L"\\amdxcffx64.dll";
 			std::wstring newValue = L"";
 			bool newFailed = true;
 

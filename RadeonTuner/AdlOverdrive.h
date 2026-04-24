@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::Adl_Overdrive_Reset(int adapterIndex)
+	bool MainPage::Adl_Overdrive_Reset(int gpuAdapterIndex)
 	{
 		try
 		{
@@ -23,7 +23,7 @@ namespace winrt::RadeonTuner::implementation
 			//Set settings
 			ADLOD8CurrentSetting odCurrentSetting{};
 			odCurrentSetting.count = OD8_COUNT;
-			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, adapterIndex, &odSetSetting, &odCurrentSetting);
+			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &odSetSetting, &odCurrentSetting);
 
 			//Return result
 			AVDebugWriteLine("Reset overdrive settings: " << adl_Res0);
@@ -37,7 +37,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::Adl_Overdrive_Set(int adapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
+	bool MainPage::Adl_Overdrive_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
 	{
 		try
 		{
@@ -65,7 +65,7 @@ namespace winrt::RadeonTuner::implementation
 			//Set settings
 			ADLOD8CurrentSetting odCurrentSetting{};
 			odCurrentSetting.count = OD8_COUNT;
-			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, adapterIndex, &odSetSetting, &odCurrentSetting);
+			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &odSetSetting, &odCurrentSetting);
 
 			//Return result
 			AVDebugWriteLine("Set overdrive settings: " << adl_Res0);
@@ -79,14 +79,14 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::Adl_Overdrive_Feature_Supported(int adapterIndex, ADLOD8FeatureControl featureId)
+	bool MainPage::Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId)
 	{
 		try
 		{
 			int od8Capabilities;
 			int numberOfFeatures = OD8_COUNT;
 			auto initSettingList = AVFin<ADLOD8SingleInitSettingWrap*>(AVFinMethod::FreeMarshal);
-			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, adapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
+			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, gpuAdapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
 			if (adl_Res0 == ADL_OK)
 			{
 				//Return result
@@ -105,14 +105,14 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<ADLOD8SingleInitSettingWrap> MainPage::Adl_Overdrive_Load_Default(int adapterIndex, ADLOD8SettingId settingId)
+	std::optional<ADLOD8SingleInitSettingWrap> MainPage::Adl_Overdrive_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId)
 	{
 		try
 		{
 			int od8Capabilities;
 			int numberOfFeatures = OD8_COUNT;
 			auto initSettingList = AVFin<ADLOD8SingleInitSettingWrap*>(AVFinMethod::FreeMarshal);
-			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, adapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
+			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, gpuAdapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
 			if (adl_Res0 == ADL_OK)
 			{
 				//Return result
@@ -133,13 +133,13 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<int> MainPage::Adl_Overdrive_Load_Value(int adapterIndex, ADLOD8SettingId settingId)
+	std::optional<int> MainPage::Adl_Overdrive_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId)
 	{
 		try
 		{
 			int numberOfFeatures = OD8_COUNT;
 			auto currentSettingList = AVFin<int*>(AVFinMethod::FreeMarshal);
-			adl_Res0 = _ADL2_Overdrive8_Current_SettingX2_Get(adl_Context, adapterIndex, &numberOfFeatures, &currentSettingList.Get());
+			adl_Res0 = _ADL2_Overdrive8_Current_SettingX2_Get(adl_Context, gpuAdapterIndex, &numberOfFeatures, &currentSettingList.Get());
 			if (adl_Res0 == ADL_OK)
 			{
 				//Return result

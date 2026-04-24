@@ -84,6 +84,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				toggleswitch_Fan_Control().IsOn(false);
 				textblock_Fan_Control_Value().Text(L"Disabled");
+
+				//Update fan graph opacity
 				grid_Fan_Graph().Opacity(0.4);
 			}
 
@@ -810,7 +812,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr ppGpuPtr, int adapterIndex)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr gpuPointer, int gpuAdapterIndex)
 	{
 		try
 		{
@@ -818,14 +820,14 @@ namespace winrt::RadeonTuner::implementation
 
 			//Device identifier
 			{
-				std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuPtr);
+				std::wstring device_id_w = AdlxGetGpuIdentifier(gpuPointer);
 				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
 			}
 
 			//Gpu Core Minimum
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMIN);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMIN);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMIN);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMIN);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -841,8 +843,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Gpu Core Maximum
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMAX);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMAX);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMAX);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_GFXCLK_FMAX);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -858,8 +860,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Memory Timing
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_AC_TIMING);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_AC_TIMING);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_AC_TIMING);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_AC_TIMING);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -872,8 +874,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Memory Frequency
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_UCLK_FMAX);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_UCLK_FMAX);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_UCLK_FMAX);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_UCLK_FMAX);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -889,8 +891,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Power Limit
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_POWER_PERCENTAGE);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_POWER_PERCENTAGE);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_POWER_PERCENTAGE);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_POWER_PERCENTAGE);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -907,8 +909,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Power Voltage
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_OD_VOLTAGE);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_OD_VOLTAGE);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_OD_VOLTAGE);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_OD_VOLTAGE);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -925,8 +927,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Power TDC
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_TDC_PERCENTAGE);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_TDC_PERCENTAGE);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_TDC_PERCENTAGE);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_TDC_PERCENTAGE);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -943,8 +945,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Zero RPM
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -957,8 +959,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Speed 0
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -974,8 +976,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Temperature 0
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -991,8 +993,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Speed 1
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1008,8 +1010,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Temperature 1
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1025,8 +1027,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Speed 2
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1042,8 +1044,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Temperature 2
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1059,8 +1061,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Speed 3
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1076,8 +1078,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Temperature 3
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1093,8 +1095,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Speed 4
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1110,8 +1112,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Fan Temperature 4
 			{
-				auto defaultValue = Adl_Overdrive_Load_Default(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5);
-				auto settingValue = Adl_Overdrive_Load_Value(adapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5);
+				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5);
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5);
 				if (defaultValue.has_value() && settingValue.has_value())
 				{
 					if (defaultValue.value().IsSupported())
@@ -1126,8 +1128,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Feature support
-			tuningFanSettings.SupportFans = Adl_Overdrive_Feature_Supported(adapterIndex, ADLOD8FeatureControl::ADL_OD8_FAN_CURVE);
-			tuningFanSettings.SupportTuning = Adl_Overdrive_Feature_Supported(adapterIndex, ADLOD8FeatureControl::ADL_OD8_GFXCLK_LIMITS);
+			tuningFanSettings.SupportFans = Adl_Overdrive_Feature_Supported(gpuAdapterIndex, ADLOD8FeatureControl::ADL_OD8_FAN_CURVE);
+			tuningFanSettings.SupportTuning = Adl_Overdrive_Feature_Supported(gpuAdapterIndex, ADLOD8FeatureControl::ADL_OD8_GFXCLK_LIMITS);
 
 			//Return result
 			return tuningFanSettings;

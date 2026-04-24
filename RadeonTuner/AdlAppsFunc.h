@@ -44,20 +44,20 @@ namespace winrt::RadeonTuner::implementation
 			for (UINT i = 0; i < ppGpuList->Size(); i++)
 			{
 				//Get gpu pointer
-				IADLXGPU2Ptr ppGpuPtr;
-				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&ppGpuPtr);
+				IADLXGPU2Ptr gpuPointer;
+				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuPointer);
 
 				//Get ADL adapter index
-				int adapterIndex = -1;
-				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuPtr, &adapterIndex);
+				int gpuAdapterIndex = -1;
+				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(gpuPointer, &gpuAdapterIndex);
 
 				//Get gpu unique identifier
 				//int identifierInt;
-				//adlx_Res0 = ppGpuPtr->UniqueId(&identifierInt);
+				//adlx_Res0 = gpuPointer->UniqueId(&identifierInt);
 				//std::string identifierHex = number_to_hexstring(identifierInt, 4);
 
 				//Set gpu application identifier
-				AdlRegistrySettingSet(adapterIndex, "UMD", "AppGpuId", "0x0001");
+				AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AppGpuId", "0x0001");
 			}
 		}
 		catch (...) {}

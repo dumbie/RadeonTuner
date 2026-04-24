@@ -6,15 +6,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	///Example: AdlRegistrySettingSet(adlAdapterIndex, "UMD", "TurboSync", "1");
-	bool MainPage::AdlRegistrySettingSet(int adlAdapterIndex, std::string subKey, std::string key, std::string value)
+	///Example: AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "TurboSync", "1");
+	bool MainPage::AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, std::string value)
 	{
 		try
 		{
 			const int charsize = (int)(value.length()) * sizeof(wchar_t);
 			char* chararray = (char*)value.c_str();
 
-			adl_Res0 = _ADL2_Adapter_RegValueString_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			adl_Res0 = _ADL2_Adapter_RegValueString_Set(adl_Context, gpuAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
 			AVDebugWriteLine("ADL set string registry setting: " << adl_Res0);
 			return adl_Res0 == ADL_OK;
 		}
@@ -25,13 +25,13 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	///Example: AdlRegistrySettingSet(adlAdapterIndex, "", "KMD_10BitMode", 2);
-	bool MainPage::AdlRegistrySettingSet(int adlAdapterIndex, std::string subKey, std::string key, int value)
+	///Example: AdlRegistrySettingSet(gpuAdapterIndex, "", "KMD_10BitMode", 2);
+	bool MainPage::AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, int value)
 	{
 		try
 		{
 			//Fix does not seem to save value as expected REG_DWORD but REG_BINARY using UTF-16LE instead
-			adl_Res0 = _ADL2_Adapter_RegValueInt_Set(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
+			adl_Res0 = _ADL2_Adapter_RegValueInt_Set(adl_Context, gpuAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), value);
 			AVDebugWriteLine("ADL set int registry setting: " << adl_Res0);
 			return adl_Res0 == ADL_OK;
 		}
@@ -42,15 +42,15 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	///Example: AdlRegistrySettingGetString(adlAdapterIndex, "UMD", "TurboSync");
-	std::optional<std::string> MainPage::AdlRegistrySettingGetString(int adlAdapterIndex, std::string subKey, std::string key)
+	///Example: AdlRegistrySettingGetString(gpuAdapterIndex, "UMD", "TurboSync");
+	std::optional<std::string> MainPage::AdlRegistrySettingGetString(int gpuAdapterIndex, std::string subKey, std::string key)
 	{
 		try
 		{
 			const int charsize = 1024;
 			char chararray[charsize]{};
 
-			adl_Res0 = _ADL2_Adapter_RegValueString_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
+			adl_Res0 = _ADL2_Adapter_RegValueString_Get(adl_Context, gpuAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), charsize, chararray);
 			if (adl_Res0 == ADL_OK)
 			{
 				//AVDebugWriteLine("ADL get string registry setting: " << adl_Res0);
@@ -87,13 +87,13 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	///Example: AdlRegistrySettingGetInt(adlAdapterIndex, "", "KMD_10BitMode");
-	std::optional<INT> MainPage::AdlRegistrySettingGetInt(int adlAdapterIndex, std::string subKey, std::string key)
+	///Example: AdlRegistrySettingGetInt(gpuAdapterIndex, "", "KMD_10BitMode");
+	std::optional<INT> MainPage::AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string key)
 	{
 		try
 		{
 			int returnInt = -1;
-			adl_Res0 = _ADL2_Adapter_RegValueInt_Get(adl_Context, adlAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
+			adl_Res0 = _ADL2_Adapter_RegValueInt_Get(adl_Context, gpuAdapterIndex, ADL_REG_DEVICE_FUNCTION_1, subKey.c_str(), key.c_str(), &returnInt);
 			if (adl_Res0 == ADL_OK)
 			{
 				//AVDebugWriteLine("ADL get int registry setting: " << adl_Res0);
