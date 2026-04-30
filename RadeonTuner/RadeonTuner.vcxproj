@@ -90,6 +90,7 @@
     <ClInclude Include="AdlAppsUnlock.h" />
     <ClInclude Include="AdlCheck.h" />
     <ClInclude Include="AdlDefinitions.h" />
+    <ClInclude Include="AdlEyefinity.h" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlOverdrive.h" />
     <ClInclude Include="AdlRegistry.h" />

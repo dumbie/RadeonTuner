@@ -46,6 +46,14 @@ namespace winrt::RadeonTuner::implementation
 					AVDebugWriteLine("Failed getting display services.");
 				}
 
+				//Get desktop services
+				adlx_Res0 = pSystemServices0->GetDesktopsServices((IADLXDesktopServices**)&ppDesktopServices);
+				if (ADLX_FAILED(adlx_Res0))
+				{
+					//Set result
+					AVDebugWriteLine("Failed getting desktop services.");
+				}
+
 				//Get 3DSettings services
 				adlx_Res0 = pSystemServices0->Get3DSettingsServices((IADLX3DSettingsServices**)&pp3DSettingsServices);
 				if (ADLX_FAILED(adlx_Res0))

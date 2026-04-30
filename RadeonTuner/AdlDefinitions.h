@@ -71,6 +71,15 @@ inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
 typedef int (*ADL2_Display_CVDC_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int cvdcValue);
 inline ADL2_Display_CVDC_Set _ADL2_Display_CVDC_Set;
 
+typedef int (*ADL2_Display_DisplayMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumDisplayMap, ADLDisplayMap** lppDisplayMap, int* lpNumDisplayTarget, ADLDisplayTarget** lppDisplayTarget, int iOptions);
+inline ADL2_Display_DisplayMapConfig_Get _ADL2_Display_DisplayMapConfig_Get;
+
+typedef int (*ADL2_Display_SLSMapIndex_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iADLNumDisplayTarget, ADLDisplayTarget* lpDisplayTarget, int* lpSLSMapIndex);
+inline ADL2_Display_SLSMapIndex_Get _ADL2_Display_SLSMapIndex_Get;
+
+typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex, int iState);
+inline ADL2_Display_SLSMapConfig_SetState _ADL2_Display_SLSMapConfig_SetState;
+
 //Overdrive
 typedef int (*ADL2_Overdrive8_Init_SettingX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpOverdrive8Capabilities, int* lpNumberOfFeatures, ADLOD8SingleInitSettingWrap** lppInitSettingList);
 inline ADL2_Overdrive8_Init_SettingX2_Get _ADL2_Overdrive8_Init_SettingX2_Get;

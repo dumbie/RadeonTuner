@@ -29,6 +29,9 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
 		bool Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
 
+		bool Adl_Eyefinity_Create_Simple();
+		bool Adl_Eyefinity_Toggle(int displayAdapterIndex, bool setEnabled);
+
 		bool AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea);
 		bool AdlAppPropertyValid(std::wstring propertyName, std::wstring driverArea);
 		DATATYPES AdlAppPropertyDataTypeGet(std::wstring propertyName, std::wstring driverArea);

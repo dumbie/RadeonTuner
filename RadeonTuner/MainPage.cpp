@@ -11,6 +11,7 @@
 #include "AdlAppsRemove.h"
 #include "AdlAppsProperty.h"
 #include "AdlOverdrive.h"
+#include "AdlEyefinity.h"
 #include "AdlRegistry.h"
 #include "AdlInitialize.h"
 #include "AdlCheck.h"

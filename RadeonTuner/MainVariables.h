@@ -31,6 +31,7 @@ inline IADLXDisplayPtr ppDisplayInfo;
 inline IADLXDisplayListPtr ppDisplayList;
 
 inline IADLXDisplayServices3Ptr ppDispServices;
+inline IADLXDesktopServicesPtr ppDesktopServices;
 inline IADLXMultimediaServicesPtr ppMultiMediaServices;
 inline IADLX3DSettingsServices2Ptr pp3DSettingsServices;
 inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;

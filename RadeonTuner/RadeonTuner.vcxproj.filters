@@ -339,6 +339,9 @@
     <ClInclude Include="AdlCheck.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
+    <ClInclude Include="AdlEyefinity.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">

@@ -57,6 +57,7 @@ namespace winrt
 #include "ADLX\Include\ISystem2.h"
 #include "ADLX\Include\IMultiMedia.h"
 #include "ADLX\Include\I3DSettings2.h"
+#include "ADLX\Include\IDesktops.h"
 #include "ADLX\Include\IDisplays3.h"
 #include "ADLX\Include\IDisplaySettings.h"
 #include "ADLX\Include\IDisplay3DLUT.h"

@@ -213,6 +213,30 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_CVDC_Set";
 			}
 
+			_ADL2_Display_DisplayMapConfig_Get = (ADL2_Display_DisplayMapConfig_Get)GetProcAddress(hInstance, "ADL2_Display_DisplayMapConfig_Get");
+			if (_ADL2_Display_DisplayMapConfig_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_DisplayMapConfig_Get");
+				return L"Failed to init _ADL2_Display_DisplayMapConfig_Get";
+			}
+
+			_ADL2_Display_SLSMapIndex_Get = (ADL2_Display_SLSMapIndex_Get)GetProcAddress(hInstance, "ADL2_Display_SLSMapIndex_Get");
+			if (_ADL2_Display_SLSMapIndex_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapIndex_Get");
+				return L"Failed to init _ADL2_Display_SLSMapIndex_Get";
+			}
+
+			_ADL2_Display_SLSMapConfig_SetState = (ADL2_Display_SLSMapConfig_SetState)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_SetState");
+			if (_ADL2_Display_SLSMapConfig_SetState == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_SetState");
+				return L"Failed to init _ADL2_Display_SLSMapConfig_SetState";
+			}
+
 			//Overdrive
 			_ADL2_Overdrive8_Init_SettingX2_Get = (ADL2_Overdrive8_Init_SettingX2_Get)GetProcAddress(hInstance, "ADL2_Overdrive8_Init_SettingX2_Get");
 			if (_ADL2_Overdrive8_Init_SettingX2_Get == NULL)
