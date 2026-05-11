@@ -77,7 +77,22 @@ inline ADL2_Display_DisplayMapConfig_Get _ADL2_Display_DisplayMapConfig_Get;
 typedef int (*ADL2_Display_SLSMapIndex_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iADLNumDisplayTarget, ADLDisplayTarget* lpDisplayTarget, int* lpSLSMapIndex);
 inline ADL2_Display_SLSMapIndex_Get _ADL2_Display_SLSMapIndex_Get;
 
-typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex, int iState);
+typedef int (*ADL2_Display_SLSMapIndexList_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumSLSMapIndexList, int** lppSLSMapIndexList, int iOptions);
+inline ADL2_Display_SLSMapIndexList_Get _ADL2_Display_SLSMapIndexList_Get;
+
+typedef int (*ADL2_Display_SLSMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex, ADLSLSMap* lpSLSMap, int* lpNumSLSTarget, ADLSLSTarget** lppSLSTarget, int* lpNumNativeMode, ADLSLSMode** lppNativeMode, int* lpNumBezelMode, ADLBezelTransientMode** lppBezelMode, int* lpNumTransientMode, ADLBezelTransientMode** lppTransientMode, int* lpNumSLSOffset, ADLSLSOffset** lppSLSOffset, int iOption);
+inline ADL2_Display_SLSMapConfig_Get _ADL2_Display_SLSMapConfig_Get;
+
+typedef int (*ADL2_Display_SLSMapConfig_Create)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLSLSMap SLSMap, int iNumTarget, ADLSLSTarget* lpSLSTarget, int iBezelModePercent, int* lpSLSMapIndex, int iOption);
+inline ADL2_Display_SLSMapConfig_Create _ADL2_Display_SLSMapConfig_Create;
+
+typedef int (*ADL2_Display_SLSMapConfig_Delete)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex);
+inline ADL2_Display_SLSMapConfig_Delete _ADL2_Display_SLSMapConfig_Delete;
+
+typedef int (*ADL2_Display_SLSMapConfigX2_Delete)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iNumSLSMapIndex, int* lpSLSMapIndexes);
+inline ADL2_Display_SLSMapConfigX2_Delete _ADL2_Display_SLSMapConfigX2_Delete;
+
+typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iNumSLSMapIndex, int iState);
 inline ADL2_Display_SLSMapConfig_SetState _ADL2_Display_SLSMapConfig_SetState;
 
 //Overdrive
@@ -89,4 +104,8 @@ inline ADL2_Overdrive8_Current_SettingX2_Get _ADL2_Overdrive8_Current_SettingX2_
 
 typedef int (*ADL2_Overdrive8_Setting_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLOD8SetSetting* lpSetSetting, ADLOD8CurrentSetting* lpCurrentSetting);
 inline ADL2_Overdrive8_Setting_Set _ADL2_Overdrive8_Setting_Set;
+
+//Flush
+typedef int (*ADL2_Flush_Driver_Data)(ADL_CONTEXT_HANDLE context, int iAdapterIndex);
+inline ADL2_Flush_Driver_Data _ADL2_Flush_Driver_Data;
 //}

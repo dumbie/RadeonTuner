@@ -229,6 +229,46 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_SLSMapIndex_Get";
 			}
 
+			_ADL2_Display_SLSMapIndexList_Get = (ADL2_Display_SLSMapIndexList_Get)GetProcAddress(hInstance, "ADL2_Display_SLSMapIndexList_Get");
+			if (_ADL2_Display_SLSMapIndexList_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapIndexList_Get");
+				return L"Failed to init _ADL2_Display_SLSMapIndexList_Get";
+			}
+
+			_ADL2_Display_SLSMapConfig_Get = (ADL2_Display_SLSMapConfig_Get)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Get");
+			if (_ADL2_Display_SLSMapConfig_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_Get");
+				return L"Failed to init _ADL2_Display_SLSMapConfig_Get";
+			}
+
+			_ADL2_Display_SLSMapConfig_Create = (ADL2_Display_SLSMapConfig_Create)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Create");
+			if (_ADL2_Display_SLSMapConfig_Create == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_Create");
+				return L"Failed to init _ADL2_Display_SLSMapConfig_Create";
+			}
+
+			_ADL2_Display_SLSMapConfig_Delete = (ADL2_Display_SLSMapConfig_Delete)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Delete");
+			if (_ADL2_Display_SLSMapConfig_Delete == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_Delete");
+				return L"Failed to init _ADL2_Display_SLSMapConfig_Delete";
+			}
+
+			_ADL2_Display_SLSMapConfigX2_Delete = (ADL2_Display_SLSMapConfigX2_Delete)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfigX2_Delete");
+			if (_ADL2_Display_SLSMapConfigX2_Delete == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfigX2_Delete");
+				return L"Failed to init _ADL2_Display_SLSMapConfigX2_Delete";
+			}
+
 			_ADL2_Display_SLSMapConfig_SetState = (ADL2_Display_SLSMapConfig_SetState)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_SetState");
 			if (_ADL2_Display_SLSMapConfig_SetState == NULL)
 			{
@@ -260,6 +300,15 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Overdrive8_Setting_Set");
 				return L"Failed to init _ADL2_Overdrive8_Setting_Set";
+			}
+
+			//Flush
+			_ADL2_Flush_Driver_Data = (ADL2_Flush_Driver_Data)GetProcAddress(hInstance, "ADL2_Flush_Driver_Data");
+			if (_ADL2_Flush_Driver_Data == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Flush_Driver_Data");
+				return L"Failed to init _ADL2_Flush_Driver_Data";
 			}
 
 			//Create ADL main control
