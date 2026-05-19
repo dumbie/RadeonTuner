@@ -46,17 +46,52 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set SLS variables
 			int slsMapIndexIn = -1;
-			int slsMapIndexOut = 0;
+			int slsMapIndexOut = -1;
 			int slsTargetCurrent = 0;
 			int slsCreateOption = ADL_DISPLAY_SLSMAPCONFIG_CREATE_OPTION_RELATIVETO_CURRENTANGLE;
 
-			int displayColumns = 1;
-			int displayRows = 2;
-			int displayCount = 2;
-			int* displayIndexes = new int[] { 8, 12 };
-			//int* displayIndexes = new int[] { 12, 8 };
-			int displayOrientationDegree = 0; //0, 90, 180, 270
+			int displayColumns = 1 + slider_Eyefinity_Columns().Value();
+			int displayRows = 1 + slider_Eyefinity_Rows().Value();
+			int displayCount = listview_EyefinityMonitorIndex().Items().Size();
+
+			//Get display details in order
+			std::vector<int> displayIndexes{};
+			for (IInspectable displayItem : listview_EyefinityMonitorIndex().Items())
+			{
+				auto displayDetails = displayItem.as<RadeonTuner::DisplayDetailsIdl>();
+				displayIndexes.push_back(displayDetails.IndexDisplay());
+				AVDebugWriteLine(displayDetails.Name() << " (Index " << displayDetails.IndexDisplay() << ")");
+			}
+
+			//Get display orientation degree
+			int displayOrientationDegree = 0;
+			switch (combobox_EyefinityMonitorOrientation().SelectedIndex())
+			{
+			case 0:
+				displayOrientationDegree = 0;
+				break;
+			case 1:
+				displayOrientationDegree = 90;
+				break;
+			case 2:
+				displayOrientationDegree = 180;
+				break;
+			case 3:
+				displayOrientationDegree = 270;
+				break;
+			}
+
+			//Get display bezel percentage
 			int displayBezelPercentage = 0;
+
+			AVDebugWriteLine("Setting SLS map to: C" << displayColumns << "/R" << displayRows << "/D" << displayCount << "/O" << displayOrientationDegree << "/B" << displayBezelPercentage);
+
+			//Check maximum displays
+			if (displayColumns + displayRows > 8)
+			{
+				AVDebugWriteLine("SLS display limit reached.");
+				return false;
+			}
 
 			//Set SLS map
 			ADLSLSMap slsMap{};
@@ -70,7 +105,7 @@ namespace winrt::RadeonTuner::implementation
 			slsMap.grid.iSLSGridRow = displayRows;
 
 			//Set SLS targets
-			ADLSLSTarget* slsTargets = new ADLSLSTarget[displayCount];
+			std::vector<ADLSLSTarget> slsTargets(displayCount);
 			for (int x = 0; x < displayRows; x++)
 			{
 				for (int y = 0; y < displayColumns; y++)
@@ -97,8 +132,8 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Set SLS map
-			adl_Res0 = _ADL2_Display_SLSMapConfig_Create(adl_Context, displayAdapterIndex, slsMap, displayCount, slsTargets, displayBezelPercentage, &slsMapIndexOut, slsCreateOption);
+			//Create SLS map
+			adl_Res0 = _ADL2_Display_SLSMapConfig_Create(adl_Context, displayAdapterIndex, slsMap, displayCount, slsTargets.data(), displayBezelPercentage, &slsMapIndexOut, slsCreateOption);
 			if (adl_Res0 != ADL_OK)
 			{
 				//Return result
@@ -110,8 +145,8 @@ namespace winrt::RadeonTuner::implementation
 			//adl_Res0 = _ADL2_Flush_Driver_Data(adl_Context, adl_Display_DisplayIndex);
 
 			//Return result
-			AVDebugWriteLine("Created custom Eyefinity: " << adl_Res0);
-			return adl_Res0 == ADL_OK;
+			AVDebugWriteLine("Created custom Eyefinity: " << adl_Res0 << " / " << slsMapIndexOut);
+			return adl_Res0 == ADL_OK && slsMapIndexOut != -1;
 		}
 		catch (...)
 		{
@@ -133,12 +168,12 @@ namespace winrt::RadeonTuner::implementation
 			//Fix if (!Adl_Eyefinity_IsEnabled()) { return false; }
 
 			//Get SLS map indexes
-			int lpNumSLSMapIndexList = 0;
-			int* lppSLSMapIndexList{};
-			_ADL2_Display_SLSMapIndexList_Get(adl_Context, displayAdapterIndex, &lpNumSLSMapIndexList, &lppSLSMapIndexList, ADL_DISPLAY_SLSMAPINDEXLIST_OPTION_ACTIVE);
+			int slsMapIndexCount = 0;
+			int* slsMapIndexList{};
+			_ADL2_Display_SLSMapIndexList_Get(adl_Context, displayAdapterIndex, &slsMapIndexCount, &slsMapIndexList, ADL_DISPLAY_SLSMAPINDEXLIST_OPTION_ACTIVE);
 
 			//Check index count
-			if (lpNumSLSMapIndexList <= 0)
+			if (slsMapIndexCount <= 0)
 			{
 				AVDebugWriteLine("Failed deleting all Eyefinity, no active sls.");
 				return false;
@@ -146,19 +181,24 @@ namespace winrt::RadeonTuner::implementation
 
 			//Delete SLS map configurations
 			int slsDeleteCount = 0;
-			for (int index = 0; index < lpNumSLSMapIndexList; index++)
+			for (int index = 0; index < slsMapIndexCount; index++)
 			{
-				AVDebugWriteLine("Deleting sls map configuration: " << lppSLSMapIndexList[index]);
-				adl_Res0 = _ADL2_Display_SLSMapConfig_Delete(adl_Context, displayAdapterIndex, lppSLSMapIndexList[index]);
+				AVDebugWriteLine("Deleting sls map configuration: " << slsMapIndexList[index]);
+				adl_Res0 = _ADL2_Display_SLSMapConfig_Delete(adl_Context, displayAdapterIndex, slsMapIndexList[index]);
 				if (adl_Res0 == ADL_OK) { slsDeleteCount++; }
 			}
+
+			//Get SLS map indexes
+			int slsMapIndexCountNew = 0;
+			int* slsMapIndexListNew{};
+			_ADL2_Display_SLSMapIndexList_Get(adl_Context, displayAdapterIndex, &slsMapIndexCountNew, &slsMapIndexListNew, ADL_DISPLAY_SLSMAPINDEXLIST_OPTION_ACTIVE);
 
 			//Flush driver data
 			//adl_Res0 = _ADL2_Flush_Driver_Data(adl_Context, adl_Display_DisplayIndex);
 
 			//Return result
 			AVDebugWriteLine("Deleted all Eyefinity count: " << slsDeleteCount);
-			return slsDeleteCount == lpNumSLSMapIndexList;
+			return slsDeleteCount > 0 && (slsMapIndexCount != slsMapIndexCountNew);
 		}
 		catch (...)
 		{

@@ -42,6 +42,8 @@
 #include "GraphicsSettingsFunc.h"
 #include "DisplaySettingsFunc.h"
 
+#include "EyefinityFunc.h"
+#include "EyefinityEvents.h"
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
 #include "TuningFanSettingsCacheFunc.h"
@@ -103,11 +105,13 @@ namespace winrt::RadeonTuner::implementation
 			//Load tuning profiles file
 			TuningFanSettings_Profiles_LoadFromFile();
 
-			//Load power boost applications
+			//Load and list Power Boost applications
 			PowerBoost_Applications_LoadFromFile();
-
-			//List power boost applications
 			PowerBoost_Applications_List();
+
+			//Load and list Automatic Eyefinity applications
+			Eyefinity_Applications_LoadFromFile();
+			Eyefinity_Applications_List();
 
 			//Set adl app gpu identifier
 			AdlAppSetUmdGpuId();
@@ -168,6 +172,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Select application
 			combobox_AppSelect().SelectedIndex(0);
+
+			//Select Eyefinity orientation
+			combobox_EyefinityMonitorOrientation().SelectedIndex(0);
 
 			//Select previous menu index
 			int mainSelectIndex = 0;

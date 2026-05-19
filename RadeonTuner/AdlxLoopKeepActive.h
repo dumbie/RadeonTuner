@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 				//Delay next loop
 				if (!AppVariables::LaunchKeepActive)
 				{
-					Sleep(15000);
+					Sleep(10000);
 				}
 				else
 				{
@@ -33,23 +33,58 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Get running processes
+				bool eyefinityProcessRunning = false;
 				bool powerBoostProcessRunning = false;
-				for (AVProcess process : Get_ProcessAll())
+				bool powerBoostAppsAny = powerBoostAppsCache.size() > 0;
+				bool eyefinityAppsAny = eyefinityAppsCache.size() > 0;
+				if (powerBoostAppsAny || eyefinityAppsAny)
 				{
-					try
+					for (AVProcess process : Get_ProcessAll())
 					{
-						//Fix lower upper case matching
-
-						//Check if Power Boost process is running
-						std::wstring exeNameW = string_to_wstring(process.ExeName());
-						if (array_contains(powerBoostAppsCache, exeNameW))
+						try
 						{
-							//AVDebugWriteLine("Power Boost process is running: " << exeNameW);
-							powerBoostProcessRunning = true;
-							break;
+							//Fix lower upper case matching
+							std::wstring exeNameW = string_to_wstring(process.ExeName());
+
+							//Check if Power Boost process is running
+							if (powerBoostAppsAny && array_contains(powerBoostAppsCache, exeNameW))
+							{
+								//AVDebugWriteLine("Power Boost process is running: " << exeNameW);
+								powerBoostProcessRunning = true;
+							}
+
+							//Check if Eyefinity process is running
+							if (eyefinityAppsAny && array_contains(eyefinityAppsCache, exeNameW))
+							{
+								//AVDebugWriteLine("Eyefinity process is running: " << exeNameW);
+								eyefinityProcessRunning = true;
+							}
+
+							//Break from loop
+							if (eyefinityProcessRunning && powerBoostProcessRunning)
+							{
+								break;
+							}
 						}
+						catch (...) {}
 					}
-					catch (...) {}
+				}
+
+				//Check Automatic Eyefinity setting
+				bool eyefinityAutomatic = false;
+				std::optional<bool> eyefinityAutomaticOpt = AppVariables::Settings.Load<bool>("EyefinityAutomatic");
+				if (eyefinityAutomaticOpt.has_value())
+				{
+					eyefinityAutomatic = eyefinityAutomaticOpt.value();
+				}
+
+				//Enable or disable Eyefinity
+				if (eyefinityAutomatic && (eyefinityProcessRunning != eyefinityProcessRunningPrevious))
+				{
+					if (Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessRunning))
+					{
+						eyefinityProcessRunningPrevious = eyefinityProcessRunning;
+					}
 				}
 
 				//Check tuning fan settings

@@ -13,6 +13,9 @@
     <ClCompile Include="ADLX\Platform\Windows\WinAPIs.cpp">
       <Filter>Include Files\ADLX</Filter>
     </ClCompile>
+    <ClCompile Include="DisplayDetailsIdl.cpp">
+      <Filter>Class Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppVariables.h">
@@ -342,6 +345,15 @@
     <ClInclude Include="AdlEyefinity.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
+    <ClInclude Include="EyefinityFunc.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="EyefinityEvents.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayDetailsIdl.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -376,9 +388,6 @@
     <Filter Include="Class Files">
       <UniqueIdentifier>{a677d221-0f74-45b6-afbe-1204126b2666}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Updater Files">
-      <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Page Files\Adl">
       <UniqueIdentifier>{f270d6ce-613c-4778-a5b1-0aaf7acc027c}</UniqueIdentifier>
     </Filter>
@@ -408,6 +417,9 @@
     </Filter>
     <Filter Include="Page Files\Multimedia">
       <UniqueIdentifier>{9924b21c-cff8-4017-87e6-22977fe3d6db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings Files">
+      <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -486,7 +498,7 @@
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
-      <Filter>Updater Files</Filter>
+      <Filter>Settings Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Profiles will be placed here">
       <Filter>Profile Files</Filter>
@@ -494,5 +506,13 @@
     <CopyFileToFolders Include="PowerBoostApps.json">
       <Filter>Profile Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="EyefinityApps.json">
+      <Filter>Profile Files</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DisplayDetailsIdl.idl">
+      <Filter>Class Files</Filter>
+    </Midl>
   </ItemGroup>
 </Project>

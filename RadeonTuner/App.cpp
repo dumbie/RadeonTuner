@@ -1,11 +1,11 @@
 #pragma once
-#include "AppVariables.h"
 #include "pch.h"
 #include "resource.h"
 #include "App.h"
 #if __has_include("App.g.cpp")
 #include "App.g.cpp"
 #endif
+#include "AppVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -255,7 +255,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Initialize for current thread
-			winrt::init_apartment(apartment_type::multi_threaded);
+			winrt::init_apartment(apartment_type::single_threaded);
 			_windowsXamlManager = WindowsXamlManager::InitializeForCurrentThread();
 			if (CoreWindow coreWindow = CoreWindow::GetForCurrentThread())
 			{
@@ -346,13 +346,13 @@ namespace winrt::RadeonTuner::implementation
 			CreateTrayIcon(hInstance);
 
 			//Window message loop
-			MSG msg;
-			while (GetMessageW(&msg, NULL, 0, 0))
+			MSG lpMsg;
+			while (GetMessageW(&lpMsg, NULL, 0, 0))
 			{
 				try
 				{
-					TranslateMessage(&msg);
-					DispatchMessageW(&msg);
+					TranslateMessage(&lpMsg);
+					DispatchMessageW(&lpMsg);
 				}
 				catch (...) {}
 			}

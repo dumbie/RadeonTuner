@@ -8,6 +8,7 @@ namespace winrt::RadeonTuner::implementation
 {
 	//Note: ADL throws EXCEPTION_ACCESS_VIOLATION when you no longer have access but can't catch this in ADLX because ADLX keeps returning invalid values instead of returning errors.
 	//Fix reinitialize ADLX automatically so a restart is not needed.
+	//Fix add check if a new display has connected and reload list.
 
 	void MainPage::AdlxLoopDevice()
 	{

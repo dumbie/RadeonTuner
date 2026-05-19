@@ -30,6 +30,9 @@ namespace winrt::RadeonTuner::implementation
 		bool Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
 
 		bool Adl_Eyefinity_Create_Simple();
+		bool Adl_Eyefinity_Create_Custom(int displayAdapterIndex);
+		bool Adl_Eyefinity_Delete_All(int displayAdapterIndex);
+		bool Adl_Eyefinity_IsEnabled();
 		bool Adl_Eyefinity_Toggle(int displayAdapterIndex, bool setEnabled);
 
 		bool AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea);
@@ -118,6 +121,17 @@ namespace winrt::RadeonTuner::implementation
 		void button_PowerBoost_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_PowerBoost_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_PowerBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+
+		bool Eyefinity_Applications_List();
+		bool Eyefinity_Applications_LoadFromFile();
+		bool Eyefinity_Applications_SaveToFile();
+		void button_Eyefinity_AppAddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Eyefinity_AppRemove_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Eyefinity_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Eyefinity_Create_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Eyefinity_Disable_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Eyefinity_Enable_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_Eyefinity_Automatic_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 
 		void page_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 		void listbox_Main_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);

@@ -1,0 +1,11 @@
+namespace RadeonTuner
+{
+	[default_interface]
+	runtimeclass DisplayDetailsIdl
+	{
+		DisplayDetailsIdl();
+		Int32 IndexAdapter;
+		Int32 IndexDisplay;
+		String Name;
+	}
+}
