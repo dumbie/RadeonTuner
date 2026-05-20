@@ -36,21 +36,15 @@ namespace winrt::RadeonTuner::implementation
 		{
 			AVDebugWriteLine("Checking for application update.");
 
-			//Get available version
-			std::string availableVersion = GitHub::GetLatestVersion("dumbie", "RadeonTuner");
-
-			//Get current version
-			std::string currentVersion = "v" + GetVersionFromResource(AppVariables::hInstance);
-
-			//Check if version matches
-			if (!availableVersion.empty() && currentVersion != availableVersion)
+			UpdateCheckResult updateCheckResult = UpdateCheck(AppVariables::hInstance, "dumbie", "RadeonTuner");
+			if (updateCheckResult.UpdateFound)
 			{
-				std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Newer version has been found, would you like to update the application to the newest version available?", L"", { L"Yes", L"No" }, false);
+				std::wstring onlineVersion = string_to_wstring(updateCheckResult.UpdateVersion);
+				std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Newer version " + onlineVersion + L" has been found, would you like to update the application to the newest version available?", L"", { L"Yes", L"No" }, false);
 				if (messageResult == L"Yes")
 				{
-					//ShellExecuteW(0, 0, L"https://github.com/dumbie/RadeonTuner/releases", 0, 0, 0);
-					std::wstring pathUpdaterExeW = PathMerge(PathGetExecutableDirectory(), L"Updater.exe");
-					Launch_ApplicationDesktop(pathUpdaterExeW, L"", L"", true);
+					//Launch updater and restart application
+					UpdateRestart();
 				}
 			}
 			else

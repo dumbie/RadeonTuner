@@ -31,7 +31,7 @@ namespace winrt::RadeonTuner::implementation
 			toggleswitch_Display_CVDC_Control().IsOn(false);
 
 			//Color Deficiency Correction Protanopia
-			slider_Display_Protanopia().Value(0);
+			slider_Display_Protanopia().Value(10);
 
 			//Color Deficiency Correction Deuteranopia
 			slider_Display_Deuteranopia().Value(0);

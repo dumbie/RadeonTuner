@@ -57,7 +57,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		FolderCreate(pathProfilesFolderW);
 
 		//Replace updater executable
-		ReplaceUpdater();
+		UpdateCleanup();
 
 		//Check settings
 		SettingCheck();

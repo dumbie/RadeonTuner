@@ -467,6 +467,9 @@
     <CopyFileToFolders Include="Display.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="DragDrop.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Fans.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
