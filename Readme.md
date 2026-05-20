@@ -28,7 +28,7 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 - AMD Radeon driver 25.5.1 or newer.
 - AMD Radeon driver only software type.
 - AMD Radeon RDNA or newer architecture.
-- Microsoft .NET Runtime installed.
+- Microsoft .NET Desktop Runtime installed.
 - Microsoft Visual C++ Redistributable installed.
 - Microsoft Windows 10 64-bit or higher is required.
 
@@ -42,6 +42,10 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.11.0.0 (20-May-2026)
+- Added Automatic Eyefinity feature allowing to enable Eyefinity when certain apps run.
+- Added Eyefinity display settings.
+
 v0.10.0.0 (24-April-2026)
 - Added tuning Power Boost feature allowing to increase power when certain apps run.
 - Added tuning Fan Control setting to switch between bios and driver control.
