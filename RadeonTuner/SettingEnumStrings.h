@@ -27,6 +27,22 @@ const std::vector<std::wstring> REGISTRY_TEXTURE_FILTERING_QUALITY_STRING =
 	L"High", L"Standard", L"Performance"
 };
 
+//Custom
+const std::vector<std::wstring> ADLX_SCE_PROFILE_STRING =
+{
+	L"Disabled", L"Vivid Gaming"
+};
+
+const std::vector<std::wstring> ADLX_VARIBRIGHT_LEVEL_STRING =
+{
+	L"Maximize Brightness", L"Optimize Brightness", L"Balanced", L"Optimize Battery", L"Maximize Battery"
+};
+
+const std::vector<std::wstring> ADL_EYEFINITY_ORIENTATIONS =
+{
+	L"0 degrees", L"90 degrees", L"180 degrees", L"270 degrees"
+};
+
 //ADL
 const std::vector<std::wstring> ADL_FSR_MULTIFRAMEGEN_RATIO =
 {
@@ -153,13 +169,32 @@ const std::vector<std::wstring> ADLX_SSM_BIAS_MODE_STRING =
 	L"Automatic", L"Manual"
 };
 
-//ADLX Custom
-const std::vector<std::wstring> ADLX_SCE_PROFILE_STRING =
+//Memory vendor
+std::wstring VramVendorNameFromId(int vramVendorRevId)
 {
-	L"Disabled", L"Vivid Gaming"
-};
-
-const std::vector<std::wstring> ADLX_VARIBRIGHT_LEVEL_STRING =
-{
-	L"Maximize Brightness", L"Optimize Brightness", L"Balanced", L"Optimize Battery", L"Maximize Battery"
-};
+	switch (vramVendorRevId)
+	{
+	case ADLvRamVendor_SAMSUNG:
+		return L"Samsung";
+	case ADLvRamVendor_INFINEON:
+		return L"Infineon";
+	case ADLvRamVendor_ELPIDA:
+		return L"Elpida";
+	case ADLvRamVendor_ETRON:
+		return L"Etron";
+	case ADLvRamVendor_NANYA:
+		return L"Nanya";
+	case ADLvRamVendor_HYNIX:
+		return L"Hynix";
+	case ADLvRamVendor_MOSEL:
+		return L"Mosel";
+	case ADLvRamVendor_WINBOND:
+		return L"Winbond";
+	case ADLvRamVendor_ESMT:
+		return L"Esmt";
+	case ADLvRamVendor_MICRON:
+		return L"Micron";
+	default:
+		return L"Unknown";
+	}
+}

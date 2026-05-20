@@ -32,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 		bool Adl_Eyefinity_Create_Simple();
 		bool Adl_Eyefinity_Create_Custom(int displayAdapterIndex);
 		bool Adl_Eyefinity_Delete_All(int displayAdapterIndex);
-		bool Adl_Eyefinity_IsEnabled();
+		bool Adl_Eyefinity_IsEnabled(int displayAdapterIndex);
 		bool Adl_Eyefinity_Toggle(int displayAdapterIndex, bool setEnabled);
 
 		bool AdlAppExists(std::wstring fileName, std::wstring filePath, std::wstring driverArea);
@@ -214,7 +214,6 @@ namespace winrt::RadeonTuner::implementation
 		void button_Graphics_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_AddProcess_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void button_Graphics_Unlock_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_EQAA_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_AntiAliasingOverride_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);

@@ -355,7 +355,7 @@ namespace winrt::RadeonTuner::implementation
 			if (tuningFanSettings.MemoryMax.has_value())
 			{
 				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.MemoryMax.value()) + L"MT/s";
+				std::wstring valueText = number_to_wstring(tuningFanSettings.MemoryMax.value()) + L"MTs";
 				textblock_Memory_Max_Value().Text(valueText);
 
 				//Set setting limits

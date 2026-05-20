@@ -136,13 +136,18 @@
                     <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
                     <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
                     <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
-                    <Button x:Name="button_Graphics_Unlock" Click="button_Graphics_Unlock_Click" Content="Unlock Features" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Unlock features which are normally limited to white listed only applications.&#10;&#10;* For example this will allow you to use 'FSR Upscaling Override' on applications that are not officially supported."/>
                     <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clear contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
                     <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display color settings to it's defaults."/>
                     <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import display color settings from file."/>
                     <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current display color settings to file."/>
+                </VariableSizedWrapGrid>
+                <VariableSizedWrapGrid x:Name="stackpanel_Information_Buttons" Grid.Row="2" ItemWidth="155" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
+                    <Button x:Name="button_Website_Project" Content="Visit Project Website" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
+                    <Button x:Name="button_Website_Donation" Content="Open Donation Page" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Website_Donation_Click"/>
+                    <Button x:Name="button_Fps_Overlayer" Content="Get FpsOverlayer" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Fps_Overlayer_Click"/>
+                    <Button x:Name="button_Check_Update" Content="Check for update" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Check_Update_Click"/>
                 </VariableSizedWrapGrid>
 
                 <!-- Main -->
@@ -1198,12 +1203,14 @@
                                     <!-- Buttons -->
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected and duplicate or extended display mode is enabled."/>
-                                        <Button x:Name="button_Eyefinity_CreateCustom" Content="Create Eyefinity" Click="button_Eyefinity_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create and enable Eyefinity based on settings below."/>
-                                        <Button x:Name="button_Eyefinity_DeleteAll" Content="Remove Eyefinity" Click="button_Eyefinity_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove and disable Eyefinity, Eyefinity needs to be active to be able to remove configurations."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations."/>
+                                        <Button x:Name="button_Eyefinity_CreateCustom" Content="Create Eyefinity" Click="button_Eyefinity_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create configuration and enable Eyefinity based on settings below."/>
+                                        <Button x:Name="button_Eyefinity_DeleteAll" Content="Remove Eyefinity" Click="button_Eyefinity_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove configuration and disable Eyefinity."/>
                                         <Button x:Name="button_Eyefinity_Enable" Content="Enable Eyefinity" Click="button_Eyefinity_Enable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>
                                         <Button x:Name="button_Eyefinity_Disable" Content="Disable Eyefinity" Click="button_Eyefinity_Disable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Disable Eyefinity when it is active."/>
                                     </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Rows -->
                                     <TextBlock Text="Rows (Horizontal displays)" Margin="0,10,0,0" VerticalAlignment="Center"/>
@@ -1213,8 +1220,10 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Rows, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Rows" Margin="10,0,0,0" Maximum="6"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Rows" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
                                     </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Columns -->
                                     <TextBlock Text="Columns (Vertical displays)" Margin="0,10,0,0" VerticalAlignment="Center"/>
@@ -1224,29 +1233,43 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Columns, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Columns" Margin="10,0,0,0" Maximum="6"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Columns" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
                                     </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Display Placement Order -->
                                     <TextBlock Text="Display Placement Order" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <ListView x:Name="listview_EyefinityMonitorIndex" Height="40" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="local:DisplayDetailsIdl">
-                                                <Border CornerRadius="4" BorderThickness="2" BorderBrush="{ThemeResource ApplicationDimGrayColor}" Margin="-10">
-                                                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center" Margin="5"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Grid.Column="0" Source="/Assets/DragDrop.png" Width="30" Height="30" ToolTipService.ToolTip="Drag and drop displays in the order you want them to be, from left to right and top to bottom."/>
+                                        <ListView Grid.Column="1" x:Name="listview_EyefinityMonitorIndex" Margin="5,0,0,0" Height="40" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="local:DisplayDetailsIdl">
+                                                    <Border CornerRadius="4" BorderThickness="2" BorderBrush="{ThemeResource ApplicationDimGrayColor}" Margin="-10">
+                                                        <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center" Margin="5"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Display Orientation -->
                                     <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Automatic Eyefinity -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
@@ -1338,28 +1361,14 @@
                         </StackPanel>
 
                         <!-- Information -->
-                        <Grid x:Name="stackpanel_Information" Visibility="Collapsed">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Grid.Row="0">
-                                <TextBlock Text="GPU Information" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_GpuInfo" Text="Loading..."/>
-                                <TextBlock Margin="0,10,0,0" Text="Display Information" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_DisplayInfo"/>
-                                <TextBlock Margin="0,10,0,0" Text="Application Information" FontSize="20" FontWeight="Medium"/>
-                                <TextBlock x:Name="textblock_AppInfo"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <Button x:Name="button_Website_Project" Content="Visit Project Website" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
-                                <Button x:Name="button_Website_Donation" Content="Open Donation Page" Style="{ThemeResource ApplicationButton}" Margin="10,0,0,0" Click="button_Website_Donation_Click"/>
-                                <Button x:Name="button_Fps_Overlayer" Margin="10,0,0,0" Content="Get FpsOverlayer" Style="{ThemeResource ApplicationButton}" Click="button_Fps_Overlayer_Click"/>
-                                <Button x:Name="button_Check_Update" Margin="10,0,0,0" Content="Check for update" Style="{ThemeResource ApplicationButton}" Click="button_Check_Update_Click"/>
-                            </StackPanel>
-                        </Grid>
+                        <StackPanel x:Name="stackpanel_Information" Visibility="Collapsed">
+                            <TextBlock Text="GPU Information" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_GpuInfo" Text="Loading..."/>
+                            <TextBlock Margin="0,10,0,0" Text="Display Information" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_DisplayInfo"/>
+                            <TextBlock Margin="0,10,0,0" Text="Application Information" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock x:Name="textblock_AppInfo"/>
+                        </StackPanel>
                     </Grid>
                 </ScrollViewer>
             </Grid>

@@ -12,6 +12,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Fix missing Pixel and Texture Fillrate, Shaders Count, Bus Width, Fabrication Technology, Transistor Count, Revision.
+
 			//Set gpu information
 			std::wstring gpu_info = L"";
 
@@ -85,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppGpuInfo->TotalVRAM(&totalVRAM);
 				if (ADLX_SUCCEEDED(adlx_Res0))
 				{
-					gpu_info += L"\nMemory: " + number_to_wstring(totalVRAM) + L"MB ";
+					gpu_info += L"\nMemory details: " + number_to_wstring(totalVRAM) + L"MB ";
 				}
 
 				const char* typeVRAM = NULL;
@@ -94,10 +96,47 @@ namespace winrt::RadeonTuner::implementation
 				{
 					gpu_info += char_to_wstring(typeVRAM);
 				}
+
+				ADLMemoryInfoX4 lpMemoryInfoX4{};
+				adl_Res0 = _ADL2_Adapter_MemoryInfoX4_Get(adl_Context, adl_Gpu_AdapterIndex, &lpMemoryInfoX4);
+				if (adl_Res0 == ADL_OK)
+				{
+					if (lpMemoryInfoX4.iVramVendorRevId > 0)
+					{
+						gpu_info += L" (" + VramVendorNameFromId(lpMemoryInfoX4.iVramVendorRevId) + L")";
+					}
+					if (lpMemoryInfoX4.iMemoryBandwidth > 0)
+					{
+						gpu_info += L"\nMemory bandwidth: " + number_to_wstring(lpMemoryInfoX4.iMemoryBandwidth) + L"MB/s";
+					}
+				}
 			}
 			catch (...) {}
 
-			//PCI bus information
+			//Asic Information
+			try
+			{
+				ADLGcnInfo gcnInfo{};
+				adl_Res0 = _ADL2_GcnAsicInfo_Get(adl_Context, adl_Gpu_AdapterIndex, &gcnInfo);
+				if (adl_Res0 == ADL_OK)
+				{
+					if (gcnInfo.CuCount > 0)
+					{
+						gpu_info += L"\nCompute (WGP) units: " + number_to_wstring(gcnInfo.CuCount);
+					}
+					if (gcnInfo.RopCount > 0)
+					{
+						gpu_info += L"\nRender output units: " + number_to_wstring(gcnInfo.RopCount);
+					}
+					if (gcnInfo.TexCount > 0)
+					{
+						gpu_info += L"\nTexture mapping units: " + number_to_wstring(gcnInfo.TexCount);
+					}
+				}
+			}
+			catch (...) {}
+
+			//PCI Bus information
 			try
 			{
 				adlx_uint busLaneWidth = 0;
@@ -169,7 +208,10 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppDisplayInfo->NativeResolution(&hResolution, &vResolution);
 				if (ADLX_SUCCEEDED(adlx_Res0))
 				{
-					display_info += L"\nNative resolution: " + number_to_wstring(hResolution) + L"x" + number_to_wstring(vResolution);
+					if (hResolution > 0 && vResolution > 0)
+					{
+						display_info += L"\nNative resolution: " + number_to_wstring(hResolution) + L"x" + number_to_wstring(vResolution);
+					}
 				}
 			}
 			catch (...) {}
@@ -181,7 +223,10 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppDisplayInfo->RefreshRate(&refreshRate);
 				if (ADLX_SUCCEEDED(adlx_Res0))
 				{
-					display_info += L"\nRefresh rate: " + number_to_wstring((int)refreshRate) + L" Hz";
+					if (refreshRate > 0)
+					{
+						display_info += L"\nRefresh rate: " + number_to_wstring((int)refreshRate) + L" Hz";
+					}
 				}
 			}
 			catch (...) {}
@@ -193,7 +238,10 @@ namespace winrt::RadeonTuner::implementation
 				adlx_Res0 = ppDisplayInfo->PixelClock(&pixelClock);
 				if (ADLX_SUCCEEDED(adlx_Res0))
 				{
-					display_info += L"\nPixel clock: " + number_to_wstring(pixelClock) + L" KHz";
+					if (pixelClock > 0)
+					{
+						display_info += L"\nPixel clock: " + number_to_wstring(pixelClock) + L" KHz";
+					}
 				}
 			}
 			catch (...) {}

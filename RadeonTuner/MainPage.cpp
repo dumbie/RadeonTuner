@@ -213,7 +213,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
 
 					//Enable or disable feature unlock button
-					button_Graphics_Unlock().IsEnabled(true);
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
 
 					//Show notification
@@ -234,7 +233,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
 
 					//Enable or disable feature unlock button
-					button_Graphics_Unlock().IsEnabled(false);
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 
 					//Show notification
@@ -272,6 +270,7 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_Fan_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Graphics_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Display_Buttons().Visibility(Visibility::Collapsed);
+			stackpanel_Information_Buttons().Visibility(Visibility::Collapsed);
 
 			//Hide all pages
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);
@@ -333,6 +332,7 @@ namespace winrt::RadeonTuner::implementation
 				combobox_GpuSelect().IsEnabled(true);
 				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Information().Visibility(Visibility::Visible);
+				stackpanel_Information_Buttons().Visibility(Visibility::Visible);
 			}
 		}
 		catch (...) {}

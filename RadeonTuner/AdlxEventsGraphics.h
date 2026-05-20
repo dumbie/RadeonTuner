@@ -85,33 +85,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Graphics_Unlock_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Unlock application features
-			bool unlockResult = AdlAppUnlock(AdlAppSelectedGet().value(), true);
-
-			//Check result
-			if (unlockResult)
-			{
-				//Show notification
-				ShowNotification(L"Application features unlocked");
-				AVDebugWriteLine(L"Application features unlocked");
-			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Application not unlocked");
-				AVDebugWriteLine(L"Application not unlocked");
-			}
-		}
-		catch (...) {}
-	}
-
 	void MainPage::button_Graphics_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

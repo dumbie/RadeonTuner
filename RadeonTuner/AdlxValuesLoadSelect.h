@@ -44,12 +44,10 @@ namespace winrt::RadeonTuner::implementation
 				//Fix limit this feature to non global application profiles?
 				if (ShowExperimental.value())
 				{
-					button_Graphics_Unlock().IsEnabled(true);
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
 				}
 				else
 				{
-					button_Graphics_Unlock().IsEnabled(false);
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 				}
 			}
@@ -117,7 +115,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get selected display
 			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
-			adlx_Res0 = ppDisplayList->At(selectedDisplayIndex, &ppDisplayInfo);
+			adlx_Res0 = ppDisplayList->At(selectedDisplayIndex, (IADLXDisplay**)&ppDisplayInfo);
 			if (ppDisplayInfo == NULL)
 			{
 				AVDebugWriteLine("Failed getting selected display.");
