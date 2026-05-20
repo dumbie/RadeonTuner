@@ -35,6 +35,25 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_ShowExperimental().IsOn(ShowExperimental.value());
 			}
 
+			std::optional<bool> EyefinityAutomatic = AppVariables::Settings.Load<bool>("EyefinityAutomatic");
+			if (EyefinityAutomatic.has_value())
+			{
+				bool eyefinityAutomaticEnabled = EyefinityAutomatic.value();
+				toggleswitch_Eyefinity_Automatic().IsOn(eyefinityAutomaticEnabled);
+				if (eyefinityAutomaticEnabled)
+				{
+					combobox_Eyefinity_Applications().IsEnabled(true);
+					button_Eyefinity_AddExe().IsEnabled(true);	
+					button_Eyefinity_Remove().IsEnabled(true);
+				}
+				else
+				{
+					combobox_Eyefinity_Applications().IsEnabled(false);
+					button_Eyefinity_AddExe().IsEnabled(false);
+					button_Eyefinity_Remove().IsEnabled(false);
+				}
+			}
+
 			//Check startup shortcut
 			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
 			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);

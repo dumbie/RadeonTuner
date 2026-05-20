@@ -52,6 +52,15 @@ inline ADL2_Adapter_RegValueInt_Get _ADL2_Adapter_RegValueInt_Get;
 typedef int (*ADL2_Adapter_Accessibility_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAccessibility);
 inline ADL2_Adapter_Accessibility_Get _ADL2_Adapter_Accessibility_Get;
 
+typedef int (*ADL2_Adapter_MemoryInfoX4_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLMemoryInfoX4* lpMemoryInfoX4);
+inline ADL2_Adapter_MemoryInfoX4_Get _ADL2_Adapter_MemoryInfoX4_Get;
+
+typedef int (*ADL2_GcnAsicInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLGcnInfo* gcnInfo);
+inline ADL2_GcnAsicInfo_Get _ADL2_GcnAsicInfo_Get;
+
+typedef int (*ADL2_Adapter_ChipSetInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLChipSetInfo* lpChipSetInfo);
+inline ADL2_Adapter_ChipSetInfo_Get _ADL2_Adapter_ChipSetInfo_Get;
+
 //Display
 typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);
 inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;
@@ -80,8 +89,8 @@ inline ADL2_Display_SLSMapIndex_Get _ADL2_Display_SLSMapIndex_Get;
 typedef int (*ADL2_Display_SLSMapIndexList_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumSLSMapIndexList, int** lppSLSMapIndexList, int iOptions);
 inline ADL2_Display_SLSMapIndexList_Get _ADL2_Display_SLSMapIndexList_Get;
 
-typedef int (*ADL2_Display_SLSMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex, ADLSLSMap* lpSLSMap, int* lpNumSLSTarget, ADLSLSTarget** lppSLSTarget, int* lpNumNativeMode, ADLSLSMode** lppNativeMode, int* lpNumBezelMode, ADLBezelTransientMode** lppBezelMode, int* lpNumTransientMode, ADLBezelTransientMode** lppTransientMode, int* lpNumSLSOffset, ADLSLSOffset** lppSLSOffset, int iOption);
-inline ADL2_Display_SLSMapConfig_Get _ADL2_Display_SLSMapConfig_Get;
+typedef int (*ADL2_Display_SLSMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSLSMapIndex, ADLSLSMap* lpSLSMap, int* lpNumSLSTarget, ADLSLSTarget** lppSLSTarget, int* lpNumNativeMode, ADLSLSMode** lppNativeMode, int* lpNumStandardModeOffsets, ADLSLSOffset** lppStandardModeOffsets, int* lpNumBezelMode, ADLBezelTransientMode** lppBezelMode, int* lpNumTransientMode, ADLBezelTransientMode** lppTransientMode, int* lpNumSLSOffset, ADLSLSOffset** lppSLSOffset, int iOption);
+inline ADL2_Display_SLSMapConfig_Get _ADL2_Display_SLSMapConfigX2_Get;
 
 typedef int (*ADL2_Display_SLSMapConfig_Create)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLSLSMap SLSMap, int iNumTarget, ADLSLSTarget* lpSLSTarget, int iBezelModePercent, int* lpSLSMapIndex, int iOption);
 inline ADL2_Display_SLSMapConfig_Create _ADL2_Display_SLSMapConfig_Create;

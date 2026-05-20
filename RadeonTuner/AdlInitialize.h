@@ -164,6 +164,30 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Adapter_Accessibility_Get";
 			}
 
+			_ADL2_Adapter_MemoryInfoX4_Get = (ADL2_Adapter_MemoryInfoX4_Get)GetProcAddress(hInstance, "ADL2_Adapter_MemoryInfoX4_Get");
+			if (_ADL2_Adapter_MemoryInfoX4_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_MemoryInfoX4_Get");
+				return L"Failed to init _ADL2_Adapter_MemoryInfoX4_Get";
+			}
+
+			_ADL2_GcnAsicInfo_Get = (ADL2_GcnAsicInfo_Get)GetProcAddress(hInstance, "ADL2_GcnAsicInfo_Get");
+			if (_ADL2_GcnAsicInfo_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_GcnAsicInfo_Get");
+				return L"Failed to init _ADL2_GcnAsicInfo_Get";
+			}
+
+			_ADL2_Adapter_ChipSetInfo_Get = (ADL2_Adapter_ChipSetInfo_Get)GetProcAddress(hInstance, "ADL2_Adapter_ChipSetInfo_Get");
+			if (_ADL2_Adapter_ChipSetInfo_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_ChipSetInfo_Get");
+				return L"Failed to init _ADL2_Adapter_ChipSetInfo_Get";
+			}
+
 			//Display
 			_ADL2_Display_Color_Get = (ADL2_Display_Color_Get)GetProcAddress(hInstance, "ADL2_Display_Color_Get");
 			if (_ADL2_Display_Color_Get == NULL)
@@ -237,12 +261,12 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_SLSMapIndexList_Get";
 			}
 
-			_ADL2_Display_SLSMapConfig_Get = (ADL2_Display_SLSMapConfig_Get)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Get");
-			if (_ADL2_Display_SLSMapConfig_Get == NULL)
+			_ADL2_Display_SLSMapConfigX2_Get = (ADL2_Display_SLSMapConfig_Get)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Get");
+			if (_ADL2_Display_SLSMapConfigX2_Get == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_Get");
-				return L"Failed to init _ADL2_Display_SLSMapConfig_Get";
+				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfigX2_Get");
+				return L"Failed to init _ADL2_Display_SLSMapConfigX2_Get";
 			}
 
 			_ADL2_Display_SLSMapConfig_Create = (ADL2_Display_SLSMapConfig_Create)GetProcAddress(hInstance, "ADL2_Display_SLSMapConfig_Create");

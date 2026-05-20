@@ -79,12 +79,9 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable Eyefinity
-				if (eyefinityAutomatic && (eyefinityProcessRunning != eyefinityProcessRunningPrevious))
+				if (eyefinityAutomatic)
 				{
-					if (Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessRunning))
-					{
-						eyefinityProcessRunningPrevious = eyefinityProcessRunning;
-					}
+					Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessRunning);
 				}
 
 				//Check tuning fan settings

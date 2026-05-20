@@ -50,9 +50,23 @@ namespace winrt::RadeonTuner::implementation
 			int slsTargetCurrent = 0;
 			int slsCreateOption = ADL_DISPLAY_SLSMAPCONFIG_CREATE_OPTION_RELATIVETO_CURRENTANGLE;
 
-			int displayColumns = 1 + slider_Eyefinity_Columns().Value();
-			int displayRows = 1 + slider_Eyefinity_Rows().Value();
+			int displayColumns = slider_Eyefinity_Rows().Value();
+			int displayRows = slider_Eyefinity_Columns().Value();
 			int displayCount = listview_EyefinityMonitorIndex().Items().Size();
+
+			//Check maximum allowed displays
+			if (displayColumns + displayRows > 8)
+			{
+				AVDebugWriteLine("SLS display allowed limit reached.");
+				return false;
+			}
+
+			//Check maximum total displays
+			if (((displayColumns + displayRows) - 2) >= displayCount)
+			{
+				AVDebugWriteLine("SLS display total limit reached.");
+				return false;
+			}
 
 			//Get display details in order
 			std::vector<int> displayIndexes{};
@@ -84,14 +98,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get display bezel percentage
 			int displayBezelPercentage = 0;
 
-			AVDebugWriteLine("Setting SLS map to: C" << displayColumns << "/R" << displayRows << "/D" << displayCount << "/O" << displayOrientationDegree << "/B" << displayBezelPercentage);
-
-			//Check maximum displays
-			if (displayColumns + displayRows > 8)
-			{
-				AVDebugWriteLine("SLS display limit reached.");
-				return false;
-			}
+			AVDebugWriteLine("Setting SLS map to: R" << displayColumns << "/C" << displayRows << "/D" << displayCount << "/O" << displayOrientationDegree << "/B" << displayBezelPercentage);
 
 			//Set SLS map
 			ADLSLSMap slsMap{};
@@ -106,9 +113,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set SLS targets
 			std::vector<ADLSLSTarget> slsTargets(displayCount);
-			for (int x = 0; x < displayRows; x++)
+			for (int x = 0; x < displayColumns; x++)
 			{
-				for (int y = 0; y < displayColumns; y++)
+				for (int y = 0; y < displayRows; y++)
 				{
 					//Set indexes
 					slsTargets[slsTargetCurrent].iAdapterIndex = displayAdapterIndex;
@@ -163,9 +170,14 @@ namespace winrt::RadeonTuner::implementation
 			//Enable SLS environment workaround
 			SetEnvironmentVariableA("ADL_4KWORKAROUND_CANCEL", "TRUE");
 
-			AVDebugWriteLine("Deleting all Eyefinity for adapter: " << displayAdapterIndex);
+			//Check if Eyefinity is enabled
+			if (!Adl_Eyefinity_IsEnabled(displayAdapterIndex))
+			{
+				AVDebugWriteLine("Cannot delete Eyefinity when it's not enabled.");
+				return false;
+			}
 
-			//Fix if (!Adl_Eyefinity_IsEnabled()) { return false; }
+			AVDebugWriteLine("Deleting all Eyefinity for adapter: " << displayAdapterIndex);
 
 			//Get SLS map indexes
 			int slsMapIndexCount = 0;
@@ -208,14 +220,93 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::Adl_Eyefinity_IsEnabled()
+	bool MainPage::Adl_Eyefinity_IsEnabled(int displayAdapterIndex)
 	{
 		try
 		{
-			//Fix find way to check if Eyefinity is currently enabled
-			//Compare if ADLDisplayMap.displayMode.iXYRes matches current monitor max xyRes
+			//Enable SLS environment workaround
+			SetEnvironmentVariableA("ADL_4KWORKAROUND_CANCEL", "TRUE");
+
+			//Get display configuration
+			int displayMapCount;
+			AVFin<ADLDisplayMap*> displayMap = AVFin<ADLDisplayMap*>(AVFinMethod::FreeMarshal);
+
+			int displayTargetCount;
+			AVFin<ADLDisplayTarget*> displayTarget = AVFin<ADLDisplayTarget*>(AVFinMethod::FreeMarshal);
+
+			adl_Res0 = _ADL2_Display_DisplayMapConfig_Get(adl_Context, displayAdapterIndex, &displayMapCount, &displayMap.Get(), &displayTargetCount, &displayTarget.Get(), ADL_DISPLAY_DISPLAYMAP_OPTION_GPUINFO);
+			if (adl_Res0 != ADL_OK)
+			{
+				//Return result
+				//AVDebugWriteLine("Failed to get display map configuration: " << adl_Res0);
+				return false;
+			}
+
+			//Get current display resolution (SLS included)
+			int displayWidth = displayMap.Get()->displayMode.iXRes;
+			int displayHeight = displayMap.Get()->displayMode.iYRes;
+
+			//Get SLS index
+			int slsMapIndex = -1;
+			adl_Res0 = _ADL2_Display_SLSMapIndex_Get(adl_Context, displayAdapterIndex, displayTargetCount, displayTarget.Get(), &slsMapIndex);
+			if (adl_Res0 != ADL_OK)
+			{
+				//Return result
+				//AVDebugWriteLine("Failed to get SLS index: " << adl_Res0);
+				return false;
+			}
+			if (slsMapIndex <= 0)
+			{
+				//Return result
+				//AVDebugWriteLine("No valid SLS index found.");
+				return false;
+			}
+
+			//Get SLS configuration
+			ADLSLSMap slsMap;
+
+			int slsTargetsCount = 0;
+			AVFin<ADLSLSTarget*> slsTargets = AVFin<ADLSLSTarget*>(AVFinMethod::FreeMarshal);
+
+			int slsStandardModesCount = 0;
+			AVFin<ADLSLSMode*> slsStandardModes = AVFin<ADLSLSMode*>(AVFinMethod::FreeMarshal);
+
+			int slsBezelModesCount = 0;
+			AVFin<ADLBezelTransientMode*> slsBezelModes = AVFin<ADLBezelTransientMode*>(AVFinMethod::FreeMarshal);
+
+			int slsTransientModesCount = 0;
+			AVFin<ADLBezelTransientMode*> slsTransientModes = AVFin<ADLBezelTransientMode*>(AVFinMethod::FreeMarshal);
+
+			int slsStandardModesOffsetsCount = 0;
+			AVFin<ADLSLSOffset*> slsStandardModesOffsets = AVFin<ADLSLSOffset*>(AVFinMethod::FreeMarshal);
+
+			int slsBezelModesOffsetsCount = 0;
+			AVFin<ADLSLSOffset*> slsBezelModesOffsets = AVFin<ADLSLSOffset*>(AVFinMethod::FreeMarshal);
+
+			adl_Res0 = _ADL2_Display_SLSMapConfigX2_Get(adl_Context, displayAdapterIndex, slsMapIndex, &slsMap, &slsTargetsCount, &slsTargets.Get(), &slsStandardModesCount, &slsStandardModes.Get(), &slsStandardModesOffsetsCount, &slsStandardModesOffsets.Get(), &slsBezelModesCount, &slsBezelModes.Get(), &slsTransientModesCount, &slsTransientModes.Get(), &slsBezelModesOffsetsCount, &slsBezelModesOffsets.Get(), ADL_DISPLAY_SLSMAPCONFIG_GET_OPTION_RELATIVETO_CURRENTANGLE);
+			if (adl_Res0 != ADL_OK)
+			{
+				//Return result
+				//AVDebugWriteLine("Failed to get SLS map configuration: " << adl_Res0);
+				return false;
+			}
+
+			//Check if Display resolution matches SLS resolution
+			for (int i = 0; i < slsStandardModesCount; i++)
+			{
+				int slsWidth = slsStandardModes.Get()[i].displayMode.iXRes;
+				int slsHeight = slsStandardModes.Get()[i].displayMode.iYRes;
+				if (slsHeight == displayHeight && slsWidth == displayWidth)
+				{
+					//AVDebugWriteLine("Found matching Display and SLS resolution.");
+					//AVDebugWriteLine("SLS Width: " << slsWidth << " / Display Width: " << displayWidth);
+					//AVDebugWriteLine("SLS Height: " << slsHeight << " / Display Height: " << displayHeight);
+					return true;
+				}
+			}
 		}
 		catch (...) {}
+		//AVDebugWriteLine("No SLS configuration found.");
 		return false;
 	}
 
@@ -223,20 +314,32 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix do not enable when already enabled to prevent flicker
-			//if (Adl_Eyefinity_IsEnabled()) { return; }
+			//Check if Eyefinity is enabled or disabled
+			bool eyefinityEnabled = Adl_Eyefinity_IsEnabled(displayAdapterIndex);
+			if (setEnabled && eyefinityEnabled)
+			{
+				//AVDebugWriteLine("Eyefinity is already enabled.");
+				return true;
+			}
+			else if (!setEnabled && !eyefinityEnabled)
+			{
+				//AVDebugWriteLine("Eyefinity is already disabled.");
+				return true;
+			}
+
+			//Fix set display to duplicate or extended mode to allow Eyefinity toggle
 
 			//Enable SLS environment workaround
 			SetEnvironmentVariableA("ADL_4KWORKAROUND_CANCEL", "TRUE");
 
-			//Get display map configuration
-			int numDisplayMap;
-			AVFin<ADLDisplayMap*> lpDisplayMap = AVFin<ADLDisplayMap*>(AVFinMethod::FreeMarshal);
+			//Get display configuration
+			int displayMapCount;
+			AVFin<ADLDisplayMap*> displayMap = AVFin<ADLDisplayMap*>(AVFinMethod::FreeMarshal);
 
-			int numDisplayTarget;
-			AVFin<ADLDisplayTarget*> lpDisplayTarget = AVFin<ADLDisplayTarget*>(AVFinMethod::FreeMarshal);
+			int displayTargetCount;
+			AVFin<ADLDisplayTarget*> displayTarget = AVFin<ADLDisplayTarget*>(AVFinMethod::FreeMarshal);
 
-			adl_Res0 = _ADL2_Display_DisplayMapConfig_Get(adl_Context, displayAdapterIndex, &numDisplayMap, &lpDisplayMap.Get(), &numDisplayTarget, &lpDisplayTarget.Get(), ADL_DISPLAY_DISPLAYMAP_OPTION_GPUINFO);
+			adl_Res0 = _ADL2_Display_DisplayMapConfig_Get(adl_Context, displayAdapterIndex, &displayMapCount, &displayMap.Get(), &displayTargetCount, &displayTarget.Get(), ADL_DISPLAY_DISPLAYMAP_OPTION_GPUINFO);
 			if (adl_Res0 != ADL_OK)
 			{
 				//Return result
@@ -244,21 +347,27 @@ namespace winrt::RadeonTuner::implementation
 				return false;
 			}
 
-			//Get single large surface map index
-			int slsMapIndex;
-			adl_Res0 = _ADL2_Display_SLSMapIndex_Get(adl_Context, displayAdapterIndex, numDisplayTarget, lpDisplayTarget.Get(), &slsMapIndex);
+			//Get SLS index
+			int slsMapIndex = -1;
+			adl_Res0 = _ADL2_Display_SLSMapIndex_Get(adl_Context, displayAdapterIndex, displayTargetCount, displayTarget.Get(), &slsMapIndex);
 			if (adl_Res0 != ADL_OK)
 			{
 				//Return result
-				AVDebugWriteLine("Failed to get single large surface map index: " << adl_Res0);
+				AVDebugWriteLine("Failed to get SLS map index: " << adl_Res0);
+				return false;
+			}
+			if (slsMapIndex <= 0)
+			{
+				//Return result
+				//AVDebugWriteLine("No valid SLS index found.");
 				return false;
 			}
 
-			//Set single large surface map state
+			//Set SLS state
 			adl_Res0 = _ADL2_Display_SLSMapConfig_SetState(adl_Context, displayAdapterIndex, slsMapIndex, setEnabled);
 
 			//Return result
-			AVDebugWriteLine("Set Eyefinity state: " << adl_Res0 << " / " << setEnabled);
+			AVDebugWriteLine("Set Eyefinity state: " << adl_Res0 << " / " << slsMapIndex << " / " << setEnabled);
 			return adl_Res0 == ADL_OK;
 		}
 		catch (...)

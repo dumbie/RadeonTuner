@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all displays
 			{
-				auto itemCollection = combobox_DisplaySelect().Items();
+				auto itemCollectionSelect = combobox_DisplaySelect().Items();
 				auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
 				UINT appendCount = ppDisplayList->Size();
 				for (UINT i = 0; i < appendCount; i++)
@@ -39,7 +39,7 @@ namespace winrt::RadeonTuner::implementation
 					auto displayNameString = char_to_wstring(displayName);
 
 					//Display select
-					itemCollection.Append(box_value(displayNameString));
+					itemCollectionSelect.Append(box_value(displayNameString));
 
 					//Get ADL display index
 					int ppNullptr;
@@ -47,16 +47,18 @@ namespace winrt::RadeonTuner::implementation
 					int displayDisplayIndex;
 					adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(displayInfo, &displayAdapterIndex, &displayDisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
 
-					//Eyefinity
+					//Eyefinity displays list
 					RadeonTuner::DisplayDetailsIdl displayDetails;
 					displayDetails.IndexAdapter(displayAdapterIndex);
 					displayDetails.IndexDisplay(displayDisplayIndex);
 					displayDetails.Name(displayNameString);
 					itemCollectionEyefinity.Append(box_value(displayDetails));
 
-					//Set maximum rows and columns based on display count
-					slider_Eyefinity_Columns().Maximum(appendCount);
+					//Set min and max rows and columns based on display count
+					slider_Eyefinity_Rows().Minimum(1);
 					slider_Eyefinity_Rows().Maximum(appendCount);
+					slider_Eyefinity_Columns().Minimum(1);
+					slider_Eyefinity_Columns().Maximum(appendCount);
 				}
 				listview_EyefinityMonitorIndex().ItemsSource(itemCollectionEyefinity);
 			}

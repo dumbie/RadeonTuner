@@ -87,7 +87,6 @@ namespace winrt::RadeonTuner::implementation
 			//Delete all Eyefinity configurations
 			if (Adl_Eyefinity_Delete_All(adl_Display_AdapterIndex))
 			{
-				eyefinityProcessRunningPrevious = -1;
 				ShowNotification(L"Removed Eyefinity");
 				AVDebugWriteLine(L"Removed Eyefinity");
 			}
@@ -111,7 +110,6 @@ namespace winrt::RadeonTuner::implementation
 			//if (Adl_Eyefinity_Create_Simple())
 			if (Adl_Eyefinity_Create_Custom(adl_Display_AdapterIndex))
 			{
-				eyefinityProcessRunningPrevious = -1;
 				ShowNotification(L"Created Eyefinity");
 				AVDebugWriteLine(L"Created Eyefinity");
 			}
@@ -134,7 +132,6 @@ namespace winrt::RadeonTuner::implementation
 			//Enable Eyefinity
 			if (Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, true))
 			{
-				eyefinityProcessRunningPrevious = -1;
 				ShowNotification(L"Enabled Eyefinity");
 				AVDebugWriteLine(L"Enabled Eyefinity");
 			}
@@ -157,7 +154,6 @@ namespace winrt::RadeonTuner::implementation
 			//Disable Eyefinity
 			if (Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, false))
 			{
-				eyefinityProcessRunningPrevious = -1;
 				ShowNotification(L"Disabled Eyefinity");
 				AVDebugWriteLine(L"Disabled Eyefinity");
 			}
@@ -174,6 +170,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
 			{

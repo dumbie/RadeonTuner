@@ -1,24 +1,6 @@
 #pragma once
 #include "pch.h"
 
-void ReplaceUpdater()
-{
-	try
-	{
-		AVDebugWriteLine(L"Checking application updater.");
-
-		////Close running application updater
-		//if (Close_ProcessesByName("Updater.exe", true))
-		//{
-		//	await Task.Delay(1000);
-		//}
-
-		//Move new updater executable file
-		FileMove(L"Updater/UpdaterReplace.exe", L"Updater.exe", true);
-	}
-	catch (...) {}
-}
-
 void SettingCheck()
 {
 	try
@@ -46,6 +28,11 @@ void SettingCheck()
 		if (!AppVariables::Settings.Check("ShowExperimental"))
 		{
 			AppVariables::Settings.Set("ShowExperimental", false);
+		}
+
+		if (!AppVariables::Settings.Check("EyefinityAutomatic"))
+		{
+			AppVariables::Settings.Set("EyefinityAutomatic", false);
 		}
 
 		AVDebugWriteLine("Application settings checked.");
