@@ -104,15 +104,16 @@
                 <!-- Status -->
                 <Border x:Name="border_Status" Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,10,0" FontSize="18"/>
-                        <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Power_Watt" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Memory" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,8,0" FontSize="18"/>
+                        <TextBlock x:Name="textblock_Current_Temp_Intake" Margin="0,0,8,0" FontSize="18"/>
                     </StackPanel>
                 </Border>
 

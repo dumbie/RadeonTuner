@@ -37,8 +37,8 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Get GPU metrics support
-				IADLXGPUMetricsPtr ppGpuMetrics;
-				adlx_Res0 = ppPerformanceMonitoringServices->GetCurrentGPUMetrics(ppGpuInfo, &ppGpuMetrics);
+				IADLXGPUMetrics3Ptr ppGpuMetrics;
+				adlx_Res0 = ppPerformanceMonitoringServices->GetCurrentGPUMetrics(ppGpuInfo, (IADLXGPUMetrics**)&ppGpuMetrics);
 
 				//Get GPU usage
 				double gpuUsage = 0;
@@ -72,6 +72,16 @@ namespace winrt::RadeonTuner::implementation
 				double gpuTemperatureCore = 0;
 				adlx_Res0 = ppGpuMetrics->GPUTemperature(&gpuTemperatureCore);
 
+				//Get GPU temperature memory
+				double gpuTemperatureMemory = 0;
+				bool gpuTemperatureMemorySupported = false;
+				try
+				{
+					adlx_Res0 = ppGpuMetrics->GPUMemoryTemperature(&gpuTemperatureMemory);
+					gpuTemperatureMemorySupported = ADLX_SUCCEEDED(adlx_Res0);
+				}
+				catch (...) {}
+
 				//Get GPU temperature hotspot
 				double gpuTemperatureHotspot = 0;
 				adlx_Res0 = ppGpuMetrics->GPUHotspotTemperature(&gpuTemperatureHotspot);
@@ -94,6 +104,15 @@ namespace winrt::RadeonTuner::implementation
 
 						textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
 						textblock_Current_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
+
+						if (gpuTemperatureMemorySupported && gpuTemperatureMemory < 1000)
+						{
+							textblock_Current_Temp_Memory().Text(number_to_wstring((int)gpuTemperatureMemory) + L"°C Memory");
+						}
+						else
+						{
+							textblock_Current_Temp_Memory().Text(L"");
+						}
 
 						if (gpuTemperatureHotspotSupported && gpuTemperatureHotspot < 1000)
 						{

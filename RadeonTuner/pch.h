@@ -63,7 +63,7 @@ namespace winrt
 #include "ADLX\Include\IDisplay3DLUT.h"
 #include "ADLX\Include\IDisplayGamma.h"
 #include "ADLX\Include\IDisplayGamut.h"
-#include "ADLX\Include\IPerformanceMonitoring.h"
+#include "ADLX\Include\IPerformanceMonitoring3.h"
 #include "ADLX\Include\ISmartAccessMemory.h"
 #include "ADLX\Include\IPowerTuning1.h"
 #include "ADLX\Include\IGPUTuning1.h"
