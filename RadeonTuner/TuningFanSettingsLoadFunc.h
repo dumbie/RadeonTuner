@@ -957,6 +957,15 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//Fan Zero Temperature
+			{
+				auto settingValue = Adl_Overdrive_Load_Value(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_ZERO_RPM_STOP_TEMPERATURE);
+				if (settingValue.has_value())
+				{
+					tuningFanSettings.FanZeroTemp = settingValue.value();
+				}
+			}
+
 			//Fan Speed 0
 			{
 				auto defaultValue = Adl_Overdrive_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);

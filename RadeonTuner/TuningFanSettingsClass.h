@@ -13,6 +13,7 @@ struct TuningFanSettings
 	std::optional<int> PowerVoltage;
 	std::optional<int> PowerTDC;
 	std::optional<bool> FanZeroRpm;
+	std::optional<int> FanZeroTemp;
 	std::optional<int> FanSpeed0;
 	std::optional<int> FanTemp0;
 	std::optional<int> FanSpeed1;

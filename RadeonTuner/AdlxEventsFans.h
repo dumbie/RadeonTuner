@@ -226,6 +226,14 @@ namespace winrt::RadeonTuner::implementation
 			float fanTempEnd = graphWidth;
 			fanPoints.Append(Point{ fanTempEnd, fanSpeedEnd });
 
+			//Set zero rpm line position
+			if (tuningFanSettings.FanZeroTemp.has_value())
+			{
+				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp.value() / 100 * graphWidth;
+				grid_Fan_Zero_Rpm_Line_Gpu().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
+				grid_Fan_Zero_Rpm_Line_Profile().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
+			}
+
 			//Set fan points to polyline
 			polyline_Fan_Lines_Gpu().Points(fanPoints);
 
