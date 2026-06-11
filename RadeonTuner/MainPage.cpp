@@ -4,7 +4,8 @@
 
 #include "AdlAppsFunc.h"
 #include "AdlAppsUnlock.h"
-#include "AdlAppsReset.h"
+#include "AdlGraphicsResetApp.h"
+#include "AdlGraphicsResetRegistry.h"
 #include "AdlAppsInterface.h"
 #include "AdlAppsAdd.h"
 #include "AdlAppsLoad.h"
@@ -112,6 +113,9 @@ namespace winrt::RadeonTuner::implementation
 			//Load and list Automatic Eyefinity applications
 			Eyefinity_Applications_LoadFromFile();
 			Eyefinity_Applications_List();
+
+			//Set adl gaming driver
+			AdlSetGamingDriver();
 
 			//Set adl app gpu identifier
 			AdlAppSetUmdGpuId();

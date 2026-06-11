@@ -28,6 +28,27 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
+	void MainPage::AdlSetGamingDriver()
+	{
+		try
+		{
+			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			{
+				//Get gpu pointer
+				IADLXGPU2Ptr gpuPointer;
+				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuPointer);
+
+				//Get ADL adapter index
+				int gpuAdapterIndex = -1;
+				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(gpuPointer, &gpuAdapterIndex);
+
+				//Set gaming driver flag
+				AdlRegistrySettingSet(gpuAdapterIndex, "", "KMD_IsGamingDriver", 1);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::AdlAppSetUmdGpuId()
 	{
 		try
@@ -57,7 +78,7 @@ namespace winrt::RadeonTuner::implementation
 				//std::string identifierHex = number_to_hexstring(identifierInt, 4);
 
 				//Set gpu application identifier
-				AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AppGpuId", "0x0001");
+				AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AppGpuId", L"0x0001");
 			}
 		}
 		catch (...) {}
