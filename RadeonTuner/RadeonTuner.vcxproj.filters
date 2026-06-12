@@ -240,7 +240,7 @@
     <ClInclude Include="AdlAppsUnlock.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlAppsReset.h">
+    <ClInclude Include="AdlGraphicsResetApp.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="AdlRegistry.h">
@@ -294,7 +294,7 @@
     <ClInclude Include="AdlxValuesExportDisplay.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="AdlValuesLoadGraphics.h">
+    <ClInclude Include="AdlValuesLoadGraphicsApp.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlxEventsGraphics.h">
@@ -353,6 +353,12 @@
     </ClInclude>
     <ClInclude Include="DisplayDetailsIdl.h">
       <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlValuesLoadGraphicsRegistry.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlGraphicsResetRegistry.h">
+      <Filter>Page Files\Adl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

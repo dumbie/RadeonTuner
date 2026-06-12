@@ -42,6 +42,7 @@ struct AdlAppProperty
 
 struct AdlApplication
 {
+	bool Global;
 	std::wstring FileName;
 	std::wstring FilePath;
 	std::wstring ProfileName;

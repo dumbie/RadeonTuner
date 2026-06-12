@@ -6,11 +6,11 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties, bool addOnly)
+	bool MainPage::AdlGraphicsResetApp(AdlApplication& adlApp, bool clearProperties, bool addOnly)
 	{
 		try
 		{
-			AVDebugWriteLine("Setting application properties to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
+			AVDebugWriteLine("Resetting application graphics to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
 
 			//Clear all application properties
 			if (clearProperties)
@@ -87,16 +87,11 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//FSR DLL Load Path
-			{
-				AdlAppProperty adlAppProperty0{};
-				adlAppProperty0.Name = L"FfxDllPath";
-				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue0.Value = L"";
-				adlAppProperty0.Values = { adlAppPropertyValue0 };
-				adlAppProperties.push_back(adlAppProperty0);
-			}
+			//FSR Override DLL Path
+			//Not supported
+
+			//FSR Over-The-Air Updates
+			//Not supported
 
 			//FSR Latency Reduction
 			{
@@ -207,6 +202,12 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}
+
+			//Frame Rate Target Control
+			//Not supported
+
+			//Frame Rate Target Control Maximum Frame Rate
+			//Not supported
 
 			//Anti-Aliasing Override
 			{
@@ -347,13 +348,16 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
+			//OpenGL 10-Bit Pixel Format
+			//Not supported
+
 			//Update application properties
 			return AdlAppPropertyUpdate(adlApp, adlAppProperties, addOnly);
 		}
 		catch (...)
 		{
-			//Set result
-			AVDebugWriteLine("Failed resetting application properties (Exception)");
+			//Return result
+			AVDebugWriteLine("Failed resetting application graphics (Exception)");
 			return false;
 		}
 	}

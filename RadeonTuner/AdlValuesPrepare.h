@@ -10,8 +10,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Add global user application
-			AdlAppAdd(L"*.*", L"3D_User");
+			//Remove global user application
+			AdlApplication globalApp{};
+			globalApp.FileName = L"*.*";
+			globalApp.FilePath = L"*\\*";
+			AdlAppRemove(globalApp);
 
 			//Load and list applications
 			AdlAppInterfaceListLoad();

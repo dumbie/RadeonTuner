@@ -9,19 +9,43 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Default application settings
-			if (AdlAppDefaultProperties(AdlAppSelectedGet().value(), true, false))
-			{
-				//Reload application settings
-				AdlxValuesLoadSelectApp();
+			//Get selected application
+			auto selectedApp = AdlAppSelectedGet().value();
 
-				//Return result
-				return true;
+			//Check application type
+			if (selectedApp.get().Global)
+			{
+				//Reset registry settings
+				if (AdlGraphicsResetRegistry())
+				{
+					//Reload application settings
+					AdlxValuesLoadSelectApp();
+
+					//Return result
+					return true;
+				}
+				else
+				{
+					//Return result
+					return false;
+				}
 			}
 			else
 			{
-				//Return result
-				return false;
+				//Reset application settings
+				if (AdlGraphicsResetApp(selectedApp, true, false))
+				{
+					//Reload application settings
+					AdlxValuesLoadSelectApp();
+
+					//Return result
+					return true;
+				}
+				else
+				{
+					//Return result
+					return false;
+				}
 			}
 		}
 		catch (...)

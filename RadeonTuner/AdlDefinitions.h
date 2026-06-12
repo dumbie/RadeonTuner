@@ -10,6 +10,10 @@ inline ADL2_Main_Control_Create _ADL2_Main_Control_Create;
 typedef int (*ADL2_Main_Control_Destroy)(ADL_CONTEXT_HANDLE context);
 inline ADL2_Main_Control_Destroy _ADL2_Main_Control_Destroy;
 
+//User
+typedef int (*ADL2_User_Settings_Notify)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_USER_SETTINGS iSetting, int iChanged);
+inline ADL2_User_Settings_Notify _ADL2_User_Settings_Notify;
+
 //Applications
 typedef int (*ADL2_ApplicationProfiles_Applications_Get)(ADL_CONTEXT_HANDLE context, const wchar_t* driverArea, int* numApps, ADLApplicationRecord** adlApplications);
 inline ADL2_ApplicationProfiles_Applications_Get _ADL2_ApplicationProfiles_Applications_Get;
@@ -60,6 +64,22 @@ inline ADL2_GcnAsicInfo_Get _ADL2_GcnAsicInfo_Get;
 
 typedef int (*ADL2_Adapter_ChipSetInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLChipSetInfo* lpChipSetInfo);
 inline ADL2_Adapter_ChipSetInfo_Get _ADL2_Adapter_ChipSetInfo_Get;
+
+//Graphics
+typedef int (*ADL2_FRTCPro_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRTCPRO_Settings* FRTCPROSettings);
+inline ADL2_FRTCPro_Settings_Get _ADL2_FRTCPro_Settings_Get;
+
+typedef int (*ADL2_FRTCPro_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRTCPRO_Settings FRTCPROSettings, ADL_FRTCPRO_CHANGED_REASON changeReason);
+inline ADL2_FRTCPro_Settings_Set _ADL2_FRTCPro_Settings_Set;
+
+typedef int (*ADL2_FPS_Settings_Reset)(ADL_CONTEXT_HANDLE context, int iAdapterIndex);
+inline ADL2_FPS_Settings_Reset _ADL2_FPS_Settings_Reset;
+
+typedef int (*ADL2_FPS_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFPSSettingsInput lpFPSSettings);
+inline ADL2_FPS_Settings_Set _ADL2_FPS_Settings_Set;
+
+typedef int (*ADL2_FPS_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFPSSettingsOutput* lpFPSSettings);
+inline ADL2_FPS_Settings_Get _ADL2_FPS_Settings_Get;
 
 //Display
 typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);

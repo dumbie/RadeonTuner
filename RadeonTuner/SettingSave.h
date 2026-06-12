@@ -38,11 +38,11 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving_settings) { return; }
 
 			//Create or delete context menu shortcut
-			bool contextShortcut = RegistryCheck(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
+			bool contextShortcut = RegistryCheck(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
 			if (contextShortcut)
 			{
 				//Delete shortcut from registry
-				RegistryDelete(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
+				RegistryDelete(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
 			}
 			else
 			{
@@ -50,9 +50,9 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring targetFilePath = PathGetExecutableFile();
 
 				//Create shortcut in registry
-				RegistrySet(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner", L"", L"Open RadeonTuner");
-				RegistrySet(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner", L"Icon", targetFilePath);
-				RegistrySet(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner\\command", L"", targetFilePath);
+				RegistrySet(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner", L"", L"Open RadeonTuner");
+				RegistrySet(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner", L"Icon", targetFilePath);
+				RegistrySet(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner\\command", L"", targetFilePath);
 			}
 		}
 		catch (...) {}

@@ -66,7 +66,7 @@ namespace winrt::RadeonTuner::implementation
 			adlApp.DriverArea = driverArea;
 
 			//Set default properties
-			if (AdlAppDefaultProperties(adlApp, true, false))
+			if (AdlGraphicsResetApp(adlApp, true, false))
 			{
 				return L"Application added";
 			}

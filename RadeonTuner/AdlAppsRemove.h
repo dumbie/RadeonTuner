@@ -10,13 +10,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check for global application
-			if (adlApp.FileName == L"*.*")
-			{
-				AVDebugWriteLine("Cannot remove Global application.");
-				return L"Cannot remove Global app";
-			}
-
 			AVDebugWriteLine("Removing profiles from application: " << adlApp.FileName << " / " << adlApp.FilePath);
 
 			//Get profile customisations

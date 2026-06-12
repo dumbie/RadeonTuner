@@ -57,6 +57,15 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Main_Control_Destroy";
 			}
 
+			//User
+			_ADL2_User_Settings_Notify = (ADL2_User_Settings_Notify)GetProcAddress(hInstance, "ADL2_User_Settings_Notify");
+			if (_ADL2_User_Settings_Notify == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_User_Settings_Notify");
+				return L"Failed to init _ADL2_User_Settings_Notify";
+			}
+
 			//Application
 			_ADL2_ApplicationProfiles_Applications_Get = (ADL2_ApplicationProfiles_Applications_Get)GetProcAddress(hInstance, "ADL2_ApplicationProfiles_Applications_Get");
 			if (_ADL2_ApplicationProfiles_Applications_Get == NULL)
@@ -186,6 +195,47 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Adapter_ChipSetInfo_Get");
 				return L"Failed to init _ADL2_Adapter_ChipSetInfo_Get";
+			}
+
+			//Graphics
+			_ADL2_FRTCPro_Settings_Get = (ADL2_FRTCPro_Settings_Get)GetProcAddress(hInstance, "ADL2_FRTCPro_Settings_Get");
+			if (_ADL2_FRTCPro_Settings_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FRTCPro_Settings_Get");
+				return L"Failed to init _ADL2_FRTCPro_Settings_Get";
+			}
+
+			_ADL2_FRTCPro_Settings_Set = (ADL2_FRTCPro_Settings_Set)GetProcAddress(hInstance, "ADL2_FRTCPro_Settings_Set");
+			if (_ADL2_FRTCPro_Settings_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FRTCPro_Settings_Set");
+				return L"Failed to init _ADL2_FRTCPro_Settings_Set";
+			}
+
+			_ADL2_FPS_Settings_Reset = (ADL2_FPS_Settings_Reset)GetProcAddress(hInstance, "ADL2_FPS_Settings_Reset");
+			if (_ADL2_FPS_Settings_Reset == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FPS_Settings_Reset");
+				return L"Failed to init _ADL2_FPS_Settings_Reset";
+			}
+
+			_ADL2_FPS_Settings_Set = (ADL2_FPS_Settings_Set)GetProcAddress(hInstance, "ADL2_FPS_Settings_Set");
+			if (_ADL2_FPS_Settings_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FPS_Settings_Set");
+				return L"Failed to init _ADL2_FPS_Settings_Set";
+			}
+
+			_ADL2_FPS_Settings_Get = (ADL2_FPS_Settings_Get)GetProcAddress(hInstance, "ADL2_FPS_Settings_Get");
+			if (_ADL2_FPS_Settings_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FPS_Settings_Get");
+				return L"Failed to init _ADL2_FPS_Settings_Get";
 			}
 
 			//Display

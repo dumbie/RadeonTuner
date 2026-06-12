@@ -42,6 +42,11 @@ namespace winrt::RadeonTuner::implementation
 			slider_RadeonImageSharpening_Sharpening().StepFrequency(10);
 			slider_RadeonImageSharpening_Sharpening().SmallChange(10);
 
+			slider_Frtc_Fps().Minimum(15);
+			slider_Frtc_Fps().Maximum(1000);
+			slider_Frtc_Fps().StepFrequency(1);
+			slider_Frtc_Fps().SmallChange(1);
+
 			//Get FSR Upscaling Override
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"FsrOverride");
@@ -193,34 +198,17 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//FSR DLL Load Path
+			//Get FSR Override DLL Path
 			{
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"FfxDllPath");
-				if (adlProperty.has_value())
-				{
-					std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
-					for (AdlAppPropertyValue value : adlProperty.value().Values)
-					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
-						{
-							if (value.Value.empty() || wstring_contains(value.Value, system32path))
-							{
-								textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
-							}
-							else
-							{
-								textblock_FsrDllLoadPath().Text(value.Value);
-							}
-							break;
-						}
-					}
-				}
-				else
-				{
-					button_FsrDllLoadPath_Set().IsEnabled(false);
-					button_FsrDllLoadPath_Default().IsEnabled(false);
-					textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
-				}
+				//Not supported
+				button_FsrDllLoadPath_Default().IsEnabled(false);
+				button_FsrDllLoadPath_Set().IsEnabled(false);
+				textblock_FsrDllLoadPath().Text(L"Not supported in application profile.");
+			}
+
+			//Get FSR Over-The-Air Updates
+			{
+				//Not supported
 			}
 
 			//Get FSR Latency Reduction
@@ -286,6 +274,18 @@ namespace winrt::RadeonTuner::implementation
 				{
 					slider_RadeonBoost_MinRes().IsEnabled(false);
 				}
+			}
+
+			//Get Radeon Frame Rate Target Control
+			{
+				//Not supported
+				toggleswitch_Frtc().IsEnabled(false);
+			}
+
+			//Get Radeon Frame Rate Target Control Frame Rate
+			{
+				//Not supported
+				slider_Frtc_Fps().IsEnabled(false);
 			}
 
 			//Get Radeon Chill
@@ -809,13 +809,17 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//Get OpenGL 10-Bit Pixel Format
+			//Not supported
+			toggleswitch_OpenGL10Bit().IsEnabled(false);
+
 			//Set result
-			AVDebugWriteLine("ADL graphics values loaded.");
+			AVDebugWriteLine("ADL graphics app values loaded.");
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADL failed loading graphics values.");
+			AVDebugWriteLine("ADL failed loading graphics app values.");
 		}
 	}
 }

@@ -63,7 +63,7 @@ namespace winrt::RadeonTuner::implementation
 			toggleswitch_Shortcut_StartMenu().IsOn(startMenuShortcut);
 
 			//Check context menu shortcut
-			bool contextShortcut = RegistryCheck(HKEY_CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
+			bool contextShortcut = RegistryCheck(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner");
 			toggleswitch_Shortcut_ContextMenu().IsOn(contextShortcut);
 
 			//Fix validate shortcut paths if directory moved

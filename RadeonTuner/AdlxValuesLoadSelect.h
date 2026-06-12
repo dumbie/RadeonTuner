@@ -2,7 +2,8 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "MainVariables.h"
-#include "AdlValuesLoadGraphics.h"
+#include "AdlValuesLoadGraphicsApp.h"
+#include "AdlValuesLoadGraphicsRegistry.h"
 #include "AdlxValuesLoadMultimedia.h"
 #include "AdlxValuesLoadPower.h"
 #include "AdlxValuesLoadDisplay.h"
@@ -29,13 +30,38 @@ namespace winrt::RadeonTuner::implementation
 			//Get application details
 			std::wstring applicationFileName = selectedApp.FileName;
 			std::wstring applicationFilePath = selectedApp.FilePath;
-			if (applicationFileName == L"*.*")
-			{
-				applicationFileName = L"Global";
-			}
 			textblock_GraphicsOptions_Name().Text(applicationFileName);
 			textblock_GraphicsOptions_Details().Text(applicationFilePath);
 			AVDebugWriteLine("Selected app: " << applicationFileName);
+
+			//Check application type
+			if (applicationFileName == L"Global" && selectedApp.Global)
+			{
+				//Update interface
+				button_Graphics_Remove().IsEnabled(false);
+				button_Graphics_Import().IsEnabled(false);
+				button_Graphics_Export().IsEnabled(false);
+
+				//Fix check if setting is set otherwise set default
+
+				//Load application graphics settings
+				AdlValuesLoadGraphicsRegistry();
+			}
+			else
+			{
+				//Fix check if application executable exists and warn user profile might not work
+
+				//Update interface
+				button_Graphics_Remove().IsEnabled(true);
+				button_Graphics_Import().IsEnabled(true);
+				button_Graphics_Export().IsEnabled(true);
+
+				//Check and set default application properties
+				AdlGraphicsResetApp(selectedApp, false, true);
+
+				//Load application graphics settings
+				AdlValuesLoadGraphicsApp();
+			}
 
 			//Enable or disable feature unlock button
 			std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
@@ -51,14 +77,6 @@ namespace winrt::RadeonTuner::implementation
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 				}
 			}
-
-			//Fix check if application executable exists and warn user profile might not work
-
-			//Check and set default application properties
-			AdlAppDefaultProperties(selectedApp, false, true);
-
-			//Load application graphics settings
-			AdlValuesLoadGraphicsApp();
 
 			//Enable saving
 			std::thread threadEnableSaving([]()
@@ -184,7 +202,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//DriverBug#1
 			////Check and set default application properties
-			//AdlAppDefaultProperties(AdlAppSelectedGet().value(), false, true);
+			//AdlGraphicsResetApp(AdlAppSelectedGet().value(), false, true);
 
 			////Load application graphics settings
 			//AdlValuesLoadGraphicsApp();
