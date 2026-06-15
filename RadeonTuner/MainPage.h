@@ -18,9 +18,11 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlAppAdd(std::wstring filePath, std::wstring driverArea);
 		std::wstring AdlAppRemove(AdlApplication adlApp);
 		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
-		bool AdlAppDefaultProperties(AdlApplication& adlApp, bool clearProperties, bool addOnly);
+		bool AdlGraphicsResetRegistry();
+		bool AdlGraphicsResetApp(AdlApplication& adlApp, bool clearProperties, bool addOnly);
 		std::wstring AdlAppProfileGenerateName(std::wstring profileHeader);
 		void AdlAppSetUmdGpuId();
+		void AdlSetGamingDriver();
 		bool AdlCheckDriverOnlySoftware();
 
 		bool Adl_Overdrive_Reset(int gpuAdapterIndex);
@@ -45,10 +47,10 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::vector<AdlAppProperty> properties, bool addOnly);
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue);
 
-		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, std::string value);
-		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string key, int value);
-		std::optional<std::string> AdlRegistrySettingGetString(int gpuAdapterIndex, std::string subKey, std::string key);
-		std::optional<INT> AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string key);
+		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, std::wstring keyValue);
+		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, int keyValue);
+		std::optional<std::wstring> AdlRegistrySettingGetString(int gpuAdapterIndex, std::string subKey, std::string keyName, bool decodeBinary);
+		std::optional<INT> AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string keyName);
 
 		std::wstring AdlxInitialize();
 		std::pair<IADLXGPU2Ptr, int> AdlxGetGpuPointer(std::string gpuIdentifier);
@@ -91,6 +93,7 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadSelectGpu();
 		void AdlxValuesLoadSelectDisplay();
 		void AdlValuesLoadGraphicsApp();
+		void AdlValuesLoadGraphicsRegistry();
 		void AdlxValuesLoadMultimedia();
 		void AdlxValuesLoadPower();
 		void AdlxValuesLoadDisplay();
@@ -228,6 +231,9 @@ namespace winrt::RadeonTuner::implementation
 		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Fan_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 	};
 }
 

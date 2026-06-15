@@ -167,17 +167,17 @@
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                     <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
                                     <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations.&#10;&#10;* Frame Rate Target Control is not available because RadeonTuner uses application profiles to set Graphics settings which does not support changing FRTC."/>
+                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
                                 </StackPanel>
                             </Grid>
 
-                            <!-- Radeon FSR -->
+                            <!-- Radeon FSR Options -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- FSR Latency Reduction -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="FSR Latency Reduction (Anti-Lag) helps reduce input lag in GPU-limited cases by controlling the pace of the CPU work to ensure it doesn't get too far ahead of the GPU, enabling this setting may lead to minimal frame rate loss."/>
-                                        <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Using this setting in the Global profile may increase your CPU load usage even on your desktop because it gets enabled for any running process using 3D rendering including system processes.&#10;&#10;* This setting does not work on OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
                                     </StackPanel>
 
@@ -192,24 +192,10 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_MultiFrameGenerationRatio" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_MultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
-
-                                    <!-- FSR DLL Load Path -->
-                                    <StackPanel x:Name="stackpanel_FsrDllLoadPath">
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
-                                            <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <Button x:Name="button_FsrDllLoadPath_Set" Content="Set path" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
-                                            <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
-                                            <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <TextBlock Grid.Column="0" Margin="5,10,0,0" Text="FSR Override" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon FSR Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -262,6 +248,22 @@
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
                                         </StackPanel>
                                     </StackPanel>
+
+                                    <!-- FSR DLL Load Path -->
+                                    <StackPanel x:Name="stackpanel_FsrDllLoadPath">
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards."/>
+                                            <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Button x:Name="button_FsrDllLoadPath_Set" Content="Set path" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
+                                            <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
+                                            <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
@@ -285,6 +287,23 @@
                                         <TextBlock Text="Max" VerticalAlignment="Center"/>
                                         <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
                                         <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
+                                        <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Frame Rate Target Control -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets an user-defined target maximum frame rate to reduce power consumption."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Maximum" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_Frtc_Fps" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_Fps, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_Frtc_Fps" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_Fps_ValueChanged"/>
                                         <TextBlock Text="FPS" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -314,7 +333,7 @@
                                     <!-- Radeon Image Sharpening -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled applications on RDNA3 or older graphic cards.&#10;&#10;* This setting does not work on OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* On RDNA3 or older graphic cards and in application profiles, this setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* On RDNA4 or newer graphic cards, this setting only works when using full-screen mode."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
                                     </StackPanel>
 
@@ -335,6 +354,7 @@
                                     <!-- Vertical Refresh -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vertical refresh synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;* Limits the frame rate at the display's refresh rate."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
                                         <TextBlock Margin="10,0,0,0" Text="Wait for Vertical Refresh" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_VerticalRefresh" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalRefresh_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -344,7 +364,7 @@
                                     <!-- Radeon Enhanced Sync -->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so minimal tearing is visible between frames.&#10;&#10;* Does not limit the frame rate at the display's refresh rate."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* If an application does not support Enhanced Sync it will fallback to the Vertical Refresh setting."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
                                     </StackPanel>
 
@@ -442,6 +462,13 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+
+                            <!-- OpenGL 10-Bit Pixel Format -->
+                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
+                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
+                            </StackPanel>
 
                             <TextBlock Margin="5,10,0,0" Text="Tessellation Options" FontSize="20" FontWeight="Medium"/>
 

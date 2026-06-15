@@ -8,6 +8,7 @@ namespace winrt::RadeonTuner::implementation
 {
 	//Fix skip when window is not visible
 	//Fix check if AFMF, FSR Latency Reduction, FSR Upscaling or FSR Feature Override is active and update status
+	//Applications that are currently hooked by driver can be found at Computer\HKEY_CURRENT_USER\Software\AMD\HKIDs
 
 	void MainPage::AdlxLoopMetrics()
 	{
