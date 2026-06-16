@@ -351,6 +351,15 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_Display_SLSMapConfig_SetState";
 			}
 
+			//Driver
+			_ADL2_Driver_Path_Get = (ADL2_Driver_Path_Get)GetProcAddress(hInstance, "ADL2_Driver_Path_Get");
+			if (_ADL2_Driver_Path_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Driver_Path_Get");
+				return L"Failed to init _ADL2_Driver_Path_Get";
+			}
+
 			//Overdrive
 			_ADL2_Overdrive8_Init_SettingX2_Get = (ADL2_Overdrive8_Init_SettingX2_Get)GetProcAddress(hInstance, "ADL2_Overdrive8_Init_SettingX2_Get");
 			if (_ADL2_Overdrive8_Init_SettingX2_Get == NULL)
@@ -383,6 +392,15 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Flush_Driver_Data");
 				return L"Failed to init _ADL2_Flush_Driver_Data";
+			}
+
+			//Cloud
+			_ADL2_CloudProfile_DLL_Get = (ADL2_CloudProfile_DLL_Get)GetProcAddress(hInstance, "ADL2_CloudProfile_DLL_Get");
+			if (_ADL2_CloudProfile_DLL_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_CloudProfile_DLL_Get");
+				return L"Failed to init _ADL2_CloudProfile_DLL_Get";
 			}
 
 			//Create ADL main control

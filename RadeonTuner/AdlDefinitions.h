@@ -124,6 +124,10 @@ inline ADL2_Display_SLSMapConfigX2_Delete _ADL2_Display_SLSMapConfigX2_Delete;
 typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iNumSLSMapIndex, int iState);
 inline ADL2_Display_SLSMapConfig_SetState _ADL2_Display_SLSMapConfig_SetState;
 
+//Driver
+typedef int (*ADL2_Driver_Path_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSize, char* lpDriverPath);
+inline ADL2_Driver_Path_Get _ADL2_Driver_Path_Get;
+
 //Overdrive
 typedef int (*ADL2_Overdrive8_Init_SettingX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpOverdrive8Capabilities, int* lpNumberOfFeatures, ADLOD8SingleInitSettingWrap** lppInitSettingList);
 inline ADL2_Overdrive8_Init_SettingX2_Get _ADL2_Overdrive8_Init_SettingX2_Get;
@@ -137,4 +141,8 @@ inline ADL2_Overdrive8_Setting_Set _ADL2_Overdrive8_Setting_Set;
 //Flush
 typedef int (*ADL2_Flush_Driver_Data)(ADL_CONTEXT_HANDLE context, int iAdapterIndex);
 inline ADL2_Flush_Driver_Data _ADL2_Flush_Driver_Data;
+
+//Cloud
+typedef int (*ADL2_CloudProfile_DLL_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpCloudProfile);
+inline ADL2_CloudProfile_DLL_Get _ADL2_CloudProfile_DLL_Get;
 //}
