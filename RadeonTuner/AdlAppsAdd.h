@@ -40,14 +40,7 @@ namespace winrt::RadeonTuner::implementation
 				//addFilePath = fileSystem.parent_path().wstring();
 				//size_t lastFolderPosition = addFilePath.find_last_of(L"\\");
 				//addFilePath = L"*" + addFilePath.substr(lastFolderPosition) + L"*";
-				//Note: this workaround breaks profile compatibility with Radeon Software but allows user to move app folders.
-
 				//DriverBug#2
-				//Bug in AMD driver does not sort paths by length and trims \ from ending so it will pick wrong profile depending on which one was added or changed last.
-				//Example: 'C:\Path Longer*' and 'C:\Path Long*' will use application profile 'C:\Path Long*' on 'C:\Path Longer*' when the executable name is the same.
-				//Workaround#1: Update settings using identical executable name with shortest path last to make the app come on top of the list.
-				//Workaround#2: Remove and re-add all applications sorted by file path length after each setting change to fix the list order.
-				//Workaround#3: Set the file path as wildcard making identical file names share the same profile... not ideal with names like game.exe
 			}
 
 			//Check if application exists and skip

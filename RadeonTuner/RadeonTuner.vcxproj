@@ -107,6 +107,7 @@
     <ClInclude Include="AdlxLoopMetrics.h" />
     <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
+    <ClInclude Include="AdlxResetShaderCache.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="ADL\adl_structures_custom.h" />
@@ -313,6 +314,7 @@
     <SDKReference Include="WindowsDesktop, Version=10.0.26100.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DriverNotes.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
