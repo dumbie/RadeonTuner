@@ -27,7 +27,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperty0.Name = L"FsrOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
 				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue0.Value = L"0";
+				adlAppPropertyValue0.Value = L"1";
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}
@@ -88,10 +88,14 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Override DLL Path
-			//Not supported
+			{
+				//Not supported
+			}
 
 			//FSR Over-The-Air Updates
-			//Not supported
+			{
+				//Not supported
+			}
 
 			//FSR Latency Reduction
 			{
@@ -159,7 +163,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Image Sharpening
+			//Radeon Image Sharpening 1
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Ris_PFEnable";
@@ -170,7 +174,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Image Sharpening Sharpness
+			//Radeon Image Sharpening 1 Sharpness
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Ris_SHDegree";
@@ -179,6 +183,11 @@ namespace winrt::RadeonTuner::implementation
 				adlAppPropertyValue0.Value = L"0.8";
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
+			}
+
+			//Radeon Image Sharpening 2
+			{
+				//Not supported
 			}
 
 			//Enhanced Sync
@@ -204,10 +213,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Frame Rate Target Control
-			//Not supported
-
-			//Frame Rate Target Control Maximum Frame Rate
-			//Not supported
+			{
+				//Not supported
+			}
 
 			//Anti-Aliasing Override
 			{
@@ -349,9 +357,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL 10-Bit Pixel Format
-			//Not supported
+			{
+				//Not supported
+			}
 
 			//Update application properties
+			AVDebugWriteLine("ADL graphics application values reset.");
 			return AdlAppPropertyUpdate(adlApp, adlAppProperties, addOnly);
 		}
 		catch (...)

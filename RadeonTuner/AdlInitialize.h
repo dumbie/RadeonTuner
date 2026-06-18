@@ -238,6 +238,86 @@ namespace winrt::RadeonTuner::implementation
 				return L"Failed to init _ADL2_FPS_Settings_Get";
 			}
 
+			_ADL2_CHILL_SettingsX2_Set = (ADL2_CHILL_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_CHILL_SettingsX2_Set");
+			if (_ADL2_CHILL_SettingsX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_CHILL_SettingsX2_Set");
+				return L"Failed to init _ADL2_CHILL_SettingsX2_Set";
+			}
+
+			_ADL2_CHILL_SettingsX2_Get = (ADL2_CHILL_SettingsX2_Get)GetProcAddress(hInstance, "ADL2_CHILL_SettingsX2_Get");
+			if (_ADL2_CHILL_SettingsX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_CHILL_SettingsX2_Get");
+				return L"Failed to init _ADL2_CHILL_SettingsX2_Get";
+			}
+
+			_ADL2_BOOST_SettingsX2_Set = (ADL2_BOOST_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_BOOST_SettingsX2_Set");
+			if (_ADL2_BOOST_SettingsX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_BOOST_SettingsX2_Set");
+				return L"Failed to init _ADL2_BOOST_SettingsX2_Set";
+			}
+
+			_ADL2_BOOST_Settings_GetX2 = (ADL2_BOOST_Settings_GetX2)GetProcAddress(hInstance, "ADL2_BOOST_Settings_GetX2");
+			if (_ADL2_BOOST_Settings_GetX2 == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_BOOST_Settings_GetX2");
+				return L"Failed to init _ADL2_BOOST_Settings_GetX2";
+			}
+
+			_ADL2_RIS_Settings_Set = (ADL2_RIS_Settings_Set)GetProcAddress(hInstance, "ADL2_RIS_Settings_Set");
+			if (_ADL2_RIS_Settings_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_RIS_Settings_Set");
+				return L"Failed to init _ADL2_RIS_Settings_Set";
+			}
+
+			_ADL2_RIS_Settings_Get = (ADL2_RIS_Settings_Get)GetProcAddress(hInstance, "ADL2_RIS_Settings_Get");
+			if (_ADL2_RIS_Settings_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_RIS_Settings_Get");
+				return L"Failed to init _ADL2_RIS_Settings_Get";
+			}
+
+			_ADL2_RIS_SettingsX2_Set = (ADL2_RIS_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_RIS_SettingsX2_Set");
+			if (_ADL2_RIS_SettingsX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_RIS_SettingsX2_Set");
+				return L"Failed to init _ADL2_RIS_SettingsX2_Set";
+			}
+
+			_ADL2_RIS_SettingsX2_Get = (ADL2_RIS_SettingsX2_Get)GetProcAddress(hInstance, "ADL2_RIS_SettingsX2_Get");
+			if (_ADL2_RIS_SettingsX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_RIS_SettingsX2_Get");
+				return L"Failed to init _ADL2_RIS_SettingsX2_Get";
+			}
+
+			_ADL2_DELAG_SettingsX2_Set = (ADL2_DELAG_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX2_Set");
+			if (_ADL2_DELAG_SettingsX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX2_Set");
+				return L"Failed to init _ADL2_DELAG_SettingsX2_Set";
+			}
+
+			_ADL2_DELAG_SettingsX2_Get = (ADL2_DELAG_SettingsX2_Get)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX2_Get");
+			if (_ADL2_DELAG_SettingsX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX2_Get");
+				return L"Failed to init _ADL2_DELAG_SettingsX2_Get";
+			}
+
 			//Display
 			_ADL2_Display_Color_Get = (ADL2_Display_Color_Get)GetProcAddress(hInstance, "ADL2_Display_Color_Get");
 			if (_ADL2_Display_Color_Get == NULL)
@@ -349,6 +429,31 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Display_SLSMapConfig_SetState");
 				return L"Failed to init _ADL2_Display_SLSMapConfig_SetState";
+			}
+
+			//Multimedia
+			_ADL2_MMD_Features_Caps = (ADL2_MMD_Features_Caps)GetProcAddress(hInstance, "ADL2_MMD_Features_Caps");
+			if (_ADL2_MMD_Features_Caps == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_MMD_Features_Caps");
+				return L"Failed to init _ADL2_MMD_Features_Caps";
+			}
+
+			_ADL2_MMD_FeatureValues_Set = (ADL2_MMD_FeatureValues_Set)GetProcAddress(hInstance, "ADL2_MMD_FeatureValues_Set");
+			if (_ADL2_MMD_FeatureValues_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_MMD_FeatureValues_Set");
+				return L"Failed to init _ADL2_MMD_FeatureValues_Set";
+			}
+
+			_ADL2_MMD_FeatureValues_Get = (ADL2_MMD_FeatureValues_Get)GetProcAddress(hInstance, "ADL2_MMD_FeatureValues_Get");
+			if (_ADL2_MMD_FeatureValues_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_MMD_FeatureValues_Get");
+				return L"Failed to init _ADL2_MMD_FeatureValues_Get";
 			}
 
 			//Driver

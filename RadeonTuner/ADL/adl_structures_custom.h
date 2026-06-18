@@ -6,6 +6,22 @@ typedef struct ADLOD8SingleInitSettingWrap : ADLOD8SingleInitSetting
 	}
 };
 
+typedef struct ADL_RIS2_NOTIFICATION_REASON
+{
+	unsigned int GlobalSharpeningModeChanged; //Set when Global sharpening mode value is changed
+	unsigned int GlobalSharpeningDegreeChanged; //Set when Global sharpening degree value is changed
+	unsigned int GlobalSharpenDesktopChanged; //Set when Global sharpen desktop value is changed
+};
+
+typedef struct ADL_RIS2_SETTINGS
+{
+	int GlobalSharpeningMode; //Global mode value (0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop)
+	int GlobalSharpeningDegree; //Global sharpening value
+	int GlobalSharpeningDegree_MinLimit; //Global sharpening slider min limit value
+	int GlobalSharpeningDegree_MaxLimit; //Global sharpening slider max limit value
+	int GlobalSharpeningDegree_Step; //Global sharpening step  value
+};
+
 enum ADLCvdcType
 {
 	CVDC_ENABLED,

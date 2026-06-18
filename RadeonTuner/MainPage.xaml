@@ -203,7 +203,7 @@
                                     <!-- FSR Upscaling Override -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.0 support.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.0 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="FSR Upscaling Override" OnContent="FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
                                     </StackPanel>
 
@@ -212,7 +212,7 @@
                                     <!-- FSR Interpolation Frame Generation Override -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.4 support.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.4 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideInterpolationFrameGeneration" Margin="10,0,0,0" OffContent="FSR Frame Generation Override" OnContent="FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled"/>
                                     </StackPanel>
 
@@ -222,7 +222,7 @@
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
                                         </StackPanel>
                                     </StackPanel>
@@ -233,7 +233,7 @@
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
                                         </StackPanel>
                                     </StackPanel>
@@ -244,25 +244,25 @@
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
                                         </StackPanel>
                                     </StackPanel>
 
                                     <!-- FSR DLL Load Path -->
-                                    <StackPanel x:Name="stackpanel_FsrDllLoadPath">
-                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards."/>
-                                            <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <Button x:Name="button_FsrDllLoadPath_Set" Content="Set path" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
-                                            <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
-                                            <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR DLL file that gets used when overriding FSR features in applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA4 or newer graphic cards."/>
+                                        <TextBlock Text="FSR DLL Load Path" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{StaticResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+
+                                    </StackPanel>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Button x:Name="button_FsrDllLoadPath_Set" Content="Set path" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
+                                        <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
+                                        <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -330,18 +330,37 @@
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <!-- Radeon Image Sharpening -->
+                                    <!-- Radeon Image Sharpening 1 -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* On RDNA3 or older graphic cards and in application profiles, this setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* On RDNA4 or newer graphic cards, this setting only works when using full-screen mode."/>
-                                        <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening" Margin="10,0,0,0" OffContent="Radeon Image Sharpening" OnContent="Radeon Image Sharpening" Toggled="toggleswitch_RadeonImageSharpening_Toggled"/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or older graphic cards and in application profiles.&#10;&#10;* This setting does not work with HDR enabled and OpenGL applications."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening1" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 1" OnContent="Radeon Image Sharpening 1" Toggled="toggleswitch_RadeonImageSharpening1_Toggled"/>
                                     </StackPanel>
 
-                                    <!-- Radeon Image Sharpening Sharpness -->
+                                    <!-- Radeon Image Sharpening 1 Sharpness -->
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonImageSharpening_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider x:Name="slider_RadeonImageSharpening_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening_Sharpening_ValueChanged"/>
+                                        <TextBox x:Name="textbox_RadeonImageSharpening1_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonImageSharpening1_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Radeon Image Sharpening 2 -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works when using full-screen mode."/>
+                                        <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening2" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 2" OnContent="Radeon Image Sharpening 2" Toggled="toggleswitch_RadeonImageSharpening2_Toggled"/>
+                                    </StackPanel>
+
+                                    <!-- Radeon Image Sharpening 2 Sharpness -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_RadeonImageSharpening2_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <Slider x:Name="slider_RadeonImageSharpening2_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -433,7 +452,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' or 'Bilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -464,11 +483,13 @@
                             </Border>
 
                             <!-- OpenGL 10-Bit Pixel Format -->
-                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
-                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
-                                <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
-                            </StackPanel>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
+                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                    <ToggleSwitch x:Name="toggleswitch_OpenGL10Bit" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10Bit_Toggled"/>
+                                </StackPanel>
+                            </Border>
 
                             <TextBlock Margin="5,10,0,0" Text="Tessellation Options" FontSize="20" FontWeight="Medium"/>
 
@@ -1241,7 +1262,7 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Rows -->
-                                    <TextBlock Text="Rows (Horizontal displays)" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Horizontal displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1254,7 +1275,7 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Columns -->
-                                    <TextBlock Text="Columns (Vertical displays)" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Vertical displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>

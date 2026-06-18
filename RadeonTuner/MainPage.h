@@ -87,6 +87,7 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlxValuesResetGraphics();
 		void AdlxValuesExportTuning();
 		void AdlxValuesImportTuning();
+		bool AdlxResetShaderCache();
 
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectPower();
@@ -161,8 +162,10 @@ namespace winrt::RadeonTuner::implementation
 		void button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_RadeonBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonBoost_MinRes_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void toggleswitch_RadeonImageSharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void slider_RadeonImageSharpening_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_RadeonImageSharpening1_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void slider_RadeonImageSharpening1_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_RadeonImageSharpening2_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void slider_RadeonImageSharpening2_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void combobox_AntiAliasingMethod_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_AntiAliasingLevel_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_MorphologicalAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
@@ -234,6 +237,8 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void FsrOverrideDllUpdateVersion(std::wstring dllPath);
+		std::wstring FsrOverrideDllDefaultPath();
 	};
 }
 

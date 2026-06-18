@@ -31,6 +31,7 @@
 
 #include "AdlxResetDisplay.h"
 #include "AdlxResetGraphics.h"
+#include "AdlxResetShaderCache.h"
 #include "AdlxResetTuning.h"
 
 #include "AdlxEventsDisplay.h"
@@ -210,7 +211,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable graphics settings
 					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Visible);
-					stackpanel_FsrDllLoadPath().Visibility(Visibility::Visible);
 
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
@@ -230,7 +230,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable graphics settings
 					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Collapsed);
-					stackpanel_FsrDllLoadPath().Visibility(Visibility::Collapsed);
 
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
@@ -306,8 +305,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 2)
 			{
-				//DriverBug#1
-				//combobox_GpuSelect().IsEnabled(true);
+				combobox_GpuSelect().IsEnabled(true);
 				combobox_AppSelect().IsEnabled(true);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);

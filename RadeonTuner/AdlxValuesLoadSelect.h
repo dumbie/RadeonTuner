@@ -200,12 +200,8 @@ namespace winrt::RadeonTuner::implementation
 			//Load tuning values to interface
 			AdlxValuesLoadTuning();
 
-			//DriverBug#1
-			////Check and set default application properties
-			//AdlGraphicsResetApp(AdlAppSelectedGet().value(), false, true);
-
-			////Load application graphics settings
-			//AdlValuesLoadGraphicsApp();
+			//Load graphics settings
+			AdlxValuesLoadSelectApp();
 
 			//Load multimedia settings
 			AdlxValuesLoadMultimedia();

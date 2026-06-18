@@ -81,6 +81,36 @@ inline ADL2_FPS_Settings_Set _ADL2_FPS_Settings_Set;
 typedef int (*ADL2_FPS_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFPSSettingsOutput* lpFPSSettings);
 inline ADL2_FPS_Settings_Get _ADL2_FPS_Settings_Get;
 
+typedef int(*ADL2_CHILL_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_CHILL_SETTINGS settings, ADL_CHILL_NOTFICATION_REASON changeReason, ADL_ERROR_REASON* errorReason);
+inline ADL2_CHILL_SettingsX2_Set _ADL2_CHILL_SettingsX2_Set;
+
+typedef int(*ADL2_CHILL_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_CHILL_SETTINGS* settings);
+inline ADL2_CHILL_SettingsX2_Get _ADL2_CHILL_SettingsX2_Get;
+
+typedef int (*ADL2_BOOST_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGS settings, ADL_BOOST_NOTFICATION_REASON changeReason, ADL_ERROR_REASON2* errorReason);
+inline ADL2_BOOST_SettingsX2_Set _ADL2_BOOST_SettingsX2_Set;
+
+typedef int (*ADL2_BOOST_Settings_GetX2)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGS* settings);
+inline ADL2_BOOST_Settings_GetX2 _ADL2_BOOST_Settings_GetX2;
+
+typedef int(*ADL2_RIS_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS_SETTINGS settings, ADL_RIS_NOTFICATION_REASON changeReason);
+inline ADL2_RIS_Settings_Set _ADL2_RIS_Settings_Set;
+
+typedef int(*ADL2_RIS_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS_SETTINGS* settings);
+inline ADL2_RIS_Settings_Get _ADL2_RIS_Settings_Get;
+
+typedef int(*ADL2_RIS_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS2_SETTINGS settings, ADL_RIS2_NOTIFICATION_REASON changeReason);
+inline ADL2_RIS_SettingsX2_Set _ADL2_RIS_SettingsX2_Set;
+
+typedef int(*ADL2_RIS_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS2_SETTINGS* settings);
+inline ADL2_RIS_SettingsX2_Get _ADL2_RIS_SettingsX2_Get;
+
+typedef int (*ADL2_DELAG_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGS settings, ADL_DELAG_NOTFICATION_REASON changeReason, ADL_ERROR_REASON2* errorReason);
+inline ADL2_DELAG_SettingsX2_Set _ADL2_DELAG_SettingsX2_Set;
+
+typedef int (*ADL2_DELAG_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGS* settings);
+inline ADL2_DELAG_SettingsX2_Get _ADL2_DELAG_SettingsX2_Get;
+
 //Display
 typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);
 inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;
@@ -123,6 +153,16 @@ inline ADL2_Display_SLSMapConfigX2_Delete _ADL2_Display_SLSMapConfigX2_Delete;
 
 typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iNumSLSMapIndex, int iState);
 inline ADL2_Display_SLSMapConfig_SetState _ADL2_Display_SLSMapConfig_SetState;
+
+//Multimedia
+typedef int(*ADL2_MMD_Features_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureCaps** lppFeatureCaps, int* lpFeatureCount);
+inline ADL2_MMD_Features_Caps _ADL2_MMD_Features_Caps;
+
+typedef int (*ADL2_MMD_FeatureValues_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureValues* lpFeatureValues, int iFeatureCount, int clientID);
+inline ADL2_MMD_FeatureValues_Set _ADL2_MMD_FeatureValues_Set;
+
+typedef int(*ADL2_MMD_FeatureValues_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureValues** lppFeatureValues, int* lpFeatureCount);
+inline ADL2_MMD_FeatureValues_Get _ADL2_MMD_FeatureValues_Get;
 
 //Driver
 typedef int (*ADL2_Driver_Path_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iSize, char* lpDriverPath);

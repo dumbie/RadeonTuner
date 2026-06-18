@@ -240,20 +240,8 @@
     <ClInclude Include="AdlAppsUnlock.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlGraphicsResetApp.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
     <ClInclude Include="AdlRegistry.h">
       <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetTuning.h">
-      <Filter>Page Files\Reset</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetDisplay.h">
-      <Filter>Page Files\Reset</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetGraphics.h">
-      <Filter>Page Files\Reset</Filter>
     </ClInclude>
     <ClInclude Include="MainVariables.h">
       <Filter>Page Files</Filter>
@@ -357,8 +345,23 @@
     <ClInclude Include="AdlValuesLoadGraphicsRegistry.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="AdlxResetGraphics.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetDisplay.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetTuning.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlGraphicsResetApp.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="AdlGraphicsResetRegistry.h">
-      <Filter>Page Files\Adl</Filter>
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetShaderCache.h">
+      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -402,9 +405,6 @@
     </Filter>
     <Filter Include="Page Files\Loop">
       <UniqueIdentifier>{d5fafa34-da95-4614-b947-484c13f48b0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Page Files\Reset">
-      <UniqueIdentifier>{ce4bf8e7-d864-41ab-a8e2-d842c663921e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Profile Files">
       <UniqueIdentifier>{3eada170-4d27-40c1-8b70-5e66fe9aaf23}</UniqueIdentifier>
@@ -450,6 +450,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="DriverNotes.md" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Link.png">

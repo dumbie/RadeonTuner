@@ -28,19 +28,24 @@ namespace winrt::RadeonTuner::implementation
 			slider_RadeonBoost_MinRes().SmallChange(17);
 
 			slider_RadeonChill_Min().Minimum(30);
-			slider_RadeonChill_Min().Maximum(1000);
+			slider_RadeonChill_Min().Maximum(300);
 			slider_RadeonChill_Min().StepFrequency(1);
 			slider_RadeonChill_Min().SmallChange(1);
 
 			slider_RadeonChill_Max().Minimum(30);
-			slider_RadeonChill_Max().Maximum(1000);
+			slider_RadeonChill_Max().Maximum(300);
 			slider_RadeonChill_Max().StepFrequency(1);
 			slider_RadeonChill_Max().SmallChange(1);
 
-			slider_RadeonImageSharpening_Sharpening().Minimum(10);
-			slider_RadeonImageSharpening_Sharpening().Maximum(100);
-			slider_RadeonImageSharpening_Sharpening().StepFrequency(10);
-			slider_RadeonImageSharpening_Sharpening().SmallChange(10);
+			slider_RadeonImageSharpening1_Sharpening().Minimum(10);
+			slider_RadeonImageSharpening1_Sharpening().Maximum(100);
+			slider_RadeonImageSharpening1_Sharpening().StepFrequency(10);
+			slider_RadeonImageSharpening1_Sharpening().SmallChange(10);
+
+			slider_RadeonImageSharpening2_Sharpening().Minimum(10);
+			slider_RadeonImageSharpening2_Sharpening().Maximum(100);
+			slider_RadeonImageSharpening2_Sharpening().StepFrequency(10);
+			slider_RadeonImageSharpening2_Sharpening().SmallChange(10);
 
 			slider_Frtc_Fps().Minimum(15);
 			slider_Frtc_Fps().Maximum(1000);
@@ -53,11 +58,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOverride", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_FsrOverrideUpscaling().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrOverrideUpscaling().IsOn(false);
 				}
 			}
@@ -68,11 +75,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MlfiOverride", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(false);
 				}
 			}
@@ -83,11 +92,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MfgOverride", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(false);
 				}
 			}
@@ -98,11 +109,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MldOverride", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_FsrOverrideRayRegeneration().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrOverrideRayRegeneration().IsOn(false);
 				}
 			}
@@ -113,11 +126,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "NrcOverride", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(false);
 				}
 			}
@@ -128,6 +143,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MfgRatio", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 
 					//Enumeration index correction
@@ -156,6 +172,11 @@ namespace winrt::RadeonTuner::implementation
 						combobox_MultiFrameGenerationRatio().SelectedIndex(5);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_MultiFrameGenerationRatio().SelectedIndex(0);
+				}
 			}
 
 			//Get FSR Override DLL Path
@@ -165,9 +186,15 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
+
+					//Get dll path text
 					std::wstring dllPath = adlRegistry.value();
-					std::wstring system32path = PathGetFolderKnown(FOLDERID_System);
-					if (wstring_empty_whitespace(dllPath) || wstring_contains(dllPath, system32path))
+					std::wstring dllPathLower = wstring_to_lower(dllPath);
+					std::wstring system32pathLower = wstring_to_lower(PathGetFolderKnown(FOLDERID_System));
+
+					//Check dll path text
+					if (wstring_empty_whitespace(dllPath) || wstring_contains(dllPathLower, system32pathLower))
 					{
 						textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
 					}
@@ -175,91 +202,104 @@ namespace winrt::RadeonTuner::implementation
 					{
 						textblock_FsrDllLoadPath().Text(dllPath);
 					}
+
+					//Update FSR dll version text
+					FsrOverrideDllUpdateVersion(dllPath);
+				}
+				else
+				{
+					//Set defaults
+					textblock_FsrDllVersion().Text(L"?.?.?.?");
+					textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
 				}
 			}
 
 			//Get FSR Over-The-Air Updates
-			//Fix
+			{
+				//Fix
+			}
 
 			//Get FSR Latency Reduction
+			try
 			{
 				toggleswitch_FsrLatencyReduction().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_DeLagEnabled", true);
-				if (adlRegistry.has_value())
+				ADL_DELAG_SETTINGS adlSettings;
+				adl_Res0 = _ADL2_DELAG_SettingsX2_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
 				{
-					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
-					toggleswitch_FsrLatencyReduction().IsOn(convertedValue);
+					//Set current
+					toggleswitch_FsrLatencyReduction().IsOn(adlSettings.GlobalEnable);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_FsrLatencyReduction().IsOn(false);
 				}
 			}
+			catch (...) {}
 
 			//Get Radeon Boost
+			try
 			{
 				toggleswitch_RadeonBoost().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_RadeonBoostEnabled", true);
-				if (adlRegistry.has_value())
+				ADL_BOOST_SETTINGS adlSettings;
+				adl_Res0 = _ADL2_BOOST_Settings_GetX2(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
 				{
-					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
-					toggleswitch_RadeonBoost().IsOn(convertedValue);
+					//Set current
+					toggleswitch_RadeonBoost().IsOn(adlSettings.GlobalEnable);
+					slider_RadeonBoost_MinRes().Value(adlSettings.GlobalMinRes);
+					slider_RadeonBoost_MinRes().IsEnabled(adlSettings.GlobalEnable);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_RadeonBoost().IsOn(false);
+					slider_RadeonBoost_MinRes().Value(60);
+					slider_RadeonBoost_MinRes().IsEnabled(false);
 				}
 			}
-
-			//Get Radeon Boost Minimum Resolution
-			{
-				slider_RadeonBoost_MinRes().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_RadeonBoostMinResolution", true);
-				if (adlRegistry.has_value())
-				{
-					int convertedValue = wstring_to_int(adlRegistry.value());
-					slider_RadeonBoost_MinRes().Value(convertedValue);
-				}
-			}
+			catch (...) {}
 
 			//Get Radeon Frame Rate Target Control
 			try
 			{
 				toggleswitch_Frtc().IsEnabled(true);
-
-				bool settingValue = false;
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->IsEnabled(&settingValue);
-				toggleswitch_Frtc().IsOn(settingValue);
-			}
-			catch (...) {}
-
-			//Get Radeon Frame Rate Target Control Frame Rate
-			try
-			{
-				slider_Frtc_Fps().IsEnabled(true);
-
-				int settingValue = 0;
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->GetFPS(&settingValue);
-				slider_Frtc_Fps().Value(settingValue);
+				ADLFPSSettingsOutput adlSettings;
+				adl_Res0 = _ADL2_FPS_Settings_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set current
+					toggleswitch_Frtc().IsOn(adlSettings.bACFPSEnabled);
+					slider_Frtc_Fps().Value(adlSettings.ulACFPSCurrent);
+					slider_Frtc_Fps().IsEnabled(adlSettings.bACFPSEnabled);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_Frtc().IsOn(false);
+					slider_Frtc_Fps().Value(60);
+					slider_Frtc_Fps().IsEnabled(false);
+				}
 			}
 			catch (...) {}
 
 			//Get Radeon Chill
+			try
 			{
 				toggleswitch_RadeonChill().IsEnabled(true);
-				slider_RadeonChill_Min().IsEnabled(true);
-				slider_RadeonChill_Max().IsEnabled(true);
-				button_RadeonChill_Link().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_ChillEnabled", true);
-				if (adlRegistry.has_value())
+				ADL_CHILL_SETTINGS adlSettings;
+				adl_Res0 = _ADL2_CHILL_SettingsX2_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
 				{
-					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
-					toggleswitch_RadeonChill().IsOn(convertedValue);
-					if (convertedValue)
+					//Set current
+					toggleswitch_RadeonChill().IsOn(adlSettings.GlobalEnable);
+					slider_RadeonChill_Min().Value(adlSettings.GlobalMinFPS);
+					slider_RadeonChill_Max().Value(adlSettings.GlobalMaxFPS);
+					slider_RadeonChill_Min().IsEnabled(adlSettings.GlobalEnable);
+					slider_RadeonChill_Max().IsEnabled(adlSettings.GlobalEnable);
+					button_RadeonChill_Link().IsEnabled(adlSettings.GlobalEnable);
+					if (adlSettings.GlobalEnable)
 					{
 						if (!radeon_Chill_Linked)
 						{
@@ -270,60 +310,64 @@ namespace winrt::RadeonTuner::implementation
 							slider_RadeonChill_Min().IsEnabled(false);
 						}
 					}
-					else
-					{
-						slider_RadeonChill_Min().IsEnabled(convertedValue);
-					}
-					slider_RadeonChill_Max().IsEnabled(convertedValue);
-					button_RadeonChill_Link().IsEnabled(convertedValue);
 				}
-			}
-
-			//Get Radeon Chill Minimum Frame Rate
-			{
-				slider_RadeonChill_Min().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_ChillMinFps", true);
-				if (adlRegistry.has_value())
+				else
 				{
-					int convertedValue = wstring_to_int(adlRegistry.value());
-					slider_RadeonChill_Min().Value(convertedValue);
+					//Set defaults
+					toggleswitch_RadeonChill().IsOn(false);
+					slider_RadeonChill_Min().Value(75);
+					slider_RadeonChill_Max().Value(140);
+					slider_RadeonChill_Min().IsEnabled(false);
+					slider_RadeonChill_Max().IsEnabled(false);
+					button_RadeonChill_Link().IsEnabled(false);
 				}
 			}
+			catch (...) {}
 
-			//Get Radeon Chill Maximum Frame Rate
-			{
-				slider_RadeonChill_Max().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_ChillMaxFps", true);
-				if (adlRegistry.has_value())
-				{
-					int convertedValue = wstring_to_int(adlRegistry.value());
-					slider_RadeonChill_Max().Value(convertedValue);
-				}
-			}
-
-			//Get Radeon Image Sharpening
+			//Get Radeon Image Sharpening 1
 			try
 			{
-				toggleswitch_RadeonImageSharpening().IsEnabled(true);
-
-				bool settingValue = false;
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->IsEnabled(&settingValue);
-				toggleswitch_RadeonImageSharpening().IsOn(settingValue);
+				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
+				ADL_RIS_SETTINGS adlSettings;
+				adl_Res0 = _ADL2_RIS_Settings_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set current
+					toggleswitch_RadeonImageSharpening1().IsOn(adlSettings.GlobalEnable);
+					slider_RadeonImageSharpening1_Sharpening().Value(adlSettings.GlobalSharpeningDegree);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(adlSettings.GlobalEnable);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_RadeonImageSharpening1().IsOn(false);
+					slider_RadeonImageSharpening1_Sharpening().Value(80);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
+				}
 			}
-			catch (...){}
+			catch (...) {}
 
-			//Get Radeon Image Sharpening Sharpness
+			//Get Radeon Image Sharpening 2
 			try
 			{
-				slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
-
-				int settingValue = 0;
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->GetSharpness(&settingValue);
-				slider_RadeonImageSharpening_Sharpening().Value(settingValue);
+				toggleswitch_RadeonImageSharpening2().IsEnabled(true);
+				ADL_RIS2_SETTINGS adlSettings;
+				adl_Res0 = _ADL2_RIS_SettingsX2_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set current
+					bool enabled = adlSettings.GlobalSharpeningMode == 0 || adlSettings.GlobalSharpeningMode == 3;
+					toggleswitch_RadeonImageSharpening2().IsOn(enabled);
+					slider_RadeonImageSharpening2_Sharpening().Value(adlSettings.GlobalSharpeningDegree);
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(enabled);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_RadeonImageSharpening2().IsOn(false);
+					slider_RadeonImageSharpening2_Sharpening().Value(80);
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+				}
 			}
 			catch (...) {}
 
@@ -333,11 +377,13 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "TurboSync", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_RadeonEnhancedSync().IsOn(convertedValue);
 				}
 				else
 				{
+					//Set defaults
 					toggleswitch_RadeonEnhancedSync().IsOn(false);
 				}
 			}
@@ -348,8 +394,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "VSyncControl", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 					combobox_VerticalRefresh().SelectedIndex(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					combobox_VerticalRefresh().SelectedIndex(1);
 				}
 			}
 
@@ -359,11 +411,20 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AntiAlias", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = adlRegistry.value() == L"2";
 					toggleswitch_AntiAliasingOverride().IsOn(convertedValue);
 					combobox_AntiAliasingMethod().IsEnabled(convertedValue);
 					combobox_AntiAliasingLevel().IsEnabled(convertedValue);
 					toggleswitch_EQAA().IsEnabled(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_AntiAliasingOverride().IsOn(false);
+					combobox_AntiAliasingMethod().IsEnabled(false);
+					combobox_AntiAliasingLevel().IsEnabled(false);
+					toggleswitch_EQAA().IsEnabled(false);
 				}
 			}
 
@@ -374,6 +435,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistryASTT = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "ASTT", true);
 				if (adlRegistryASD.has_value() && adlRegistryASE.has_value() && adlRegistryASTT.has_value())
 				{
+					//Set current
 					int asdValue = wstring_to_int(adlRegistryASD.value());
 					int aseValue = wstring_to_int(adlRegistryASE.value());
 					int asttValue = wstring_to_int(adlRegistryASTT.value());
@@ -395,6 +457,11 @@ namespace winrt::RadeonTuner::implementation
 						combobox_AntiAliasingMethod().SelectedIndex(2);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_AntiAliasingMethod().SelectedIndex(0);
+				}
 			}
 
 			//Get Anti-Aliasing Level
@@ -402,6 +469,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AntiAliasSamples", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 
 					//Enumeration index correction
@@ -418,6 +486,11 @@ namespace winrt::RadeonTuner::implementation
 						combobox_AntiAliasingLevel().SelectedIndex(2);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_AntiAliasingLevel().SelectedIndex(0);
+				}
 			}
 
 			//Get Enhanced Quality Anti-Aliasing
@@ -425,8 +498,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "EQAA", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_EQAA().IsOn(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_EQAA().IsOn(false);
 				}
 			}
 
@@ -436,8 +515,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MLF", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_MorphologicalAntiAliasing().IsOn(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_MorphologicalAntiAliasing().IsOn(false);
 				}
 			}
 
@@ -447,6 +532,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AnisoDegree", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 
 					//Enumeration index correction
@@ -471,6 +557,11 @@ namespace winrt::RadeonTuner::implementation
 						combobox_AnisotropicTextureFiltering_Level().SelectedIndex(4);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_AnisotropicTextureFiltering_Level().SelectedIndex(0);
+				}
 			}
 
 			//Get Texture Filtering Quality
@@ -479,8 +570,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "TFQ", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 					combobox_TextureFilteringQuality().SelectedIndex(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					combobox_TextureFilteringQuality().SelectedIndex(1);
 				}
 			}
 
@@ -490,8 +587,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "SurfaceFormatReplacements", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_SurfaceFormatOptimization().IsOn(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_SurfaceFormatOptimization().IsOn(false);
 				}
 			}
 
@@ -501,6 +604,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "Tessellation_OPTION", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 					combobox_Tessellation_Mode().SelectedIndex(convertedValue);
 					if (convertedValue != 2)
@@ -512,6 +616,12 @@ namespace winrt::RadeonTuner::implementation
 						combobox_Tessellation_Level().IsEnabled(true);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_Tessellation_Mode().SelectedIndex(0);
+					combobox_Tessellation_Level().IsEnabled(false);
+				}
 			}
 
 			//Get Tessellation Level
@@ -519,6 +629,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "Tessellation", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 
 					//Enumeration index correction
@@ -555,6 +666,11 @@ namespace winrt::RadeonTuner::implementation
 						combobox_Tessellation_Level().SelectedIndex(7);
 					}
 				}
+				else
+				{
+					//Set defaults
+					combobox_Tessellation_Level().SelectedIndex(7);
+				}
 			}
 
 			//Get OpenGL Triple Buffering
@@ -563,8 +679,14 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "EnableTripleBuffering", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
 					toggleswitch_OpenGLTripleBuffering().IsOn(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_OpenGLTripleBuffering().IsOn(false);
 				}
 			}
 
@@ -574,6 +696,7 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_10BitMode", true);
 				if (adlRegistry.has_value())
 				{
+					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
 
 					//Enumeration index correction
@@ -585,6 +708,11 @@ namespace winrt::RadeonTuner::implementation
 					{
 						toggleswitch_OpenGL10Bit().IsOn(false);
 					}
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_OpenGL10Bit().IsOn(false);
 				}
 			}
 

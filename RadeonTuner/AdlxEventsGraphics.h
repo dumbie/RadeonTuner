@@ -499,6 +499,9 @@ namespace winrt::RadeonTuner::implementation
 				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
 			}
 
+			//Update FSR dll version text
+			FsrOverrideDllUpdateVersion(newValue);
+
 			//Show result
 			if (newFailed)
 			{
@@ -519,11 +522,13 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Fix: use ADL2_CloudProfile_DLL_Get to update default production or technical preview dll.
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get setting value
-			std::wstring newValue = L"";
+			//Get default FSR override dll path
+			std::wstring newValue = FsrOverrideDllDefaultPath();
 			bool newFailed = true;
 
 			//Check application type
@@ -537,6 +542,9 @@ namespace winrt::RadeonTuner::implementation
 				//Set setting
 				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
 			}
+
+			//Update FSR dll version text
+			FsrOverrideDllUpdateVersion(newValue);
 
 			//Show result
 			if (newFailed)
@@ -559,9 +567,6 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//DriverBug#5
-			//Using Latency Reduction in Global application profile causes it to be used for all processes using 3D rendering including Windows system apps.
-			//AMD driver does not seem to check for sytem processes to ignore like ApplicationFrameHost, StartMenuExperienceHost and MsEdgeWebView2.
-			//This can cause higher CPU load at all times because one of those system processes is always running and using Latency Reduction.
 
 			//Check if saving is disabled
 			if (disable_saving) { return; }
@@ -575,7 +580,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_DeLagEnabled", newValue);
+				ADL_DELAG_SETTINGS adlSettings{};
+				adlSettings.GlobalEnable = newValue;
+
+				ADL_DELAG_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalEnableChanged = true;
+
+				ADL_ERROR_REASON2 adlErrorReason;
+				adl_Res0 = _ADL2_DELAG_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_DELAG_PROFILE, ADL_TRUE);
 			}
 			else
@@ -635,6 +652,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "TurboSync", number_to_wstring(newValue));
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_ENHANCEDSYNC, ADL_TRUE);
 			}
 			else
@@ -733,7 +752,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_ChillEnabled", newValue);
+				ADL_CHILL_SETTINGS adlSettings{};
+				adlSettings.GlobalEnable = newValue;
+
+				ADL_CHILL_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalEnableChanged = true;
+
+				ADL_ERROR_REASON adlErrorReason;
+				adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
 			}
 			else
@@ -800,7 +831,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_ChillMinFps", newValue);
+				ADL_CHILL_SETTINGS adlSettings{};
+				adlSettings.GlobalMinFPS = newValue;
+
+				ADL_CHILL_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalMinFPSChanged = true;
+
+				ADL_ERROR_REASON adlErrorReason;
+				adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
 			}
 			else
@@ -849,7 +892,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_ChillMaxFps", newValue);
+				ADL_CHILL_SETTINGS adlSettings{};
+				adlSettings.GlobalMaxFPS = newValue;
+
+				ADL_CHILL_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalMaxFPSChanged = true;
+
+				ADL_ERROR_REASON adlErrorReason;
+				adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
 			}
 			else
@@ -926,7 +981,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_RadeonBoostEnabled", newValue);
+				ADL_BOOST_SETTINGS adlSettings{};
+				adlSettings.GlobalEnable = newValue;
+
+				ADL_BOOST_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalEnableChanged = true;
+
+				ADL_ERROR_REASON2 adlErrorReason;
+				adl_Res0 = _ADL2_BOOST_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);
 			}
 			else
@@ -986,7 +1053,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_RadeonBoostMinResolution", newValue);
+				ADL_BOOST_SETTINGS adlSettings{};
+				adlSettings.GlobalMinRes = newValue;
+
+				ADL_BOOST_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalMinResChanged = true;
+
+				ADL_ERROR_REASON2 adlErrorReason;
+				adl_Res0 = _ADL2_BOOST_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
 				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);
 			}
 			else
@@ -1014,7 +1093,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_RadeonImageSharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_RadeonImageSharpening1_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1030,14 +1109,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				//newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_USUEnable", newValue);
-				//_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, ADL_TRUE);
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->SetEnabled(newValue);
+				ADL_RIS_SETTINGS adlSettings{};
+				adlSettings.GlobalEnable = newValue;
+
+				ADL_RIS_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalEnableChanged = true;
+
+				adl_Res0 = _ADL2_RIS_Settings_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
 
 				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
+				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, ADL_TRUE);
 			}
 			else
 			{
@@ -1066,13 +1150,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					slider_RadeonImageSharpening_Sharpening().IsEnabled(true);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(true);
 					ShowNotification(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
 				}
 				else
 				{
-					slider_RadeonImageSharpening_Sharpening().IsEnabled(false);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
 					ShowNotification(L"Image Sharpening disabled");
 					AVDebugWriteLine(L"Image Sharpening disabled");
 				}
@@ -1081,7 +1165,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_RadeonImageSharpening_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::slider_RadeonImageSharpening1_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
 		{
@@ -1097,15 +1181,19 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				//std::uint32_t convertedValue = std::bit_cast<uint32_t>(newValueFloat / 100);
-				//newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "KMD_USUSharpeningDegree", convertedValue);
-				//_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, ADL_TRUE);
-				IADLX3DImageSharpeningPtr pp3DImageSharpening;
-				adlx_Res0 = pp3DSettingsServices->GetImageSharpening(ppGpuInfo, &pp3DImageSharpening);
-				adlx_Res0 = pp3DImageSharpening->SetSharpness(newValueInt);
+				ADL_RIS_SETTINGS adlSettings{};
+				adlSettings.GlobalSharpeningDegree = newValueInt;
+
+				ADL_RIS_NOTFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalSharpeningDegreeChanged = true;
+
+				adl_Res0 = _ADL2_RIS_Settings_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
 
 				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
+				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, ADL_TRUE);
 			}
 			else
 			{
@@ -1118,14 +1206,131 @@ namespace winrt::RadeonTuner::implementation
 			if (newFailed)
 			{
 				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_RadeonImageSharpening_Sharpening().Foreground(colorInvalid);
+				textbox_RadeonImageSharpening1_Sharpening().Foreground(colorInvalid);
 				ShowNotification(L"Failed setting Sharpening");
 				AVDebugWriteLine(L"Failed setting Sharpening");
 			}
 			else
 			{
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_RadeonImageSharpening_Sharpening().Foreground(colorValid);
+				textbox_RadeonImageSharpening1_Sharpening().Foreground(colorValid);
+				ShowNotification(L"Sharpening set to " + number_to_wstring(newValueInt));
+				AVDebugWriteLine(L"Sharpening set to " << newValueInt);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_RadeonImageSharpening2_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				ADL_RIS2_SETTINGS adlSettings{};
+				adlSettings.GlobalSharpeningMode = newValue ? 0 : 1;
+
+				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalSharpeningModeChanged = true;
+
+				adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
+				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, ADL_TRUE);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling Image Sharpening");
+					AVDebugWriteLine(L"Failed enabling Image Sharpening");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling Image Sharpening");
+					AVDebugWriteLine(L"Failed disabling Image Sharpening");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(true);
+					ShowNotification(L"Image Sharpening enabled");
+					AVDebugWriteLine(L"Image Sharpening enabled");
+				}
+				else
+				{
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+					ShowNotification(L"Image Sharpening disabled");
+					AVDebugWriteLine(L"Image Sharpening disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_RadeonImageSharpening2_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValueInt = (int)e.NewValue();
+			float newValueFloat = (float)e.NewValue();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				ADL_RIS2_SETTINGS adlSettings{};
+				adlSettings.GlobalSharpeningDegree = newValueInt;
+
+				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalSharpeningDegreeChanged = true;
+
+				adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
+				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, ADL_TRUE);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_RadeonImageSharpening2_Sharpening().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Sharpening");
+				AVDebugWriteLine(L"Failed setting Sharpening");
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_RadeonImageSharpening2_Sharpening().Foreground(colorValid);
 				ShowNotification(L"Sharpening set to " + number_to_wstring(newValueInt));
 				AVDebugWriteLine(L"Sharpening set to " << newValueInt);
 			}
@@ -1404,9 +1609,6 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//DriverBug#3
-			//Bug in AMD driver sets Anti-Aliasing level to wrong value.
-			//When using the 'Override Application Settings' and set it to 8xEQ without having EQAA enabled it sets to 8x instead, picking 8xEQ in the combobox should also enable EQAA but it does not.
-			//To manually enable EQAA you first need to select 'Enhance Application Settings' before using 'Override Application Settings' to workaround this issue.
 
 			//Check if saving is disabled
 			if (disable_saving) { return; }
@@ -1525,7 +1727,6 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//DriverBug#4
-			//Bug in AMD driver resets Anisotropic level to 2x when disabled and enabled.
 
 			//Check if saving is disabled
 			if (disable_saving) { return; }
@@ -1711,15 +1912,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get setting
-			IADLX3DResetShaderCachePtr pp3DResetShaderCache;
-			adlx_Res0 = pp3DSettingsServices->GetResetShaderCache(ppGpuInfo, &pp3DResetShaderCache);
-
 			//Reset shader cache
-			adlx_Res0 = pp3DResetShaderCache->ResetShaderCache();
+			bool resetResult = AdlxResetShaderCache();
 
 			//Set result
-			if (ADLX_FAILED(adlx_Res0))
+			if (!resetResult)
 			{
 				ShowNotification(L"Failed resetting shader cache");
 				AVDebugWriteLine(L"Failed resetting shader cache");
@@ -1906,12 +2103,28 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->SetEnabled(newValue);
+				if (newValue)
+				{
+					//Get current slider value
+					auto sliderValue = slider_Frtc_Fps().Value();
+
+					ADLFPSSettingsInput adlSettings{};
+					adlSettings.bGlobalSettings = true;
+					adlSettings.ulACFPSCurrent = sliderValue;
+					adlSettings.ulDCFPSCurrent = sliderValue;
+					adl_Res0 = _ADL2_FPS_Settings_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings);
+				}
+				else
+				{
+					ADLFPSSettingsInput adlSettings{};
+					adlSettings.bGlobalSettings = true;
+					adlSettings.ulACFPSCurrent = 0;
+					adlSettings.ulDCFPSCurrent = 0;
+					adl_Res0 = _ADL2_FPS_Settings_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings);
+				}
 
 				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				newFailed = adl_Res0 != ADL_OK;
 			}
 
 			//Show result
@@ -1965,12 +2178,14 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				IADLX3DFrameRateTargetControlPtr pp3DFrameRateTargetControl;
-				adlx_Res0 = pp3DSettingsServices->GetFrameRateTargetControl(ppGpuInfo, &pp3DFrameRateTargetControl);
-				adlx_Res0 = pp3DFrameRateTargetControl->SetFPS(newValue);
+				ADLFPSSettingsInput input{};
+				input.bGlobalSettings = true;
+				input.ulACFPSCurrent = newValue;
+				input.ulDCFPSCurrent = newValue;
+				adl_Res0 = _ADL2_FPS_Settings_Set(adl_Context, adl_Gpu_AdapterIndex, input);
 
 				//Set result
-				newFailed = adlx_Res0 != ADLX_OK;
+				newFailed = adl_Res0 != ADL_OK;
 			}
 
 			//Show result
