@@ -49,12 +49,6 @@
                         <TextBlock HorizontalAlignment="Center" Text="Multimedia"/>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Power" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="/Assets/Power.png" Width="50" Height="50"/>
-                        <TextBlock HorizontalAlignment="Center" Text="Power"/>
-                    </StackPanel>
-                </ListBoxItem>
                 <ListBoxItem x:Name="listboxitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Settings.png" Width="50" Height="50"/>
@@ -917,46 +911,6 @@
                             </VariableSizedWrapGrid>
                         </StackPanel>
 
-                        <!-- Power -->
-                        <StackPanel x:Name="stackpanel_Power" Visibility="Collapsed">
-                            <TextBlock Text="Power Options" FontSize="20" FontWeight="Medium"/>
-
-                            <!-- SmartShift Eco -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Eco reduces the power consumption by controlling application's running platform to deliver more mobile game time on battery."/>
-                                        <ToggleSwitch x:Name="toggleswitch_SmartShiftEco" Margin="10,0,0,0" OffContent="AMD SmartShift Eco" OnContent="AMD SmartShift Eco" Toggled="toggleswitch_SmartShiftEco_Toggled"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- SmartShift Max -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD SmartShift Max dynamically shifts power between CPU and GPU to boost performance, depending on workload."/>
-                                        <TextBlock Margin="10,0,0,0" Text="AMD SmartShift Max" VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <ComboBox x:Name="combobox_SmartShiftMaxMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_SmartShiftMaxMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-
-                                    <Grid Margin="0,10,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_SmartShiftMaxBias" Text="{Binding ElementName=slider_SmartShiftMaxBias, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <TextBlock Grid.Column="1" Text="CPU" VerticalAlignment="Center" Margin="10,0,10,0" />
-                                        <Slider Grid.Column="2" x:Name="slider_SmartShiftMaxBias" ValueChanged="slider_SmartShiftMaxBias_ValueChanged"/>
-                                        <TextBlock Grid.Column="3" Text="GPU" VerticalAlignment="Center" Margin="10,0,0,0" />
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
                             <TextBlock Text="FreeSync Options" FontSize="20" FontWeight="Medium"/>
@@ -1006,6 +960,14 @@
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Scaling gives a sharp, pixelated look to images scaled up to fit the display, images that can't be scaled to match the display's exact size and shape will be centered on screen.&#10;&#10;Integer Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display."/>
                                         <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Preserve Aspect Ratio -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Preserve Aspect Ratio maintains the original aspect ratio of the image while fitting it to the display."/>
+                                        <ToggleSwitch x:Name="toggleswitch_PreserveAspectRatio" Margin="10,0,0,0" OffContent="Preserve Aspect Ratio" OnContent="Preserve Aspect Ratio" Toggled="toggleswitch_PreserveAspectRatio_Toggled"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>

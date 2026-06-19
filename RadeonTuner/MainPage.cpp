@@ -14,6 +14,8 @@
 #include "AdlOverdrive.h"
 #include "AdlEyefinity.h"
 #include "AdlRegistry.h"
+#include "AdlGetDevices.h"
+#include "AdlGetIdentifier.h"
 #include "AdlInitialize.h"
 #include "AdlCheck.h"
 
@@ -38,7 +40,6 @@
 #include "AdlxEventsFans.h"
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
-#include "AdlxEventsPower.h"
 #include "AdlxEventsTuning.h"
 
 #include "GraphicsSettingsFunc.h"
@@ -132,9 +133,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Load settings
 			SettingLoad();
-
-			//Load power values
-			AdlxValuesLoadSelectPower();
 
 			//Show or hide experimental settings
 			ShowExperimentalSettings(true);
@@ -258,7 +256,7 @@ namespace winrt::RadeonTuner::implementation
 			int selectedIndex = sender.as<ListBox>().SelectedIndex();
 
 			//Exit application
-			if (selectedIndex == 8)
+			if (selectedIndex == 7)
 			{
 				//Exit application
 				AppVariables::App.Exit(true);
@@ -279,7 +277,6 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_Graphics().Visibility(Visibility::Collapsed);
 			stackpanel_Tuning().Visibility(Visibility::Collapsed);
 			stackpanel_Fans().Visibility(Visibility::Collapsed);
-			stackpanel_Power().Visibility(Visibility::Collapsed);
 			stackpanel_Display().Visibility(Visibility::Collapsed);
 			stackpanel_Multimedia().Visibility(Visibility::Collapsed);
 			stackpanel_Settings().Visibility(Visibility::Collapsed);
@@ -323,16 +320,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 5)
 			{
-				stackpanel_Power().Visibility(Visibility::Visible);
+				stackpanel_Settings().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 6)
 			{
-				stackpanel_Settings().Visibility(Visibility::Visible);
-			}
-			else if (selectedIndex == 7)
-			{
 				combobox_GpuSelect().IsEnabled(true);
-				combobox_DisplaySelect().IsEnabled(true);
 				stackpanel_Information().Visibility(Visibility::Visible);
 				stackpanel_Information_Buttons().Visibility(Visibility::Visible);
 			}
