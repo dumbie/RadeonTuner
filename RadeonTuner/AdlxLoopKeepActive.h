@@ -111,15 +111,20 @@ namespace winrt::RadeonTuner::implementation
 							continue;
 						}
 
-						//Get GPU pointer
-						std::pair<IADLXGPU2Ptr, int> gpuPointer = AdlxGetGpuPointer(tuningFanSettingsProfile.DeviceId.value());
-						if (gpuPointer.first == nullptr)
+						//Get GPU information
+						std::string deviceId = tuningFanSettingsProfile.DeviceId.value();
+						std::wstring deviceIdW = string_to_wstring(deviceId);
+						std::optional<AdapterInfo> gpuInformation = AdlGetGpuByDeviceId(deviceIdW);
+						if (!gpuInformation.has_value())
 						{
 							continue;
 						}
 
+						//Get GPU adapter index
+						int gpuAdapterIndex = gpuInformation.value().iAdapterIndex;
+
 						//Get current gpu tuning and fans settings
-						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(gpuPointer.first, gpuPointer.second);
+						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(gpuAdapterIndex);
 						if (!tuningFanSettingsGpu.has_value())
 						{
 							continue;
@@ -144,7 +149,7 @@ namespace winrt::RadeonTuner::implementation
 							std::function<void()> updateFunction = [&]
 								{
 									//Apply tuning and fans settings
-									if (AdlTuningApply(gpuPointer.second, tuningFanSettingsProfile))
+									if (AdlTuningApply(gpuAdapterIndex, tuningFanSettingsProfile))
 									{
 										//Load tuning and fans settings
 										AdlxValuesLoadTuning();

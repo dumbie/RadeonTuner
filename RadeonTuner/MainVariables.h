@@ -10,44 +10,23 @@ inline std::wstring gpuRegistryPath;
 inline std::wstring gpuUniqueIdentifierHex;
 inline int gpuUniqueIdentifier = -1;
 
-inline bool adlx_Bool = false;
-inline ADLX_RESULT adlx_Res0 = ADLX_FAIL;
-inline ADLX_RESULT adlx_Res1 = ADLX_FAIL;
-inline ADLX_IntRange adlx_IntRange0 = { 0, 0, 0 };
-inline ADLX_IntRange adlx_IntRange1 = { 0, 0, 0 };
-inline int adlx_Int0 = 0;
-inline int adlx_Int1 = 0;
-inline int adlx_Int2 = 0;
-inline int adlx_Int3 = 0;
-inline int adlx_Int4 = 0;
-inline int adlx_Int5 = 0;
-
-inline ADLXHelper ppADLXHelper;
-inline IADLMapping* ppAdlMapping;
-
-inline IADLXGPU2Ptr ppGpuInfo;
-inline IADLXGPUListPtr ppGpuList;
-inline IADLXDisplayPtr ppDisplayInfo;
-inline IADLXDisplayListPtr ppDisplayList;
-
-inline IADLXDisplayServices3Ptr ppDispServices;
-inline IADLXDesktopServicesPtr ppDesktopServices;
-inline IADLXMultimediaServicesPtr ppMultiMediaServices;
-inline IADLX3DSettingsServices2Ptr pp3DSettingsServices;
-inline IADLXPerformanceMonitoringServicesPtr ppPerformanceMonitoringServices;
-inline IADLXPowerTuningServices1Ptr ppPowerTuningServices;
-inline IADLXGPUTuningServices1Ptr ppGPUTuningServices;
-
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;
+
+inline ADL_D3DKMT_HANDLE adl_Metrics_Handle = NULL;
+inline ADLPMLogStartOutput adl_Metrics_Output;
+inline int adl_Metrics_UpdateRate = 500;
+
+inline std::vector<AdapterInfo> adl_List_Gpus{};
+inline std::vector<ADLDisplayInfo> adl_List_Displays{};
 inline int adl_Display_AdapterIndex = -1;
 inline int adl_Display_DisplayIndex = -1;
 inline int adl_Gpu_AdapterIndex = -1;
 inline int adl_Res0 = ADL_ERR;
 
+inline int adl_AppSelectedIndex = -1;
+inline std::vector<AdlApplication> adl_Apps_Cache{};
+
 //Fix use ObservableCollection instead
 inline std::vector<std::wstring> eyefinityAppsCache{};
 inline std::vector<std::wstring> powerBoostAppsCache{};
 inline std::vector<TuningFanSettings> tuningFanSettingsCache{};
-
-inline int adl_AppSelectedIndex = -1;
-inline std::vector<AdlApplication> adlAppsCache{};

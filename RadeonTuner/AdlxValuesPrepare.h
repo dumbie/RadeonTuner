@@ -12,40 +12,45 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//List all gpus
 			{
+				//Get combobox items
 				auto itemCollection = combobox_GpuSelect().Items();
-				UINT appendCount = ppGpuList->Size();
-				for (UINT i = 0; i < appendCount; i++)
+
+				//Get all GPU's
+				adl_List_Gpus = AdlGetGpuAll();
+				int adapterCount = adl_List_Gpus.size();
+
+				//Add all GPU's
+				for (AdapterInfo adapterInfo : adl_List_Gpus)
 				{
-					const char* gpuName;
-					IADLXGPU2Ptr gpuInfo;
-					adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuInfo);
-					adlx_Res0 = gpuInfo->Name(&gpuName);
-					itemCollection.Append(box_value(char_to_wstring(gpuName)));
+					//Add gpu to combobox
+					itemCollection.Append(box_value(char_to_wstring(adapterInfo.strAdapterName)));
 				}
+
+				AVDebugWriteLine("Listed all GPU's: " << adapterCount);
 			}
 
 			//List all displays
 			{
+				//Get combobox items
 				auto itemCollectionSelect = combobox_DisplaySelect().Items();
 				auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
-				UINT appendCount = ppDisplayList->Size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					//Get display details
-					const char* displayName;
-					IADLXDisplayPtr displayInfo;
-					adlx_Res0 = ppDisplayList->At(i, (IADLXDisplay**)&displayInfo);
-					adlx_Res0 = displayInfo->Name(&displayName);
-					auto displayNameString = char_to_wstring(displayName);
 
-					//Display select
+				//Get all displays
+				adl_List_Displays = AdlGetDisplayAll();
+				int displayCount = adl_List_Displays.size();
+
+				//Add all displays
+				for (ADLDisplayInfo displayInfo : adl_List_Displays)
+				{
+					//Get display name
+					std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName);
+
+					//Add display to combobox
 					itemCollectionSelect.Append(box_value(displayNameString));
 
-					//Get ADL display index
-					int ppNullptr;
-					int displayAdapterIndex;
-					int displayDisplayIndex;
-					adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(displayInfo, &displayAdapterIndex, &displayDisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
+					//Get adapter and display index
+					int displayAdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
+					int displayDisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
 
 					//Eyefinity displays list
 					RadeonTuner::DisplayDetailsIdl displayDetails;
@@ -56,11 +61,13 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set min and max rows and columns based on display count
 					slider_Eyefinity_Rows().Minimum(1);
-					slider_Eyefinity_Rows().Maximum(appendCount);
+					slider_Eyefinity_Rows().Maximum(displayCount);
 					slider_Eyefinity_Columns().Minimum(1);
-					slider_Eyefinity_Columns().Maximum(appendCount);
+					slider_Eyefinity_Columns().Maximum(displayCount);
 				}
 				listview_EyefinityMonitorIndex().ItemsSource(itemCollectionEyefinity);
+
+				AVDebugWriteLine("Listed all displays: " << displayCount);
 			}
 
 			//List all scaling mode
@@ -184,16 +191,6 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//List all smartshift max modes
-			{
-				auto itemCollection = combobox_SmartShiftMaxMode().Items();
-				UINT appendCount = ADLX_SSM_BIAS_MODE_STRING.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(ADLX_SSM_BIAS_MODE_STRING[i]));
-				}
-			}
-
 			//List all texture filtering qualities
 			{
 				auto itemCollection = combobox_TextureFilteringQuality().Items();
@@ -225,12 +222,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set result
-			AVDebugWriteLine("ADLX prepared.");
+			AVDebugWriteLine("ADL values prepared.");
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX preparation failed.");
+			AVDebugWriteLine("ADL values preparation failed.");
 		}
 	}
 }

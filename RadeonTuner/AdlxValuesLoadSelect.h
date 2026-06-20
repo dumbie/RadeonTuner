@@ -5,7 +5,6 @@
 #include "AdlValuesLoadGraphicsApp.h"
 #include "AdlValuesLoadGraphicsRegistry.h"
 #include "AdlxValuesLoadMultimedia.h"
-#include "AdlxValuesLoadPower.h"
 #include "AdlxValuesLoadDisplay.h"
 #include "AdlxValuesLoadTuning.h"
 
@@ -96,34 +95,6 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlxValuesLoadSelectPower()
-	{
-		try
-		{
-			//Disable saving
-			disable_saving = true;
-
-			//Load power settings
-			AdlxValuesLoadPower();
-
-			//Enable saving
-			std::thread threadEnableSaving([]()
-				{
-					Sleep(500);
-					disable_saving = false;
-				});
-			threadEnableSaving.detach();
-
-			//Set result
-			AVDebugWriteLine("Loaded selected power values.");
-		}
-		catch (...)
-		{
-			//Set result
-			AVDebugWriteLine("Failed loading selected power values.");
-		}
-	}
-
 	void MainPage::AdlxValuesLoadSelectDisplay()
 	{
 		try
@@ -133,16 +104,11 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get selected display
 			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
-			adlx_Res0 = ppDisplayList->At(selectedDisplayIndex, (IADLXDisplay**)&ppDisplayInfo);
-			if (ppDisplayInfo == NULL)
-			{
-				AVDebugWriteLine("Failed getting selected display.");
-				return;
-			}
+			ADLDisplayInfo displayInfo = adl_List_Displays[selectedDisplayIndex];
 
-			//Get ADL display index
-			int ppNullptr;
-			adlx_Res0 = ppAdlMapping->ADLIdsFromADLXDisplay(ppDisplayInfo, &adl_Display_AdapterIndex, &adl_Display_DisplayIndex, &ppNullptr, &ppNullptr, &ppNullptr);
+			//Get adapter and display index
+			adl_Display_AdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
+			adl_Display_DisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
 
 			//Load display settings
 			AdlxValuesLoadDisplay();
@@ -175,25 +141,18 @@ namespace winrt::RadeonTuner::implementation
 			//Disable saving
 			disable_saving = true;
 
-			//Get selected GPU
+			//Get selected gpu
 			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
-			adlx_Res0 = ppGpuList->At(selectedGpuIndex, (IADLXGPU**)&ppGpuInfo);
-			if (ppGpuInfo == NULL)
-			{
-				AVDebugWriteLine("Failed getting selected gpu.");
-				return;
-			}
+			AdapterInfo adapterInfo = adl_List_Gpus[selectedGpuIndex];
 
-			//Get ADL adapter index
-			adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(ppGpuInfo, &adl_Gpu_AdapterIndex);
+			//Get gpu adapter index
+			adl_Gpu_AdapterIndex = adapterInfo.iAdapterIndex;
 
 			//Get gpu registry path
-			const char* driverPath = NULL;
-			adlx_Res0 = ppGpuInfo->DriverPath(&driverPath);
-			gpuRegistryPath = string_to_wstring(driverPath);
+			gpuRegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
 
 			//Get gpu unique identifier
-			adlx_Res0 = ppGpuInfo->UniqueId(&gpuUniqueIdentifier);
+			//adlx_Res0 = ppGpuInfo->UniqueId(&gpuUniqueIdentifier);
 			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
 			//DriverBug#1
 

@@ -10,10 +10,10 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			if (adlAppsCache.size() > 0 && adl_AppSelectedIndex >= 0)
+			if (adl_Apps_Cache.size() > 0 && adl_AppSelectedIndex >= 0)
 			{
 				//Return result
-				return adlAppsCache[adl_AppSelectedIndex];
+				return adl_Apps_Cache[adl_AppSelectedIndex];
 			}
 			else
 			{
@@ -32,18 +32,10 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			for (AdapterInfo adapterInfo : adl_List_Gpus)
 			{
-				//Get gpu pointer
-				IADLXGPU2Ptr gpuPointer;
-				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuPointer);
-
-				//Get ADL adapter index
-				int gpuAdapterIndex = -1;
-				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(gpuPointer, &gpuAdapterIndex);
-
 				//Set gaming driver flag
-				AdlRegistrySettingSet(gpuAdapterIndex, "", "KMD_IsGamingDriver", 1);
+				AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_IsGamingDriver", 1);
 			}
 		}
 		catch (...) {}
@@ -58,23 +50,15 @@ namespace winrt::RadeonTuner::implementation
 			//Set gpu unique identifier
 			gpuUniqueIdentifierHex = L"0x0001";
 
-			for (UINT i = 0; i < ppGpuList->Size(); i++)
+			for (AdapterInfo adapterInfo : adl_List_Gpus)
 			{
-				//Get gpu pointer
-				IADLXGPU2Ptr gpuPointer;
-				adlx_Res0 = ppGpuList->At(i, (IADLXGPU**)&gpuPointer);
-
-				//Get ADL adapter index
-				int gpuAdapterIndex = -1;
-				adlx_Res0 = ppAdlMapping->AdlAdapterIndexFromADLXGPU(gpuPointer, &gpuAdapterIndex);
-
 				//Get gpu unique identifier
 				//int identifierInt;
 				//adlx_Res0 = gpuPointer->UniqueId(&identifierInt);
 				//std::string identifierHex = number_to_hexstring(identifierInt, 4);
 
 				//Set gpu application identifier
-				AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AppGpuId", L"0x0001");
+				AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "UMD", "AppGpuId", L"0x0001");
 			}
 		}
 		catch (...) {}

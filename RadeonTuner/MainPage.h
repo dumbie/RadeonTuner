@@ -10,6 +10,13 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlInitialize();
 		void AdlValuesPrepare();
 
+		std::vector<AdapterInfo> AdlGetGpuAll();
+		std::optional<AdapterInfo> AdlGetGpuByDeviceId(std::wstring deviceId);
+		std::optional<AdapterInfo> AdlGetGpuByAdapterIndex(int adapterIndex);
+		std::vector<ADLDisplayInfo> AdlGetDisplayAll();
+		std::vector<ADLDisplayInfo> AdlGetDisplayAllByAdapterIndex(int adapterIndex);
+		std::optional<ADLDisplayInfo> AdlGetDisplayByDisplayIndex(int displayIndex);
+
 		bool AdlAppInterfaceListLoad();
 		void AdlAppInterfaceAddFile();
 		void AdlAppInterfaceAddProcess();
@@ -25,13 +32,14 @@ namespace winrt::RadeonTuner::implementation
 		void AdlSetGamingDriver();
 		bool AdlCheckDriverOnlySoftware();
 
+		bool AdlMetricsPrepare();
+
 		bool Adl_Overdrive_Reset(int gpuAdapterIndex);
 		bool Adl_Overdrive_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
 		std::optional<int> Adl_Overdrive_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId);
 		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
 		bool Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
 
-		bool Adl_Eyefinity_Create_Simple();
 		bool Adl_Eyefinity_Create_Custom(int displayAdapterIndex);
 		bool Adl_Eyefinity_Delete_All(int displayAdapterIndex);
 		bool Adl_Eyefinity_IsEnabled(int displayAdapterIndex);
@@ -53,9 +61,8 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<INT> AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string keyName);
 
 		std::wstring AdlxInitialize();
-		std::pair<IADLXGPU2Ptr, int> AdlxGetGpuPointer(std::string gpuIdentifier);
-		std::wstring AdlxGetGpuIdentifier(IADLXGPU2Ptr gpuPointer);
-		std::wstring AdlxGetDisplayIdentifier(IADLXDisplayPtr displayPointer);
+		std::wstring AdlxGetGpuIdentifier(int adapterIndex);
+		std::wstring AdlxGetDisplayIdentifier(int displayIndex);
 
 		std::optional<AdlApplication> GraphicsSettings_FileLoad(std::string loadPath);
 		bool GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath);
@@ -72,7 +79,7 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<TuningFanSettings> TuningFanSettings_Profile_LoadFromFile(std::string loadPath);
 		bool TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath);
 		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromUI();
-		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr gpuPointer, int gpuAdapterIndex);
+		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromGPU(int gpuAdapterIndex);
 		bool TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu);
 		bool TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettings);
@@ -90,13 +97,11 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlxResetShaderCache();
 
 		void AdlxValuesLoadSelectApp();
-		void AdlxValuesLoadSelectPower();
 		void AdlxValuesLoadSelectGpu();
 		void AdlxValuesLoadSelectDisplay();
 		void AdlValuesLoadGraphicsApp();
 		void AdlValuesLoadGraphicsRegistry();
 		void AdlxValuesLoadMultimedia();
-		void AdlxValuesLoadPower();
 		void AdlxValuesLoadDisplay();
 		void AdlxValuesLoadTuning();
 		void AdlxValuesPrepare();
@@ -186,9 +191,6 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_VideoUpscale_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_VideoSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FreeSyncColorAccuracy_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_SmartShiftEco_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void combobox_SmartShiftMaxMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void slider_SmartShiftMaxBias_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_GpuSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
@@ -239,6 +241,7 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void FsrOverrideDllUpdateVersion(std::wstring dllPath);
 		std::wstring FsrOverrideDllDefaultPath();
+		void toggleswitch_PreserveAspectRatio_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 
