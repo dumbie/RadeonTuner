@@ -9,6 +9,7 @@ namespace winrt::RadeonTuner::implementation
 	//Fix skip when window is not visible
 	//Fix check if AFMF, FSR Latency Reduction, FSR Upscaling or FSR Feature Override is active and update status
 	//Applications that are currently hooked by driver can be found at Computer\HKEY_CURRENT_USER\Software\AMD\HKIDs
+	//amdihk64.dll NotifyFidelityFXStatus NotifyFidelityFXGameVersion
 
 	void MainPage::AdlxLoopMetrics()
 	{
@@ -17,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Delay next loop
-				Sleep(1000);
+				Sleep(adl_Metrics_UpdateRate);
 
 				//Check if loop is allowed
 				if (AppVariables::ApplicationExiting)
@@ -25,88 +26,182 @@ namespace winrt::RadeonTuner::implementation
 					return;
 				}
 
-				//Check services
-				if (ppPerformanceMonitoringServices == NULL)
+				//Set metrics variables
+				int gpuUsageCore = -1;
+				int gpuUsageMemory = -1;
+				int gpuSpeedCore = -1;
+				int gpuSpeedMemory = -1;
+				int gpuWatt = -1;
+				int gpuVoltage = -1;
+				int gpuFanSpeedRpm = -1;
+				int gpuFanSpeedPercentage = -1;
+				int gpuTemperatureCore = -1;
+				int gpuTemperatureMemory = -1;
+				int gpuTemperatureHotspot = -1;
+				int gpuTemperatureIntake = -1;
+
+				////Get metrics logging data using query
+				//ADLPMLogDataOutput adl_Metrics_Logging_Output;
+				//adl_Res0 = _ADL2_New_QueryPMLogData_Get(adl_Context, adl_Gpu_AdapterIndex, &adl_Metrics_Logging_Output);
+				//AVDebugWriteLine(adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_GFX].value);
+
+				//Get metrics logging data
+				ADLPMLogData* adl_Metrics_Logging = (ADLPMLogData*)(adl_Metrics_Output.pLoggingAddress);
+				if (adl_Metrics_Logging == NULL)
 				{
-					std::function<void()> updateFunction = [&]
-						{
-							border_Status().Visibility(Visibility::Collapsed);
-						};
-					AppVariables::App.DispatcherInvoke(updateFunction);
-					AVDebugWriteLine("ADLX performance monitoring service is not available.");
-					return;
+					AVDebugWriteLine("ADL metrics logging data is empty.");
+					continue;
 				}
 
-				//Get GPU metrics support
-				IADLXGPUMetrics3Ptr ppGpuMetrics;
-				adlx_Res0 = ppPerformanceMonitoringServices->GetCurrentGPUMetrics(ppGpuInfo, (IADLXGPUMetrics**)&ppGpuMetrics);
-
-				//Get GPU usage
-				double gpuUsage = 0;
-				adlx_Res0 = ppGpuMetrics->GPUUsage(&gpuUsage);
-
-				//Get GPU speed core
-				int gpuSpeedCore = 0;
-				adlx_Res0 = ppGpuMetrics->GPUClockSpeed(&gpuSpeedCore);
-
-				//Get GPU speed memory
-				int gpuSpeedMemory = 0;
-				adlx_Res0 = ppGpuMetrics->GPUVRAMClockSpeed(&gpuSpeedMemory);
-
-				//Get GPU power watt
-				double gpuWatt = 0;
-				adlx_Res0 = ppGpuMetrics->GPUPower(&gpuWatt);
-				if (ADLX_FAILED(adlx_Res0) || gpuWatt <= 0)
+				//Loop through all metrics
+				int index = 0;
+				while (adl_Metrics_Logging->ulValues[index][0] != ADL_SENSOR_MAXTYPES)
 				{
-					adlx_Res0 = ppGpuMetrics->GPUTotalBoardPower(&gpuWatt);
+					int currentSensor = adl_Metrics_Logging->ulValues[index][0];
+					int currentValue = adl_Metrics_Logging->ulValues[index][1];
+					if (currentSensor == ADL_PMLOG_INFO_ACTIVITY_GFX)
+					{
+						gpuUsageCore = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_CLK_GFXCLK)
+					{
+						gpuSpeedCore = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_INFO_ACTIVITY_MEM)
+					{
+						gpuUsageMemory = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_CLK_MEMCLK)
+					{
+						gpuSpeedMemory = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_GFX_POWER)
+					{
+						//Integrated
+						gpuWatt = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_BOARD_POWER)
+					{
+						//Dedicated
+						gpuWatt = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_GFX_VOLTAGE)
+					{
+						gpuVoltage = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_FAN_RPM)
+					{
+						//Dedicated
+						gpuFanSpeedRpm = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_FAN_PERCENTAGE)
+					{
+						//Dedicated
+						gpuFanSpeedPercentage = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_TEMPERATURE_GFX)
+					{
+						//Integrated
+						gpuTemperatureCore = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_TEMPERATURE_EDGE)
+					{
+						//Dedicated
+						gpuTemperatureCore = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_TEMPERATURE_MEM)
+					{
+						gpuTemperatureMemory = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_TEMPERATURE_HOTSPOT)
+					{
+						gpuTemperatureHotspot = currentValue;
+					}
+					else if (currentSensor == ADL_PMLOG_TEMPERATURE_INTAKE)
+					{
+						gpuTemperatureIntake = currentValue;
+					}
+
+					//Move to next metric
+					index++;
 				}
-
-				//Get GPU power voltage
-				int gpuVoltage = 0;
-				adlx_Res0 = ppGpuMetrics->GPUVoltage(&gpuVoltage);
-
-				//Get GPU fan speed
-				int gpuFanSpeed = 0;
-				adlx_Res0 = ppGpuMetrics->GPUFanSpeed(&gpuFanSpeed);
-
-				//Get GPU temperature core
-				double gpuTemperatureCore = 0;
-				adlx_Res0 = ppGpuMetrics->GPUTemperature(&gpuTemperatureCore);
-
-				//Get GPU temperature memory
-				double gpuTemperatureMemory = 0;
-				bool gpuTemperatureMemorySupported = false;
-				try
-				{
-					adlx_Res0 = ppGpuMetrics->GPUMemoryTemperature(&gpuTemperatureMemory);
-					gpuTemperatureMemorySupported = ADLX_SUCCEEDED(adlx_Res0);
-				}
-				catch (...) {}
-
-				//Get GPU temperature hotspot
-				double gpuTemperatureHotspot = 0;
-				adlx_Res0 = ppGpuMetrics->GPUHotspotTemperature(&gpuTemperatureHotspot);
-				bool gpuTemperatureHotspotSupported = ADLX_SUCCEEDED(adlx_Res0);
-
-				//Get GPU temperature intake
-				double gpuTemperatureIntake = 0;
-				adlx_Res0 = ppGpuMetrics->GPUIntakeTemperature(&gpuTemperatureIntake);
-				bool gpuTemperatureIntakeSupported = ADLX_SUCCEEDED(adlx_Res0);
 
 				//Update current statistics
 				std::function<void()> updateFunction = [&]
 					{
-						textblock_Current_Gpu_Usage().Text(number_to_wstring((int)gpuUsage) + L"%");
-						textblock_Current_Core_Speed().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
-						textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MTs");
+						if (gpuUsageCore >= 0 && gpuUsageCore <= 20000)
+						{
+							textblock_Current_Gpu_Usage().Text(number_to_wstring(gpuUsageCore) + L"%");
+						}
+						else
+						{
+							textblock_Current_Gpu_Usage().Text(L"...");
+						}
 
-						textblock_Current_Power_Watt().Text(number_to_wstring((int)gpuWatt) + L"W");
-						textblock_Current_Power_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");
+						if (gpuSpeedCore >= 0 && gpuSpeedCore <= 20000)
+						{
+							textblock_Current_Core_Speed().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
+						}
+						else
+						{
+							textblock_Current_Core_Speed().Text(L"");
+						}
 
-						textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeed) + L"RPM");
-						textblock_Current_Temp_Core().Text(number_to_wstring((int)gpuTemperatureCore) + L"°C Core");
+						if (gpuUsageMemory >= 0 && gpuUsageMemory <= 20000)
+						{
+							textblock_Current_Memory_Usage().Text(number_to_wstring(gpuUsageMemory) + L"%");
+						}
+						else
+						{
+							textblock_Current_Memory_Usage().Text(L"");
+						}
 
-						if (gpuTemperatureMemorySupported && gpuTemperatureMemory < 1000)
+						if (gpuSpeedMemory >= 0 && gpuSpeedMemory <= 20000)
+						{
+							textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MTs");
+						}
+						else
+						{
+							textblock_Current_Memory_Speed().Text(L"");
+						}
+
+						if (gpuWatt >= 0 && gpuWatt <= 20000)
+						{
+							textblock_Current_Power_Watt().Text(number_to_wstring(gpuWatt) + L"W");
+						}
+						else
+						{
+							textblock_Current_Power_Watt().Text(L"");
+						}
+
+						if (gpuVoltage >= 0 && gpuVoltage <= 20000)
+						{
+							textblock_Current_Power_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");
+						}
+						else
+						{
+							textblock_Current_Power_Voltage().Text(L"");
+						}
+
+						if (gpuFanSpeedRpm >= 0 && gpuFanSpeedRpm <= 20000)
+						{
+							textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeedRpm) + L"RPM");
+						}
+						else
+						{
+							textblock_Current_Fan_Speed().Text(L"");
+						}
+
+						if (gpuTemperatureCore >= 0 && gpuTemperatureCore <= 20000)
+						{
+							textblock_Current_Temp_Core().Text(number_to_wstring(gpuTemperatureCore) + L"°C Core");
+						}
+						else
+						{
+							textblock_Current_Temp_Core().Text(L"");
+						}
+
+						if (gpuTemperatureMemory >= 0 && gpuTemperatureMemory <= 20000)
 						{
 							textblock_Current_Temp_Memory().Text(number_to_wstring((int)gpuTemperatureMemory) + L"°C Memory");
 						}
@@ -115,7 +210,7 @@ namespace winrt::RadeonTuner::implementation
 							textblock_Current_Temp_Memory().Text(L"");
 						}
 
-						if (gpuTemperatureHotspotSupported && gpuTemperatureHotspot < 1000)
+						if (gpuTemperatureHotspot >= 0 && gpuTemperatureHotspot <= 20000)
 						{
 							textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
 						}
@@ -124,7 +219,7 @@ namespace winrt::RadeonTuner::implementation
 							textblock_Current_Temp_Hotspot().Text(L"");
 						}
 
-						if (gpuTemperatureIntakeSupported && gpuTemperatureIntake < 1000)
+						if (gpuTemperatureIntake >= 0 && gpuTemperatureIntake <= 20000)
 						{
 							textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
 						}

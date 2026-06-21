@@ -156,6 +156,9 @@ namespace winrt::RadeonTuner::implementation
 			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
 			//DriverBug#1
 
+			//Prepare adl metrics
+			AdlMetricsPrepare();
+
 			//Load tuning values to interface
 			AdlxValuesLoadTuning();
 
