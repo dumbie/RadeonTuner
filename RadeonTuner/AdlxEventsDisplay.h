@@ -58,6 +58,93 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_HdrEnable_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Set setting
+			ADLDisplayID displayId{};
+			displayId.iDisplayLogicalAdapterIndex = adl_Display_AdapterIndex;
+			displayId.iDisplayLogicalIndex = adl_Display_DisplayIndex;
+			adl_Res0 = _ADL2_Display_HDRState_Set(adl_Context, adl_Display_AdapterIndex, displayId, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling High Dynamic Range");
+					AVDebugWriteLine(L"Failed enabling High Dynamic Range");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling High Dynamic Range");
+					AVDebugWriteLine(L"Failed disabling High Dynamic Range");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					ShowNotification(L"High Dynamic Range enabled");
+					AVDebugWriteLine(L"High Dynamic Range enabled");
+				}
+				else
+				{
+					ShowNotification(L"High Dynamic Range disabled");
+					AVDebugWriteLine(L"High Dynamic Range disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_Display_HdrTypePreference_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_HdrTypePreference_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting HDR Media Profile");
+				AVDebugWriteLine(L"Failed setting HDR Media Profile");
+			}
+			else
+			{
+				ShowNotification(L"HDR Media Profile set to " + ADL_HDR_TYPE_PREFERENCE[newValue]);
+				AVDebugWriteLine(L"HDR Media Profile set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -71,12 +158,15 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayFreeSyncPtr ppFreeSync;
-			adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
-			adlx_Res0 = ppFreeSync->SetEnabled(newValue);
+			int freeSyncSetting = 0;
+			if (newValue)
+			{
+				freeSyncSetting = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+			}
+			adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, freeSyncSetting, 0);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -99,76 +189,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
-					adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
-					adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
-					}
-
 					ShowNotification(L"FreeSync enabled");
 					AVDebugWriteLine(L"FreeSync enabled");
 				}
 				else
 				{
-					toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
 					ShowNotification(L"FreeSync disabled");
 					AVDebugWriteLine(L"FreeSync disabled");
-				}
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_FreeSyncColorAccuracy_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-			bool newFailed = true;
-
-			//Set setting
-			IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
-			adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
-			adlx_Res0 = ppFSCA->SetEnabled(newValue);
-
-			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling FreeSync Color Accuracy");
-					AVDebugWriteLine(L"Failed enabling FreeSync Color Accuracy");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling FreeSync Color Accuracy");
-					AVDebugWriteLine(L"Failed disabling FreeSync Color Accuracy");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"FreeSync Color Accuracy enabled");
-					AVDebugWriteLine(L"FreeSync Color Accuracy enabled");
-				}
-				else
-				{
-					ShowNotification(L"FreeSync Color Accuracy disabled");
-					AVDebugWriteLine(L"FreeSync Color Accuracy disabled");
 				}
 			}
 		}
@@ -188,12 +215,14 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayVSRPtr ppVSR;
-			adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
-			adlx_Res0 = ppVSR->SetEnabled(newValue);
+			ADLDisplayProperty displayProperty{};
+			displayProperty.iSize = sizeof(displayProperty);
+			displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_DOWNSCALE;
+			displayProperty.iCurrent = newValue;
+			//adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -241,12 +270,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayColorDepthPtr ppColorDepth;
-			adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);
-			adlx_Res0 = ppColorDepth->SetValue((ADLX_COLOR_DEPTH)newValue);
+			adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -271,16 +298,37 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
+			//Enumeration index correction
+			int convertedValue = 0;
+			if (newValue == 0)
+			{
+				convertedValue = ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE;
+			}
+			else if (newValue == 1)
+			{
+				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB444;
+			}
+			else if (newValue == 2)
+			{
+				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB422;
+			}
+			else if (newValue == 3)
+			{
+				convertedValue = ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE;
+			}
+			else if (newValue == 4)
+			{
+				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB420;
+			}
+
 			//Set setting
-			IADLXDisplayPixelFormatPtr ppPixelFormat;
-			adlx_Res0 = ppDispServices->GetPixelFormat(ppDisplayInfo, &ppPixelFormat);
-			adlx_Res0 = ppPixelFormat->SetValue((ADLX_PIXEL_FORMAT)newValue);
+			adl_Res0 = _ADL2_Display_PixelFormat_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, convertedValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -290,7 +338,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[newValue]);
+				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[newValue + 1]);
 				AVDebugWriteLine(L"Pixel format set to " << newValue);
 			}
 		}
@@ -308,22 +356,26 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Set setting
-			IADLXDisplay3DLUTPtr pp3DLUT;
-			adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
-
 			//Enumeration index correction
+			int convertedValue = 0;
 			if (newValue == 0)
 			{
-				adlx_Res0 = pp3DLUT->SetSCEDisabled();
+				convertedValue = ADLColorEnhancementType::SCE_Disabled;
 			}
 			else if (newValue == 1)
 			{
-				adlx_Res0 = pp3DLUT->SetSCEVividGaming();
+				convertedValue = ADLColorEnhancementType::SCE_VividGaming;
+			}
+			else if (newValue == 2)
+			{
+				convertedValue = ADLColorEnhancementType::SCE_DynamicContrast;
 			}
 
+			//Set Setting
+			adl_Res0 = _ADL2_Display_SCE_State_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, convertedValue);
+
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -413,12 +465,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-			adlx_Res0 = ppCustomColor->SetTemperature(newValue);
+			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -451,12 +501,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-			adlx_Res0 = ppCustomColor->SetBrightness(newValue);
+			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -489,12 +537,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-			adlx_Res0 = ppCustomColor->SetContrast(newValue);
+			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -527,12 +573,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-			adlx_Res0 = ppCustomColor->SetSaturation(newValue);
+			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_SATURATION, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -565,12 +609,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayCustomColorPtr ppCustomColor;
-			adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-			adlx_Res0 = ppCustomColor->SetHue(newValue);
+			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_HUE, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -770,12 +812,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayGPUScalingPtr ppGPUScaling;
-			adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
-			adlx_Res0 = ppGPUScaling->SetEnabled(newValue);
+			adl_Res0 = _ADL2_DFP_GPUScalingEnable_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -798,20 +838,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					IADLXDisplayIntegerScalingPtr ppIntegerScaling;
-					adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
-					adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
-					if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						toggleswitch_IntegerScaling().IsEnabled(true);
-					}
-
 					ShowNotification(L"GPU Scaling enabled");
 					AVDebugWriteLine(L"GPU Scaling enabled");
 				}
 				else
 				{
-					toggleswitch_IntegerScaling().IsEnabled(false);
 					ShowNotification(L"GPU Scaling disabled");
 					AVDebugWriteLine(L"GPU Scaling disabled");
 				}
@@ -833,12 +864,14 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayIntegerScalingPtr ppIntegerScaling;
-			adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
-			adlx_Res0 = ppIntegerScaling->SetEnabled(newValue);
+			ADLDisplayProperty displayProperty{};
+			displayProperty.iSize = sizeof(displayProperty);
+			displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_INTEGER_SCALING;
+			displayProperty.iCurrent = newValue;
+			adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -886,12 +919,24 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayScalingModePtr ppScalingMode;
-			adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
-			adlx_Res0 = ppScalingMode->SetMode((ADLX_SCALE_MODE)newValue);
+			if (newValue == 0)
+			{
+				//Preserve Aspect Ratio
+				adl_Res0 = _ADL2_Display_PreservedAspectRatio_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1);
+			}
+			else if (newValue == 1)
+			{
+				//Full Panel
+				adl_Res0 = _ADL2_Display_ImageExpansion_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1);
+			}
+			else if (newValue == 2)
+			{
+				//Centered
+				adl_Res0 = _ADL2_Display_ImageExpansion_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 0);
+			}
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -921,12 +966,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayHDCPPtr ppHDCP;
-			adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
-			adlx_Res0 = ppHDCP->SetEnabled(newValue);
+			adl_Res0 = _ADL2_Display_HDCP_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, false, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -975,12 +1018,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayVariBrightPtr ppVariBright;
-			adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
-			adlx_Res0 = ppVariBright->SetEnabled(newValue);
+			adl_Res0 = _ADL2_Adapter_VariBrightEnable_Set(adl_Context, adl_Gpu_AdapterIndex, newValue);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)
@@ -1030,33 +1071,10 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			IADLXDisplayVariBrightPtr ppVariBright;
-			adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
-
-			//Enumeration index correction
-			if (newValue == 0)
-			{
-				adlx_Res0 = ppVariBright->SetMaximizeBrightness();
-			}
-			else if (newValue == 1)
-			{
-				adlx_Res0 = ppVariBright->SetOptimizeBrightness();
-			}
-			else if (newValue == 2)
-			{
-				adlx_Res0 = ppVariBright->SetBalanced();
-			}
-			else if (newValue == 3)
-			{
-				adlx_Res0 = ppVariBright->SetOptimizeBattery();
-			}
-			else if (newValue == 4)
-			{
-				adlx_Res0 = ppVariBright->SetMaximizeBattery();
-			}
+			adl_Res0 = _ADL2_Adapter_VariBrightLevel_Set(adl_Context, adl_Gpu_AdapterIndex, newValue, true);
 
 			//Set result
-			newFailed = adlx_Res0 != ADLX_OK;
+			newFailed = adl_Res0 != ADL_OK;
 
 			//Show result
 			if (newFailed)

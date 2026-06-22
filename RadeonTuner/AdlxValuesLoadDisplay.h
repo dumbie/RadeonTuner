@@ -9,15 +9,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check services
-			if (ppDispServices == NULL)
-			{
-				stackpanel_Display().Opacity(0.20);
-				stackpanel_Display().IsHitTestVisible(false);
-				AVDebugWriteLine("ADLX display service is not available.");
-				return;
-			}
-
 			//Set interface limits
 			slider_Display_Protanopia().Minimum(0);
 			slider_Display_Protanopia().Maximum(20);
@@ -34,25 +25,77 @@ namespace winrt::RadeonTuner::implementation
 			slider_Display_Tritanopia().StepFrequency(1);
 			slider_Display_Tritanopia().SmallChange(1);
 
-			//Check if display is active
+			//FixPort Check if display is active
 			bool displayActive = true;
-			adlx_double refreshRate;
-			adlx_Res0 = ppDisplayInfo->RefreshRate(&refreshRate);
-			if (ADLX_SUCCEEDED(adlx_Res0) && (refreshRate <= 0 || std::isnan(refreshRate)))
+			//ADL2_Display_DisplayInfo_Get ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED
+
+			//Get HDR State
+			try
 			{
-				displayActive = false;
+				ADLDisplayID displayId{};
+				displayId.iDisplayLogicalAdapterIndex = adl_Display_AdapterIndex;
+				displayId.iDisplayLogicalIndex = adl_Display_DisplayIndex;
+
+				int hdrSupported = -1;
+				int hdrEnabled = -1;
+				adl_Res0 = _ADL2_Display_HDRState_Get(adl_Context, adl_Display_AdapterIndex, displayId, &hdrSupported, &hdrEnabled);
+				if (displayActive && adl_Res0 == ADL_OK)
+				{
+					//Set current
+					toggleswitch_HdrEnable().IsOn(hdrEnabled);
+
+					//Enable or disable interface
+					toggleswitch_HdrEnable().IsEnabled(true);
+				}
+				else
+				{
+					//Enable or disable interface
+					toggleswitch_HdrEnable().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				toggleswitch_HdrEnable().IsEnabled(false);
+			}
+
+			//Get HDR Media Profile
+			try
+			{
+				int hdrTypePreference = -1;
+				adl_Res0 = _ADL2_Display_HdrTypePreference_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &hdrTypePreference);
+				if (displayActive && adl_Res0 == ADL_OK)
+				{
+					//Set current
+					combobox_Display_HdrTypePreference().SelectedIndex(hdrTypePreference);
+
+					//Enable or disable interface
+					combobox_Display_HdrTypePreference().IsEnabled(true);
+				}
+				else
+				{
+					//Enable or disable interface
+					combobox_Display_HdrTypePreference().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				combobox_Display_HdrTypePreference().IsEnabled(false);
 			}
 
 			//Get FreeSync
 			try
 			{
-				IADLXDisplayFreeSyncPtr ppFreeSync;
-				adlx_Res0 = ppDispServices->GetFreeSync(ppDisplayInfo, &ppFreeSync);
-				adlx_Res0 = ppFreeSync->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int freeSyncCurrent = -1;
+				int freeSyncDefault = -1;
+				int freeSyncMinRefreshRateInMicroHz = -1;
+				int freeSyncMaxRefreshRateInMicroHz = -1;
+				adl_Res0 = _ADL2_Display_FreeSyncState_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &freeSyncCurrent, &freeSyncDefault, &freeSyncMinRefreshRateInMicroHz, &freeSyncMaxRefreshRateInMicroHz);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppFreeSync->IsEnabled(&adlx_Bool);
-					toggleswitch_FreeSync().IsOn(adlx_Bool);
+					//Set current
+					toggleswitch_FreeSync().IsOn(freeSyncCurrent > 0);
 
 					//Enable or disable interface
 					toggleswitch_FreeSync().IsEnabled(true);
@@ -69,49 +112,16 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FreeSync().IsEnabled(false);
 			}
 
-			//Get FreeSync Color Accuracy
-			try
-			{
-				IADLXDisplayFreeSyncColorAccuracyPtr ppFSCA;
-				adlx_Res0 = ppDispServices->GetFreeSyncColorAccuracy(ppDisplayInfo, &ppFSCA);
-				adlx_Res0 = ppFSCA->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-				{
-					adlx_Res0 = ppFSCA->IsEnabled(&adlx_Bool);
-					toggleswitch_FreeSyncColorAccuracy().IsOn(adlx_Bool);
-
-					//Enable or disable interface
-					if (toggleswitch_FreeSync().IsOn())
-					{
-						toggleswitch_FreeSyncColorAccuracy().IsEnabled(true);
-					}
-					else
-					{
-						toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
-					}
-				}
-				else
-				{
-					//Enable or disable interface
-					toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				toggleswitch_FreeSyncColorAccuracy().IsEnabled(false);
-			}
-
 			//Get Virtual Super Resolution
 			try
 			{
-				IADLXDisplayVSRPtr ppVSR;
-				adlx_Res0 = ppDispServices->GetVirtualSuperResolution(ppDisplayInfo, &ppVSR);
-				adlx_Res0 = ppVSR->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				ADLDisplayProperty displayProperty{};
+				displayProperty.iSize = sizeof(displayProperty);
+				displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_DOWNSCALE;
+				adl_Res0 = _ADL2_Display_Property_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppVSR->IsEnabled(&adlx_Bool);
-					toggleswitch_VSR().IsOn(adlx_Bool);
+					toggleswitch_VSR().IsOn(displayProperty.iCurrent == 1);
 
 					//Enable or disable interface
 					toggleswitch_VSR().IsEnabled(true);
@@ -131,13 +141,13 @@ namespace winrt::RadeonTuner::implementation
 			//Get GPU Scaling
 			try
 			{
-				IADLXDisplayGPUScalingPtr ppGPUScaling;
-				adlx_Res0 = ppDispServices->GetGPUScaling(ppDisplayInfo, &ppGPUScaling);
-				adlx_Res0 = ppGPUScaling->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int gpuScalingSupported = -1;
+				int gpuScalingCurrent = -1;
+				int gpuScalingDefault = -1;
+				adl_Res0 = _ADL2_DFP_GPUScalingEnable_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &gpuScalingSupported, &gpuScalingCurrent, &gpuScalingDefault);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppGPUScaling->IsEnabled(&adlx_Bool);
-					toggleswitch_GPUScaling().IsOn(adlx_Bool);
+					toggleswitch_GPUScaling().IsOn(gpuScalingCurrent == 1);
 
 					//Enable or disable interface
 					toggleswitch_GPUScaling().IsEnabled(true);
@@ -157,23 +167,16 @@ namespace winrt::RadeonTuner::implementation
 			//Get Integer Scaling
 			try
 			{
-				IADLXDisplayIntegerScalingPtr ppIntegerScaling;
-				adlx_Res0 = ppDispServices->GetIntegerScaling(ppDisplayInfo, &ppIntegerScaling);
-				adlx_Res0 = ppIntegerScaling->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				ADLDisplayProperty displayProperty{};
+				displayProperty.iSize = sizeof(displayProperty);
+				displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_INTEGER_SCALING;
+				adl_Res0 = _ADL2_Display_Property_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppIntegerScaling->IsEnabled(&adlx_Bool);
-					toggleswitch_IntegerScaling().IsOn(adlx_Bool);
+					toggleswitch_IntegerScaling().IsOn(displayProperty.iCurrent == 1);
 
 					//Enable or disable interface
-					if (toggleswitch_GPUScaling().IsOn())
-					{
-						toggleswitch_IntegerScaling().IsEnabled(true);
-					}
-					else
-					{
-						toggleswitch_IntegerScaling().IsEnabled(false);
-					}
+					toggleswitch_IntegerScaling().IsEnabled(true);
 				}
 				else
 				{
@@ -190,13 +193,40 @@ namespace winrt::RadeonTuner::implementation
 			//Get Scaling Mode
 			try
 			{
-				IADLXDisplayScalingModePtr ppScalingMode;
-				adlx_Res0 = ppDispServices->GetScalingMode(ppDisplayInfo, &ppScalingMode);
-				adlx_Res0 = ppScalingMode->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				//Note: Do not use ADL2_Display_Property_Get ADL_DL_DISPLAYPROPERTY_TYPE_EXPANSIONMODE iExpansionMode is always 1 and set fails
+
+				//Get current mode
+				int aspectRatioSupport = -1;
+				int aspectRatioCurrent = -1;
+				int aspectRatioDefault = -1;
+				adl_Res0 = _ADL2_Display_PreservedAspectRatio_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &aspectRatioSupport, &aspectRatioCurrent, &aspectRatioDefault);
+
+				int imageExpansionSupported = -1;
+				int imageExpansionCurrent = -1;
+				int imageExpansionDefault = -1;
+				adl_Res0 = _ADL2_Display_ImageExpansion_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &imageExpansionSupported, &imageExpansionCurrent, &imageExpansionDefault);
+
+				//Check current mode
+				int currentMode = 0;
+				if (aspectRatioCurrent == 1)
 				{
-					ADLX_SCALE_MODE currentMode;
-					adlx_Res0 = ppScalingMode->GetMode(&currentMode);
+					//Preserve Aspect Ratio
+					currentMode = 0;
+				}
+				else if (imageExpansionCurrent == 1)
+				{
+					//Full Panel
+					currentMode = 1;
+				}
+				else if (imageExpansionCurrent == 0)
+				{
+					//Center
+					currentMode = 2;
+				}
+
+				//Update interface
+				if (displayActive)
+				{
 					combobox_Display_ScalingMode().SelectedIndex(currentMode);
 
 					//Enable or disable interface
@@ -217,17 +247,11 @@ namespace winrt::RadeonTuner::implementation
 			//Get Color Depth
 			try
 			{
-				IADLXDisplayColorDepthPtr ppColorDepth;
-				adlx_Res0 = ppDispServices->GetColorDepth(ppDisplayInfo, &ppColorDepth);
-				adlx_Res0 = ppColorDepth->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int colorDepth = -1;
+				adl_Res0 = _ADL2_Display_ColorDepth_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &colorDepth);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					ADLX_COLOR_DEPTH colorDepth;
-					adlx_Res0 = ppColorDepth->GetValue(&colorDepth);
-					if (colorDepth != ADLX_COLOR_DEPTH::BPC_UNKNOWN)
-					{
-						combobox_Display_ColorDepth().SelectedIndex(colorDepth - 1);
-					}
+					combobox_Display_ColorDepth().SelectedIndex(colorDepth - 1);
 
 					//Enable or disable interface
 					combobox_Display_ColorDepth().IsEnabled(true);
@@ -247,16 +271,30 @@ namespace winrt::RadeonTuner::implementation
 			//Get Pixel Format
 			try
 			{
-				IADLXDisplayPixelFormatPtr ppPixelFormat;
-				adlx_Res0 = ppDispServices->GetPixelFormat(ppDisplayInfo, &ppPixelFormat);
-				adlx_Res0 = ppPixelFormat->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int pixelFormat = -1;
+				adl_Res0 = _ADL2_Display_PixelFormat_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &pixelFormat);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					ADLX_PIXEL_FORMAT pixelFormat;
-					adlx_Res0 = ppPixelFormat->GetValue(&pixelFormat);
-					if (pixelFormat != ADLX_PIXEL_FORMAT::FORMAT_UNKNOWN)
+					//Enumeration index correction
+					if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE)
 					{
-						combobox_Display_PixelFormat().SelectedIndex(pixelFormat - 1);
+						combobox_Display_PixelFormat().SelectedIndex(0);
+					}
+					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB444)
+					{
+						combobox_Display_PixelFormat().SelectedIndex(1);
+					}
+					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB422)
+					{
+						combobox_Display_PixelFormat().SelectedIndex(2);
+					}
+					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE)
+					{
+						combobox_Display_PixelFormat().SelectedIndex(3);
+					}
+					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB420)
+					{
+						combobox_Display_PixelFormat().SelectedIndex(4);
 					}
 
 					//Enable or disable interface
@@ -277,20 +315,23 @@ namespace winrt::RadeonTuner::implementation
 			//Get Color Enhancement
 			try
 			{
-				IADLXDisplay3DLUTPtr pp3DLUT;
-				adlx_Res0 = ppDispServices->Get3DLUT(ppDisplayInfo, &pp3DLUT);
-				adlx_Res0 = pp3DLUT->IsSupportedSCE(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int sceType = -1;
+				int sceStatus = -1;
+				adl_Res0 = _ADL2_Display_SCE_State_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &sceType, &sceStatus);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = pp3DLUT->IsCurrentSCEDisabled(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+					//Enumeration index correction
+					if (sceType == ADLColorEnhancementType::SCE_Disabled)
 					{
 						combobox_Display_DisplayColorEnhancement().SelectedIndex(0);
 					}
-					adlx_Res0 = pp3DLUT->IsCurrentSCEVividGaming(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+					else if (sceType == ADLColorEnhancementType::SCE_VividGaming)
 					{
 						combobox_Display_DisplayColorEnhancement().SelectedIndex(1);
+					}
+					else if (sceType == ADLColorEnhancementType::SCE_DynamicContrast)
+					{
+						combobox_Display_DisplayColorEnhancement().SelectedIndex(2);
 					}
 
 					//Enable or disable interface
@@ -343,102 +384,138 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 			}
 
-			//Get Custom Color Profile
+			//Get Color Temperature
 			try
 			{
-				IADLXDisplayCustomColorPtr ppCustomColor;
-				adlx_Res0 = ppDispServices->GetCustomColor(ppDisplayInfo, &ppCustomColor);
-
-				//Get Color Temperature
-				adlx_Res0 = ppCustomColor->IsTemperatureSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int colorCurrent = -1;
+				int colorDefault = -1;
+				int colorMin = -1;
+				int colorMax = -1;
+				int colorStep = -1;
+				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppCustomColor->GetTemperature(&adlx_Int0);
-					adlx_Res0 = ppCustomColor->GetTemperatureRange(&adlx_IntRange0);
-					slider_Display_ColorTemperature_Kelvin().Value(adlx_Int0);
-					slider_Display_ColorTemperature_Kelvin().Minimum(adlx_IntRange0.minValue);
-					slider_Display_ColorTemperature_Kelvin().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_ColorTemperature_Kelvin().StepFrequency(adlx_IntRange0.step);
-					slider_Display_ColorTemperature_Kelvin().SmallChange(adlx_IntRange0.step);
+					slider_Display_ColorTemperature_Kelvin().Minimum(colorMin);
+					slider_Display_ColorTemperature_Kelvin().Maximum(colorMax);
+					slider_Display_ColorTemperature_Kelvin().StepFrequency(colorStep);
+					slider_Display_ColorTemperature_Kelvin().SmallChange(colorStep);
+					slider_Display_ColorTemperature_Kelvin().Value(colorCurrent);
 				}
-
-				//Get Brightness
-				adlx_Res0 = ppCustomColor->IsBrightnessSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				else
 				{
-					adlx_Res0 = ppCustomColor->GetBrightness(&adlx_Int0);
-					adlx_Res0 = ppCustomColor->GetBrightnessRange(&adlx_IntRange0);
-					slider_Display_Brightness().Value(adlx_Int0);
-					slider_Display_Brightness().Minimum(adlx_IntRange0.minValue);
-					slider_Display_Brightness().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_Brightness().StepFrequency(adlx_IntRange0.step);
-					slider_Display_Brightness().SmallChange(adlx_IntRange0.step);
-
 					//Enable or disable interface
-					slider_Display_Brightness().IsEnabled(true);
+					slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
+			}
+
+			//Get Color Brightness
+			try
+			{
+				int colorCurrent = -1;
+				int colorDefault = -1;
+				int colorMin = -1;
+				int colorMax = -1;
+				int colorStep = -1;
+				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
+				if (displayActive && adl_Res0 == ADL_OK)
+				{
+					slider_Display_Brightness().Minimum(colorMin);
+					slider_Display_Brightness().Maximum(colorMax);
+					slider_Display_Brightness().StepFrequency(colorStep);
+					slider_Display_Brightness().SmallChange(colorStep);
+					slider_Display_Brightness().Value(colorCurrent);
 				}
 				else
 				{
 					//Enable or disable interface
 					slider_Display_Brightness().IsEnabled(false);
 				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_Display_Brightness().IsEnabled(false);
+			}
 
-				//Get Contrast
-				adlx_Res0 = ppCustomColor->IsContrastSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+			//Get Color Contrast
+			try
+			{
+				int colorCurrent = -1;
+				int colorDefault = -1;
+				int colorMin = -1;
+				int colorMax = -1;
+				int colorStep = -1;
+				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppCustomColor->GetContrast(&adlx_Int0);
-					adlx_Res0 = ppCustomColor->GetContrastRange(&adlx_IntRange0);
-					slider_Display_Contrast().Value(adlx_Int0);
-					slider_Display_Contrast().Minimum(adlx_IntRange0.minValue);
-					slider_Display_Contrast().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_Contrast().StepFrequency(adlx_IntRange0.step);
-					slider_Display_Contrast().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					slider_Display_Contrast().IsEnabled(true);
+					slider_Display_Contrast().Minimum(colorMin);
+					slider_Display_Contrast().Maximum(colorMax);
+					slider_Display_Contrast().StepFrequency(colorStep);
+					slider_Display_Contrast().SmallChange(colorStep);
+					slider_Display_Contrast().Value(colorCurrent);
 				}
 				else
 				{
 					//Enable or disable interface
 					slider_Display_Contrast().IsEnabled(false);
 				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_Display_Contrast().IsEnabled(false);
+			}
 
-				//Get Saturation
-				adlx_Res0 = ppCustomColor->IsSaturationSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+			//Get Color Saturation
+			try
+			{
+				int colorCurrent = -1;
+				int colorDefault = -1;
+				int colorMin = -1;
+				int colorMax = -1;
+				int colorStep = -1;
+				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_SATURATION, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppCustomColor->GetSaturation(&adlx_Int0);
-					adlx_Res0 = ppCustomColor->GetSaturationRange(&adlx_IntRange0);
-					slider_Display_Saturation().Value(adlx_Int0);
-					slider_Display_Saturation().Minimum(adlx_IntRange0.minValue);
-					slider_Display_Saturation().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_Saturation().StepFrequency(adlx_IntRange0.step);
-					slider_Display_Saturation().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					slider_Display_Saturation().IsEnabled(true);
+					slider_Display_Saturation().Minimum(colorMin);
+					slider_Display_Saturation().Maximum(colorMax);
+					slider_Display_Saturation().StepFrequency(colorStep);
+					slider_Display_Saturation().SmallChange(colorStep);
+					slider_Display_Saturation().Value(colorCurrent);
 				}
 				else
 				{
 					//Enable or disable interface
 					slider_Display_Saturation().IsEnabled(false);
 				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				slider_Display_Saturation().IsEnabled(false);
+			}
 
-				//Get Hue
-				adlx_Res0 = ppCustomColor->IsHueSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+			//Get Color Hue
+			try
+			{
+				int colorCurrent = -1;
+				int colorDefault = -1;
+				int colorMin = -1;
+				int colorMax = -1;
+				int colorStep = -1;
+				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_HUE, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppCustomColor->GetHue(&adlx_Int0);
-					adlx_Res0 = ppCustomColor->GetHueRange(&adlx_IntRange0);
-					slider_Display_Hue().Value(adlx_Int0);
-					slider_Display_Hue().Minimum(adlx_IntRange0.minValue);
-					slider_Display_Hue().Maximum(adlx_IntRange0.maxValue);
-					slider_Display_Hue().StepFrequency(adlx_IntRange0.step);
-					slider_Display_Hue().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					slider_Display_Hue().IsEnabled(true);
+					slider_Display_Hue().Minimum(colorMin);
+					slider_Display_Hue().Maximum(colorMax);
+					slider_Display_Hue().StepFrequency(colorStep);
+					slider_Display_Hue().SmallChange(colorStep);
+					slider_Display_Hue().Value(colorCurrent);
 				}
 				else
 				{
@@ -449,10 +526,6 @@ namespace winrt::RadeonTuner::implementation
 			catch (...)
 			{
 				//Enable or disable interface
-				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
-				slider_Display_Brightness().IsEnabled(false);
-				slider_Display_Contrast().IsEnabled(false);
-				slider_Display_Saturation().IsEnabled(false);
 				slider_Display_Hue().IsEnabled(false);
 			}
 
@@ -508,51 +581,23 @@ namespace winrt::RadeonTuner::implementation
 			//Get Vari-Bright
 			try
 			{
-				IADLXDisplayVariBrightPtr ppVariBright;
-				adlx_Res0 = ppDispServices->GetVariBright(ppDisplayInfo, &ppVariBright);
-				adlx_Res0 = ppVariBright->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				int variSupported = -1;
+				int variEnabled = -1;
+				int variVersion = -1;
+				adl_Res0 = _ADL2_Adapter_VariBright_Caps(adl_Context, adl_Gpu_AdapterIndex, &variSupported, &variEnabled, &variVersion);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					//Set Vari-Bright
-					adlx_Res0 = ppVariBright->IsEnabled(&adlx_Bool);
-					toggleswitch_VariBright().IsOn(adlx_Bool);
+					toggleswitch_VariBright().IsOn(variEnabled);
 
 					//Enable or disable interface
 					toggleswitch_VariBright().IsEnabled(true);
-					if (adlx_Bool)
+					if (variEnabled)
 					{
 						combobox_Display_VariBright_Level().IsEnabled(true);
 					}
 					else
 					{
 						combobox_Display_VariBright_Level().IsEnabled(false);
-					}
-
-					//Set Vari-Bright Level
-					adlx_Res0 = ppVariBright->IsCurrentMaximizeBrightness(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(0);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentOptimizeBrightness(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(1);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentBalanced(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(2);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentOptimizeBattery(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(3);
-					}
-					adlx_Res0 = ppVariBright->IsCurrentMaximizeBattery(&adlx_Bool);
-					if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-					{
-						combobox_Display_VariBright_Level().SelectedIndex(4);
 					}
 				}
 				else
@@ -569,16 +614,38 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_VariBright().IsEnabled(false);
 			}
 
+			//Get Vari-Bright Level
+			try
+			{
+				int variDefaultLevel = -1;
+				int variNumberOfLevels = -1;
+				int variStep = -1;
+				int variCurrentLevel = -1;
+				adl_Res0 = _ADL2_Adapter_VariBrightLevel_Get(adl_Context, adl_Gpu_AdapterIndex, &variDefaultLevel, &variNumberOfLevels, &variStep, &variCurrentLevel);
+				if (displayActive && adl_Res0 == ADL_OK)
+				{
+					combobox_Display_VariBright_Level().SelectedIndex(variCurrentLevel);
+				}
+				else
+				{
+					//Enable or disable interface
+					combobox_Display_VariBright_Level().IsEnabled(false);
+				}
+			}
+			catch (...)
+			{
+				//Enable or disable interface
+				combobox_Display_VariBright_Level().IsEnabled(false);
+			}
+
 			//Get HDCP Support
 			try
 			{
-				IADLXDisplayHDCPPtr ppHDCP;
-				adlx_Res0 = ppDispServices->GetHDCP(ppDisplayInfo, &ppHDCP);
-				adlx_Res0 = ppHDCP->IsSupported(&adlx_Bool);
-				if (displayActive && ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				ADLHDCPSettings lpHDCPSettings{};
+				adl_Res0 = _ADL2_Display_HDCP_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &lpHDCPSettings);
+				if (displayActive && adl_Res0 == ADL_OK)
 				{
-					adlx_Res0 = ppHDCP->IsEnabled(&adlx_Bool);
-					toggleswitch_HDCPSupport().IsOn(adlx_Bool);
+					toggleswitch_HDCPSupport().IsOn(lpHDCPSettings.iAllowAll);
 
 					//Enable or disable interface
 					toggleswitch_HDCPSupport().IsEnabled(true);
