@@ -1238,10 +1238,10 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting
 				ADL_RIS2_SETTINGS adlSettings{};
-				adlSettings.GlobalSharpeningMode = newValue ? 0 : 1;
+				adlSettings.GlobalEnable = newValue;
 
 				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
-				adlNotificationReason.GlobalSharpeningModeChanged = true;
+				adlNotificationReason.GlobalEnableChanged = true;
 
 				adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
 
@@ -1411,29 +1411,32 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			ADLX_ANTI_ALIASING_METHOD newValue = (ADLX_ANTI_ALIASING_METHOD)sender.as<ComboBox>().SelectedIndex();
+			int newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
 			//Set setting
 			if (AdlAppSelectedGet().value().get().Global)
 			{
-				if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_MULTISAMPLING)
+				if (newValue == 0)
 				{
 					//Set setting
+					//Multisampling
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"-1");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"0");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"0");
 				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
+				else if (newValue == 1)
 				{
 					//Set setting
+					//Adaptive Multisampling
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"1");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"0");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"1");
 				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
+				else if (newValue == 2)
 				{
 					//Set setting
+					//Supersampling
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"1");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"1");
 					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"1");
@@ -1441,7 +1444,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_MULTISAMPLING)
+				if (newValue == 0)
 				{
 					std::vector<AdlAppProperty> adlAppProperties{};
 
@@ -1470,9 +1473,10 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperties.push_back(adlAppProperty2);
 
 					//Set setting
+					//Multisampling
 					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
 				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_ADAPTIVE_MULTISAMPLING)
+				else if (newValue == 1)
 				{
 					std::vector<AdlAppProperty> adlAppProperties{};
 
@@ -1501,9 +1505,10 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperties.push_back(adlAppProperty2);
 
 					//Set setting
+					//Adaptive Multisampling
 					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
 				}
-				else if (newValue == ADLX_ANTI_ALIASING_METHOD::AA_METHOD_SUPERSAMPLING)
+				else if (newValue == 2)
 				{
 					std::vector<AdlAppProperty> adlAppProperties{};
 
@@ -1532,6 +1537,7 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperties.push_back(adlAppProperty2);
 
 					//Set setting
+					//Supersampling
 					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
 				}
 			}
@@ -1793,7 +1799,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			ADLX_TESSELLATION_MODE newValue = (ADLX_TESSELLATION_MODE)sender.as<ComboBox>().SelectedIndex();
+			int newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
 			//Check application type
@@ -1816,7 +1822,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				if (newValue != ADLX_TESSELLATION_MODE::T_MODE_OVERRIDE_APP_SETTINGS)
+				//Check if setting is enabled
+				if (newValue != 2)
 				{
 					combobox_Tessellation_Level().IsEnabled(false);
 				}

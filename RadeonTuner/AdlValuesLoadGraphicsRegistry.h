@@ -19,7 +19,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Fix find way to check if setting is supported and disable interface.
+			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
 			//Set interface limits
 			slider_RadeonBoost_MinRes().Minimum(50);
@@ -186,8 +186,6 @@ namespace winrt::RadeonTuner::implementation
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", true);
 				if (adlRegistry.has_value())
 				{
-					//Set current
-
 					//Get dll path text
 					std::wstring dllPath = adlRegistry.value();
 					std::wstring dllPathLower = wstring_to_lower(dllPath);
@@ -356,16 +354,15 @@ namespace winrt::RadeonTuner::implementation
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set current
-					bool enabled = adlSettings.GlobalSharpeningMode == 0 || adlSettings.GlobalSharpeningMode == 3;
-					toggleswitch_RadeonImageSharpening2().IsOn(enabled);
+					toggleswitch_RadeonImageSharpening2().IsOn(adlSettings.GlobalEnable);
 					slider_RadeonImageSharpening2_Sharpening().Value(adlSettings.GlobalSharpeningDegree);
-					slider_RadeonImageSharpening2_Sharpening().IsEnabled(enabled);
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(adlSettings.GlobalEnable);
 				}
 				else
 				{
 					//Set defaults
 					toggleswitch_RadeonImageSharpening2().IsOn(false);
-					slider_RadeonImageSharpening2_Sharpening().Value(80);
+					slider_RadeonImageSharpening2_Sharpening().Value(50);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 				}
 			}

@@ -136,11 +136,11 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				ADL_RIS2_SETTINGS adlSettings{};
-				adlSettings.GlobalSharpeningMode = 0;
-				adlSettings.GlobalSharpeningDegree = 80;
+				adlSettings.GlobalEnable = 0;
+				adlSettings.GlobalSharpeningDegree = 50;
 
 				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
-				adlNotificationReason.GlobalSharpeningModeChanged = true;
+				adlNotificationReason.GlobalEnableChanged = true;
 				adlNotificationReason.GlobalSharpeningDegreeChanged = true;
 
 				adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
