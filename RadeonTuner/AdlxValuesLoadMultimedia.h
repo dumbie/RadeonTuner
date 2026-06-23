@@ -9,83 +9,47 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check services
-			if (ppMultiMediaServices == NULL)
-			{
-				stackpanel_Multimedia().Opacity(0.20);
-				stackpanel_Multimedia().IsHitTestVisible(false);
-				AVDebugWriteLine("ADLX multimedia service is not available.");
-				return;
-			}
+			//Fix find way to check if setting is supported and disable interface. (ADL2_MMD_Features_Caps)
+			//Fix add SteadyVideo FluidMotion Color Brightness support
 
-			//Get Video Super Resolution
-			try
+			//Set interface limits
+			slider_Video_Sharpening().Minimum(1);
+			slider_Video_Sharpening().Maximum(100);
+			slider_Video_Sharpening().StepFrequency(1);
+			slider_Video_Sharpening().SmallChange(1);
+
+			//Get all multimedia setting values
+			int adlFeatureCount = 0;
+			ADLFeatureValues* adlFeatureValues{};
+			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, adl_Gpu_AdapterIndex, &adlFeatureValues, &adlFeatureCount);
+			AVDebugWriteLine(L"Multimedia values count: " << adlFeatureCount);
+
+			//Load all multimedia setting values
+			for (int index = 0; index < adlFeatureCount; index++)
 			{
-				IADLXVideoSuperResolutionPtr ppVideoSuperResolution;
-				ppMultiMediaServices->GetVideoSuperResolution(ppGpuInfo, &ppVideoSuperResolution);
-				adlx_Res0 = ppVideoSuperResolution->IsSupported(&adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
+				try
 				{
-					adlx_Res0 = ppVideoSuperResolution->IsEnabled(&adlx_Bool);
-					toggleswitch_VideoSuperResolution().IsOn(adlx_Bool);
+					//Get feature name
+					std::string featureName = std::string(adlFeatureValues[index].Name.FeatureName);
 
-					//Enable or disable interface
-					toggleswitch_VideoSuperResolution().IsEnabled(true);
-				}
-				else
-				{
-					//Enable or disable interface
-					toggleswitch_VideoSuperResolution().IsEnabled(false);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				toggleswitch_VideoSuperResolution().IsEnabled(false);
-			}
-
-			//Get Video Upscale
-			try
-			{
-				IADLXVideoUpscalePtr ppVideoupscale;
-				ppMultiMediaServices->GetVideoUpscale(ppGpuInfo, &ppVideoupscale);
-				adlx_Res0 = ppVideoupscale->IsSupported(&adlx_Bool);
-				if (ADLX_SUCCEEDED(adlx_Res0) && adlx_Bool)
-				{
-					adlx_Res0 = ppVideoupscale->IsEnabled(&adlx_Bool);
-					adlx_Res0 = ppVideoupscale->GetSharpness(&adlx_Int0);
-					adlx_Res0 = ppVideoupscale->GetSharpnessRange(&adlx_IntRange0);
-
-					toggleswitch_VideoUpscale().IsOn(adlx_Bool);
-					slider_VideoUpscale_Sharpening().Value(adlx_Int0);
-					slider_VideoUpscale_Sharpening().Minimum(adlx_IntRange0.minValue);
-					slider_VideoUpscale_Sharpening().Maximum(adlx_IntRange0.maxValue);
-					slider_VideoUpscale_Sharpening().StepFrequency(adlx_IntRange0.step);
-					slider_VideoUpscale_Sharpening().SmallChange(adlx_IntRange0.step);
-
-					//Enable or disable interface
-					toggleswitch_VideoUpscale().IsEnabled(true);
-					if (adlx_Bool)
+					//Check feature name
+					if (featureName == "VideoUpScale")
 					{
-						slider_VideoUpscale_Sharpening().IsEnabled(true);
+						toggleswitch_Video_Sharpening().IsOn(adlFeatureValues[index].bCurrent);
+						slider_Video_Sharpening().IsEnabled(adlFeatureValues[index].bCurrent);
 					}
-					else
+					else if (featureName == "Sharpness")
 					{
-						slider_VideoUpscale_Sharpening().IsEnabled(false);
+						slider_Video_Sharpening().Value(adlFeatureValues[index].fCurrent);
 					}
+
+					////Debug features
+					//AVDebugWriteLine(featureName.c_str());
+					//AVDebugWriteLine(adlFeatureValues[index].bCurrent);
+					//AVDebugWriteLine(adlFeatureValues[index].fCurrent);
+					//AVDebugWriteLine(adlFeatureValues[index].iCurrent);
 				}
-				else
-				{
-					//Enable or disable interface
-					toggleswitch_VideoUpscale().IsEnabled(false);
-					slider_VideoUpscale_Sharpening().IsEnabled(false);
-				}
-			}
-			catch (...)
-			{
-				//Enable or disable interface
-				toggleswitch_VideoUpscale().IsEnabled(false);
-				slider_VideoUpscale_Sharpening().IsEnabled(false);
+				catch (...) {}
 			}
 
 			//Set result
