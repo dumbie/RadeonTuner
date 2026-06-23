@@ -459,6 +459,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Not supported
 				toggleswitch_RadeonImageSharpening2().IsEnabled(false);
+				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 				slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 			}
 

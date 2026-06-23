@@ -1273,15 +1273,86 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(true);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(true);
 					ShowNotification(L"Image Sharpening enabled");
 					AVDebugWriteLine(L"Image Sharpening enabled");
 				}
 				else
 				{
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 					ShowNotification(L"Image Sharpening disabled");
 					AVDebugWriteLine(L"Image Sharpening disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_RadeonImageSharpening2_Desktop_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Note: RIS2 registry states 0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop
+
+				//Set setting
+				ADL_RIS2_SETTINGS adlSettings{};
+				adlSettings.GlobalEnable = true;
+				adlSettings.GlobalDesktop = newValue;
+
+				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
+				adlNotificationReason.GlobalEnableChanged = true;
+				adlNotificationReason.GlobalDesktopChanged = true;
+
+				adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, adl_Gpu_AdapterIndex, adlSettings, adlNotificationReason);
+
+				//Set result
+				newFailed = adl_Res0 != ADL_OK;
+
+				//Notify change
+				_ADL2_User_Settings_Notify(adl_Context, adl_Gpu_AdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, ADL_TRUE);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling Desktop Sharpening");
+					AVDebugWriteLine(L"Failed enabling Desktop Sharpening");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling Desktop Sharpening");
+					AVDebugWriteLine(L"Failed disabling Desktop Sharpening");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					ShowNotification(L"Desktop Sharpening enabled");
+					AVDebugWriteLine(L"Desktop Sharpening enabled");
+				}
+				else
+				{
+					ShowNotification(L"Desktop Sharpening disabled");
+					AVDebugWriteLine(L"Desktop Sharpening disabled");
 				}
 			}
 		}

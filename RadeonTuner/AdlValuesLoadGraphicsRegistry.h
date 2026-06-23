@@ -355,6 +355,8 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set current
 					toggleswitch_RadeonImageSharpening2().IsOn(adlSettings.GlobalEnable);
+					toggleswitch_RadeonImageSharpening2_Desktop().IsOn(adlSettings.GlobalDesktop);
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(adlSettings.GlobalEnable);
 					slider_RadeonImageSharpening2_Sharpening().Value(adlSettings.GlobalSharpeningDegree);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(adlSettings.GlobalEnable);
 				}
@@ -362,6 +364,8 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set defaults
 					toggleswitch_RadeonImageSharpening2().IsOn(false);
+					toggleswitch_RadeonImageSharpening2_Desktop().IsOn(false);
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 					slider_RadeonImageSharpening2_Sharpening().Value(50);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 				}
