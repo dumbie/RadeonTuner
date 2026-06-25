@@ -10,6 +10,7 @@ namespace winrt::RadeonTuner::implementation
 	public:
 		App();
 		HWND GetHandle();
+		bool GetIsWindowVisible();
 		void SetTopMost(bool topMost);
 		void SetContent(FrameworkElement const& content);
 		void CreateTrayIcon(HINSTANCE hInstance);

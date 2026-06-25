@@ -188,6 +188,18 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
+	bool App::GetIsWindowVisible()
+	{
+		try
+		{
+			return IsWindowVisible(_hWnd_MainWindow);
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+
 	void App::SetContent(FrameworkElement const& content)
 	{
 		try
