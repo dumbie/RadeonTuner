@@ -107,7 +107,6 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Create custom eyefinity
-			//if (Adl_Eyefinity_Create_Simple())
 			if (Adl_Eyefinity_Create_Custom(adl_Display_AdapterIndex))
 			{
 				ShowNotification(L"Created Eyefinity");

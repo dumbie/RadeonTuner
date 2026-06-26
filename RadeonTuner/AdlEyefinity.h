@@ -5,37 +5,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::Adl_Eyefinity_Create_Simple()
-	{
-		try
-		{
-			//Enable SLS environment workaround
-			SetEnvironmentVariableA("ADL_4KWORKAROUND_CANCEL", "TRUE");
-
-			//Get simple Eyefinity
-			IADLXSimpleEyefinityPtr eyefinitySimple;
-			adlx_Res0 = ppDesktopServices->GetSimpleEyefinity(&eyefinitySimple);
-			if (ADLX_FAILED(adlx_Res0))
-			{
-				AVDebugWriteLine("Failed to get simple Eyefinity: " << adlx_Res0);
-				return false;
-			}
-
-			//Create simple Eyefinity
-			IADLXEyefinityDesktopPtr eyefinityDesktop;
-			adlx_Res0 = eyefinitySimple->Create(&eyefinityDesktop);
-
-			//Return result
-			AVDebugWriteLine("Created simple Eyefinity: " << adlx_Res0);
-			return adlx_Res0 == ADLX_OK;
-		}
-		catch (...)
-		{
-			//Return result
-			AVDebugWriteLine("Failed to create simple Eyefinity (Exception)");
-			return false;
-		}
-	}
 
 	bool MainPage::Adl_Eyefinity_Create_Custom(int displayAdapterIndex)
 	{
@@ -126,6 +95,10 @@ namespace winrt::RadeonTuner::implementation
 					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayLogicalIndex = displayIndexes[slsTargetCurrent];
 					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayPhysicalIndex = displayIndexes[slsTargetCurrent];
 
+					//Set adapter target
+					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayLogicalAdapterIndex = displayAdapterIndex;
+					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayPhysicalAdapterIndex = displayAdapterIndex;
+
 					//Set view size
 					slsTargets[slsTargetCurrent].viewSize = ADLMode{};
 					slsTargets[slsTargetCurrent].viewSize.iAdapterIndex = displayAdapterIndex;
@@ -144,7 +117,7 @@ namespace winrt::RadeonTuner::implementation
 			if (adl_Res0 != ADL_OK)
 			{
 				//Return result
-				AVDebugWriteLine("Failed to create and set sls map configuration: " << adl_Res0);
+				AVDebugWriteLine("Failed to create and set sls map configuration: " << adl_Res0 << " / " << displayAdapterIndex);
 				return false;
 			}
 
