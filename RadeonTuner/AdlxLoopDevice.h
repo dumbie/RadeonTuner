@@ -6,7 +6,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Note: ADL throws EXCEPTION_ACCESS_VIOLATION when you no longer have access but can't catch this in ADLX because ADLX keeps returning invalid values instead of returning errors.
 	//Fix reinitialize ADLX automatically so a restart is not needed.
 	//Fix add check if a new display has connected and reload list.
 
@@ -26,22 +25,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Check if we have access to video card
-				bool hasAccess = true;
-				try
-				{
-					int lpAccess;
-					adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
-					hasAccess = adl_Res0 == ADL_OK;
-				}
-				catch (...)
-				{
-					hasAccess = false;
-				}
+				int lpAccess;
+				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
+				bool hasAccess = adl_Res0 == ADL_OK;
 
 				//Disable interface when access is lost
 				if (!hasAccess)
 				{
-					std::function<void()> updateFunction = [&]
+					std::function<void()> updateFunction = [=]
 						{
 							grid_Main().IsHitTestVisible(false);
 							grid_Overlay().Visibility(Visibility::Visible);

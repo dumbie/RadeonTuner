@@ -17,6 +17,21 @@ namespace winrt::RadeonTuner::implementation
 				//Get adapter information
 				AdapterInfo adapterInfo = adapterInfoList[i];
 
+				//Check if adapter vendor is AMD
+				if (adapterInfo.iVendorID != 1002)
+				{
+					continue;
+				}
+
+				//Check if we have access to video card
+				//Note: checks if driver is not installed for (integrated) gpu or device is disabled in device manager
+				int lpAccess;
+				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adapterInfo.iAdapterIndex, &lpAccess);
+				if (adl_Res0 != ADL_OK)
+				{
+					continue;
+				}
+
 				//Check duplicate adapter
 				bool duplicate = false;
 				for (AdapterInfo listInfo : gpuList)
@@ -56,13 +71,13 @@ namespace winrt::RadeonTuner::implementation
 			for (AdapterInfo adapterInfo : AdlGetGpuAll())
 			{
 				//Device identifier
-				std::wstring device_id = char_to_wstring(adapterInfo.strPNPString);
-				device_id = wstring_get_between(device_id, L"\\", L"\\");
+				std::wstring adapterDeviceId = char_to_wstring(adapterInfo.strPNPString);
+				adapterDeviceId = wstring_get_between(adapterDeviceId, L"\\", L"\\");
 
 				//Check device identifier
-				if (device_id == deviceId)
+				if (adapterDeviceId == deviceId)
 				{
-					AVDebugWriteLine("Got GPU by device identifier: " << adapterInfo.iAdapterIndex << " / " << deviceId);
+					AVDebugWriteLine("Got GPU by device identifier: " << adapterInfo.iAdapterIndex << " / " << adapterInfo.strPNPString);
 					return adapterInfo;
 				}
 			}
@@ -87,9 +102,12 @@ namespace winrt::RadeonTuner::implementation
 			AdapterInfo* adapterInfoList{};
 			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, adapterIndex, &adapterInfoCount, &adapterInfoList);
 
+			//Get result
+			AdapterInfo adapterInfo = adapterInfoList[0];
+
 			//Return result
-			AVDebugWriteLine("Got GPU by adapter index: " << adapterIndex);
-			return adapterInfoList[0];
+			AVDebugWriteLine("Got GPU by adapter index: " << adapterIndex << " / " << adapterInfo.strPNPString);
+			return adapterInfo;
 		}
 		catch (...)
 		{
@@ -167,7 +185,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<ADLDisplayInfo> MainPage::AdlGetDisplayByDisplayIndex(int displayIndex)
+	std::optional<ADLDisplayInfo> MainPage::AdlGetDisplayByDisplayIndex(int adapterIndex, int displayIndex)
 	{
 		try
 		{
@@ -177,10 +195,10 @@ namespace winrt::RadeonTuner::implementation
 			//Find display by identifier
 			for (ADLDisplayInfo displayInfo : displayList)
 			{
-				if (displayInfo.displayID.iDisplayLogicalIndex == displayIndex)
+				if (displayInfo.displayID.iDisplayLogicalAdapterIndex == adapterIndex && displayInfo.displayID.iDisplayLogicalIndex == displayIndex)
 				{
 					//Return result
-					AVDebugWriteLine("Got display by index: " << displayIndex);
+					AVDebugWriteLine("Got display by index: " << adapterIndex << " / " << displayIndex << " / " << displayInfo.strDisplayName);
 					return displayInfo;
 				}
 			}
