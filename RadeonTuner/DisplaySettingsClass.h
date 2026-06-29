@@ -3,7 +3,7 @@
 
 struct DisplaySettings
 {
-	std::optional<std::string> DeviceId;
+	//Settings
 	std::optional<int> Brightness;
 	std::optional<int> Contrast;
 	std::optional<int> Saturation;
@@ -17,5 +17,11 @@ struct DisplaySettings
 	std::optional<int> CVDCDeuteranopia;
 	std::optional<int> CVDCTritanopia;
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Brightness, Contrast, Saturation, Hue, ColorTemperatureControl, ColorTemperatureKelvin, CVDCControl, CVDCProtanopia, CVDCDeuteranopia, CVDCTritanopia)
+	//Defaults (No export)
+
+	//Support (No export)
+
+	//Interface (No export)
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, Brightness, Contrast, Saturation, Hue, ColorTemperatureControl, ColorTemperatureKelvin, CVDCControl, CVDCProtanopia, CVDCDeuteranopia, CVDCTritanopia)
 };

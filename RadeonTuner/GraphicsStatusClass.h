@@ -6,7 +6,7 @@ struct GraphicsStatus
 	int ProcessId = -1;
 	std::wstring ProcessName = L"";
 	bool FsrOverrideUpscaling = false;
-	bool FsrOverrideInterpolationFrameGeneration = false;
+	bool FsrOverrideFrameGeneration = false;
 	bool FsrOverrideMultiFrameGeneration = false;
 	bool FsrOverrideRayRegenerationDenoiser = false;
 	bool FsrOverrideNeuralRadianceCaching = false;

@@ -30,8 +30,8 @@ namespace winrt::RadeonTuner::implementation
 			//Set result
 			if (saveResult)
 			{
-				ShowNotification(L"Display exported");
-				AVDebugWriteLine(L"Display exported");
+				ShowNotification(L"Display settings exported");
+				AVDebugWriteLine(L"Display settings exported");
 			}
 			else
 			{

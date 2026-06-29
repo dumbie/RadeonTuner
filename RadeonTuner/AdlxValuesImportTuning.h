@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 			//Check device identifier
 			std::string device_id_import_a = tuningFanSettings.DeviceId.value();
 			std::wstring device_id_import_w = string_to_wstring(device_id_import_a);
-			std::wstring device_id_current_w = AdlxGetGpuIdentifier(ppGpuInfo);
+			std::wstring device_id_current_w = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
 			if (!device_id_import_w.empty() && !device_id_current_w.empty())
 			{
 				if (device_id_import_w != device_id_current_w)

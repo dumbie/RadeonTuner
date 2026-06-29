@@ -812,7 +812,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromGPU(IADLXGPU2Ptr gpuPointer, int gpuAdapterIndex)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromGPU(int gpuAdapterIndex)
 	{
 		try
 		{
@@ -820,7 +820,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Device identifier
 			{
-				std::wstring device_id_w = AdlxGetGpuIdentifier(gpuPointer);
+				std::wstring device_id_w = AdlxGetGpuIdentifier(gpuAdapterIndex);
 				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
 			}
 
@@ -1156,7 +1156,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			TuningFanSettings tuningFanSettingsProfile{};
-			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(ppGpuInfo, adl_Gpu_AdapterIndex).value();
+			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(adl_Gpu_AdapterIndex).value();
 
 			//Device identifier
 			{

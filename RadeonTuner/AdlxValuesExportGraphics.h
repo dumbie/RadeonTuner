@@ -20,30 +20,30 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Get selected application
-			AdlApplication& selectedApp = AdlAppSelectedGet().value();
+			//Generate settings
+			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromUI().value();
 
 			//Save settings to file
 			std::string exportPathA = wstring_to_string(exportPath);
-			bool saveResult = GraphicsSettings_FileSave(selectedApp, exportPathA);
+			bool saveResult = GraphicsSettings_FileSave(graphicsSettings, exportPathA);
 
 			//Set result
 			if (saveResult)
 			{
-				ShowNotification(L"Graphics exported " + selectedApp.FileName);
-				AVDebugWriteLine(L"Graphics exported " << selectedApp.FileName);
+				ShowNotification(L"Graphics settings exported");
+				AVDebugWriteLine(L"Graphics settings exported");
 			}
 			else
 			{
-				ShowNotification(L"Graphics export failed " + selectedApp.FileName);
-				AVDebugWriteLine(L"Graphics export failed " << selectedApp.FileName);
+				ShowNotification(L"Graphics export failed");
+				AVDebugWriteLine(L"Graphics export failed");
 			}
 		}
 		catch (...)
 		{
 			//Set result
-			ShowNotification(L"Graphics export failed, exception");
-			AVDebugWriteLine(L"Graphics export failed, exception");
+			ShowNotification(L"Graphics not exported, exception");
+			AVDebugWriteLine(L"Graphics not exported, exception");
 		}
 	}
 }

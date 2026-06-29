@@ -36,12 +36,10 @@ namespace winrt::RadeonTuner::implementation
 			//Check application type
 			if (applicationFileName == L"Global" && selectedApp.Global)
 			{
+				//Fix make sure default settings are set before loading settings
+
 				//Update interface
 				button_Graphics_Remove().IsEnabled(false);
-				button_Graphics_Import().IsEnabled(false);
-				button_Graphics_Export().IsEnabled(false);
-
-				//Fix check if setting is set otherwise set default
 
 				//Load application graphics settings
 				AdlValuesLoadGraphicsRegistry();
@@ -52,11 +50,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Update interface
 				button_Graphics_Remove().IsEnabled(true);
-				button_Graphics_Import().IsEnabled(true);
-				button_Graphics_Export().IsEnabled(true);
 
 				//Check and set default application properties
-				AdlGraphicsResetApp(selectedApp, false, true);
+				AdlAppsSetDefaults(selectedApp, false, true);
 
 				//Load application graphics settings
 				AdlValuesLoadGraphicsApp();
@@ -151,13 +147,10 @@ namespace winrt::RadeonTuner::implementation
 			//Get gpu registry path
 			gpuRegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
 
-			//Get gpu unique identifier
-			//adlx_Res0 = ppGpuInfo->UniqueId(&gpuUniqueIdentifier);
-			//gpuUniqueIdentifierHex = number_to_hexwstring(gpuUniqueIdentifier, 4);
 			//DriverBug#1
-
-			//Prepare adl metrics
-			AdlMetricsPrepare();
+			//Get gpu unique identifier
+			//gpuUniqueIdentifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
+			gpuUniqueIdentifierHex = L"0x0001";
 
 			//Load tuning values to interface
 			AdlxValuesLoadTuning();

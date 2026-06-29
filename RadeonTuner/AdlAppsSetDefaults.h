@@ -6,11 +6,11 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlGraphicsResetApp(AdlApplication& adlApp, bool clearProperties, bool addOnly)
+	bool MainPage::AdlAppsSetDefaults(AdlApplication& adlApp, bool clearProperties, bool addOnly)
 	{
 		try
 		{
-			AVDebugWriteLine("Resetting application graphics to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
+			AVDebugWriteLine("Setting application graphics to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
 
 			//Clear all application properties
 			if (clearProperties)
@@ -32,13 +32,13 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//FSR Interpolation Frame Generation Override
+			//FSR Frame Generation Override
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MlfiOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
 				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue0.Value = L"0";
+				adlAppPropertyValue0.Value = L"1";
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}
@@ -87,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//FSR Override DLL Path
+			//FSR Override Library
 			{
 				//Not supported
 			}
@@ -125,7 +125,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperty0.Name = L"Bst_MaxScale";
 				AdlAppPropertyValue adlAppPropertyValue0{};
 				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-				adlAppPropertyValue0.Value = L"84";
+				adlAppPropertyValue0.Value = L"68";
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}

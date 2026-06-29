@@ -19,7 +19,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Fix find way to check if setting is supported and disable interface.
+			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
 			//Set interface limits
 			slider_RadeonBoost_MinRes().Minimum(50);
@@ -52,7 +52,7 @@ namespace winrt::RadeonTuner::implementation
 			slider_Frtc_Fps().StepFrequency(1);
 			slider_Frtc_Fps().SmallChange(1);
 
-			//Get FSR Upscaling Override
+			//FSR Upscaling Override
 			{
 				toggleswitch_FsrOverrideUpscaling().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"FsrOverride");
@@ -76,9 +76,9 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Interpolation Frame Generation Override
+			//FSR Frame Generation Override
 			{
-				toggleswitch_FsrOverrideInterpolationFrameGeneration().IsEnabled(true);
+				toggleswitch_FsrOverrideFrameGeneration().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MlfiOverride");
 				if (adlProperty.has_value())
 				{
@@ -88,7 +88,7 @@ namespace winrt::RadeonTuner::implementation
 						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
-							toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(convertedValue);
+							toggleswitch_FsrOverrideFrameGeneration().IsOn(convertedValue);
 							break;
 						}
 					}
@@ -96,11 +96,11 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					//Set defaults
-					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(false);
+					toggleswitch_FsrOverrideFrameGeneration().IsOn(false);
 				}
 			}
 
-			//Get FSR Multi Frame Generation Override
+			//FSR Multi Frame Generation Override
 			{
 				toggleswitch_FsrOverrideMultiFrameGeneration().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MfgOverride");
@@ -124,7 +124,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Ray Regeneration Denoiser Override
+			//FSR Ray Regeneration Denoiser Override
 			{
 				toggleswitch_FsrOverrideRayRegeneration().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MldOverride");
@@ -148,7 +148,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Neural Radiance Caching Override
+			//FSR Neural Radiance Caching Override
 			{
 				toggleswitch_FsrOverrideNeuralRadianceCaching().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"NrcOverride");
@@ -172,7 +172,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Multi Frame Generation Ratio
+			//FSR Multi Frame Generation Ratio
 			{
 				combobox_MultiFrameGenerationRatio().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MfgRatio");
@@ -221,21 +221,25 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Override DLL Path
+			//FSR Override Library
 			{
 				//Not supported
 				button_FsrDllLoadPath_Default().IsEnabled(false);
 				button_FsrDllLoadPath_Set().IsEnabled(false);
-				textblock_FsrDllVersion().Text(L"?.?.?.?");
-				textblock_FsrDllLoadPath().Text(L"Not supported in application profile.");
+
+				//Update FSR library version text
+				std::wstring dllPath = FsrOverrideDllGetPathSet(true);
+				FsrOverrideDllUpdateTextVersion(dllPath);
+				FsrOverrideDllUpdateTextPath(dllPath);
 			}
 
-			//Get FSR Over-The-Air Updates
+			//FSR Over-The-Air Updates
 			{
 				//Not supported
+				combobox_FsrOtaUpdates().IsEnabled(false);
 			}
 
-			//Get FSR Latency Reduction
+			//FSR Latency Reduction
 			{
 				toggleswitch_FsrLatencyReduction().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Dlg_PFEnable");
@@ -259,7 +263,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Boost
+			//Radeon Boost
 			{
 				toggleswitch_RadeonBoost().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Bst_PFEnable");
@@ -286,7 +290,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Boost Minimum Resolution
+			//Radeon Boost Minimum Resolution
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Bst_MaxScale");
 				if (adlProperty.has_value())
@@ -309,14 +313,14 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Frame Rate Target Control
+			//Radeon Frame Rate Target Control
 			{
 				//Not supported
 				toggleswitch_Frtc().IsEnabled(false);
 				slider_Frtc_Fps().IsEnabled(false);
 			}
 
-			//Get Radeon Chill
+			//Radeon Chill
 			{
 				toggleswitch_RadeonChill().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_PFEnable");
@@ -359,7 +363,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Chill Minimum Frame Rate
+			//Radeon Chill Minimum Frame Rate
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_MinFRate");
 				if (adlProperty.has_value())
@@ -382,7 +386,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Chill Maximum Frame Rate
+			//Radeon Chill Maximum Frame Rate
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Chil_MaxFRate");
 				if (adlProperty.has_value())
@@ -405,7 +409,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Image Sharpening 1
+			//Radeon Image Sharpening 1
 			{
 				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Ris_PFEnable");
@@ -432,7 +436,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Image Sharpening 1 Sharpness
+			//Radeon Image Sharpening 1 Sharpness
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Ris_SHDegree");
 				if (adlProperty.has_value())
@@ -455,7 +459,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Radeon Image Sharpening 2
+			//Radeon Image Sharpening 2
 			{
 				//Not supported
 				toggleswitch_RadeonImageSharpening2().IsEnabled(false);
@@ -463,7 +467,7 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 			}
 
-			//Get Enhanced Sync
+			//Enhanced Sync
 			{
 				toggleswitch_RadeonEnhancedSync().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"TurboSync");
@@ -487,7 +491,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Vertical Refresh
+			//Vertical Refresh
 			{
 				combobox_VerticalRefresh().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"VSyncControl");
@@ -511,7 +515,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anti-Aliasing Override
+			//Anti-Aliasing Override
 			{
 				toggleswitch_AntiAliasingOverride().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AntiAlias");
@@ -526,7 +530,7 @@ namespace winrt::RadeonTuner::implementation
 							toggleswitch_AntiAliasingOverride().IsOn(convertedValue);
 							combobox_AntiAliasingMethod().IsEnabled(convertedValue);
 							combobox_AntiAliasingLevel().IsEnabled(convertedValue);
-							toggleswitch_EQAA().IsEnabled(convertedValue);
+							toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(convertedValue);
 							break;
 						}
 					}
@@ -537,11 +541,11 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_AntiAliasingOverride().IsOn(false);
 					combobox_AntiAliasingMethod().IsEnabled(false);
 					combobox_AntiAliasingLevel().IsEnabled(false);
-					toggleswitch_EQAA().IsEnabled(false);
+					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(false);
 				}
 			}
 
-			//Get Anti-Aliasing Method
+			//Anti-Aliasing Method
 			{
 				std::optional<AdlAppProperty> adlPropertyASD = AdlAppPropertyGet(selectedApp.value(), L"ASD");
 				std::optional<AdlAppProperty> adlPropertyASE = AdlAppPropertyGet(selectedApp.value(), L"ASE");
@@ -603,7 +607,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anti-Aliasing Level
+			//Anti-Aliasing Level
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AntiAliasSmpls");
 				if (adlProperty.has_value())
@@ -639,7 +643,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Enhanced Quality Anti-Aliasing
+			//Enhanced Quality Anti-Aliasing
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"EQAA");
 				if (adlProperty.has_value())
@@ -650,7 +654,7 @@ namespace winrt::RadeonTuner::implementation
 						if (value.GpuId == gpuUniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
-							toggleswitch_EQAA().IsOn(convertedValue);
+							toggleswitch_EnhancedQualityAntiAliasing().IsOn(convertedValue);
 							break;
 						}
 					}
@@ -658,11 +662,11 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					//Set defaults
-					toggleswitch_EQAA().IsOn(false);
+					toggleswitch_EnhancedQualityAntiAliasing().IsOn(false);
 				}
 			}
 
-			//Get Morphological Anti-Aliasing
+			//Morphological Anti-Aliasing
 			{
 				toggleswitch_MorphologicalAntiAliasing().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"MLF");
@@ -686,7 +690,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anisotropic Texture Filtering Override
+			//Anisotropic Texture Filtering Override
 			{
 				combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"AnisoDegree");
@@ -731,7 +735,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Texture Filtering Quality
+			//Texture Filtering Quality
 			{
 				combobox_TextureFilteringQuality().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"TFQ");
@@ -755,7 +759,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Surface Format Optimization
+			//Surface Format Optimization
 			{
 				toggleswitch_SurfaceFormatOptimization().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"SrfcFrmtRplcmnt");
@@ -779,7 +783,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Tessellation Mode
+			//Tessellation Mode
 			{
 				combobox_Tessellation_Mode().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Tessellation_OP");
@@ -812,7 +816,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Tessellation Level
+			//Tessellation Level
 			{
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"Tessellation");
 				if (adlProperty.has_value())
@@ -868,7 +872,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get OpenGL Triple Buffering
+			//OpenGL Triple Buffering
 			{
 				toggleswitch_OpenGLTripleBuffering().IsEnabled(true);
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(selectedApp.value(), L"EnableTrplBffr");
@@ -892,10 +896,10 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get OpenGL 10-Bit Pixel Format
+			//OpenGL 10-Bit Pixel Format
 			{
 				//Not supported
-				toggleswitch_OpenGL10Bit().IsEnabled(false);
+				toggleswitch_OpenGL10BitPixelFormat().IsEnabled(false);
 			}
 
 			//Set result

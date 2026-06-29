@@ -169,7 +169,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FsrOverrideFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -474,45 +474,29 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Show file dialog
-			std::wstring newValue = filepicker_open(L"Select FSR DLL file...", { { L"FSR DLL", L"amdxcffx64*.dll" } });
+			std::wstring newValue = filepicker_open(L"Select FSR library file...", { { L"FSR DLL", L"amdxcffx64*.dll" } });
 
 			//Check file path
 			if (newValue.empty())
 			{
-				ShowNotification(L"FSR DLL not changed, no path set");
-				AVDebugWriteLine(L"FSR DLL not changed, no path set");
+				ShowNotification(L"FSR library not changed, no path set");
+				AVDebugWriteLine(L"FSR library not changed, no path set");
 				return;
 			}
 
-			//Get setting value
-			bool newFailed = true;
-
-			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", newValue);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
-			}
-
-			//Update FSR dll version text
-			FsrOverrideDllUpdateVersion(newValue);
+			//Set FSR Override Library
+			bool newFailed = FsrOverrideDllSet(newValue);
 
 			//Show result
 			if (newFailed)
 			{
-				ShowNotification(L"Failed setting FSR DLL Load Path");
-				AVDebugWriteLine(L"Failed setting FSR DLL Load Path");
+				ShowNotification(L"Failed setting FSR Override Library");
+				AVDebugWriteLine(L"Failed setting FSR Override Library");
 			}
 			else
 			{
-				textblock_FsrDllLoadPath().Text(newValue);
-				ShowNotification(L"FSR DLL Load Path set to " + newValue);
-				AVDebugWriteLine(L"FSR DLL Load Path set to " << newValue);
+				ShowNotification(L"FSR Override Library set to " + newValue);
+				AVDebugWriteLine(L"FSR Override Library set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -522,41 +506,22 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix: use ADL2_CloudProfile_DLL_Get to update default production or technical preview dll.
-
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get default FSR override dll path
-			std::wstring newValue = FsrOverrideDllDefaultPath();
-			bool newFailed = true;
-
-			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", newValue);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
-			}
-
-			//Update FSR dll version text
-			FsrOverrideDllUpdateVersion(newValue);
+			//Reset FSR Override Library
+			bool newFailed = FsrOverrideDllReset();
 
 			//Show result
 			if (newFailed)
 			{
-				ShowNotification(L"Failed setting FSR DLL Load Path");
-				AVDebugWriteLine(L"Failed setting FSR DLL Load Path");
+				ShowNotification(L"Failed setting FSR Override Library");
+				AVDebugWriteLine(L"Failed setting FSR Override Library");
 			}
 			else
 			{
-				textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
-				ShowNotification(L"FSR DLL Load Path set to default");
-				AVDebugWriteLine(L"FSR DLL Load Path set to default");
+				ShowNotification(L"FSR Override Library set to default");
+				AVDebugWriteLine(L"FSR Override Library set to default");
 			}
 		}
 		catch (...) {}
@@ -1457,7 +1422,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					combobox_AntiAliasingMethod().IsEnabled(true);
 					combobox_AntiAliasingLevel().IsEnabled(true);
-					toggleswitch_EQAA().IsEnabled(true);
+					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(true);
 					ShowNotification(L"AA Override enabled");
 					AVDebugWriteLine(L"AA Override enabled");
 				}
@@ -1465,7 +1430,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					combobox_AntiAliasingMethod().IsEnabled(false);
 					combobox_AntiAliasingLevel().IsEnabled(false);
-					toggleswitch_EQAA().IsEnabled(false);
+					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(false);
 					ShowNotification(L"AA Override disabled");
 					AVDebugWriteLine(L"AA Override disabled");
 				}
@@ -1681,7 +1646,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_EQAA_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_EnhancedQualityAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -2285,7 +2250,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_OpenGL10BitPixelFormat_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -2345,6 +2310,49 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"10-Bit pixel format disabled");
 					AVDebugWriteLine(L"10-Bit pixel format disabled");
 				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FsrOtaUpdates_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Fix check if ADL2_CloudProfile_DLL_Get is used to trigger update or get dll path.
+
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value.
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOtaIndex", number_to_wstring(newValue));
+			}
+			else
+			{
+				//Set setting
+				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FsrOtaIndex", number_to_wstring(newValue));
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting FSR OTA Updates");
+				AVDebugWriteLine(L"Failed setting FSR OTA Updates");
+			}
+			else
+			{
+				//Set result
+				ShowNotification(L"FSR OTA Updates set to " + REGISTRY_FSR_OTA_CONTROL_STRING[newValue]);
+				AVDebugWriteLine(L"FSR OTA Updates set to " << newValue);
 			}
 		}
 		catch (...) {}

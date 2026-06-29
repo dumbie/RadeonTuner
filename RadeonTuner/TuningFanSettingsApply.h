@@ -160,7 +160,7 @@ namespace winrt::RadeonTuner::implementation
 				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, tuningFanSettings.FanTemp4.value(), !fanControl });
 			}
 
-			//Save settings
+			//Apply settings
 			Adl_Overdrive_Set(gpuAdapterIndex, saveSettings);
 
 			//Set result

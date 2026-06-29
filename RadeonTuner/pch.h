@@ -9,6 +9,8 @@
 #include <thread>
 #include <functional>
 #include <iostream>
+#include <regex>
+#include <ranges>
 #include <Windows.UI.Xaml.Hosting.DesktopWindowXamlSource.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.XamlTypeInfo.h>
@@ -52,28 +54,9 @@ namespace winrt
 //ADL
 #include "ADL\adl_sdk.h"
 
-//ADLX
-#include "ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h"
-#include "ADLX\Include\ISystem2.h"
-#include "ADLX\Include\IMultiMedia.h"
-#include "ADLX\Include\I3DSettings2.h"
-#include "ADLX\Include\IDesktops.h"
-#include "ADLX\Include\IDisplays3.h"
-#include "ADLX\Include\IDisplaySettings.h"
-#include "ADLX\Include\IDisplay3DLUT.h"
-#include "ADLX\Include\IDisplayGamma.h"
-#include "ADLX\Include\IDisplayGamut.h"
-#include "ADLX\Include\IPerformanceMonitoring3.h"
-#include "ADLX\Include\ISmartAccessMemory.h"
-#include "ADLX\Include\IPowerTuning1.h"
-#include "ADLX\Include\IGPUTuning1.h"
-#include "ADLX\Include\IGPUManualGFXTuning.h"
-#include "ADLX\Include\IGPUManualFanTuning.h"
-#include "ADLX\Include\IGPUManualPowerTuning.h"
-#include "ADLX\Include\IGPUManualVRAMTuning.h"
-using namespace adlx;
-
 //Classes
 #include "AdlAppsClass.h"
 #include "DisplaySettingsClass.h"
+#include "GraphicsSettingsClass.h"
+#include "GraphicsStatusClass.h"
 #include "TuningFanSettingsClass.h"

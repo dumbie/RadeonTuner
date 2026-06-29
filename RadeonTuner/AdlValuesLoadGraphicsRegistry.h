@@ -9,16 +9,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get selected application
-			auto selectedApp = AdlAppSelectedGet();
-
-			//Check selected application
-			if (!selectedApp.has_value())
-			{
-				AVDebugWriteLine("ADL application is not selected.");
-				return;
-			}
-
 			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
 			//Set interface limits
@@ -52,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			slider_Frtc_Fps().StepFrequency(1);
 			slider_Frtc_Fps().SmallChange(1);
 
-			//Get FSR Upscaling Override
+			//FSR Upscaling Override
 			{
 				toggleswitch_FsrOverrideUpscaling().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOverride", true);
@@ -65,28 +55,28 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					//Set defaults
-					toggleswitch_FsrOverrideUpscaling().IsOn(false);
+					toggleswitch_FsrOverrideUpscaling().IsOn(true);
 				}
 			}
 
-			//Get FSR Interpolation Frame Generation Override
+			//FSR Frame Generation Override
 			{
-				toggleswitch_FsrOverrideInterpolationFrameGeneration().IsEnabled(true);
+				toggleswitch_FsrOverrideFrameGeneration().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MlfiOverride", true);
 				if (adlRegistry.has_value())
 				{
 					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
-					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(convertedValue);
+					toggleswitch_FsrOverrideFrameGeneration().IsOn(convertedValue);
 				}
 				else
 				{
 					//Set defaults
-					toggleswitch_FsrOverrideInterpolationFrameGeneration().IsOn(false);
+					toggleswitch_FsrOverrideFrameGeneration().IsOn(true);
 				}
 			}
 
-			//Get FSR Multi Frame Generation Override
+			//FSR Multi Frame Generation Override
 			{
 				toggleswitch_FsrOverrideMultiFrameGeneration().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MfgOverride", true);
@@ -103,7 +93,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Ray Regeneration Denoiser Override
+			//FSR Ray Regeneration Denoiser Override
 			{
 				toggleswitch_FsrOverrideRayRegeneration().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MldOverride", true);
@@ -120,7 +110,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Neural Radiance Caching Override
+			//FSR Neural Radiance Caching Override
 			{
 				toggleswitch_FsrOverrideNeuralRadianceCaching().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "NrcOverride", true);
@@ -137,7 +127,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Multi Frame Generation Ratio
+			//FSR Multi Frame Generation Ratio
 			{
 				combobox_MultiFrameGenerationRatio().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MfgRatio", true);
@@ -145,32 +135,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
-
-					//Enumeration index correction
-					if (convertedValue == 0)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(0);
-					}
-					else if (convertedValue == 1)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(1);
-					}
-					else if (convertedValue == 2)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(2);
-					}
-					else if (convertedValue == 4)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(3);
-					}
-					else if (convertedValue == 6)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(4);
-					}
-					else if (convertedValue == 8)
-					{
-						combobox_MultiFrameGenerationRatio().SelectedIndex(5);
-					}
+					combobox_MultiFrameGenerationRatio().SelectedIndex(convertedValue);
 				}
 				else
 				{
@@ -179,45 +144,35 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get FSR Override DLL Path
+			//FSR Override Library
 			{
 				button_FsrDllLoadPath_Default().IsEnabled(true);
 				button_FsrDllLoadPath_Set().IsEnabled(true);
-				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", true);
+
+				//Update FSR library version text
+				std::wstring dllPath = FsrOverrideDllGetPathSet(true);
+				FsrOverrideDllUpdateTextVersion(dllPath);
+				FsrOverrideDllUpdateTextPath(dllPath);
+			}
+
+			//FSR Over-The-Air Updates
+			{
+				combobox_FsrOtaUpdates().IsEnabled(true);
+				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "FsrOtaIndex", true);
 				if (adlRegistry.has_value())
 				{
-					//Get dll path text
-					std::wstring dllPath = adlRegistry.value();
-					std::wstring dllPathLower = wstring_to_lower(dllPath);
-					std::wstring system32pathLower = wstring_to_lower(PathGetFolderKnown(FOLDERID_System));
-
-					//Check dll path text
-					if (wstring_empty_whitespace(dllPath) || wstring_contains(dllPathLower, system32pathLower))
-					{
-						textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
-					}
-					else
-					{
-						textblock_FsrDllLoadPath().Text(dllPath);
-					}
-
-					//Update FSR dll version text
-					FsrOverrideDllUpdateVersion(dllPath);
+					//Set current
+					int convertedValue = wstring_to_int(adlRegistry.value());
+					combobox_FsrOtaUpdates().SelectedIndex(convertedValue);
 				}
 				else
 				{
 					//Set defaults
-					textblock_FsrDllVersion().Text(L"?.?.?.?");
-					textblock_FsrDllLoadPath().Text(L"Using default driver FSR DLL file.");
+					combobox_FsrOtaUpdates().SelectedIndex(1);
 				}
 			}
 
-			//Get FSR Over-The-Air Updates
-			{
-				//Fix
-			}
-
-			//Get FSR Latency Reduction
+			//FSR Latency Reduction
 			try
 			{
 				toggleswitch_FsrLatencyReduction().IsEnabled(true);
@@ -236,7 +191,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Get Radeon Boost
+			//Radeon Boost
 			try
 			{
 				toggleswitch_RadeonBoost().IsEnabled(true);
@@ -259,30 +214,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Get Radeon Frame Rate Target Control
-			try
-			{
-				toggleswitch_Frtc().IsEnabled(true);
-				ADLFPSSettingsOutput adlSettings;
-				adl_Res0 = _ADL2_FPS_Settings_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
-				if (adl_Res0 == ADL_OK)
-				{
-					//Set current
-					toggleswitch_Frtc().IsOn(adlSettings.bACFPSEnabled);
-					slider_Frtc_Fps().Value(adlSettings.ulACFPSCurrent);
-					slider_Frtc_Fps().IsEnabled(adlSettings.bACFPSEnabled);
-				}
-				else
-				{
-					//Set defaults
-					toggleswitch_Frtc().IsOn(false);
-					slider_Frtc_Fps().Value(60);
-					slider_Frtc_Fps().IsEnabled(false);
-				}
-			}
-			catch (...) {}
-
-			//Get Radeon Chill
+			//Radeon Chill
 			try
 			{
 				toggleswitch_RadeonChill().IsEnabled(true);
@@ -322,7 +254,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Get Radeon Image Sharpening 1
+			//Radeon Image Sharpening 1
 			try
 			{
 				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
@@ -345,7 +277,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Get Radeon Image Sharpening 2
+			//Radeon Image Sharpening 2
 			try
 			{
 				toggleswitch_RadeonImageSharpening2().IsEnabled(true);
@@ -370,9 +302,14 @@ namespace winrt::RadeonTuner::implementation
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 				}
 			}
-			catch (...) {}
+			catch (...)
+			{
+				toggleswitch_RadeonImageSharpening2().IsEnabled(false);
+				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
+				slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+			}
 
-			//Get Enhanced Sync
+			//Enhanced Sync
 			{
 				toggleswitch_RadeonEnhancedSync().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "TurboSync", true);
@@ -389,7 +326,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Vertical Refresh
+			//Vertical Refresh
 			{
 				combobox_VerticalRefresh().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "VSyncControl", true);
@@ -406,7 +343,30 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anti-Aliasing Override
+			//Radeon Frame Rate Target Control
+			try
+			{
+				toggleswitch_Frtc().IsEnabled(true);
+				ADLFPSSettingsOutput adlSettings;
+				adl_Res0 = _ADL2_FPS_Settings_Get(adl_Context, adl_Gpu_AdapterIndex, &adlSettings);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set current
+					toggleswitch_Frtc().IsOn(adlSettings.bACFPSEnabled);
+					slider_Frtc_Fps().Value(adlSettings.ulACFPSCurrent);
+					slider_Frtc_Fps().IsEnabled(adlSettings.bACFPSEnabled);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_Frtc().IsOn(false);
+					slider_Frtc_Fps().Value(60);
+					slider_Frtc_Fps().IsEnabled(false);
+				}
+			}
+			catch (...) {}
+
+			//Anti-Aliasing Override
 			{
 				toggleswitch_AntiAliasingOverride().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AntiAlias", true);
@@ -417,7 +377,7 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_AntiAliasingOverride().IsOn(convertedValue);
 					combobox_AntiAliasingMethod().IsEnabled(convertedValue);
 					combobox_AntiAliasingLevel().IsEnabled(convertedValue);
-					toggleswitch_EQAA().IsEnabled(convertedValue);
+					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(convertedValue);
 				}
 				else
 				{
@@ -425,11 +385,11 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_AntiAliasingOverride().IsOn(false);
 					combobox_AntiAliasingMethod().IsEnabled(false);
 					combobox_AntiAliasingLevel().IsEnabled(false);
-					toggleswitch_EQAA().IsEnabled(false);
+					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(false);
 				}
 			}
 
-			//Get Anti-Aliasing Method
+			//Anti-Aliasing Method
 			{
 				auto adlRegistryASD = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "ASD", true);
 				auto adlRegistryASE = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "ASE", true);
@@ -465,7 +425,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anti-Aliasing Level
+			//Anti-Aliasing Level
 			{
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AntiAliasSamples", true);
 				if (adlRegistry.has_value())
@@ -494,23 +454,23 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Enhanced Quality Anti-Aliasing
+			//Enhanced Quality Anti-Aliasing
 			{
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "EQAA", true);
 				if (adlRegistry.has_value())
 				{
 					//Set current
 					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
-					toggleswitch_EQAA().IsOn(convertedValue);
+					toggleswitch_EnhancedQualityAntiAliasing().IsOn(convertedValue);
 				}
 				else
 				{
 					//Set defaults
-					toggleswitch_EQAA().IsOn(false);
+					toggleswitch_EnhancedQualityAntiAliasing().IsOn(false);
 				}
 			}
 
-			//Get Morphological Anti-Aliasing
+			//Morphological Anti-Aliasing
 			{
 				toggleswitch_MorphologicalAntiAliasing().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "MLF", true);
@@ -527,7 +487,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Anisotropic Texture Filtering Override
+			//Anisotropic Texture Filtering Override
 			{
 				combobox_AnisotropicTextureFiltering_Level().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "AnisoDegree", true);
@@ -565,7 +525,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Texture Filtering Quality
+			//Texture Filtering Quality
 			{
 				combobox_TextureFilteringQuality().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "TFQ", true);
@@ -582,7 +542,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Surface Format Optimization
+			//Surface Format Optimization
 			{
 				toggleswitch_SurfaceFormatOptimization().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "SurfaceFormatReplacements", true);
@@ -599,7 +559,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Tessellation Mode
+			//Tessellation Mode
 			{
 				combobox_Tessellation_Mode().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "Tessellation_OPTION", true);
@@ -625,7 +585,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get Tessellation Level
+			//Tessellation Level
 			{
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "Tessellation", true);
 				if (adlRegistry.has_value())
@@ -674,7 +634,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get OpenGL Triple Buffering
+			//OpenGL Triple Buffering
 			{
 				toggleswitch_OpenGLTripleBuffering().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "UMD", "EnableTripleBuffering", true);
@@ -691,9 +651,9 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Get OpenGL 10-Bit Pixel Format
+			//OpenGL 10-Bit Pixel Format
 			{
-				toggleswitch_OpenGL10Bit().IsEnabled(true);
+				toggleswitch_OpenGL10BitPixelFormat().IsEnabled(true);
 				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "KMD_10BitMode", true);
 				if (adlRegistry.has_value())
 				{
@@ -703,17 +663,17 @@ namespace winrt::RadeonTuner::implementation
 					//Enumeration index correction
 					if (convertedValue == 1)
 					{
-						toggleswitch_OpenGL10Bit().IsOn(true);
+						toggleswitch_OpenGL10BitPixelFormat().IsOn(true);
 					}
 					else if (convertedValue == 2)
 					{
-						toggleswitch_OpenGL10Bit().IsOn(false);
+						toggleswitch_OpenGL10BitPixelFormat().IsOn(false);
 					}
 				}
 				else
 				{
 					//Set defaults
-					toggleswitch_OpenGL10Bit().IsOn(false);
+					toggleswitch_OpenGL10BitPixelFormat().IsOn(false);
 				}
 			}
 
