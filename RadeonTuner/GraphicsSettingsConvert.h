@@ -61,6 +61,28 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FsrLatencyReduction().IsOn(graphicsSettings.DeLagEnabled.value());
 			}
 
+			//Radeon Fluid Motion Frames
+			if (graphicsSettings.FrameGenEnabled.has_value())
+			{
+				toggleswitch_FrameGenEnabled().IsOn(graphicsSettings.FrameGenEnabled.value());
+			}
+			if (graphicsSettings.FrameGenSearchMode.has_value())
+			{
+				combobox_FrameGenSearchMode().SelectedIndex(graphicsSettings.FrameGenSearchMode.value());
+			}
+			if (graphicsSettings.FrameGenPerfMode.has_value())
+			{
+				combobox_FrameGenPerfMode().SelectedIndex(graphicsSettings.FrameGenPerfMode.value());
+			}
+			if (graphicsSettings.FrameGenResponseMode.has_value())
+			{
+				combobox_FrameGenResponseMode().SelectedIndex(graphicsSettings.FrameGenResponseMode.value());
+			}
+			if (graphicsSettings.FrameGenAlgorithm.has_value())
+			{
+				combobox_FrameGenAlgorithm().SelectedIndex(graphicsSettings.FrameGenAlgorithm.value());
+			}
+
 			//Radeon Boost
 			if (graphicsSettings.BoostEnabled.has_value())
 			{
@@ -263,6 +285,16 @@ namespace winrt::RadeonTuner::implementation
 			if (toggleswitch_FsrLatencyReduction().IsEnabled())
 			{
 				graphicsSettings.DeLagEnabled = toggleswitch_FsrLatencyReduction().IsOn();
+			}
+
+			//Radeon Fluid Motion Frames
+			if (toggleswitch_FrameGenEnabled().IsEnabled())
+			{
+				graphicsSettings.FrameGenEnabled = toggleswitch_FrameGenEnabled().IsOn();
+				graphicsSettings.FrameGenSearchMode = combobox_FrameGenSearchMode().SelectedIndex();
+				graphicsSettings.FrameGenPerfMode = combobox_FrameGenPerfMode().SelectedIndex();
+				graphicsSettings.FrameGenResponseMode = combobox_FrameGenResponseMode().SelectedIndex();
+				graphicsSettings.FrameGenAlgorithm = combobox_FrameGenAlgorithm().SelectedIndex();
 			}
 
 			//Radeon Boost

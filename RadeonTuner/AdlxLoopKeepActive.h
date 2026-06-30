@@ -146,7 +146,7 @@ namespace winrt::RadeonTuner::implementation
 							AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
 
 							//Apply tuning and fans settings
-							std::function<void()> updateFunction = [&]
+							std::function<void()> updateFunction = [=]
 								{
 									//Apply tuning and fans settings
 									if (AdlTuningApply(gpuAdapterIndex, tuningFanSettingsProfile))

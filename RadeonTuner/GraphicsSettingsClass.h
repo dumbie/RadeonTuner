@@ -39,6 +39,11 @@ struct GraphicsSettings
 	std::optional<int> OpenGL10BitPixelFormat;
 	std::optional<int> TessellationMode;
 	std::optional<int> TessellationLevel;
+	std::optional<int> FrameGenEnabled;
+	std::optional<int> FrameGenSearchMode;
+	std::optional<int> FrameGenPerfMode;
+	std::optional<int> FrameGenResponseMode;
+	std::optional<int> FrameGenAlgorithm;
 
 	//Defaults (No export)
 
@@ -46,5 +51,5 @@ struct GraphicsSettings
 
 	//Interface (No export)
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeLagEnabled, MfgRatio, FsrOverride, MlfiOverride, MfgOverride, MldOverride, NrcOverride, FsrOvrDLLPath, FsrOtaIndex, ChillEnabled, ChillMinFps, ChillMaxFps, FRTCEnabled, FRTCFrameRateTarget, BoostEnabled, BoostMinResolution, RisEnable, RisSharpeningDegree, Ris2Enable, Ris2Desktop, Ris2SharpeningDegree, VSyncControl, TurboSync, EnableTripleBuffering, AntiAlias, AntiAliasMethod, AntiAliasSamples, EQAA, MLF, AnisoDegree, TFQ, SurfaceFormatReplacements, OpenGL10BitPixelFormat, TessellationMode, TessellationLevel)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeLagEnabled, MfgRatio, FsrOverride, MlfiOverride, MfgOverride, MldOverride, NrcOverride, FsrOvrDLLPath, FsrOtaIndex, ChillEnabled, ChillMinFps, ChillMaxFps, FRTCEnabled, FRTCFrameRateTarget, BoostEnabled, BoostMinResolution, RisEnable, RisSharpeningDegree, Ris2Enable, Ris2Desktop, Ris2SharpeningDegree, VSyncControl, TurboSync, EnableTripleBuffering, AntiAlias, AntiAliasMethod, AntiAliasSamples, EQAA, MLF, AnisoDegree, TFQ, SurfaceFormatReplacements, OpenGL10BitPixelFormat, TessellationMode, TessellationLevel, FrameGenEnabled, FrameGenSearchMode, FrameGenPerfMode, FrameGenResponseMode, FrameGenAlgorithm)
 };

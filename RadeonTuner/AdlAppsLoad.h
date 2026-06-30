@@ -3,7 +3,6 @@
 #include "MainPage.h"
 #include "AdlDefinitions.h"
 #include "MainVariables.h"
-#include <regex>
 
 //Application profiles location
 //%WINDIR%\System32\atiapfxx.blb
@@ -162,7 +161,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				AVDebugWriteLine("Failed loading ADL applications: " << adl_Res0);
+				AVDebugWriteLine("Failed loading ADL applications: " << adl_Res0 << " / App count: " << adlApplicationsCount);
 			}
 
 			//Set result

@@ -1,11 +1,11 @@
-﻿#pragma once
+#pragma once
 #include "pch.h"
 #include "AppVariables.h"
 
 #include "AdlAppsFunc.h"
 #include "AdlAppsUnlock.h"
-#include "AdlGraphicsResetApp.h"
-#include "AdlGraphicsResetRegistry.h"
+#include "AdlGraphicsStatus.h"
+#include "AdlAppsSetDefaults.h"
 #include "AdlAppsInterface.h"
 #include "AdlAppsAdd.h"
 #include "AdlAppsLoad.h"
@@ -19,7 +19,6 @@
 #include "AdlInitialize.h"
 #include "AdlCheck.h"
 
-#include "AdlxInitialize.h"
 #include "AdlxInfoLoad.h"
 #include "AdlValuesPrepare.h"
 #include "AdlxValuesLoadSelect.h"
@@ -34,6 +33,7 @@
 #include "AdlxResetDisplay.h"
 #include "AdlxResetGraphics.h"
 #include "AdlxResetShaderCache.h"
+#include "AdlxResetMultimedia.h"
 #include "AdlxResetTuning.h"
 
 #include "AdlxEventsDisplay.h"
@@ -42,16 +42,20 @@
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
 
+#include "GraphicsFsrOverrideDll.h"
+#include "GraphicsSettingsConvert.h"
 #include "GraphicsSettingsFunc.h"
+#include "DisplaySettingsConvert.h"
 #include "DisplaySettingsFunc.h"
 
 #include "EyefinityFunc.h"
 #include "EyefinityEvents.h"
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
-#include "TuningFanSettingsCacheFunc.h"
-#include "TuningFanSettingsLoadFunc.h"
-#include "TuningFanSettingsSaveFunc.h"
+#include "TuningFanSettingsCache.h"
+#include "TuningFanSettingsConvert.h"
+#include "TuningFanSettingsApply.h"
+#include "AdlTuningMetrics.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
@@ -73,37 +77,40 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Initialize adl
-			std::wstring initResult_Adl = AdlInitialize();
-			if (!initResult_Adl.empty())
-			{
-				grid_Main().IsHitTestVisible(false);
-				grid_Overlay().Visibility(Visibility::Visible);
-				textblock_Overlay_Text().Text(L"Failed initializing ADL, please install or update your AMD drivers.");
-				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
-				return;
-			}
-
-			//Initialize adlx
-			std::wstring initResult_Adlx = AdlxInitialize();
-			if (!initResult_Adlx.empty())
-			{
-				grid_Main().IsHitTestVisible(false);
-				grid_Overlay().Visibility(Visibility::Visible);
-				textblock_Overlay_Text().Text(L"Failed initializing ADLX, please install or update your AMD drivers.");
-				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adlx);
-				return;
-			}
-
 			////Check driver software type
 			//if (AdlCheckDriverOnlySoftware())
 			//{
 			//	grid_Main().IsHitTestVisible(false);
 			//	grid_Overlay().Visibility(Visibility::Visible);
 			//	textblock_Overlay_Text().Text(L"Incompatible driver software type.");
-			//	textblock_Overlay_Sub_Text().Text(L"To prevent possible issues with RadeonTuner please install your drivers using the 'Driver Only' software type.");
+			//	textblock_Overlay_Sub_Text().Text(L"To prevent possible issues with RadeonTuner please (re)install your drivers using the 'Driver Only' software type.");
 			//	return;
 			//}
+
+			//Initialize adl api
+			std::wstring initResult_Adl = AdlInitialize();
+			if (!initResult_Adl.empty())
+			{
+				grid_Main().IsHitTestVisible(false);
+				grid_Overlay().Visibility(Visibility::Visible);
+				textblock_Overlay_Text().Text(L"Failed initializing ADL, please (re)install or update your AMD drivers.");
+				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
+				return;
+			}
+
+			//Prepare adlx values
+			std::wstring initResult_Values = AdlxValuesPrepare();
+			if (!initResult_Values.empty())
+			{
+				grid_Main().IsHitTestVisible(false);
+				grid_Overlay().Visibility(Visibility::Visible);
+				textblock_Overlay_Text().Text(L"Failed preparing values, please (re)install or update your AMD drivers.");
+				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Values);
+				return;
+			}
+
+			//Prepare adl values
+			AdlValuesPrepare();
 
 			//Load tuning profiles file
 			TuningFanSettings_Profiles_LoadFromFile();
@@ -116,17 +123,8 @@ namespace winrt::RadeonTuner::implementation
 			Eyefinity_Applications_LoadFromFile();
 			Eyefinity_Applications_List();
 
-			//Set adl gaming driver
-			AdlSetGamingDriver();
-
-			//Set adl app gpu identifier
-			AdlAppSetUmdGpuId();
-
-			//Prepare adlx values
-			AdlxValuesPrepare();
-
-			//Prepare adl values
-			AdlValuesPrepare();
+			//Set default registry values
+			AdlSetAmdRegistryDefaults();
 
 			//Check admin setttings
 			SettingAdmin();
@@ -185,6 +183,9 @@ namespace winrt::RadeonTuner::implementation
 			if (prevMenuIndex.has_value())
 			{
 				mainSelectIndex = prevMenuIndex.value();
+				//Check if selected index is exit button
+				int exitButtonIndex = listbox_Main().Items().Size() - 1;
+				if (mainSelectIndex >= exitButtonIndex) { mainSelectIndex = 0; }
 			}
 			try
 			{
@@ -209,10 +210,12 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable graphics settings
 					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Visible);
-
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
+					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
+					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Visible);
+					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
 
 					//Enable or disable feature unlock button
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
@@ -228,10 +231,12 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Enable or disable graphics settings
 					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Collapsed);
-
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
+					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
+					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Collapsed);
+					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
 
 					//Enable or disable feature unlock button
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
@@ -271,6 +276,7 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_Fan_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Graphics_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Display_Buttons().Visibility(Visibility::Collapsed);
+			stackpanel_Multimedia_Buttons().Visibility(Visibility::Collapsed);
 			stackpanel_Information_Buttons().Visibility(Visibility::Collapsed);
 
 			//Hide all pages
@@ -317,6 +323,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				combobox_GpuSelect().IsEnabled(true);
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
+				stackpanel_Multimedia_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 5)
 			{

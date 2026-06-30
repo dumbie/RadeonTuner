@@ -12,10 +12,6 @@ inline int gpuUniqueIdentifier = -1;
 
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;
 
-inline ADL_D3DKMT_HANDLE adl_Metrics_Handle = NULL;
-inline ADLPMLogStartOutput adl_Metrics_Output;
-inline int adl_Metrics_UpdateRate = 1000;
-
 inline std::vector<AdapterInfo> adl_List_Gpus{};
 inline std::vector<ADLDisplayInfo> adl_List_Displays{};
 inline int adl_Display_AdapterIndex = -1;

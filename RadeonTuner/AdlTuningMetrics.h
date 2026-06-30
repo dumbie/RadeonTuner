@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "pch.h"
 #include "MainPage.h"
 #include "AdlDefinitions.h"
@@ -159,7 +159,7 @@ namespace winrt::RadeonTuner::implementation
 
 					if (gpuTemperatureCore >= 0 && gpuTemperatureCore <= 20000)
 					{
-						textblock_Current_Temp_Core().Text(number_to_wstring(gpuTemperatureCore) + L"°C Core");
+						textblock_Current_Temp_Core().Text(number_to_wstring(gpuTemperatureCore) + L"Â°C Core");
 					}
 					else
 					{
@@ -168,7 +168,7 @@ namespace winrt::RadeonTuner::implementation
 
 					if (gpuTemperatureMemory >= 0 && gpuTemperatureMemory <= 20000)
 					{
-						textblock_Current_Temp_Memory().Text(number_to_wstring((int)gpuTemperatureMemory) + L"°C Memory");
+						textblock_Current_Temp_Memory().Text(number_to_wstring((int)gpuTemperatureMemory) + L"Â°C Memory");
 					}
 					else
 					{
@@ -177,7 +177,7 @@ namespace winrt::RadeonTuner::implementation
 
 					if (gpuTemperatureHotspot >= 0 && gpuTemperatureHotspot <= 20000)
 					{
-						textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
+						textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"Â°C Hotspot");
 					}
 					else
 					{
@@ -186,7 +186,7 @@ namespace winrt::RadeonTuner::implementation
 
 					if (gpuTemperatureIntake >= 0 && gpuTemperatureIntake <= 20000)
 					{
-						textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
+						textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"Â°C Intake");
 					}
 					else
 					{

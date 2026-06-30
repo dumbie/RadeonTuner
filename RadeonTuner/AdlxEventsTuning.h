@@ -42,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlTuningReset(adl_Gpu_AdapterIndex))
 			{
 				//Device identifier
-				std::wstring device_id_w = AdlxGetGpuIdentifier(ppGpuInfo);
+				std::wstring device_id_w = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
 
 				//Remove tuning and fans settings
 				TuningFanSettings_Profile_Remove(device_id_w);

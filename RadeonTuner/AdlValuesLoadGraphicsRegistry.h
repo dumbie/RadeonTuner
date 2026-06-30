@@ -191,6 +191,91 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//Radeon Fluid Motion Frames
+			{
+				toggleswitch_FrameGenEnabled().IsEnabled(true);
+				auto adlRegistry = AdlRegistrySettingGetString(adl_Gpu_AdapterIndex, "", "DrvFrameGenEnabled", true);
+				if (adlRegistry.has_value())
+				{
+					//Set current
+					bool convertedValue = (bool)wstring_to_int(adlRegistry.value());
+					toggleswitch_FrameGenEnabled().IsOn(convertedValue);
+					combobox_FrameGenSearchMode().IsEnabled(convertedValue);
+					combobox_FrameGenPerfMode().IsEnabled(convertedValue);
+					combobox_FrameGenResponseMode().IsEnabled(convertedValue);
+					combobox_FrameGenAlgorithm().IsEnabled(convertedValue);
+				}
+				else
+				{
+					//Set defaults
+					toggleswitch_FrameGenEnabled().IsOn(false);
+					combobox_FrameGenSearchMode().IsEnabled(false);
+					combobox_FrameGenPerfMode().IsEnabled(false);
+					combobox_FrameGenResponseMode().IsEnabled(false);
+					combobox_FrameGenAlgorithm().IsEnabled(false);
+				}
+			}
+
+			//Get Radeon Fluid Motion Search Mode setting
+			{
+				auto resultDword = RegistryGetDword(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode");
+				if (resultDword.has_value())
+				{
+					//Set current
+					combobox_FrameGenSearchMode().SelectedIndex(resultDword.value());
+				}
+				else
+				{
+					//Set defaults
+					combobox_FrameGenSearchMode().SelectedIndex(0);
+				}
+			}
+
+			//Get Radeon Fluid Motion Performance Mode setting
+			{
+				auto resultDword = RegistryGetDword(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode");
+				if (resultDword.has_value())
+				{
+					//Set current
+					combobox_FrameGenPerfMode().SelectedIndex(resultDword.value());
+				}
+				else
+				{
+					//Set defaults
+					combobox_FrameGenPerfMode().SelectedIndex(0);
+				}
+			}
+
+			//Get Radeon Fluid Motion Response Mode setting
+			{
+				auto resultDword = RegistryGetDword(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode");
+				if (resultDword.has_value())
+				{
+					//Set current
+					combobox_FrameGenResponseMode().SelectedIndex(resultDword.value());
+				}
+				else
+				{
+					//Set defaults
+					combobox_FrameGenResponseMode().SelectedIndex(0);
+				}
+			}
+
+			//Get Radeon Fluid Motion Algorithm setting
+			{
+				auto resultDword = RegistryGetDword(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenAlgorithm");
+				if (resultDword.has_value())
+				{
+					//Set current
+					combobox_FrameGenAlgorithm().SelectedIndex(resultDword.value());
+				}
+				else
+				{
+					//Set defaults
+					combobox_FrameGenAlgorithm().SelectedIndex(0);
+				}
+			}
+
 			//Radeon Boost
 			try
 			{

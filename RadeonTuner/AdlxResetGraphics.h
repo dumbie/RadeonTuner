@@ -39,6 +39,17 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Latency Reduction
 			toggleswitch_FsrLatencyReduction().IsOn(false);
 
+			//Radeon Fluid Motion Frames
+			toggleswitch_FrameGenEnabled().IsOn(false);
+			combobox_FrameGenSearchMode().IsEnabled(false);
+			combobox_FrameGenSearchMode().SelectedIndex(0);
+			combobox_FrameGenPerfMode().IsEnabled(false);
+			combobox_FrameGenPerfMode().SelectedIndex(0);
+			combobox_FrameGenResponseMode().IsEnabled(false);
+			combobox_FrameGenResponseMode().SelectedIndex(0);
+			combobox_FrameGenAlgorithm().IsEnabled(false);
+			combobox_FrameGenAlgorithm().SelectedIndex(0);
+
 			//Radeon Boost
 			toggleswitch_RadeonBoost().IsOn(false);
 			slider_RadeonBoost_MinRes().Value(68);

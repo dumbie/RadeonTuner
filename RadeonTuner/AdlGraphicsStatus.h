@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 					}
 				}
 
-				//FSR Override Interpolation Frame Generation
+				//FSR Override Frame Generation
 				{
 					std::wsmatch regexMatch;
 					std::wregex regexPattern(L"fsr4_mlfi\\?(.*?)\\*");
@@ -59,7 +59,7 @@ namespace winrt::RadeonTuner::implementation
 						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
 						if (settingActive)
 						{
-							graphicsStatus.FsrOverrideInterpolationFrameGeneration = true;
+							graphicsStatus.FsrOverrideFrameGeneration = true;
 						}
 					}
 				}
@@ -150,13 +150,13 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 
-					//FSR Override Interpolation Frame Generation
+					//FSR Override Frame Generation
 					{
-						auto filteredList = graphicsStatusList | std::views::filter([](const GraphicsStatus& x) { return x.FsrOverrideInterpolationFrameGeneration; });
+						auto filteredList = graphicsStatusList | std::views::filter([](const GraphicsStatus& x) { return x.FsrOverrideFrameGeneration; });
 						bool filteredAny = std::ranges::begin(filteredList) != std::ranges::end(filteredList);
 						if (filteredAny)
 						{
-							image_FsrOverrideInterpolationFrameGeneration_Status().Visibility(Visibility::Visible);
+							image_FsrOverrideFrameGeneration_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
 							for (GraphicsStatus graphicsStatus : filteredList)
@@ -165,11 +165,11 @@ namespace winrt::RadeonTuner::implementation
 							}
 
 							//Set updated tooltip text
-							wstring_to_tooltip(image_FsrOverrideInterpolationFrameGeneration_Status(), tooltipStringNew);
+							wstring_to_tooltip(image_FsrOverrideFrameGeneration_Status(), tooltipStringNew);
 						}
 						else
 						{
-							image_FsrOverrideInterpolationFrameGeneration_Status().Visibility(Visibility::Collapsed);
+							image_FsrOverrideFrameGeneration_Status().Visibility(Visibility::Collapsed);
 						}
 					}
 

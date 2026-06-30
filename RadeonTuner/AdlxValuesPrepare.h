@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesPrepare()
+	std::wstring MainPage::AdlxValuesPrepare()
 	{
 		try
 		{
@@ -27,6 +27,10 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				AVDebugWriteLine("Listed all GPU's: " << adapterCount);
+				if (adapterCount == 0)
+				{
+					return L"Failed to find any GPU's.";
+				}
 			}
 
 			//List all displays
@@ -68,6 +72,10 @@ namespace winrt::RadeonTuner::implementation
 				listview_EyefinityMonitorIndex().ItemsSource(itemCollectionEyefinity);
 
 				AVDebugWriteLine("Listed all displays: " << displayCount);
+				if (displayCount == 0)
+				{
+					return L"Failed to find any displays.";
+				}
 			}
 
 			//List all scaling mode
@@ -221,13 +229,75 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all HDR Media Profiles
+			{
+				auto itemCollection = combobox_Display_HdrTypePreference().Items();
+				UINT appendCount = ADL_HDR_TYPE_PREFERENCE.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_HDR_TYPE_PREFERENCE[i]));
+				}
+			}
+
+			//List all FSR Over-The-Air Updates
+			{
+				auto itemCollection = combobox_FsrOtaUpdates().Items();
+				UINT appendCount = REGISTRY_FSR_OTA_CONTROL_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(REGISTRY_FSR_OTA_CONTROL_STRING[i]));
+				}
+			}
+
+			//List all fluid motion search modes
+			{
+				auto itemCollection = combobox_FrameGenSearchMode().Items();
+				UINT appendCount = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[i]));
+				}
+			}
+
+			//List all fluid motion performance modes
+			{
+				auto itemCollection = combobox_FrameGenPerfMode().Items();
+				UINT appendCount = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[i]));
+				}
+			}
+
+			//List all fluid motion response modes
+			{
+				auto itemCollection = combobox_FrameGenResponseMode().Items();
+				UINT appendCount = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[i]));
+				}
+			}
+
+			//List all fluid motion algorithm modes
+			{
+				auto itemCollection = combobox_FrameGenAlgorithm().Items();
+				UINT appendCount = REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
+			return L"";
 		}
 		catch (...)
 		{
 			//Set result
 			AVDebugWriteLine("ADL values preparation failed.");
+			return L"ADL values preparation failed.";
 		}
 	}
 }

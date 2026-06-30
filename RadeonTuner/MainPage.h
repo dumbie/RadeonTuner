@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "MainPage.g.h"
 
 namespace winrt::RadeonTuner::implementation
@@ -15,7 +15,7 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<AdapterInfo> AdlGetGpuByAdapterIndex(int adapterIndex);
 		std::vector<ADLDisplayInfo> AdlGetDisplayAll();
 		std::vector<ADLDisplayInfo> AdlGetDisplayAllByAdapterIndex(int adapterIndex);
-		std::optional<ADLDisplayInfo> AdlGetDisplayByDisplayIndex(int displayIndex);
+		std::optional<ADLDisplayInfo> AdlGetDisplayByDisplayIndex(int adapterIndex, int displayIndex);
 
 		bool AdlAppInterfaceListLoad();
 		void AdlAppInterfaceAddFile();
@@ -25,14 +25,10 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlAppAdd(std::wstring filePath, std::wstring driverArea);
 		std::wstring AdlAppRemove(AdlApplication adlApp);
 		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
-		bool AdlGraphicsResetRegistry();
-		bool AdlGraphicsResetApp(AdlApplication& adlApp, bool clearProperties, bool addOnly);
+		bool AdlAppsSetDefaults(AdlApplication& adlApp, bool clearProperties, bool addOnly);
 		std::wstring AdlAppProfileGenerateName(std::wstring profileHeader);
-		void AdlAppSetUmdGpuId();
-		void AdlSetGamingDriver();
+		void AdlSetAmdRegistryDefaults();
 		bool AdlCheckDriverOnlySoftware();
-
-		bool AdlMetricsPrepare();
 
 		bool Adl_Overdrive_Reset(int gpuAdapterIndex);
 		bool Adl_Overdrive_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
@@ -60,18 +56,22 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<std::wstring> AdlRegistrySettingGetString(int gpuAdapterIndex, std::string subKey, std::string keyName, bool decodeBinary);
 		std::optional<INT> AdlRegistrySettingGetInt(int gpuAdapterIndex, std::string subKey, std::string keyName);
 
-		std::wstring AdlxInitialize();
 		std::wstring AdlxGetGpuIdentifier(int adapterIndex);
-		std::wstring AdlxGetDisplayIdentifier(int displayIndex);
+		std::wstring AdlxGetDisplayIdentifier(int adapterIndex, int displayIndex);
 
-		std::optional<AdlApplication> GraphicsSettings_FileLoad(std::string loadPath);
-		bool GraphicsSettings_FileSave(AdlApplication graphicsSettings, std::string savePath);
+		void GraphicsStatus_Update();
+		std::vector<GraphicsStatus> GraphicsStatus_Get();
+		std::optional<GraphicsSettings> GraphicsSettings_FileLoad(std::string loadPath);
+		bool GraphicsSettings_FileSave(GraphicsSettings graphicsSettings, std::string savePath);
+		bool GraphicsSettings_Convert_ToUI(GraphicsSettings graphicsSettings);
+		std::optional<GraphicsSettings> GraphicsSettings_Generate_FromUI();
 
 		std::optional<DisplaySettings> DisplaySettings_FileLoad(std::string loadPath);
 		bool DisplaySettings_FileSave(DisplaySettings displaySettings, std::string savePath);
 		bool DisplaySettings_Convert_ToUI(DisplaySettings displaySettings);
 		std::optional<DisplaySettings> DisplaySettings_Generate_FromUI();
 
+		void TuningMetrics_Update();
 		void TuningFanSettings_Profile_Convert_ToUI(TuningFanSettings tuningFanSettings);
 		void TuningFanSettings_GPU_Convert_ToUI(TuningFanSettings tuningFanSettings);
 		bool TuningFanSettings_Profiles_SaveToFile();
@@ -86,6 +86,7 @@ namespace winrt::RadeonTuner::implementation
 		std::optional<std::reference_wrapper<TuningFanSettings>> TuningFanSettings_Profile_Get(std::wstring gpuIdentifier);
 		bool TuningFanSettings_Profile_Remove(std::wstring gpuIdentifier);
 
+		bool AdlxValuesResetMultimedia();
 		bool AdlxValuesResetDisplay();
 		void AdlxValuesExportDisplay();
 		void AdlxValuesImportDisplay();
@@ -104,7 +105,7 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadMultimedia();
 		void AdlxValuesLoadDisplay();
 		void AdlxValuesLoadTuning();
-		void AdlxValuesPrepare();
+		std::wstring AdlxValuesPrepare();
 		bool AdlTuningApply(int gpuAdapterIndex, TuningFanSettings tuningFanSettings);
 		bool AdlTuningReset(int gpuAdapterIndex);
 		void AdlxInfoLoad();
@@ -170,6 +171,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_RadeonImageSharpening1_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonImageSharpening1_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_RadeonImageSharpening2_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_RadeonImageSharpening2_Desktop_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_RadeonImageSharpening2_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void combobox_AntiAliasingMethod_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_AntiAliasingLevel_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
@@ -187,10 +189,8 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Display_ColorTemperature_Kelvin_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void slider_VideoUpscale_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void toggleswitch_VideoUpscale_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_VideoSuperResolution_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_FreeSyncColorAccuracy_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void slider_Video_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_Video_Sharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_GpuSelect_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
@@ -209,7 +209,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_Shortcut_ContextMenu_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_StartWindowVisible_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FsrOverrideUpscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_FsrOverrideInterpolationFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrOverrideFrameGeneration_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_DisplayColorEnhancement_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_Display_Protanopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Deuteranopia_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
@@ -222,7 +222,7 @@ namespace winrt::RadeonTuner::implementation
 		void button_Graphics_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_AddProcess_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Graphics_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_EQAA_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_EnhancedQualityAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_AntiAliasingOverride_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e);
@@ -236,18 +236,29 @@ namespace winrt::RadeonTuner::implementation
 		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Fan_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_OpenGL10Bit_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_OpenGL10BitPixelFormat_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
-		void FsrOverrideDllUpdateVersion(std::wstring dllPath);
-		std::wstring FsrOverrideDllDefaultPath();
-		void toggleswitch_PreserveAspectRatio_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void FsrOverrideDllUpdateTextPath(std::wstring dllPath);
+		void FsrOverrideDllUpdateTextVersion(std::wstring dllPath);
+		std::wstring FsrOverrideDllGetPathDefault();
+		std::wstring FsrOverrideDllGetPathSet(bool globalPath);
+		bool FsrOverrideDllReset();
+		bool FsrOverrideDllSet(std::wstring dllPath);
+		void toggleswitch_HdrEnable_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_Display_HdrTypePreference_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void button_Overlay_DriverCleanup_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Multimedia_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_FsrOtaUpdates_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void toggleswitch_FrameGenEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_FrameGenAlgorithm_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 
 namespace winrt::RadeonTuner::factory_implementation
 {
-	struct MainPage : MainPageT<MainPage, implementation::MainPage>
-	{
-	};
+	struct MainPage : MainPageT<MainPage, implementation::MainPage> {};
 }

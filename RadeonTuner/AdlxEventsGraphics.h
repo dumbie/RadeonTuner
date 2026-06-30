@@ -701,6 +701,202 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_FrameGenEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//DriverBug#6
+			//Software\AMD\DVR FrameGenTestEnv
+
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "DrvFrameGenEnabled", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				disable_saving = true;
+				newSender.IsOn(!newValue);
+				disable_saving = false;
+				if (newValue)
+				{
+					ShowNotification(L"Failed enabling Fluid Motion Frames");
+					AVDebugWriteLine(L"Failed enabling Fluid Motion Frames");
+				}
+				else
+				{
+					ShowNotification(L"Failed disabling Fluid Motion Frames");
+					AVDebugWriteLine(L"Failed disabling Fluid Motion Frames");
+				}
+			}
+			else
+			{
+				if (newValue)
+				{
+					combobox_FrameGenSearchMode().IsEnabled(true);
+					combobox_FrameGenPerfMode().IsEnabled(true);
+					combobox_FrameGenResponseMode().IsEnabled(true);
+					combobox_FrameGenAlgorithm().IsEnabled(true);
+					ShowNotification(L"Fluid Motion Frames enabled");
+					AVDebugWriteLine(L"Fluid Motion Frames enabled");
+				}
+				else
+				{
+					combobox_FrameGenSearchMode().IsEnabled(false);
+					combobox_FrameGenPerfMode().IsEnabled(false);
+					combobox_FrameGenResponseMode().IsEnabled(false);
+					combobox_FrameGenAlgorithm().IsEnabled(false);
+					ShowNotification(L"Fluid Motion Frames disabled");
+					AVDebugWriteLine(L"Fluid Motion Frames disabled");
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting Motion search mode");
+				AVDebugWriteLine(L"Failed setting Motion search mode");
+			}
+			else
+			{
+				ShowNotification(L"Motion search mode set to " + REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Motion search mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting Motion performance mode");
+				AVDebugWriteLine(L"Failed setting Motion performance mode");
+			}
+			else
+			{
+				ShowNotification(L"Motion performance mode set to " + REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Motion performance mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting Motion response mode");
+				AVDebugWriteLine(L"Failed setting Motion response mode");
+			}
+			else
+			{
+				ShowNotification(L"Motion response mode set to " + REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Motion response mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_FrameGenAlgorithm_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenAlgorithm", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting Algorithm mode");
+				AVDebugWriteLine(L"Failed setting Algorithm mode");
+			}
+			else
+			{
+				ShowNotification(L"Algorithm mode set to " + REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Algorithm mode set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_RadeonChill_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

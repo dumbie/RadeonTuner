@@ -24,20 +24,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load applications
-			adlAppsCache = AdlAppsLoad(L"3D_User");
+			adl_Apps_Cache = AdlAppsLoad(L"3D_User");
 
 			//Add global application
 			AdlApplication globalApp{};
 			globalApp.Global = true;
 			globalApp.FileName = L"Global";
 			globalApp.FilePath = L"Registry";
-			adlAppsCache.push_back(globalApp);
+			adl_Apps_Cache.push_back(globalApp);
 
 			//Sort applications by file name
-			std::sort(adlAppsCache.begin(), adlAppsCache.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
+			std::sort(adl_Apps_Cache.begin(), adl_Apps_Cache.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
 
 			//Add apps to combobox
-			for (AdlApplication adlApp : adlAppsCache)
+			for (AdlApplication adlApp : adl_Apps_Cache)
 			{
 				itemCollection.Append(box_value(adlApp.FileName));
 			}

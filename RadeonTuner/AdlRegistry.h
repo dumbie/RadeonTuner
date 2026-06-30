@@ -99,7 +99,7 @@ namespace winrt::RadeonTuner::implementation
 					//Add converted byte
 					for (BYTE byte : regValue)
 					{
-						regValueW += std::format(L"{:02X} ", byte);
+						regValueW += number_to_hexwstring(byte, 2, false);
 					}
 
 					//Remove last space

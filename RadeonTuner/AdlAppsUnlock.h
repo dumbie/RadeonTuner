@@ -73,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 					adlAppProperty0.Values = { adlAppPropertyValue0 };
 					adlAppProperties.push_back(adlAppProperty0);
 
-					//FSR Interpolation Frame Generation
+					//FSR Frame Generation
 					AdlAppProperty adlAppProperty1{};
 					adlAppProperty1.Type = AdlAppPropertyDataTypeGet(L"Mlfi_WListed", driverArea);
 					adlAppProperty1.Name = L"Mlfi_WListed";

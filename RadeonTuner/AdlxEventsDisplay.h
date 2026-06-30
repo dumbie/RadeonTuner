@@ -219,7 +219,7 @@ namespace winrt::RadeonTuner::implementation
 			displayProperty.iSize = sizeof(displayProperty);
 			displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_DOWNSCALE;
 			displayProperty.iCurrent = newValue;
-			//adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
+			adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;

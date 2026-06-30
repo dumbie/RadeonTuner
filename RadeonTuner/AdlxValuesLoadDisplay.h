@@ -45,7 +45,7 @@ namespace winrt::RadeonTuner::implementation
 					toggleswitch_HdrEnable().IsOn(hdrEnabled);
 
 					//Enable or disable interface
-					toggleswitch_HdrEnable().IsEnabled(true);
+					toggleswitch_HdrEnable().IsEnabled(hdrSupported);
 				}
 				else
 				{
@@ -665,6 +665,8 @@ namespace winrt::RadeonTuner::implementation
 			//Eyefinity
 			try
 			{
+				//Fix load current set Eyefinity settings
+
 				//Enable or disable interface
 				if (displayActive)
 				{

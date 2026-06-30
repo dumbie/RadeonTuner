@@ -9,19 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check services
-			if (ppGPUTuningServices == NULL)
-			{
-				stackpanel_Tuning().Opacity(0.20);
-				stackpanel_Tuning().IsHitTestVisible(false);
-				stackpanel_Fans().Opacity(0.20);
-				stackpanel_Fans().IsHitTestVisible(false);
-				AVDebugWriteLine("ADLX tuning service is not available.");
-				return;
-			}
-
 			//Load tuning and fan settings
-			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(ppGpuInfo, adl_Gpu_AdapterIndex).value();
+			TuningFanSettings tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(adl_Gpu_AdapterIndex).value();
 
 			//Add gpu tuning and fans settings profile
 			TuningFanSettings_Profile_Add(tuningFanSettingsGpu);

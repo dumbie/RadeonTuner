@@ -263,6 +263,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//Radeon Fluid Motion Frames
+			{
+				//Not supported
+				toggleswitch_FrameGenEnabled().IsEnabled(false);
+				combobox_FrameGenSearchMode().IsEnabled(false);
+				combobox_FrameGenPerfMode().IsEnabled(false);
+				combobox_FrameGenResponseMode().IsEnabled(false);
+				combobox_FrameGenAlgorithm().IsEnabled(false);
+			}
+
 			//Radeon Boost
 			{
 				toggleswitch_RadeonBoost().IsEnabled(true);
