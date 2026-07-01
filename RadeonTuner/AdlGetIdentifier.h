@@ -26,25 +26,34 @@ namespace winrt::RadeonTuner::implementation
 		return device_id;
 	}
 
-	std::wstring MainPage::AdlxGetDisplayIdentifier(int displayIndex)
+	std::wstring MainPage::AdlxGetDisplayIdentifier(int adapterIndex, int displayIndex)
 	{
 		//Example old: 27934 LG TV SSCR2 7118370396267366160
-		//Example new: LG TV SSCR2
-		std::wstring device_id = L"";
+		//Example new: 27934 LG TV SSCR2
+		std::wstring deviceIdentifier = L"";
 		try
 		{
-			//Get display information
-			std::optional<ADLDisplayInfo> displayInfo = AdlGetDisplayByDisplayIndex(displayIndex);
-			if (displayInfo.has_value())
-			{
-				ADLDisplayInfo adapterInfo = displayInfo.value();
+			//Device strings
+			std::wstring deviceManufacturerId = L"";
+			std::wstring deviceDisplayName = L"";
 
-				//Device identifier
-				device_id = char_to_wstring(adapterInfo.strDisplayName);
+			//Get display DDC information
+			ADLDDCInfo2 ADLDDCInfo2;
+			adl_Res0 = _ADL2_Display_DDCInfo2_Get(adl_Context, adapterIndex, displayIndex, &ADLDDCInfo2);
+			if (adl_Res0 == ADL_OK)
+			{
+				//Set manufacturer id
+				deviceManufacturerId = number_to_wstring(ADLDDCInfo2.ulManufacturerID);
+
+				//Set display name
+				deviceDisplayName = char_to_wstring(ADLDDCInfo2.cDisplayName);
 			}
+
+			//Combine strings
+			deviceIdentifier = deviceManufacturerId + L" " + deviceDisplayName;
 		}
 		catch (...) {}
-		//AVDebugWriteLine("Got display identifier: " << device_id);
-		return device_id;
+		//AVDebugWriteLine("Got display identifier: " << deviceIdentifier);
+		return deviceIdentifier;
 	}
 }
