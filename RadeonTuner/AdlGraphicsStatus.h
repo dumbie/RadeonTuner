@@ -16,7 +16,6 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get hook status from registry
-			//Fix closed processes stay in the list leading to potential wrong information provided, check if process is running.
 			auto regValuesHKID = RegistryGetValuesAll(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\HKIDs");
 			for (RegValue regValue : regValuesHKID)
 			{
@@ -25,6 +24,14 @@ namespace winrt::RadeonTuner::implementation
 				auto valueNameSplit = wstring_split(valueName, L'*');
 				int processId = whexstring_to_int(valueNameSplit[0]);
 				std::wstring processName = std::wstring(valueNameSplit[1]);
+
+				//Check if process is running
+				AVProcess avProcess = AVProcess(processId);
+				if (!avProcess.Running())
+				{
+					//AVDebugWriteLine("Hooked process not running: " << processId << " / " << processName);
+					continue;
+				}
 
 				//Create graphics status
 				GraphicsStatus graphicsStatus{};
