@@ -201,7 +201,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Vertical Refresh
+			//Vertical Sync
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"VSyncControl";

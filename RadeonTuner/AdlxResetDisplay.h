@@ -9,35 +9,68 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Get current and default settings
+			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
+
 			//Brightness
-			slider_Display_Brightness().Value(0);
+			if (displaySettings.Brightness.Default.has_value())
+			{
+				slider_Display_Brightness().Value(displaySettings.Brightness.Default.value());
+			}
 
 			//Contrast
-			slider_Display_Contrast().Value(100);
+			if (displaySettings.Contrast.Default.has_value())
+			{
+				slider_Display_Contrast().Value(displaySettings.Contrast.Default.value());
+			}
 
 			//Saturation
-			slider_Display_Saturation().Value(100);
+			if (displaySettings.Saturation.Default.has_value())
+			{
+				slider_Display_Saturation().Value(displaySettings.Saturation.Default.value());
+			}
 
 			//Hue
-			slider_Display_Hue().Value(0);
+			if (displaySettings.Hue.Default.has_value())
+			{
+				slider_Display_Hue().Value(displaySettings.Hue.Default.value());
+			}
 
 			//Color Temperature Control
-			toggleswitch_Display_ColorTemperature_Control().IsOn(true);
+			if (displaySettings.ColorTemperatureControl.Default.has_value())
+			{
+				toggleswitch_Display_ColorTemperature_Control().IsOn(displaySettings.ColorTemperatureControl.Default.value());
+			}
 
 			//Color Temperature Kelvin
-			slider_Display_ColorTemperature_Kelvin().Value(6500);
+			if (displaySettings.ColorTemperatureKelvin.Default.has_value())
+			{
+				slider_Display_ColorTemperature_Kelvin().Value(displaySettings.ColorTemperatureKelvin.Default.value());
+			}
 
 			//Color Deficiency Correction Control
-			toggleswitch_Display_CVDC_Control().IsOn(false);
+			if (displaySettings.CVDCControl.Default.has_value())
+			{
+				toggleswitch_Display_CVDC_Control().IsOn(displaySettings.CVDCControl.Default.value());
+			}
 
 			//Color Deficiency Correction Protanopia
-			slider_Display_Protanopia().Value(10);
+			if (displaySettings.CVDCProtanopia.Default.has_value())
+			{
+				slider_Display_Protanopia().Value(displaySettings.CVDCProtanopia.Default.value());
+			}
 
 			//Color Deficiency Correction Deuteranopia
-			slider_Display_Deuteranopia().Value(0);
+			if (displaySettings.CVDCDeuteranopia.Default.has_value())
+			{
+				slider_Display_Deuteranopia().Value(displaySettings.CVDCDeuteranopia.Default.value());
+			}
 
 			//Color Deficiency Correction Tritanopia
-			slider_Display_Tritanopia().Value(0);
+			if (displaySettings.CVDCTritanopia.Default.has_value())
+			{
+				slider_Display_Tritanopia().Value(displaySettings.CVDCTritanopia.Default.value());
+			}
 
 			//Return result
 			return true;

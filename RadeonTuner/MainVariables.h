@@ -18,6 +18,7 @@ inline int adl_Display_AdapterIndex = -1;
 inline int adl_Display_DisplayIndex = -1;
 inline int adl_Gpu_AdapterIndex = -1;
 inline int adl_Res0 = ADL_ERR;
+inline int adl_Res1 = ADL_ERR;
 
 inline int adl_AppSelectedIndex = -1;
 inline std::vector<AdlApplication> adl_Apps_Cache{};

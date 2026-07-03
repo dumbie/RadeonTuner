@@ -58,7 +58,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_HdrEnable_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_HdrEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -113,7 +113,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::combobox_Display_HdrTypePreference_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	void MainPage::combobox_Display_HdrMediaProfile_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -799,7 +799,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_GPUScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_GpuScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{

@@ -12,119 +12,265 @@ namespace winrt::RadeonTuner::implementation
 		{
 			AVDebugWriteLine("Resetting graphics settings to defaults.");
 
+			//Get current and default settings
+			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
+
 			//FSR Upscaling Override
-			toggleswitch_FsrOverrideUpscaling().IsOn(true);
+			if (graphicsSettings.FsrOverride.Default.has_value())
+			{
+				toggleswitch_FsrOverrideUpscaling().IsOn(graphicsSettings.FsrOverride.Default.value());
+			}
 
 			//FSR Frame Generation Override
-			toggleswitch_FsrOverrideFrameGeneration().IsOn(true);
+			if (graphicsSettings.MlfiOverride.Default.has_value())
+			{
+				toggleswitch_FsrOverrideFrameGeneration().IsOn(graphicsSettings.MlfiOverride.Default.value());
+			}
 
 			//FSR Multi Frame Generation Override
-			toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(false);
+			if (graphicsSettings.MfgOverride.Default.has_value())
+			{
+				toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(graphicsSettings.MfgOverride.Default.value());
+			}
 
 			//FSR Ray Regeneration Denoiser Override
-			toggleswitch_FsrOverrideRayRegeneration().IsOn(false);
+			if (graphicsSettings.MldOverride.Default.has_value())
+			{
+				toggleswitch_FsrOverrideRayRegeneration().IsOn(graphicsSettings.MldOverride.Default.value());
+			}
 
 			//FSR Neural Radiance Caching Override
-			toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(false);
+			if (graphicsSettings.NrcOverride.Default.has_value())
+			{
+				toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(graphicsSettings.NrcOverride.Default.value());
+			}
 
 			//FSR Multi Frame Generation Ratio
-			combobox_MultiFrameGenerationRatio().SelectedIndex(0);
+			if (graphicsSettings.MfgRatio.Default.has_value())
+			{
+				combobox_MultiFrameGenerationRatio().SelectedIndex(graphicsSettings.MfgRatio.Default.value());
+			}
 
 			//FSR Override Library
 			FsrOverrideDllReset();
 
 			//FSR Over-The-Air Updates
-			combobox_FsrOtaUpdates().SelectedIndex(1);
+			if (graphicsSettings.FsrOtaIndex.Default.has_value())
+			{
+				combobox_FsrOtaUpdates().SelectedIndex(graphicsSettings.FsrOtaIndex.Default.value());
+			}
 
 			//FSR Latency Reduction
-			toggleswitch_FsrLatencyReduction().IsOn(false);
+			if (graphicsSettings.DeLagEnabled.Default.has_value())
+			{
+				toggleswitch_FsrLatencyReduction().IsOn(graphicsSettings.DeLagEnabled.Default.value());
+			}
 
 			//Radeon Fluid Motion Frames
-			toggleswitch_FrameGenEnabled().IsOn(false);
-			combobox_FrameGenSearchMode().IsEnabled(false);
-			combobox_FrameGenSearchMode().SelectedIndex(0);
-			combobox_FrameGenPerfMode().IsEnabled(false);
-			combobox_FrameGenPerfMode().SelectedIndex(0);
-			combobox_FrameGenResponseMode().IsEnabled(false);
-			combobox_FrameGenResponseMode().SelectedIndex(0);
-			combobox_FrameGenAlgorithm().IsEnabled(false);
-			combobox_FrameGenAlgorithm().SelectedIndex(0);
+			if (graphicsSettings.FrameGenEnabled.Default.has_value())
+			{
+				toggleswitch_FrameGenEnabled().IsOn(graphicsSettings.FrameGenEnabled.Default.value());
+				combobox_FrameGenSearchMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
+				combobox_FrameGenPerfMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
+				combobox_FrameGenResponseMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
+				combobox_FrameGenAlgorithm().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
+			}
+
+			//Radeon Fluid Motion Frames - Search Mode
+			if (graphicsSettings.FrameGenSearchMode.Default.has_value())
+			{
+				combobox_FrameGenSearchMode().SelectedIndex(graphicsSettings.FrameGenSearchMode.Default.value());
+			}
+
+			//Radeon Fluid Motion Frames - Performance Mode
+			if (graphicsSettings.FrameGenPerfMode.Default.has_value())
+			{
+				combobox_FrameGenPerfMode().SelectedIndex(graphicsSettings.FrameGenPerfMode.Default.value());
+			}
+
+			//Radeon Fluid Motion Frames - Response Mode
+			if (graphicsSettings.FrameGenResponseMode.Default.has_value())
+			{
+				combobox_FrameGenResponseMode().SelectedIndex(graphicsSettings.FrameGenResponseMode.Default.value());
+			}
+
+			//Radeon Fluid Motion Frames - Algorithm
+			if (graphicsSettings.FrameGenAlgorithm.Default.has_value())
+			{
+				combobox_FrameGenAlgorithm().SelectedIndex(graphicsSettings.FrameGenAlgorithm.Default.value());
+			}
 
 			//Radeon Boost
-			toggleswitch_RadeonBoost().IsOn(false);
-			slider_RadeonBoost_MinRes().Value(68);
-			slider_RadeonBoost_MinRes().IsEnabled(false);
+			if (graphicsSettings.BoostEnabled.Default.has_value())
+			{
+				toggleswitch_RadeonBoost().IsOn(graphicsSettings.BoostEnabled.Default.value());
+				slider_RadeonBoost_MinResolution().IsEnabled(graphicsSettings.BoostEnabled.Default.value());
+			}
+
+			//Radeon Boost - Minimum Resolution
+			if (graphicsSettings.BoostMinResolution.Default.has_value())
+			{
+				slider_RadeonBoost_MinResolution().Value(graphicsSettings.BoostMinResolution.Default.value());
+			}
+
+			//Radeon Frame Rate Target Control - Maximum Frame Rate
+			//Note: changing the FRTC frame rate will force enable FRTC so reset this first.
+			if (graphicsSettings.FrtcFrameRateTarget.Default.has_value())
+			{
+				slider_Frtc_FrameRateTarget().Value(graphicsSettings.FrtcFrameRateTarget.Default.value());
+			}
 
 			//Radeon Frame Rate Target Control
-			toggleswitch_Frtc().IsOn(false);
-			slider_Frtc_Fps().Value(60);
-			slider_Frtc_Fps().IsEnabled(false);
+			if (graphicsSettings.FrtcEnabled.Default.has_value())
+			{
+				toggleswitch_Frtc().IsOn(graphicsSettings.FrtcEnabled.Default.value());
+				slider_Frtc_FrameRateTarget().IsEnabled(graphicsSettings.FrtcEnabled.Default.value());
+			}
 
 			//Radeon Chill
-			toggleswitch_RadeonChill().IsOn(false);
-			slider_RadeonChill_Min().Value(75);
-			slider_RadeonChill_Max().Value(140);
-			slider_RadeonChill_Min().IsEnabled(false);
-			slider_RadeonChill_Max().IsEnabled(false);
-			button_RadeonChill_Link().IsEnabled(false);
+			if (graphicsSettings.ChillEnabled.Default.has_value())
+			{
+				//Disable Radeon Chill Link
+				radeon_Chill_Linked = false;
+
+				toggleswitch_RadeonChill().IsOn(graphicsSettings.ChillEnabled.Default.value());
+				slider_RadeonChill_Min().IsEnabled(graphicsSettings.ChillEnabled.Default.value());
+				slider_RadeonChill_Max().IsEnabled(graphicsSettings.ChillEnabled.Default.value());
+				button_RadeonChill_Link().IsEnabled(graphicsSettings.ChillEnabled.Default.value());
+			}
+
+			//Radeon Chill - Minimum Frame Rate
+			if (graphicsSettings.ChillMinFps.Default.has_value())
+			{
+				slider_RadeonChill_Min().Value(graphicsSettings.ChillMinFps.Default.value());
+			}
+
+			//Radeon Chill - Maximum Frame Rate
+			if (graphicsSettings.ChillMaxFps.Default.has_value())
+			{
+				slider_RadeonChill_Max().Value(graphicsSettings.ChillMaxFps.Default.value());
+			}
 
 			//Radeon Image Sharpening 1
-			toggleswitch_RadeonImageSharpening1().IsOn(false);
-			slider_RadeonImageSharpening1_Sharpening().Value(80);
-			slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
+			if (graphicsSettings.RisEnabled.Default.has_value())
+			{
+				toggleswitch_RadeonImageSharpening1().IsOn(graphicsSettings.RisEnabled.Default.value());
+				slider_RadeonImageSharpening1_Sharpening().IsEnabled(graphicsSettings.RisEnabled.Default.value());
+			}
+
+			//Radeon Image Sharpening 1 - Sharpening Degree
+			if (graphicsSettings.RisSharpeningDegree.Default.has_value())
+			{
+				slider_RadeonImageSharpening1_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Default.value());
+			}
 
 			//Radeon Image Sharpening 2
-			toggleswitch_RadeonImageSharpening2().IsOn(false);
-			toggleswitch_RadeonImageSharpening2_Desktop().IsOn(false);
-			toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
-			slider_RadeonImageSharpening2_Sharpening().Value(50);
-			slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+			if (graphicsSettings.Ris2Enabled.Default.has_value())
+			{
+				toggleswitch_RadeonImageSharpening2().IsOn(graphicsSettings.Ris2Enabled.Default.value());
+				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Ris2Enabled.Default.value());
+				slider_RadeonImageSharpening2_Sharpening().IsEnabled(graphicsSettings.Ris2Enabled.Default.value());
+			}
+
+			//Radeon Image Sharpening 2 - Sharpen Desktop
+			if (graphicsSettings.Ris2DesktopEnabled.Default.has_value())
+			{
+				toggleswitch_RadeonImageSharpening2_Desktop().IsOn(graphicsSettings.Ris2DesktopEnabled.Default.value());
+			}
+
+			//Radeon Image Sharpening 2 - Sharpening Degree
+			if (graphicsSettings.Ris2SharpeningDegree.Default.has_value())
+			{
+				slider_RadeonImageSharpening2_Sharpening().Value(graphicsSettings.Ris2SharpeningDegree.Default.value());
+			}
 
 			//Enhanced Sync
-			toggleswitch_RadeonEnhancedSync().IsOn(false);
+			if (graphicsSettings.EnhancedSync.Default.has_value())
+			{
+				toggleswitch_RadeonEnhancedSync().IsOn(graphicsSettings.EnhancedSync.Default.value());
+			}
 
-			//Vertical Refresh
-			combobox_VerticalRefresh().SelectedIndex(1);
+			//Vertical Sync
+			if (graphicsSettings.VerticalSync.Default.has_value())
+			{
+				combobox_VerticalSync().SelectedIndex(graphicsSettings.VerticalSync.Default.value());
+			}
 
 			//Anti-Aliasing Override
-			toggleswitch_AntiAliasingOverride().IsOn(false);
-			combobox_AntiAliasingMethod().IsEnabled(false);
-			combobox_AntiAliasingLevel().IsEnabled(false);
-			toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(false);
+			if (graphicsSettings.AntiAliasingOverride.Default.has_value())
+			{
+				toggleswitch_AntiAliasingOverride().IsOn(graphicsSettings.AntiAliasingOverride.Default.value());
+				combobox_AntiAliasingMethod().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
+				combobox_AntiAliasingLevel().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
+				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
+			}
 
 			//Anti-Aliasing Method
-			combobox_AntiAliasingMethod().SelectedIndex(0);
+			if (graphicsSettings.AntiAliasingMethod.Default.has_value())
+			{
+				combobox_AntiAliasingMethod().SelectedIndex(graphicsSettings.AntiAliasingMethod.Default.value());
+			}
 
 			//Anti-Aliasing Level
-			combobox_AntiAliasingLevel().SelectedIndex(0);
+			if (graphicsSettings.AntiAliasingLevel.Default.has_value())
+			{
+				combobox_AntiAliasingLevel().SelectedIndex(graphicsSettings.AntiAliasingLevel.Default.value());
+			}
 
 			//Enhanced Quality Anti-Aliasing
-			toggleswitch_EnhancedQualityAntiAliasing().IsOn(false);
+			if (graphicsSettings.AntiAliasingEnhancedQuality.Default.has_value())
+			{
+				toggleswitch_AntiAliasingEnhancedQuality().IsOn(graphicsSettings.AntiAliasingEnhancedQuality.Default.value());
+			}
 
 			//Morphological Anti-Aliasing
-			toggleswitch_MorphologicalAntiAliasing().IsOn(false);
+			if (graphicsSettings.AntiAliasingMorphological.Default.has_value())
+			{
+				toggleswitch_MorphologicalAntiAliasing().IsOn(graphicsSettings.AntiAliasingMorphological.Default.value());
+			}
 
 			//Anisotropic Texture Filtering Override
-			combobox_AnisotropicTextureFiltering_Level().SelectedIndex(0);
+			if (graphicsSettings.AnisotropicOverride.Default.has_value())
+			{
+				combobox_AnisotropicTextureFiltering().SelectedIndex(graphicsSettings.AnisotropicOverride.Default.value());
+			}
 
 			//Texture Filtering Quality
-			combobox_TextureFilteringQuality().SelectedIndex(1);
+			if (graphicsSettings.TextureFilteringQuality.Default.has_value())
+			{
+				combobox_TextureFilteringQuality().SelectedIndex(graphicsSettings.TextureFilteringQuality.Default.value());
+			}
 
 			//Surface Format Optimization
-			toggleswitch_SurfaceFormatOptimization().IsOn(false);
+			if (graphicsSettings.SurfaceFormatOptimization.Default.has_value())
+			{
+				toggleswitch_SurfaceFormatOptimization().IsOn(graphicsSettings.SurfaceFormatOptimization.Default.value());
+			}
 
 			//Tessellation Mode
-			combobox_Tessellation_Mode().SelectedIndex(0);
-			combobox_Tessellation_Level().IsEnabled(false);
+			if (graphicsSettings.TessellationMode.Default.has_value())
+			{
+				combobox_Tessellation_Mode().SelectedIndex(graphicsSettings.TessellationMode.Default.value());
+				combobox_Tessellation_Level().IsEnabled(graphicsSettings.TessellationMode.Default.value());
+			}
 
 			//Tessellation Level
-			combobox_Tessellation_Level().SelectedIndex(7);
+			if (graphicsSettings.TessellationLevel.Default.has_value())
+			{
+				combobox_Tessellation_Level().SelectedIndex(graphicsSettings.TessellationLevel.Default.value());
+			}
 
 			//OpenGL Triple Buffering
-			toggleswitch_OpenGLTripleBuffering().IsOn(false);
+			if (graphicsSettings.OpenGLTripleBuffering.Default.has_value())
+			{
+				toggleswitch_OpenGLTripleBuffering().IsOn(graphicsSettings.OpenGLTripleBuffering.Default.value());
+			}
 
 			//OpenGL 10-Bit Pixel Format
-			toggleswitch_OpenGL10BitPixelFormat().IsOn(false);
+			if (graphicsSettings.OpenGL10BitPixelFormat.Default.has_value())
+			{
+				toggleswitch_OpenGL10BitPixelFormat().IsOn(graphicsSettings.OpenGL10BitPixelFormat.Default.value());
+			}
 
 			//Return result
 			AVDebugWriteLine("ADL graphics values reset.");

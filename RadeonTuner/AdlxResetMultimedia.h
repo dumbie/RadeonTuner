@@ -9,9 +9,21 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Get current and default settings
+			MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
+
+			//Upscaling
+			if (multimediaSettings.VideoUpscaling.Default.has_value())
+			{
+				toggleswitch_Video_Upscaling().IsOn(multimediaSettings.VideoUpscaling.Default.value());
+				slider_Video_Sharpening().IsEnabled(multimediaSettings.VideoUpscaling.Default.value());
+			}
+
 			//Sharpening
-			toggleswitch_Video_Sharpening().IsOn(false);
-			slider_Video_Sharpening().Value(50);
+			if (multimediaSettings.VideoSharpening.Default.has_value())
+			{
+				slider_Video_Sharpening().Value(multimediaSettings.VideoSharpening.Default.value());
+			}
 
 			//Return result
 			return true;

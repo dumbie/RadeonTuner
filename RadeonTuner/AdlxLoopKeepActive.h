@@ -93,16 +93,16 @@ namespace winrt::RadeonTuner::implementation
 
 						//Check if Keep Active is enabled
 						bool keepActiveEnabled = false;
-						if (tuningFanSettingsProfile.KeepActive.has_value())
+						if (tuningFanSettingsProfile.KeepActive.Current.has_value())
 						{
-							keepActiveEnabled = tuningFanSettingsProfile.KeepActive.value();
+							keepActiveEnabled = tuningFanSettingsProfile.KeepActive.Current.value();
 						}
 
 						//Check if Power Boost is enabled
 						bool powerBoostEnabled = false;
-						if (tuningFanSettingsProfile.PowerBoost.has_value())
+						if (tuningFanSettingsProfile.PowerBoost.Current.has_value())
 						{
-							powerBoostEnabled = tuningFanSettingsProfile.PowerBoost.value();
+							powerBoostEnabled = tuningFanSettingsProfile.PowerBoost.Current.value();
 						}
 
 						//Check enabled settings
@@ -123,8 +123,8 @@ namespace winrt::RadeonTuner::implementation
 						//Get GPU adapter index
 						int gpuAdapterIndex = gpuInformation.value().iAdapterIndex;
 
-						//Get current gpu tuning and fans settings
-						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromGPU(gpuAdapterIndex);
+						//Get current and default settings
+						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromADL(gpuAdapterIndex);
 						if (!tuningFanSettingsGpu.has_value())
 						{
 							continue;

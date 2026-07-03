@@ -27,7 +27,7 @@ namespace winrt::RadeonTuner::implementation
 			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPathA).value();
 
 			//Set settings values
-			DisplaySettings_Convert_ToUI(displaySettings);
+			DisplaySettings_Profile_Convert_ToUI(displaySettings);
 
 			//Set result
 			ShowNotification(L"Display settings imported");

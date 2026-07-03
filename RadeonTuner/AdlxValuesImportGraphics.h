@@ -27,7 +27,7 @@ namespace winrt::RadeonTuner::implementation
 			GraphicsSettings graphicsSettings = GraphicsSettings_FileLoad(importPathA).value();
 
 			//Set settings values
-			GraphicsSettings_Convert_ToUI(graphicsSettings);
+			GraphicsSettings_Profile_Convert_ToUI(graphicsSettings);
 
 			//Set result
 			ShowNotification(L"Graphics settings imported");

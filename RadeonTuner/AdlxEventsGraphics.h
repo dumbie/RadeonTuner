@@ -474,7 +474,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Show file dialog
-			std::wstring newValue = filepicker_open(L"Select FSR library file...", { { L"FSR DLL", L"amdxcffx64*.dll" } });
+			std::wstring newValue = filepicker_open(L"Select FSR library file...", { { L"FSR DLL", L"amdxcff*.dll" } });
 
 			//Check file path
 			if (newValue.empty())
@@ -648,13 +648,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					//combobox_VerticalRefresh().IsEnabled(false);
 					ShowNotification(L"Enhanced Sync enabled");
 					AVDebugWriteLine(L"Enhanced Sync enabled");
 				}
 				else
 				{
-					//combobox_VerticalRefresh().IsEnabled(true);
 					ShowNotification(L"Enhanced Sync disabled");
 					AVDebugWriteLine(L"Enhanced Sync disabled");
 				}
@@ -663,7 +661,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::combobox_VerticalRefresh_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	void MainPage::combobox_VerticalSync_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -689,13 +687,13 @@ namespace winrt::RadeonTuner::implementation
 			//Show result
 			if (newFailed)
 			{
-				ShowNotification(L"Failed setting Vertical refresh");
-				AVDebugWriteLine(L"Failed setting Vertical refresh");
+				ShowNotification(L"Failed setting Vertical Sync");
+				AVDebugWriteLine(L"Failed setting Vertical Sync");
 			}
 			else
 			{
-				ShowNotification(L"Vertical refresh set to " + ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Vertical refresh set to " << newValue);
+				ShowNotification(L"Vertical Sync set to " + ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[newValue]);
+				AVDebugWriteLine(L"Vertical Sync set to " << newValue);
 			}
 		}
 		catch (...) {}
@@ -955,8 +953,15 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					if (!radeon_Chill_Linked)
+					//Check Radeon Chill Link
+					if (radeon_Chill_Linked)
 					{
+						button_RadeonChill_Link().Opacity(1.00);
+						slider_RadeonChill_Min().IsEnabled(false);
+					}
+					else
+					{
+						button_RadeonChill_Link().Opacity(0.50);
 						slider_RadeonChill_Min().IsEnabled(true);
 					}
 					slider_RadeonChill_Max().IsEnabled(true);
@@ -968,6 +973,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					slider_RadeonChill_Min().IsEnabled(false);
 					slider_RadeonChill_Max().IsEnabled(false);
+					button_RadeonChill_Link().Opacity(0.50);
 					button_RadeonChill_Link().IsEnabled(false);
 					ShowNotification(L"Radeon Chill disabled");
 					AVDebugWriteLine(L"Radeon Chill disabled");
@@ -1106,19 +1112,18 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			auto newSender = sender.as<Button>();
-
+			//Check Radeon Chill Link
 			if (!radeon_Chill_Linked)
 			{
 				AVDebugWriteLine("Link Radeon Chill.");
-				newSender.Opacity(1.00);
+				button_RadeonChill_Link().Opacity(1.00);
 				slider_RadeonChill_Min().IsEnabled(false);
 				radeon_Chill_Linked = true;
 			}
 			else
 			{
 				AVDebugWriteLine("Unlink Radeon Chill.");
-				newSender.Opacity(0.50);
+				button_RadeonChill_Link().Opacity(0.50);
 				slider_RadeonChill_Min().IsEnabled(true);
 				radeon_Chill_Linked = false;
 			}
@@ -1184,13 +1189,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					slider_RadeonBoost_MinRes().IsEnabled(true);
+					slider_RadeonBoost_MinResolution().IsEnabled(true);
 					ShowNotification(L"Radeon Boost enabled");
 					AVDebugWriteLine(L"Radeon Boost enabled");
 				}
 				else
 				{
-					slider_RadeonBoost_MinRes().IsEnabled(false);
+					slider_RadeonBoost_MinResolution().IsEnabled(false);
 					ShowNotification(L"Radeon Boost disabled");
 					AVDebugWriteLine(L"Radeon Boost disabled");
 				}
@@ -1199,7 +1204,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_RadeonBoost_MinRes_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::slider_RadeonBoost_MinResolution_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
 		{
@@ -1618,7 +1623,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					combobox_AntiAliasingMethod().IsEnabled(true);
 					combobox_AntiAliasingLevel().IsEnabled(true);
-					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(true);
+					toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(true);
 					ShowNotification(L"AA Override enabled");
 					AVDebugWriteLine(L"AA Override enabled");
 				}
@@ -1626,7 +1631,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					combobox_AntiAliasingMethod().IsEnabled(false);
 					combobox_AntiAliasingLevel().IsEnabled(false);
-					toggleswitch_EnhancedQualityAntiAliasing().IsEnabled(false);
+					toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(false);
 					ShowNotification(L"AA Override disabled");
 					AVDebugWriteLine(L"AA Override disabled");
 				}
@@ -1842,7 +1847,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_EnhancedQualityAntiAliasing_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_AntiAliasingEnhancedQuality_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1960,7 +1965,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::combobox_AnisotropicTextureFiltering_Level_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	void MainPage::combobox_AnisotropicTextureFiltering_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -2345,7 +2350,7 @@ namespace winrt::RadeonTuner::implementation
 				if (newValue)
 				{
 					//Get current slider value
-					auto sliderValue = slider_Frtc_Fps().Value();
+					auto sliderValue = slider_Frtc_FrameRateTarget().Value();
 
 					ADLFPSSettingsInput adlSettings{};
 					adlSettings.bGlobalSettings = true;
@@ -2387,13 +2392,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (newValue)
 				{
-					slider_Frtc_Fps().IsEnabled(true);
+					slider_Frtc_FrameRateTarget().IsEnabled(true);
 					ShowNotification(L"FRTC enabled");
 					AVDebugWriteLine(L"FRTC enabled");
 				}
 				else
 				{
-					slider_Frtc_Fps().IsEnabled(false);
+					slider_Frtc_FrameRateTarget().IsEnabled(false);
 					ShowNotification(L"FRTC disabled");
 					AVDebugWriteLine(L"FRTC disabled");
 				}
@@ -2402,7 +2407,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Frtc_Fps_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::slider_Frtc_FrameRateTarget_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
 		{

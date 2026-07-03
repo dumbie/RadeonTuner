@@ -34,7 +34,6 @@
 #include "AdlxResetGraphics.h"
 #include "AdlxResetShaderCache.h"
 #include "AdlxResetMultimedia.h"
-#include "AdlxResetTuning.h"
 
 #include "AdlxEventsDisplay.h"
 #include "AdlxEventsFans.h"
@@ -42,10 +41,17 @@
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
 
+#include "MultimediaSettingsConvertAdl.h"
+#include "MultimediaSettingsConvertUI.h"
+
 #include "GraphicsFsrOverrideDll.h"
-#include "GraphicsSettingsConvert.h"
+#include "GraphicsSettingsConvertAdlApp.h"
+#include "GraphicsSettingsConvertAdlRegistry.h"
+#include "GraphicsSettingsConvertUI.h"
 #include "GraphicsSettingsFunc.h"
-#include "DisplaySettingsConvert.h"
+
+#include "DisplaySettingsConvertAdl.h"
+#include "DisplaySettingsConvertUI.h"
 #include "DisplaySettingsFunc.h"
 
 #include "EyefinityFunc.h"
@@ -53,7 +59,9 @@
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
 #include "TuningFanSettingsCache.h"
-#include "TuningFanSettingsConvert.h"
+#include "TuningFanSettingsConvertAdl.h"
+#include "TuningFanSettingsConvertUI.h"
+#include "TuningFanSettingsMatch.h"
 #include "TuningFanSettingsApply.h"
 #include "AdlTuningMetrics.h"
 

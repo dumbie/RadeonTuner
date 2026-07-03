@@ -130,7 +130,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all vertical sync
 			{
-				auto itemCollection = combobox_VerticalRefresh().Items();
+				auto itemCollection = combobox_VerticalSync().Items();
 				UINT appendCount = ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
@@ -160,7 +160,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all anisotropic texture filtering override
 			{
-				auto itemCollection = combobox_AnisotropicTextureFiltering_Level().Items();
+				auto itemCollection = combobox_AnisotropicTextureFiltering().Items();
 				UINT appendCount = ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
@@ -231,7 +231,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all HDR Media Profiles
 			{
-				auto itemCollection = combobox_Display_HdrTypePreference().Items();
+				auto itemCollection = combobox_Display_HdrMediaProfile().Items();
 				UINT appendCount = ADL_HDR_TYPE_PREFERENCE.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{

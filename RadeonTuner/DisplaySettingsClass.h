@@ -4,24 +4,32 @@
 struct DisplaySettings
 {
 	//Settings
-	std::optional<int> Brightness;
-	std::optional<int> Contrast;
-	std::optional<int> Saturation;
-	std::optional<int> Hue;
+	std::optional<std::string> DeviceId;
+	SettingInt HdrEnabled;
+	SettingInt HdrMediaProfile;
+	SettingInt FreeSyncEnabled;
+	SettingInt VsrEnabled;
+	SettingInt GpuScalingEnabled;
+	SettingInt IntegerScalingEnabled;
+	SettingInt ScalingMode;
+	SettingInt VariBrightEnabled;
+	SettingInt VariBrightLevel;
+	SettingInt ColorDepth;
+	SettingInt PixelFormat;
+	SettingInt ColorEnhancement;
+	SettingInt Brightness;
+	SettingInt Contrast;
+	SettingInt Saturation;
+	SettingInt Hue;
+	SettingInt ColorTemperatureControl;
+	SettingInt ColorTemperatureKelvin;
+	SettingInt CVDCControl;
+	SettingInt CVDCProtanopia;
+	SettingInt CVDCDeuteranopia;
+	SettingInt CVDCTritanopia;
+	SettingInt HDCPEnabled;
 
-	std::optional<bool> ColorTemperatureControl;
-	std::optional<int> ColorTemperatureKelvin;
+	//Status (No export)
 
-	std::optional<bool> CVDCControl;
-	std::optional<int> CVDCProtanopia;
-	std::optional<int> CVDCDeuteranopia;
-	std::optional<int> CVDCTritanopia;
-
-	//Defaults (No export)
-
-	//Support (No export)
-
-	//Interface (No export)
-
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, Brightness, Contrast, Saturation, Hue, ColorTemperatureControl, ColorTemperatureKelvin, CVDCControl, CVDCProtanopia, CVDCDeuteranopia, CVDCTritanopia)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current)
 };

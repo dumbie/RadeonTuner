@@ -7,12 +7,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.cpp">
-      <Filter>Include Files\ADLX</Filter>
-    </ClCompile>
-    <ClCompile Include="ADLX\Platform\Windows\WinAPIs.cpp">
-      <Filter>Include Files\ADLX</Filter>
-    </ClCompile>
     <ClCompile Include="DisplayDetailsIdl.cpp">
       <Filter>Class Files</Filter>
     </ClCompile>
@@ -26,129 +20,6 @@
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\ADLXHelper\Windows\Cpp\ADLXHelper.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ADLX.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ADLXDefines.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ADLXStructures.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ADLXVersion.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\I3DSettings.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\I3DSettings1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\I3DSettings2.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IApplications.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IChangedEvent.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ICollections.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDesktops.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplay3DLUT.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplayGamma.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplayGamut.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplays.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplays1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplays2.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplays3.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IDisplaySettings.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUAutoTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUManualFanTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUManualGFXTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUManualPowerTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUManualVRAMTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUPresetTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IGPUTuning1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\II2C.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ILog.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IMultiMedia.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPerformanceMonitoring.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPerformanceMonitoring1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPerformanceMonitoring2.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPerformanceMonitoring3.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPowerTuning.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\IPowerTuning1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ISmartAccessMemory.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ISystem.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ISystem1.h">
-      <Filter>Include Files\ADLX</Filter>
-    </ClInclude>
-    <ClInclude Include="ADLX\Include\ISystem2.h">
-      <Filter>Include Files\ADLX</Filter>
     </ClInclude>
     <ClInclude Include="SettingCheck.h">
       <Filter>Page Files</Filter>
@@ -195,15 +66,6 @@
     <ClInclude Include="AdlAppsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlAppsProperty.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsFunc.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsLoad.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
     <ClInclude Include="AdlDefinitions.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
@@ -213,32 +75,11 @@
     <ClInclude Include="AdlValuesPrepare.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxInfoLoad.h">
-      <Filter>Page Files\Adlx</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxInitialize.h">
-      <Filter>Page Files\Adlx</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesPrepare.h">
-      <Filter>Page Files\Adlx</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsAdd.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsInterface.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsRemove.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxLoopKeepActive.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
     <ClInclude Include="AdlxLoopMetrics.h">
       <Filter>Page Files\Loop</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsUnlock.h">
-      <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="AdlRegistry.h">
       <Filter>Page Files\Adl</Filter>
@@ -261,7 +102,7 @@
     <ClInclude Include="PowerBoostEvents.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsCacheFunc.h">
+    <ClInclude Include="TuningFanSettingsCache.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportTuning.h">
@@ -270,7 +111,7 @@
     <ClInclude Include="AdlxValuesImportTuning.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsLoadFunc.h">
+    <ClInclude Include="TuningFanSettingsConvertUI.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsFunc.h">
@@ -287,12 +128,6 @@
     </ClInclude>
     <ClInclude Include="AdlxEventsGraphics.h">
       <Filter>Page Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxEventsPower.h">
-      <Filter>Page Files\Power</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadPower.h">
-      <Filter>Page Files\Power</Filter>
     </ClInclude>
     <ClInclude Include="AdlxEventsMultimedia.h">
       <Filter>Page Files\Multimedia</Filter>
@@ -312,25 +147,16 @@
     <ClInclude Include="AdlxValuesLoadDisplay.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxValuesLoadSelect.h">
-      <Filter>Page Files\Adlx</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesLoadTuning.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="AdlOverdrive.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="TuningFanSettingsSaveFunc.h">
+    <ClInclude Include="TuningFanSettingsApply.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="ADL\adl_structures_custom.h">
       <Filter>Include Files\ADL</Filter>
     </ClInclude>
     <ClInclude Include="AdlCheck.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlEyefinity.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="EyefinityFunc.h">
@@ -345,23 +171,110 @@
     <ClInclude Include="AdlValuesLoadGraphicsRegistry.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxResetGraphics.h">
-      <Filter>Page Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxResetDisplay.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxResetTuning.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlGraphicsResetApp.h">
-      <Filter>Page Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlGraphicsResetRegistry.h">
+    <ClInclude Include="AdlxResetGraphics.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlxResetShaderCache.h">
       <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxInfoLoad.h">
+      <Filter>Page Files\Information</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlGetDevices.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlGetIdentifier.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesPrepare.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadSelect.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxResetMultimedia.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsStatusClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlTuningMetrics.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsConvertUI.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertUI.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsSetDefaults.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsAdd.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsFunc.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsInterface.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsLoad.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsProperty.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsRemove.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsUnlock.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlEyefinity.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlOverdrive.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsFsrOverrideDll.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsMatch.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsConvertAdl.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsConvertAdl.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertAdlRegistry.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsClass.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsConvertAdl.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsConvertUI.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertAdlApp.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlGraphicsStatus.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlSettingsClass.h">
+      <Filter>Class Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -388,9 +301,6 @@
     <Filter Include="Include Files\ADL">
       <UniqueIdentifier>{45dc09cd-8ec3-408d-bc6c-db276a8ab6cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include Files\ADLX">
-      <UniqueIdentifier>{41248b3a-f40a-484f-8814-6df5011466de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Include Files\ArnoldVinkCode">
       <UniqueIdentifier>{0f92a15f-2eca-475b-8ce4-8f1c5cb88717}</UniqueIdentifier>
     </Filter>
@@ -399,9 +309,6 @@
     </Filter>
     <Filter Include="Page Files\Adl">
       <UniqueIdentifier>{f270d6ce-613c-4778-a5b1-0aaf7acc027c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Page Files\Adlx">
-      <UniqueIdentifier>{7edceb55-fb87-47cc-87b3-2a948bc81981}</UniqueIdentifier>
     </Filter>
     <Filter Include="Page Files\Loop">
       <UniqueIdentifier>{d5fafa34-da95-4614-b947-484c13f48b0c}</UniqueIdentifier>
@@ -418,14 +325,17 @@
     <Filter Include="Page Files\Graphics">
       <UniqueIdentifier>{471fb1ca-7d28-43c8-a820-21c0057d8471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Page Files\Power">
-      <UniqueIdentifier>{5f93c04a-522d-4ea1-8ae2-77788b63e7d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Page Files\Multimedia">
       <UniqueIdentifier>{9924b21c-cff8-4017-87e6-22977fe3d6db}</UniqueIdentifier>
     </Filter>
     <Filter Include="Settings Files">
       <UniqueIdentifier>{3a500902-1a72-4812-a72f-7a1bc37659b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Information">
+      <UniqueIdentifier>{f68075df-1205-44e9-a967-c731c7e7facc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Graphics\Apps">
+      <UniqueIdentifier>{8aa944a0-dde8-417b-93f6-e9410fe9dcc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +363,12 @@
     <None Include="DriverNotes.md" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="StatusDisabled.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="StatusEnabled.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Link.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>

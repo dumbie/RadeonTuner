@@ -32,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_Video_Sharpening_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Video_Upscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
