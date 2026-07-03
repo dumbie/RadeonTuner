@@ -12,167 +12,163 @@ namespace winrt::RadeonTuner::implementation
 			//Set save settings list
 			std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings;
 
-			//Tuning Preset
-			saveSettings.push_back({ ADLOD8SettingId::OD8_OPTIMZED_POWER_MODE, OD8_OPTIMZED_POWER_MODES::Custom, false });
-
 			//Core Frequency Minimum
-			if (tuningFanSettings.CoreMin.has_value())
+			if (tuningFanSettings.CoreMin.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_GFXCLK_FMIN, tuningFanSettings.CoreMin.value(), false });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_GFXCLK_FMIN, tuningFanSettings.CoreMin.Current.value(), false });
 			}
 
 			//Core Frequency Maximum
-			if (tuningFanSettings.CoreMax.has_value())
+			if (tuningFanSettings.CoreMax.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_GFXCLK_FMAX, tuningFanSettings.CoreMax.value(), false });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_GFXCLK_FMAX, tuningFanSettings.CoreMax.Current.value(), false });
 			}
 
 			//Memory Frequency
-			if (tuningFanSettings.MemoryMax.has_value())
+			if (tuningFanSettings.MemoryMax.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_UCLK_FMAX, tuningFanSettings.MemoryMax.value(), false });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_UCLK_FMAX, tuningFanSettings.MemoryMax.Current.value(), false });
 			}
 
 			//Memory Timing
-			if (tuningFanSettings.MemoryTiming.has_value())
+			if (tuningFanSettings.MemoryTiming.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_AC_TIMING, tuningFanSettings.MemoryTiming.value(), false });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_AC_TIMING, tuningFanSettings.MemoryTiming.Current.value(), false });
 			}
 
 			//Power Limit
-			if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
+			if (tuningFanSettings.PowerBoostUse)
 			{
-				if (tuningFanSettings.PowerLimitPB.has_value())
+				if (tuningFanSettings.PowerLimitPB.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimitPB.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimitPB.Current.value(), false });
 				}
 			}
 			else
 			{
-				if (tuningFanSettings.PowerLimit.has_value())
+				if (tuningFanSettings.PowerLimit.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimit.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimit.Current.value(), false });
 				}
 			}
 
 			//Power Voltage
-			if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
+			if (tuningFanSettings.PowerBoostUse)
 			{
-				if (tuningFanSettings.PowerVoltagePB.has_value())
+				if (tuningFanSettings.PowerVoltagePB.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltagePB.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltagePB.Current.value(), false });
 				}
 			}
 			else
 			{
-				if (tuningFanSettings.PowerVoltage.has_value())
+				if (tuningFanSettings.PowerVoltage.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltage.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltage.Current.value(), false });
 				}
 			}
 
 			//Power TDC
-			if (tuningFanSettings.PowerBoostUse.has_value() && tuningFanSettings.PowerBoostUse.value())
+			if (tuningFanSettings.PowerBoostUse)
 			{
-				if (tuningFanSettings.PowerTDCPB.has_value())
+				if (tuningFanSettings.PowerTDCPB.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDCPB.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDCPB.Current.value(), false });
 				}
 			}
 			else
 			{
-				if (tuningFanSettings.PowerTDC.has_value())
+				if (tuningFanSettings.PowerTDC.Current.has_value())
 				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDC.value(), false });
+					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDC.Current.value(), false });
 				}
 			}
 
 			//Fan Control
 			bool fanControl = false;
-			if (tuningFanSettings.FanControl.has_value())
+			if (tuningFanSettings.FanControl.Current.has_value())
 			{
-				fanControl = tuningFanSettings.FanControl.value();
+				fanControl = tuningFanSettings.FanControl.Current.value();
 			}
 
 			//Fan Zero RPM
-			if (tuningFanSettings.FanZeroRpm.has_value())
+			if (tuningFanSettings.FanZeroRpm.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL, tuningFanSettings.FanZeroRpm.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL, tuningFanSettings.FanZeroRpm.Current.value(), !fanControl });
 			}
 
 			//Fan Speed 0
-			if (tuningFanSettings.FanSpeed0.has_value())
+			if (tuningFanSettings.FanSpeed0.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1, tuningFanSettings.FanSpeed0.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1, tuningFanSettings.FanSpeed0.Current.value(), !fanControl });
 			}
 
 			//Fan Temperature 0
-			if (tuningFanSettings.FanTemp0.has_value())
+			if (tuningFanSettings.FanTemp0.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1, tuningFanSettings.FanTemp0.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1, tuningFanSettings.FanTemp0.Current.value(), !fanControl });
 			}
 
 			//Fan Speed 1
-			if (tuningFanSettings.FanSpeed1.has_value())
+			if (tuningFanSettings.FanSpeed1.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2, tuningFanSettings.FanSpeed1.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2, tuningFanSettings.FanSpeed1.Current.value(), !fanControl });
 			}
 
 			//Fan Temperature 1
-			if (tuningFanSettings.FanTemp1.has_value())
+			if (tuningFanSettings.FanTemp1.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2, tuningFanSettings.FanTemp1.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2, tuningFanSettings.FanTemp1.Current.value(), !fanControl });
 			}
 
 			//Fan Speed 2
-			if (tuningFanSettings.FanSpeed2.has_value())
+			if (tuningFanSettings.FanSpeed2.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3, tuningFanSettings.FanSpeed2.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3, tuningFanSettings.FanSpeed2.Current.value(), !fanControl });
 			}
 
 			//Fan Temperature 2
-			if (tuningFanSettings.FanTemp2.has_value())
+			if (tuningFanSettings.FanTemp2.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3, tuningFanSettings.FanTemp2.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3, tuningFanSettings.FanTemp2.Current.value(), !fanControl });
 			}
 
 			//Fan Speed 3
-			if (tuningFanSettings.FanSpeed3.has_value())
+			if (tuningFanSettings.FanSpeed3.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4, tuningFanSettings.FanSpeed3.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4, tuningFanSettings.FanSpeed3.Current.value(), !fanControl });
 			}
 
 			//Fan Temperature 3
-			if (tuningFanSettings.FanTemp3.has_value())
+			if (tuningFanSettings.FanTemp3.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4, tuningFanSettings.FanTemp3.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4, tuningFanSettings.FanTemp3.Current.value(), !fanControl });
 			}
 
 			//Fan Speed 4
-			if (tuningFanSettings.FanSpeed4.has_value())
+			if (tuningFanSettings.FanSpeed4.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5, tuningFanSettings.FanSpeed4.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5, tuningFanSettings.FanSpeed4.Current.value(), !fanControl });
 			}
 
 			//Fan Temperature 4
-			if (tuningFanSettings.FanTemp4.has_value())
+			if (tuningFanSettings.FanTemp4.Current.has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, tuningFanSettings.FanTemp4.value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, tuningFanSettings.FanTemp4.Current.value(), !fanControl });
 			}
 
-			//Apply settings
-			Adl_Overdrive_Set(gpuAdapterIndex, saveSettings);
+			//Apply gpu tuning and fan mode
+			bool resultMode = Adl_Overdrive_Set_Mode(gpuAdapterIndex);
 
-			//Set result
-			ShowNotification(L"Tuning and fans settings applied");
-			AVDebugWriteLine(L"Tuning and fans settings applied to gpu.");
-			return true;
+			//Apply gpu tuning and fan values
+			bool resultValues = Adl_Overdrive_Set_Values(gpuAdapterIndex, saveSettings);
+
+			//Return result
+			return resultMode && resultValues;
 		}
 		catch (...)
 		{
-			//Set result
-			ShowNotification(L"Failed applying tuning and fans settings");
-			AVDebugWriteLine(L"Failed applying tuning and fans settings to gpu.");
+			//Return result
 			return false;
 		}
 	}

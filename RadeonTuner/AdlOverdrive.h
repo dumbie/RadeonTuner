@@ -37,7 +37,45 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::Adl_Overdrive_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
+	bool MainPage::Adl_Overdrive_Set_Mode(int gpuAdapterIndex)
+	{
+		try
+		{
+			//Note: when tuning preset is not set to default or custom in Adrenalin, tuning fails to apply.
+
+			//Set defaults
+			ADLOD8SetSetting odSetSetting{};
+			odSetSetting.count = OD8_COUNT;
+			for (int i = 0; i < odSetSetting.count; i++)
+			{
+				odSetSetting.od8SettingTable[i].reset = false;
+				odSetSetting.od8SettingTable[i].requested = false;
+				odSetSetting.od8SettingTable[i].value = 0;
+			}
+
+			//Set mode
+			odSetSetting.od8SettingTable[OD8_OPTIMZED_POWER_MODE].reset = false;
+			odSetSetting.od8SettingTable[OD8_OPTIMZED_POWER_MODE].requested = true;
+			odSetSetting.od8SettingTable[OD8_OPTIMZED_POWER_MODE].value = OD8_OPTIMZED_POWER_MODES::Custom;
+
+			//Set settings
+			ADLOD8CurrentSetting odCurrentSetting{};
+			odCurrentSetting.count = OD8_COUNT;
+			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &odSetSetting, &odCurrentSetting);
+
+			//Return result
+			AVDebugWriteLine("Set overdrive mode: " << adl_Res0);
+			return adl_Res0 == ADL_OK;
+		}
+		catch (...)
+		{
+			//Return result
+			AVDebugWriteLine("Failed to set overdrive mode (Exception)");
+			return false;
+		}
+	}
+
+	bool MainPage::Adl_Overdrive_Set_Values(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
 	{
 		try
 		{
@@ -68,13 +106,13 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &odSetSetting, &odCurrentSetting);
 
 			//Return result
-			AVDebugWriteLine("Set overdrive settings: " << adl_Res0);
+			AVDebugWriteLine("Set overdrive values: " << adl_Res0);
 			return adl_Res0 == ADL_OK;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine("Failed to set overdrive settings (Exception)");
+			AVDebugWriteLine("Failed to set overdrive values (Exception)");
 			return false;
 		}
 	}
