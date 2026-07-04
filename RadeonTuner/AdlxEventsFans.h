@@ -30,6 +30,11 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update fan graph opacity
 			grid_Fan_Graph().Opacity(fanControl ? 1.0 : 0.4);
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
 		}
 		catch (...) {}
 	}
@@ -52,6 +57,11 @@ namespace winrt::RadeonTuner::implementation
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Collapsed);
 			}
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
 		}
 		catch (...) {}
 	}
@@ -75,6 +85,11 @@ namespace winrt::RadeonTuner::implementation
 				};
 			std::thread thread(threadVoid);
 			thread.detach();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
 		}
 		catch (...) {}
 	}
@@ -190,46 +205,46 @@ namespace winrt::RadeonTuner::implementation
 			PointCollection fanPoints;
 
 			//Get minimum and maximum
-			int fanSpeedMinimum = tuningFanSettings.FanSpeedMin0.value();
-			int fanSpeedMaximum = tuningFanSettings.FanSpeedMax0.value();
+			int fanSpeedMinimum = tuningFanSettings.FanSpeed0.Minimum.value();
+			int fanSpeedMaximum = tuningFanSettings.FanSpeed0.Maximum.value();
 
 			//Get graph size
 			int graphWidth = 500;
 			int graphHeight = 100;
 
 			//Add fan points
-			float fanSpeedStart = fanSpeedMaximum - tuningFanSettings.FanSpeed0.value();
+			float fanSpeedStart = fanSpeedMaximum - tuningFanSettings.FanSpeed0.Current.value();
 			float fanTempStart = 0;
 			fanPoints.Append(Point{ fanTempStart, fanSpeedStart });
 
-			float fanSpeed0 = fanSpeedMaximum - tuningFanSettings.FanSpeed0.value();
-			float fanTemp0 = (double)tuningFanSettings.FanTemp0.value() / 100 * graphWidth;
+			float fanSpeed0 = fanSpeedMaximum - tuningFanSettings.FanSpeed0.Current.value();
+			float fanTemp0 = (double)tuningFanSettings.FanTemp0.Current.value() / 100 * graphWidth;
 			fanPoints.Append(Point{ fanTemp0, fanSpeed0 });
 
-			float fanSpeed1 = fanSpeedMaximum - tuningFanSettings.FanSpeed1.value();
-			float fanTemp1 = (double)tuningFanSettings.FanTemp1.value() / 100 * graphWidth;
+			float fanSpeed1 = fanSpeedMaximum - tuningFanSettings.FanSpeed1.Current.value();
+			float fanTemp1 = (double)tuningFanSettings.FanTemp1.Current.value() / 100 * graphWidth;
 			fanPoints.Append(Point{ fanTemp1, fanSpeed1 });
 
-			float fanSpeed2 = fanSpeedMaximum - tuningFanSettings.FanSpeed2.value();
-			float fanTemp2 = (double)tuningFanSettings.FanTemp2.value() / 100 * graphWidth;
+			float fanSpeed2 = fanSpeedMaximum - tuningFanSettings.FanSpeed2.Current.value();
+			float fanTemp2 = (double)tuningFanSettings.FanTemp2.Current.value() / 100 * graphWidth;
 			fanPoints.Append(Point{ fanTemp2, fanSpeed2 });
 
-			float fanSpeed3 = fanSpeedMaximum - tuningFanSettings.FanSpeed3.value();
-			float fanTemp3 = (double)tuningFanSettings.FanTemp3.value() / 100 * graphWidth;
+			float fanSpeed3 = fanSpeedMaximum - tuningFanSettings.FanSpeed3.Current.value();
+			float fanTemp3 = (double)tuningFanSettings.FanTemp3.Current.value() / 100 * graphWidth;
 			fanPoints.Append(Point{ fanTemp3, fanSpeed3 });
 
-			float fanSpeed4 = fanSpeedMaximum - tuningFanSettings.FanSpeed4.value();
-			float fanTemp4 = (double)tuningFanSettings.FanTemp4.value() / 100 * graphWidth;
+			float fanSpeed4 = fanSpeedMaximum - tuningFanSettings.FanSpeed4.Current.value();
+			float fanTemp4 = (double)tuningFanSettings.FanTemp4.Current.value() / 100 * graphWidth;
 			fanPoints.Append(Point{ fanTemp4, fanSpeed4 });
 
-			float fanSpeedEnd = fanSpeedMaximum - tuningFanSettings.FanSpeed4.value();
+			float fanSpeedEnd = fanSpeedMaximum - tuningFanSettings.FanSpeed4.Current.value();
 			float fanTempEnd = graphWidth;
 			fanPoints.Append(Point{ fanTempEnd, fanSpeedEnd });
 
 			//Set zero rpm line position
-			if (tuningFanSettings.FanZeroTemp.has_value())
+			if (tuningFanSettings.FanZeroTemp.Current.has_value())
 			{
-				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp.value() / 100 * graphWidth;
+				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp.Current.value() / 100 * graphWidth;
 				grid_Fan_Zero_Rpm_Line_Gpu().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
 				grid_Fan_Zero_Rpm_Line_Profile().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
 			}

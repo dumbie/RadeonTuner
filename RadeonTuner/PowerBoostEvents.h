@@ -112,6 +112,11 @@ namespace winrt::RadeonTuner::implementation
 				button_PowerBoost_AddExe().IsEnabled(false);
 				button_PowerBoost_Remove().IsEnabled(false);
 			}
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
 		}
 		catch (...) {}
 	}
