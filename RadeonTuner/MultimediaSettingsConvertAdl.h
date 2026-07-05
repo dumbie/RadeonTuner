@@ -16,8 +16,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set settings
 			int adlFeatureCount = 0;
-			ADLFeatureValues* adlFeatureValues{};
-			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, gpuAdapterIndex, &adlFeatureValues, &adlFeatureCount);
+			auto adlFeatureValues = AVFin<ADLFeatureValues*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, gpuAdapterIndex, &adlFeatureValues.Get(), &adlFeatureCount);
 			AVDebugWriteLine(L"Multimedia values count: " << adlFeatureCount);
 
 			//Load all multimedia setting values
@@ -26,18 +26,18 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Get feature name
-					std::string featureName = std::string(adlFeatureValues[index].Name.FeatureName);
+					std::string featureName = std::string(adlFeatureValues.Get()[index].Name.FeatureName);
 
 					//Check feature name
 					if (featureName == "VideoUpScale")
 					{
-						multimediaSettings.VideoUpscaling.Current = adlFeatureValues[index].bCurrent;
+						multimediaSettings.VideoUpscaling.Current = adlFeatureValues.Get()[index].bCurrent;
 						multimediaSettings.VideoUpscaling.Default = 0;
 						multimediaSettings.VideoUpscaling.Support = true;
 					}
 					else if (featureName == "Sharpness")
 					{
-						multimediaSettings.VideoSharpening.Current = adlFeatureValues[index].fCurrent;
+						multimediaSettings.VideoSharpening.Current = adlFeatureValues.Get()[index].fCurrent;
 						multimediaSettings.VideoSharpening.Default = 50;
 						multimediaSettings.VideoSharpening.Support = true;
 						multimediaSettings.VideoSharpening.Minimum = 1;
@@ -47,9 +47,9 @@ namespace winrt::RadeonTuner::implementation
 
 					////Debug features
 					//AVDebugWriteLine(featureName.c_str());
-					//AVDebugWriteLine(adlFeatureValues[index].bCurrent);
-					//AVDebugWriteLine(adlFeatureValues[index].fCurrent);
-					//AVDebugWriteLine(adlFeatureValues[index].iCurrent);
+					//AVDebugWriteLine(adlFeatureValues.Get()[index].bCurrent);
+					//AVDebugWriteLine(adlFeatureValues.Get()[index].fCurrent);
+					//AVDebugWriteLine(adlFeatureValues.Get()[index].iCurrent);
 				}
 				catch (...) {}
 			}

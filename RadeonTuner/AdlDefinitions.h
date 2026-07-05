@@ -53,6 +53,15 @@ typedef int(*ADL2_Adapter_RegValueInt_Get)(ADL_CONTEXT_HANDLE context, int iAdap
 inline ADL2_Adapter_RegValueInt_Get _ADL2_Adapter_RegValueInt_Get;
 
 //Adapter
+typedef int (*ADL2_Adapter_AdapterInfoX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* numAdapters, AdapterInfo** lppAdapterInfo);
+inline ADL2_Adapter_AdapterInfoX3_Get _ADL2_Adapter_AdapterInfoX3_Get;
+
+typedef int (*ADL2_Adapter_Active_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpStatus);
+inline ADL2_Adapter_Active_Get _ADL2_Adapter_Active_Get;
+
+typedef int (*ADL2_Adapter_VideoBiosInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLBiosInfo* lpBiosInfo);
+inline ADL2_Adapter_VideoBiosInfo_Get _ADL2_Adapter_VideoBiosInfo_Get;
+
 typedef int (*ADL2_Adapter_Accessibility_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAccessibility);
 inline ADL2_Adapter_Accessibility_Get _ADL2_Adapter_Accessibility_Get;
 
@@ -65,7 +74,16 @@ inline ADL2_GcnAsicInfo_Get _ADL2_GcnAsicInfo_Get;
 typedef int (*ADL2_Adapter_ChipSetInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLChipSetInfo* lpChipSetInfo);
 inline ADL2_Adapter_ChipSetInfo_Get _ADL2_Adapter_ChipSetInfo_Get;
 
+typedef int(*ADL2_Adapter_ProductName_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, char* lpProductName);
+inline ADL2_Adapter_ProductName_Get _ADL2_Adapter_ProductName_Get;
+
+typedef int (*ADL2_Adapter_ID_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAdapterID);
+inline ADL2_Adapter_ID_Get _ADL2_Adapter_ID_Get;
+
 //Graphics
+typedef int (*ADL2_Graphics_VersionsX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLVersionsInfoX2* lpVersionsInfo);
+inline ADL2_Graphics_VersionsX3_Get _ADL2_Graphics_VersionsX3_Get;
+
 typedef int (*ADL2_FRTCPro_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRTCPRO_Settings* FRTCPROSettings);
 inline ADL2_FRTCPro_Settings_Get _ADL2_FRTCPro_Settings_Get;
 
@@ -112,6 +130,51 @@ typedef int (*ADL2_DELAG_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapte
 inline ADL2_DELAG_SettingsX2_Get _ADL2_DELAG_SettingsX2_Get;
 
 //Display
+typedef int (*ADL2_Display_DisplayInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumDisplays, ADLDisplayInfo** lppInfo, int iForceDetect);
+inline ADL2_Display_DisplayInfo_Get _ADL2_Display_DisplayInfo_Get;
+
+typedef int (*ADL2_Display_Property_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayProperty* lpDisplayProperty);
+inline ADL2_Display_Property_Get _ADL2_Display_Property_Get;
+
+typedef int (*ADL2_Display_Property_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayProperty* lpDisplayProperty);
+inline ADL2_Display_Property_Set _ADL2_Display_Property_Set;
+
+typedef int (*ADL2_DFP_GPUScalingEnable_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpSupport, int* lpCurrent, int* lpDefault);
+inline ADL2_DFP_GPUScalingEnable_Get _ADL2_DFP_GPUScalingEnable_Get;
+
+typedef int(*ADL2_DFP_GPUScalingEnable_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iCurrent);
+inline ADL2_DFP_GPUScalingEnable_Set _ADL2_DFP_GPUScalingEnable_Set;
+
+typedef int(*ADL2_Display_PreservedAspectRatio_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpSupport, int* lpCurrent, int* lpDefault);
+inline ADL2_Display_PreservedAspectRatio_Get _ADL2_Display_PreservedAspectRatio_Get;
+
+typedef int(*ADL2_Display_PreservedAspectRatio_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iCurrent);
+inline ADL2_Display_PreservedAspectRatio_Set _ADL2_Display_PreservedAspectRatio_Set;
+
+typedef int(*ADL2_Display_ImageExpansion_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpSupport, int* lpCurrent, int* lpDefault);
+inline ADL2_Display_ImageExpansion_Get _ADL2_Display_ImageExpansion_Get;
+
+typedef int(*ADL2_Display_ImageExpansion_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iCurrent);
+inline ADL2_Display_ImageExpansion_Set _ADL2_Display_ImageExpansion_Set;
+
+typedef int(*ADL2_Display_FreeSyncState_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpCurrent, int* lpDefault, int* lpMinRefreshRateInMicroHz, int* lpMaxRefreshRateInMicroHz);
+inline ADL2_Display_FreeSyncState_Get _ADL2_Display_FreeSyncState_Get;
+
+typedef int (*ADL2_Display_FreeSyncState_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iSetting, int iRefreshRateInMicroHz);
+inline ADL2_Display_FreeSyncState_Set _ADL2_Display_FreeSyncState_Set;
+
+typedef int (*ADL2_Display_ColorDepth_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpColorDepth);
+inline ADL2_Display_ColorDepth_Get _ADL2_Display_ColorDepth_Get;
+
+typedef int (*ADL2_Display_ColorDepth_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorDepth);
+inline ADL2_Display_ColorDepth_Set _ADL2_Display_ColorDepth_Set;
+
+typedef int(*ADL2_Display_PixelFormat_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpPixelFormat);
+inline ADL2_Display_PixelFormat_Get _ADL2_Display_PixelFormat_Get;
+
+typedef int (*ADL2_Display_PixelFormat_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iPixelFormat);
+inline ADL2_Display_PixelFormat_Set _ADL2_Display_PixelFormat_Set;
+
 typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);
 inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;
 
@@ -124,12 +187,14 @@ inline ADL2_Display_ColorTemperatureSource_Get _ADL2_Display_ColorTemperatureSou
 typedef int (*ADL2_Display_ColorTemperatureSource_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iTempSource);
 inline ADL2_Display_ColorTemperatureSource_Set _ADL2_Display_ColorTemperatureSource_Set;
 
+//Display - CVDC
 typedef int (*ADL2_Display_CVDC_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int* cvdcValue);
 inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
 
 typedef int (*ADL2_Display_CVDC_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int cvdcValue);
 inline ADL2_Display_CVDC_Set _ADL2_Display_CVDC_Set;
 
+//Display - Eyefinity
 typedef int (*ADL2_Display_DisplayMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumDisplayMap, ADLDisplayMap** lppDisplayMap, int* lpNumDisplayTarget, ADLDisplayTarget** lppDisplayTarget, int iOptions);
 inline ADL2_Display_DisplayMapConfig_Get _ADL2_Display_DisplayMapConfig_Get;
 
@@ -153,6 +218,58 @@ inline ADL2_Display_SLSMapConfigX2_Delete _ADL2_Display_SLSMapConfigX2_Delete;
 
 typedef int (*ADL2_Display_SLSMapConfig_SetState)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iNumSLSMapIndex, int iState);
 inline ADL2_Display_SLSMapConfig_SetState _ADL2_Display_SLSMapConfig_SetState;
+
+//Display - HDCP
+typedef int (*ADL2_Display_HDCP_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLHDCPSettings* lpHDCPSettings);
+inline ADL2_Display_HDCP_Get _ADL2_Display_HDCP_Get;
+
+typedef int (*ADL2_Display_HDCP_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iSetToDefault, int iEnable);
+inline ADL2_Display_HDCP_Set _ADL2_Display_HDCP_Set;
+
+//Display - VariBright
+typedef int (*ADL2_Adapter_VariBright_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported, int* iEnabled, int* iVersion);
+inline ADL2_Adapter_VariBright_Caps _ADL2_Adapter_VariBright_Caps;
+
+typedef int (*ADL2_Adapter_VariBrightEnable_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iEnabled);
+inline ADL2_Adapter_VariBrightEnable_Set _ADL2_Adapter_VariBrightEnable_Set;
+
+typedef int (*ADL2_Adapter_VariBrightLevel_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iDefaultLevel, int* iNumberOfLevels, int* iStep, int* iCurrentLevel);
+inline ADL2_Adapter_VariBrightLevel_Get _ADL2_Adapter_VariBrightLevel_Get;
+
+typedef int (*ADL2_Adapter_VariBrightLevel_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iCurrentLevel, int iApplyImmediately);
+inline ADL2_Adapter_VariBrightLevel_Set _ADL2_Adapter_VariBrightLevel_Set;
+
+//Display - Color Enhancement
+typedef int(*ADL2_Display_SCE_State_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int sceType);
+inline ADL2_Display_SCE_State_Set _ADL2_Display_SCE_State_Set;
+
+typedef int (*ADL2_Display_SCE_State_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* sceType, int* sceStatus);
+inline ADL2_Display_SCE_State_Get _ADL2_Display_SCE_State_Get;
+
+//Display - HDR State
+typedef int (*ADL2_Display_HDRState_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, int* iSupport, int* iEnable);
+inline ADL2_Display_HDRState_Get _ADL2_Display_HDRState_Get;
+
+typedef int (*ADL2_Display_HDRState_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, int iEnable);
+inline ADL2_Display_HDRState_Set _ADL2_Display_HDRState_Set;
+
+//Display - HDR Type Preference
+typedef int (*ADL2_Display_HdrTypePreference_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, UINT* iType);
+inline ADL2_Display_HdrTypePreference_Get _ADL2_Display_HdrTypePreference_Get;
+
+typedef int (*ADL2_Display_HdrTypePreference_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, UINT iType);
+inline ADL2_Display_HdrTypePreference_Set _ADL2_Display_HdrTypePreference_Set;
+
+//Display - EDID
+typedef int (*ADL2_Display_EdidData_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayEDIDData* lpEDIDData);
+inline ADL2_Display_EdidData_Get _ADL2_Display_EdidData_Get;
+
+typedef int (*ADL2_Display_EdidData_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayEDIDData lpEDIDData);
+inline ADL2_Display_EdidData_Set _ADL2_Display_EdidData_Set;
+
+//Display - DDC
+typedef int (*ADL2_Display_DDCInfo2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDDCInfo2* lpInfo);
+inline ADL2_Display_DDCInfo2_Get _ADL2_Display_DDCInfo2_Get;
 
 //Multimedia
 typedef int(*ADL2_MMD_Features_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureCaps** lppFeatureCaps, int* lpFeatureCount);
@@ -178,11 +295,23 @@ inline ADL2_Overdrive8_Current_SettingX2_Get _ADL2_Overdrive8_Current_SettingX2_
 typedef int (*ADL2_Overdrive8_Setting_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLOD8SetSetting* lpSetSetting, ADLOD8CurrentSetting* lpCurrentSetting);
 inline ADL2_Overdrive8_Setting_Set _ADL2_Overdrive8_Setting_Set;
 
+//Metrics
+typedef int (*ADL2_New_QueryPMLogData_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLPMLogDataOutput* lpDataOutput);
+inline ADL2_New_QueryPMLogData_Get _ADL2_New_QueryPMLogData_Get;
+
+typedef int (*ADL2_Device_PMLog_Device_Create)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_D3DKMT_HANDLE* pDevice);
+inline ADL2_Device_PMLog_Device_Create _ADL2_Device_PMLog_Device_Create;
+
+typedef int (*ADL2_Device_PMLog_Device_Destroy)(ADL_CONTEXT_HANDLE context, ADL_D3DKMT_HANDLE hDevice);
+inline ADL2_Device_PMLog_Device_Destroy _ADL2_Device_PMLog_Device_Destroy;
+
+typedef int (*ADL2_Adapter_PMLog_Start)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLPMLogStartInput* pPMLogStartInput, ADLPMLogStartOutput* pPMLogStartOutput, ADL_D3DKMT_HANDLE hDevice);
+inline ADL2_Adapter_PMLog_Start _ADL2_Adapter_PMLog_Start;
+
+typedef int (*ADL2_Adapter_PMLog_Stop)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_D3DKMT_HANDLE hDevice);
+inline ADL2_Adapter_PMLog_Stop _ADL2_Adapter_PMLog_Stop;
+
 //Flush
 typedef int (*ADL2_Flush_Driver_Data)(ADL_CONTEXT_HANDLE context, int iAdapterIndex);
 inline ADL2_Flush_Driver_Data _ADL2_Flush_Driver_Data;
-
-//Cloud
-typedef int (*ADL2_CloudProfile_DLL_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpCloudProfile);
-inline ADL2_CloudProfile_DLL_Get _ADL2_CloudProfile_DLL_Get;
 //}

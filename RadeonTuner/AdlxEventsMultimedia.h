@@ -46,8 +46,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get all multimedia setting values
 			int adlFeatureCount = 0;
-			ADLFeatureValues* adlFeatureValues{};
-			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, adl_Gpu_AdapterIndex, &adlFeatureValues, &adlFeatureCount);
+			auto adlFeatureValues = AVFin<ADLFeatureValues*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, adl_Gpu_AdapterIndex, &adlFeatureValues.Get(), &adlFeatureCount);
 
 			//Load all multimedia setting values
 			for (int index = 0; index < adlFeatureCount; index++)
@@ -55,12 +55,12 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Get feature name
-					std::string featureName = std::string(adlFeatureValues[index].Name.FeatureName);
+					std::string featureName = std::string(adlFeatureValues.Get()[index].Name.FeatureName);
 
 					//Check feature name
 					if (featureName == "VideoUpScale")
 					{
-						adlFeatureValues[index].bCurrent = newValue;
+						adlFeatureValues.Get()[index].bCurrent = newValue;
 						break;
 					}
 				}
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set all multimedia setting values
-			adl_Res0 = _ADL2_MMD_FeatureValues_Set(adl_Context, adl_Gpu_AdapterIndex, adlFeatureValues, adlFeatureCount, 0);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Set(adl_Context, adl_Gpu_AdapterIndex, adlFeatureValues.Get(), adlFeatureCount, 0);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -122,8 +122,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get all multimedia setting values
 			int adlFeatureCount = 0;
-			ADLFeatureValues* adlFeatureValues{};
-			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, adl_Gpu_AdapterIndex, &adlFeatureValues, &adlFeatureCount);
+			auto adlFeatureValues = AVFin<ADLFeatureValues*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, adl_Gpu_AdapterIndex, &adlFeatureValues.Get(), &adlFeatureCount);
 
 			//Load all multimedia setting values
 			for (int index = 0; index < adlFeatureCount; index++)
@@ -131,12 +131,12 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Get feature name
-					std::string featureName = std::string(adlFeatureValues[index].Name.FeatureName);
+					std::string featureName = std::string(adlFeatureValues.Get()[index].Name.FeatureName);
 
 					//Check feature name
 					if (featureName == "Sharpness")
 					{
-						adlFeatureValues[index].fCurrent = newValue;
+						adlFeatureValues.Get()[index].fCurrent = newValue;
 						break;
 					}
 				}
@@ -144,7 +144,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set all multimedia setting values
-			adl_Res0 = _ADL2_MMD_FeatureValues_Set(adl_Context, adl_Gpu_AdapterIndex, adlFeatureValues, adlFeatureCount, 0);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Set(adl_Context, adl_Gpu_AdapterIndex, adlFeatureValues.Get(), adlFeatureCount, 0);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;

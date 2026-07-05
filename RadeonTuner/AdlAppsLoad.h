@@ -70,17 +70,17 @@ namespace winrt::RadeonTuner::implementation
 						}
 
 						//Load application profile
-						ADLApplicationProfile* lppProfile;
-						adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str(), &lppProfile);
+						auto appProfile = AVFin<ADLApplicationProfile*>(AVFinMethod::FreeMarshal);
+						adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str(), &appProfile.Get());
 						if (adl_Res0 == ADL_OK)
 						{
 							uint32_t propertyOffset = 0;
-							for (int index = 0; index < lppProfile->iCount; index++)
+							for (int index = 0; index < appProfile.Get()->iCount; index++)
 							{
 								try
 								{
 									//Get property record
-									PropertyRecord* propertyRecord = (PropertyRecord*)((BYTE*)lppProfile->record + propertyOffset);
+									PropertyRecord* propertyRecord = (PropertyRecord*)((BYTE*)appProfile.Get()->record + propertyOffset);
 
 									//Create adl application property
 									AdlAppProperty adlAppProperty{};

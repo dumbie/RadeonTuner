@@ -13,12 +13,20 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Removing profiles from application: " << adlApp.FileName << " / " << adlApp.FilePath);
 
 			//Get profile customisations
-			CUSTOMISATIONS customisations{};
-			_ADL2_ApplicationProfiles_GetCustomization(adl_Context, ADL_AP_DATABASE__USER, &customisations);
+			auto adlCustomizations = AVFinObj(AVFinObjMethod::Custom, CUSTOMISATIONS{});
+			adlCustomizations.SetReleaser([&](auto releaseObject)
+				{
+					ADL_MemoryFree_Customizations(&releaseObject);
+				});
+			adl_Res0 = _ADL2_ApplicationProfiles_GetCustomization(adl_Context, ADL_AP_DATABASE__USER, &adlCustomizations.Get());
+			if (adl_Res0 != ADL_OK)
+			{
+				return L"Failed removing application (Customization)";
+			}
 
 			//Get customisations area names
 			std::vector<std::wstring> areaNames{};
-			AREA* headArea = customisations.HeadArea;
+			AREA* headArea = adlCustomizations.Get().HeadArea;
 			while (headArea)
 			{
 				try
@@ -59,7 +67,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Set result
 			AVDebugWriteLine("Failed removing application (Exception)");
-			return L"Failed removing application";
+			return L"Failed removing application (Exception)";
 		}
 	}
 }

@@ -10,15 +10,15 @@ namespace winrt::RadeonTuner::implementation
 		{
 			int adapterInfoCount = 0;
 			int adapterInfoFilterCount = 0;
-			AdapterInfo* adapterInfoList{};
-			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, -1, &adapterInfoCount, &adapterInfoList);
+			auto adapterInfoList = AVFin<AdapterInfo*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, -1, &adapterInfoCount, &adapterInfoList.Get());
 			for (int i = 0; i < adapterInfoCount; i++)
 			{
 				//Get adapter information
-				AdapterInfo adapterInfo = adapterInfoList[i];
+				AdapterInfo adapterInfo = adapterInfoList.Get()[i];
 
 				//Check if adapter vendor is AMD
-				if (adapterInfo.iVendorID != 1002)
+				if (adapterInfo.iVendorID != 1002 && adapterInfo.iVendorID != -1002)
 				{
 					continue;
 				}
@@ -52,7 +52,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			//AVDebugWriteLine("Got all GPU's: " << adapterInfoFilterCount);
+			//AVDebugWriteLine("Got all GPU's: " << adapterInfoFilterCount << " / " << adapterInfoCount);
 			return gpuList;
 		}
 		catch (...)
@@ -99,11 +99,11 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			int adapterInfoCount = 0;
-			AdapterInfo* adapterInfoList{};
-			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, adapterIndex, &adapterInfoCount, &adapterInfoList);
+			auto adapterInfoList = AVFin<AdapterInfo*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, adapterIndex, &adapterInfoCount, &adapterInfoList.Get());
 
 			//Get result
-			AdapterInfo adapterInfo = adapterInfoList[0];
+			AdapterInfo adapterInfo = adapterInfoList.Get()[0];
 
 			//Return result
 			AVDebugWriteLine("Got GPU by adapter index: " << adapterIndex << " / " << adapterInfo.strPNPString);
@@ -128,11 +128,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get all displays connected to gpu
 				int displayInfoCount = 0;
-				ADLDisplayInfo* displayInfoList{};
-				adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterInfo.iAdapterIndex, &displayInfoCount, &displayInfoList, true);
+				auto displayInfoList = AVFin<ADLDisplayInfo*>(AVFinMethod::FreeMarshal);
+				adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterInfo.iAdapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
 				for (int i = 0; i < displayInfoCount; i++)
 				{
-					ADLDisplayInfo displayInfo = displayInfoList[i];
+					ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
 					if ((displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED)
 					{
 						displayList.push_back(displayInfo);
@@ -161,11 +161,11 @@ namespace winrt::RadeonTuner::implementation
 			//Get all displays connected to gpu
 			int displayConnectedCount = 0;
 			int displayInfoCount = 0;
-			ADLDisplayInfo* displayInfoList{};
-			adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterIndex, &displayInfoCount, &displayInfoList, true);
+			auto displayInfoList = AVFin<ADLDisplayInfo*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
 			for (int i = 0; i < displayInfoCount; i++)
 			{
-				ADLDisplayInfo displayInfo = displayInfoList[i];
+				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
 				if ((displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED)
 				{
 					displayList.push_back(displayInfo);

@@ -9,6 +9,7 @@ namespace winrt::RadeonTuner::implementation
 
 		std::wstring AdlInitialize();
 		void AdlValuesPrepare();
+		void ADL_MemoryFree_Customizations(CUSTOMISATIONS* pCustomisations);
 
 		std::vector<AdapterInfo> AdlGetGpuAll();
 		std::optional<AdapterInfo> AdlGetGpuByDeviceId(std::wstring deviceId);
