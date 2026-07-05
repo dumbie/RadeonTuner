@@ -28,37 +28,28 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlSetGamingDriver()
+	void MainPage::AdlSetAmdRegistryDefaults()
 	{
 		try
 		{
 			for (AdapterInfo adapterInfo : adl_List_Gpus)
 			{
-				//Set gaming driver flag
-				AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_IsGamingDriver", 1);
-			}
-		}
-		catch (...) {}
-	}
+				try
+				{
+					//Set gaming driver flag
+					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_IsGamingDriver", 1);
 
-	void MainPage::AdlAppSetUmdGpuId()
-	{
-		try
-		{
-			//DriverBug#1
+					//Set enable desktop texture flag
+					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_EnableDesktopTexture", 1);
 
-			//Set gpu unique identifier
-			gpuUniqueIdentifierHex = L"0x0001";
+					//Get gpu unique identifier
+					//std::wstring identifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
 
-			for (AdapterInfo adapterInfo : adl_List_Gpus)
-			{
-				//Get gpu unique identifier
-				//int identifierInt;
-				//adlx_Res0 = gpuPointer->UniqueId(&identifierInt);
-				//std::string identifierHex = number_to_hexstring(identifierInt, 4);
-
-				//Set gpu application identifier
-				AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "UMD", "AppGpuId", L"0x0001");
+					//DriverBug#1
+					//Set gpu application identifier
+					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "UMD", "AppGpuId", L"0x0001");
+				}
+				catch (...) {}
 			}
 		}
 		catch (...) {}
