@@ -30,6 +30,32 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::button_Overlay_DriverCleanup_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Get path to AMD Cleanup Utility
+			std::wstring pathProgramFiles = PathGetFolderKnown(FOLDERID_ProgramFiles);
+			std::wstring pathCleanUtility = PathMerge(pathProgramFiles, L"AMD\\CIM\\Bin64\\AMDCleanupUtility.exe");
+
+			//Check if AMD Cleanup Utility exists
+			if (FileExists(pathCleanUtility))
+			{
+				//Launch AMD Cleanup Utility
+				AVProcesses::Launch_ApplicationDesktop(pathCleanUtility, L"", L"", false);
+
+				//Exit application
+				exit(0);
+			}
+			else
+			{
+				ShowNotification(L"AMD Cleanup Utility has not been found");
+				AVDebugWriteLine("No soup for you! AMD Cleanup Utility has not been found.");
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
