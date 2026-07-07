@@ -42,6 +42,15 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.20.0.0 (7-July-2026)
+- Added FSR Override status icon.
+- Added FSR Override Library setting.
+- Added Frame Rate Target Control setting.
+- Added OpenGL 10-Bit Pixel Format setting.
+- Added High Dynamic Range display settings.
+- Global settings are now set using KMD / Registry.
+* Exported profiles from previous version may not work.
+
 v0.11.0.0 (20-May-2026)
 - Added Automatic Eyefinity feature allowing to enable Eyefinity when certain apps run.
 - Added Eyefinity display settings.
