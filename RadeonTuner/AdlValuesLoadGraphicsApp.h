@@ -20,10 +20,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get current and default settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLApp(selectedApp.value()).value();
+			graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLApp(selectedApp.value()).value();
 
 			//Convert settings values to interface
-			GraphicsSettings_ADL_Convert_ToUI(graphicsSettings);
+			GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 
 			//Set result
 			AVDebugWriteLine("ADL graphics app values loaded.");

@@ -12,8 +12,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Reset Multimedia settings
-			bool resetResult = AdlxValuesResetMultimedia();
+			//Get current and default settings
+			MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
+
+			//Convert settings to interface
+			bool resetResult = MultimediaSettings_Convert_ToUI_Default(multimediaSettings);
 
 			//Check result
 			if (resetResult)
@@ -81,13 +84,13 @@ namespace winrt::RadeonTuner::implementation
 				disable_saving = false;
 				if (newValue)
 				{
-					ShowNotification(L"Failed enabling Video Upscale");
-					AVDebugWriteLine(L"Failed enabling Video Upscale");
+					ShowNotification(L"Failed enabling Video Upscaling");
+					AVDebugWriteLine(L"Failed enabling Video Upscaling");
 				}
 				else
 				{
-					ShowNotification(L"Failed disabling Video Upscale");
-					AVDebugWriteLine(L"Failed disabling Video Upscale");
+					ShowNotification(L"Failed disabling Video Upscaling");
+					AVDebugWriteLine(L"Failed disabling Video Upscaling");
 				}
 			}
 			else
@@ -95,15 +98,18 @@ namespace winrt::RadeonTuner::implementation
 				if (newValue)
 				{
 					slider_Video_Sharpening().IsEnabled(true);
-					ShowNotification(L"Video Upscale enabled");
-					AVDebugWriteLine(L"Video Upscale enabled");
+					ShowNotification(L"Video Upscaling enabled");
+					AVDebugWriteLine(L"Video Upscaling enabled");
 				}
 				else
 				{
 					slider_Video_Sharpening().IsEnabled(false);
-					ShowNotification(L"Video Upscale disabled");
-					AVDebugWriteLine(L"Video Upscale disabled");
+					ShowNotification(L"Video Upscaling disabled");
+					AVDebugWriteLine(L"Video Upscaling disabled");
 				}
+
+				//Update current value
+				multimediaSettingsCurrent.VideoUpscaling.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -163,6 +169,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_VideoUpscale_Sharpening().Foreground(colorValid);
 				ShowNotification(L"Video sharpening set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Video sharpening set to " << newValue);
+
+				//Update current value
+				multimediaSettingsCurrent.VideoSharpening.Current = newValue;
 			}
 		}
 		catch (...) {}

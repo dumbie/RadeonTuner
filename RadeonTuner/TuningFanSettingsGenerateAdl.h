@@ -177,11 +177,11 @@ namespace winrt::RadeonTuner::implementation
 					//Note: Fan zero temp sometimes returns as 0, using 50 as default when that happens.
 					if (settingValue.value() <= 0)
 					{
-						tuningFanSettings.FanZeroTemp.Current = 50;
+						tuningFanSettings.FanZeroTemp = 50;
 					}
 					else
 					{
-						tuningFanSettings.FanZeroTemp.Current = settingValue.value();
+						tuningFanSettings.FanZeroTemp = settingValue.value();
 					}
 				}
 			}

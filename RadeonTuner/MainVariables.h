@@ -23,7 +23,12 @@ inline int adl_Res1 = ADL_ERR;
 inline int adl_AppSelectedIndex = -1;
 inline std::vector<AdlApplication> adl_Apps_Cache{};
 
-//Fix use ObservableCollection instead
+//Fix use ObservableCollection and DataContext binding instead
 inline std::vector<std::wstring> eyefinityAppsCache{};
 inline std::vector<std::wstring> powerBoostAppsCache{};
 inline std::vector<TuningFanSettings> tuningFanSettingsCache{};
+
+inline TuningFanSettings tuningFanSettingsCurrent{};
+inline GraphicsSettings graphicsSettingsCurrent{};
+inline DisplaySettings displaySettingsCurrent{};
+inline MultimediaSettings multimediaSettingsCurrent{};

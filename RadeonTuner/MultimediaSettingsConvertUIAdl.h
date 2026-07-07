@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::MultimediaSettings_ADL_Convert_ToUI(MultimediaSettings multimediaSettings)
+	bool MainPage::MultimediaSettings_Convert_ToUI_ADL(MultimediaSettings multimediaSettings)
 	{
 		try
 		{

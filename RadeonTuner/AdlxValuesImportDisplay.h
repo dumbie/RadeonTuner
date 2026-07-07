@@ -26,8 +26,27 @@ namespace winrt::RadeonTuner::implementation
 			std::string importPathA = wstring_to_string(importPath);
 			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPathA).value();
 
+			//Check device identifier
+			std::string device_id_import_a = displaySettings.DeviceId.value();
+			std::wstring device_id_import_w = string_to_wstring(device_id_import_a);
+			std::wstring device_id_current_w = AdlxGetDisplayIdentifier(adl_Display_AdapterIndex, adl_Display_DisplayIndex);
+			if (!device_id_import_w.empty() && !device_id_current_w.empty())
+			{
+				if (device_id_import_w != device_id_current_w)
+				{
+					std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Display settings do not match current display, continue import?", L"", { L"Yes", L"No" }, false);
+					if (messageResult == L"No")
+					{
+						//Set result
+						ShowNotification(L"Display does not match");
+						AVDebugWriteLine(L"Display does not match");
+						return;
+					}
+				}
+			}
+
 			//Set settings values
-			DisplaySettings_Profile_Convert_ToUI(displaySettings);
+			DisplaySettings_Convert_ToUI_Current(displaySettings);
 
 			//Set result
 			ShowNotification(L"Display settings imported");

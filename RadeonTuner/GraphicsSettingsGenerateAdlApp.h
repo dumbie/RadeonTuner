@@ -46,7 +46,7 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.MlfiOverride.Support = true;
 
 				//Set default
-				graphicsSettings.MlfiOverride.Default = 1;
+				graphicsSettings.MlfiOverride.Default = 0;
 
 				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"MlfiOverride");
 				if (adlProperty.has_value())
@@ -305,7 +305,7 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.ChillMinFps.Support = true;
 
 				//Set default
-				graphicsSettings.ChillMinFps.Default = 75;
+				graphicsSettings.ChillMinFps.Default = 70;
 
 				//Set interface
 				graphicsSettings.ChillMinFps.Minimum = 30;

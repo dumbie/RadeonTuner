@@ -10,10 +10,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get current and default settings
-			MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
+			multimediaSettingsCurrent = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
 
 			//Convert settings values to interface
-			MultimediaSettings_ADL_Convert_ToUI(multimediaSettings);
+			MultimediaSettings_Convert_ToUI_ADL(multimediaSettingsCurrent);
 
 			//Set result
 			AVDebugWriteLine("ADLX loaded multimedia values.");

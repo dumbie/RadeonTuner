@@ -20,12 +20,9 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Generate settings
-			DisplaySettings displaySettings = DisplaySettings_Generate_FromUI().value();
-
 			//Save settings to file
 			std::string exportPathA = wstring_to_string(exportPath);
-			bool saveResult = DisplaySettings_FileSave(displaySettings, exportPathA);
+			bool saveResult = DisplaySettings_FileSave(displaySettingsCurrent, exportPathA);
 
 			//Set result
 			if (saveResult)

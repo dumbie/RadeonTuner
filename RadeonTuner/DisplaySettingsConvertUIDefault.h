@@ -5,12 +5,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlxValuesResetDisplay()
+	bool MainPage::DisplaySettings_Convert_ToUI_Default(DisplaySettings displaySettings)
 	{
 		try
 		{
-			//Get current and default settings
-			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
+			////HDR Enabled
+			//if (displaySettings.HdrEnabled.Default.has_value())
+			//{
+			//	toggleswitch_HdrEnabled().IsOn(displaySettings.HdrEnabled.Default.value());
+			//}
 
 			//Brightness
 			if (displaySettings.Brightness.Default.has_value())
@@ -73,12 +76,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
+			AVDebugWriteLine(L"Display settings applied to interface.");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine("Failed resetting display settings.");
+			AVDebugWriteLine(L"Failed applying display settings to interface.");
 			return false;
 		}
 	}

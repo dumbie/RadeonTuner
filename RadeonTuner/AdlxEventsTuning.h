@@ -12,14 +12,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Generate tuning and fans settings
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Generate_FromUI().value();
-
 			//Apply tuning and fans settings
-			if (AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettings))
+			if (AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent))
 			{
 				//Replace tuning and fans settings
-				TuningFanSettings_Profile_Replace(tuningFanSettings);
+				TuningFanSettings_Profile_Replace(tuningFanSettingsCurrent);
 
 				//Save tuning and fans settings
 				TuningFanSettings_Profiles_SaveToFile();
@@ -124,6 +121,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			//Update current value
+			tuningFanSettingsCurrent.KeepActive.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -152,6 +156,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.CoreMin.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -184,6 +195,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.CoreMax.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -199,6 +217,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<ComboBox>();
+			int newValue = (int)newSender.SelectedIndex();
+
+			//Update current value
+			tuningFanSettingsCurrent.MemoryTiming.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -214,6 +239,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.MemoryMax.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -229,6 +261,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerLimit.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -244,6 +283,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerLimitPB.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -259,6 +305,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerVoltage.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -274,6 +327,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerVoltagePB.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -289,6 +349,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerTDC.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -304,6 +371,13 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<Slider>();
+			int newValue = (int)newSender.Value();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerTDCPB.Current = newValue;
 		}
 		catch (...) {}
 	}

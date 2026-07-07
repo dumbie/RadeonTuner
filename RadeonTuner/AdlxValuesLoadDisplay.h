@@ -10,10 +10,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get current and default settings
-			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
+			displaySettingsCurrent = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
 
 			//Convert settings values to interface
-			DisplaySettings_ADL_Convert_ToUI(displaySettings);
+			DisplaySettings_Convert_ToUI_Adl(displaySettingsCurrent);
 
 			//Set result
 			AVDebugWriteLine("ADLX loaded display values.");

@@ -10,10 +10,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get current and default settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
+			graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
 
 			//Convert settings values to interface
-			GraphicsSettings_ADL_Convert_ToUI(graphicsSettings);
+			GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 
 			//Set result
 			AVDebugWriteLine("ADL graphics registry values loaded.");

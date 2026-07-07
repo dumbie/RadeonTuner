@@ -30,40 +30,44 @@
 #include "AdlxValuesExportTuning.h"
 #include "AdlxValuesImportTuning.h"
 
-#include "AdlxResetDisplay.h"
-#include "AdlxResetGraphics.h"
-#include "AdlxResetShaderCache.h"
-#include "AdlxResetMultimedia.h"
-
 #include "AdlxEventsDisplay.h"
 #include "AdlxEventsFans.h"
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
 
-#include "MultimediaSettingsConvertAdl.h"
-#include "MultimediaSettingsConvertUI.h"
+#include "MultimediaSettingsGenerateAdl.h"
+#include "MultimediaSettingsConvertUIAdl.h"
+#include "MultimediaSettingsConvertUICurrent.h"
+#include "MultimediaSettingsConvertUIDefault.h"
 
 #include "GraphicsFsrOverrideDll.h"
-#include "GraphicsSettingsConvertAdlApp.h"
-#include "GraphicsSettingsConvertAdlRegistry.h"
-#include "GraphicsSettingsConvertUI.h"
+#include "GraphicsSettingsGenerateAdlApp.h"
+#include "GraphicsSettingsGenerateAdlRegistry.h"
+#include "GraphicsSettingsConvertUIAdl.h"
+#include "GraphicsSettingsConvertUICurrent.h"
+#include "GraphicsSettingsConvertUIDefault.h"
 #include "GraphicsSettingsFunc.h"
+#include "AdlxResetShaderCache.h"
 
-#include "DisplaySettingsConvertAdl.h"
-#include "DisplaySettingsConvertUI.h"
+#include "DisplaySettingsGenerateAdl.h"
+#include "DisplaySettingsConvertUIAdl.h"
+#include "DisplaySettingsConvertUICurrent.h"
+#include "DisplaySettingsConvertUIDefault.h"
 #include "DisplaySettingsFunc.h"
+
+#include "TuningFanSettingsGenerateAdl.h"
+#include "TuningFanSettingsConvertUIAdl.h"
+#include "TuningFanSettingsConvertUICurrent.h"
+#include "TuningFanSettingsCache.h"
+#include "TuningFanSettingsMatch.h"
+#include "TuningFanSettingsApply.h"
+#include "AdlTuningMetrics.h"
 
 #include "EyefinityFunc.h"
 #include "EyefinityEvents.h"
 #include "PowerBoostFunc.h"
 #include "PowerBoostEvents.h"
-#include "TuningFanSettingsCache.h"
-#include "TuningFanSettingsConvertAdl.h"
-#include "TuningFanSettingsConvertUI.h"
-#include "TuningFanSettingsMatch.h"
-#include "TuningFanSettingsApply.h"
-#include "AdlTuningMetrics.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
@@ -224,9 +228,9 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
 					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
-
-					//Enable or disable feature unlock button
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
+					textblock_FsrDllLoadPath().Visibility(Visibility::Collapsed);
+					textbox_FsrDllLoadPath().Width(NAN);
 
 					//Show notification
 					if (!silent)
@@ -245,9 +249,9 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
 					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
-
-					//Enable or disable feature unlock button
 					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
+					textblock_FsrDllLoadPath().Visibility(Visibility::Visible);
+					textbox_FsrDllLoadPath().Width(0);
 
 					//Show notification
 					if (!silent)

@@ -19,11 +19,11 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring device_id_w = string_to_wstring(tuningFanSettingsAdl.DeviceId.value());
 
 			//Get tuning fan settings
-			TuningFanSettings& tuningFanSettingsProfile = TuningFanSettings_Profile_Get(device_id_w).value();
+			tuningFanSettingsCurrent = TuningFanSettings_Profile_Get(device_id_w).value();
 
 			//Convert settings values to interface
-			bool adlResult = TuningFanSettings_ADL_Convert_ToUI(tuningFanSettingsAdl);
-			bool profileResult = TuningFanSettings_Profile_Convert_ToUI(tuningFanSettingsProfile);
+			bool adlResult = TuningFanSettings_Convert_ToUI_Adl(tuningFanSettingsAdl);
+			bool profileResult = TuningFanSettings_Convert_ToUI_Current(tuningFanSettingsCurrent);
 
 			//Update button colors
 			if (adlResult && profileResult)

@@ -24,7 +24,17 @@ namespace winrt::RadeonTuner::implementation
 			adl_AppSelectedIndex = combobox_AppSelect().SelectedIndex();
 
 			//Get selected application
-			AdlApplication& selectedApp = AdlAppSelectedGet().value();
+			auto selectedAppWrapper = AdlAppSelectedGet();
+
+			//Check selected application
+			if (!selectedAppWrapper.has_value())
+			{
+				AVDebugWriteLine("ADL application is not selected.");
+				return;
+			}
+
+			//Get selected application
+			AdlApplication& selectedApp = selectedAppWrapper.value();
 
 			//Get application details
 			std::wstring applicationFileName = selectedApp.FileName;
@@ -58,21 +68,6 @@ namespace winrt::RadeonTuner::implementation
 				AdlValuesLoadGraphicsApp();
 			}
 
-			//Enable or disable feature unlock button
-			std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
-			if (ShowExperimental.has_value())
-			{
-				//Fix limit this feature to non global application profiles?
-				if (ShowExperimental.value())
-				{
-					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
-				}
-				else
-				{
-					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
-				}
-			}
-
 			//Enable saving
 			std::thread threadEnableSaving([]()
 				{
@@ -87,7 +82,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("Failed loading selected app values.");
+			AVDebugWriteLine("Failed loading selected app values (Exception)");
 		}
 	}
 
@@ -126,7 +121,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("Failed loading selected display values.");
+			AVDebugWriteLine("Failed loading selected display values (Exception)");
 		}
 	}
 
@@ -178,7 +173,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("Failed loading selected gpu values.");
+			AVDebugWriteLine("Failed loading selected gpu values (Exception)");
 		}
 	}
 }

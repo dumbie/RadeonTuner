@@ -13,7 +13,14 @@ namespace winrt::RadeonTuner::implementation
 
 			DisplaySettings displaySettings{};
 
-			//Set settings
+			//Device identifier
+			try
+			{
+				std::wstring device_id_w = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
+				displaySettings.DeviceId = wstring_to_string(device_id_w);
+			}
+			catch (...) {}
+
 			//HDR Enabled
 			try
 			{

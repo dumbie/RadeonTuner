@@ -1,20 +1,14 @@
 #pragma once
 #include "pch.h"
 #include "MainPage.h"
-#include "AdlDefinitions.h"
 #include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlxValuesResetGraphics()
+	bool MainPage::GraphicsSettings_Convert_ToUI_Default(GraphicsSettings graphicsSettings)
 	{
 		try
 		{
-			AVDebugWriteLine("Resetting graphics settings to defaults.");
-
-			//Get current and default settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
-
 			//FSR Upscaling Override
 			if (graphicsSettings.FsrOverride.Default.has_value())
 			{
@@ -52,7 +46,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Override Library
-			FsrOverrideDllReset();
+			if (graphicsSettings.FsrOvrDLLPath.Default.has_value())
+			{
+				textbox_FsrDllLoadPath().Text(graphicsSettings.FsrOvrDLLPath.Default.value());
+			}
 
 			//FSR Over-The-Air Updates
 			if (graphicsSettings.FsrOtaIndex.Default.has_value())
@@ -114,9 +111,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
-			//Note: changing the FRTC frame rate will force enable FRTC so reset this first.
 			if (graphicsSettings.FrtcFrameRateTarget.Default.has_value())
 			{
+				//Note: Changing the frame rate will force enable FRTC, set opposite of FRTC to trigger FRTC event.
+				if (graphicsSettings.FrtcEnabled.Default.has_value())
+				{
+					toggleswitch_Frtc().IsOn(!graphicsSettings.FrtcEnabled.Default.value());
+				}
 				slider_Frtc_FrameRateTarget().Value(graphicsSettings.FrtcFrameRateTarget.Default.value());
 			}
 
@@ -273,13 +274,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			AVDebugWriteLine("ADL graphics values reset.");
+			AVDebugWriteLine(L"Graphics settings applied to interface.");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine("Failed resetting graphics values (Exception)");
+			AVDebugWriteLine(L"Failed applying graphics settings to interface.");
 			return false;
 		}
 	}

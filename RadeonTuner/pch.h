@@ -56,7 +56,9 @@ namespace winrt
 
 //Classes
 #include "AdlAppsClass.h"
+#include "AdlSettingsClass.h"
 #include "DisplaySettingsClass.h"
 #include "GraphicsSettingsClass.h"
 #include "GraphicsStatusClass.h"
 #include "TuningFanSettingsClass.h"
+#include "MultimediaSettingsClass.h"

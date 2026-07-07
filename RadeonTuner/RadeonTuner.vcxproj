@@ -96,7 +96,6 @@
     <ClInclude Include="AdlDefinitions.h" />
     <ClInclude Include="AdlEyefinity.h" />
     <ClInclude Include="AdlSettingsClass.h" />
-    <ClInclude Include="AdlxResetGraphics.h" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlOverdrive.h" />
     <ClInclude Include="AdlRegistry.h" />
@@ -109,24 +108,26 @@
     <ClInclude Include="AdlxLoopDevice.h" />
     <ClInclude Include="AdlxLoopKeepActive.h" />
     <ClInclude Include="AdlxLoopMetrics.h" />
-    <ClInclude Include="AdlxResetDisplay.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
-    <ClInclude Include="AdlxResetMultimedia.h" />
     <ClInclude Include="AdlxResetShaderCache.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
     <ClInclude Include="ADL\adl_structures_custom.h" />
     <ClInclude Include="ADL\adl_structures_sdk.h" />
     <ClInclude Include="DisplayDetailsIdl.h" />
-    <ClInclude Include="DisplaySettingsConvertAdl.h" />
-    <ClInclude Include="DisplaySettingsConvertUI.h" />
+    <ClInclude Include="DisplaySettingsConvertUIAdl.h" />
+    <ClInclude Include="DisplaySettingsConvertUICurrent.h" />
+    <ClInclude Include="DisplaySettingsConvertUIDefault.h" />
+    <ClInclude Include="DisplaySettingsGenerateAdl.h" />
     <ClInclude Include="EyefinityEvents.h" />
     <ClInclude Include="EyefinityFunc.h" />
     <ClInclude Include="GraphicsFsrOverrideDll.h" />
     <ClInclude Include="GraphicsSettingsClass.h" />
-    <ClInclude Include="GraphicsSettingsConvertAdlApp.h" />
-    <ClInclude Include="GraphicsSettingsConvertAdlRegistry.h" />
-    <ClInclude Include="GraphicsSettingsConvertUI.h" />
+    <ClInclude Include="GraphicsSettingsConvertUIAdl.h" />
+    <ClInclude Include="GraphicsSettingsConvertUICurrent.h" />
+    <ClInclude Include="GraphicsSettingsConvertUIDefault.h" />
+    <ClInclude Include="GraphicsSettingsGenerateAdlApp.h" />
+    <ClInclude Include="GraphicsSettingsGenerateAdlRegistry.h" />
     <ClInclude Include="GraphicsSettingsFunc.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />
@@ -150,8 +151,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="MultimediaSettingsClass.h" />
-    <ClInclude Include="MultimediaSettingsConvertAdl.h" />
-    <ClInclude Include="MultimediaSettingsConvertUI.h" />
+    <ClInclude Include="MultimediaSettingsConvertUICurrent.h" />
+    <ClInclude Include="MultimediaSettingsConvertUIDefault.h" />
+    <ClInclude Include="MultimediaSettingsGenerateAdl.h" />
+    <ClInclude Include="MultimediaSettingsConvertUIAdl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -168,8 +171,9 @@
     <ClInclude Include="DisplaySettingsClass.h" />
     <ClInclude Include="DisplaySettingsFunc.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
-    <ClInclude Include="TuningFanSettingsConvertAdl.h" />
-    <ClInclude Include="TuningFanSettingsConvertUI.h" />
+    <ClInclude Include="TuningFanSettingsConvertUIAdl.h" />
+    <ClInclude Include="TuningFanSettingsConvertUICurrent.h" />
+    <ClInclude Include="TuningFanSettingsGenerateAdl.h" />
     <ClInclude Include="TuningFanSettingsCache.h" />
     <ClInclude Include="TuningFanSettingsApply.h" />
     <ClInclude Include="TuningFanSettingsMatch.h" />
@@ -309,7 +313,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" />
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -319,7 +323,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets'))" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if $(Configuration) == Release (&#xD;&#xA;$(SolutionDir)SignToolExe.exe)&#xD;&#xA;)" />

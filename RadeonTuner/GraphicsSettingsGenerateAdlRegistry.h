@@ -39,7 +39,7 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.MlfiOverride.Support = true;
 
 				//Set default
-				graphicsSettings.MlfiOverride.Default = 1;
+				graphicsSettings.MlfiOverride.Default = 0;
 
 				auto adlRegistry = AdlRegistrySettingGetString(gpuAdapterIndex, "UMD", "MlfiOverride", true);
 				if (adlRegistry.has_value())
@@ -134,7 +134,7 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.FsrOvrDLLPath.Support = true;
 
 				//Set default
-				graphicsSettings.FsrOvrDLLPath.Default = L"";
+				graphicsSettings.FsrOvrDLLPath.Default = FsrOverrideDllGetPathDefault();
 
 				auto adlRegistry = AdlRegistrySettingGetString(gpuAdapterIndex, "UMD", "FsrOvrDLLPath", true);
 				if (adlRegistry.has_value())
@@ -288,9 +288,9 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set current
 					graphicsSettings.BoostEnabled.Current = adlSettings.GlobalEnable;
+					graphicsSettings.BoostMinResolution.Current = adlSettings.GlobalMinRes;
 
 					//Set interface
-					graphicsSettings.BoostMinResolution.Current = adlSettings.GlobalMinRes;
 					graphicsSettings.BoostMinResolution.Minimum = adlSettings.GlobalMinRes_MinLimit;
 					graphicsSettings.BoostMinResolution.Maximum = adlSettings.GlobalMinRes_MaxLimit;
 					graphicsSettings.BoostMinResolution.Step = adlSettings.GlobalMinRes_Step;

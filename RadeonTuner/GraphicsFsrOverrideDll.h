@@ -6,7 +6,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Update FSR dll path text
-	void MainPage::FsrOverrideDllUpdateTextPath(std::wstring dllPath)
+	void MainPage::FsrOverrideDllUpdateTextPathInfo(std::wstring dllPath)
 	{
 		try
 		{
@@ -27,13 +27,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				textblock_FsrDllLoadPath().Text(dllPath);
+				textblock_FsrDllLoadPath().Text(L"Using custom set FSR library file.");
 			}
 		}
 		catch (...)
 		{
 			//Set dll path text
-			textblock_FsrDllLoadPath().Text(L"Using default driver FSR library file.");
+			textblock_FsrDllLoadPath().Text(L"Using unknown FSR library file.");
 		}
 	}
 
@@ -164,60 +164,6 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			AVDebugWriteLine(L"Failed getting default FSR Override Library. (Exception)");
 			return L"";
-		}
-	}
-
-	//Set FSR Override Library
-	bool MainPage::FsrOverrideDllSet(std::wstring dllPath)
-	{
-		try
-		{
-			//Get setting value
-			bool newFailed = true;
-
-			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
-			{
-				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", dllPath);
-			}
-			else
-			{
-				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", dllPath);
-			}
-
-			//Update FSR library version text
-			FsrOverrideDllUpdateTextPath(dllPath);
-			FsrOverrideDllUpdateTextVersion(dllPath);
-
-			//Return result
-			return newFailed;
-		}
-		catch (...)
-		{
-			//Return result
-			AVDebugWriteLine(L"Failed setting FSR Override Library. (Exception)");
-			return false;
-		}
-	}
-
-	//Reset FSR Override Library
-	bool MainPage::FsrOverrideDllReset()
-	{
-		try
-		{
-			//Get default FSR Override Library
-			std::wstring dllPath = FsrOverrideDllGetPathDefault();
-
-			//Return result
-			return FsrOverrideDllSet(dllPath);
-		}
-		catch (...)
-		{
-			//Return result
-			AVDebugWriteLine(L"Failed resetting FSR Override Library. (Exception)");
-			return false;
 		}
 	}
 }

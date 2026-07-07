@@ -65,8 +65,21 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Reset graphics settings
-			bool resetResult = AdlxValuesResetGraphics();
+			//Get current and default settings
+			GraphicsSettings graphicsSettings;
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				graphicsSettings = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
+			}
+			else
+			{
+				graphicsSettings = GraphicsSettings_Generate_FromADLApp(AdlAppSelectedGet().value()).value();
+			}
+
+			//Convert settings to interface
+			bool resetResult = GraphicsSettings_Convert_ToUI_Default(graphicsSettings);
 
 			//Check result
 			if (resetResult)
@@ -107,6 +120,31 @@ namespace winrt::RadeonTuner::implementation
 
 			//Export current settings to file
 			AdlxValuesExportGraphics();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Reset shader cache
+			bool resetResult = AdlxResetShaderCache();
+
+			//Set result
+			if (!resetResult)
+			{
+				ShowNotification(L"Failed resetting shader cache");
+				AVDebugWriteLine(L"Failed resetting shader cache");
+			}
+			else
+			{
+				ShowNotification(L"Shader cache is reset");
+				AVDebugWriteLine(L"Shader cache is reset");
+			}
 		}
 		catch (...) {}
 	}
@@ -164,6 +202,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Upscaling override disabled");
 					AVDebugWriteLine(L"FSR Upscaling override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.FsrOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -222,6 +263,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Frame Generation override disabled");
 					AVDebugWriteLine(L"FSR Frame Generation override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.MlfiOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -280,6 +324,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Frame Generation override disabled");
 					AVDebugWriteLine(L"FSR Frame Generation override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.MfgOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -338,6 +385,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Ray Regeneration override disabled");
 					AVDebugWriteLine(L"FSR Ray Regeneration override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.MldOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -396,6 +446,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Neural Radiance Caching override disabled");
 					AVDebugWriteLine(L"FSR Neural Radiance Caching override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.NrcOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -411,33 +464,6 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
-
-			//Enumeration index correction
-			int setValue = 0;
-			if (newValue == 0)
-			{
-				setValue = 0;
-			}
-			else if (newValue == 1)
-			{
-				setValue = 1;
-			}
-			else if (newValue == 2)
-			{
-				setValue = 2;
-			}
-			else if (newValue == 3)
-			{
-				setValue = 4;
-			}
-			else if (newValue == 4)
-			{
-				setValue = 6;
-			}
-			else if (newValue == 5)
-			{
-				setValue = 8;
-			}
 
 			//Check application type
 			if (AdlAppSelectedGet().value().get().Global)
@@ -461,6 +487,55 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"FSR Frame Generation Ratio set to " + ADL_FSR_MULTIFRAMEGEN_RATIO[newValue]);
 				AVDebugWriteLine(L"FSR Frame Generation Ratio set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.MfgRatio.Current = newValue;
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	{
+		try
+		{
+			//Get setting value
+			auto newValueHstring = sender.as<TextBox>().Text();
+			auto newValue = hstring_to_wstring(newValueHstring);
+			bool newFailed = true;
+
+			//Set FSR library version information
+			FsrOverrideDllUpdateTextPathInfo(newValue);
+			FsrOverrideDllUpdateTextVersion(newValue);
+
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Check application type
+			if (AdlAppSelectedGet().value().get().Global)
+			{
+				//Set setting
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", newValue);
+			}
+			else
+			{
+				//Set setting
+				//newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
+			}
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting FSR Override Library");
+				AVDebugWriteLine(L"Failed setting FSR Override Library");
+			}
+			else
+			{
+				ShowNotification(L"FSR Override Library set");
+				AVDebugWriteLine(L"FSR Override Library set");
+
+				//Update current value
+				graphicsSettingsCurrent.FsrOvrDLLPath.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -484,20 +559,8 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Set FSR Override Library
-			bool newFailed = FsrOverrideDllSet(newValue);
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting FSR Override Library");
-				AVDebugWriteLine(L"Failed setting FSR Override Library");
-			}
-			else
-			{
-				ShowNotification(L"FSR Override Library set to " + newValue);
-				AVDebugWriteLine(L"FSR Override Library set to " << newValue);
-			}
+			//Set text and trigger event
+			textbox_FsrDllLoadPath().Text(newValue);
 		}
 		catch (...) {}
 	}
@@ -509,20 +572,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Reset FSR Override Library
-			bool newFailed = FsrOverrideDllReset();
+			//Get default FSR Override Library
+			std::wstring newValue = FsrOverrideDllGetPathDefault();
 
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting FSR Override Library");
-				AVDebugWriteLine(L"Failed setting FSR Override Library");
-			}
-			else
-			{
-				ShowNotification(L"FSR Override Library set to default");
-				AVDebugWriteLine(L"FSR Override Library set to default");
-			}
+			//Set text and trigger event
+			textbox_FsrDllLoadPath().Text(newValue);
 		}
 		catch (...) {}
 	}
@@ -595,6 +649,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FSR Latency Reduction disabled");
 					AVDebugWriteLine(L"FSR Latency Reduction disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.DeLagEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -656,6 +713,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Enhanced Sync disabled");
 					AVDebugWriteLine(L"Enhanced Sync disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.EnhancedSync.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -694,6 +754,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Vertical Sync set to " + ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Vertical Sync set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.VerticalSync.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -758,6 +821,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Fluid Motion Frames disabled");
 					AVDebugWriteLine(L"Fluid Motion Frames disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.FrameGenEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -791,6 +857,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Motion search mode set to " + REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion search mode set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FrameGenSearchMode.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -824,6 +893,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Motion performance mode set to " + REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion performance mode set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FrameGenPerfMode.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -857,6 +929,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Motion response mode set to " + REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Motion response mode set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FrameGenResponseMode.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -890,6 +965,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Algorithm mode set to " + REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Algorithm mode set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FrameGenAlgorithm.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -978,6 +1056,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Radeon Chill disabled");
 					AVDebugWriteLine(L"Radeon Chill disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.ChillEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1039,6 +1120,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_RadeonChill_Min().Foreground(colorValid);
 				ShowNotification(L"Chill minimum fps set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Chill minimum fps set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.ChillMinFps.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1100,6 +1184,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_RadeonChill_Max().Foreground(colorValid);
 				ShowNotification(L"Chill maximum fps set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Chill maximum fps set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.ChillMaxFps.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1199,6 +1286,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Radeon Boost disabled");
 					AVDebugWriteLine(L"Radeon Boost disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.BoostEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1254,6 +1344,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_RadeonBoost_MinRes().Foreground(colorValid);
 				ShowNotification(L"Minimum resolution set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Minimum resolution set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.BoostMinResolution.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1326,6 +1419,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Image Sharpening disabled");
 					AVDebugWriteLine(L"Image Sharpening disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.RisEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1382,6 +1478,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_RadeonImageSharpening1_Sharpening().Foreground(colorValid);
 				ShowNotification(L"Sharpening set to " + number_to_wstring(newValueInt));
 				AVDebugWriteLine(L"Sharpening set to " << newValueInt);
+
+				//Update current value
+				graphicsSettingsCurrent.RisSharpeningDegree.Current = newValueInt;
 			}
 		}
 		catch (...) {}
@@ -1451,6 +1550,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Image Sharpening disabled");
 					AVDebugWriteLine(L"Image Sharpening disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.Ris2Enabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1520,6 +1622,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Desktop Sharpening disabled");
 					AVDebugWriteLine(L"Desktop Sharpening disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.Ris2DesktopEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1533,8 +1638,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			int newValueInt = (int)e.NewValue();
-			float newValueFloat = (float)e.NewValue();
+			int newValue = (int)e.NewValue();
 			bool newFailed = true;
 
 			//Check application type
@@ -1542,7 +1646,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting
 				ADL_RIS2_SETTINGS adlSettings{};
-				adlSettings.GlobalSharpeningDegree = newValueInt;
+				adlSettings.GlobalSharpeningDegree = newValue;
 
 				ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
 				adlNotificationReason.GlobalSharpeningDegreeChanged = true;
@@ -1568,8 +1672,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 				textbox_RadeonImageSharpening2_Sharpening().Foreground(colorValid);
-				ShowNotification(L"Sharpening set to " + number_to_wstring(newValueInt));
-				AVDebugWriteLine(L"Sharpening set to " << newValueInt);
+				ShowNotification(L"Sharpening set to " + number_to_wstring(newValue));
+				AVDebugWriteLine(L"Sharpening set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.Ris2SharpeningDegree.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1635,6 +1742,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"AA Override disabled");
 					AVDebugWriteLine(L"AA Override disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.AntiAliasingOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1651,132 +1761,69 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
+			//Enumeration index correction
+			std::wstring setValueAsd = L"-1";
+			std::wstring setValueAse = L"0";
+			std::wstring setValueAstt = L"0";
+			if (newValue == 0)
+			{
+				//Multisampling
+				setValueAsd = L"-1";
+				setValueAse = L"0";
+				setValueAstt = L"0";
+			}
+			else if (newValue == 1)
+			{
+				//Adaptive Multisampling
+				setValueAsd = L"1";
+				setValueAse = L"0";
+				setValueAstt = L"1";
+			}
+			else if (newValue == 2)
+			{
+				//Supersampling
+				setValueAsd = L"1";
+				setValueAse = L"1";
+				setValueAstt = L"1";
+			}
+
 			//Set setting
 			if (AdlAppSelectedGet().value().get().Global)
 			{
-				if (newValue == 0)
-				{
-					//Set setting
-					//Multisampling
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"-1");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"0");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"0");
-				}
-				else if (newValue == 1)
-				{
-					//Set setting
-					//Adaptive Multisampling
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"1");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"0");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"1");
-				}
-				else if (newValue == 2)
-				{
-					//Set setting
-					//Supersampling
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", L"1");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", L"1");
-					newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", L"1");
-				}
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", setValueAsd);
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", setValueAse);
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASTT", setValueAstt);
 			}
 			else
 			{
-				if (newValue == 0)
-				{
-					std::vector<AdlAppProperty> adlAppProperties{};
+				std::vector<AdlAppProperty> adlAppProperties{};
 
-					AdlAppProperty adlAppProperty0{};
-					adlAppProperty0.Name = L"ASD";
-					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue0.Value = L"-1";
-					adlAppProperty0.Values = { adlAppPropertyValue0 };
-					adlAppProperties.push_back(adlAppProperty0);
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"ASD";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.Value = setValueAsd;
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 
-					AdlAppProperty adlAppProperty1{};
-					adlAppProperty1.Name = L"ASE";
-					AdlAppPropertyValue adlAppPropertyValue1{};
-					adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue1.Value = L"0";
-					adlAppProperty1.Values = { adlAppPropertyValue1 };
-					adlAppProperties.push_back(adlAppProperty1);
+				AdlAppProperty adlAppProperty1{};
+				adlAppProperty1.Name = L"ASE";
+				AdlAppPropertyValue adlAppPropertyValue1{};
+				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue1.Value = setValueAse;
+				adlAppProperty1.Values = { adlAppPropertyValue1 };
+				adlAppProperties.push_back(adlAppProperty1);
 
-					AdlAppProperty adlAppProperty2{};
-					adlAppProperty2.Name = L"ASTT";
-					AdlAppPropertyValue adlAppPropertyValue2{};
-					adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue2.Value = L"0";
-					adlAppProperty2.Values = { adlAppPropertyValue2 };
-					adlAppProperties.push_back(adlAppProperty2);
+				AdlAppProperty adlAppProperty2{};
+				adlAppProperty2.Name = L"ASTT";
+				AdlAppPropertyValue adlAppPropertyValue2{};
+				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue2.Value = setValueAstt;
+				adlAppProperty2.Values = { adlAppPropertyValue2 };
+				adlAppProperties.push_back(adlAppProperty2);
 
-					//Set setting
-					//Multisampling
-					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
-				}
-				else if (newValue == 1)
-				{
-					std::vector<AdlAppProperty> adlAppProperties{};
-
-					AdlAppProperty adlAppProperty0{};
-					adlAppProperty0.Name = L"ASD";
-					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue0.Value = L"1";
-					adlAppProperty0.Values = { adlAppPropertyValue0 };
-					adlAppProperties.push_back(adlAppProperty0);
-
-					AdlAppProperty adlAppProperty1{};
-					adlAppProperty1.Name = L"ASE";
-					AdlAppPropertyValue adlAppPropertyValue1{};
-					adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue1.Value = L"0";
-					adlAppProperty1.Values = { adlAppPropertyValue1 };
-					adlAppProperties.push_back(adlAppProperty1);
-
-					AdlAppProperty adlAppProperty2{};
-					adlAppProperty2.Name = L"ASTT";
-					AdlAppPropertyValue adlAppPropertyValue2{};
-					adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue2.Value = L"1";
-					adlAppProperty2.Values = { adlAppPropertyValue2 };
-					adlAppProperties.push_back(adlAppProperty2);
-
-					//Set setting
-					//Adaptive Multisampling
-					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
-				}
-				else if (newValue == 2)
-				{
-					std::vector<AdlAppProperty> adlAppProperties{};
-
-					AdlAppProperty adlAppProperty0{};
-					adlAppProperty0.Name = L"ASD";
-					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue0.Value = L"1";
-					adlAppProperty0.Values = { adlAppPropertyValue0 };
-					adlAppProperties.push_back(adlAppProperty0);
-
-					AdlAppProperty adlAppProperty1{};
-					adlAppProperty1.Name = L"ASE";
-					AdlAppPropertyValue adlAppPropertyValue1{};
-					adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue1.Value = L"1";
-					adlAppProperty1.Values = { adlAppPropertyValue1 };
-					adlAppProperties.push_back(adlAppProperty1);
-
-					AdlAppProperty adlAppProperty2{};
-					adlAppProperty2.Name = L"ASTT";
-					AdlAppPropertyValue adlAppPropertyValue2{};
-					adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
-					adlAppPropertyValue2.Value = L"1";
-					adlAppProperty2.Values = { adlAppPropertyValue2 };
-					adlAppProperties.push_back(adlAppProperty2);
-
-					//Set setting
-					//Supersampling
-					newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
-				}
+				//Set setting
+				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
 			}
 
 			//Show result
@@ -1789,6 +1836,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"AA method set to " + ADLX_ANTI_ALIASING_METHOD_STRING[newValue]);
 				AVDebugWriteLine(L"AA method set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.AntiAliasingMethod.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1806,7 +1856,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Enumeration index correction
-			std::wstring setValue = L"";
+			std::wstring setValue = L"2";
 			if (newValue == 0)
 			{
 				setValue = L"2";
@@ -1842,6 +1892,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"AA level set to " + ADLX_ANTI_ALIASING_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"AA level set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.AntiAliasingLevel.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1902,6 +1955,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"EQAA disabled");
 					AVDebugWriteLine(L"EQAA disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.AntiAliasingEnhancedQuality.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1960,6 +2016,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Morphological AA disabled");
 					AVDebugWriteLine(L"Morphological AA disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.AntiAliasingMorphological.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1979,50 +2038,53 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Enumeration index correction
-			int setValue = 0;
+			std::wstring setValue = L"0";
 			if (newValue == 0)
 			{
-				setValue = 0;
+				setValue = L"0";
 			}
 			else if (newValue == 1)
 			{
-				setValue = 2;
+				setValue = L"2";
 			}
 			else if (newValue == 2)
 			{
-				setValue = 4;
+				setValue = L"4";
 			}
 			else if (newValue == 3)
 			{
-				setValue = 8;
+				setValue = L"8";
 			}
 			else if (newValue == 4)
 			{
-				setValue = 16;
+				setValue = L"16";
 			}
 
 			//Check application type
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "AnisoDegree", number_to_wstring(setValue));
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "AnisoDegree", setValue);
 			}
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"AnisoDegree", number_to_wstring(setValue));
+				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"AnisoDegree", setValue);
 			}
 
 			//Show result
 			if (newFailed)
 			{
-				ShowNotification(L"Failed setting Anisotropic level");
-				AVDebugWriteLine(L"Failed setting Anisotropic level");
+				ShowNotification(L"Failed setting Anisotropic");
+				AVDebugWriteLine(L"Failed setting Anisotropic");
 			}
 			else
 			{
-				ShowNotification(L"Anisotropic level set to " + ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[newValue]);
-				AVDebugWriteLine(L"Anisotropic level set to " << newValue);
+				ShowNotification(L"Anisotropic set to " + ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[newValue]);
+				AVDebugWriteLine(L"Anisotropic set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.AnisotropicOverride.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2071,6 +2133,9 @@ namespace winrt::RadeonTuner::implementation
 
 				ShowNotification(L"Tessellation mode set to " + ADLX_TESSELLATION_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Tessellation mode set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.TessellationMode.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2088,50 +2153,50 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Enumeration index correction
-			int setValue = 0;
+			std::wstring setValue = L"1";
 			if (newValue == 0)
 			{
-				setValue = 1;
+				setValue = L"1";
 			}
 			else if (newValue == 1)
 			{
-				setValue = 2;
+				setValue = L"2";
 			}
 			else if (newValue == 2)
 			{
-				setValue = 4;
+				setValue = L"4";
 			}
 			else if (newValue == 3)
 			{
-				setValue = 6;
+				setValue = L"6";
 			}
 			else if (newValue == 4)
 			{
-				setValue = 8;
+				setValue = L"8";
 			}
 			else if (newValue == 5)
 			{
-				setValue = 16;
+				setValue = L"16";
 			}
 			else if (newValue == 6)
 			{
-				setValue = 32;
+				setValue = L"32";
 			}
 			else if (newValue == 7)
 			{
-				setValue = 64;
+				setValue = L"64";
 			}
 
 			//Check application type
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "Tessellation", number_to_wstring(setValue));
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "Tessellation", setValue);
 			}
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Tessellation", number_to_wstring(setValue));
+				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Tessellation", setValue);
 			}
 
 			//Show result
@@ -2144,31 +2209,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Tessellation level set to " + ADLX_TESSELLATION_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"Tessellation level set to " << newValue);
-			}
-		}
-		catch (...) {}
-	}
 
-	void MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Reset shader cache
-			bool resetResult = AdlxResetShaderCache();
-
-			//Set result
-			if (!resetResult)
-			{
-				ShowNotification(L"Failed resetting shader cache");
-				AVDebugWriteLine(L"Failed resetting shader cache");
-			}
-			else
-			{
-				ShowNotification(L"Shader cache is reset");
-				AVDebugWriteLine(L"Shader cache is reset");
+				//Update current value
+				graphicsSettingsCurrent.TessellationLevel.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2227,6 +2270,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Triple buffering disabled");
 					AVDebugWriteLine(L"Triple buffering disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.OpenGLTripleBuffering.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2266,6 +2312,9 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				ShowNotification(L"Filtering quality set to " + REGISTRY_TEXTURE_FILTERING_QUALITY_STRING[newValue]);
 				AVDebugWriteLine(L"Filtering quality set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.TextureFilteringQuality.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2324,6 +2373,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Format optimization disabled");
 					AVDebugWriteLine(L"Format optimization disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.SurfaceFormatOptimization.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2402,6 +2454,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FRTC disabled");
 					AVDebugWriteLine(L"FRTC disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.FrtcEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2446,6 +2501,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Frtc_Fps().Foreground(colorValid);
 				ShowNotification(L"FRTC fps set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"FRTC fps set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FrtcFrameRateTarget.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2467,7 +2525,7 @@ namespace winrt::RadeonTuner::implementation
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Enumeration index correction
-				int setValue = 0;
+				int setValue = 1;
 				if (newValue)
 				{
 					setValue = 1;
@@ -2511,6 +2569,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"10-Bit pixel format disabled");
 					AVDebugWriteLine(L"10-Bit pixel format disabled");
 				}
+
+				//Update current value
+				graphicsSettingsCurrent.OpenGL10BitPixelFormat.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -2554,6 +2615,9 @@ namespace winrt::RadeonTuner::implementation
 				//Set result
 				ShowNotification(L"FSR OTA Updates set to " + REGISTRY_FSR_OTA_CONTROL_STRING[newValue]);
 				AVDebugWriteLine(L"FSR OTA Updates set to " << newValue);
+
+				//Update current value
+				graphicsSettingsCurrent.FsrOtaIndex.Current = newValue;
 			}
 		}
 		catch (...) {}

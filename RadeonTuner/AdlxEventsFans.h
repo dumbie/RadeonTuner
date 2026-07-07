@@ -12,29 +12,33 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			bool fanControl = senderElement.IsOn();
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
 
 			//Enable or disable interface
-			toggleswitch_Fan_Zero_Rpm().IsEnabled(fanControl);
-			slider_Fan_Speed_0().IsEnabled(fanControl);
-			slider_Fan_Temp_0().IsEnabled(fanControl);
-			slider_Fan_Speed_1().IsEnabled(fanControl);
-			slider_Fan_Temp_1().IsEnabled(fanControl);
-			slider_Fan_Speed_2().IsEnabled(fanControl);
-			slider_Fan_Temp_2().IsEnabled(fanControl);
-			slider_Fan_Speed_3().IsEnabled(fanControl);
-			slider_Fan_Temp_3().IsEnabled(fanControl);
-			slider_Fan_Speed_4().IsEnabled(fanControl);
-			slider_Fan_Temp_4().IsEnabled(fanControl);
+			toggleswitch_Fan_Zero_Rpm().IsEnabled(newValue);
+			slider_Fan_Speed_0().IsEnabled(newValue);
+			slider_Fan_Temp_0().IsEnabled(newValue);
+			slider_Fan_Speed_1().IsEnabled(newValue);
+			slider_Fan_Temp_1().IsEnabled(newValue);
+			slider_Fan_Speed_2().IsEnabled(newValue);
+			slider_Fan_Temp_2().IsEnabled(newValue);
+			slider_Fan_Speed_3().IsEnabled(newValue);
+			slider_Fan_Temp_3().IsEnabled(newValue);
+			slider_Fan_Speed_4().IsEnabled(newValue);
+			slider_Fan_Temp_4().IsEnabled(newValue);
 
 			//Update fan graph opacity
-			grid_Fan_Graph().Opacity(fanControl ? 1.0 : 0.4);
+			grid_Fan_Graph().Opacity(newValue ? 1.0 : 0.4);
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Update current value
+			tuningFanSettingsCurrent.FanControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -46,8 +50,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
-			if (senderElement.IsOn())
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			if (newValue)
 			{
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Visible);
@@ -62,6 +69,9 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Update current value
+			tuningFanSettingsCurrent.FanZeroRpm.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -90,6 +100,18 @@ namespace winrt::RadeonTuner::implementation
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorIgnored);
 			button_Fan_Apply().Background(colorIgnored);
+
+			//Update current value
+			tuningFanSettingsCurrent.FanSpeed0.Current = (int)slider_Fan_Speed_0().Value();
+			tuningFanSettingsCurrent.FanSpeed1.Current = (int)slider_Fan_Speed_1().Value();
+			tuningFanSettingsCurrent.FanSpeed2.Current = (int)slider_Fan_Speed_2().Value();
+			tuningFanSettingsCurrent.FanSpeed3.Current = (int)slider_Fan_Speed_3().Value();
+			tuningFanSettingsCurrent.FanSpeed4.Current = (int)slider_Fan_Speed_4().Value();
+			tuningFanSettingsCurrent.FanTemp0.Current = (int)slider_Fan_Temp_0().Value();
+			tuningFanSettingsCurrent.FanTemp1.Current = (int)slider_Fan_Temp_1().Value();
+			tuningFanSettingsCurrent.FanTemp2.Current = (int)slider_Fan_Temp_2().Value();
+			tuningFanSettingsCurrent.FanTemp3.Current = (int)slider_Fan_Temp_3().Value();
+			tuningFanSettingsCurrent.FanTemp4.Current = (int)slider_Fan_Temp_4().Value();
 		}
 		catch (...) {}
 	}
@@ -242,9 +264,9 @@ namespace winrt::RadeonTuner::implementation
 			fanPoints.Append(Point{ fanTempEnd, fanSpeedEnd });
 
 			//Set zero rpm line position
-			if (tuningFanSettings.FanZeroTemp.Current.has_value())
+			if (tuningFanSettings.FanZeroTemp >= 0)
 			{
-				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp.Current.value() / 100 * graphWidth;
+				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp / 100 * graphWidth;
 				grid_Fan_Zero_Rpm_Line_Gpu().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
 				grid_Fan_Zero_Rpm_Line_Profile().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
 			}

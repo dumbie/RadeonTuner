@@ -5,13 +5,10 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlxValuesResetMultimedia()
+	bool MainPage::MultimediaSettings_Convert_ToUI_Default(MultimediaSettings multimediaSettings)
 	{
 		try
 		{
-			//Get current and default settings
-			MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
-
 			//Upscaling
 			if (multimediaSettings.VideoUpscaling.Default.has_value())
 			{
@@ -26,12 +23,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
+			AVDebugWriteLine(L"Multimedia settings applied to interface.");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine("Failed resetting multimedia settings.");
+			AVDebugWriteLine(L"Failed applying multimedia settings to interface.");
 			return false;
 		}
 	}

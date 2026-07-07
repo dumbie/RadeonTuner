@@ -111,9 +111,6 @@
     <ClInclude Include="AdlxValuesImportTuning.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsConvertUI.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
     <ClInclude Include="DisplaySettingsFunc.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
@@ -171,12 +168,6 @@
     <ClInclude Include="AdlValuesLoadGraphicsRegistry.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxResetDisplay.h">
-      <Filter>Page Files\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxResetGraphics.h">
-      <Filter>Page Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxResetShaderCache.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
@@ -195,9 +186,6 @@
     <ClInclude Include="AdlxValuesLoadSelect.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxResetMultimedia.h">
-      <Filter>Page Files\Multimedia</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsSettingsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
@@ -206,12 +194,6 @@
     </ClInclude>
     <ClInclude Include="AdlTuningMetrics.h">
       <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplaySettingsConvertUI.h">
-      <Filter>Page Files\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsSettingsConvertUI.h">
-      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlAppsSetDefaults.h">
       <Filter>Page Files\Graphics\Apps</Filter>
@@ -249,25 +231,25 @@
     <ClInclude Include="TuningFanSettingsMatch.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsConvertAdl.h">
+    <ClInclude Include="TuningFanSettingsGenerateAdl.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="DisplaySettingsConvertAdl.h">
+    <ClInclude Include="DisplaySettingsGenerateAdl.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsSettingsConvertAdlRegistry.h">
+    <ClInclude Include="GraphicsSettingsGenerateAdlRegistry.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="MultimediaSettingsClass.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
-    <ClInclude Include="MultimediaSettingsConvertAdl.h">
+    <ClInclude Include="MultimediaSettingsGenerateAdl.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
-    <ClInclude Include="MultimediaSettingsConvertUI.h">
+    <ClInclude Include="MultimediaSettingsConvertUIAdl.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsSettingsConvertAdlApp.h">
+    <ClInclude Include="GraphicsSettingsGenerateAdlApp.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlGraphicsStatus.h">
@@ -275,6 +257,36 @@
     </ClInclude>
     <ClInclude Include="AdlSettingsClass.h">
       <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsConvertUIAdl.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="TuningFanSettingsConvertUICurrent.h">
+      <Filter>Page Files\Tuning</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsConvertUIAdl.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsConvertUICurrent.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsConvertUIDefault.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertUIAdl.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertUICurrent.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsConvertUIDefault.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsConvertUIDefault.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsConvertUICurrent.h">
+      <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

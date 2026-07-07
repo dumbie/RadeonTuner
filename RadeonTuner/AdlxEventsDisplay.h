@@ -12,8 +12,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Reset display settings
-			bool resetResult = AdlxValuesResetDisplay();
+			//Get current and default settings
+			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
+
+			//Convert settings to interface
+			bool resetResult = DisplaySettings_Convert_ToUI_Default(displaySettings);
 
 			//Check result
 			if (resetResult)
@@ -108,6 +111,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"High Dynamic Range disabled");
 					AVDebugWriteLine(L"High Dynamic Range disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.HdrEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -140,6 +146,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"HDR Media Profile set to " + ADL_HDR_TYPE_PREFERENCE[newValue]);
 				AVDebugWriteLine(L"HDR Media Profile set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.HdrMediaProfile.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -197,6 +206,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"FreeSync disabled");
 					AVDebugWriteLine(L"FreeSync disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.FreeSyncEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -253,6 +265,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Virtual Super Resolution disabled");
 					AVDebugWriteLine(L"Virtual Super Resolution disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.VsrEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -266,11 +281,12 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex() + 1;
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			auto setValue = newValue + 1;
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
+			adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, setValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -283,8 +299,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				ShowNotification(L"Color depth set to " + ADLX_COLOR_DEPTH_STRING[newValue]);
-				AVDebugWriteLine(L"Color depth set to " << newValue);
+				ShowNotification(L"Color depth set to " + ADLX_COLOR_DEPTH_STRING[setValue]);
+				AVDebugWriteLine(L"Color depth set to " << setValue);
+
+				//Update current value
+				displaySettingsCurrent.ColorDepth.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -299,6 +318,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			auto setValue = newValue + 1;
 			bool newFailed = true;
 
 			//Enumeration index correction
@@ -338,8 +358,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[newValue + 1]);
-				AVDebugWriteLine(L"Pixel format set to " << newValue);
+				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[setValue]);
+				AVDebugWriteLine(L"Pixel format set to " << setValue);
+
+				//Update current value
+				displaySettingsCurrent.PixelFormat.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -387,6 +410,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Color enhancement set to " + ADLX_SCE_PROFILE_STRING[newValue]);
 				AVDebugWriteLine(L"Color enhancement set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.ColorEnhancement.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -448,6 +474,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Temperature Control disabled");
 					AVDebugWriteLine(L"Temperature Control disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.ColorTemperatureControl.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -484,6 +513,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_ColorTemperature().Foreground(colorValid);
 				ShowNotification(L"Color temperature set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Color temperature set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.ColorTemperatureKelvin.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -520,6 +552,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Brightness().Foreground(colorValid);
 				ShowNotification(L"Brightness set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Brightness set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.Brightness.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -556,6 +591,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Contrast().Foreground(colorValid);
 				ShowNotification(L"Contrast set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Contrast set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.Contrast.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -592,6 +630,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Saturation().Foreground(colorValid);
 				ShowNotification(L"Saturation set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Saturation set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.Saturation.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -628,6 +669,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Hue().Foreground(colorValid);
 				ShowNotification(L"Hue set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Hue set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.Hue.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -686,6 +730,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"CVDC Control disabled");
 					AVDebugWriteLine(L"CVDC Control disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.CVDCControl.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -722,6 +769,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Protanopia().Foreground(colorValid);
 				ShowNotification(L"Protanopia set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Protanopia set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.CVDCProtanopia.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -758,6 +808,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Deuteranopia().Foreground(colorValid);
 				ShowNotification(L"Deuteranopia set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Deuteranopia set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.CVDCDeuteranopia.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -794,6 +847,9 @@ namespace winrt::RadeonTuner::implementation
 				textbox_Display_Tritanopia().Foreground(colorValid);
 				ShowNotification(L"Tritanopia set to " + number_to_wstring(newValue));
 				AVDebugWriteLine(L"Tritanopia set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.CVDCTritanopia.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -846,6 +902,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"GPU Scaling disabled");
 					AVDebugWriteLine(L"GPU Scaling disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.GpuScalingEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -902,6 +961,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Integer Scaling disabled");
 					AVDebugWriteLine(L"Integer Scaling disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.IntegerScalingEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -948,6 +1010,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Scaling mode set to " + ADLX_SCALE_MODE_STRING[newValue]);
 				AVDebugWriteLine(L"Scaling mode set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.ScalingMode.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1000,6 +1065,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"HDCP Support disabled");
 					AVDebugWriteLine(L"HDCP Support disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.HDCPEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1054,6 +1122,9 @@ namespace winrt::RadeonTuner::implementation
 					ShowNotification(L"Vari-Bright disabled");
 					AVDebugWriteLine(L"Vari-Bright disabled");
 				}
+
+				//Update current value
+				displaySettingsCurrent.VariBrightEnabled.Current = newValue;
 			}
 		}
 		catch (...) {}
@@ -1086,6 +1157,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Vari-Bright set to " + ADLX_VARIBRIGHT_LEVEL_STRING[newValue]);
 				AVDebugWriteLine(L"Vari-Bright set to " << newValue);
+
+				//Update current value
+				displaySettingsCurrent.VariBrightLevel.Current = newValue;
 			}
 		}
 		catch (...) {}
