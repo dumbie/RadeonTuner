@@ -114,13 +114,13 @@
 
                 <!-- Buttons -->
                 <VariableSizedWrapGrid x:Name="stackpanel_Tuning_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings."/>
+                    <Button x:Name="button_Tuning_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings.&#10;&#10;* Green: Settings are up to date.&#10;* Orange: Settings changed please apply.&#10;* Red: Settings failed to apply."/>
                     <Button x:Name="button_Tuning_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Tuning_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Tuning_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Fan_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings."/>
+                    <Button x:Name="button_Fan_Apply" Click="button_Tuning_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply tuning and fans settings.&#10;&#10;* Green: Settings are up to date.&#10;* Orange: Settings changed please apply.&#10;* Red: Settings failed to apply."/>
                     <Button x:Name="button_Fan_Reset" Click="button_Tuning_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset tuning and fans settings to it's defaults."/>
                     <Button x:Name="button_Fan_Import" Click="button_Tuning_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import tuning and fans settings from file, the settings do not automatically get applied."/>
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
@@ -165,7 +165,7 @@
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                     <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
                                     <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
+                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Settings set in application profiles are shared between your GPU's.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
                                 </StackPanel>
                             </Grid>
 
@@ -257,16 +257,16 @@
                                     <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (dll) file that gets used when overriding FSR features in applications."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (amdxcffx dll) file that gets used when overriding FSR features in applications."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA3 or newer graphic cards."/>
                                         <TextBlock Text="FSR Override Library" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{StaticResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center"/>
-
                                     </StackPanel>
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Button x:Name="button_FsrDllLoadPath_Set" Content="Set" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
                                         <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
                                         <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="textbox_FsrDllLoadPath" Width="0" Text="..." Margin="10,0,0,0" Style="{ThemeResource ApplicationTextBoxReadOnly}" VerticalAlignment="Center" TextChanging="textbox_FsrDllLoadPath_TextChanged"/>
                                     </StackPanel>
 
                                     <!-- FSR Over-The-Air Updates -->
@@ -292,8 +292,8 @@
                                         <!-- Fluid Motion Frames Enabled -->
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames beyond the in-game limit, resulting in a smoother experience.&#10;&#10;As this feature may introduce additional latency in games, it is recommended to utilize Radeon Anti-Lag for optimal performance."/>
-                                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards.&#10;&#10;* This setting only works when using the 'Default' driver software installation type and needs Adrenalin Software to be running in the background and also requires an application to be added to the game library."/>
+                                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames beyond the in-game limit, resulting in a smoother experience."/>
+                                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may introduce additional latency in games, it is recommended to use 'FSR Latency Reduction' for optimal performance.&#10;&#10;* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards.&#10;&#10;* This setting disables 'Vertical Sync' and 'Frame Rate Target Control' when active, you can still limit the FPS using 'Radeon Chill'.&#10;&#10;* This setting only works when using the 'Default' driver software installation type and needs Adrenalin Software to be running in the background and also requires an application to be added to the game library."/>
                                                 <ToggleSwitch x:Name="toggleswitch_FrameGenEnabled" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_FrameGenEnabled_Toggled"/>
                                             </StackPanel>
 
@@ -348,7 +348,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Chill conserves power and reduces heat by adjusting the frame rate based on the intensity of in-game movement."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications.&#10;&#10;* This setting cannot be used when 'FSR Latency Reduction' is enabled."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications.&#10;&#10;* This setting cannot be used when 'FSR Latency Reduction' or 'Radeon Boost' is enabled."/>
                                         <Image x:Name="image_RadeonChill_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
                                     </StackPanel>
@@ -357,10 +357,10 @@
                                             <Image Source="/Assets/Link.png" Width="24" Height="24" ToolTipService.ToolTip="Match minimum and maximum when changing Radeon Chill to limit frames per second instead of adjusting."/>
                                         </Button>
                                         <TextBlock Text="Min" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonChill_Min" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox x:Name="textbox_RadeonChill_Min" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
                                         <TextBlock Text="Max" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
                                         <TextBlock Text="FPS" VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -377,8 +377,8 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Maximum" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_Frtc_Fps" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_Fps, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider x:Name="slider_Frtc_Fps" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_Fps_ValueChanged"/>
+                                        <TextBox x:Name="textbox_Frtc_Fps" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_FrameRateTarget, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider x:Name="slider_Frtc_FrameRateTarget" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged"/>
                                         <TextBlock Text="FPS" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -389,14 +389,14 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinRes, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider x:Name="slider_RadeonBoost_MinRes" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinRes_ValueChanged"/>
+                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider x:Name="slider_RadeonBoost_MinResolution" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -409,7 +409,7 @@
                                     <!-- Radeon Image Sharpening 1 -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or older graphic cards and in application profiles.&#10;&#10;* DirectX 9 applications are only supported on RDNA and newer graphic cards.&#10;&#10;* This setting does not work with HDR enabled and OpenGL applications."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* As Global setting this feature only works on RDNA3 and older graphic cards and requires using full-screen mode.&#10;&#10;* In application profiles this setting only works on RDNA and newer graphic cards.&#10;&#10;* DirectX 9 applications are only supported on RDNA and newer graphic cards."/>
                                         <Image x:Name="image_RadeonImageSharpening1_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening1" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 1" OnContent="Radeon Image Sharpening 1" Toggled="toggleswitch_RadeonImageSharpening1_Toggled"/>
                                     </StackPanel>
@@ -417,7 +417,7 @@
                                     <!-- Radeon Image Sharpening 1 Sharpness -->
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonImageSharpening1_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox x:Name="textbox_RadeonImageSharpening1_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonImageSharpening1_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -443,7 +443,7 @@
                                     <!-- Radeon Image Sharpening 2 Sharpness -->
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonImageSharpening2_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox x:Name="textbox_RadeonImageSharpening2_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonImageSharpening2_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -454,13 +454,13 @@
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <!-- Vertical Refresh -->
+                                    <!-- Vertical Sync -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vertical refresh synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;* Limits the frame rate at the display's refresh rate."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vertical Sync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;* Limits the frame rate at the display's refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
-                                        <TextBlock Margin="10,0,0,0" Text="Wait for Vertical Refresh" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Vertical Sync" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_VerticalRefresh" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalRefresh_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_VerticalSync" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalSync_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -475,7 +475,8 @@
 
                                     <!-- OpenGL Triple Buffering -->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Alternative vertical refresh mode exclusively for OpenGL applications."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Alternative vertical refresh mode exclusively for OpenGL applications.&#10;&#10;* Does not limit the frame rate at the display's refresh rate."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
                                         <ToggleSwitch x:Name="toggleswitch_OpenGLTripleBuffering" Margin="10,0,0,0" OffContent="OpenGL Triple Buffering" OnContent="OpenGL Triple Buffering" Toggled="toggleswitch_OpenGLTripleBuffering_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -515,7 +516,7 @@
                                     <!-- Enhanced Quality Anti-Aliasing -->
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enhanced Quality Anti-Aliasing (EQAA) is an anti-aliasing technology that offers advanced smoothing of aliased edges without requiring additional video memory but comes with a small additional performance cost."/>
-                                        <ToggleSwitch x:Name="toggleswitch_EnhancedQualityAntiAliasing" Margin="10,0,0,0" OffContent="Enhanced Quality Anti-Aliasing" OnContent="Enhanced Quality Anti-Aliasing" Toggled="toggleswitch_EnhancedQualityAntiAliasing_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_AntiAliasingEnhancedQuality" Margin="10,0,0,0" OffContent="Enhanced Quality Anti-Aliasing" OnContent="Enhanced Quality Anti-Aliasing" Toggled="toggleswitch_AntiAliasingEnhancedQuality_Toggled"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -539,7 +540,7 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' or 'Bilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
 
@@ -607,7 +608,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings before enabling Keep Active.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
-                                    <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active"/>
+                                    <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active" Toggled="toggleswitch_KeepActive_Toggled"/>
                                     <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -627,7 +628,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Core_Min" Text="{Binding ElementName=slider_Core_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Core_Min" Text="{Binding ElementName=slider_Core_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Core_Min" ValueChanged="slider_Core_Min_ValueChanged" Margin="10,0,0,0"/>
                                     </Grid>
 
@@ -643,7 +644,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Core_Max" Text="{Binding ElementName=slider_Core_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Core_Max" Text="{Binding ElementName=slider_Core_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Core_Max" ValueChanged="slider_Core_Max_ValueChanged" Margin="10,0,0,0"/>
                                     </Grid>
                                 </StackPanel>
@@ -658,7 +659,7 @@
                                         <TextBlock Margin="10,0,0,0" Text="Memory Timing" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Timing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_Memory_Timing" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_Memory_Timing" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Memory_Timing_SelectionChanged"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -672,8 +673,8 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" Text="{Binding ElementName=slider_Memory_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" Text="{Binding ElementName=slider_Memory_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0" ValueChanged="slider_Memory_Max_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -692,8 +693,8 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" Text="{Binding ElementName=slider_Power_Limit, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" Text="{Binding ElementName=slider_Power_Limit, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0" ValueChanged="slider_Power_Limit_ValueChanged"/>
                                     </Grid>
 
                                     <Grid x:Name="grid_Power_Limit_PB" Margin="0,10,0,0" Visibility="Collapsed">
@@ -702,9 +703,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is enabled."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Limit_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Limit_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_Limit_PB" Margin="10,0,0,0"/>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Limit_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Limit_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_Limit_PB" Margin="10,0,0,0" ValueChanged="slider_Power_Limit_PB_ValueChanged"/>
                                     </Grid>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -719,8 +720,8 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0" ValueChanged="slider_Power_Voltage_ValueChanged"/>
                                     </Grid>
 
                                     <Grid x:Name="grid_Power_Voltage_PB" Margin="0,5,0,0" Visibility="Collapsed">
@@ -729,9 +730,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is enabled."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Voltage_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Voltage_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_Voltage_PB" Margin="10,0,0,0"/>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Voltage_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Voltage_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_Voltage_PB" Margin="10,0,0,0" ValueChanged="slider_Power_Voltage_PB_ValueChanged"/>
                                     </Grid>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -746,8 +747,8 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0" ValueChanged="slider_Power_TDC_ValueChanged"/>
                                     </Grid>
 
                                     <Grid x:Name="grid_Power_TDC_PB" Margin="0,5,0,0" Visibility="Collapsed">
@@ -756,9 +757,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is enabled."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_TDC_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_TDC_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_TDC_PB" Margin="10,0,0,0"/>
+                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_Power_TDC_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_TDC_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Power_TDC_PB" Margin="10,0,0,0" ValueChanged="slider_Power_TDC_PB_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -862,7 +863,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -872,7 +873,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -892,7 +893,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -902,7 +903,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -922,7 +923,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -932,7 +933,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -952,7 +953,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -962,7 +963,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -982,7 +983,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -992,7 +993,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
                                             <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_Fan_ValueChanged"/>
                                         </Grid>
@@ -1011,7 +1012,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable High Dynamic Range for the display to enable a wider range of colors to improve visual quality."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires a High Dynamic Range compatible monitor."/>
-                                        <ToggleSwitch x:Name="toggleswitch_HdrEnable" Margin="10,0,0,0" OffContent="High Dynamic Range" OnContent="High Dynamic Range" Toggled="toggleswitch_HdrEnable_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_HdrEnabled" Margin="10,0,0,0" OffContent="High Dynamic Range" OnContent="High Dynamic Range" Toggled="toggleswitch_HdrEnabled_Toggled"/>
                                     </StackPanel>
 
                                     <!-- HDR Media Profile -->
@@ -1023,7 +1024,7 @@
                                                 <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync Premium Pro compatible monitor."/>
                                                 <TextBlock Text="HDR Media Profile" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             </StackPanel>
-                                            <ComboBox x:Name="combobox_Display_HdrTypePreference" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_HdrTypePreference_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                            <ComboBox x:Name="combobox_Display_HdrMediaProfile" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_HdrMediaProfile_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -1059,7 +1060,7 @@
                                     <!-- GPU Scaling -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display.&#10;&#10;When not enabled, displays typically handle scaling themselves."/>
-                                        <ToggleSwitch x:Name="toggleswitch_GPUScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GPUScaling_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_GpuScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GpuScaling_Toggled"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1157,7 +1158,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged"/>
                                     </Grid>
 
@@ -1170,7 +1171,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged"/>
                                     </Grid>
 
@@ -1183,7 +1184,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged"/>
                                     </Grid>
 
@@ -1196,7 +1197,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
@@ -1226,7 +1227,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature_Kelvin, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature_Kelvin, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature_Kelvin" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_Kelvin_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
@@ -1239,7 +1240,7 @@
                                 <StackPanel>
                                     <!-- Control -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable accessibility mode that allows tweaking of colors for users who experience varying levels of color vision deficiency."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable accessibility mode that allows tweaking of colors for users who experience varying levels of Color Deficiency Correction."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_CVDC_Control" Margin="10,0,0,0" OffContent="Color Deficiency Correction Control" OnContent="Color Deficiency Correction Control" Toggled="toggleswitch_Display_CVDC_Control_Toggled"/>
                                     </StackPanel>
 
@@ -1255,7 +1256,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Protanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Protanopia_ValueChanged"/>
                                     </Grid>
 
@@ -1271,7 +1272,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Deuteranopia" Margin="10,0,0,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged"/>
                                     </Grid>
 
@@ -1287,7 +1288,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Tritanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Tritanopia_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
@@ -1330,7 +1331,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Rows, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Rows, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Eyefinity_Rows" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
                                     </Grid>
 
@@ -1343,7 +1344,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Columns, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Columns, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Eyefinity_Columns" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
                                     </Grid>
 
@@ -1402,16 +1403,16 @@
                         <StackPanel x:Name="stackpanel_Multimedia" Visibility="Collapsed">
                             <TextBlock Text="Video Options" FontSize="20" FontWeight="Medium"/>
 
-                            <!-- Video Sharpening -->
+                            <!-- Video Upscaling -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Sharpening improves video playback quality by sharpening the video."/>
-                                        <ToggleSwitch x:Name="toggleswitch_Video_Sharpening" Margin="10,0,0,0" OffContent="Video Sharpening" OnContent="Video Sharpening" Toggled="toggleswitch_Video_Sharpening_Toggled"/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Upscaling improves video playback quality by upscaling video playback resolution and adjusting details for a better visual experience."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Video_Upscaling" Margin="10,0,0,0" OffContent="Video Upscaling" OnContent="Video Upscaling" Toggled="toggleswitch_Video_Upscaling_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_VideoUpscale_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxReadOnly}"/>
+                                        <TextBox x:Name="textbox_VideoUpscale_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_Video_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>

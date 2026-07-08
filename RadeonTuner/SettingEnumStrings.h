@@ -4,7 +4,7 @@
 //Registry
 const std::vector<std::wstring> REGISTRY_FSR_OTA_CONTROL_STRING =
 {
-	L"Disabled", L"Use latest production", L"Use latest technical preview"
+	L"Disable updates", L"Latest production", L"Latest technical preview"
 };
 
 const std::vector<std::wstring> REGISTRY_FRAMEGEN_SEARCH_MODE_STRING =
@@ -19,7 +19,12 @@ const std::vector<std::wstring> REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING =
 
 const std::vector<std::wstring> REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING =
 {
-	L"Blended Frame", L"Repeat Frame"
+	L"Repeat Frame", L"Blended Frame"
+};
+
+const std::vector<std::wstring> REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING =
+{
+	L"Automatic", L"Enhanced", L"Standard"
 };
 
 const std::vector<std::wstring> REGISTRY_TEXTURE_FILTERING_QUALITY_STRING =
@@ -30,7 +35,7 @@ const std::vector<std::wstring> REGISTRY_TEXTURE_FILTERING_QUALITY_STRING =
 //Custom
 const std::vector<std::wstring> ADLX_SCE_PROFILE_STRING =
 {
-	L"Disabled", L"Vivid Gaming"
+	L"Disabled", L"Vivid Gaming", L"Dynamic Contrast"
 };
 
 const std::vector<std::wstring> ADLX_VARIBRIGHT_LEVEL_STRING =
@@ -43,11 +48,16 @@ const std::vector<std::wstring> ADL_EYEFINITY_ORIENTATIONS =
 	L"0 degrees", L"90 degrees", L"180 degrees", L"270 degrees"
 };
 
+const std::vector<std::wstring> ADL_HDR_TYPE_PREFERENCE =
+{
+	L"HDR10 Profile", L"AMD Premium Pro Profile"
+};
+
 //ADL
 const std::vector<std::wstring> ADL_FSR_MULTIFRAMEGEN_RATIO =
 {
-	//Index 0, 1, 2, 4, 6, 8
-	L"Use application settings", L"1X", L"2X", L"4X", L"6X", L"8X"
+	//Index 0, 1, 2, 3, 4, 5, 6, 7, 8
+	L"Use application settings", L"1X", L"2X", L"3X", L"4X", L"5X", L"6X", L"7X", L"8X"
 };
 
 //ADLX
@@ -161,7 +171,7 @@ const std::vector<std::wstring> ADLX_TESSELLATION_LEVEL_STRING =
 
 const std::vector<std::wstring> ADLX_MEMORYTIMING_DESCRIPTION_STRING =
 {
-	L"Default", L"Fast Timing 1", L"Fast Timing 2", L"Automatic Timing", L"Memory Timing 1", L"Memory Timing 2"
+	L"Default", L"Fast Timing"
 };
 
 const std::vector<std::wstring> ADLX_SSM_BIAS_MODE_STRING =
