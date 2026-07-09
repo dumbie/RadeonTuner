@@ -71,6 +71,11 @@ namespace winrt::RadeonTuner::implementation
 			else if (regValueType == REGTYPE_ENUM::BINARY)
 			{
 				std::vector<BYTE> regValue = RegistryGetBinary(HKEY_ENUM::LOCAL_MACHINE, registryPathW, keyNameW);
+				if (regValue.size() == 0)
+				{
+					//Return result
+					return std::nullopt;
+				}
 				if (decodeBinary)
 				{
 					//Check registry value encoding
@@ -113,6 +118,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//Return result
 			return std::nullopt;
 		}
 		catch (...)
