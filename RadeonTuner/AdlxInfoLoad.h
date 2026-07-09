@@ -32,18 +32,19 @@ namespace winrt::RadeonTuner::implementation
 				gpu_info += L"\nDevice identifier: " + device_id;
 			}
 
-			//Device codename
-			try
-			{
-				const int productNameSize = 32;
-				char productNameBuffer[productNameSize]{};
-				adl_Res0 = _ADL2_Adapter_ProductName_Get(adl_Context, adl_Gpu_AdapterIndex, productNameBuffer);
-				if (adl_Res0 == ADL_OK)
-				{
-					gpu_info += L"\nDevice codename: " + char_to_wstring(productNameBuffer);
-				}
-			}
-			catch (...) {}
+			////Device codename
+			//Note: this can cause ntdll crash that cannot be catched on certain gpu's
+			//try
+			//{
+			//	const int productNameSize = 32;
+			//	char productNameBuffer[productNameSize]{};
+			//	adl_Res0 = _ADL2_Adapter_ProductName_Get(adl_Context, adl_Gpu_AdapterIndex, productNameBuffer);
+			//	if (adl_Res0 == ADL_OK)
+			//	{
+			//		gpu_info += L"\nDevice codename: " + char_to_wstring(productNameBuffer);
+			//	}
+			//}
+			//catch (...) {}
 
 			//Driver information
 			try
@@ -83,7 +84,6 @@ namespace winrt::RadeonTuner::implementation
 					{
 						gpu_info += L" (" + VramVendorNameFromId(lpMemoryInfoX4.iVramVendorRevId) + L")";
 					}
-
 					if (lpMemoryInfoX4.iMemoryBandwidth > 0)
 					{
 						gpu_info += L"\nMemory bandwidth: " + number_to_wstring(lpMemoryInfoX4.iMemoryBandwidth) + L"MB/s";
@@ -124,7 +124,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (adlChipSetInfo.iBusType > 0)
 					{
-						gpu_info += L"\nBus type: " + ADLX_PCI_BUS_TYPE_STRING[adlChipSetInfo.iBusType];
+						gpu_info += L"\nBus type: " + ADLX_PCI_BUS_TYPE_STRING[adlChipSetInfo.iBusType + 1];
 						if (adlChipSetInfo.iCurrentPCIELaneWidth > 0)
 						{
 							gpu_info += L" (x" + number_to_wstring(adlChipSetInfo.iCurrentPCIELaneWidth) + L" / x" + number_to_wstring(adlChipSetInfo.iMaxPCIELaneWidth) + L")";
@@ -135,6 +135,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Return information
+			AVDebugWriteLine("Loaded gpu information.");
 			return gpu_info;
 		}
 		catch (...) {}
@@ -171,6 +172,7 @@ namespace winrt::RadeonTuner::implementation
 			display_info = wstring_trim_right(display_info);
 
 			//Return information
+			AVDebugWriteLine("Loaded display information.");
 			return display_info;
 		}
 		catch (...) {}
@@ -185,6 +187,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring app_version = L"V" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
 
 			//Return version
+			AVDebugWriteLine("Loaded application information.");
 			return L"Made by Arnold Vink\n" + app_version;
 		}
 		catch (...) {}
