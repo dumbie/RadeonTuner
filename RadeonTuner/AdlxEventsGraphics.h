@@ -495,7 +495,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	void MainPage::textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextBoxTextChangingEventArgs const& e)
 	{
 		try
 		{
@@ -549,7 +549,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Show file dialog
-			std::wstring newValue = filepicker_open(L"Select FSR library file...", { { L"FSR DLL", L"amdxcff*.dll" } });
+			std::wstring newValue = filepicker_open(NULL, L"Select FSR library file...", { { L"FSR DLL", L"amdxcff*.dll" } });
 
 			//Check file path
 			if (newValue.empty())

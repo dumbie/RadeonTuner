@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			std::wstring importPath = filepicker_open(L"Import display settings...", { { L"Setting files", L"*.radd" } });
+			std::wstring importPath = filepicker_open(NULL, L"Import display settings...", { { L"Setting files", L"*.radd" } });
 
 			//Check file path
 			if (importPath.empty())

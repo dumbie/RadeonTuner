@@ -62,7 +62,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			std::wstring importPath = filepicker_open(L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
+			std::wstring importPath = filepicker_open(NULL, L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
 
 			//Check file path
 			if (importPath.empty())

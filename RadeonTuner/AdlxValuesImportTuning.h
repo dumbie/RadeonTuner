@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			std::wstring importPath = filepicker_open(L"Import tuning and fans settings...", { { L"Setting files", L"*.radt" } });
+			std::wstring importPath = filepicker_open(NULL, L"Import tuning and fans settings...", { { L"Setting files", L"*.radt" } });
 
 			//Check file path
 			if (importPath.empty())
