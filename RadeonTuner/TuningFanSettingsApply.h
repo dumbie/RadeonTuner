@@ -12,6 +12,9 @@ namespace winrt::RadeonTuner::implementation
 			//Set save settings list
 			std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings;
 
+			//Tuning Preset
+			saveSettings.push_back({ ADLOD8SettingId::OD8_OPTIMZED_POWER_MODE, OD8_OPTIMZED_POWER_MODES::Custom, false });
+
 			//Core Frequency Minimum
 			if (tuningFanSettings.CoreMin.Current.has_value())
 			{
@@ -157,14 +160,11 @@ namespace winrt::RadeonTuner::implementation
 				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, tuningFanSettings.FanTemp4.Current.value(), !fanControl });
 			}
 
-			//Apply gpu tuning and fan mode
-			bool resultMode = Adl_Overdrive_Set_Mode(gpuAdapterIndex);
-
 			//Apply gpu tuning and fan values
-			bool resultValues = Adl_Overdrive_Set_Values(gpuAdapterIndex, saveSettings);
+			bool setResult = Adl_Overdrive8_Set_Values(gpuAdapterIndex, saveSettings);
 
 			//Return result
-			return resultMode && resultValues;
+			return setResult;
 		}
 		catch (...)
 		{
