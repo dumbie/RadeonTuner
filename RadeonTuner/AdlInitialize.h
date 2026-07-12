@@ -563,6 +563,28 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Display_ColorTemperatureSource_Set");
 			}
 
+			//Display - Mode
+			_ADL2_Display_Modes_Get = (ADL2_Display_Modes_Get)GetProcAddress(hInstance, "ADL2_Display_Modes_Get");
+			if (_ADL2_Display_Modes_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_Modes_Get");
+			}
+
+			_ADL2_Display_Modes_Set = (ADL2_Display_Modes_Set)GetProcAddress(hInstance, "ADL2_Display_Modes_Set");
+			if (_ADL2_Display_Modes_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_Modes_Set");
+			}
+
+			_ADL2_Display_PossibleMode_Get = (ADL2_Display_PossibleMode_Get)GetProcAddress(hInstance, "ADL2_Display_PossibleMode_Get");
+			if (_ADL2_Display_PossibleMode_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_PossibleMode_Get");
+			}
+
 			//Display - CVDC
 			_ADL2_Display_CVDC_Get = (ADL2_Display_CVDC_Get)GetProcAddress(hInstance, "ADL2_Display_CVDC_Get");
 			if (_ADL2_Display_CVDC_Get == NULL)
@@ -778,6 +800,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Overdrive
+			_ADL2_Overdrive_Caps = (ADL2_Overdrive_Caps)GetProcAddress(hInstance, "ADL2_Overdrive_Caps");
+			if (_ADL2_Overdrive_Caps == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Overdrive_Caps");
+			}
+
 			_ADL2_Overdrive8_Init_SettingX2_Get = (ADL2_Overdrive8_Init_SettingX2_Get)GetProcAddress(hInstance, "ADL2_Overdrive8_Init_SettingX2_Get");
 			if (_ADL2_Overdrive8_Init_SettingX2_Get == NULL)
 			{

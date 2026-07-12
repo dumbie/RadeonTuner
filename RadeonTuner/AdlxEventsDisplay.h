@@ -1164,4 +1164,166 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::combobox_Display_Resolution_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newIndex = sender.as<ComboBox>().SelectedIndex();
+			auto newValue = sender.as<ComboBox>().SelectedItem().as<RadeonTuner::DisplayDetailsIdl>();
+			bool newFailed = true;
+
+			//Get current display mode
+			int numModes = -1;
+			ADLMode* adlModeCurrent{};
+			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
+			if (adl_Res0 != ADL_OK)
+			{
+				AVDebugWriteLine(L"Failed getting current display mode.");
+				return;
+			}
+
+			//Update display mode
+			adlModeCurrent->iXRes = newValue.ResolutionWidth();
+			adlModeCurrent->iYRes = newValue.ResolutionHeight();
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_Modes_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1, adlModeCurrent);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Fix add 10 second keep this resolution messagebox and restore previous resolution
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting display resolution");
+				AVDebugWriteLine(L"Failed setting display resolution");
+			}
+			else
+			{
+				std::wstring valueString = number_to_wstring(newValue.ResolutionWidth()) + L"x" + number_to_wstring(newValue.ResolutionHeight());
+				ShowNotification(L"Display resolution set to " + valueString);
+				AVDebugWriteLine(L"Display resolution set to " << newIndex);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_Display_RefreshRate_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newIndex = sender.as<ComboBox>().SelectedIndex();
+			auto newValue = sender.as<ComboBox>().SelectedItem().as<RadeonTuner::DisplayDetailsIdl>();
+			bool newFailed = true;
+
+			//Get current display mode
+			int numModes = -1;
+			ADLMode* adlModeCurrent{};
+			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
+			if (adl_Res0 != ADL_OK)
+			{
+				AVDebugWriteLine(L"Failed getting current display mode.");
+				return;
+			}
+
+			//Update display mode
+			adlModeCurrent->fRefreshRate = newValue.RefreshRate();
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_Modes_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1, adlModeCurrent);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Fix add 10 second keep this resolution messagebox and restore previous resolution
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting display refresh rate");
+				AVDebugWriteLine(L"Failed setting display refresh rate");
+			}
+			else
+			{
+				std::wstring valueString = float_to_wstring(newValue.RefreshRate(), 2) + L" Hz";
+				ShowNotification(L"Display refresh rate set to " + valueString);
+				AVDebugWriteLine(L"Display refresh rate set to " << newIndex);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_Display_Orientation_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newValue = sender.as<ComboBox>().SelectedIndex();
+			bool newFailed = true;
+
+			//Get current display mode
+			int numModes = -1;
+			ADLMode* adlModeCurrent{};
+			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
+			if (adl_Res0 != ADL_OK)
+			{
+				AVDebugWriteLine(L"Failed getting current display mode.");
+				return;
+			}
+
+			//Enumeration index correction
+			int displayOrientationDegree = 0;
+			switch (newValue)
+			{
+			case 0:
+				displayOrientationDegree = 0;
+				break;
+			case 1:
+				displayOrientationDegree = 90;
+				break;
+			case 2:
+				displayOrientationDegree = 180;
+				break;
+			case 3:
+				displayOrientationDegree = 270;
+				break;
+			}
+
+			//Update display mode
+			adlModeCurrent->iOrientation = displayOrientationDegree;
+
+			//Set setting
+			adl_Res0 = _ADL2_Display_Modes_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1, adlModeCurrent);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				ShowNotification(L"Failed setting display orientation");
+				AVDebugWriteLine(L"Failed setting display orientation");
+			}
+			else
+			{
+				ShowNotification(L"Display orientation set to " + ADL_EYEFINITY_ORIENTATIONS[newValue]);
+				AVDebugWriteLine(L"Display orientation set to " << newValue);
+			}
+		}
+		catch (...) {}
+	}
 }

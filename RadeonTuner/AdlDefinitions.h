@@ -187,6 +187,16 @@ inline ADL2_Display_ColorTemperatureSource_Get _ADL2_Display_ColorTemperatureSou
 typedef int (*ADL2_Display_ColorTemperatureSource_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iTempSource);
 inline ADL2_Display_ColorTemperatureSource_Set _ADL2_Display_ColorTemperatureSource_Set;
 
+//Display - Modes
+typedef int (*ADL2_Display_Modes_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpNumModes, ADLMode** lppModes);
+inline ADL2_Display_Modes_Get _ADL2_Display_Modes_Get;
+
+typedef int (*ADL2_Display_Modes_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iNumModes, ADLMode* lpModes);
+inline ADL2_Display_Modes_Set _ADL2_Display_Modes_Set;
+
+typedef int (*ADL2_Display_PossibleMode_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumModes, ADLMode** lppModes);
+inline ADL2_Display_PossibleMode_Get _ADL2_Display_PossibleMode_Get;
+
 //Display - CVDC
 typedef int (*ADL2_Display_CVDC_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int* cvdcValue);
 inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
@@ -286,6 +296,9 @@ typedef int (*ADL2_Driver_Path_Get)(ADL_CONTEXT_HANDLE context, int iAdapterInde
 inline ADL2_Driver_Path_Get _ADL2_Driver_Path_Get;
 
 //Overdrive
+typedef int (*ADL2_Overdrive_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported, int* iEnabled, int* iVersion);
+inline ADL2_Overdrive_Caps _ADL2_Overdrive_Caps;
+
 typedef int (*ADL2_Overdrive8_Init_SettingX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpOverdrive8Capabilities, int* lpNumberOfFeatures, ADLOD8SingleInitSettingWrap** lppInitSettingList);
 inline ADL2_Overdrive8_Init_SettingX2_Get _ADL2_Overdrive8_Init_SettingX2_Get;
 

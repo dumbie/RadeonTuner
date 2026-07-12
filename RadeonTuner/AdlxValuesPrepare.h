@@ -37,7 +37,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get combobox items
 				auto itemCollectionSelect = combobox_DisplaySelect().Items();
-				auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
+				auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
 
 				//Get all displays
 				adl_List_Displays = AdlGetDisplayAll();
@@ -61,7 +61,7 @@ namespace winrt::RadeonTuner::implementation
 					displayDetails.IndexAdapter(displayAdapterIndex);
 					displayDetails.IndexDisplay(displayDisplayIndex);
 					displayDetails.Name(displayNameString);
-					itemCollectionEyefinity.Append(box_value(displayDetails));
+					itemCollectionEyefinity.Append(displayDetails);
 
 					//Set min and max rows and columns based on display count
 					slider_Eyefinity_Rows().Minimum(1);
@@ -216,6 +216,16 @@ namespace winrt::RadeonTuner::implementation
 				for (UINT i = 0; i < appendCount; i++)
 				{
 					itemCollection.Append(box_value(ADL_FSR_MULTIFRAMEGEN_RATIO[i]));
+				}
+			}
+
+			//List all Display orientations
+			{
+				auto itemCollection = combobox_Display_Orientation().Items();
+				UINT appendCount = ADL_EYEFINITY_ORIENTATIONS.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_EYEFINITY_ORIENTATIONS[i]));
 				}
 			}
 

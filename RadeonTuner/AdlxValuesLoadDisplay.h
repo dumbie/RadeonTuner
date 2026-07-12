@@ -15,6 +15,15 @@ namespace winrt::RadeonTuner::implementation
 			//Convert settings values to interface
 			DisplaySettings_Convert_ToUI_Adl(displaySettingsCurrent);
 
+			//Load display resolution values
+			DisplayList_Resolution();
+
+			//Load display refresh rate values
+			DisplayList_RefreshRate();
+
+			//Select current display values
+			DisplayList_SelectCurrent();
+
 			//Set result
 			AVDebugWriteLine("ADLX loaded display values.");
 		}
