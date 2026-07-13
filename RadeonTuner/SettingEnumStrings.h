@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "pch.h"
 
 //Registry
@@ -43,9 +43,9 @@ const std::vector<std::wstring> ADLX_VARIBRIGHT_LEVEL_STRING =
 	L"Maximize Brightness", L"Optimize Brightness", L"Balanced", L"Optimize Battery", L"Maximize Battery"
 };
 
-const std::vector<std::wstring> ADL_EYEFINITY_ORIENTATIONS =
+const std::vector<std::wstring> ADL_DISPLAY_ORIENTATIONS =
 {
-	L"0 degrees", L"90 degrees", L"180 degrees", L"270 degrees"
+	L"Landscape (0°)", L"Portrait (90°)", L"Landscape (180°)", L"Portrait (270°)"
 };
 
 const std::vector<std::wstring> ADL_HDR_TYPE_PREFERENCE =

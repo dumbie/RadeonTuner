@@ -222,20 +222,20 @@ namespace winrt::RadeonTuner::implementation
 			//List all Display orientations
 			{
 				auto itemCollection = combobox_Display_Orientation().Items();
-				UINT appendCount = ADL_EYEFINITY_ORIENTATIONS.size();
+				UINT appendCount = ADL_DISPLAY_ORIENTATIONS.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
-					itemCollection.Append(box_value(ADL_EYEFINITY_ORIENTATIONS[i]));
+					itemCollection.Append(box_value(ADL_DISPLAY_ORIENTATIONS[i]));
 				}
 			}
 
 			//List all Eyefinity orientations
 			{
 				auto itemCollection = combobox_EyefinityMonitorOrientation().Items();
-				UINT appendCount = ADL_EYEFINITY_ORIENTATIONS.size();
+				UINT appendCount = ADL_DISPLAY_ORIENTATIONS.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
-					itemCollection.Append(box_value(ADL_EYEFINITY_ORIENTATIONS[i]));
+					itemCollection.Append(box_value(ADL_DISPLAY_ORIENTATIONS[i]));
 				}
 			}
 

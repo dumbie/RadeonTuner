@@ -8,5 +8,4 @@ namespace AppVariables
 	inline BOOL ApplicationExiting = false;
 	inline AVSettingsJson Settings = AVSettingsJson();
 	inline winrt::RadeonTuner::implementation::App App = winrt::RadeonTuner::implementation::App();
-	inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 }

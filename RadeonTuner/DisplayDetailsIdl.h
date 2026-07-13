@@ -31,21 +31,52 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//Name
-		std::wstring _Name;
+		hstring _Name;
 		hstring Name()
 		{
-			return _Name.c_str();
+			return _Name;
 		}
 		void Name(hstring value)
 		{
-			_Name = value.c_str();
+			_Name = value;
+		}
+
+		//Resolution Width
+		int _ResolutionWidth;
+		int ResolutionWidth()
+		{
+			return _ResolutionWidth;
+		}
+		void ResolutionWidth(int value)
+		{
+			_ResolutionWidth = value;
+		}
+
+		//Resolution Height
+		int _ResolutionHeight;
+		int ResolutionHeight()
+		{
+			return _ResolutionHeight;
+		}
+		void ResolutionHeight(int value)
+		{
+			_ResolutionHeight = value;
+		}
+
+		//Refresh Rate
+		float _RefreshRate;
+		float RefreshRate()
+		{
+			return _RefreshRate;
+		}
+		void RefreshRate(float value)
+		{
+			_RefreshRate = value;
 		}
 	};
 }
 
 namespace winrt::RadeonTuner::factory_implementation
 {
-	struct DisplayDetailsIdl : DisplayDetailsIdlT<DisplayDetailsIdl, implementation::DisplayDetailsIdl>
-	{
-	};
+	struct DisplayDetailsIdl : DisplayDetailsIdlT<DisplayDetailsIdl, implementation::DisplayDetailsIdl> {};
 }

@@ -1187,6 +1187,12 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Update revert values
+			displayResolutionRevertWidth = adlModeCurrent->iXRes;
+			displayResolutionRevertHeight = adlModeCurrent->iYRes;
+			displayResolutionRevertRefreshRate = adlModeCurrent->fRefreshRate;
+			displayResolutionRevertOrientation = adlModeCurrent->iOrientation;
+
 			//Update display mode
 			adlModeCurrent->iXRes = newValue.ResolutionWidth();
 			adlModeCurrent->iYRes = newValue.ResolutionHeight();
@@ -1196,8 +1202,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
-
-			//Fix add 10 second keep this resolution messagebox and restore previous resolution
 
 			//Show result
 			if (newFailed)
@@ -1210,6 +1214,9 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring valueString = number_to_wstring(newValue.ResolutionWidth()) + L"x" + number_to_wstring(newValue.ResolutionHeight());
 				ShowNotification(L"Display resolution set to " + valueString);
 				AVDebugWriteLine(L"Display resolution set to " << newIndex);
+
+				//Show confirm overlay
+				DisplaySettings_Confirm_Resolution_Start();
 			}
 		}
 		catch (...) {}
@@ -1237,6 +1244,12 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Update revert values
+			displayResolutionRevertWidth = adlModeCurrent->iXRes;
+			displayResolutionRevertHeight = adlModeCurrent->iYRes;
+			displayResolutionRevertRefreshRate = adlModeCurrent->fRefreshRate;
+			displayResolutionRevertOrientation = adlModeCurrent->iOrientation;
+
 			//Update display mode
 			adlModeCurrent->fRefreshRate = newValue.RefreshRate();
 
@@ -1245,8 +1258,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
-
-			//Fix add 10 second keep this resolution messagebox and restore previous resolution
 
 			//Show result
 			if (newFailed)
@@ -1259,6 +1270,9 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring valueString = float_to_wstring(newValue.RefreshRate(), 2) + L" Hz";
 				ShowNotification(L"Display refresh rate set to " + valueString);
 				AVDebugWriteLine(L"Display refresh rate set to " << newIndex);
+
+				//Show confirm overlay
+				DisplaySettings_Confirm_Resolution_Start();
 			}
 		}
 		catch (...) {}
@@ -1320,7 +1334,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				ShowNotification(L"Display orientation set to " + ADL_EYEFINITY_ORIENTATIONS[newValue]);
+				ShowNotification(L"Display orientation set to " + ADL_DISPLAY_ORIENTATIONS[newValue]);
 				AVDebugWriteLine(L"Display orientation set to " << newValue);
 			}
 		}

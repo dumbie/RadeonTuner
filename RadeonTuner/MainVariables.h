@@ -20,6 +20,15 @@ inline int adl_Gpu_AdapterIndex = -1;
 inline int adl_Res0 = ADL_ERR;
 inline int adl_Res1 = ADL_ERR;
 
+inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
+inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
+
+inline int displayResolutionSwitchTimeSec = 15;
+inline int displayResolutionRevertWidth = 0;
+inline int displayResolutionRevertHeight = 0;
+inline int displayResolutionRevertRefreshRate = 0;
+inline int displayResolutionRevertOrientation = 0;
+
 inline int adl_AppSelectedIndex = -1;
 inline std::vector<AdlApplication> adl_Apps_Cache{};
 
