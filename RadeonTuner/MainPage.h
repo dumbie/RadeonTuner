@@ -28,15 +28,14 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppUnlock(AdlApplication adlApp, bool unlock);
 		bool AdlAppsSetDefaults(AdlApplication& adlApp, bool clearProperties, bool addOnly);
 		std::wstring AdlAppProfileGenerateName(std::wstring profileHeader);
-		void AdlSetAmdRegistryDefaults();
+		void AdlSetDefaultSettings();
 		bool AdlCheckDriverOnlySoftware();
 
-		bool Adl_Overdrive_Reset(int gpuAdapterIndex);
-		bool Adl_Overdrive_Set_Mode(int gpuAdapterIndex);
-		bool Adl_Overdrive_Set_Values(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
-		std::optional<int> Adl_Overdrive_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId);
-		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
-		bool Adl_Overdrive_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
+		bool Adl_Overdrive8_Reset(int gpuAdapterIndex);
+		bool Adl_Overdrive8_Set_Values(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
+		std::optional<int> Adl_Overdrive8_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId);
+		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive8_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
+		bool Adl_Overdrive8_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);
 
 		bool Adl_Eyefinity_Create_Custom(int displayAdapterIndex);
 		bool Adl_Eyefinity_Delete_All(int displayAdapterIndex);
@@ -78,6 +77,7 @@ namespace winrt::RadeonTuner::implementation
 		bool DisplaySettings_Convert_ToUI_Default(DisplaySettings displaySettings);
 		std::optional<DisplaySettings> DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex);
 
+		bool Adl_Multimedia_Set_Mode(int gpuAdapterIndex);
 		bool MultimediaSettings_Convert_ToUI_ADL(MultimediaSettings multimediaSettings);
 		bool MultimediaSettings_Convert_ToUI_Current(MultimediaSettings multimediaSettings);
 		bool MultimediaSettings_Convert_ToUI_Default(MultimediaSettings multimediaSettings);
@@ -247,7 +247,7 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Frtc_FrameRateTarget_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e);
+		void textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextBoxTextChangingEventArgs const& e);
 		void FsrOverrideDllUpdateTextPathInfo(std::wstring dllPath);
 		void FsrOverrideDllUpdateTextVersion(std::wstring dllPath);
 		std::wstring FsrOverrideDllGetPathDefault();
@@ -271,6 +271,18 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Power_Voltage_PB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Power_TDC_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Power_TDC_PB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_Video_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void combobox_Display_Resolution_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_Display_RefreshRate_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_Display_Orientation_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void DisplayList_Resolution();
+		void DisplayList_RefreshRate();
+		void DisplayList_SelectCurrent();
+		void DisplaySettings_Resolution_Revert();
+		void DisplaySettings_Confirm_Resolution_Start();
+		void DisplaySettings_Confirm_Resolution_Stop(bool revertResolution);
+		void button_Overlay_ConfirmResolution_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_Overlay_RevertResolution_Click(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

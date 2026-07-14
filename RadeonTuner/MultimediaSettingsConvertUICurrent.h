@@ -22,6 +22,12 @@ namespace winrt::RadeonTuner::implementation
 				slider_Video_Sharpening().Value(multimediaSettings.VideoSharpening.Current.value());
 			}
 
+			//Brightness
+			if (multimediaSettings.VideoBrightness.Current.has_value())
+			{
+				slider_Video_Brightness().Value(multimediaSettings.VideoBrightness.Current.value());
+			}
+
 			//Return result
 			AVDebugWriteLine(L"Multimedia settings applied to interface.");
 			return true;

@@ -6,8 +6,7 @@ struct MultimediaSettings
 	//Settings
 	SettingInt VideoUpscaling;
 	SettingInt VideoSharpening;
+	SettingInt VideoBrightness;
 
-	//Status (No export)
-
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(MultimediaSettings, VideoUpscaling.Current, VideoSharpening.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(MultimediaSettings, VideoUpscaling.Current, VideoSharpening.Current, VideoBrightness.Current)
 };

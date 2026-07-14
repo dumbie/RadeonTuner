@@ -11,13 +11,14 @@
 #include "AdlAppsLoad.h"
 #include "AdlAppsRemove.h"
 #include "AdlAppsProperty.h"
-#include "AdlOverdrive.h"
+#include "AdlOverdrive8.h"
 #include "AdlEyefinity.h"
 #include "AdlRegistry.h"
 #include "AdlGetDevices.h"
 #include "AdlGetIdentifier.h"
 #include "AdlInitialize.h"
 #include "AdlCheck.h"
+#include "AdlFunctions.h"
 
 #include "AdlxInfoLoad.h"
 #include "AdlValuesPrepare.h"
@@ -36,6 +37,7 @@
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
 
+#include "MultimediaSettingsFunc.h"
 #include "MultimediaSettingsGenerateAdl.h"
 #include "MultimediaSettingsConvertUIAdl.h"
 #include "MultimediaSettingsConvertUICurrent.h"
@@ -54,6 +56,8 @@
 #include "DisplaySettingsConvertUIAdl.h"
 #include "DisplaySettingsConvertUICurrent.h"
 #include "DisplaySettingsConvertUIDefault.h"
+#include "DisplaySettingsResolution.h"
+#include "DisplaySettingsDetails.h"
 #include "DisplaySettingsFunc.h"
 
 #include "TuningFanSettingsGenerateAdl.h"
@@ -93,7 +97,7 @@ namespace winrt::RadeonTuner::implementation
 			//if (AdlCheckDriverOnlySoftware())
 			//{
 			//	grid_Main().IsHitTestVisible(false);
-			//	grid_Overlay().Visibility(Visibility::Visible);
+			//	grid_Overlay_Warning().Visibility(Visibility::Visible);
 			//	textblock_Overlay_Text().Text(L"Incompatible driver software type.");
 			//	textblock_Overlay_Sub_Text().Text(L"To prevent possible issues with RadeonTuner please (re)install your drivers using the 'Driver Only' software type.");
 			//	return;
@@ -104,7 +108,7 @@ namespace winrt::RadeonTuner::implementation
 			if (!initResult_Adl.empty())
 			{
 				grid_Main().IsHitTestVisible(false);
-				grid_Overlay().Visibility(Visibility::Visible);
+				grid_Overlay_Warning().Visibility(Visibility::Visible);
 				textblock_Overlay_Text().Text(L"Failed initializing ADL, please (re)install or update your AMD drivers.");
 				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
 				return;
@@ -115,7 +119,7 @@ namespace winrt::RadeonTuner::implementation
 			if (!initResult_Values.empty())
 			{
 				grid_Main().IsHitTestVisible(false);
-				grid_Overlay().Visibility(Visibility::Visible);
+				grid_Overlay_Warning().Visibility(Visibility::Visible);
 				textblock_Overlay_Text().Text(L"Failed preparing values, please (re)install or update your AMD drivers.");
 				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Values);
 				return;
@@ -136,7 +140,7 @@ namespace winrt::RadeonTuner::implementation
 			Eyefinity_Applications_List();
 
 			//Set default registry values
-			AdlSetAmdRegistryDefaults();
+			AdlSetDefaultSettings();
 
 			//Check admin setttings
 			SettingAdmin();
@@ -398,19 +402,19 @@ namespace winrt::RadeonTuner::implementation
 						grid_Notification().Visibility(Visibility::Collapsed);
 
 						//Stop notification timer
-						AppVariables::TimerNotification.Stop();
+						TimerNotification.Stop();
 					}
 					catch (...) {}
 				};
 
 			//Start notification timer
-			if (AppVariables::TimerNotification == NULL)
+			if (TimerNotification == NULL)
 			{
-				AppVariables::TimerNotification = winrt::Windows::UI::Xaml::DispatcherTimer();
+				TimerNotification = winrt::Windows::UI::Xaml::DispatcherTimer();
+				TimerNotification.Interval(TimeSpan(40000000));
+				TimerNotification.Tick(tickFunction);
 			}
-			AppVariables::TimerNotification.Interval(TimeSpan(40000000));
-			AppVariables::TimerNotification.Tick(tickFunction);
-			AppVariables::TimerNotification.Start();
+			TimerNotification.Start();
 		}
 		catch (...) {}
 	}

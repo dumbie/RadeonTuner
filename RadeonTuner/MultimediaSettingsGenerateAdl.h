@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Fix find way to check if setting is supported and disable interface. (ADL2_MMD_Features_Caps)
-			//Fix add SteadyVideo FluidMotion Color Brightness support
+			//Fix add SteadyVideo FluidMotion Color support
 
 			MultimediaSettings multimediaSettings{};
 
@@ -44,12 +44,22 @@ namespace winrt::RadeonTuner::implementation
 						multimediaSettings.VideoSharpening.Maximum = 100;
 						multimediaSettings.VideoSharpening.Step = 1;
 					}
+					else if (featureName == "Brightness")
+					{
+						multimediaSettings.VideoBrightness.Current = adlFeatureValues.Get()[index].fCurrent;
+						multimediaSettings.VideoBrightness.Default = 0;
+						multimediaSettings.VideoBrightness.Support = true;
+						multimediaSettings.VideoBrightness.Minimum = -100;
+						multimediaSettings.VideoBrightness.Maximum = 100;
+						multimediaSettings.VideoBrightness.Step = 1;
+					}
 
 					////Debug features
 					//AVDebugWriteLine(featureName.c_str());
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].bCurrent);
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].fCurrent);
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].iCurrent);
+					//AVDebugWriteLine(adlFeatureValues.Get()[index].EnumStates);
 				}
 				catch (...) {}
 			}

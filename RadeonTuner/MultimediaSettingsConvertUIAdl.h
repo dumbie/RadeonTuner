@@ -62,6 +62,34 @@ namespace winrt::RadeonTuner::implementation
 				slider_Video_Sharpening().IsEnabled(false);
 			}
 
+			//Video Brightness
+			if (multimediaSettings.VideoBrightness.Support.has_value() && multimediaSettings.VideoBrightness.Support.value())
+			{
+				//Set setting
+				if (multimediaSettings.VideoBrightness.Current.has_value())
+				{
+					slider_Video_Brightness().Value(multimediaSettings.VideoBrightness.Current.value());
+				}
+				else if (multimediaSettings.VideoBrightness.Default.has_value())
+				{
+					slider_Video_Brightness().Value(multimediaSettings.VideoBrightness.Default.value());
+				}
+
+				//Set interface
+				if (multimediaSettings.VideoBrightness.Minimum.has_value())
+				{
+					slider_Video_Brightness().Minimum(multimediaSettings.VideoBrightness.Minimum.value());
+					slider_Video_Brightness().Maximum(multimediaSettings.VideoBrightness.Maximum.value());
+					slider_Video_Brightness().StepFrequency(multimediaSettings.VideoBrightness.Step.value());
+					slider_Video_Brightness().SmallChange(multimediaSettings.VideoBrightness.Step.value());
+				}
+			}
+			else
+			{
+				//Enable or disable interface
+				slider_Video_Brightness().IsEnabled(false);
+			}
+
 			//Return result
 			AVDebugWriteLine(L"Multimedia settings applied to interface.");
 			return true;
