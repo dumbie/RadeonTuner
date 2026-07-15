@@ -56,8 +56,8 @@ const std::vector<std::wstring> ADL_HDR_TYPE_PREFERENCE =
 //ADL
 const std::vector<std::wstring> ADL_FSR_MULTIFRAMEGEN_RATIO =
 {
-	//Index 0, 1, 2, 3, 4, 5, 6, 7, 8
-	L"Use application settings", L"1X", L"2X", L"3X", L"4X", L"5X", L"6X", L"7X", L"8X"
+	//Index 0, 2, 3, 4
+	L"Use application settings", L"2X", L"3X", L"4X"
 };
 
 //ADLX
