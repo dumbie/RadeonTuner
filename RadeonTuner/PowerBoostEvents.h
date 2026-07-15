@@ -42,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			PowerBoost_Applications_SaveToFile();
 
 			//List applications
-			PowerBoost_Applications_List();
+			PowerBoost_Applications_List(false);
 
 			//Show notification
 			ShowNotification(L"Application added");
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			PowerBoost_Applications_SaveToFile();
 
 			//List applications
-			PowerBoost_Applications_List();
+			PowerBoost_Applications_List(false);
 
 			//Show notification
 			ShowNotification(L"Application removed");
@@ -84,11 +84,15 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get toggle switch value
-			bool toggleSwitch = sender.as<ToggleSwitch>().IsOn();
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			//Update current value
+			tuningFanSettingsCurrent.PowerBoost.Current = newValue;
 
 			//Check if Power Boost is enabled
-			if (toggleSwitch)
+			if (newValue)
 			{
 				//Hide or show settings
 				grid_Power_Limit_PB().Visibility(Visibility::Visible);

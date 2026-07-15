@@ -6,19 +6,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::PowerBoost_Applications_List()
+	bool MainPage::PowerBoost_Applications_List(bool selectFirst)
 	{
 		try
 		{
 			//Get combobox items
 			ItemCollection itemCollection = combobox_PowerBoost_Applications().Items();
 
-			//Remove applications
-			int collectionSize = itemCollection.Size();
-			for (int i = 0; i < collectionSize; i++)
-			{
-				itemCollection.RemoveAt(0);
-			}
+			//Clear combobox items
+			itemCollection.Clear();
 
 			//Add applications to combobox
 			for (std::wstring powerBoostApp : powerBoostAppsCache)
@@ -27,7 +23,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Select first index
-			combobox_PowerBoost_Applications().SelectedIndex(0);
+			if (selectFirst)
+			{
+				combobox_PowerBoost_Applications().SelectedIndex(0);
+			}
 
 			//Return result
 			AVDebugWriteLine("Listed power boost applications: " << powerBoostAppsCache.size());
