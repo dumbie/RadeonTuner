@@ -10,74 +10,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//List all gpus
-			{
-				//Get combobox items
-				auto itemCollection = combobox_GpuSelect().Items();
-
-				//Get all GPU's
-				adl_List_Gpus = AdlGetGpuAll();
-				int adapterCount = adl_List_Gpus.size();
-
-				//Add all GPU's
-				for (AdapterInfo adapterInfo : adl_List_Gpus)
-				{
-					//Add gpu to combobox
-					itemCollection.Append(box_value(char_to_wstring(adapterInfo.strAdapterName)));
-				}
-
-				AVDebugWriteLine("Listed all GPU's: " << adapterCount);
-				if (adapterCount == 0)
-				{
-					return L"Failed to find any GPU's.";
-				}
-			}
-
-			//List all displays
-			{
-				//Get combobox items
-				auto itemCollectionSelect = combobox_DisplaySelect().Items();
-				auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
-
-				//Get all displays
-				adl_List_Displays = AdlGetDisplayAll();
-				int displayCount = adl_List_Displays.size();
-
-				//Add all displays
-				for (ADLDisplayInfo displayInfo : adl_List_Displays)
-				{
-					//Get display name
-					std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName);
-
-					//Add display to combobox
-					itemCollectionSelect.Append(box_value(displayNameString));
-
-					//Get adapter and display index
-					int displayAdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
-					int displayDisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
-
-					//Eyefinity displays list
-					RadeonTuner::DisplayDetailsIdl displayDetails;
-					displayDetails.IndexAdapter(displayAdapterIndex);
-					displayDetails.IndexDisplay(displayDisplayIndex);
-					displayDetails.Name(displayNameString);
-					itemCollectionEyefinity.Append(displayDetails);
-
-					//Set min and max rows and columns based on display count
-					slider_Eyefinity_Rows().Minimum(1);
-					slider_Eyefinity_Rows().Maximum(displayCount);
-					slider_Eyefinity_Columns().Minimum(1);
-					slider_Eyefinity_Columns().Maximum(displayCount);
-				}
-				listview_EyefinityMonitorIndex().ItemsSource(itemCollectionEyefinity);
-
-				AVDebugWriteLine("Listed all displays: " << displayCount);
-				if (displayCount == 0)
-				{
-					return L"Failed to find any displays.";
-				}
-			}
-
 			//List all scaling mode
 			{
 				auto itemCollection = combobox_Display_ScalingMode().Items();
@@ -298,6 +230,29 @@ namespace winrt::RadeonTuner::implementation
 					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING[i]));
 				}
 			}
+
+			//Load and list all displays
+			std::wstring displayResult = AdlxValuesLoadDisplayList(true);
+			if (!displayResult.empty())
+			{
+				return displayResult;
+			}
+
+			//Load and list all gpus
+			std::wstring gpuResult = AdlxValuesLoadGpuList(true);
+			if (!gpuResult.empty())
+			{
+				return gpuResult;
+			}
+
+			//Remove global user application
+			AdlApplication globalApp{};
+			globalApp.FileName = L"*.*";
+			globalApp.FilePath = L"*\\*";
+			AdlAppRemove(globalApp);
+
+			//Load and list applications
+			AdlxValuesLoadApplicationList(true);
 
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");

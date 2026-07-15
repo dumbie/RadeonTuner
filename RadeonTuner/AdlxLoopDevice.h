@@ -8,6 +8,7 @@ namespace winrt::RadeonTuner::implementation
 {
 	//Fix reinitialize ADLX automatically so a restart is not needed.
 	//Fix add check if a new display has connected and reload list.
+	//Fix add event to check for display change and reload list.
 
 	void MainPage::AdlxLoopDevice()
 	{
@@ -25,22 +26,46 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Check if we have access to video card
-				int lpAccess;
-				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
-				bool hasAccess = adl_Res0 == ADL_OK;
-
-				//Disable interface when access is lost
-				if (!hasAccess)
 				{
-					std::function<void()> updateFunction = [=]
-						{
-							grid_Main().IsHitTestVisible(false);
-							grid_Overlay().Visibility(Visibility::Visible);
-							textblock_Overlay_Text().Text(L"Access to video card has been lost, please restart RadeonTuner.");
-							textblock_Overlay_Sub_Text().Text(L"This could have been caused by a driver update or failure.");
-						};
-					AppVariables::App.DispatcherInvoke(updateFunction);
-					return;
+					int lpAccess;
+					adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
+					bool hasAccess = adl_Res0 == ADL_OK;
+
+					//Disable interface when access is lost
+					if (!hasAccess)
+					{
+						std::function<void()> updateFunction = [=]
+							{
+								grid_Main().IsHitTestVisible(false);
+								grid_Overlay_Warning().Visibility(Visibility::Visible);
+								textblock_Overlay_Text().Text(L"Access to video card has been lost, please restart RadeonTuner.");
+								textblock_Overlay_Sub_Text().Text(L"This could have been caused by a driver update or failure.");
+							};
+						AppVariables::App.DispatcherInvoke(updateFunction);
+						return;
+					}
+				}
+
+				//Check if window is visible
+				if (!AppVariables::App.GetIsWindowVisible())
+				{
+					continue;
+				}
+
+				//Check if displays changed
+				{
+					if (AdlDetectDisplayChange())
+					{
+						std::function<void()> updateFunction = [=]
+							{
+								//Load and list all displays
+								AdlxValuesLoadDisplayList(true);
+
+								//Load information
+								AdlxInfoLoad();
+							};
+						AppVariables::App.DispatcherInvoke(updateFunction);
+					}
 				}
 			}
 			catch (...) {}
