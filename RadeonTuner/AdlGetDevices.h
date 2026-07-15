@@ -133,7 +133,10 @@ namespace winrt::RadeonTuner::implementation
 				for (int i = 0; i < displayInfoCount; i++)
 				{
 					ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
-					if ((displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED)
+					bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0;
+					bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
+					bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
+					if (validIndex && displayConnected && displayMapped)
 					{
 						displayList.push_back(displayInfo);
 						displayConnectedCount++;
@@ -153,7 +156,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::vector<ADLDisplayInfo> MainPage::AdlGetDisplayAllByAdapterIndex(int adapterIndex)
+	std::vector<ADLDisplayInfo> MainPage::AdlGetDisplayByAdapterIndex(int adapterIndex)
 	{
 		std::vector<ADLDisplayInfo> displayList;
 		try
@@ -166,7 +169,10 @@ namespace winrt::RadeonTuner::implementation
 			for (int i = 0; i < displayInfoCount; i++)
 			{
 				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
-				if ((displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED)
+				bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0;
+				bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
+				bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
+				if (validIndex && displayConnected && displayMapped)
 				{
 					displayList.push_back(displayInfo);
 					displayConnectedCount++;
@@ -212,6 +218,57 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			AVDebugWriteLine("Failed to get display by index (Exception)");
 			return std::nullopt;
+		}
+	}
+
+	bool MainPage::AdlDetectDisplayChange()
+	{
+		try
+		{
+			//Get all displays
+			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
+
+			//Check if display connected
+			for (const ADLDisplayInfo& displayInfo : displayList)
+			{
+				bool displayChanged = std::ranges::any_of(adl_List_Displays,
+					[&](const ADLDisplayInfo& displayAny)
+					{
+						return displayAny.displayID.iDisplayLogicalAdapterIndex == displayInfo.displayID.iDisplayLogicalAdapterIndex && displayAny.displayID.iDisplayLogicalIndex == displayInfo.displayID.iDisplayLogicalIndex;
+					});
+				if (!displayChanged)
+				{
+					//Return result
+					AVDebugWriteLine("Display connected: " << displayInfo.strDisplayName);
+					return true;
+				}
+			}
+
+			//Check if display disconnected
+			for (const ADLDisplayInfo& displayInfo : adl_List_Displays)
+			{
+				bool displayChanged = std::ranges::any_of(displayList,
+					[&](const ADLDisplayInfo& displayAny)
+					{
+						return displayAny.displayID.iDisplayLogicalAdapterIndex == displayInfo.displayID.iDisplayLogicalAdapterIndex && displayAny.displayID.iDisplayLogicalIndex == displayInfo.displayID.iDisplayLogicalIndex;
+					});
+				if (!displayChanged)
+				{
+					//Return result
+					AVDebugWriteLine("Display removed: " << displayInfo.strDisplayName);
+					return true;
+				}
+			}
+
+			//Return result
+			//AVDebugWriteLine("Displays not changed.");
+			return false;
+		}
+		catch (...)
+		{
+			//Return result
+			AVDebugWriteLine("Failed checking display change (Exception)");
+			return false;
 		}
 	}
 }
