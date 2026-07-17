@@ -35,6 +35,12 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 {
 	try
 	{
+		//Enable debug logging
+		//FileDelete(L"Debug.log");
+		//AVDebugWriteLineLogFile = true;
+
+		AVDebugWriteLine("Welcome to RadeonTuner.");
+
 		//Check if process is already running
 		std::vector<AVProcess> processList = Get_ProcessByName("RadeonTuner.exe", true);
 		if (processList.size() > 1)
@@ -47,13 +53,19 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		//Set instance handle
 		AppVariables::hInstance = hInstance;
 
+		//Get executable directory
+		std::wstring exeDirectory = PathGetExecutableDirectory();
+
+		//Set working directory
+		SetCurrentDirectoryW(exeDirectory.c_str());
+
 		//Initialize settings
-		std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Settings.json");
+		std::wstring pathSettingFileW = PathMerge(exeDirectory, L"Settings\\Settings.json");
 		std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
 		AppVariables::Settings = AVSettingsJson(pathSettingFileA);
 
 		//Create Profiles folder
-		std::wstring pathProfilesFolderW = PathMerge(PathGetExecutableDirectory(), L"Profiles");
+		std::wstring pathProfilesFolderW = PathMerge(exeDirectory, L"Profiles");
 		FolderCreate(pathProfilesFolderW);
 
 		//Replace updater executable
@@ -63,22 +75,23 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		SettingCheck();
 
 		//Load window settings
-		bool StartWindowVisibleBool = false;
-		std::optional<bool> StartWindowVisibleSetting = AppVariables::Settings.Load<bool>("StartWindowVisible");
-		if (StartWindowVisibleSetting.has_value())
+		bool startWindowVisibleBool = false;
+		std::optional<bool> startWindowVisibleSetting = AppVariables::Settings.Load<bool>("StartWindowVisible");
+		if (startWindowVisibleSetting.has_value())
 		{
-			StartWindowVisibleBool = StartWindowVisibleSetting.value();
+			startWindowVisibleBool = startWindowVisibleSetting.value();
 		}
 
-		bool SetTopMostBool = false;
-		std::optional<bool> SetTopMostSetting = AppVariables::Settings.Load<bool>("SetTopMost");
-		if (SetTopMostSetting.has_value())
+		bool setTopMostBool = false;
+		std::optional<bool> setTopMostSetting = AppVariables::Settings.Load<bool>("SetTopMost");
+		if (setTopMostSetting.has_value())
 		{
-			SetTopMostBool = SetTopMostSetting.value();
+			setTopMostBool = setTopMostSetting.value();
 		}
 
 		//Create application window
-		AppVariables::App.CreateWindowXaml(hInstance, StartWindowVisibleBool, SetTopMostBool);
+		AVDebugWriteLine("Creating application window.");
+		AppVariables::App.CreateWindowXaml(hInstance, startWindowVisibleBool, setTopMostBool);
 
 		//Return result
 		return 0;
@@ -86,6 +99,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	catch (...)
 	{
 		//Return result
+		AVDebugWriteLine("Failed creating application window (Exception)");
 		return -1;
 	}
 }
