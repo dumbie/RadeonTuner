@@ -14,9 +14,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Check if picking is disabled
-			if (disable_picking) { return; }
-
 			//Disable saving
 			disable_saving = true;
 
@@ -100,6 +97,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get adapter and display index
 			adl_Display_AdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
 			adl_Display_DisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
+			AVDebugWriteLine("Selected display index: A" << adl_Display_AdapterIndex << " / D" << adl_Display_DisplayIndex);
 
 			//Load display settings
 			AdlxValuesLoadDisplay();
@@ -138,6 +136,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get gpu adapter index
 			adl_Gpu_AdapterIndex = adapterInfo.iAdapterIndex;
+			AVDebugWriteLine("Selected gpu index: " << adl_Gpu_AdapterIndex);
 
 			//Get gpu registry path
 			gpuRegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);

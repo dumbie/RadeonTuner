@@ -29,7 +29,5 @@ struct DisplaySettings
 	SettingInt CVDCTritanopia;
 	SettingInt HDCPEnabled;
 
-	//Status (No export)
-
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current)
 };

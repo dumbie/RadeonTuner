@@ -87,6 +87,7 @@
     <ClInclude Include="AdlAppsAdd.h" />
     <ClInclude Include="AdlAppsProperty.h" />
     <ClInclude Include="AdlAppsRemove.h" />
+    <ClInclude Include="AdlFunctions.h" />
     <ClInclude Include="AdlGraphicsStatus.h" />
     <ClInclude Include="AdlGetDevices.h" />
     <ClInclude Include="AdlGetIdentifier.h" />
@@ -97,12 +98,11 @@
     <ClInclude Include="AdlEyefinity.h" />
     <ClInclude Include="AdlSettingsClass.h" />
     <ClInclude Include="AdlInitialize.h" />
-    <ClInclude Include="AdlOverdrive.h" />
+    <ClInclude Include="AdlOverdrive8.h" />
     <ClInclude Include="AdlRegistry.h" />
     <ClInclude Include="AdlTuningMetrics.h" />
     <ClInclude Include="AdlValuesLoadGraphicsApp.h" />
     <ClInclude Include="AdlValuesLoadGraphicsRegistry.h" />
-    <ClInclude Include="AdlValuesPrepare.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
     <ClInclude Include="AdlxLoopDevice.h" />
@@ -115,10 +115,12 @@
     <ClInclude Include="ADL\adl_structures_custom.h" />
     <ClInclude Include="ADL\adl_structures_sdk.h" />
     <ClInclude Include="DisplayDetailsIdl.h" />
+    <ClInclude Include="DisplaySettingsResolution.h" />
     <ClInclude Include="DisplaySettingsConvertUIAdl.h" />
     <ClInclude Include="DisplaySettingsConvertUICurrent.h" />
     <ClInclude Include="DisplaySettingsConvertUIDefault.h" />
     <ClInclude Include="DisplaySettingsGenerateAdl.h" />
+    <ClInclude Include="DisplaySettingsDetails.h" />
     <ClInclude Include="EyefinityEvents.h" />
     <ClInclude Include="EyefinityFunc.h" />
     <ClInclude Include="GraphicsFsrOverrideDll.h" />
@@ -150,6 +152,7 @@
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="MultimediaSettingsFunc.h" />
     <ClInclude Include="MultimediaSettingsClass.h" />
     <ClInclude Include="MultimediaSettingsConvertUICurrent.h" />
     <ClInclude Include="MultimediaSettingsConvertUIDefault.h" />

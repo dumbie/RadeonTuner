@@ -72,9 +72,6 @@
     <ClInclude Include="AdlInitialize.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlValuesPrepare.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxLoopKeepActive.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
@@ -222,9 +219,6 @@
     <ClInclude Include="AdlEyefinity.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="AdlOverdrive.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsFsrOverrideDll.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
@@ -288,6 +282,21 @@
     <ClInclude Include="MultimediaSettingsConvertUICurrent.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
+    <ClInclude Include="MultimediaSettingsFunc.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlOverdrive8.h">
+      <Filter>Page Files\Tuning\Overdrive</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsDetails.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlFunctions.h">
+      <Filter>Page Files\Adl</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsResolution.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -348,6 +357,9 @@
     </Filter>
     <Filter Include="Page Files\Graphics\Apps">
       <UniqueIdentifier>{8aa944a0-dde8-417b-93f6-e9410fe9dcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Tuning\Overdrive">
+      <UniqueIdentifier>{2f9263b4-cbef-4391-8a56-f8fc030a61fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

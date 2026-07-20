@@ -13,7 +13,6 @@ struct TuningFanSettings
 	SettingInt PowerVoltage;
 	SettingInt PowerTDC;
 	SettingInt FanZeroRpm;
-	SettingInt FanZeroTemp;
 	SettingInt FanSpeed0;
 	SettingInt FanTemp0;
 	SettingInt FanSpeed1;
@@ -33,7 +32,8 @@ struct TuningFanSettings
 	SettingInt PowerVoltagePB;
 	SettingInt PowerTDCPB;
 
-	//Status (No export)
+	//Variables (No export)
+	int FanZeroTemp = -1;
 	bool FanSupport = false;
 	bool TuningSupport = false;
 	bool PowerBoostUse = false;

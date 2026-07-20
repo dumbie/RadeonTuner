@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 				if (eyefinityAutomaticEnabled)
 				{
 					combobox_Eyefinity_Applications().IsEnabled(true);
-					button_Eyefinity_AddExe().IsEnabled(true);	
+					button_Eyefinity_AddExe().IsEnabled(true);
 					button_Eyefinity_Remove().IsEnabled(true);
 				}
 				else

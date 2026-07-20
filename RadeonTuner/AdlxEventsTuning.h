@@ -51,7 +51,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Reset tuning and fans settings
-			if (Adl_Overdrive_Reset(adl_Gpu_AdapterIndex))
+			if (Adl_Overdrive8_Reset(adl_Gpu_AdapterIndex))
 			{
 				//Device identifier
 				std::wstring device_id_w = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
@@ -117,17 +117,17 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorIgnored);
-			button_Fan_Apply().Background(colorIgnored);
-
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
 
 			//Update current value
 			tuningFanSettingsCurrent.KeepActive.Current = newValue;
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
 		}
 		catch (...) {}
 	}

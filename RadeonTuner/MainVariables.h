@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 
-inline bool disable_picking = true;
 inline bool disable_saving = true;
 inline bool disable_saving_settings = true;
 inline bool radeon_Chill_Linked = false;
@@ -26,7 +25,7 @@ inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
 inline int displayResolutionSwitchTimeSec = 15;
 inline int displayResolutionRevertWidth = 0;
 inline int displayResolutionRevertHeight = 0;
-inline int displayResolutionRevertRefreshRate = 0;
+inline float displayResolutionRevertRefreshRate = 0.0F;
 inline int displayResolutionRevertOrientation = 0;
 
 inline int adl_AppSelectedIndex = -1;
