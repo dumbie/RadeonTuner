@@ -10,6 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Fix find way to check if setting is supported and disable interface.
+			//Fix load current Eyefinity settings.
 
 			DisplaySettings displaySettings{};
 

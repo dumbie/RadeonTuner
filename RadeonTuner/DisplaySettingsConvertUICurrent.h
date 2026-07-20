@@ -9,11 +9,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			////HDR Enabled
-			//if (displaySettings.HdrEnabled.Current.has_value())
-			//{
-			//	toggleswitch_HdrEnabled().IsOn(displaySettings.HdrEnabled.Current.value());
-			//}
+			//Display Color Enhancement
+			if (displaySettings.ColorEnhancement.Current.has_value())
+			{
+				combobox_Display_DisplayColorEnhancement().SelectedIndex(displaySettings.ColorEnhancement.Current.value());
+			}
 
 			//Brightness
 			if (displaySettings.Brightness.Current.has_value())
