@@ -42,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			Eyefinity_Applications_SaveToFile();
 
 			//List applications
-			Eyefinity_Applications_List();
+			Eyefinity_Applications_List(true);
 
 			//Show notification
 			ShowNotification(L"Application added");
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			Eyefinity_Applications_SaveToFile();
 
 			//List applications
-			Eyefinity_Applications_List();
+			Eyefinity_Applications_List(true);
 
 			//Show notification
 			ShowNotification(L"Application removed");
@@ -81,6 +81,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable Automatic Eyefinity
+			toggleswitch_Eyefinity_Automatic().IsOn(false);
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
@@ -103,6 +106,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable Automatic Eyefinity
+			toggleswitch_Eyefinity_Automatic().IsOn(false);
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
@@ -125,6 +131,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable Automatic Eyefinity
+			toggleswitch_Eyefinity_Automatic().IsOn(false);
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
@@ -147,6 +156,9 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Disable Automatic Eyefinity
+			toggleswitch_Eyefinity_Automatic().IsOn(false);
+
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 

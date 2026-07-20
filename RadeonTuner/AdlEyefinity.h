@@ -93,11 +93,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set display target
 					slsTargets[slsTargetCurrent].displayTarget = ADLDisplayTarget{};
 					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayLogicalIndex = displayIndexes[slsTargetCurrent];
-					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayPhysicalIndex = displayIndexes[slsTargetCurrent];
-
-					//Set adapter target
 					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayLogicalAdapterIndex = displayAdapterIndex;
-					slsTargets[slsTargetCurrent].displayTarget.displayID.iDisplayPhysicalAdapterIndex = displayAdapterIndex;
 
 					//Set view size
 					slsTargets[slsTargetCurrent].viewSize = ADLMode{};
