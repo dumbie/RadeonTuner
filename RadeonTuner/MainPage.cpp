@@ -21,7 +21,6 @@
 #include "AdlFunctions.h"
 
 #include "AdlxInfoLoad.h"
-#include "AdlValuesPrepare.h"
 #include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
 #include "AdlxValuesExportDisplay.h"
@@ -114,6 +113,9 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
+			//Load tuning profiles file
+			TuningFanSettings_Profiles_LoadFromFile();
+
 			//Prepare adlx values
 			std::wstring initResult_Values = AdlxValuesPrepare();
 			if (!initResult_Values.empty())
@@ -125,19 +127,13 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Prepare adl values
-			AdlValuesPrepare();
-
-			//Load tuning profiles file
-			TuningFanSettings_Profiles_LoadFromFile();
-
 			//Load and list Power Boost applications
 			PowerBoost_Applications_LoadFromFile();
-			PowerBoost_Applications_List();
+			PowerBoost_Applications_List(true);
 
 			//Load and list Automatic Eyefinity applications
 			Eyefinity_Applications_LoadFromFile();
-			Eyefinity_Applications_List();
+			Eyefinity_Applications_List(true);
 
 			//Set default registry values
 			AdlSetDefaultSettings();
@@ -183,13 +179,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Select gpu and display
-			combobox_GpuSelect().SelectedIndex(0);
-			combobox_DisplaySelect().SelectedIndex(0);
-
-			//Select application
-			combobox_AppSelect().SelectedIndex(0);
-
 			//Select Eyefinity orientation
 			combobox_EyefinityMonitorOrientation().SelectedIndex(0);
 
@@ -379,7 +368,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Reload application settings
+			//Reload graphics settings
 			AdlxValuesLoadSelectApp();
 		}
 		catch (...) {}

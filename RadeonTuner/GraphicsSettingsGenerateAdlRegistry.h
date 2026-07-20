@@ -14,13 +14,14 @@ namespace winrt::RadeonTuner::implementation
 			GraphicsSettings graphicsSettings{};
 
 			//FSR Upscaling Override
+			//Note: When using Driver only software type this setting is disabled, Default type it is enabled by default
 			try
 			{
 				//Set support
 				graphicsSettings.FsrOverride.Support = true;
 
 				//Set default
-				graphicsSettings.FsrOverride.Default = 1;
+				graphicsSettings.FsrOverride.Default = 0;
 
 				auto adlRegistry = AdlRegistrySettingGetString(gpuAdapterIndex, "UMD", "FsrOverride", true);
 				if (adlRegistry.has_value())
@@ -122,7 +123,24 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set current
 					int convertedValue = wstring_to_int(adlRegistry.value());
-					graphicsSettings.MfgRatio.Current = convertedValue;
+
+					//Enumeration index correction
+					if (convertedValue == 0)
+					{
+						graphicsSettings.MfgRatio.Current = 0;
+					}
+					else if (convertedValue == 2)
+					{
+						graphicsSettings.MfgRatio.Current = 1;
+					}
+					else if (convertedValue == 3)
+					{
+						graphicsSettings.MfgRatio.Current = 2;
+					}
+					else if (convertedValue == 4)
+					{
+						graphicsSettings.MfgRatio.Current = 3;
+					}
 				}
 			}
 			catch (...) {}
@@ -367,7 +385,7 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set default
 					graphicsSettings.ChillEnabled.Default = 0;
-					graphicsSettings.ChillMinFps.Default = 70;
+					graphicsSettings.ChillMinFps.Default = 75;
 					graphicsSettings.ChillMaxFps.Default = 140;
 
 					//Set support

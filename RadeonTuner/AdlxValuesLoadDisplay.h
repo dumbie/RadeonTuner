@@ -84,7 +84,7 @@ namespace winrt::RadeonTuner::implementation
 			DisplaySettings_Convert_ToUI_Adl(displaySettingsCurrent);
 
 			//Load display resolution values
-			DisplayList_Resolution();
+			DisplayList_Resolution(false);
 
 			//Load display refresh rate values
 			DisplayList_RefreshRate();

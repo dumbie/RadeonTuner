@@ -49,10 +49,7 @@ namespace winrt::RadeonTuner::implementation
 			if (removeResult == L"Application removed")
 			{
 				//Reload applications
-				AdlAppInterfaceListLoad();
-
-				//Select application
-				combobox_AppSelect().SelectedIndex(0);
+				AdlxValuesLoadApplicationList(true);
 			}
 		}
 		catch (...) {}
@@ -79,6 +76,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Convert settings to interface
+			//Fix reset graphics settings directly in driver, skip unreliable events
 			bool resetResult = GraphicsSettings_Convert_ToUI_Default(graphicsSettings);
 
 			//Check result
@@ -465,16 +463,35 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
+			//Enumeration index correction
+			std::wstring setValue = L"0";
+			if (newValue == 0)
+			{
+				setValue = L"0";
+			}
+			else if (newValue == 1)
+			{
+				setValue = L"2";
+			}
+			else if (newValue == 2)
+			{
+				setValue = L"3";
+			}
+			else if (newValue == 3)
+			{
+				setValue = L"4";
+			}
+
 			//Check application type
 			if (AdlAppSelectedGet().value().get().Global)
 			{
 				//Set setting
-				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MfgRatio", number_to_wstring(newValue));
+				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MfgRatio", setValue);
 			}
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MfgRatio", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MfgRatio", setValue);
 			}
 
 			//Show result
@@ -1545,6 +1562,9 @@ namespace winrt::RadeonTuner::implementation
 				}
 				else
 				{
+					disable_saving = true;
+					toggleswitch_RadeonImageSharpening2_Desktop().IsOn(false);
+					disable_saving = false;
 					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 					ShowNotification(L"Image Sharpening disabled");
@@ -2590,7 +2610,7 @@ namespace winrt::RadeonTuner::implementation
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
 			bool newFailed = true;
 
-			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value.
+			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value switching between amdxcffx64techpreview.dll and amdxcffx64.dll.
 
 			//Check application type
 			if (AdlAppSelectedGet().value().get().Global)

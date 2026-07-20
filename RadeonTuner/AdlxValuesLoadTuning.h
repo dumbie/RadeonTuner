@@ -5,6 +5,52 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	std::wstring MainPage::AdlxValuesLoadGpuList(bool selectFirst)
+	{
+		try
+		{
+			//Get combobox items
+			auto itemCollection = combobox_GpuSelect().Items();
+
+			//Clear combobox items
+			itemCollection.Clear();
+
+			//Get all GPU's
+			adl_List_Gpus = AdlGetGpuAll();
+			int adapterCount = adl_List_Gpus.size();
+
+			//Add all GPU's
+			for (const AdapterInfo& adapterInfo : adl_List_Gpus)
+			{
+				//Add gpu to combobox
+				itemCollection.Append(box_value(char_to_wstring(adapterInfo.strAdapterName)));
+			}
+
+			//Select first index
+			if (selectFirst)
+			{
+				combobox_GpuSelect().SelectedIndex(0);
+			}
+
+			//Set result
+			AVDebugWriteLine("Listed all GPU's: " << adapterCount);
+			if (adapterCount == 0)
+			{
+				return L"Failed to find any GPU's.";
+			}
+			else
+			{
+				return L"";
+			}
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("ADLX failed loading gpu list.");
+			return L"Failed loading gpu list.";
+		}
+	}
+
 	void MainPage::AdlxValuesLoadTuning()
 	{
 		try

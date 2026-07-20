@@ -8,17 +8,17 @@ namespace winrt::RadeonTuner::implementation
 		MainPage() {}
 
 		std::wstring AdlInitialize();
-		void AdlValuesPrepare();
 		void ADL_MemoryFree_Customizations(CUSTOMISATIONS* pCustomisations);
 
 		std::vector<AdapterInfo> AdlGetGpuAll();
 		std::optional<AdapterInfo> AdlGetGpuByDeviceId(std::wstring deviceId);
 		std::optional<AdapterInfo> AdlGetGpuByAdapterIndex(int adapterIndex);
 		std::vector<ADLDisplayInfo> AdlGetDisplayAll();
-		std::vector<ADLDisplayInfo> AdlGetDisplayAllByAdapterIndex(int adapterIndex);
+		std::vector<ADLDisplayInfo> AdlGetDisplayByAdapterIndex(int adapterIndex);
 		std::optional<ADLDisplayInfo> AdlGetDisplayByDisplayIndex(int adapterIndex, int displayIndex);
+		bool AdlDetectDisplayChange();
 
-		bool AdlAppInterfaceListLoad();
+		bool AdlxValuesLoadApplicationList(bool selectFirst);
 		void AdlAppInterfaceAddFile();
 		void AdlAppInterfaceAddProcess();
 		std::optional<std::reference_wrapper<AdlApplication>> AdlAppSelectedGet();
@@ -105,6 +105,8 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesImportTuning();
 		bool AdlxResetShaderCache();
 
+		std::wstring AdlxValuesLoadDisplayList(bool selectFirst);
+		std::wstring AdlxValuesLoadGpuList(bool selectFirst);
 		void AdlxValuesLoadSelectApp();
 		void AdlxValuesLoadSelectGpu();
 		void AdlxValuesLoadSelectDisplay();
@@ -115,7 +117,6 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxValuesLoadTuning();
 		std::wstring AdlxValuesPrepare();
 		bool AdlTuningApply(int gpuAdapterIndex, TuningFanSettings tuningFanSettings);
-		bool AdlTuningReset(int gpuAdapterIndex);
 		void AdlxInfoLoad();
 		std::wstring AdlxInfoGpu();
 		std::wstring AdlxInfoDisplay();
@@ -133,14 +134,14 @@ namespace winrt::RadeonTuner::implementation
 		void AdlxLoopMetrics();
 		void AdlxLoopKeepActive();
 
-		bool PowerBoost_Applications_List();
+		bool PowerBoost_Applications_List(bool selectFirst);
 		bool PowerBoost_Applications_LoadFromFile();
 		bool PowerBoost_Applications_SaveToFile();
 		void button_PowerBoost_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_PowerBoost_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_PowerBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 
-		bool Eyefinity_Applications_List();
+		bool Eyefinity_Applications_List(bool selectFirst);
 		bool Eyefinity_Applications_LoadFromFile();
 		bool Eyefinity_Applications_SaveToFile();
 		void button_Eyefinity_AppAddExe_Click(IInspectable const& sender, RoutedEventArgs const& e);
@@ -275,9 +276,9 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_Display_Resolution_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_Display_RefreshRate_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_Display_Orientation_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void DisplayList_Resolution();
+		void DisplayList_Resolution(bool waitUpdate);
 		void DisplayList_RefreshRate();
-		void DisplayList_SelectCurrent();
+		void DisplayList_SelectCurrent_Values();
 		void DisplaySettings_Resolution_Revert();
 		void DisplaySettings_Confirm_Resolution_Start();
 		void DisplaySettings_Confirm_Resolution_Stop(bool revertResolution);

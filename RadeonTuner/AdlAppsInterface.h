@@ -6,57 +6,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppInterfaceListLoad()
-	{
-		try
-		{
-			//Disable picking
-			disable_picking = true;
-
-			//Get combobox items
-			ItemCollection itemCollection = combobox_AppSelect().Items();
-
-			//Remove applications
-			int collectionSize = itemCollection.Size();
-			for (int i = 0; i < collectionSize; i++)
-			{
-				itemCollection.RemoveAt(0);
-			}
-
-			//Load applications
-			adl_Apps_Cache = AdlAppsLoad(L"3D_User");
-
-			//Add global application
-			AdlApplication globalApp{};
-			globalApp.Global = true;
-			globalApp.FileName = L"Global";
-			globalApp.FilePath = L"Registry";
-			adl_Apps_Cache.push_back(globalApp);
-
-			//Sort applications by file name
-			std::sort(adl_Apps_Cache.begin(), adl_Apps_Cache.end(), [](const AdlApplication& a, const AdlApplication& b) { return a.FileName.size() < b.FileName.size(); });
-
-			//Add apps to combobox
-			for (AdlApplication adlApp : adl_Apps_Cache)
-			{
-				itemCollection.Append(box_value(adlApp.FileName));
-			}
-
-			//Enable picking
-			disable_picking = false;
-
-			//Set result
-			AVDebugWriteLine("Listed ADL applications in combobox.");
-			return true;
-		}
-		catch (...)
-		{
-			//Set result
-			AVDebugWriteLine("Failed listing ADL applications in combobox.");
-			return false;
-		}
-	}
-
 	void MainPage::AdlAppInterfaceAddFile()
 	{
 		try
@@ -83,10 +32,7 @@ namespace winrt::RadeonTuner::implementation
 			if (addResult == L"Application added")
 			{
 				//Reload applications
-				AdlAppInterfaceListLoad();
-
-				//Select application
-				combobox_AppSelect().SelectedIndex(0);
+				AdlxValuesLoadApplicationList(true);
 			}
 		}
 		catch (...) {}
@@ -144,10 +90,7 @@ namespace winrt::RadeonTuner::implementation
 			if (addResult == L"Application added")
 			{
 				//Reload applications
-				AdlAppInterfaceListLoad();
-
-				//Select application
-				combobox_AppSelect().SelectedIndex(0);
+				AdlxValuesLoadApplicationList(true);
 			}
 		}
 		catch (...) {}

@@ -42,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			PowerBoost_Applications_SaveToFile();
 
 			//List applications
-			PowerBoost_Applications_List(false);
+			PowerBoost_Applications_List(true);
 
 			//Show notification
 			ShowNotification(L"Application added");
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			PowerBoost_Applications_SaveToFile();
 
 			//List applications
-			PowerBoost_Applications_List(false);
+			PowerBoost_Applications_List(true);
 
 			//Show notification
 			ShowNotification(L"Application removed");
