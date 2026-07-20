@@ -83,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			AVDebugWriteLine("Failed to get GPU by device identifier (Not found)");
+			AVDebugWriteLine(L"Failed to get GPU by device identifier (Not found) " << deviceId);
 			return std::nullopt;
 		}
 		catch (...)
@@ -122,6 +122,8 @@ namespace winrt::RadeonTuner::implementation
 		std::vector<ADLDisplayInfo> displayList;
 		try
 		{
+			//Fix when a display is connected but has no power DisplayInfo_Get may return invalid values instead of no values.
+
 			//Get all GPU's
 			int displayConnectedCount = 0;
 			for (AdapterInfo adapterInfo : AdlGetGpuAll())
@@ -133,7 +135,7 @@ namespace winrt::RadeonTuner::implementation
 				for (int i = 0; i < displayInfoCount; i++)
 				{
 					ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
-					bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0;
+					bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0 && displayInfo.displayID.iDisplayLogicalAdapterIndex <= 2048 && displayInfo.displayID.iDisplayLogicalIndex <= 2048;
 					bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
 					bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
 					if (validIndex && displayConnected && displayMapped)
@@ -169,7 +171,7 @@ namespace winrt::RadeonTuner::implementation
 			for (int i = 0; i < displayInfoCount; i++)
 			{
 				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
-				bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0;
+				bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0 && displayInfo.displayID.iDisplayLogicalAdapterIndex <= 2048 && displayInfo.displayID.iDisplayLogicalIndex <= 2048;
 				bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
 				bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
 				if (validIndex && displayConnected && displayMapped)
