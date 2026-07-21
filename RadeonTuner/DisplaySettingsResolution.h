@@ -9,7 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			AVDebugWriteLine(L"Reverting resolution to " << number_to_wstring(displayResolutionRevertWidth) << L"x" << number_to_wstring(displayResolutionRevertHeight) << L" " << displayResolutionRevertRefreshRate << L" Hz");
+			std::wstring resolutionString = number_to_wstring(displayResolutionRevertWidth) + L"x" + number_to_wstring(displayResolutionRevertHeight) + L" @ " + float_to_wstring(displayResolutionRevertRefreshRate, 2) + L" Hz";
+			AVDebugWriteLine(L"Display reverting to " << resolutionString);
 
 			//Get current display mode
 			int numModes = -1;
@@ -36,14 +37,18 @@ namespace winrt::RadeonTuner::implementation
 			//Show result
 			if (newFailed)
 			{
-				ShowNotification(L"Failed reverting display resolution");
-				AVDebugWriteLine(L"Failed reverting display resolution");
+				ShowNotification(L"Failed reverting display");
+				AVDebugWriteLine(L"Failed reverting display");
 			}
 			else
 			{
-				std::wstring valueString = number_to_wstring(displayResolutionRevertWidth) + L"x" + number_to_wstring(displayResolutionRevertHeight);
-				ShowNotification(L"Display resolution reverted to " + valueString);
-				AVDebugWriteLine(L"Display resolution reverted");
+				ShowNotification(L"Display reverted to " + resolutionString);
+				AVDebugWriteLine(L"Display reverted to " << resolutionString);
+
+				disable_saving = true;
+				//Select current display values
+				DisplayList_SelectCurrent_Values();
+				disable_saving = false;
 			}
 		}
 		catch (...) {}
