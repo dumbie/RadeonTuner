@@ -153,6 +153,18 @@ namespace winrt::RadeonTuner::implementation
 									{
 										//Load tuning and fans settings
 										AdlxValuesLoadTuning();
+
+										//Show notification
+										if (tuningFanSettingsProfile.PowerBoostUse)
+										{
+											ShowNotification(L"Power Boost tuning settings applied");
+											AVDebugWriteLine(L"Power Boost tuning settings applied");
+										}
+										else
+										{
+											ShowNotification(L"Tuning and fans settings applied");
+											AVDebugWriteLine(L"Tuning and fans settings applied");
+										}
 									}
 								};
 							AppVariables::App.DispatcherInvoke(updateFunction);
