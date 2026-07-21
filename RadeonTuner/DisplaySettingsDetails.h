@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::DisplayList_SelectCurrent()
+	void MainPage::DisplayList_SelectCurrent_Values()
 	{
 		try
 		{
@@ -62,11 +62,15 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::DisplayList_Resolution()
+	void MainPage::DisplayList_Resolution(bool waitUpdate)
 	{
 		try
 		{
-			//Fix reload list when virtual super resolution is enabled or disabled
+			//Wait for resolutions to have updated
+			if (waitUpdate)
+			{
+				Sleep(500);
+			}
 
 			//Create item collection
 			auto itemCollection = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
@@ -97,6 +101,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set combobox items source
 			combobox_Display_Resolution().ItemsSource(itemCollection);
+
+			//Show result
+			AVDebugWriteLine(L"Loaded display resolution values");
 		}
 		catch (...) {}
 	}
@@ -105,8 +112,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix refresh rates returned by ADL2 are rounded down for example 59.94 is returned as 59.00
-
 			//Create item collection
 			auto itemCollection = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
 
@@ -114,6 +119,11 @@ namespace winrt::RadeonTuner::implementation
 			ADLMode* lppModes;
 			int lpNumModes = -1;
 			adl_Res0 = _ADL2_Display_PossibleMode_Get(adl_Context, adl_Display_AdapterIndex, &lpNumModes, &lppModes);
+
+			//Sort refresh rates
+			std::sort(lppModes, lppModes + lpNumModes, [](ADLMode const& a, ADLMode const& b) { return a.fRefreshRate > b.fRefreshRate; });
+
+			//Append refresh rates
 			for (int i = 0; i < lpNumModes; i++)
 			{
 				ADLMode adlMode = lppModes[i];
@@ -133,10 +143,11 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Fix Sort refresh rates
-
 			//Set combobox items source
 			combobox_Display_RefreshRate().ItemsSource(itemCollection);
+
+			//Show result
+			AVDebugWriteLine(L"Loaded display refresh rate values");
 		}
 		catch (...) {}
 	}
