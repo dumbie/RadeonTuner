@@ -22,14 +22,14 @@ namespace winrt::RadeonTuner::implementation
 			if (resetResult)
 			{
 				//Show notification
-				ShowNotification(L"Display settings reset");
-				AVDebugWriteLine(L"Display settings reset");
+				ShowNotification(L"Display color settings reset");
+				AVDebugWriteLine(L"Display color settings reset");
 			}
 			else
 			{
 				//Show notification
-				ShowNotification(L"Display settings not reset");
-				AVDebugWriteLine(L"Display settings not reset");
+				ShowNotification(L"Display color settings not reset");
+				AVDebugWriteLine(L"Display color settings not reset");
 			}
 		}
 		catch (...) {}
@@ -268,6 +268,14 @@ namespace winrt::RadeonTuner::implementation
 
 				//Update current value
 				displaySettingsCurrent.VsrEnabled.Current = newValue;
+
+				disable_saving = true;
+				//Load display resolution values
+				DisplayList_Resolution(true);
+
+				//Select current display values
+				DisplayList_SelectCurrent_Values();
+				disable_saving = false;
 			}
 		}
 		catch (...) {}
