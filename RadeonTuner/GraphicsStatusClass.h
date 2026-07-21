@@ -5,6 +5,7 @@ struct GraphicsStatus
 {
 	int ProcessId = -1;
 	std::wstring ProcessName = L"";
+	std::wstring RenderApi = L"";
 	bool FsrOverrideUpscaling = false;
 	bool FsrOverrideFrameGeneration = false;
 	bool FsrOverrideMultiFrameGeneration = false;
@@ -17,4 +18,5 @@ struct GraphicsStatus
 	bool ImageSharpening1 = false;
 	bool ImageSharpening2 = false;
 	bool FluidMotionFrames = false;
+	bool FluidMotionFramesValidApi = false;
 };

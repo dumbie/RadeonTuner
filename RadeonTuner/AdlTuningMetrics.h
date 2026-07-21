@@ -29,6 +29,8 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_New_QueryPMLogData_Get(adl_Context, adl_Gpu_AdapterIndex, &adl_Metrics_Logging_Output);
 			//Note: I tried using ADL2_Device_PMLog_Device_Create and ADL2_Adapter_PMLog_Start but kept returning 0 values on integrated GPU's
 
+			//Fix find way to get current memory load
+
 			//Set metric values
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_GFX].supported)
 			{

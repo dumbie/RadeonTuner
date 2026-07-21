@@ -6,9 +6,10 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Fix check if AFMF, FSR Latency Reduction is active and update status
-	//Applications that are currently hooked by driver can be found at Computer\HKEY_CURRENT_USER\Software\AMD\HKIDs
-	//amdihk64.dll NotifyFidelityFXStatus NotifyFidelityFXGameVersion
+	//Fix check if AFMF is active and update status
+	//Note: Adrenalin Software Boost, Delag, RIS and Chill overlay status when running a game is not the actual active state it just shows if the setting is Enabled or Disabled.
+	//Note: Applications that are currently hooked by driver can be found at Computer\HKEY_CURRENT_USER\Software\AMD\HKIDs
+	//Note: amdihk64.dll NotifyFidelityFXStatus NotifyFidelityFXGameVersion
 
 	std::vector<GraphicsStatus> MainPage::GraphicsStatus_Get()
 	{
@@ -41,7 +42,18 @@ namespace winrt::RadeonTuner::implementation
 				//Set regex string
 				std::wstring regexString = regValue.DataString.value();
 
+				////Render api
+				//{
+				//	std::wsmatch regexMatch;
+				//	std::wregex regexPattern(L"api\\?(.*?)\\*");
+				//	if (std::regex_search(regexString, regexMatch, regexPattern))
+				//	{
+				//		graphicsStatus.RenderApi = regexMatch[1].str();
+				//	}
+				//}
+
 				//FSR Override Upscaling
+				//Note: Upscale only works when fsr3_upscale_ver is atleast v1.0.0.36329
 				{
 					std::wsmatch regexMatch;
 					std::wregex regexPattern(L"fsr4_upscale\\?(.*?)\\*");
@@ -57,6 +69,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//FSR Override Frame Generation
+				//Note: MLFI only works when fsr3_upscale_ver is atleast v1.0.1.41314
 				{
 					std::wsmatch regexMatch;
 					std::wregex regexPattern(L"fsr4_mlfi\\?(.*?)\\*");
@@ -115,6 +128,20 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+
+				//Fluid Motion Frames
+				//Fix check frame generation lag > 0ms and check if render api process uses is supported
+				//ADL2_Adapter_FrameMetrics_Get
+
+				//FSR Latency Reduction
+				//Fix Check all process threads if latency reduction is hooked and active
+				//32bit DX11 amdxx32.dll!AmdD3D11CreateDeviceAndSwapChainExt with realtime priority
+
+				//Radeon Chill
+				//Fix Check all process threads if chill is hooked and active
+
+				//Radeon Boost
+				//Fix Check all process threads if boost is hooked and active
 
 				//Add process to status list
 				graphicsStatusList.push_back(graphicsStatus);
@@ -249,6 +276,7 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 
+					//image_FrameGenEnabled_Status
 					//image_FsrLatencyReduction_Status
 					//image_RadeonChill_Status
 					//image_RadeonBoost_Status
