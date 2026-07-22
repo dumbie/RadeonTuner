@@ -98,9 +98,9 @@
                 <!-- Status -->
                 <Border x:Name="border_Status" Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core usage"/>
+                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core activity"/>
                         <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core speed"/>
-                        <TextBlock x:Name="textblock_Current_Memory_Usage" Text="" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory usage"/>
+                        <TextBlock x:Name="textblock_Current_Memory_Usage" Text="" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory activity"/>
                         <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory speed"/>
                         <TextBlock x:Name="textblock_Current_Power_Wattage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power wattage"/>
                         <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power voltage"/>
@@ -294,6 +294,7 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames beyond the in-game limit, resulting in a smoother experience."/>
                                                 <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may introduce additional latency in games, it is recommended to use 'FSR Latency Reduction' for optimal performance.&#10;&#10;* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards.&#10;&#10;* This setting disables 'Vertical Sync' and 'Frame Rate Target Control' when active, you can still limit the FPS using 'Radeon Chill'.&#10;&#10;* This setting only works when using the 'Default' driver software installation type and needs Adrenalin Software to be running in the background and also requires an application to be added to the game library."/>
+                                                <Image x:Name="image_FrameGenEnabled_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                                 <ToggleSwitch x:Name="toggleswitch_FrameGenEnabled" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_FrameGenEnabled_Toggled"/>
                                             </StackPanel>
 
@@ -389,7 +390,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* DirectX 12 applications are only supported on RDNA2 and newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
                                     </StackPanel>
@@ -1004,7 +1005,41 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
-                            <TextBlock Text="HDR Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Text="Display Options" FontSize="20" FontWeight="Medium"/>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Display Resolution -->
+                                    <TextBlock Text="Display Resolution" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="combobox_Display_Resolution" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Resolution_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="local:DisplayDetailsIdl">
+                                                <TextBlock Text="{x:Bind Name}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Display Refresh Rate -->
+                                    <TextBlock Text="Display Refresh Rate" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="combobox_Display_RefreshRate" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_RefreshRate_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="local:DisplayDetailsIdl">
+                                                <TextBlock Text="{x:Bind Name}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- Display Orientation -->
+                                    <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="combobox_Display_Orientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Orientation_SelectionChanged"/>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Margin="0,10,0,0" Text="HDR Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -1105,14 +1140,14 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="0,10,0,0" Text="Color Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Format Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Color Depth -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Color format to be used with your display."/>
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Color depth to be used with your display."/>
                                             <TextBlock Text="Color Depth" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_ColorDepth" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
@@ -1133,21 +1168,8 @@
                                 </StackPanel>
                             </Border>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <!-- Display Color Enhancement -->
-                                    <StackPanel Orientation="Vertical">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Improves visibility of dimmed details."/>
-                                            <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Custom Color -->
-                            <TextBlock Text="Custom Color" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <!-- Color Adjustment -->
+                            <TextBlock Text="Color Adjustment" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -1200,6 +1222,19 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged"/>
                                     </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Display Color Enhancement -->
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Improves visibility of dimmed details."/>
+                                            <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
@@ -1408,6 +1443,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Upscaling improves video playback quality by upscaling video playback resolution and adjusting details for a better visual experience."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 and newer graphic cards."/>
                                         <ToggleSwitch x:Name="toggleswitch_Video_Upscaling" Margin="10,0,0,0" OffContent="Video Upscaling" OnContent="Video Upscaling" Toggled="toggleswitch_Video_Upscaling_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -1416,6 +1452,21 @@
                                         <Slider x:Name="slider_Video_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
                                     </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Video Brightness -->
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <TextBlock Text="Video Brightness"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Video_Brightness" Text="{Binding ElementName=slider_Video_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Video_Brightness" Margin="10,0,0,0" ValueChanged="slider_Video_Brightness_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -1448,6 +1499,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show settings window when lauching this application."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting is ignored when another instance of RadeonTuner is already running and will show the window of the already running instance."/>
                                         <ToggleSwitch x:Name="toggleswitch_StartWindowVisible" Margin="10,0,0,0" OffContent="Show window on startup" OnContent="Show window on startup" Toggled="toggleswitch_StartWindowVisible_Toggled"/>
                                     </StackPanel>
 
@@ -1502,8 +1554,23 @@
             </Grid>
         </Grid>
 
-        <!-- Overlay -->
-        <Grid x:Name="grid_Overlay" Visibility="Collapsed">
+        <!-- Overlay - Confirm Resolution -->
+        <Grid x:Name="grid_Overlay_ConfirmResolution" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
+            </Grid.Background>
+            <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="textblock_Overlay_ConfirmResolution_Text" Text="Keep display settings?" TextWrapping="Wrap" FontSize="40" TextAlignment="Center" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                <TextBlock x:Name="textblock_Overlay_ConfirmResolution_SubText" Text="..." Margin="0,10,0,0" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
+                    <Button x:Name="button_Overlay_ConfirmResolution" Click="button_Overlay_ConfirmResolution_Click" Content="Keep settings" Background="{ThemeResource ApplicationValidBrush}" Style="{ThemeResource ApplicationButton}"/>
+                    <Button x:Name="button_Overlay_RevertResolution" Margin="10,0,0,0" Click="button_Overlay_RevertResolution_Click" Content="Revert settings" Background="{ThemeResource ApplicationInvalidBrush}" Style="{ThemeResource ApplicationButton}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- Overlay - Warning -->
+        <Grid x:Name="grid_Overlay_Warning" Visibility="Collapsed">
             <Grid.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
             </Grid.Background>
@@ -1512,7 +1579,7 @@
                 <TextBlock x:Name="textblock_Overlay_Sub_Text" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
                     <Button x:Name="button_Overlay_DriverCleanup" Click="button_Overlay_DriverCleanup_Click" Content="Run AMD Cleanup Utility" HorizontalAlignment="Center" Style="{ThemeResource ApplicationButton}"/>
-                    <Button x:Name="button_Overlay_Exit" Margin="20,00,0,0" Click="button_Overlay_Exit_Click" Content="Exit Application" HorizontalAlignment="Center" Style="{ThemeResource ApplicationButton}"/>
+                    <Button x:Name="button_Overlay_Exit" Margin="20,0,0,0" Click="button_Overlay_Exit_Click" Content="Exit Application" HorizontalAlignment="Center" Style="{ThemeResource ApplicationButton}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
