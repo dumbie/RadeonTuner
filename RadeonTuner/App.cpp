@@ -176,11 +176,23 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	HWND App::GetHandle()
+	HWND App::GetWindowHandle()
 	{
 		try
 		{
 			return _hWnd_MainWindow;
+		}
+		catch (...)
+		{
+			return NULL;
+		}
+	}
+
+	HWND App::GetXamlHandle()
+	{
+		try
+		{
+			return _hWnd_XamlWindow;
 		}
 		catch (...)
 		{
@@ -329,26 +341,26 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Update DesktopWindowXamlSource window size
+			//Set xaml window size and location
 			RECT rectClient;
 			GetClientRect(_hWnd_MainWindow, &rectClient);
-
-			//Set xaml window size and location
 			MoveWindow(_hWnd_XamlWindow, 0, 0, rectClient.right, rectClient.bottom, true);
 
-			//Show xaml window in normal state
+			//Show windows in normal state
 			ShowWindow(_hWnd_XamlWindow, SW_SHOWNORMAL);
-
-			//Hide main window based on setting
-			if (!winVisible)
-			{
-				ShowWindow(_hWnd_MainWindow, SW_HIDE);
-			}
+			ShowWindow(_hWnd_MainWindow, SW_SHOWNORMAL);
 
 			//Set main window on top based on setting
 			if (winOnTop)
 			{
 				SetTopMost(winOnTop);
+			}
+
+			//Hide main window based on setting
+			//Note: On Windows 10 hiding the xaml window breaks rendering
+			if (!winVisible)
+			{
+				ShowWindow(_hWnd_MainWindow, SW_HIDE);
 			}
 
 			//Set DesktopWindowXamlSource content

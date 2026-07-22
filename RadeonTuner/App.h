@@ -9,7 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 	public:
 		App();
-		HWND GetHandle();
+		HWND GetWindowHandle();
+		HWND GetXamlHandle();
 		bool GetIsWindowVisible();
 		void SetTopMost(bool topMost);
 		void SetContent(FrameworkElement const& content);
