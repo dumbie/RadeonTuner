@@ -34,6 +34,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Note: you can also set context shortcut in HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell which does not require admin but only works for current user.
+
 			//Check if saving is disabled
 			if (disable_saving_settings) { return; }
 

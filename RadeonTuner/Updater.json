@@ -12,5 +12,8 @@
   ],
   "FoldersIgnore": [
     "Profiles"
+  ],
+  "FilesMove": [
+    [ "Settings.json", "Settings/Settings.json" ]
   ]
 }
