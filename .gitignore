@@ -5,6 +5,7 @@ int
 debug
 release
 packages
+*.log
 *.suo
 *.user
 *.aps
