@@ -18,56 +18,56 @@
             </Grid.ColumnDefinitions>
 
             <!-- Menu -->
-            <ListBox x:Name="listbox_Main" Grid.Column="0" SelectionMode="Single" SelectionChanged="listbox_Main_SelectionChanged" Style="{ThemeResource ApplicationListBox}">
-                <ListBoxItem x:Name="listboxitem_Tuning">
+            <ListView x:Name="listview_Main" Grid.Column="0" Padding="0,0,5,0" SelectionMode="Single" SelectionChanged="listview_Main_SelectionChanged" Style="{ThemeResource ApplicationListView}">
+                <ListViewItem x:Name="listviewitem_Tuning">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Tuning.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Tuning"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Fans.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Fans"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Graphics.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Graphics"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Display.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Display"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Multimedia" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Multimedia" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Multimedia.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Multimedia"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Settings.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Settings"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Information.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Information"/>
                     </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem x:Name="listboxitem_Exit" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </ListViewItem>
+                <ListViewItem x:Name="listviewitem_Exit" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
                         <Image HorizontalAlignment="Center" Source="/Assets/Shutdown.png" Width="50" Height="50"/>
                         <TextBlock HorizontalAlignment="Center" Text="Exit"/>
                     </StackPanel>
-                </ListBoxItem>
-            </ListBox>
+                </ListViewItem>
+            </ListView>
 
             <!-- Content -->
             <Grid Grid.Column="1">
@@ -81,16 +81,45 @@
                 <!-- Header -->
                 <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <Grid>
-                        <TextBlock Text="RadeonTuner" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <Image Source="/Assets/RadeonTuner.png" Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Right" ToolTipService.ToolTip="RadeonTuner &lt;3"/>
                         <StackPanel Orientation="Horizontal">
                             <!-- Gpu Select -->
-                            <ComboBox x:Name="combobox_GpuSelect" IsEnabled="False" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_GpuSelect_SelectionChanged"/>
+                            <Button x:Name="button_GpuSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current graphics card" Click="button_GpuSelect_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Videocard.png" Width="32" Height="32"/>
+                                    <TextBlock x:Name="textblock_GpuSelect" Text="Select graphics card" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
 
                             <!-- Display Select -->
-                            <ComboBox x:Name="combobox_DisplaySelect" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_DisplaySelect_SelectionChanged"/>
+                            <Button x:Name="button_DisplaySelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current display" Click="button_DisplaySelect_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Display.png" Width="32" Height="32"/>
+                                    <TextBlock x:Name="textblock_DisplaySelect" Text="Select display" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
 
                             <!-- Application Select -->
-                            <ComboBox x:Name="combobox_AppSelect" IsEnabled="False" Margin="10,0,0,0" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_AppSelect_SelectionChanged"/>
+                            <Button x:Name="button_AppSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
+                                    <TextBlock x:Name="textblock_AppSelect" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Application Add -->
+                            <Button x:Name="button_AppAdd" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Application Remove -->
+                            <Button x:Name="button_AppRemove" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -126,12 +155,9 @@
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="125" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Graphics_AddExe" Click="button_Graphics_AddExe_Click" Content="Add Executable" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable as application."/>
-                    <Button x:Name="button_Graphics_AddProcess" Click="button_Graphics_AddProcess_Click" Content="Add Process" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add process as application."/>
-                    <Button x:Name="button_Graphics_Remove" Click="button_Graphics_Remove_Click" Content="Remove App" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                    <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
-                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
-                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export Settings" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
+                    <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
+                    <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
+                    <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
                     <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clear contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
@@ -778,7 +804,7 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <ComboBox x:Name="combobox_PowerBoost_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                        <Button x:Name="button_PowerBoost_AddExe" Content="Add executable" Click="button_PowerBoost_AddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable file as application."/>
+                                        <Button x:Name="button_PowerBoost_AddExe" Content="Add application" Click="button_PowerBoost_AddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
                                         <Button x:Name="button_PowerBoost_Remove" Content="Remove" Click="button_PowerBoost_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1073,7 +1099,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync" OnContent="AMD FreeSync" Toggled="toggleswitch_FreeSync_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_FreeSync_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1394,7 +1420,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Image Grid.Column="0" Source="/Assets/DragDrop.png" Width="30" Height="30" ToolTipService.ToolTip="Drag and drop displays in the order you want them to be, from left to right and top to bottom."/>
-                                        <ListView Grid.Column="1" x:Name="listview_EyefinityMonitorIndex" Margin="5,0,0,0" Height="40" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
+                                        <ListView Grid.Column="1" x:Name="listview_EyefinityMonitorIndex" Margin="5,0,0,0" Height="40" SelectionMode="None" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal"/>
@@ -1427,7 +1453,7 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <ComboBox x:Name="combobox_Eyefinity_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                        <Button x:Name="button_Eyefinity_AddExe" Content="Add executable" Click="button_Eyefinity_AppAddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add executable file as application."/>
+                                        <Button x:Name="button_Eyefinity_AddExe" Content="Add application" Click="button_Eyefinity_AppAddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
                                         <Button x:Name="button_Eyefinity_Remove" Content="Remove" Click="button_Eyefinity_AppRemove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1559,33 +1585,40 @@
             <Grid.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
             </Grid.Background>
-            <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="textblock_Overlay_ConfirmResolution_Text" Text="Keep display settings?" TextWrapping="Wrap" FontSize="40" TextAlignment="Center" Foreground="{ThemeResource ApplicationWhiteColor}"/>
-                <TextBlock x:Name="textblock_Overlay_ConfirmResolution_SubText" Text="..." Margin="0,10,0,0" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
-                    <Button x:Name="button_Overlay_ConfirmResolution" Click="button_Overlay_ConfirmResolution_Click" Content="Keep settings" Background="{ThemeResource ApplicationValidBrush}" Style="{ThemeResource ApplicationButton}"/>
-                    <Button x:Name="button_Overlay_RevertResolution" Margin="10,0,0,0" Click="button_Overlay_RevertResolution_Click" Content="Revert settings" Background="{ThemeResource ApplicationInvalidBrush}" Style="{ThemeResource ApplicationButton}"/>
-                </StackPanel>
+            <StackPanel MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="8,8,0,0" Background="{ThemeResource ApplicationDarkGrayColor}" Padding="10">
+                    <TextBlock x:Name="textblock_Overlay_ConfirmResolution_Text" Text="Keep display settings?" TextWrapping="Wrap" FontSize="24" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                </Border>
+                <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
+                    <StackPanel>
+                        <TextBlock x:Name="textblock_Overlay_ConfirmResolution_SubText" Text="..." TextWrapping="Wrap" FontSize="18" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
+                        <Button x:Name="button_Overlay_ConfirmResolution" Margin="0,15,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_ConfirmResolution_Click" Content="Keep settings" Background="{ThemeResource ApplicationValidBrush}" Style="{ThemeResource ApplicationButton}"/>
+                        <Button x:Name="button_Overlay_RevertResolution" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_RevertResolution_Click" Content="Revert settings" Background="{ThemeResource ApplicationInvalidBrush}" Style="{ThemeResource ApplicationButton}"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Grid>
 
-        <!-- Overlay - Warning -->
-        <Grid x:Name="grid_Overlay_Warning" Visibility="Collapsed">
+        <!-- Overlay - MessageBox -->
+        <Grid x:Name="grid_Overlay_MessageBox" Visibility="Collapsed">
             <Grid.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
             </Grid.Background>
-            <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="textblock_Overlay_Text" Text="..." TextWrapping="Wrap" FontSize="40" TextAlignment="Center" Foreground="{ThemeResource ApplicationWhiteColor}"/>
-                <TextBlock x:Name="textblock_Overlay_Sub_Text" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
-                    <Button x:Name="button_Overlay_DriverCleanup" Click="button_Overlay_DriverCleanup_Click" Content="Run AMD Cleanup Utility" HorizontalAlignment="Center" Style="{ThemeResource ApplicationButton}"/>
-                    <Button x:Name="button_Overlay_Exit" Margin="20,0,0,0" Click="button_Overlay_Exit_Click" Content="Exit Application" HorizontalAlignment="Center" Style="{ThemeResource ApplicationButton}"/>
-                </StackPanel>
+            <StackPanel MinWidth="300" MaxWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="8,8,0,0" Background="{ThemeResource ApplicationDarkGrayColor}" Padding="10">
+                    <TextBlock x:Name="textblock_Overlay_MessageBox_Text" Text="..." TextWrapping="Wrap" FontSize="24" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                </Border>
+                <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
+                    <StackPanel>
+                        <TextBlock x:Name="textblock_Overlay_MessageBox_SubText" Text="..." TextWrapping="Wrap" FontSize="18" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
+                        <ListView x:Name="listview_Overlay_MessageBox" MaxHeight="300" Margin="0,10,0,0" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="listview_Overlay_MessageBox_ItemClick" Style="{ThemeResource ApplicationListView}"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Grid>
 
-        <!-- Notification -->
-        <Border x:Name="grid_Notification" Margin="0,114,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
+        <!-- Overlay - Notification -->
+        <Border x:Name="grid_Overlay_Notification" Margin="0,130,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
             <Border.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationAccentDimColor}" Opacity="0.90"/>
             </Border.Background>
