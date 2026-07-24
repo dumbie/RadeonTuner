@@ -1,0 +1,15 @@
+namespace RadeonTuner
+{
+	[default_interface]
+	runtimeclass AppPickerIdl
+	{
+		AppPickerIdl();
+		Int32 Identifier;
+		String AppName;
+		String IconPath;
+		String ExePath;
+		String ExeName;
+		String LauncherName;
+		String Detail;
+	}
+}

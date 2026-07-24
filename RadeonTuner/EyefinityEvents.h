@@ -6,47 +6,57 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_Eyefinity_AppAddExe_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_Eyefinity_AppAddExe_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
-			//Show file dialog
-			std::wstring importPath = filepicker_open(NULL, L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
+			//Show application picker
+			auto selectedApps = co_await AdlAppPickerAdd();
+			int selectedAppsCount = selectedApps.Size();
 
-			//Check file path
-			if (importPath.empty())
+			//Check selected items
+			if (selectedAppsCount == 0)
 			{
-				ShowNotification(L"Application not added, no path set");
-				AVDebugWriteLine(L"Application not added, no path set");
-				return;
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
 			}
 
-			//Extract file name from path
-			std::wstring fileName = PathGetFileName(importPath);
-
-			//Check double application
-			if (array_contains(eyefinityAppsCache, fileName))
+			//Add selected items
+			int addCount = 0;
+			for (auto const& app : selectedApps)
 			{
-				ShowNotification(L"Application not added, already exists");
-				AVDebugWriteLine(L"Application not added, already exists");
-				return;
+				//Extract file name from path
+				std::wstring fileName = hstring_to_wstring(app.ExeName());
+
+				//Check double application
+				if (array_contains(eyefinityAppsCache, fileName))
+				{
+					continue;
+				}
+
+				//Add application to list
+				eyefinityAppsCache.push_back(fileName);
+				addCount++;
 			}
 
-			//Add application to list
-			eyefinityAppsCache.push_back(fileName);
+			//Check if applications were added
+			if (addCount > 0)
+			{
+				//Save applications
+				Eyefinity_Applications_SaveToFile();
 
-			//Save applications
-			Eyefinity_Applications_SaveToFile();
-
-			//List applications
-			Eyefinity_Applications_List(true);
+				//List applications
+				Eyefinity_Applications_List(true);
+			}
 
 			//Show notification
-			ShowNotification(L"Application added");
-			AVDebugWriteLine(L"Application added");
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications added: " + number_to_wstring(addCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications added: " << addCount << L" / " << selectedAppsCount);
 		}
 		catch (...) {}
 	}

@@ -44,11 +44,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get Eyefinity apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\EyefinityApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\EyefinityApps.json");
 
 			//Open Eyefinity apps file
-			std::string jsonString = file_to_string(pathSettingFileA);
+			std::wstring jsonString = file_to_string(pathSettingFileW);
 
 			//Deserialize Eyefinity apps
 			eyefinityAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonString);
@@ -69,14 +68,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(eyefinityAppsCache, true);
+			std::wstring jsonStringW = struct_to_jsonstring(eyefinityAppsCache, true);
 
 			//Get Eyefinity apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\EyefinityApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\EyefinityApps.json");
 
 			//Save application json file
-			string_to_file(pathSettingFileA, jsonString);
+			string_to_file(pathSettingFileW, jsonStringW);
 
 			//Return result
 			AVDebugWriteLine("Saved Eyefinity applications: " << eyefinityAppsCache.size());

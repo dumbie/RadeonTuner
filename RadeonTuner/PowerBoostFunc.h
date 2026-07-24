@@ -44,11 +44,10 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get power boost apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\PowerBoostApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\PowerBoostApps.json");
 
 			//Open power boost apps file
-			std::string jsonString = file_to_string(pathSettingFileA);
+			std::wstring jsonString = file_to_string(pathSettingFileW);
 
 			//Deserialize power boost apps
 			powerBoostAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonString);
@@ -69,14 +68,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(powerBoostAppsCache, true);
+			std::wstring jsonStringW = struct_to_jsonstring(powerBoostAppsCache, true);
 
 			//Get power boost apps file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\PowerBoostApps.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\PowerBoostApps.json");
 
 			//Save application json file
-			string_to_file(pathSettingFileA, jsonString);
+			string_to_file(pathSettingFileW, jsonStringW);
 
 			//Return result
 			AVDebugWriteLine("Saved power boost applications: " << powerBoostAppsCache.size());
