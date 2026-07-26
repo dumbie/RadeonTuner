@@ -21,8 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save settings to file
-			std::string exportPathA = wstring_to_string(exportPath);
-			bool saveResult = GraphicsSettings_FileSave(graphicsSettingsCurrent, exportPathA);
+			bool saveResult = GraphicsSettings_FileSave(graphicsSettingsCurrent, exportPath);
 
 			//Set result
 			if (saveResult)

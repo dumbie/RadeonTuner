@@ -184,7 +184,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get version
-			std::wstring app_version = L"V" + string_to_wstring(GetVersionFromResource(AppVariables::hInstance));
+			std::wstring app_version = L"V" + GetVersionFromResource(AppVariables::hInstance);
 
 			//Return version
 			AVDebugWriteLine("Loaded application information.");

@@ -4,7 +4,7 @@
 struct DisplaySettings
 {
 	//Settings
-	std::optional<std::string> DeviceId;
+	std::optional<std::wstring> DeviceId;
 	SettingInt HdrEnabled;
 	SettingInt HdrMediaProfile;
 	SettingInt FreeSyncEnabled;

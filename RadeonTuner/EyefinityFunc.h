@@ -47,10 +47,10 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\EyefinityApps.json");
 
 			//Open Eyefinity apps file
-			std::wstring jsonString = file_to_string(pathSettingFileW);
+			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize Eyefinity apps
-			eyefinityAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonString);
+			eyefinityAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonStringW);
 
 			//Return result
 			AVDebugWriteLine("Loaded Eyefinity applications: " << eyefinityAppsCache.size());

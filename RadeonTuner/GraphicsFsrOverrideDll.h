@@ -49,8 +49,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get dll version
-			std::string dllVersion = GetVersionFromFile(dllPath);
-			std::wstring dllVersionW = string_to_wstring(dllVersion);
+			std::wstring dllVersionW = GetVersionFromFile(dllPath);
 
 			//Get fsr version
 			//Fix read FSR version directly from amdxcffx64.dll UpdateFfxApiProviderEx

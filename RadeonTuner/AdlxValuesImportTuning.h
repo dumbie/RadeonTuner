@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesImportTuning()
+	winrt::fire_and_forget MainPage::AdlxValuesImportTuning()
 	{
 		try
 		{
@@ -17,30 +17,31 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Tuning and fans not imported, no path set");
 				AVDebugWriteLine(L"Tuning and fans not imported, no path set");
-				return;
+				co_return;
 			}
 
 			AVDebugWriteLine("Importing tuning and fans settings: " << importPath.c_str());
 
 			//Load settings from file
-			std::string importPathA = wstring_to_string(importPath);
-			TuningFanSettings tuningFanSettings = TuningFanSettings_Profile_LoadFromFile(importPathA).value();
+			TuningFanSettings tuningFanSettings = TuningFanSettings_Profile_LoadFromFile(importPath).value();
 
 			//Check device identifier
-			std::string device_id_import_a = tuningFanSettings.DeviceId.value();
-			std::wstring device_id_import_w = string_to_wstring(device_id_import_a);
+			std::wstring device_id_import_w = tuningFanSettings.DeviceId.value();
 			std::wstring device_id_current_w = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
 			if (!device_id_import_w.empty() && !device_id_current_w.empty())
 			{
 				if (device_id_import_w != device_id_current_w)
 				{
-					std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Tuning and fans settings do not match current gpu, continue import?", L"", { L"Yes", L"No" }, false);
-					if (messageResult == L"No")
+					//Show messagebox
+					int messageResult = co_await ShowMessageBox(L"GPU does not match", L"Tuning and fans settings do not match your selected GPU, continue import?", { L"Yes", L"No" });
+
+					//Check messagebox result
+					if (messageResult == 1)
 					{
 						//Set result
-						ShowNotification(L"Tuning and fans gpu does not match");
-						AVDebugWriteLine(L"Tuning and fans gpu does not match");
-						return;
+						ShowNotification(L"GPU does not match");
+						AVDebugWriteLine(L"GPU does not match");
+						co_return;
 					}
 				}
 			}

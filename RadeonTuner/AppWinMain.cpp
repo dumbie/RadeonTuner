@@ -42,7 +42,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		AVDebugWriteLine("Welcome to RadeonTuner.");
 
 		//Check if process is already running
-		std::vector<AVProcess> processList = Get_ProcessByName("RadeonTuner.exe", true);
+		std::vector<AVProcess> processList = Get_ProcessByName(L"RadeonTuner.exe", true);
 		if (processList.size() > 1)
 		{
 			AVDebugWriteLine("Application is already running, exiting and showing window.");
@@ -54,15 +54,14 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		AppVariables::hInstance = hInstance;
 
 		//Get executable directory
-		std::wstring exeDirectory = PathGetExecutableDirectory();
+		std::wstring exeDirectory = PathGetAppRoot();
 
 		//Set working directory
 		SetCurrentDirectoryW(exeDirectory.c_str());
 
 		//Initialize settings
 		std::wstring pathSettingFileW = PathMerge(exeDirectory, L"Settings\\Settings.json");
-		std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
-		AppVariables::Settings = AVSettingsJson(pathSettingFileA);
+		AppVariables::Settings = AVSettingsJson(pathSettingFileW);
 
 		//Create Profiles folder
 		std::wstring pathProfilesFolderW = PathMerge(exeDirectory, L"Profiles");

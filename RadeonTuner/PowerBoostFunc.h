@@ -47,10 +47,10 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\PowerBoostApps.json");
 
 			//Open power boost apps file
-			std::wstring jsonString = file_to_string(pathSettingFileW);
+			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize power boost apps
-			powerBoostAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonString);
+			powerBoostAppsCache = jsonstring_to_struct<std::vector<std::wstring>>(jsonStringW);
 
 			//Return result
 			AVDebugWriteLine("Loaded power boost applications: " << powerBoostAppsCache.size());

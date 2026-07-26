@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Device identifier
-			std::wstring deviceIdW = string_to_wstring(tuningFanSettings.DeviceId.value());
+			std::wstring deviceIdW = tuningFanSettings.DeviceId.value();
 
 			//Get tuning fan settings
 			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW);
@@ -63,11 +63,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Device identifier
-			std::string gpuIdentifierA = wstring_to_string(gpuIdentifier);
-
 			//Remove tuning fan settings profile
-			auto iterator = std::remove_if(tuningFanSettingsCache.begin(), tuningFanSettingsCache.end(), [&](TuningFanSettings& x) { return x.DeviceId == gpuIdentifierA; });
+			auto iterator = std::remove_if(tuningFanSettingsCache.begin(), tuningFanSettingsCache.end(), [&](TuningFanSettings& x) { return x.DeviceId == gpuIdentifier; });
 			tuningFanSettingsCache.erase(iterator, tuningFanSettingsCache.end());
 
 			//Return result
@@ -84,13 +81,12 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			std::string gpuIdentifierA = wstring_to_string(gpuIdentifier);
 			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
 			{
 				try
 				{
 					//Check gpu identifier
-					if (tuningFanSettings.DeviceId.value() == gpuIdentifierA)
+					if (tuningFanSettings.DeviceId.value() == gpuIdentifier)
 					{
 						return tuningFanSettings;
 					}
@@ -102,29 +98,29 @@ namespace winrt::RadeonTuner::implementation
 		return std::nullopt;
 	}
 
-	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Profile_LoadFromFile(std::string loadPath)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Profile_LoadFromFile(std::wstring loadPath)
 	{
 		try
 		{
 			//Open settings file
-			std::string jsonString = file_to_string(loadPath);
+			std::wstring jsonStringW = file_to_string(loadPath);
 
 			//Convert json to struct
-			return jsonstring_to_struct<TuningFanSettings>(jsonString);
+			return jsonstring_to_struct<TuningFanSettings>(jsonStringW);
 		}
 		catch (...) {}
 		return std::nullopt;
 	}
 
-	bool MainPage::TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::string savePath)
+	bool MainPage::TuningFanSettings_Profile_SaveToFile(TuningFanSettings tuningFanSettings, std::wstring savePath)
 	{
 		try
 		{
 			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(tuningFanSettings, true);
+			std::wstring jsonStringW = struct_to_jsonstring(tuningFanSettings, true);
 
 			//Save settings file
-			return string_to_file(savePath, jsonString);
+			return string_to_file(savePath, jsonStringW);
 		}
 		catch (...)
 		{
@@ -138,14 +134,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Convert json to string
-			std::string jsonString = struct_to_jsonstring(tuningFanSettingsCache, true);
+			std::wstring jsonStringW = struct_to_jsonstring(tuningFanSettingsCache, true);
 
 			//Get tuning profiles file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\TuningProfiles.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\TuningProfiles.json");
 
 			//Save tuning profiles json file
-			string_to_file(pathSettingFileA, jsonString);
+			string_to_file(pathSettingFileW, jsonStringW);
 
 			AVDebugWriteLine("Saved tuning profiles: " << tuningFanSettingsCache.size());
 			return true;
@@ -162,14 +157,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get tuning profiles file path
-			std::wstring pathSettingFileW = PathMerge(PathGetExecutableDirectory(), L"Profiles\\TuningProfiles.json");
-			std::string pathSettingFileA = wstring_to_string(pathSettingFileW);
+			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\TuningProfiles.json");
 
 			//Open tuning profiles file
-			std::string jsonString = file_to_string(pathSettingFileA);
+			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize tuning profiles
-			tuningFanSettingsCache = jsonstring_to_struct<std::vector<TuningFanSettings>>(jsonString);
+			tuningFanSettingsCache = jsonstring_to_struct<std::vector<TuningFanSettings>>(jsonStringW);
 
 			AVDebugWriteLine("Loaded tuning profiles: " << tuningFanSettingsCache.size());
 			return true;

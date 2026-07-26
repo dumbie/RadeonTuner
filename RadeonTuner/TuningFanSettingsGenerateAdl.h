@@ -14,8 +14,7 @@ namespace winrt::RadeonTuner::implementation
 			//Device identifier
 			try
 			{
-				std::wstring device_id_w = AdlxGetGpuIdentifier(gpuAdapterIndex);
-				tuningFanSettings.DeviceId = wstring_to_string(device_id_w);
+				tuningFanSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
 			}
 			catch (...) {}
 

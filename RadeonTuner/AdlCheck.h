@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fix change to registry based solution?
 
 			//Check if Radeon Software process is running
-			std::vector<AVProcess> processList = Get_ProcessByName("RadeonSoftware.exe", true);
+			std::vector<AVProcess> processList = Get_ProcessByName(L"RadeonSoftware.exe", true);
 			if (processList.size() > 0)
 			{
 				AVDebugWriteLine("Radeon Software is running, software type is minimal or default.");

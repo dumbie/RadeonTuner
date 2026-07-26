@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesImportDisplay()
+	winrt::fire_and_forget MainPage::AdlxValuesImportDisplay()
 	{
 		try
 		{
@@ -17,30 +17,31 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Display not imported, no path set");
 				AVDebugWriteLine(L"Display not imported, no path set");
-				return;
+				co_return;
 			}
 
 			AVDebugWriteLine("Importing display settings: " << importPath.c_str());
 
 			//Load settings from file
-			std::string importPathA = wstring_to_string(importPath);
-			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPathA).value();
+			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPath).value();
 
 			//Check device identifier
-			std::string device_id_import_a = displaySettings.DeviceId.value();
-			std::wstring device_id_import_w = string_to_wstring(device_id_import_a);
+			std::wstring device_id_import_w = displaySettings.DeviceId.value();
 			std::wstring device_id_current_w = AdlxGetDisplayIdentifier(adl_Display_AdapterIndex, adl_Display_DisplayIndex);
 			if (!device_id_import_w.empty() && !device_id_current_w.empty())
 			{
 				if (device_id_import_w != device_id_current_w)
 				{
-					std::wstring messageResult = AVTaskDialogStr(NULL, L"RadeonTuner", L"Display settings do not match current display, continue import?", L"", { L"Yes", L"No" }, false);
-					if (messageResult == L"No")
+					//Show messagebox
+					int messageResult = co_await ShowMessageBox(L"Display does not match", L"Display settings do not match your selected display, continue import?", { L"Yes", L"No" });
+
+					//Check messagebox result
+					if (messageResult == 1)
 					{
 						//Set result
 						ShowNotification(L"Display does not match");
 						AVDebugWriteLine(L"Display does not match");
-						return;
+						co_return;
 					}
 				}
 			}

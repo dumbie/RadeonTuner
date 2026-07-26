@@ -44,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 						try
 						{
 							//Fix lower upper case matching
-							std::wstring exeNameW = string_to_wstring(process.ExeName());
+							std::wstring exeNameW = process.ExeName();
 
 							//Check if Power Boost process is running
 							if (powerBoostAppsAny && array_contains(powerBoostAppsCache, exeNameW))
@@ -112,9 +112,8 @@ namespace winrt::RadeonTuner::implementation
 						}
 
 						//Get GPU information
-						std::string deviceId = tuningFanSettingsProfile.DeviceId.value();
-						std::wstring deviceIdW = string_to_wstring(deviceId);
-						std::optional<AdapterInfo> gpuInformation = AdlGetGpuByDeviceId(deviceIdW);
+						std::wstring deviceId = tuningFanSettingsProfile.DeviceId.value();
+						std::optional<AdapterInfo> gpuInformation = AdlGetGpuByDeviceId(deviceId);
 						if (!gpuInformation.has_value())
 						{
 							continue;
