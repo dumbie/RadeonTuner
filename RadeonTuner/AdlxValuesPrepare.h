@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::wstring MainPage::AdlxValuesPrepare()
+	void MainPage::AdlxValuesPrepare()
 	{
 		try
 		{
@@ -231,38 +231,13 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Load and list all displays
-			std::wstring displayResult = AdlxValuesLoadDisplayList(true);
-			if (!displayResult.empty())
-			{
-				return displayResult;
-			}
-
-			//Load and list all gpus
-			std::wstring gpuResult = AdlxValuesLoadGpuList(true);
-			if (!gpuResult.empty())
-			{
-				return gpuResult;
-			}
-
-			//Remove global user application
-			AdlApplication globalApp{};
-			globalApp.FileName = L"*.*";
-			globalApp.FilePath = L"*\\*";
-			AdlAppRemove(globalApp);
-
-			//Load and list applications
-			AdlxValuesLoadApplicationList(true);
-
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
-			return L"";
 		}
 		catch (...)
 		{
 			//Set result
 			AVDebugWriteLine("ADL values preparation failed.");
-			return L"ADL values preparation failed.";
 		}
 	}
 }

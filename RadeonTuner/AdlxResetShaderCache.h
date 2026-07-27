@@ -32,19 +32,19 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring folderLowAMDVkCache = PathMerge(folderPathAppDataLow, L"AMD\\VkCache");
 
 			//Delete shader cache locations
-			FolderRemove(folderD3DSCache, true);
+			FolderDelete(folderD3DSCache, true);
 
-			FolderRemove(folderAMDDX9Cache, true);
-			FolderRemove(folderAMDDxCache, true);
-			FolderRemove(folderAMDDxcCache, true);
-			FolderRemove(folderAMDOglCache, true);
-			FolderRemove(folderAMDVkCache, true);
+			FolderDelete(folderAMDDX9Cache, true);
+			FolderDelete(folderAMDDxCache, true);
+			FolderDelete(folderAMDDxcCache, true);
+			FolderDelete(folderAMDOglCache, true);
+			FolderDelete(folderAMDVkCache, true);
 
-			FolderRemove(folderLowAMDDX9Cache, true);
-			FolderRemove(folderLowAMDDxCache, true);
-			FolderRemove(folderLowAMDDxcCache, true);
-			FolderRemove(folderLowAMDOglCache, true);
-			FolderRemove(folderLowAMDVkCache, true);
+			FolderDelete(folderLowAMDDX9Cache, true);
+			FolderDelete(folderLowAMDDxCache, true);
+			FolderDelete(folderLowAMDDxcCache, true);
+			FolderDelete(folderLowAMDOglCache, true);
+			FolderDelete(folderLowAMDVkCache, true);
 
 			//Return result
 			AVDebugWriteLine("Shader cache reset.");

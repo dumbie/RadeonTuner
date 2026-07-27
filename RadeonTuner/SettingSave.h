@@ -12,7 +12,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving_settings) { return; }
 
 			//Create or delete startup shortcut
-			StartupShortcutManage(L"RadeonTuner", false, StartupShortcutType::Startup);
+			StartupShortcutManage(L"RadeonTuner", L"", StartupShortcutType::Startup);
 		}
 		catch (...) {}
 	}
@@ -25,7 +25,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving_settings) { return; }
 
 			//Create or delete start menu shortcut
-			StartupShortcutManage(L"RadeonTuner", false, StartupShortcutType::StartMenu);
+			StartupShortcutManage(L"RadeonTuner", L"", StartupShortcutType::StartMenu);
 		}
 		catch (...) {}
 	}
@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set shortcut details
-				std::wstring targetFilePath = PathGetExecutableFile();
+				std::wstring targetFilePath = PathGetAppExecutable();
 
 				//Create shortcut in registry
 				RegistrySet(HKEY_ENUM::CLASSES_ROOT, L"Directory\\background\\shell\\RadeonTuner", L"", L"Open RadeonTuner");

@@ -1,12 +1,17 @@
 #pragma once
 #include "pch.h"
-#include "AppVariables.h"
 
+//Launchers
+#include "SteamFuncLibraryFolders.h"
+#include "SteamFuncAppInfo.h"
+#include "SteamStructures.h"
+#include "SteamFunctions.h"
+
+#include "AppVariables.h"
 #include "AdlAppsFunc.h"
 #include "AdlAppsUnlock.h"
 #include "AdlGraphicsStatus.h"
 #include "AdlAppsSetDefaults.h"
-#include "AdlAppsInterface.h"
 #include "AdlAppsAdd.h"
 #include "AdlAppsLoad.h"
 #include "AdlAppsRemove.h"
@@ -35,6 +40,8 @@
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
+
+#include "AdlxEventsSelect.h"
 
 #include "MultimediaSettingsFunc.h"
 #include "MultimediaSettingsGenerateAdl.h"
@@ -77,9 +84,14 @@
 #include "SettingSave.h"
 #include "SettingLoad.h"
 
-#include "AdlxLoopDevice.h"
+#include "AppPickerInterface.h"
+#include "AppPickerEvent.h"
+
 #include "AdlxLoopMetrics.h"
 #include "AdlxLoopKeepActive.h"
+
+#include "AdjustCursor.h"
+#include "MessageBox.h"
 
 #include "MainPage.h"
 #if __has_include("MainPage.g.cpp")
@@ -88,44 +100,127 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
-			////Check driver software type
-			//if (AdlCheckDriverOnlySoftware())
-			//{
-			//	grid_Main().IsHitTestVisible(false);
-			//	grid_Overlay_Warning().Visibility(Visibility::Visible);
-			//	textblock_Overlay_Text().Text(L"Incompatible driver software type.");
-			//	textblock_Overlay_Sub_Text().Text(L"To prevent possible issues with RadeonTuner please (re)install your drivers using the 'Driver Only' software type.");
-			//	return;
-			//}
+			//Fix check if uwp based driver is installed and warn not supported
+
+			//Check driver software type
+			if (AdlCheckDriverOnlySoftware())
+			{
+				grid_Main().IsHitTestVisible(false);
+				std::vector<std::wstring> messageAnswers{ L"Continue anyways", L"Exit application" };
+				int messageResult = co_await ShowMessageBox(L"Incompatible driver software type", L"It is highly recommended that you install your drivers using the 'Driver Only' software type to prevent possible issues with RadeonTuner, please reinstall your drivers using the 'Driver Only' software type and 'Factory Reset' option, you can find those options by clicking on 'Additional Options' in the Radeon driver setup.", messageAnswers);
+				if (messageResult == 0)
+				{
+					//Enable interface
+					grid_Main().IsHitTestVisible(true);
+				}
+				else
+				{
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+			}
 
 			//Initialize adl api
 			std::wstring initResult_Adl = AdlInitialize();
 			if (!initResult_Adl.empty())
 			{
 				grid_Main().IsHitTestVisible(false);
-				grid_Overlay_Warning().Visibility(Visibility::Visible);
-				textblock_Overlay_Text().Text(L"Failed initializing ADL, please (re)install or update your AMD drivers.");
-				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Adl);
-				return;
-			}
+				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
+				int messageResult = co_await ShowMessageBox(L"Failed initializing ADL", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility. (" + initResult_Adl + L")", messageAnswers);
+				if (messageResult == 0)
+				{
+					//Launch driver cleanup utility
+					LaunchDriverCleanup();
 
-			//Load tuning profiles file
-			TuningFanSettings_Profiles_LoadFromFile();
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+				else
+				{
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+			}
 
 			//Prepare adlx values
-			std::wstring initResult_Values = AdlxValuesPrepare();
-			if (!initResult_Values.empty())
+			AdlxValuesPrepare();
+
+			//Load tuning profiles
+			TuningFanSettings_Profiles_LoadFromFile();
+
+			//Get all GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll();
+			if (listGpus.size() == 0)
 			{
 				grid_Main().IsHitTestVisible(false);
-				grid_Overlay_Warning().Visibility(Visibility::Visible);
-				textblock_Overlay_Text().Text(L"Failed preparing values, please (re)install or update your AMD drivers.");
-				textblock_Overlay_Sub_Text().Text(L"If this message keeps appearing try using the AMD Cleanup Utility.\n\n" + initResult_Values);
-				return;
+				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
+				int messageResult = co_await ShowMessageBox(L"Failed to find any GPU's", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility.", messageAnswers);
+				if (messageResult == 0)
+				{
+					//Launch driver cleanup utility
+					LaunchDriverCleanup();
+
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+				else
+				{
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
 			}
+			else
+			{
+				//Select defaults
+				AdlxValuesLoadSelectGpu(listGpus[0]);
+			}
+
+			//Get all displays
+			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
+			if (displayList.size() == 0)
+			{
+				grid_Main().IsHitTestVisible(false);
+				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
+				int messageResult = co_await ShowMessageBox(L"Failed to find any displays", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility.", messageAnswers);
+				if (messageResult == 0)
+				{
+					//Launch driver cleanup utility
+					LaunchDriverCleanup();
+
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+				else
+				{
+					//Exit application
+					AppVariables::App.Exit(true);
+					co_return;
+				}
+			}
+			else
+			{
+				//Select defaults
+				AdlxValuesLoadSelectDisplay(displayList[0]);
+			}
+
+			//Remove global user application
+			AdlApplication globalApp{};
+			globalApp.FileName = L"*.*";
+			globalApp.FilePath = L"*\\*";
+			AdlAppRemove(globalApp);
+
+			//Load and list applications
+			AdlxValuesLoadSelectApp(adl_App_Global);
 
 			//Load and list Power Boost applications
 			PowerBoost_Applications_LoadFromFile();
@@ -150,10 +245,6 @@ namespace winrt::RadeonTuner::implementation
 			//Select default indexes
 			SelectDefaultIndexes();
 
-			//Start adlx loop device
-			std::thread threadLoopDevice(&MainPage::AdlxLoopDevice, this);
-			threadLoopDevice.detach();
-
 			//Start adlx loop metrics
 			std::thread threadLoopMetrics(&MainPage::AdlxLoopMetrics, this);
 			threadLoopMetrics.detach();
@@ -161,16 +252,6 @@ namespace winrt::RadeonTuner::implementation
 			//Start adlx loop keep active
 			std::thread threadLoopKeepActive(&MainPage::AdlxLoopKeepActive, this);
 			threadLoopKeepActive.detach();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::button_Overlay_Exit_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Exit application
-			AppVariables::App.Exit(true);
 		}
 		catch (...) {}
 	}
@@ -189,16 +270,16 @@ namespace winrt::RadeonTuner::implementation
 			{
 				mainSelectIndex = prevMenuIndex.value();
 				//Check if selected index is exit button
-				int exitButtonIndex = listbox_Main().Items().Size() - 1;
+				int exitButtonIndex = listview_Main().Items().Size() - 1;
 				if (mainSelectIndex >= exitButtonIndex) { mainSelectIndex = 0; }
 			}
 			try
 			{
-				listbox_Main().SelectedIndex(mainSelectIndex);
+				listview_Main().SelectedIndex(mainSelectIndex);
 			}
 			catch (...)
 			{
-				listbox_Main().SelectedIndex(0);
+				listview_Main().SelectedIndex(0);
 			}
 		}
 		catch (...) {}
@@ -258,12 +339,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::listbox_Main_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	void MainPage::listview_Main_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
 			//Get selected index
-			int selectedIndex = sender.as<ListBox>().SelectedIndex();
+			int selectedIndex = sender.as<ListView>().SelectedIndex();
 
 			//Exit application
 			if (selectedIndex == 7)
@@ -294,39 +375,43 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_Information().Visibility(Visibility::Collapsed);
 
 			//Disable selection boxes
-			combobox_GpuSelect().IsEnabled(false);
-			combobox_DisplaySelect().IsEnabled(false);
-			combobox_AppSelect().IsEnabled(false);
+			button_GpuSelect().Visibility(Visibility::Collapsed);
+			button_DisplaySelect().Visibility(Visibility::Collapsed);
+			button_AppSelect().Visibility(Visibility::Collapsed);
+			button_AppAdd().Visibility(Visibility::Collapsed);
+			button_AppRemove().Visibility(Visibility::Collapsed);
 
 			//Make selected page visible
 			if (selectedIndex == 0)
 			{
-				combobox_GpuSelect().IsEnabled(true);
+				button_GpuSelect().Visibility(Visibility::Visible);
 				stackpanel_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Tuning_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 1)
 			{
-				combobox_GpuSelect().IsEnabled(true);
+				button_GpuSelect().Visibility(Visibility::Visible);
 				stackpanel_Fans().Visibility(Visibility::Visible);
 				stackpanel_Fan_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 2)
 			{
-				combobox_GpuSelect().IsEnabled(true);
-				combobox_AppSelect().IsEnabled(true);
+				button_GpuSelect().Visibility(Visibility::Visible);
+				button_AppSelect().Visibility(Visibility::Visible);
+				button_AppAdd().Visibility(Visibility::Visible);
+				button_AppRemove().Visibility(Visibility::Visible);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 3)
 			{
-				combobox_DisplaySelect().IsEnabled(true);
+				button_DisplaySelect().Visibility(Visibility::Visible);
 				stackpanel_Display().Visibility(Visibility::Visible);
 				stackpanel_Display_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 4)
 			{
-				combobox_GpuSelect().IsEnabled(true);
+				button_GpuSelect().Visibility(Visibility::Visible);
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
 				stackpanel_Multimedia_Buttons().Visibility(Visibility::Visible);
 			}
@@ -336,40 +421,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else if (selectedIndex == 6)
 			{
-				combobox_GpuSelect().IsEnabled(true);
+				button_GpuSelect().Visibility(Visibility::Visible);
 				stackpanel_Information().Visibility(Visibility::Visible);
 				stackpanel_Information_Buttons().Visibility(Visibility::Visible);
 			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_GpuSelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Reload tuning and fans settings
-			AdlxValuesLoadSelectGpu();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_DisplaySelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Reload display settings
-			AdlxValuesLoadSelectDisplay();
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_AppSelect_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Reload graphics settings
-			AdlxValuesLoadSelectApp();
 		}
 		catch (...) {}
 	}
@@ -379,7 +434,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Set notification text
-			grid_Notification().Visibility(Visibility::Visible);
+			grid_Overlay_Notification().Visibility(Visibility::Visible);
 			textblock_Notification_Text().Text(text);
 
 			//Notification timer tick
@@ -388,7 +443,7 @@ namespace winrt::RadeonTuner::implementation
 					try
 					{
 						//Hide notification text
-						grid_Notification().Visibility(Visibility::Collapsed);
+						grid_Overlay_Notification().Visibility(Visibility::Collapsed);
 
 						//Stop notification timer
 						TimerNotification.Stop();

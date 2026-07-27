@@ -5,74 +5,121 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_Graphics_AddExe_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_AppAdd_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
-			//Show file dialog
-			AdlAppInterfaceAddFile();
-		}
-		catch (...) {}
-	}
+			//Show application picker
+			auto selectedApps = co_await AdlAppPickerAdd();
+			int selectedAppsCount = selectedApps.Size();
 
-	void MainPage::button_Graphics_AddProcess_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
 
-			//Show process dialog
-			AdlAppInterfaceAddProcess();
-		}
-		catch (...) {}
-	}
+			//Add selected items
+			int addCount = 0;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
 
-	void MainPage::button_Graphics_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Remove application and profile
-			std::wstring removeResult = AdlAppRemove(AdlAppSelectedGet().value());
+				//Add application
+				std::wstring addResult = AdlAppAdd(executableName, L"3D_User");
+				if (addResult == L"Application added")
+				{
+					addCount++;
+				}
+			}
 
 			//Show notification
-			ShowNotification(removeResult);
-			AVDebugWriteLine(removeResult);
-
-			//Check result
-			if (removeResult == L"Application removed")
-			{
-				//Reload applications
-				AdlxValuesLoadApplicationList(true);
-			}
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications added: " + number_to_wstring(addCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications added: " << addCount << L" / " << selectedAppsCount);
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Graphics_Reset_Settings_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_AppRemove_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
+
+			//Show remove dialog
+			auto selectedApps = co_await AdlAppPickerRemoveApp();
+			int selectedAppsCount = selectedApps.Size();
+
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
+
+			//Remove selected items
+			int removeCount = 0;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
+				std::wstring executablePath = hstring_to_wstring(app.ExePath());
+
+				AdlApplication adlApp{};
+				adlApp.FileName = executableName;
+				adlApp.FilePath = executablePath;
+
+				//Remove application and profile
+				std::wstring removeResult = AdlAppRemove(adlApp);
+				if (removeResult == L"Application removed")
+				{
+					removeCount++;
+				}
+			}
+
+			//Show notification
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications removed: " + number_to_wstring(removeCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications removed: " << removeCount << L" / " << selectedAppsCount);
+		}
+		catch (...) {}
+	}
+
+	winrt::fire_and_forget MainPage::button_Graphics_Reset_Settings_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { co_return; }
+
+			//Confirm reset
+			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
+			int messageResult = co_await ShowMessageBox(L"Reset settings?", L"", messageAnswers);
+			if (messageResult == 1)
+			{
+				co_return;
+			}
 
 			//Get current and default settings
 			GraphicsSettings graphicsSettings;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				graphicsSettings = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
 			}
 			else
 			{
-				graphicsSettings = GraphicsSettings_Generate_FromADLApp(AdlAppSelectedGet().value()).value();
+				graphicsSettings = GraphicsSettings_Generate_FromADLApp(adl_App_Current).value();
 			}
 
 			//Convert settings to interface
@@ -122,12 +169,20 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
+
+			//Confirm shader cache clear
+			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
+			int messageResult = co_await ShowMessageBox(L"Clear shader cache?", L"", messageAnswers);
+			if (messageResult == 1)
+			{
+				co_return;
+			}
 
 			//Reset shader cache
 			bool resetResult = AdlxResetShaderCache();
@@ -160,7 +215,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOverride", number_to_wstring(newValue));
@@ -168,7 +223,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FsrOverride", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"FsrOverride", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -221,7 +276,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MlfiOverride", number_to_wstring(newValue));
@@ -229,7 +284,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MlfiOverride", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"MlfiOverride", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -282,7 +337,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MfgOverride", number_to_wstring(newValue));
@@ -290,7 +345,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MfgOverride", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"MfgOverride", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -343,7 +398,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MldOverride", number_to_wstring(newValue));
@@ -351,7 +406,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MldOverride", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"MldOverride", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -404,7 +459,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "NrcOverride", number_to_wstring(newValue));
@@ -412,7 +467,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"NrcOverride", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"NrcOverride", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -483,7 +538,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MfgRatio", setValue);
@@ -491,7 +546,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MfgRatio", setValue);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"MfgRatio", setValue);
 			}
 
 			//Show result
@@ -529,7 +584,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOvrDLLPath", newValue);
@@ -537,7 +592,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				//newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FfxDllPath", newValue);
+				//newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"FfxDllPath", newValue);
 			}
 
 			//Show result
@@ -613,7 +668,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_DELAG_SETTINGS adlSettings{};
@@ -634,7 +689,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Dlg_PFEnable", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Dlg_PFEnable", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -687,7 +742,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "TurboSync", number_to_wstring(newValue));
@@ -698,7 +753,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"TurboSync", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"TurboSync", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -750,7 +805,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "VSyncControl", number_to_wstring(newValue));
@@ -758,7 +813,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"VSyncControl", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"VSyncControl", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -795,7 +850,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "", "DrvFrameGenEnabled", newValue);
@@ -858,7 +913,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue);
@@ -894,7 +949,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue);
@@ -930,7 +985,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue);
@@ -966,7 +1021,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenAlgorithm", newValue);
@@ -1003,7 +1058,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_CHILL_SETTINGS adlSettings{};
@@ -1024,7 +1079,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Chil_PFEnable", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Chil_PFEnable", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1093,7 +1148,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_CHILL_SETTINGS adlSettings{};
@@ -1114,7 +1169,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Chil_MinFRate", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Chil_MinFRate", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1157,7 +1212,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_CHILL_SETTINGS adlSettings{};
@@ -1178,7 +1233,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Chil_MaxFRate", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Chil_MaxFRate", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1248,7 +1303,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_BOOST_SETTINGS adlSettings{};
@@ -1269,7 +1324,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1323,7 +1378,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_BOOST_SETTINGS adlSettings{};
@@ -1344,7 +1399,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Bst_MaxScale", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Bst_MaxScale", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1382,7 +1437,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_RIS_SETTINGS adlSettings{};
@@ -1402,7 +1457,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Ris_PFEnable", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Ris_PFEnable", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1457,7 +1512,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_RIS_SETTINGS adlSettings{};
@@ -1478,7 +1533,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting
 				float convertedValue = newValueFloat / 100;
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Ris_SHDegree", float_to_wstring(convertedValue, 1));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Ris_SHDegree", float_to_wstring(convertedValue, 1));
 			}
 
 			//Show result
@@ -1516,7 +1571,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_RIS2_SETTINGS adlSettings{};
@@ -1591,7 +1646,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Note: RIS2 registry states 0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop
 
@@ -1662,7 +1717,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADL_RIS2_SETTINGS adlSettings{};
@@ -1716,7 +1771,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Check application type
 			std::wstring convertedValue = newValue ? L"2" : L"1";
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "AntiAlias", convertedValue);
@@ -1724,7 +1779,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"AntiAlias", convertedValue);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"AntiAlias", convertedValue);
 			}
 
 			//Show result
@@ -1808,7 +1863,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set setting
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASD", setValueAsd);
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "ASE", setValueAse);
@@ -1821,7 +1876,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"ASD";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = setValueAsd;
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -1829,7 +1884,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty1{};
 				adlAppProperty1.Name = L"ASE";
 				AdlAppPropertyValue adlAppPropertyValue1{};
-				adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue1.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue1.Value = setValueAse;
 				adlAppProperty1.Values = { adlAppPropertyValue1 };
 				adlAppProperties.push_back(adlAppProperty1);
@@ -1837,13 +1892,13 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty2{};
 				adlAppProperty2.Name = L"ASTT";
 				AdlAppPropertyValue adlAppPropertyValue2{};
-				adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue2.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue2.Value = setValueAstt;
 				adlAppProperty2.Values = { adlAppPropertyValue2 };
 				adlAppProperties.push_back(adlAppProperty2);
 
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), adlAppProperties, false);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adlAppProperties, false);
 			}
 
 			//Show result
@@ -1891,7 +1946,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "AntiAliasSamples", setValue);
@@ -1899,7 +1954,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"AntiAliasSmpls", setValue);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"AntiAliasSmpls", setValue);
 			}
 
 			//Show result
@@ -1935,7 +1990,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "EQAA", number_to_wstring(newValue));
@@ -1943,7 +1998,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"EQAA", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"EQAA", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -1996,7 +2051,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "MLF", number_to_wstring(newValue));
@@ -2004,7 +2059,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"MLF", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"MLF", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -2081,7 +2136,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "AnisoDegree", setValue);
@@ -2089,7 +2144,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"AnisoDegree", setValue);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"AnisoDegree", setValue);
 			}
 
 			//Show result
@@ -2122,7 +2177,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "Tessellation_OPTION", number_to_wstring(newValue));
@@ -2130,7 +2185,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Tessellation_OP", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Tessellation_OP", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -2208,7 +2263,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "Tessellation", setValue);
@@ -2216,7 +2271,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"Tessellation", setValue);
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"Tessellation", setValue);
 			}
 
 			//Show result
@@ -2250,7 +2305,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "EnableTripleBuffering", number_to_wstring(newValue));
@@ -2258,7 +2313,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"EnableTrplBffr", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"EnableTrplBffr", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -2310,7 +2365,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "TFQ", number_to_wstring(newValue));
@@ -2318,7 +2373,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"TFQ", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"TFQ", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -2353,7 +2408,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "SurfaceFormatReplacements", number_to_wstring(newValue));
@@ -2361,7 +2416,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"SrfcFrmtRplcmnt", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"SrfcFrmtRplcmnt", number_to_wstring(newValue));
 			}
 
 			//Show result
@@ -2416,7 +2471,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				if (newValue)
@@ -2494,7 +2549,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				ADLFPSSettingsInput input{};
@@ -2542,7 +2597,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Enumeration index correction
 				int setValue = 1;
@@ -2613,7 +2668,7 @@ namespace winrt::RadeonTuner::implementation
 			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value switching between amdxcffx64techpreview.dll and amdxcffx64.dll.
 
 			//Check application type
-			if (AdlAppSelectedGet().value().get().Global)
+			if (adl_App_Current.Global)
 			{
 				//Set setting
 				newFailed = !AdlRegistrySettingSet(adl_Gpu_AdapterIndex, "UMD", "FsrOtaIndex", number_to_wstring(newValue));
@@ -2621,7 +2676,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Set setting
-				newFailed = !AdlAppPropertyUpdate(AdlAppSelectedGet().value(), gpuUniqueIdentifierHex, L"FsrOtaIndex", number_to_wstring(newValue));
+				newFailed = !AdlAppPropertyUpdate(adl_App_Current, adl_Gpu_UniqueIdentifierHex, L"FsrOtaIndex", number_to_wstring(newValue));
 			}
 
 			//Show result

@@ -43,12 +43,20 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
+
+			//Confirm reset
+			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
+			int messageResult = co_await ShowMessageBox(L"Reset tuning and fans?", L"", messageAnswers);
+			if (messageResult == 1)
+			{
+				co_return;
+			}
 
 			//Reset tuning and fans settings
 			if (Adl_Overdrive8_Reset(adl_Gpu_AdapterIndex))

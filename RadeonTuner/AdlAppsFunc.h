@@ -6,28 +6,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<std::reference_wrapper<AdlApplication>> MainPage::AdlAppSelectedGet()
-	{
-		try
-		{
-			if (adl_Apps_Cache.size() > 0 && adl_AppSelectedIndex >= 0)
-			{
-				//Return result
-				return adl_Apps_Cache[adl_AppSelectedIndex];
-			}
-			else
-			{
-				//Return result
-				return std::nullopt;
-			}
-		}
-		catch (...)
-		{
-			//Return result
-			return std::nullopt;
-		}
-	}
-
 	std::wstring MainPage::AdlAppProfileGenerateName(std::wstring profileHeader)
 	{
 		try

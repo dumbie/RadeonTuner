@@ -50,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 			//Check registry value type
 			std::wstring subKeyW = string_to_wstring(subKey);
 			std::wstring keyNameW = string_to_wstring(keyName);
-			std::wstring registryPathW = L"System\\CurrentControlSet\\Control\\Class\\" + gpuRegistryPath + L"\\" + subKeyW;
+			std::wstring registryPathW = L"System\\CurrentControlSet\\Control\\Class\\" + adl_Gpu_RegistryPath + L"\\" + subKeyW;
 			REGTYPE_ENUM regValueType = RegistryType(HKEY_ENUM::LOCAL_MACHINE, registryPathW, keyNameW);
 
 			//Get registry value

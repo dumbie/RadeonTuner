@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			AVDebugWriteLine("Setting application graphics to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << gpuUniqueIdentifierHex);
+			AVDebugWriteLine("Setting application graphics to defaults: " << clearProperties << " / " << addOnly << " / " << adlApp.FileName << " / " << adlApp.FilePath << " / " << adlApp.DriverArea << " / " << adl_Gpu_UniqueIdentifierHex);
 
 			//Clear all application properties
 			if (clearProperties)
@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"FsrOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.FsrOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -40,7 +40,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MlfiOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.MlfiOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -51,7 +51,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MfgOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.MfgOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -62,7 +62,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MfgRatio";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.MfgRatio.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -73,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MldOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.MldOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -84,7 +84,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"NrcOverride";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.NrcOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -105,7 +105,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Dlg_PFEnable";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.DeLagEnabled.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -116,7 +116,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Bst_PFEnable";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.BoostEnabled.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -127,7 +127,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Bst_MaxScale";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.BoostMinResolution.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -138,7 +138,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Chil_PFEnable";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.ChillEnabled.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -149,7 +149,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Chil_MinFRate";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.ChillMinFps.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -160,7 +160,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Chil_MaxFRate";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.ChillMaxFps.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -171,7 +171,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Ris_PFEnable";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.RisEnabled.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -184,7 +184,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Ris_SHDegree";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = float_to_wstring(newValue, 1);
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -200,7 +200,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"TurboSync";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.EnhancedSync.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -211,7 +211,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"VSyncControl";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.VerticalSync.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -227,7 +227,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"AntiAlias";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.AntiAliasingOverride.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -267,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 					AdlAppProperty adlAppProperty0{};
 					adlAppProperty0.Name = L"ASD";
 					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+					adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 					adlAppPropertyValue0.Value = setValueAsd;
 					adlAppProperty0.Values = { adlAppPropertyValue0 };
 					adlAppProperties.push_back(adlAppProperty0);
@@ -276,7 +276,7 @@ namespace winrt::RadeonTuner::implementation
 					AdlAppProperty adlAppProperty0{};
 					adlAppProperty0.Name = L"ASE";
 					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+					adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 					adlAppPropertyValue0.Value = setValueAse;
 					adlAppProperty0.Values = { adlAppPropertyValue0 };
 					adlAppProperties.push_back(adlAppProperty0);
@@ -285,7 +285,7 @@ namespace winrt::RadeonTuner::implementation
 					AdlAppProperty adlAppProperty0{};
 					adlAppProperty0.Name = L"ASTT";
 					AdlAppPropertyValue adlAppPropertyValue0{};
-					adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+					adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 					adlAppPropertyValue0.Value = setValueAstt;
 					adlAppProperty0.Values = { adlAppPropertyValue0 };
 					adlAppProperties.push_back(adlAppProperty0);
@@ -314,7 +314,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"AntiAliasSmpls";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = setValue;
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -325,7 +325,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"EQAA";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.AntiAliasingEnhancedQuality.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -336,7 +336,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"MLF";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.AntiAliasingMorphological.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -372,7 +372,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"AnisoDegree";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = setValue;
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -383,7 +383,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"TFQ";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.TextureFilteringQuality.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -394,7 +394,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"SrfcFrmtRplcmnt";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.SurfaceFormatOptimization.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -405,7 +405,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Tessellation_OP";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.TessellationMode.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -453,7 +453,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Tessellation";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = setValue;
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
@@ -464,7 +464,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"EnableTrplBffr";
 				AdlAppPropertyValue adlAppPropertyValue0{};
-				adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
 				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.OpenGLTripleBuffering.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);

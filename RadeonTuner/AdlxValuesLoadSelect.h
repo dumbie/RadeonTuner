@@ -10,43 +10,30 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesLoadSelectApp()
+	void MainPage::AdlxValuesLoadSelectApp(AdlApplication& appInfo)
 	{
 		try
 		{
 			//Disable saving
 			disable_saving = true;
 
-			//Set selected index
-			adl_AppSelectedIndex = combobox_AppSelect().SelectedIndex();
-
-			//Get selected application
-			auto selectedAppWrapper = AdlAppSelectedGet();
-
-			//Check selected application
-			if (!selectedAppWrapper.has_value())
-			{
-				AVDebugWriteLine("ADL application is not selected.");
-				return;
-			}
-
-			//Get selected application
-			AdlApplication& selectedApp = selectedAppWrapper.value();
-
 			//Get application details
-			std::wstring applicationFileName = selectedApp.FileName;
-			std::wstring applicationFilePath = selectedApp.FilePath;
-			textblock_GraphicsOptions_Name().Text(applicationFileName);
-			textblock_GraphicsOptions_Details().Text(applicationFilePath);
+			std::wstring applicationFileName = appInfo.FileName;
+			std::wstring applicationFilePath = appInfo.FilePath;
 			AVDebugWriteLine("Selected app: " << applicationFileName);
 
+			//Update interface text
+			textblock_GraphicsOptions_Name().Text(applicationFileName);
+			textblock_GraphicsOptions_Details().Text(applicationFilePath);
+			textblock_AppSelect().Text(applicationFileName);
+
+			//Set current application
+			adl_App_Current = appInfo;
+
 			//Check application type
-			if (applicationFileName == L"Global" && selectedApp.Global)
+			if (applicationFileName == L"Global" && appInfo.Global)
 			{
 				//Fix make sure default settings are set before loading settings
-
-				//Update interface
-				button_Graphics_Remove().IsEnabled(false);
 
 				//Load application graphics settings
 				AdlValuesLoadGraphicsRegistry();
@@ -55,14 +42,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Fix check if application executable exists and warn user profile might not work
 
-				//Update interface
-				button_Graphics_Remove().IsEnabled(true);
-
 				//Check and set default application properties
-				AdlAppsSetDefaults(selectedApp, false, true);
+				AdlAppsSetDefaults(appInfo, false, true);
 
 				//Load application graphics settings
-				AdlValuesLoadGraphicsApp();
+				AdlValuesLoadGraphicsApp(appInfo);
 			}
 
 			//Enable saving
@@ -83,24 +67,26 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlxValuesLoadSelectDisplay()
+	void MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
 	{
 		try
 		{
 			//Disable saving
 			disable_saving = true;
 
-			//Get selected display
-			int selectedDisplayIndex = combobox_DisplaySelect().SelectedIndex();
-			ADLDisplayInfo displayInfo = adl_List_Displays[selectedDisplayIndex];
-
 			//Get adapter and display index
 			adl_Display_AdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
 			adl_Display_DisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
 			AVDebugWriteLine("Selected display index: A" << adl_Display_AdapterIndex << " / D" << adl_Display_DisplayIndex);
 
+			//Update button text
+			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
+
 			//Load display settings
 			AdlxValuesLoadDisplay();
+
+			//Load eyefinity settings
+			AdlxValuesLoadEyefinity();
 
 			//Load information
 			AdlxInfoLoad();
@@ -123,34 +109,33 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlxValuesLoadSelectGpu()
+	void MainPage::AdlxValuesLoadSelectGpu(AdapterInfo adapterInfo)
 	{
 		try
 		{
 			//Disable saving
 			disable_saving = true;
 
-			//Get selected gpu
-			int selectedGpuIndex = combobox_GpuSelect().SelectedIndex();
-			AdapterInfo adapterInfo = adl_List_Gpus[selectedGpuIndex];
-
 			//Get gpu adapter index
 			adl_Gpu_AdapterIndex = adapterInfo.iAdapterIndex;
 			AVDebugWriteLine("Selected gpu index: " << adl_Gpu_AdapterIndex);
 
 			//Get gpu registry path
-			gpuRegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
+			adl_Gpu_RegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
 
 			//DriverBug#1
 			//Get gpu unique identifier
-			//gpuUniqueIdentifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
-			gpuUniqueIdentifierHex = L"0x0001";
+			//adl_Gpu_UniqueIdentifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
+			adl_Gpu_UniqueIdentifierHex = L"0x0001";
+
+			//Update button text
+			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
 
 			//Load tuning values to interface
 			AdlxValuesLoadTuning();
 
 			//Load graphics settings
-			AdlxValuesLoadSelectApp();
+			AdlxValuesLoadSelectApp(adl_App_Current);
 
 			//Load multimedia settings
 			AdlxValuesLoadMultimedia();

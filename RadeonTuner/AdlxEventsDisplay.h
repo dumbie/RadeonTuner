@@ -5,12 +5,20 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
+
+			//Confirm reset
+			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
+			int messageResult = co_await ShowMessageBox(L"Reset settings?", L"", messageAnswers);
+			if (messageResult == 1)
+			{
+				co_return;
+			}
 
 			//Get current and default settings
 			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();

@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.FsrOverride.Current = convertedValue;
@@ -55,7 +55,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.MlfiOverride.Current = convertedValue;
@@ -81,7 +81,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.MfgOverride.Current = convertedValue;
@@ -107,7 +107,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.MldOverride.Current = convertedValue;
@@ -133,7 +133,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.NrcOverride.Current = convertedValue;
@@ -159,7 +159,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 
@@ -212,7 +212,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.DeLagEnabled.Current = convertedValue;
@@ -243,7 +243,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.BoostEnabled.Current = convertedValue;
@@ -274,7 +274,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.BoostMinResolution.Current = convertedValue;
@@ -305,7 +305,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.ChillEnabled.Current = convertedValue;
@@ -336,7 +336,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.ChillMinFps.Current = convertedValue;
@@ -367,7 +367,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.ChillMaxFps.Current = convertedValue;
@@ -393,7 +393,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.RisEnabled.Current = convertedValue;
@@ -424,7 +424,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							float convertedValue = wstring_to_float(value.Value) * 100;
 							graphicsSettings.RisSharpeningDegree.Current = convertedValue;
@@ -456,7 +456,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.EnhancedSync.Current = convertedValue;
@@ -482,7 +482,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.VerticalSync.Current = convertedValue;
@@ -508,7 +508,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = value.Value == L"2";
 							graphicsSettings.AntiAliasingOverride.Current = convertedValue;
@@ -537,7 +537,7 @@ namespace winrt::RadeonTuner::implementation
 					int asdValue = -1;
 					for (AdlAppPropertyValue value : adlPropertyASD.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							asdValue = wstring_to_int(value.Value);
 							break;
@@ -547,7 +547,7 @@ namespace winrt::RadeonTuner::implementation
 					int aseValue = 0;
 					for (AdlAppPropertyValue value : adlPropertyASE.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							aseValue = wstring_to_int(value.Value);
 							break;
@@ -557,7 +557,7 @@ namespace winrt::RadeonTuner::implementation
 					int asttValue = 0;
 					for (AdlAppPropertyValue value : adlPropertyASTT.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							asttValue = wstring_to_int(value.Value);
 							break;
@@ -599,7 +599,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 
@@ -638,7 +638,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.AntiAliasingEnhancedQuality.Current = convertedValue;
@@ -664,7 +664,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.AntiAliasingMorphological.Current = convertedValue;
@@ -690,7 +690,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 
@@ -737,7 +737,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.TextureFilteringQuality.Current = convertedValue;
@@ -763,7 +763,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.SurfaceFormatOptimization.Current = convertedValue;
@@ -789,7 +789,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.TessellationMode.Current = convertedValue;
@@ -815,7 +815,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							int convertedValue = wstring_to_int(value.Value);
 
@@ -874,7 +874,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set current
 					for (AdlAppPropertyValue value : adlProperty.value().Values)
 					{
-						if (value.GpuId == gpuUniqueIdentifierHex)
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
 							bool convertedValue = (bool)wstring_to_int(value.Value);
 							graphicsSettings.OpenGLTripleBuffering.Current = convertedValue;
