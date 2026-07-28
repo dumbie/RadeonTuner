@@ -12,13 +12,16 @@ namespace winrt::RadeonTuner::implementation
 			//Device identifier
 			std::wstring deviceIdW = tuningFanSettings.DeviceId.value();
 
+			//Device application
+			std::wstring applicationW = tuningFanSettings.Application.value();
+
 			//Get tuning fan settings
-			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW);
+			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Add tuning fan settings profile
 			if (!tuningFanSettingsProfile.has_value())
 			{
-				AVDebugWriteLine(L"Added tuning settings profile: " + deviceIdW);
+				AVDebugWriteLine(L"Added tuning settings profile: " + deviceIdW + L" / " + applicationW);
 				tuningFanSettingsCache.push_back(tuningFanSettings);
 			}
 
@@ -41,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Check gpu identifier
-					if (tuningFanSettings.DeviceId.value() == tuningFanSettingsReplace.DeviceId.value())
+					if (tuningFanSettings.DeviceId.value() == tuningFanSettingsReplace.DeviceId.value() && tuningFanSettings.Application.value() == tuningFanSettingsReplace.Application.value())
 					{
 						tuningFanSettings = tuningFanSettingsReplace;
 					}
@@ -59,12 +62,12 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::TuningFanSettings_Profile_Remove(std::wstring gpuIdentifier)
+	bool MainPage::TuningFanSettings_Profile_Remove(std::wstring deviceId, std::wstring application)
 	{
 		try
 		{
 			//Remove tuning fan settings profile
-			auto iterator = std::remove_if(tuningFanSettingsCache.begin(), tuningFanSettingsCache.end(), [&](TuningFanSettings& x) { return x.DeviceId == gpuIdentifier; });
+			auto iterator = std::remove_if(tuningFanSettingsCache.begin(), tuningFanSettingsCache.end(), [&](TuningFanSettings& x) { return x.DeviceId == deviceId && x.Application == application; });
 			tuningFanSettingsCache.erase(iterator, tuningFanSettingsCache.end());
 
 			//Return result
@@ -77,7 +80,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<std::reference_wrapper<TuningFanSettings>> MainPage::TuningFanSettings_Profile_Get(std::wstring gpuIdentifier)
+	std::optional<std::reference_wrapper<TuningFanSettings>> MainPage::TuningFanSettings_Profile_Get(std::wstring deviceId, std::wstring application)
 	{
 		try
 		{
@@ -86,7 +89,7 @@ namespace winrt::RadeonTuner::implementation
 				try
 				{
 					//Check gpu identifier
-					if (tuningFanSettings.DeviceId.value() == gpuIdentifier)
+					if (tuningFanSettings.DeviceId.value() == deviceId && tuningFanSettings.Application.value() == application)
 					{
 						return tuningFanSettings;
 					}
@@ -96,6 +99,69 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 		return std::nullopt;
+	}
+
+	std::vector<std::wstring> MainPage::TuningFanSettings_Profile_GetAllApps(std::wstring deviceId)
+	{
+		std::vector<std::wstring> apps{};
+		try
+		{
+			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+			{
+				try
+				{
+					//Check gpu identifier
+					if (tuningFanSettings.DeviceId.value() == deviceId)
+					{
+						if (tuningFanSettings.Application.has_value())
+						{
+							std::wstring appName = tuningFanSettings.Application.value();
+							if (appName != L"Global")
+							{
+								apps.push_back(tuningFanSettings.Application.value());
+							}
+						}
+					}
+				}
+				catch (...) {}
+			}
+
+			//Sort applications by name
+			std::sort(apps.begin(), apps.end());
+		}
+		catch (...) {}
+		return apps;
+	}
+
+	bool MainPage::TuningFanSettings_Profile_Set_Using(std::wstring deviceId, std::wstring application)
+	{
+		try
+		{
+			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+			{
+				try
+				{
+					//Check gpu identifier and application
+					if (tuningFanSettings.DeviceId.value() == deviceId && tuningFanSettings.Application.value() == application)
+					{
+						tuningFanSettings.UsingProfile = true;
+					}
+					else
+					{
+						tuningFanSettings.UsingProfile = false;
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
 	}
 
 	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Profile_LoadFromFile(std::wstring loadPath)

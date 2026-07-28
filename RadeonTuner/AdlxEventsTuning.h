@@ -5,6 +5,109 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	winrt::fire_and_forget MainPage::button_AppAdd_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { co_return; }
+
+			//Show application picker
+			auto selectedApps = co_await AdlAppPickerAdd();
+			int selectedAppsCount = selectedApps.Size();
+
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
+
+			//Add selected items
+			int addCount = 0;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
+
+				//Get current and default settings
+				TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(adl_Gpu_AdapterIndex, executableName, true).value();
+
+				//Add gpu tuning and fans settings profile
+				if (TuningFanSettings_Profile_Add(tuningFanSettingsAdl))
+				{
+					addCount++;
+				}
+			}
+
+			//Adjust button colors
+			if (addCount > 0)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Tuning_Apply().Background(colorIgnored);
+				button_Fan_Apply().Background(colorIgnored);
+			}
+
+			//Show notification
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications added: " + number_to_wstring(addCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications added: " << addCount << L" / " << selectedAppsCount);
+		}
+		catch (...) {}
+	}
+
+	winrt::fire_and_forget MainPage::button_AppRemove_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { co_return; }
+
+			//Show remove dialog
+			auto selectedApps = co_await AdlAppPickerRemoveAppTuning();
+			int selectedAppsCount = selectedApps.Size();
+
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
+
+			//Remove selected items
+			int removeCount = 0;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
+
+				//Remove application and profile
+				if (TuningFanSettings_Profile_Remove(tuningFanSettingsCurrent.DeviceId.value(), executableName))
+				{
+					removeCount++;
+				}
+			}
+
+			//Adjust button colors
+			if (removeCount > 0)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Tuning_Apply().Background(colorIgnored);
+				button_Fan_Apply().Background(colorIgnored);
+			}
+
+			//Fix check selected application name and reload values
+
+			//Show notification
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications removed: " + number_to_wstring(removeCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications removed: " << removeCount << L" / " << selectedAppsCount);
+		}
+		catch (...) {}
+	}
+
 	void MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -13,16 +116,23 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Apply tuning and fans settings
-			if (AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent))
+			//Fix do not apply tuning application profile directly
+			bool applyResult = AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent);
+
+			//Apply tuning and fans settings
+			if (applyResult)
 			{
 				//Replace tuning and fans settings
 				TuningFanSettings_Profile_Replace(tuningFanSettingsCurrent);
+
+				//Update application using status
+				TuningFanSettings_Profile_Set_Using(tuningFanSettingsCurrent.DeviceId.value(), tuningFanSettingsCurrent.Application.value());
 
 				//Save tuning and fans settings
 				TuningFanSettings_Profiles_SaveToFile();
 
 				//Load tuning values to interface
-				AdlxValuesLoadTuning();
+				AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
 
 				//Show notification
 				ShowNotification(L"Tuning and fans settings applied");
@@ -62,20 +172,23 @@ namespace winrt::RadeonTuner::implementation
 			if (Adl_Overdrive8_Reset(adl_Gpu_AdapterIndex))
 			{
 				//Device identifier
-				std::wstring device_id_w = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
+				std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
+
+				//Device application
+				std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
 
 				//Remove tuning and fans settings
-				TuningFanSettings_Profile_Remove(device_id_w);
+				TuningFanSettings_Profile_Remove(deviceIdW, applicationW);
 
 				//Save tuning and fans settings
 				TuningFanSettings_Profiles_SaveToFile();
 
 				//Load tuning values to interface
-				AdlxValuesLoadTuning();
+				AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
 
 				//Show notification
 				ShowNotification(L"Tuning and fans settings reset");
-				AVDebugWriteLine(L"Tuning and fans settings reset");
+				AVDebugWriteLine(L"Tuning and fans settings reset: " << deviceIdW << L" / " << applicationW);
 			}
 			else
 			{
@@ -280,28 +393,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Power_Limit_PB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorIgnored);
-			button_Fan_Apply().Background(colorIgnored);
-
-			//Get setting value
-			auto newSender = sender.as<Slider>();
-			int newValue = (int)newSender.Value();
-
-			//Update current value
-			tuningFanSettingsCurrent.PowerLimitPB.Current = newValue;
-		}
-		catch (...) {}
-	}
-
 	void MainPage::slider_Power_Voltage_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -324,28 +415,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Power_Voltage_PB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorIgnored);
-			button_Fan_Apply().Background(colorIgnored);
-
-			//Get setting value
-			auto newSender = sender.as<Slider>();
-			int newValue = (int)newSender.Value();
-
-			//Update current value
-			tuningFanSettingsCurrent.PowerVoltagePB.Current = newValue;
-		}
-		catch (...) {}
-	}
-
 	void MainPage::slider_Power_TDC_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -364,28 +433,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			tuningFanSettingsCurrent.PowerTDC.Current = newValue;
-		}
-		catch (...) {}
-	}
-
-	void MainPage::slider_Power_TDC_PB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorIgnored);
-			button_Fan_Apply().Background(colorIgnored);
-
-			//Get setting value
-			auto newSender = sender.as<Slider>();
-			int newValue = (int)newSender.Value();
-
-			//Update current value
-			tuningFanSettingsCurrent.PowerTDCPB.Current = newValue;
 		}
 		catch (...) {}
 	}

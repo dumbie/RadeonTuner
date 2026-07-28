@@ -136,15 +136,10 @@ namespace winrt::RadeonTuner::implementation
 					slider_Power_Limit().Maximum(tuningFanSettings.PowerLimit.Maximum.value());
 					slider_Power_Limit().StepFrequency(tuningFanSettings.PowerLimit.Step.value());
 					slider_Power_Limit().SmallChange(tuningFanSettings.PowerLimit.Step.value());
-					slider_Power_Limit_PB().Minimum(tuningFanSettings.PowerLimit.Minimum.value());
-					slider_Power_Limit_PB().Maximum(tuningFanSettings.PowerLimit.Maximum.value());
-					slider_Power_Limit_PB().StepFrequency(tuningFanSettings.PowerLimit.Step.value());
-					slider_Power_Limit_PB().SmallChange(tuningFanSettings.PowerLimit.Step.value());
 				}
 
 				//Enable or disable interface
 				slider_Power_Limit().IsEnabled(true);
-				slider_Power_Limit_PB().IsEnabled(true);
 			}
 			else
 			{
@@ -153,7 +148,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				slider_Power_Limit().IsEnabled(false);
-				slider_Power_Limit_PB().IsEnabled(false);
 			}
 
 			//Power Voltage
@@ -170,10 +164,6 @@ namespace winrt::RadeonTuner::implementation
 					slider_Power_Voltage().Maximum(tuningFanSettings.PowerVoltage.Maximum.value());
 					slider_Power_Voltage().StepFrequency(tuningFanSettings.PowerVoltage.Step.value());
 					slider_Power_Voltage().SmallChange(tuningFanSettings.PowerVoltage.Step.value());
-					slider_Power_Voltage_PB().Minimum(tuningFanSettings.PowerVoltage.Minimum.value());
-					slider_Power_Voltage_PB().Maximum(tuningFanSettings.PowerVoltage.Maximum.value());
-					slider_Power_Voltage_PB().StepFrequency(tuningFanSettings.PowerVoltage.Step.value());
-					slider_Power_Voltage_PB().SmallChange(tuningFanSettings.PowerVoltage.Step.value());
 
 					//Check if value is offset (RDNA4+)
 					if (tuningFanSettings.PowerVoltage.Minimum.value() < 0)
@@ -188,7 +178,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				slider_Power_Voltage().IsEnabled(true);
-				slider_Power_Voltage_PB().IsEnabled(true);
 			}
 			else
 			{
@@ -197,7 +186,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				slider_Power_Voltage().IsEnabled(false);
-				slider_Power_Voltage_PB().IsEnabled(false);
 			}
 
 			//Power TDC
@@ -214,15 +202,10 @@ namespace winrt::RadeonTuner::implementation
 					slider_Power_TDC().Maximum(tuningFanSettings.PowerTDC.Maximum.value());
 					slider_Power_TDC().StepFrequency(tuningFanSettings.PowerTDC.Step.value());
 					slider_Power_TDC().SmallChange(tuningFanSettings.PowerTDC.Step.value());
-					slider_Power_TDC_PB().Minimum(tuningFanSettings.PowerTDC.Minimum.value());
-					slider_Power_TDC_PB().Maximum(tuningFanSettings.PowerTDC.Maximum.value());
-					slider_Power_TDC_PB().StepFrequency(tuningFanSettings.PowerTDC.Step.value());
-					slider_Power_TDC_PB().SmallChange(tuningFanSettings.PowerTDC.Step.value());
 				}
 
 				//Enable or disable interface
 				slider_Power_TDC().IsEnabled(true);
-				slider_Power_TDC_PB().IsEnabled(true);
 			}
 			else
 			{
@@ -231,7 +214,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				slider_Power_TDC().IsEnabled(false);
-				slider_Power_TDC_PB().IsEnabled(false);
 			}
 
 			//Update fan graph
@@ -507,10 +489,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Custom settings
 				toggleswitch_KeepActive().IsEnabled(false);
-				toggleswitch_PowerBoost().IsEnabled(false);
-				combobox_PowerBoost_Applications().IsEnabled(false);
-				button_PowerBoost_AddExe().IsEnabled(false);
-				button_PowerBoost_Remove().IsEnabled(false);
 			}
 			else
 			{
@@ -522,11 +500,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Custom settings
 				toggleswitch_KeepActive().IsEnabled(true);
-				toggleswitch_PowerBoost().IsEnabled(true);
-				bool powerBoost = toggleswitch_PowerBoost().IsOn();
-				combobox_PowerBoost_Applications().IsEnabled(powerBoost);
-				button_PowerBoost_AddExe().IsEnabled(powerBoost);
-				button_PowerBoost_Remove().IsEnabled(powerBoost);
 			}
 
 			//Enable or disable fan interface

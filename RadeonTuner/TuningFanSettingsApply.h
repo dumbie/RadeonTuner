@@ -40,51 +40,21 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Power Limit
-			if (tuningFanSettings.PowerBoostUse)
+			if (tuningFanSettings.PowerLimit.Current.has_value())
 			{
-				if (tuningFanSettings.PowerLimitPB.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimitPB.Current.value(), false });
-				}
-			}
-			else
-			{
-				if (tuningFanSettings.PowerLimit.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimit.Current.value(), false });
-				}
+				saveSettings.push_back({ ADLOD8SettingId::OD8_POWER_PERCENTAGE, tuningFanSettings.PowerLimit.Current.value(), false });
 			}
 
 			//Power Voltage
-			if (tuningFanSettings.PowerBoostUse)
+			if (tuningFanSettings.PowerVoltage.Current.has_value())
 			{
-				if (tuningFanSettings.PowerVoltagePB.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltagePB.Current.value(), false });
-				}
-			}
-			else
-			{
-				if (tuningFanSettings.PowerVoltage.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltage.Current.value(), false });
-				}
+				saveSettings.push_back({ ADLOD8SettingId::OD8_OD_VOLTAGE, tuningFanSettings.PowerVoltage.Current.value(), false });
 			}
 
 			//Power TDC
-			if (tuningFanSettings.PowerBoostUse)
+			if (tuningFanSettings.PowerTDC.Current.has_value())
 			{
-				if (tuningFanSettings.PowerTDCPB.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDCPB.Current.value(), false });
-				}
-			}
-			else
-			{
-				if (tuningFanSettings.PowerTDC.Current.has_value())
-				{
-					saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDC.Current.value(), false });
-				}
+				saveSettings.push_back({ ADLOD8SettingId::OD8_TDC_PERCENTAGE, tuningFanSettings.PowerTDC.Current.value(), false });
 			}
 
 			//Fan Control

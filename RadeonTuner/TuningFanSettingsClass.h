@@ -28,16 +28,12 @@ struct TuningFanSettings
 	//Custom
 	SettingInt FanControl;
 	SettingInt KeepActive;
-	SettingInt PowerBoost;
-	SettingInt PowerLimitPB;
-	SettingInt PowerVoltagePB;
-	SettingInt PowerTDCPB;
 
 	//Variables (No export)
 	int FanZeroTemp = -1;
 	bool FanSupport = false;
 	bool TuningSupport = false;
-	bool PowerBoostUse = false;
+	bool UsingProfile = false;
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, FanControl.Current, KeepActive.Current, PowerBoost.Current, PowerLimitPB.Current, PowerVoltagePB.Current, PowerTDCPB.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, FanControl.Current, KeepActive.Current)
 };

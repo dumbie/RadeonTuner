@@ -9,6 +9,158 @@ namespace winrt::RadeonTuner::implementation
 	//Note: IADLXGPUTuningChangedEvent does not get triggered when tuning is reset by system failure so manual polling is needed.
 	//Fix: Change power boost and eyefinity to event that triggers on process launch and close or check foreground window.
 
+	void MainPage::AdlxCheckAutomaticEyefinity(std::vector<std::wstring> processExeRunning)
+	{
+		try
+		{
+			//Check Automatic Eyefinity setting
+			bool eyefinityAutomatic = false;
+			std::optional<bool> eyefinityAutomaticOpt = AppVariables::Settings.Load<bool>("EyefinityAutomatic");
+			if (eyefinityAutomaticOpt.has_value())
+			{
+				eyefinityAutomatic = eyefinityAutomaticOpt.value();
+			}
+
+			//Check if Automatic Eyefinity is enabled and app is added
+			bool eyefinityProcessFound = false;
+			if (eyefinityAutomatic && eyefinityAppsCache.size() > 0)
+			{
+				//Check if Eyefinity process is running
+				for (auto eyefinityApp : eyefinityAppsCache)
+				{
+					std::wstring eyefinityAppLower = wstring_to_lower(eyefinityApp);
+					if (array_contains(processExeRunning, eyefinityAppLower))
+					{
+						//AVDebugWriteLine("Eyefinity process is running: " << exeNameW);
+						eyefinityProcessFound = true;
+						break;
+					}
+				}
+
+				//Enable or disable Eyefinity
+				Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessFound);
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::AdlxCheckTuningApplicationProfile(std::vector<std::wstring> processExeRunning)
+	{
+		try
+		{
+			//Get all GPU's
+			for (auto adapterInfo : AdlGetGpuAll())
+			{
+				//Device index
+				int adapterIndex = adapterInfo.iAdapterIndex;
+
+				//Device identifier
+				std::wstring adapterDeviceId = char_to_wstring(adapterInfo.strPNPString);
+				adapterDeviceId = wstring_get_between(adapterDeviceId, L"\\", L"\\");
+
+				//Loop tuning and fans settings
+				std::optional<std::reference_wrapper<TuningFanSettings>> tuningFanSettingsProfileOpt;
+				for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+				{
+					try
+					{
+						//Check and match device id
+						if (tuningFanSettings.DeviceId.value() == adapterDeviceId)
+						{
+							//Check if profile keep active is enabled
+							if (tuningFanSettings.KeepActive.Current.has_value())
+							{
+								if (tuningFanSettings.KeepActive.Current.value())
+								{
+									tuningFanSettingsProfileOpt = tuningFanSettings;
+								}
+							}
+
+							//Check if profile application is running
+							if (tuningFanSettings.Application.has_value())
+							{
+								//Lower case application name
+								std::wstring appNameLower = wstring_to_lower(tuningFanSettings.Application.value());
+
+								//Check and set global profile
+								if (appNameLower == L"global")
+								{
+									tuningFanSettingsProfileOpt = tuningFanSettings;
+								}
+
+								//Check and set application profile
+								if (array_contains(processExeRunning, appNameLower))
+								{
+									//AVDebugWriteLine("Application profile application running: " << appNameLower);
+									tuningFanSettingsProfileOpt = tuningFanSettings;
+									break;
+								}
+							}
+						}
+					}
+					catch (...) {}
+				}
+
+				//Compare tuning fan settings
+				if (tuningFanSettingsProfileOpt.has_value())
+				{
+					//Get profile value
+					TuningFanSettings& tuningFanSettingsProfile = tuningFanSettingsProfileOpt.value();
+					AVDebugWriteLine("Comparing tuning and fans settings: " << tuningFanSettingsProfile.DeviceId.value() << L" / " << tuningFanSettingsProfile.Application.value());
+
+					//Check if keep active is enabled
+					bool keepActiveEnabled = false;
+					if (tuningFanSettingsProfile.KeepActive.Current.has_value())
+					{
+						keepActiveEnabled = tuningFanSettingsProfile.KeepActive.Current.value();
+					}
+
+					//Check if apply is required
+					if (tuningFanSettingsProfile.UsingProfile && !keepActiveEnabled)
+					{
+						//AVDebugWriteLine(L"Profile is currently in use: " << tuningFanSettingsProfile.Application.value());
+						continue;
+					}
+
+					//Get current and default settings
+					TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(adapterIndex, L"", false).value();
+
+					//Check if settings match
+					//Fix set UsingProfile to true when already matching
+					if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsAdl))
+					{
+						AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
+
+						//Apply tuning and fans settings
+						bool applyResult = AdlTuningApply(adapterIndex, tuningFanSettingsProfile);
+
+						//Update application using status
+						if (applyResult)
+						{
+							TuningFanSettings_Profile_Set_Using(tuningFanSettingsProfile.DeviceId.value(), tuningFanSettingsProfile.Application.value());
+						}
+
+						//Show notification
+						std::function<void()> updateFunction = [=]
+							{
+								if (applyResult)
+								{
+									//Load tuning and fans settings
+									AdlxValuesLoadTuning(adapterIndex, tuningFanSettingsCurrent.Application.value());
+
+									//Show notification
+									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsProfile.Application.value());
+									AVDebugWriteLine(L"Tuning and fans settings applied: " << tuningFanSettingsProfile.Application.value());
+								}
+							};
+						AppVariables::App.DispatcherInvoke(updateFunction);
+					}
+				}
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::AdlxLoopKeepActive()
 	{
 		while (true)
@@ -33,144 +185,22 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Get running processes
-				bool eyefinityProcessRunning = false;
-				bool powerBoostProcessRunning = false;
-				bool powerBoostAppsAny = powerBoostAppsCache.size() > 0;
-				bool eyefinityAppsAny = eyefinityAppsCache.size() > 0;
-				if (powerBoostAppsAny || eyefinityAppsAny)
+				std::vector<std::wstring> processExeRunning{};
+				std::vector<AVProcess> processAll = Get_ProcessAll();
+				for (AVProcess& process : processAll)
 				{
-					for (AVProcess process : Get_ProcessAll())
-					{
-						try
-						{
-							//Fix lower upper case matching
-							std::wstring exeNameW = process.ExeName();
+					//Lower case executable name
+					std::wstring exeNameLower = wstring_to_lower(process.ExeName());
 
-							//Check if Power Boost process is running
-							if (powerBoostAppsAny && array_contains(powerBoostAppsCache, exeNameW))
-							{
-								//AVDebugWriteLine("Power Boost process is running: " << exeNameW);
-								powerBoostProcessRunning = true;
-							}
-
-							//Check if Eyefinity process is running
-							if (eyefinityAppsAny && array_contains(eyefinityAppsCache, exeNameW))
-							{
-								//AVDebugWriteLine("Eyefinity process is running: " << exeNameW);
-								eyefinityProcessRunning = true;
-							}
-
-							//Break from loop
-							if (eyefinityProcessRunning && powerBoostProcessRunning)
-							{
-								break;
-							}
-						}
-						catch (...) {}
-					}
+					//Add to list of running processes
+					processExeRunning.push_back(exeNameLower);
 				}
 
-				//Check Automatic Eyefinity setting
-				bool eyefinityAutomatic = false;
-				std::optional<bool> eyefinityAutomaticOpt = AppVariables::Settings.Load<bool>("EyefinityAutomatic");
-				if (eyefinityAutomaticOpt.has_value())
-				{
-					eyefinityAutomatic = eyefinityAutomaticOpt.value();
-				}
+				//Check display Automatic Eyefinity
+				AdlxCheckAutomaticEyefinity(processExeRunning);
 
-				//Enable or disable Eyefinity
-				if (eyefinityAutomatic)
-				{
-					Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessRunning);
-				}
-
-				//Check tuning fan settings
-				for (TuningFanSettings& tuningFanSettingsProfile : tuningFanSettingsCache)
-				{
-					try
-					{
-						//AVDebugWriteLine("Checking tuning and fans settings for device: " << tuningFanSettingsProfile.DeviceId.value().c_str());
-
-						//Check if Keep Active is enabled
-						bool keepActiveEnabled = false;
-						if (tuningFanSettingsProfile.KeepActive.Current.has_value())
-						{
-							keepActiveEnabled = tuningFanSettingsProfile.KeepActive.Current.value();
-						}
-
-						//Check if Power Boost is enabled
-						bool powerBoostEnabled = false;
-						if (tuningFanSettingsProfile.PowerBoost.Current.has_value())
-						{
-							powerBoostEnabled = tuningFanSettingsProfile.PowerBoost.Current.value();
-						}
-
-						//Check enabled settings
-						if (!keepActiveEnabled && !powerBoostEnabled)
-						{
-							continue;
-						}
-
-						//Get GPU information
-						std::wstring deviceId = tuningFanSettingsProfile.DeviceId.value();
-						std::optional<AdapterInfo> gpuInformation = AdlGetGpuByDeviceId(deviceId);
-						if (!gpuInformation.has_value())
-						{
-							continue;
-						}
-
-						//Get GPU adapter index
-						int gpuAdapterIndex = gpuInformation.value().iAdapterIndex;
-
-						//Get current and default settings
-						std::optional<TuningFanSettings> tuningFanSettingsGpu = TuningFanSettings_Generate_FromADL(gpuAdapterIndex);
-						if (!tuningFanSettingsGpu.has_value())
-						{
-							continue;
-						}
-
-						//Check if Power Boost is enabled and used
-						if (powerBoostEnabled)
-						{
-							tuningFanSettingsProfile.PowerBoostUse = powerBoostProcessRunning;
-						}
-						else
-						{
-							tuningFanSettingsProfile.PowerBoostUse = false;
-						}
-
-						//Check if tuning and fans settings match
-						if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsGpu.value()))
-						{
-							AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
-
-							//Apply tuning and fans settings
-							std::function<void()> updateFunction = [=]
-								{
-									//Apply tuning and fans settings
-									if (AdlTuningApply(gpuAdapterIndex, tuningFanSettingsProfile))
-									{
-										//Load tuning and fans settings
-										AdlxValuesLoadTuning();
-
-										//Show notification
-										if (tuningFanSettingsProfile.PowerBoostUse)
-										{
-											ShowNotification(L"Power Boost tuning settings applied");
-											AVDebugWriteLine(L"Power Boost tuning settings applied");
-										}
-										else
-										{
-											ShowNotification(L"Tuning and fans settings applied");
-											AVDebugWriteLine(L"Tuning and fans settings applied");
-										}
-									}
-								};
-							AppVariables::App.DispatcherInvoke(updateFunction);
-						}
-					}
-					catch (...) {}
-				}
+				//Check tuning Application Profile
+				AdlxCheckTuningApplicationProfile(processExeRunning);
 			}
 			catch (...) {}
 		}

@@ -15,7 +15,7 @@ inline int adl_Res0 = ADL_ERR;
 inline int adl_Res1 = ADL_ERR;
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;
 
-//Application
+//Graphics
 inline AdlApplication adl_App_Current{};
 inline AdlApplication adl_App_Global{ .Global = true, .FileName = L"Global", .FilePath = L"Registry" };
 
@@ -23,6 +23,7 @@ inline AdlApplication adl_App_Global{ .Global = true, .FileName = L"Global", .Fi
 inline int adl_Gpu_AdapterIndex = -1;
 inline std::wstring adl_Gpu_RegistryPath;
 inline std::wstring adl_Gpu_UniqueIdentifierHex;
+inline std::wstring adl_Gpu_DeviceIdentifier;
 
 //Display
 inline int adl_Display_AdapterIndex = -1;
@@ -38,7 +39,7 @@ inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
 
 //Settings
-inline TuningFanSettings tuningFanSettingsCurrent{};
+inline TuningFanSettings tuningFanSettingsCurrent{ .Application = L"Global" };
 inline GraphicsSettings graphicsSettingsCurrent{};
 inline DisplaySettings displaySettingsCurrent{};
 inline MultimediaSettings multimediaSettingsCurrent{};
@@ -46,5 +47,4 @@ inline MultimediaSettings multimediaSettingsCurrent{};
 //Cache
 //Fix use ObservableCollection and DataContext binding instead
 inline std::vector<std::wstring> eyefinityAppsCache{};
-inline std::vector<std::wstring> powerBoostAppsCache{};
 inline std::vector<TuningFanSettings> tuningFanSettingsCache{};

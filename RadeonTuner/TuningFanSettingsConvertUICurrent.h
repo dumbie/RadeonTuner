@@ -39,34 +39,16 @@ namespace winrt::RadeonTuner::implementation
 				slider_Power_Limit().Value(tuningFanSettings.PowerLimit.Current.value());
 			}
 
-			//Power Limit (Power Boost)
-			if (tuningFanSettings.PowerLimitPB.Current.has_value())
-			{
-				slider_Power_Limit_PB().Value(tuningFanSettings.PowerLimitPB.Current.value());
-			}
-
 			//Power Voltage
 			if (tuningFanSettings.PowerVoltage.Current.has_value())
 			{
 				slider_Power_Voltage().Value(tuningFanSettings.PowerVoltage.Current.value());
 			}
 
-			//Power Voltage (Power Boost)
-			if (tuningFanSettings.PowerVoltagePB.Current.has_value())
-			{
-				slider_Power_Voltage_PB().Value(tuningFanSettings.PowerVoltagePB.Current.value());
-			}
-
 			//Power TDC
 			if (tuningFanSettings.PowerTDC.Current.has_value())
 			{
 				slider_Power_TDC().Value(tuningFanSettings.PowerTDC.Current.value());
-			}
-
-			//Power TDC (Power Boost)
-			if (tuningFanSettings.PowerTDCPB.Current.has_value())
-			{
-				slider_Power_TDC_PB().Value(tuningFanSettings.PowerTDCPB.Current.value());
 			}
 
 			//Fan Control
@@ -206,50 +188,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				toggleswitch_KeepActive().IsOn(false);
 				textblock_KeepActive_Value().Text(L"Disabled");
-			}
-
-			//Power Boost
-			if (tuningFanSettings.PowerBoost.Current.has_value())
-			{
-				bool powerBoost = tuningFanSettings.PowerBoost.Current.value();
-				toggleswitch_PowerBoost().IsOn(powerBoost);
-
-				//Show or hide power boost settings
-				if (powerBoost)
-				{
-					//Current status
-					textblock_PowerBoost_Value().Text(L"Enabled");
-
-					//Hide or show settings
-					grid_Power_Limit_PB().Visibility(Visibility::Visible);
-					grid_Power_Voltage_PB().Visibility(Visibility::Visible);
-					grid_Power_TDC_PB().Visibility(Visibility::Visible);
-
-					//Enable or disable settings
-					combobox_PowerBoost_Applications().IsEnabled(true);
-					button_PowerBoost_AddExe().IsEnabled(true);
-					button_PowerBoost_Remove().IsEnabled(true);
-				}
-				else
-				{
-					//Current status
-					textblock_PowerBoost_Value().Text(L"Disabled");
-
-					//Hide or show settings
-					grid_Power_Limit_PB().Visibility(Visibility::Collapsed);
-					grid_Power_Voltage_PB().Visibility(Visibility::Collapsed);
-					grid_Power_TDC_PB().Visibility(Visibility::Collapsed);
-
-					//Enable or disable settings
-					combobox_PowerBoost_Applications().IsEnabled(false);
-					button_PowerBoost_AddExe().IsEnabled(false);
-					button_PowerBoost_Remove().IsEnabled(false);
-				}
-			}
-			else
-			{
-				toggleswitch_PowerBoost().IsOn(false);
-				textblock_PowerBoost_Value().Text(L"Disabled");
 			}
 
 			//Set result

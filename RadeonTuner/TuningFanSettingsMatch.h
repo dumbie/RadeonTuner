@@ -33,46 +33,22 @@ namespace winrt::RadeonTuner::implementation
 				if (tuningFanSettingsProfile.MemoryMax.Current.value() != tuningFanSettingsGpu.MemoryMax.Current.value()) { return false; }
 			}
 
-			//Power Boost
-			if (tuningFanSettingsProfile.PowerBoostUse)
+			//Power Limit
+			if (tuningFanSettingsProfile.PowerLimit.Current.has_value() && tuningFanSettingsGpu.PowerLimit.Current.has_value())
 			{
-				//Power Limit (Power Boost)
-				if (tuningFanSettingsProfile.PowerLimitPB.Current.has_value() && tuningFanSettingsGpu.PowerLimit.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerLimitPB.Current.value() != tuningFanSettingsGpu.PowerLimit.Current.value()) { return false; }
-				}
-
-				//Power Voltage (Power Boost)
-				if (tuningFanSettingsProfile.PowerVoltagePB.Current.has_value() && tuningFanSettingsGpu.PowerVoltage.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerVoltagePB.Current.value() != tuningFanSettingsGpu.PowerVoltage.Current.value()) { return false; }
-				}
-
-				//Power TDC (Power Boost)
-				if (tuningFanSettingsProfile.PowerTDCPB.Current.has_value() && tuningFanSettingsGpu.PowerTDC.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerTDCPB.Current.value() != tuningFanSettingsGpu.PowerTDC.Current.value()) { return false; }
-				}
+				if (tuningFanSettingsProfile.PowerLimit.Current.value() != tuningFanSettingsGpu.PowerLimit.Current.value()) { return false; }
 			}
-			else
+
+			//Power Voltage
+			if (tuningFanSettingsProfile.PowerVoltage.Current.has_value() && tuningFanSettingsGpu.PowerVoltage.Current.has_value())
 			{
-				//Power Limit
-				if (tuningFanSettingsProfile.PowerLimit.Current.has_value() && tuningFanSettingsGpu.PowerLimit.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerLimit.Current.value() != tuningFanSettingsGpu.PowerLimit.Current.value()) { return false; }
-				}
+				if (tuningFanSettingsProfile.PowerVoltage.Current.value() != tuningFanSettingsGpu.PowerVoltage.Current.value()) { return false; }
+			}
 
-				//Power Voltage
-				if (tuningFanSettingsProfile.PowerVoltage.Current.has_value() && tuningFanSettingsGpu.PowerVoltage.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerVoltage.Current.value() != tuningFanSettingsGpu.PowerVoltage.Current.value()) { return false; }
-				}
-
-				//Power TDC
-				if (tuningFanSettingsProfile.PowerTDC.Current.has_value() && tuningFanSettingsGpu.PowerTDC.Current.has_value())
-				{
-					if (tuningFanSettingsProfile.PowerTDC.Current.value() != tuningFanSettingsGpu.PowerTDC.Current.value()) { return false; }
-				}
+			//Power TDC
+			if (tuningFanSettingsProfile.PowerTDC.Current.has_value() && tuningFanSettingsGpu.PowerTDC.Current.has_value())
+			{
+				if (tuningFanSettingsProfile.PowerTDC.Current.value() != tuningFanSettingsGpu.PowerTDC.Current.value()) { return false; }
 			}
 
 			//Fan Control

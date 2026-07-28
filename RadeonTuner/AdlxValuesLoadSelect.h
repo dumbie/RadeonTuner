@@ -2,30 +2,32 @@
 #include "pch.h"
 #include "MainPage.h"
 #include "MainVariables.h"
-#include "AdlValuesLoadGraphicsApp.h"
-#include "AdlValuesLoadGraphicsRegistry.h"
 #include "AdlxValuesLoadMultimedia.h"
 #include "AdlxValuesLoadDisplay.h"
 #include "AdlxValuesLoadTuning.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesLoadSelectApp(AdlApplication& appInfo)
+	void MainPage::AdlxValuesLoadGraphics(AdlApplication& appInfo)
 	{
 		try
 		{
+			//Check application
+			if (appInfo.FileName.empty() || appInfo.FilePath.empty())
+			{
+				return;
+			}
+
 			//Disable saving
 			disable_saving = true;
 
 			//Get application details
 			std::wstring applicationFileName = appInfo.FileName;
 			std::wstring applicationFilePath = appInfo.FilePath;
-			AVDebugWriteLine("Selected app: " << applicationFileName);
+			AVDebugWriteLine("Selected app: " << applicationFileName << " / G" << appInfo.Global);
 
 			//Update interface text
-			textblock_GraphicsOptions_Name().Text(applicationFileName);
-			textblock_GraphicsOptions_Details().Text(applicationFilePath);
-			textblock_AppSelect().Text(applicationFileName);
+			textblock_AppSelect_Graphics().Text(applicationFileName);
 
 			//Set current application
 			adl_App_Current = appInfo;
@@ -35,8 +37,11 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Fix make sure default settings are set before loading settings
 
-				//Load application graphics settings
-				AdlValuesLoadGraphicsRegistry();
+				//Get current and default settings
+				graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
+
+				//Convert settings values to interface
+				GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 			}
 			else
 			{
@@ -45,8 +50,11 @@ namespace winrt::RadeonTuner::implementation
 				//Check and set default application properties
 				AdlAppsSetDefaults(appInfo, false, true);
 
-				//Load application graphics settings
-				AdlValuesLoadGraphicsApp(appInfo);
+				//Get current and default settings
+				graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLApp(appInfo).value();
+
+				//Convert settings values to interface
+				GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 			}
 
 			//Enable saving
@@ -123,6 +131,9 @@ namespace winrt::RadeonTuner::implementation
 			//Get gpu registry path
 			adl_Gpu_RegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
 
+			//Get gpu device identifier
+			adl_Gpu_DeviceIdentifier = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
+
 			//DriverBug#1
 			//Get gpu unique identifier
 			//adl_Gpu_UniqueIdentifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
@@ -132,10 +143,10 @@ namespace winrt::RadeonTuner::implementation
 			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
 
 			//Load tuning values to interface
-			AdlxValuesLoadTuning();
+			AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
 
 			//Load graphics settings
-			AdlxValuesLoadSelectApp(adl_App_Current);
+			AdlxValuesLoadGraphics(adl_App_Current);
 
 			//Load multimedia settings
 			AdlxValuesLoadMultimedia();

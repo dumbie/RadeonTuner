@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_AppAdd_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_AppAdd_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -47,7 +47,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppRemove_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_AppRemove_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -55,7 +55,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { co_return; }
 
 			//Show remove dialog
-			auto selectedApps = co_await AdlAppPickerRemoveApp();
+			auto selectedApps = co_await AdlAppPickerRemoveAppGraphics();
 			int selectedAppsCount = selectedApps.Size();
 
 			//Check selected items
@@ -85,6 +85,8 @@ namespace winrt::RadeonTuner::implementation
 					removeCount++;
 				}
 			}
+
+			//Fix check selected application name and reload values
 
 			//Show notification
 			//Fix show fail and duplicate count

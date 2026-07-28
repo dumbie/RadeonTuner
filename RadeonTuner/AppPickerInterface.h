@@ -285,13 +285,14 @@ namespace winrt::RadeonTuner::implementation
 		co_return selectedList;
 	}
 
-	winrt::IAsyncOperation<winrt::IVector<RadeonTuner::AppPickerIdl>> MainPage::AdlAppPickerRemoveApp()
+	winrt::IAsyncOperation<winrt::IVector<RadeonTuner::AppPickerIdl>> MainPage::AdlAppPickerRemoveAppGraphics()
 	{
 		auto selectedList = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
 		try
 		{
-			//Get all applications
 			auto appListIdl = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
+
+			//Get all applications
 			std::vector<AdlApplication> appList = AdlAppsLoad(L"3D_User");
 
 			//Check applications
@@ -310,6 +311,78 @@ namespace winrt::RadeonTuner::implementation
 					appPicker.AppName(app.FileName);
 					appPicker.ExeName(app.FileName);
 					appPicker.ExePath(app.FilePath);
+					appListIdl.Append(appPicker);
+				}
+				catch (...) {}
+			}
+
+			//Show application picker
+			button_Overlay_AppPicker_Confirm().Visibility(Visibility::Visible);
+			button_Overlay_AppPicker_Cancel().Visibility(Visibility::Visible);
+			button_Overlay_AppPicker_Confirm().Content(box_value(L"Remove selected"));
+			textblock_Overlay_AppPicker_Text().Text(L"Remove applications");
+			grid_Overlay_AppPicker().Visibility(Visibility::Visible);
+
+			//Set combobox items source
+			listview_Overlay_AppPicker().ItemsSource(appListIdl);
+
+			//Update variables
+			appPickerCompleted = false;
+			appPickerCancel = false;
+
+			//Wait in background
+			while (!appPickerCompleted && !appPickerCancel)
+			{
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
+			}
+
+			//Append selected items
+			if (appPickerCompleted)
+			{
+				//Get selected items
+				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
+				for (auto const& itemBoxed : selectedItems)
+				{
+					//Unbox selected item
+					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();
+					selectedList.Append(itemUnboxed);
+				}
+			}
+
+			//Hide overlay and clear items
+			grid_Overlay_AppPicker().Visibility(Visibility::Collapsed);
+			listview_Overlay_AppPicker().ItemsSource(NULL);
+		}
+		catch (...) {}
+		//Return result
+		co_return selectedList;
+	}
+
+	winrt::IAsyncOperation<winrt::IVector<RadeonTuner::AppPickerIdl>> MainPage::AdlAppPickerRemoveAppTuning()
+	{
+		auto selectedList = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
+		try
+		{
+			auto appListIdl = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
+
+			//Get all applications
+			std::vector<std::wstring> appList = TuningFanSettings_Profile_GetAllApps(adl_Gpu_DeviceIdentifier);
+
+			//Check applications
+			if (appList.size() == 0)
+			{
+				co_return selectedList;
+			}
+
+			//Append applications
+			for (std::wstring app : appList)
+			{
+				try
+				{
+					//Add application
+					RadeonTuner::AppPickerIdl appPicker;
+					appPicker.AppName(app);
+					appPicker.ExeName(app);
 					appListIdl.Append(appPicker);
 				}
 				catch (...) {}

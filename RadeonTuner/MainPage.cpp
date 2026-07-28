@@ -76,8 +76,6 @@
 
 #include "EyefinityFunc.h"
 #include "EyefinityEvents.h"
-#include "PowerBoostFunc.h"
-#include "PowerBoostEvents.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
@@ -220,11 +218,7 @@ namespace winrt::RadeonTuner::implementation
 			AdlAppRemove(globalApp);
 
 			//Load and list applications
-			AdlxValuesLoadSelectApp(adl_App_Global);
-
-			//Load and list Power Boost applications
-			PowerBoost_Applications_LoadFromFile();
-			PowerBoost_Applications_List(true);
+			AdlxValuesLoadGraphics(adl_App_Global);
 
 			//Load and list Automatic Eyefinity applications
 			Eyefinity_Applications_LoadFromFile();
@@ -302,7 +296,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
 					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
-					textblock_GraphicsOptions_Details().Visibility(Visibility::Visible);
 					textblock_FsrDllLoadPath().Visibility(Visibility::Collapsed);
 					textbox_FsrDllLoadPath().Width(NAN);
 
@@ -323,7 +316,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
 					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
-					textblock_GraphicsOptions_Details().Visibility(Visibility::Collapsed);
 					textblock_FsrDllLoadPath().Visibility(Visibility::Visible);
 					textbox_FsrDllLoadPath().Width(0);
 
@@ -374,32 +366,31 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_Settings().Visibility(Visibility::Collapsed);
 			stackpanel_Information().Visibility(Visibility::Collapsed);
 
-			//Disable selection boxes
+			//Hide selection boxes
 			button_GpuSelect().Visibility(Visibility::Collapsed);
 			button_DisplaySelect().Visibility(Visibility::Collapsed);
-			button_AppSelect().Visibility(Visibility::Collapsed);
-			button_AppAdd().Visibility(Visibility::Collapsed);
-			button_AppRemove().Visibility(Visibility::Collapsed);
+			stackpanel_AppSelect_Graphics().Visibility(Visibility::Collapsed);
+			stackpanel_AppSelect_Tuning().Visibility(Visibility::Collapsed);
 
 			//Make selected page visible
 			if (selectedIndex == 0)
 			{
 				button_GpuSelect().Visibility(Visibility::Visible);
+				stackpanel_AppSelect_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Tuning_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 1)
 			{
 				button_GpuSelect().Visibility(Visibility::Visible);
+				stackpanel_AppSelect_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Fans().Visibility(Visibility::Visible);
 				stackpanel_Fan_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 2)
 			{
 				button_GpuSelect().Visibility(Visibility::Visible);
-				button_AppSelect().Visibility(Visibility::Visible);
-				button_AppAdd().Visibility(Visibility::Visible);
-				button_AppRemove().Visibility(Visibility::Visible);
+				stackpanel_AppSelect_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);
 			}
