@@ -157,6 +157,9 @@ namespace winrt::RadeonTuner::implementation
 					catch (...) {}
 				}
 
+				//Sort applications by file name
+				std::sort(adlApps.begin(), adlApps.end(), [](const AdlApplication& a, const AdlApplication& b) { return wstring_to_lower(a.FileName) < wstring_to_lower(b.FileName); });
+
 				AVDebugWriteLine("ADL applications loaded: " << adlApps.size());
 			}
 			else
