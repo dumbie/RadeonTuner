@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     Loaded="page_Loaded"
     RequestedTheme="Dark"
-    Background="{ThemeResource ApplicationBlackColor}">
+    Background="{ThemeResource ApplicationBlackColor}"
+    PointerMoved="PointerMoved_AdjustCursor">
 
     <Grid>
         <Grid x:Name="grid_Main">
@@ -81,8 +82,14 @@
                 <!-- Header -->
                 <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <Grid>
-                        <Image Source="/Assets/RadeonTuner.png" Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Right" ToolTipService.ToolTip="RadeonTuner &lt;3"/>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button x:Name="button_Update_Launch" Width="48" Height="48" Click="button_Update_Launch_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0" Visibility="Collapsed">
+                                <Image Source="/Assets/Update.png" ToolTipService.ToolTip="New update available"/>
+                            </Button>
+                            <Image Source="/Assets/RadeonTuner.png" Width="48" Height="48" ToolTipService.ToolTip="RadeonTuner &lt;3"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <!-- Gpu Select -->
                             <Button x:Name="button_GpuSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current graphics card" Click="button_GpuSelect_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -99,27 +106,53 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- Application Select -->
-                            <Button x:Name="button_AppSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
-                                    <TextBlock x:Name="textblock_AppSelect" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                                </StackPanel>
-                            </Button>
+                            <StackPanel x:Name="stackpanel_AppSelect_Graphics" Orientation="Horizontal">
+                                <!-- Application Select -->
+                                <Button x:Name="button_AppSelect_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Graphics_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
+                                        <TextBlock x:Name="textblock_AppSelect_Graphics" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
 
-                            <!-- Application Add -->
-                            <Button x:Name="button_AppAdd" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
-                                </StackPanel>
-                            </Button>
+                                <!-- Application Add -->
+                                <Button x:Name="button_AppAdd_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Graphics_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
+                                    </StackPanel>
+                                </Button>
 
-                            <!-- Application Remove -->
-                            <Button x:Name="button_AppRemove" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
-                                </StackPanel>
-                            </Button>
+                                <!-- Application Remove -->
+                                <Button x:Name="button_AppRemove_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Graphics_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <StackPanel x:Name="stackpanel_AppSelect_Tuning" Orientation="Horizontal">
+                                <!-- Application Select -->
+                                <Button x:Name="button_AppSelect_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Tuning_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
+                                        <TextBlock x:Name="textblock_AppSelect_Tuning" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Application Add -->
+                                <Button x:Name="button_AppAdd_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Tuning_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Application Remove -->
+                                <Button x:Name="button_AppRemove_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Tuning_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -133,7 +166,8 @@
                         <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory speed"/>
                         <TextBlock x:Name="textblock_Current_Power_Wattage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power wattage"/>
                         <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power voltage"/>
-                        <TextBlock x:Name="textblock_Current_Fan_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Fan speed"/>
+                        <TextBlock x:Name="textblock_Current_Fan_Speed_Percentage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Fan speed percentage"/>
+                        <TextBlock x:Name="textblock_Current_Fan_Speed_RPM" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Fan speed RPM"/>
                         <TextBlock x:Name="textblock_Current_Temp_Core" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core temperature"/>
                         <TextBlock x:Name="textblock_Current_Temp_Memory" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory temperature"/>
                         <TextBlock x:Name="textblock_Current_Temp_Hotspot" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Hotspot temperature"/>
@@ -172,7 +206,7 @@
                     <Button x:Name="button_Website_Project" Content="Visit Project Website" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Website_Project_Click"/>
                     <Button x:Name="button_Website_Donation" Content="Open Donation Page" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Website_Donation_Click"/>
                     <Button x:Name="button_Fps_Overlayer" Content="Get FpsOverlayer" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Fps_Overlayer_Click"/>
-                    <Button x:Name="button_Check_Update" Content="Check For Update" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Check_Update_Click"/>
+                    <Button x:Name="button_Check_Update" Content="Check For Update" Width="150" Style="{ThemeResource ApplicationButton}" Click="button_Update_Check_Click"/>
                 </VariableSizedWrapGrid>
 
                 <!-- Main -->
@@ -180,20 +214,7 @@
                     <Grid Margin="0,0,10,10">
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Grid.Column="0" Margin="5,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
-
-                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <TextBlock x:Name="textblock_GraphicsOptions_Name" FontSize="20" FontWeight="Medium"/>
-                                    <TextBlock x:Name="textblock_GraphicsOptions_Details" Margin="6,0,0,0" FontSize="20" Foreground="{StaticResource ApplicationDimGrayBrush}"/>
-                                    <Image Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics options below might require an application restart to take affect.&#10;&#10;* Settings set in application profiles are shared between your GPU's.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
-                                </StackPanel>
-                            </Grid>
+                            <TextBlock Margin="5,0,0,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon FSR Options -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -380,8 +401,8 @@
                                         <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="button_RadeonChill_Link" Opacity="0.50" Click="button_RadeonChill_Link_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0">
-                                            <Image Source="/Assets/Link.png" Width="24" Height="24" ToolTipService.ToolTip="Match minimum and maximum when changing Radeon Chill to limit frames per second instead of adjusting."/>
+                                        <Button x:Name="button_RadeonChill_Link" Click="button_RadeonChill_Link_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0">
+                                            <Image x:Name="image_RadeonChill_Link" Source="/Assets/Unlink.png" Width="24" Height="24" ToolTipService.ToolTip="Match minimum and maximum when changing Radeon Chill to limit frames per second instead of adjusting."/>
                                         </Button>
                                         <TextBlock Text="Min" VerticalAlignment="Center"/>
                                         <TextBox x:Name="textbox_RadeonChill_Min" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
@@ -724,17 +745,6 @@
                                         <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0" ValueChanged="slider_Power_Limit_ValueChanged"/>
                                     </Grid>
 
-                                    <Grid x:Name="grid_Power_Limit_PB" Margin="0,10,0,0" Visibility="Collapsed">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Limit_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Limit_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_Limit_PB" Margin="10,0,0,0" ValueChanged="slider_Power_Limit_PB_ValueChanged"/>
-                                    </Grid>
-
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
@@ -749,17 +759,6 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0" ValueChanged="slider_Power_Voltage_ValueChanged"/>
-                                    </Grid>
-
-                                    <Grid x:Name="grid_Power_Voltage_PB" Margin="0,5,0,0" Visibility="Collapsed">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_Voltage_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_Voltage_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_Voltage_PB" Margin="10,0,0,0" ValueChanged="slider_Power_Voltage_PB_ValueChanged"/>
                                     </Grid>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -777,36 +776,6 @@
                                         <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0" ValueChanged="slider_Power_TDC_ValueChanged"/>
                                     </Grid>
-
-                                    <Grid x:Name="grid_Power_TDC_PB" Margin="0,5,0,0" Visibility="Collapsed">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Height="28" Width="28" Source="/Assets/PowerBoost.png" ToolTipService.ToolTip="Used when Power Boost is active."/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_Power_TDC_PB" Margin="5,0,0,0" Text="{Binding ElementName=slider_Power_TDC_PB, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Power_TDC_PB" Margin="10,0,0,0" ValueChanged="slider_Power_TDC_PB_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Power Boost -->
-                            <TextBlock Text="Power Boost" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Power Boost allows you to automatically adjust your GPU's power for high demanding applications.&#10;&#10;When one of the applications in the list below is running the Power Boost values will be applied and restored back to normal when no longer running."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Power Boost is activated when launching an application.&#10;&#10;* Power Boost only works when RadeonTuner is running."/>
-                                        <ToggleSwitch x:Name="toggleswitch_PowerBoost" Width="135" Margin="10,0,0,0" OffContent="Power Boost" OnContent="Power Boost" Toggled="toggleswitch_PowerBoost_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_PowerBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <ComboBox x:Name="combobox_PowerBoost_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                        <Button x:Name="button_PowerBoost_AddExe" Content="Add application" Click="button_PowerBoost_AddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
-                                        <Button x:Name="button_PowerBoost_Remove" Content="Remove" Click="button_PowerBoost_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                                    </StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -1098,7 +1067,7 @@
                                     <!-- FreeSync -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync / VRR / Adaptive Sync compatible monitor and graphics card."/>
                                         <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_FreeSync_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1371,6 +1340,25 @@
 
                             <!-- Eyefinity -->
                             <TextBlock Text="Eyefinity" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+
+                            <!-- Automatic Eyefinity -->
+                            <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When you add an application to the list below Eyefinity will automatically be enabled when an application is running and disabled when no longer running."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* Automatic Eyefinity only works when RadeonTuner is running."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <ComboBox x:Name="combobox_Eyefinity_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                                        <Button x:Name="button_Eyefinity_AddExe" Content="Add application" Click="button_Eyefinity_AppAddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
+                                        <Button x:Name="button_Eyefinity_Remove" Content="Remove" Click="button_Eyefinity_AppRemove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Create Eyefinity -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Buttons -->
@@ -1441,21 +1429,6 @@
                                     <!-- Display Orientation -->
                                     <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
                                     <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Automatic Eyefinity -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When you add an application to the list below Eyefinity will automatically be enabled when an application is running and disabled when no longer running."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* Automatic Eyefinity only works when RadeonTuner is running."/>
-                                        <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <ComboBox x:Name="combobox_Eyefinity_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                        <Button x:Name="button_Eyefinity_AddExe" Content="Add application" Click="button_Eyefinity_AppAddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
-                                        <Button x:Name="button_Eyefinity_Remove" Content="Remove" Click="button_Eyefinity_AppRemove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                                    </StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -1524,7 +1497,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show settings window when lauching this application."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show settings window when launching this application."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting is ignored when another instance of RadeonTuner is already running and will show the window of the already running instance."/>
                                         <ToggleSwitch x:Name="toggleswitch_StartWindowVisible" Margin="10,0,0,0" OffContent="Show window on startup" OnContent="Show window on startup" Toggled="toggleswitch_StartWindowVisible_Toggled"/>
                                     </StackPanel>
@@ -1537,6 +1510,16 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Close application to system tray menu instead of exiting."/>
                                         <ToggleSwitch x:Name="toggleswitch_Close_Tray" Margin="10,0,0,0" OffContent="Close to system tray" OnContent="Close to system tray" Toggled="toggleswitch_Close_Tray_Toggled"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Text="Update Settings" FontSize="20" FontWeight="Medium" Margin="0,10,0,0"/>
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Check if an application update is available when launching this application."/>
+                                        <ToggleSwitch x:Name="toggleswitch_StartCheckUpdate" Margin="10,0,0,0" OffContent="Check for update on launch" OnContent="Check for update on launch" Toggled="toggleswitch_StartCheckUpdate_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1612,6 +1595,52 @@
                     <StackPanel>
                         <TextBlock x:Name="textblock_Overlay_MessageBox_SubText" Text="..." TextWrapping="Wrap" FontSize="18" Foreground="{ThemeResource ApplicationDimGrayColor}"/>
                         <ListView x:Name="listview_Overlay_MessageBox" MaxHeight="300" Margin="0,10,0,0" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="listview_Overlay_MessageBox_ItemClick" Style="{ThemeResource ApplicationListView}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Overlay - AppPicker -->
+        <Grid x:Name="grid_Overlay_AppPicker" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
+            </Grid.Background>
+            <StackPanel MinWidth="300" MaxWidth="800" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="8,8,0,0" Background="{ThemeResource ApplicationDarkGrayColor}" Padding="10">
+                    <TextBlock x:Name="textblock_Overlay_AppPicker_Text" Text="Add applications" TextWrapping="Wrap" FontSize="24" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                </Border>
+                <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
+                    <StackPanel>
+                        <ListView x:Name="listview_Overlay_AppPicker" MaxHeight="420" SelectionMode="Multiple" IsItemClickEnabled="True" ItemClick="listview_Overlay_AppPicker_ItemClick" Style="{ThemeResource ApplicationListView}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:AppPickerIdl">
+                                    <Grid Height="100">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Source="{x:Bind IconPath}" Width="40" Height="40"/>
+                                        <StackPanel Grid.Row="1" Margin="0,5,0,0" VerticalAlignment="Bottom">
+                                            <TextBlock Text="{x:Bind Detail}" TextWrapping="NoWrap" HorizontalAlignment="Center" Foreground="{ThemeResource ApplicationDimGrayColor}" ToolTipService.ToolTip="{x:Bind Detail}"/>
+                                            <TextBlock Text="{x:Bind AppName}" TextWrapping="Wrap" MaxLines="2" HorizontalAlignment="Center" Foreground="{ThemeResource ApplicationWhiteBrush}" ToolTipService.ToolTip="{x:Bind AppName}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Grid Margin="0,15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="button_Overlay_AppPicker_Confirm" HorizontalAlignment="Stretch" Click="button_Overlay_AppPicker_Confirm_Click" Content="Confirm" Style="{ThemeResource ApplicationButton}"/>
+                            <Button Grid.Column="1" x:Name="button_Overlay_AppPicker_Cancel" Margin="10,0,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_AppPicker_Cancel_Click" Content="Cancel" Style="{ThemeResource ApplicationButton}"/>
+                        </Grid>
                     </StackPanel>
                 </Border>
             </StackPanel>
