@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get default settings
+			//Set defaults
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
 			for (int i = 0; i < requestSettingList.count; i++)
@@ -20,7 +20,7 @@ namespace winrt::RadeonTuner::implementation
 				requestSettingList.od8SettingTable[i].value = 0;
 			}
 
-			//Set settings
+			//Apply settings
 			ADLOD8CurrentSetting resultSettingList{};
 			resultSettingList.count = OD8_COUNT - 2;
 			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &requestSettingList, &resultSettingList);
@@ -42,28 +42,15 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Note: when tuning preset is not set to default or custom mode, tuning fails to apply.
-			//Note: when you create an empty settings list with all reset and requested false some settings still reset to default.
-			//Note: on some gpu's applying settings randomly returns false, even when the settings are applied correctly.
 
-			//Get current settings
-			int currentSettingCount = OD8_COUNT - 2;
-			auto currentSettingList = AVFin<int*>(AVFinMethod::FreeMarshal);
-			adl_Res0 = _ADL2_Overdrive8_Current_SettingX2_Get(adl_Context, gpuAdapterIndex, &currentSettingCount, &currentSettingList.Get());
-			if (adl_Res0 != ADL_OK)
-			{
-				//Return result
-				AVDebugWriteLine("Failed to get current overdrive settings: " << adl_Res0);
-				return false;
-			}
-
-			//Convert current settings
+			//Set defaults
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
 			for (int i = 0; i < requestSettingList.count; i++)
 			{
-				requestSettingList.od8SettingTable[i].reset = false;
+				requestSettingList.od8SettingTable[i].reset = true;
 				requestSettingList.od8SettingTable[i].requested = true;
-				requestSettingList.od8SettingTable[i].value = currentSettingList.Get()[i];
+				requestSettingList.od8SettingTable[i].value = 0;
 			}
 
 			//Set values
@@ -77,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 				requestSettingList.od8SettingTable[settingId].value = settingValue;
 			}
 
-			//Set settings
+			//Apply settings
 			ADLOD8CurrentSetting resultSettingList{};
 			resultSettingList.count = OD8_COUNT - 2;
 			adl_Res0 = _ADL2_Overdrive8_Setting_Set(adl_Context, gpuAdapterIndex, &requestSettingList, &resultSettingList);

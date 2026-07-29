@@ -33,11 +33,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set multimedia video profile mode
 					Adl_Multimedia_Set_Mode(adapterInfo.iAdapterIndex);
-
-					//Set gpu tuning and fan overdrive mode
-					std::vector<std::tuple<ADLOD8SettingId, int, bool>> overdriveSettings;
-					overdriveSettings.push_back({ ADLOD8SettingId::OD8_OPTIMZED_POWER_MODE, OD8_OPTIMZED_POWER_MODES::Custom, false });
-					Adl_Overdrive8_Set_Values(adapterInfo.iAdapterIndex, overdriveSettings);
 				}
 				catch (...) {}
 			}
