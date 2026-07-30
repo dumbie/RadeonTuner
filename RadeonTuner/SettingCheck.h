@@ -5,14 +5,24 @@ void SettingCheck()
 {
 	try
 	{
+		if (!AppVariables::Settings.Check("FirstLaunch"))
+		{
+			AppVariables::Settings.Set("FirstLaunch", true);
+		}
+
 		if (!AppVariables::Settings.Check("MenuIndex"))
 		{
 			AppVariables::Settings.Set("MenuIndex", 0);
 		}
 
+		if (!AppVariables::Settings.Check("StartCheckUpdate"))
+		{
+			AppVariables::Settings.Set("StartCheckUpdate", true);
+		}
+
 		if (!AppVariables::Settings.Check("StartWindowVisible"))
 		{
-			AppVariables::Settings.Set("StartWindowVisible", true);
+			AppVariables::Settings.Set("StartWindowVisible", false);
 		}
 
 		if (!AppVariables::Settings.Check("SetTopMost"))
@@ -22,7 +32,7 @@ void SettingCheck()
 
 		if (!AppVariables::Settings.Check("CloseTray"))
 		{
-			AppVariables::Settings.Set("CloseTray", false);
+			AppVariables::Settings.Set("CloseTray", true);
 		}
 
 		if (!AppVariables::Settings.Check("ShowExperimental"))

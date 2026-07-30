@@ -53,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Check_Update_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_Update_Check_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -78,6 +78,23 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				co_await ShowMessageBox(L"Update check", L"No new application update has been found.", { L"Ok" });
+			}
+		}
+		catch (...) {}
+	}
+
+	winrt::fire_and_forget MainPage::button_Update_Launch_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Show messagebox
+			int messageResult = co_await ShowMessageBox(L"New update available", L"Would you like to update the application to the latest version?", { L"Yes", L"No" });
+
+			//Check messagebox result
+			if (messageResult == 0)
+			{
+				//Launch updater and restart application
+				UpdateRestart();
 			}
 		}
 		catch (...) {}

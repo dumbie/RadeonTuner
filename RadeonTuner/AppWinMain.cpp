@@ -74,11 +74,18 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		SettingCheck();
 
 		//Load window settings
-		bool startWindowVisibleBool = false;
+		bool setFirstLaunchBool = false;
+		std::optional<bool> firstLaunchSetting = AppVariables::Settings.Load<bool>("FirstLaunch");
+		if (firstLaunchSetting.has_value())
+		{
+			setFirstLaunchBool = firstLaunchSetting.value();
+		}
+
+		bool setStartWindowVisibleBool = false;
 		std::optional<bool> startWindowVisibleSetting = AppVariables::Settings.Load<bool>("StartWindowVisible");
 		if (startWindowVisibleSetting.has_value())
 		{
-			startWindowVisibleBool = startWindowVisibleSetting.value();
+			setStartWindowVisibleBool = startWindowVisibleSetting.value();
 		}
 
 		bool setTopMostBool = false;
@@ -90,7 +97,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 		//Create application window
 		AVDebugWriteLine("Creating application window.");
-		AppVariables::App.CreateWindowXaml(hInstance, startWindowVisibleBool, setTopMostBool);
+		AppVariables::App.CreateWindowXaml(hInstance, setFirstLaunchBool || setStartWindowVisibleBool, setTopMostBool);
 
 		//Return result
 		return 0;

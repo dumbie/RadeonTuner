@@ -4,7 +4,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::SettingLoad()
+	winrt::fire_and_forget MainPage::SettingLoad()
 	{
 		try
 		{
@@ -27,6 +27,12 @@ namespace winrt::RadeonTuner::implementation
 			if (StartWindowVisible.has_value())
 			{
 				toggleswitch_StartWindowVisible().IsOn(StartWindowVisible.value());
+			}
+
+			std::optional<bool> StartCheckUpdate = AppVariables::Settings.Load<bool>("StartCheckUpdate");
+			if (StartCheckUpdate.has_value())
+			{
+				toggleswitch_StartCheckUpdate().IsOn(StartCheckUpdate.value());
 			}
 
 			std::optional<bool> ShowExperimental = AppVariables::Settings.Load<bool>("ShowExperimental");
@@ -69,12 +75,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fix validate shortcut paths if directory moved
 
 			//Enable saving
-			std::thread threadEnableSaving([]()
-				{
-					Sleep(500);
-					disable_saving_settings = false;
-				});
-			threadEnableSaving.detach();
+			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			disable_saving_settings = false;
 
 			AVDebugWriteLine("Application settings loaded.");
 		}

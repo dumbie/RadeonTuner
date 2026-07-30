@@ -26,7 +26,6 @@
 #include "AdlFunctions.h"
 
 #include "AdlxInfoLoad.h"
-#include "AdlxValuesLoadSelect.h"
 #include "AdlxValuesPrepare.h"
 #include "AdlxValuesExportDisplay.h"
 #include "AdlxValuesImportDisplay.h"
@@ -34,6 +33,11 @@
 #include "AdlxValuesImportGraphics.h"
 #include "AdlxValuesExportTuning.h"
 #include "AdlxValuesImportTuning.h"
+
+#include "AdlxValuesLoadDisplay.h"
+#include "AdlxValuesLoadGraphics.h"
+#include "AdlxValuesLoadMultimedia.h"
+#include "AdlxValuesLoadTuning.h"
 
 #include "AdlxEventsDisplay.h"
 #include "AdlxEventsFans.h"
@@ -102,14 +106,15 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix check if uwp based driver is installed and warn not supported
+			//Fix check if DCH / UWP or downgraded driver is installed and warn not supported
+			//Fix check if other overclock applications are running and warn user
 
 			//Check driver software type
 			if (AdlCheckDriverOnlySoftware())
 			{
 				grid_Main().IsHitTestVisible(false);
 				std::vector<std::wstring> messageAnswers{ L"Continue anyways", L"Exit application" };
-				int messageResult = co_await ShowMessageBox(L"Incompatible driver software type", L"It is highly recommended that you install your drivers using the 'Driver Only' software type to prevent possible issues with RadeonTuner, please reinstall your drivers using the 'Driver Only' software type and 'Factory Reset' option, you can find those options by clicking on 'Additional Options' in the Radeon driver setup.", messageAnswers);
+				int messageResult = co_await ShowMessageBox(L"Incompatible driver software type", L"It is highly recommended that you install your drivers using the 'Driver Only' software type to prevent possible issues with RadeonTuner.\n\nPlease reinstall your drivers using the 'Driver Only' software type and 'Factory Reset' option, you can find those options by clicking on 'Additional Options' in the Radeon driver setup.", messageAnswers);
 				if (messageResult == 0)
 				{
 					//Enable interface
@@ -217,8 +222,8 @@ namespace winrt::RadeonTuner::implementation
 			globalApp.FilePath = L"*\\*";
 			AdlAppRemove(globalApp);
 
-			//Load and list applications
-			AdlxValuesLoadGraphics(adl_App_Global);
+			//Load graphics settings
+			AdlxValuesLoadSelectGraphics(adl_App_Global);
 
 			//Load and list Automatic Eyefinity applications
 			Eyefinity_Applications_LoadFromFile();
@@ -246,6 +251,25 @@ namespace winrt::RadeonTuner::implementation
 			//Start adlx loop keep active
 			std::thread threadLoopKeepActive(&MainPage::AdlxLoopKeepActive, this);
 			threadLoopKeepActive.detach();
+
+			//Check for application update
+			std::optional<bool> setStartCheckUpdate = AppVariables::Settings.Load<bool>("StartCheckUpdate");
+			if (setStartCheckUpdate.has_value() && setStartCheckUpdate.value())
+			{
+				UpdateCheckResult updateCheckResult = UpdateCheck(AppVariables::hInstance, "dumbie", "RadeonTuner");
+				if (updateCheckResult.UpdateFound)
+				{
+					//Show update button
+					button_Update_Launch().Visibility(Visibility::Visible);
+
+					//Show notification
+					AVDebugWriteLine(L"New application update found");
+					ShowNotification(L"New application update found");
+				}
+			}
+
+			//Update first launch setting
+			AppVariables::Settings.Set("FirstLaunch", false);
 		}
 		catch (...) {}
 	}
