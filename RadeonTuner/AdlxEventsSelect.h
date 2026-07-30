@@ -87,8 +87,8 @@ namespace winrt::RadeonTuner::implementation
 			//Get selected application
 			AdlApplication appInfo = appList[messageResult];
 
-			//Load selected application values
-			AdlxValuesLoadGraphics(appInfo);
+			//Load graphics settings
+			AdlxValuesLoadSelectGraphics(appInfo);
 		}
 		catch (...) {}
 	}
@@ -112,8 +112,8 @@ namespace winrt::RadeonTuner::implementation
 			//Set selected application
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
-			//Load selected application values
-			AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, selectedApplication);
+			//Load tuning and fans settings
+			AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, selectedApplication);
 		}
 		catch (...) {}
 	}

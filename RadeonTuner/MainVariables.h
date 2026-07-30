@@ -15,10 +15,6 @@ inline int adl_Res0 = ADL_ERR;
 inline int adl_Res1 = ADL_ERR;
 inline ADL_CONTEXT_HANDLE adl_Context = NULL;
 
-//Graphics
-inline AdlApplication adl_App_Current{};
-inline AdlApplication adl_App_Global{ .Global = true, .FileName = L"Global", .FilePath = L"Registry" };
-
 //Videocard
 inline int adl_Gpu_AdapterIndex = -1;
 inline std::wstring adl_Gpu_RegistryPath;
@@ -39,7 +35,9 @@ inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
 
 //Settings
-inline TuningFanSettings tuningFanSettingsCurrent{ .Application = L"Global" };
+inline AdlApplication adl_App_Current{};
+inline AdlApplication adl_App_Global{ .Global = true, .FileName = L"Global", .FilePath = L"Registry" };
+inline TuningFanSettings tuningFanSettingsCurrent{ .Application = L"Global", .UsingProfile = true };
 inline GraphicsSettings graphicsSettingsCurrent{};
 inline DisplaySettings displaySettingsCurrent{};
 inline MultimediaSettings multimediaSettingsCurrent{};

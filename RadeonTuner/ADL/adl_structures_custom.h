@@ -23,7 +23,7 @@ typedef struct ADL_RIS2_SETTINGS
 	int GlobalDesktop; //Global desktop value
 };
 
-enum ADLCvdcType
+enum class ADLCvdcType : int
 {
 	CVDC_ENABLED,
 	CVDC_PROTANOPIA,
@@ -31,14 +31,14 @@ enum ADLCvdcType
 	CVDC_TRITANOPIA
 };
 
-enum ADLColorEnhancementType
+enum class ADLColorEnhancementType : int
 {
 	SCE_Disabled = 1 << 0,
 	SCE_VividGaming = 1 << 1,
 	SCE_DynamicContrast = 1 << 3
 };
 
-enum OD8SettingsRegistryFlags
+enum class OD8SettingsRegistryFlags : int
 {
 	GpuTuning = 1 << 0,
 	MemoryTuning = 1 << 1,
@@ -48,10 +48,13 @@ enum OD8SettingsRegistryFlags
 	Default = 1 << 12
 };
 
-enum OD8_OPTIMZED_POWER_MODES
+enum class OD8_OPTIMZED_POWER_MODES : int
 {
 	Quiet = 0,
+	FavorEfficiency = 0,
 	Balanced = 1,
 	Custom = 3,
-	Rage = 4
+	Default = 3,
+	Rage = 4,
+	FavorPerformance = 4
 };

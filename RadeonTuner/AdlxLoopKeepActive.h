@@ -106,7 +106,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Get profile value
 					TuningFanSettings& tuningFanSettingsProfile = tuningFanSettingsProfileOpt.value();
-					AVDebugWriteLine("Comparing tuning and fans settings: " << tuningFanSettingsProfile.DeviceId.value() << L" / " << tuningFanSettingsProfile.Application.value());
+					//AVDebugWriteLine("Comparing tuning and fans settings: " << tuningFanSettingsProfile.DeviceId.value() << L" / " << tuningFanSettingsProfile.Application.value());
 
 					//Check if keep active is enabled
 					bool keepActiveEnabled = false;
@@ -126,7 +126,6 @@ namespace winrt::RadeonTuner::implementation
 					TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(adapterIndex, L"", false).value();
 
 					//Check if settings match
-					//Fix set UsingProfile to true when already matching
 					if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsAdl))
 					{
 						AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
@@ -146,7 +145,7 @@ namespace winrt::RadeonTuner::implementation
 								if (applyResult)
 								{
 									//Load tuning and fans settings
-									AdlxValuesLoadTuning(adapterIndex, tuningFanSettingsCurrent.Application.value());
+									AdlxValuesLoadSelectTuning(adapterIndex, tuningFanSettingsCurrent.Application.value());
 
 									//Show notification
 									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsProfile.Application.value());

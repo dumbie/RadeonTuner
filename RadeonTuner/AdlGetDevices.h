@@ -25,6 +25,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Check if we have access to video card
 				//Note: checks if driver is not installed for (integrated) gpu or device is disabled in device manager
+				//Fix ADL2_Adapter_Accessibility_Get always fails when using DCH / UWP or downgraded driver
 				int lpAccess;
 				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adapterInfo.iAdapterIndex, &lpAccess);
 				if (adl_Res0 != ADL_OK)
@@ -123,6 +124,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Fix when a display is connected but has no power DisplayInfo_Get may return invalid values instead of no values.
+			//Fix ADL2_Display_DisplayInfo_Get always fails when using DCH / UWP or downgraded driver
 
 			//Get all GPU's
 			int displayConnectedCount = 0;
@@ -168,6 +170,7 @@ namespace winrt::RadeonTuner::implementation
 			int displayInfoCount = 0;
 			auto displayInfoList = AVFin<ADLDisplayInfo*>(AVFinMethod::FreeMarshal);
 			adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
+			//Fix ADL2_Display_DisplayInfo_Get always fails when using DCH / UWP or downgraded driver
 			for (int i = 0; i < displayInfoCount; i++)
 			{
 				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
@@ -220,57 +223,6 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			AVDebugWriteLine("Failed to get display by index (Exception)");
 			return std::nullopt;
-		}
-	}
-
-	bool MainPage::AdlDetectDisplayChange()
-	{
-		try
-		{
-			//Get all displays
-			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
-
-			//Check if display connected
-			for (const ADLDisplayInfo& displayInfo : displayList)
-			{
-				bool displayChanged = std::ranges::any_of(adl_List_Displays,
-					[&](const ADLDisplayInfo& displayAny)
-					{
-						return displayAny.displayID.iDisplayLogicalAdapterIndex == displayInfo.displayID.iDisplayLogicalAdapterIndex && displayAny.displayID.iDisplayLogicalIndex == displayInfo.displayID.iDisplayLogicalIndex;
-					});
-				if (!displayChanged)
-				{
-					//Return result
-					AVDebugWriteLine("Display connected: " << displayInfo.strDisplayName);
-					return true;
-				}
-			}
-
-			//Check if display disconnected
-			for (const ADLDisplayInfo& displayInfo : adl_List_Displays)
-			{
-				bool displayChanged = std::ranges::any_of(displayList,
-					[&](const ADLDisplayInfo& displayAny)
-					{
-						return displayAny.displayID.iDisplayLogicalAdapterIndex == displayInfo.displayID.iDisplayLogicalAdapterIndex && displayAny.displayID.iDisplayLogicalIndex == displayInfo.displayID.iDisplayLogicalIndex;
-					});
-				if (!displayChanged)
-				{
-					//Return result
-					AVDebugWriteLine("Display removed: " << displayInfo.strDisplayName);
-					return true;
-				}
-			}
-
-			//Return result
-			//AVDebugWriteLine("Displays not changed.");
-			return false;
-		}
-		catch (...)
-		{
-			//Return result
-			AVDebugWriteLine("Failed checking display change (Exception)");
-			return false;
 		}
 	}
 }

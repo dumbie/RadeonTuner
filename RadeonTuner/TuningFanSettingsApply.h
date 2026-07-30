@@ -13,7 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings;
 
 			//Tuning Preset
-			saveSettings.push_back({ ADLOD8SettingId::OD8_OPTIMZED_POWER_MODE, OD8_OPTIMZED_POWER_MODES::Custom, false });
+			saveSettings.push_back({ ADLOD8SettingId::OD8_OPTIMZED_POWER_MODE, (int)OD8_OPTIMZED_POWER_MODES::Custom, false });
 
 			//Core Frequency Minimum
 			if (tuningFanSettings.CoreMin.Current.has_value())

@@ -9,7 +9,7 @@ namespace winrt::RadeonTuner::implementation
 		DisplayDetailsIdl() {}
 
 		//IndexAdapter
-		int _IndexAdapter = 0;
+		int _IndexAdapter = -1;
 		int IndexAdapter()
 		{
 			return _IndexAdapter;
@@ -20,7 +20,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//IndexDisplay
-		int _IndexDisplay = 0;
+		int _IndexDisplay = -1;
 		int IndexDisplay()
 		{
 			return _IndexDisplay;
@@ -31,7 +31,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//Name
-		hstring _Name;
+		hstring _Name = L"";
 		hstring Name()
 		{
 			return _Name;
@@ -42,7 +42,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//Resolution Width
-		int _ResolutionWidth;
+		int _ResolutionWidth = -1;
 		int ResolutionWidth()
 		{
 			return _ResolutionWidth;
@@ -53,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//Resolution Height
-		int _ResolutionHeight;
+		int _ResolutionHeight = -1;
 		int ResolutionHeight()
 		{
 			return _ResolutionHeight;
@@ -64,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//Refresh Rate
-		float _RefreshRate;
+		float _RefreshRate = -1.0F;
 		float RefreshRate()
 		{
 			return _RefreshRate;

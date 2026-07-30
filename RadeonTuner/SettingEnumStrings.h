@@ -53,11 +53,20 @@ const std::vector<std::wstring> ADL_HDR_TYPE_PREFERENCE =
 	L"HDR10 Profile", L"AMD Premium Pro Profile"
 };
 
-//ADL
 const std::vector<std::wstring> ADL_FSR_MULTIFRAMEGEN_RATIO =
 {
 	//Index 0, 2, 3, 4
 	L"Use application settings", L"2X", L"3X", L"4X"
+};
+
+const std::vector<std::wstring> ADL_BOOST2_ALGORITHM =
+{
+	L"Disabled", L"Input-Based", L"Scene-Based", L"Multi-Modal"
+};
+
+const std::vector<std::wstring> ADL_BOOST_PERFORMANCE_MODE =
+{
+	L"Quality", L"Performance"
 };
 
 //ADLX

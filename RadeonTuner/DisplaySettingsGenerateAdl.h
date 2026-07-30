@@ -311,15 +311,15 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set setting
 					//Enumeration index correction
-					if (sceType == ADLColorEnhancementType::SCE_Disabled)
+					if (sceType == (int)ADLColorEnhancementType::SCE_Disabled)
 					{
 						displaySettings.ColorEnhancement.Current = 0;
 					}
-					else if (sceType == ADLColorEnhancementType::SCE_VividGaming)
+					else if (sceType == (int)ADLColorEnhancementType::SCE_VividGaming)
 					{
 						displaySettings.ColorEnhancement.Current = 1;
 					}
-					else if (sceType == ADLColorEnhancementType::SCE_DynamicContrast)
+					else if (sceType == (int)ADLColorEnhancementType::SCE_DynamicContrast)
 					{
 						displaySettings.ColorEnhancement.Current = 2;
 					}
@@ -531,7 +531,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				int cvdcEnabled;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, &cvdcEnabled);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_ENABLED, &cvdcEnabled);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set setting
@@ -555,7 +555,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				int cvdcProtanopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, &cvdcProtanopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, &cvdcProtanopia);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set setting
@@ -584,7 +584,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				int cvdcDeuteranopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set setting
@@ -613,7 +613,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				int cvdcTritanopia;
-				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_TRITANOPIA, &cvdcTritanopia);
+				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, &cvdcTritanopia);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set setting

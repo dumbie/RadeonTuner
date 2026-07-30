@@ -6,7 +6,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Fix check if AFMF is active and update status
 	//Note: Adrenalin Software Boost, Delag, RIS and Chill overlay status when running a game is not the actual active state it just shows if the setting is Enabled or Disabled.
 	//Note: Applications that are currently hooked by driver can be found at Computer\HKEY_CURRENT_USER\Software\AMD\HKIDs
 	//Note: amdihk64.dll NotifyFidelityFXStatus NotifyFidelityFXGameVersion
@@ -53,6 +52,7 @@ namespace winrt::RadeonTuner::implementation
 				//}
 
 				//FSR Override Upscaling
+				//Fix find way to get the status when something is wrong like FSR2 incompatibility
 				//Note: Upscale only works when fsr3_upscale_ver is atleast v1.0.0.36329
 				{
 					std::wsmatch regexMatch;

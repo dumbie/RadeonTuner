@@ -399,15 +399,15 @@ namespace winrt::RadeonTuner::implementation
 			int convertedValue = 0;
 			if (newValue == 0)
 			{
-				convertedValue = ADLColorEnhancementType::SCE_Disabled;
+				convertedValue = (int)ADLColorEnhancementType::SCE_Disabled;
 			}
 			else if (newValue == 1)
 			{
-				convertedValue = ADLColorEnhancementType::SCE_VividGaming;
+				convertedValue = (int)ADLColorEnhancementType::SCE_VividGaming;
 			}
 			else if (newValue == 2)
 			{
-				convertedValue = ADLColorEnhancementType::SCE_DynamicContrast;
+				convertedValue = (int)ADLColorEnhancementType::SCE_DynamicContrast;
 			}
 
 			//Set Setting
@@ -706,7 +706,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_ENABLED, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_ENABLED, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -766,7 +766,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_PROTANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -805,7 +805,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_DEUTERANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;
@@ -844,7 +844,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newFailed = true;
 
 			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, CVDC_TRITANOPIA, newValue);
+			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, newValue);
 
 			//Set result
 			newFailed = adl_Res0 != ADL_OK;

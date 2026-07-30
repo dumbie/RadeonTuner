@@ -150,13 +150,22 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Power_Voltage().Text(L"");
 					}
 
-					if (gpuFanSpeedRpm >= 0 && gpuFanSpeedRpm <= 20000)
+					if (gpuFanSpeedPercentage >= 0 && gpuFanSpeedPercentage <= 20000)
 					{
-						textblock_Current_Fan_Speed().Text(number_to_wstring(gpuFanSpeedRpm) + L"RPM");
+						textblock_Current_Fan_Speed_Percentage().Text(number_to_wstring(gpuFanSpeedPercentage) + L"%");
 					}
 					else
 					{
-						textblock_Current_Fan_Speed().Text(L"");
+						textblock_Current_Fan_Speed_Percentage().Text(L"");
+					}
+
+					if (gpuFanSpeedRpm >= 0 && gpuFanSpeedRpm <= 20000)
+					{
+						textblock_Current_Fan_Speed_RPM().Text(number_to_wstring(gpuFanSpeedRpm) + L"RPM");
+					}
+					else
+					{
+						textblock_Current_Fan_Speed_RPM().Text(L"");
 					}
 
 					if (gpuTemperatureCore >= 0 && gpuTemperatureCore <= 20000)
