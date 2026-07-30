@@ -80,20 +80,20 @@
                 </Grid.RowDefinitions>
 
                 <!-- Header -->
-                <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
+                <Border Grid.Row="0" CornerRadius="8" Margin="5" Padding="6" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <Grid>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Button x:Name="button_Update_Launch" Width="48" Height="48" Click="button_Update_Launch_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0" Visibility="Collapsed">
-                                <Image Source="/Assets/Update.png" ToolTipService.ToolTip="New update available"/>
+                            <Button x:Name="button_Update_Launch" Width="44" Height="44" ToolTipService.ToolTip="New update available" Click="button_Update_Launch_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0" Visibility="Collapsed">
+                                <Image Source="/Assets/Update.png"/>
                             </Button>
-                            <Image Source="/Assets/RadeonTuner.png" Width="48" Height="48" ToolTipService.ToolTip="RadeonTuner &lt;3"/>
+                            <Image Source="/Assets/RadeonTuner.png" Width="44" Height="44" ToolTipService.ToolTip="RadeonTuner &lt;3"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <!-- Gpu Select -->
                             <Button x:Name="button_GpuSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current graphics card" Click="button_GpuSelect_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="/Assets/Videocard.png" Width="32" Height="32"/>
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Videocard.png" Width="28" Height="28"/>
                                     <TextBlock x:Name="textblock_GpuSelect" Text="Select graphics card" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 </StackPanel>
                             </Button>
@@ -101,7 +101,7 @@
                             <!-- Display Select -->
                             <Button x:Name="button_DisplaySelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current display" Click="button_DisplaySelect_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="/Assets/Display.png" Width="32" Height="32"/>
+                                    <Image HorizontalAlignment="Center" Source="/Assets/Display.png" Width="28" Height="28"/>
                                     <TextBlock x:Name="textblock_DisplaySelect" Text="Select display" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 </StackPanel>
                             </Button>
@@ -110,7 +110,7 @@
                                 <!-- Application Select -->
                                 <Button x:Name="button_AppSelect_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Graphics_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="28" Height="28"/>
                                         <TextBlock x:Name="textblock_AppSelect_Graphics" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                     </StackPanel>
                                 </Button>
@@ -118,14 +118,14 @@
                                 <!-- Application Add -->
                                 <Button x:Name="button_AppAdd_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Graphics_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="28" Height="28"/>
                                     </StackPanel>
                                 </Button>
 
                                 <!-- Application Remove -->
                                 <Button x:Name="button_AppRemove_Graphics" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Graphics_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="28" Height="28"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -134,7 +134,7 @@
                                 <!-- Application Select -->
                                 <Button x:Name="button_AppSelect_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Tuning_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="28" Height="28"/>
                                         <TextBlock x:Name="textblock_AppSelect_Tuning" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                     </StackPanel>
                                 </Button>
@@ -142,14 +142,14 @@
                                 <!-- Application Add -->
                                 <Button x:Name="button_AppAdd_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Tuning_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="28" Height="28"/>
                                     </StackPanel>
                                 </Button>
 
                                 <!-- Application Remove -->
                                 <Button x:Name="button_AppRemove_Tuning" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Tuning_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="32" Height="32"/>
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="28" Height="28"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -214,7 +214,15 @@
                     <Grid Margin="0,0,10,10">
                         <!-- Graphics -->
                         <StackPanel x:Name="stackpanel_Graphics" Visibility="Collapsed">
-                            <TextBlock Margin="5,0,0,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
+                            </Grid>
 
                             <!-- Radeon FSR Options -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -241,7 +249,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="FSR Override" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="FSR Override" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon FSR Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -332,7 +340,7 @@
                             </Border>
 
                             <StackPanel x:Name="stackpanel_FluidMotion_Options">
-                                <TextBlock Margin="5,10,0,0" Text="Fluid Motion Options" FontSize="20" FontWeight="Medium"/>
+                                <TextBlock Margin="0,10,0,0" Text="Fluid Motion Options" FontSize="20" FontWeight="Medium"/>
 
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                     <StackPanel>
@@ -389,7 +397,7 @@
                                 </Border>
                             </StackPanel>
 
-                            <TextBlock Margin="5,10,0,0" Text="Limiter Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Limiter Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon Chill -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -450,7 +458,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="Sharpening Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Sharpening Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -498,7 +506,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="Vertical Refresh Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Vertical Refresh Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -530,7 +538,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="Anti-Aliasing Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Anti-Aliasing Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
@@ -578,7 +586,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="Texture Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Texture Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Anisotropic Texture Filtering Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -624,7 +632,7 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="5,10,0,0" Text="Tessellation Options" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="Tessellation Options" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Tessellation Mode -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -650,14 +658,23 @@
 
                         <!-- Tuning -->
                         <StackPanel x:Name="stackpanel_Tuning" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Keep Active" FontSize="20" FontWeight="Medium"/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running, it may take a few seconds before the application profile is applied."/>
+                            </Grid>
+
                             <!-- Keep Active -->
-                            <TextBlock Text="Keep Active" FontSize="20" FontWeight="Medium"/>
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings before enabling Keep Active.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
                                     <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active" Toggled="toggleswitch_KeepActive_Toggled"/>
-                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                 </StackPanel>
                             </Border>
 
@@ -669,7 +686,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the minimum graphics frequency."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Setting the minimum frequency close to the maximum frequency can lead to a big performance loss so make sure to find the sweet spot by testing the performance or leave it at default."/>
                                         <TextBlock Margin="10,0,0,0" Text="Minimum Frequency" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Min_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Min_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -685,7 +702,7 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable graphics frequency."/>
                                         <TextBlock x:Name="textblock_Core_Max" Margin="10,0,0,0" Text="Maximum Frequency" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Core_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -705,7 +722,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the memory timing profile, faster memory latency timings increases performance."/>
                                         <TextBlock Margin="10,0,0,0" Text="Memory Timing" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Timing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Timing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Memory_Timing" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Memory_Timing_SelectionChanged"/>
 
@@ -714,7 +731,7 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable memory frequency."/>
                                         <TextBlock Margin="10,0,0,0" Text="Maximum Frequency" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -734,7 +751,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the maximum allowable power consumption of the GPU, a higher power limit increases performance."/>
                                         <TextBlock Margin="10,0,0,0" Text="Power Limit" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Limit_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Limit_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -750,7 +767,7 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the voltage offset across the entire clock range of the GPU, a lower voltage increases performance."/>
                                         <TextBlock x:Name="textblock_Power_Voltage" Margin="10,0,0,0" Text="Voltage" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Voltage_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_Voltage_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -766,7 +783,7 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the Thermal Design Current (TDC) limit of a GPU, a higher TDC limit increases performance."/>
                                         <TextBlock Margin="10,0,0,0" Text="TDC Limit" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_TDC_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Power_TDC_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -782,13 +799,22 @@
 
                         <!-- Fans -->
                         <StackPanel x:Name="stackpanel_Fans" Visibility="Collapsed">
-                            <TextBlock Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running, it may take a few seconds before the application profile is applied."/>
+                            </Grid>
+
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Let the driver take control over your GPU fans which allows you to set a custom fan curve, when disabled the GPU will manage the fans as set in the bios."/>
                                         <ToggleSwitch x:Name="toggleswitch_Fan_Control" Width="128" Margin="10,0,0,0" OffContent="Fan Control" OnContent="Fan Control" Toggled="toggleswitch_Fan_Control_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -798,7 +824,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
                                         <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Width="185" Margin="10,0,0,0" OffContent="Fan Zero RPM Mode" OnContent="Fan Zero RPM Mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Zero_Rpm_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Zero_Rpm_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -813,8 +839,9 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ApplicationWhiteColor}" BorderThickness="2" CornerRadius="5">
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ApplicationWhiteColor}" BorderThickness="2" CornerRadius="6">
                                     <Grid>
+                                        <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" CornerRadius="6,0,0,6" Background="{ThemeResource ApplicationDarkGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is low enough."/>
                                         <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Line Margin="0,25,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="0,50,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
@@ -822,11 +849,10 @@
                                             <Line Margin="125,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="250,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="375,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-
-                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
-                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3"/>
-                                            <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="2"/>
-                                            <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2"/>
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="3" ToolTipService.ToolTip="Currently set to"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="3" ToolTipService.ToolTip="Profile target"/>
                                         </Grid>
                                         <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     </Grid>
@@ -850,8 +876,8 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
@@ -880,8 +906,8 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
@@ -910,8 +936,8 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
@@ -940,8 +966,8 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
@@ -970,8 +996,8 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Speed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Temp_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">
                                             <Grid.ColumnDefinitions>
