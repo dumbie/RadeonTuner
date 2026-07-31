@@ -5,6 +5,44 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
+	{
+		try
+		{
+			//Disable saving
+			disable_saving = true;
+
+			//Get adapter and display index
+			adl_Display_AdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
+			adl_Display_DisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
+			AVDebugWriteLine("Selected display index: A" << adl_Display_AdapterIndex << " / D" << adl_Display_DisplayIndex);
+
+			//Update button text
+			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
+
+			//Load display settings
+			AdlxValuesLoadDisplay();
+
+			//Load eyefinity settings
+			AdlxValuesLoadEyefinity();
+
+			//Load information
+			AdlxInfoLoad();
+
+			//Enable saving
+			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			disable_saving = false;
+
+			//Set result
+			AVDebugWriteLine("Loaded selected display values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed loading selected display values (Exception)");
+		}
+	}
+
 	void MainPage::AdlxValuesLoadDisplay()
 	{
 		try

@@ -5,7 +5,58 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxValuesLoadTuning(int gpuAdapterIndex, std::wstring gpuApplication)
+	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectGpu(AdapterInfo adapterInfo)
+	{
+		try
+		{
+			//Disable saving
+			disable_saving = true;
+
+			//Get gpu adapter index
+			adl_Gpu_AdapterIndex = adapterInfo.iAdapterIndex;
+			AVDebugWriteLine("Selected gpu index: " << adl_Gpu_AdapterIndex);
+
+			//Get gpu registry path
+			adl_Gpu_RegistryPath = string_to_wstring(adapterInfo.strDriverPathExt);
+
+			//Get gpu device identifier
+			adl_Gpu_DeviceIdentifier = AdlxGetGpuIdentifier(adl_Gpu_AdapterIndex);
+
+			//DriverBug#1
+			//Get gpu unique identifier
+			//adl_Gpu_UniqueIdentifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
+			adl_Gpu_UniqueIdentifierHex = L"0x0001";
+
+			//Update button text
+			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
+
+			//Load tuning and fans settings
+			AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
+
+			//Load graphics settings
+			AdlxValuesLoadSelectGraphics(adl_App_Current);
+
+			//Load multimedia settings
+			AdlxValuesLoadMultimedia();
+
+			//Load information
+			AdlxInfoLoad();
+
+			//Enable saving
+			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			disable_saving = false;
+
+			//Set result
+			AVDebugWriteLine("Loaded selected gpu values.");
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed loading selected gpu values (Exception)");
+		}
+	}
+
+	void MainPage::AdlxValuesLoadSelectTuning(int gpuAdapterIndex, std::wstring gpuApplication)
 	{
 		try
 		{
@@ -29,7 +80,7 @@ namespace winrt::RadeonTuner::implementation
 			textblock_AppSelect_Tuning().Text(gpuApplication);
 
 			//Disable or enable keep active
-			if (gpuApplication == L"Global")
+			if (tuningFanSettingsAdl.TuningSupport && gpuApplication == L"Global")
 			{
 				toggleswitch_KeepActive().IsEnabled(true);
 			}
