@@ -80,6 +80,9 @@ inline ADL2_Adapter_ProductName_Get _ADL2_Adapter_ProductName_Get;
 typedef int (*ADL2_Adapter_ID_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAdapterID);
 inline ADL2_Adapter_ID_Get _ADL2_Adapter_ID_Get;
 
+typedef int (*ADL2_Adapter_DedicatedVRAMUsage_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iVRAMUsageInMB);
+inline ADL2_Adapter_DedicatedVRAMUsage_Get _ADL2_Adapter_DedicatedVRAMUsage_Get;
+
 //Graphics
 typedef int (*ADL2_Graphics_VersionsX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLVersionsInfoX2* lpVersionsInfo);
 inline ADL2_Graphics_VersionsX3_Get _ADL2_Graphics_VersionsX3_Get;
@@ -280,6 +283,26 @@ inline ADL2_Display_EdidData_Set _ADL2_Display_EdidData_Set;
 //Display - DDC
 typedef int (*ADL2_Display_DDCInfo2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDDCInfo2* lpInfo);
 inline ADL2_Display_DDCInfo2_Get _ADL2_Display_DDCInfo2_Get;
+
+//Display - CRU
+typedef int (*ADL2_Display_CustomizedMode_Add)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCustomMode customMode);
+inline ADL2_Display_CustomizedMode_Add _ADL2_Display_CustomizedMode_Add;
+
+typedef int (*ADL2_Display_CustomizedMode_Delete)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iIndex);
+inline ADL2_Display_CustomizedMode_Delete _ADL2_Display_CustomizedMode_Delete;
+
+typedef int (*ADL2_Display_CustomizedModeList_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCustomMode* lpCustomModeList, int iBuffSize);
+inline ADL2_Display_CustomizedModeList_Get _ADL2_Display_CustomizedModeList_Get;
+
+typedef int (*ADL2_Display_CustomizedModeListNum_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpListNum);
+inline ADL2_Display_CustomizedModeListNum_Get _ADL2_Display_CustomizedModeListNum_Get;
+
+//Display - Gamma
+typedef int (*ADL2_Display_RegammaR1_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, const ADLRegammaEx* lpRegammaEx);
+inline ADL2_Display_RegammaR1_Set _ADL2_Display_RegammaR1_Set;
+
+typedef int (*ADL2_Display_RegammaR1_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLRegammaEx* lpRegammaEx);
+inline ADL2_Display_RegammaR1_Get _ADL2_Display_RegammaR1_Get;
 
 //Multimedia
 typedef int(*ADL2_MMD_Features_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureCaps** lppFeatureCaps, int* lpFeatureCount);

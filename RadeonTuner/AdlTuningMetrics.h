@@ -11,8 +11,9 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Set metric variables
-			int gpuUsageCore = -1;
-			int gpuUsageMemory = -1;
+			int gpuActivityCore = -1;
+			int gpuActivityMemory = -1;
+			int gpuMemoryUsageMegabytes = -1;
 			int gpuSpeedCore = -1;
 			int gpuSpeedMemory = -1;
 			int gpuWattage = -1;
@@ -29,16 +30,17 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_New_QueryPMLogData_Get(adl_Context, adl_Gpu_AdapterIndex, &adl_Metrics_Logging_Output);
 			//Note: I tried using ADL2_Device_PMLog_Device_Create and ADL2_Adapter_PMLog_Start but kept returning 0 values on integrated GPU's
 
-			//Fix find way to get current memory load
+			//Get current memory load in megabits
+			adl_Res0 = _ADL2_Adapter_DedicatedVRAMUsage_Get(adl_Context, adl_Gpu_AdapterIndex, &gpuMemoryUsageMegabytes);
 
 			//Set metric values
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_GFX].supported)
 			{
-				gpuUsageCore = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_GFX].value;
+				gpuActivityCore = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_GFX].value;
 			}
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_MEM].supported)
 			{
-				gpuUsageMemory = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_MEM].value;
+				gpuActivityMemory = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_INFO_ACTIVITY_MEM].value;
 			}
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_CLK_GFXCLK].supported)
 			{
@@ -96,16 +98,16 @@ namespace winrt::RadeonTuner::implementation
 			//Update current statistics
 			std::function<void()> updateFunction = [=]
 				{
-					if (gpuUsageCore >= 0 && gpuUsageCore <= 20000)
+					if (gpuActivityCore >= 0 && gpuActivityCore < 65535)
 					{
-						textblock_Current_Gpu_Usage().Text(number_to_wstring(gpuUsageCore) + L"%");
+						textblock_Current_Gpu_Activity().Text(number_to_wstring(gpuActivityCore) + L"%");
 					}
 					else
 					{
-						textblock_Current_Gpu_Usage().Text(L"...");
+						textblock_Current_Gpu_Activity().Text(L"...");
 					}
 
-					if (gpuSpeedCore >= 0 && gpuSpeedCore <= 20000)
+					if (gpuSpeedCore >= 0 && gpuSpeedCore < 65535)
 					{
 						textblock_Current_Core_Speed().Text(number_to_wstring(gpuSpeedCore) + L"MHz");
 					}
@@ -114,16 +116,16 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Core_Speed().Text(L"");
 					}
 
-					if (gpuUsageMemory >= 0 && gpuUsageMemory <= 20000)
+					if (gpuActivityMemory >= 0 && gpuActivityMemory < 65535)
 					{
-						textblock_Current_Memory_Usage().Text(number_to_wstring(gpuUsageMemory) + L"%");
+						textblock_Current_Memory_Activity().Text(number_to_wstring(gpuActivityMemory) + L"%");
 					}
 					else
 					{
-						textblock_Current_Memory_Usage().Text(L"");
+						textblock_Current_Memory_Activity().Text(L"");
 					}
 
-					if (gpuSpeedMemory >= 0 && gpuSpeedMemory <= 20000)
+					if (gpuSpeedMemory >= 0 && gpuSpeedMemory < 65535)
 					{
 						textblock_Current_Memory_Speed().Text(number_to_wstring(gpuSpeedMemory) + L"MTs");
 					}
@@ -132,7 +134,17 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Memory_Speed().Text(L"");
 					}
 
-					if (gpuWattage >= 0 && gpuWattage <= 20000)
+					if (gpuMemoryUsageMegabytes >= 0)
+					{
+						float gpuMemoryUsageGigabyte = gpuMemoryUsageMegabytes / 1024.0F;
+						textblock_Current_Memory_Usage().Text(float_to_wstring(gpuMemoryUsageGigabyte, 1) + L"GB");
+					}
+					else
+					{
+						textblock_Current_Memory_Usage().Text(L"");
+					}
+
+					if (gpuWattage >= 0 && gpuWattage < 65535)
 					{
 						textblock_Current_Power_Wattage().Text(number_to_wstring(gpuWattage) + L"W");
 					}
@@ -141,7 +153,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Power_Wattage().Text(L"");
 					}
 
-					if (gpuVoltage >= 0 && gpuVoltage <= 20000)
+					if (gpuVoltage >= 0 && gpuVoltage < 65535)
 					{
 						textblock_Current_Power_Voltage().Text(number_to_wstring(gpuVoltage) + L"mV");
 					}
@@ -150,7 +162,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Power_Voltage().Text(L"");
 					}
 
-					if (gpuFanSpeedPercentage >= 0 && gpuFanSpeedPercentage <= 20000)
+					if (gpuFanSpeedPercentage >= 0 && gpuFanSpeedPercentage < 65535)
 					{
 						textblock_Current_Fan_Speed_Percentage().Text(number_to_wstring(gpuFanSpeedPercentage) + L"%");
 					}
@@ -159,7 +171,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Fan_Speed_Percentage().Text(L"");
 					}
 
-					if (gpuFanSpeedRpm >= 0 && gpuFanSpeedRpm <= 20000)
+					if (gpuFanSpeedRpm >= 0 && gpuFanSpeedRpm < 65535)
 					{
 						textblock_Current_Fan_Speed_RPM().Text(number_to_wstring(gpuFanSpeedRpm) + L"RPM");
 					}
@@ -168,7 +180,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Fan_Speed_RPM().Text(L"");
 					}
 
-					if (gpuTemperatureCore >= 0 && gpuTemperatureCore <= 20000)
+					if (gpuTemperatureCore >= 0 && gpuTemperatureCore < 65535)
 					{
 						textblock_Current_Temp_Core().Text(number_to_wstring(gpuTemperatureCore) + L"°C Core");
 					}
@@ -177,7 +189,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Temp_Core().Text(L"");
 					}
 
-					if (gpuTemperatureMemory >= 0 && gpuTemperatureMemory <= 20000)
+					if (gpuTemperatureMemory >= 0 && gpuTemperatureMemory < 65535)
 					{
 						textblock_Current_Temp_Memory().Text(number_to_wstring((int)gpuTemperatureMemory) + L"°C Memory");
 					}
@@ -186,7 +198,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Temp_Memory().Text(L"");
 					}
 
-					if (gpuTemperatureHotspot >= 0 && gpuTemperatureHotspot <= 20000)
+					if (gpuTemperatureHotspot >= 0 && gpuTemperatureHotspot < 65535)
 					{
 						textblock_Current_Temp_Hotspot().Text(number_to_wstring((int)gpuTemperatureHotspot) + L"°C Hotspot");
 					}
@@ -195,7 +207,7 @@ namespace winrt::RadeonTuner::implementation
 						textblock_Current_Temp_Hotspot().Text(L"");
 					}
 
-					if (gpuTemperatureIntake >= 0 && gpuTemperatureIntake <= 20000)
+					if (gpuTemperatureIntake >= 0 && gpuTemperatureIntake < 65535)
 					{
 						textblock_Current_Temp_Intake().Text(number_to_wstring((int)gpuTemperatureIntake) + L"°C Intake");
 					}

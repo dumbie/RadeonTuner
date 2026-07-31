@@ -316,6 +316,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Adapter_ID_Get");
 			}
 
+			_ADL2_Adapter_DedicatedVRAMUsage_Get = (ADL2_Adapter_DedicatedVRAMUsage_Get)GetProcAddress(hInstance, "ADL2_Adapter_DedicatedVRAMUsage_Get");
+			if (_ADL2_Adapter_DedicatedVRAMUsage_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_DedicatedVRAMUsage_Get");
+			}
+
 			//Graphics
 			_ADL2_Graphics_VersionsX3_Get = (ADL2_Graphics_VersionsX3_Get)GetProcAddress(hInstance, "ADL2_Graphics_VersionsX3_Get");
 			if (_ADL2_Graphics_VersionsX3_Get == NULL)
@@ -767,6 +774,50 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Display_DDCInfo2_Get");
+			}
+
+			//Display - CRU
+			_ADL2_Display_CustomizedMode_Add = (ADL2_Display_CustomizedMode_Add)GetProcAddress(hInstance, "ADL2_Display_CustomizedMode_Add");
+			if (_ADL2_Display_CustomizedMode_Add == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CustomizedMode_Add");
+			}
+
+			_ADL2_Display_CustomizedMode_Delete = (ADL2_Display_CustomizedMode_Delete)GetProcAddress(hInstance, "ADL2_Display_CustomizedMode_Delete");
+			if (_ADL2_Display_CustomizedMode_Delete == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CustomizedMode_Delete");
+			}
+
+			_ADL2_Display_CustomizedModeList_Get = (ADL2_Display_CustomizedModeList_Get)GetProcAddress(hInstance, "ADL2_Display_CustomizedModeList_Get");
+			if (_ADL2_Display_CustomizedModeList_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CustomizedModeList_Get");
+			}
+
+			_ADL2_Display_CustomizedModeListNum_Get = (ADL2_Display_CustomizedModeListNum_Get)GetProcAddress(hInstance, "ADL2_Display_CustomizedModeListNum_Get");
+			if (_ADL2_Display_CustomizedModeListNum_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_CustomizedModeListNum_Get");
+			}
+
+			//Display - Gamma
+			_ADL2_Display_RegammaR1_Set = (ADL2_Display_RegammaR1_Set)GetProcAddress(hInstance, "ADL2_Display_RegammaR1_Set");
+			if (_ADL2_Display_RegammaR1_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_RegammaR1_Set");
+			}
+
+			_ADL2_Display_RegammaR1_Get = (ADL2_Display_RegammaR1_Get)GetProcAddress(hInstance, "ADL2_Display_RegammaR1_Get");
+			if (_ADL2_Display_RegammaR1_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_RegammaR1_Get");
 			}
 
 			//Multimedia
