@@ -82,6 +82,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(zeroRpm ? Visibility::Visible : Visibility::Collapsed);
+				border_Fan_Zero_Rpm_Range().Visibility(zeroRpm ? Visibility::Visible : Visibility::Collapsed);
 			}
 
 			//Fan Speed 0

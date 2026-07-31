@@ -58,11 +58,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Visible);
+				border_Fan_Zero_Rpm_Range().Visibility(Visibility::Visible);
 			}
 			else
 			{
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(Visibility::Collapsed);
+				border_Fan_Zero_Rpm_Range().Visibility(Visibility::Collapsed);
 			}
 
 			//Adjust button colors
@@ -269,6 +271,7 @@ namespace winrt::RadeonTuner::implementation
 				float fanZeroLinePosition = (double)tuningFanSettings.FanZeroTemp / 100 * graphWidth;
 				grid_Fan_Zero_Rpm_Line_Gpu().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
 				grid_Fan_Zero_Rpm_Line_Profile().Margin(Thickness(fanZeroLinePosition, 0, 0, 0));
+				border_Fan_Zero_Rpm_Range().Width(fanZeroLinePosition + 6);
 			}
 
 			//Set fan points to polyline
@@ -303,22 +306,27 @@ namespace winrt::RadeonTuner::implementation
 
 			float fanSpeed0 = fanSpeedMaximum - slider_Fan_Speed_0().Value();
 			float fanTemp0 = slider_Fan_Temp_0().Value() / 100 * graphWidth;
+			ellipse_Fan_Point_0().Margin(Thickness(fanTemp0 + 1, fanSpeed0 + 1, 0, 0));
 			fanPoints.Append(Point{ fanTemp0, fanSpeed0 });
 
 			float fanSpeed1 = fanSpeedMaximum - slider_Fan_Speed_1().Value();
 			float fanTemp1 = slider_Fan_Temp_1().Value() / 100 * graphWidth;
+			ellipse_Fan_Point_1().Margin(Thickness(fanTemp1 + 1, fanSpeed1 + 1, 0, 0));
 			fanPoints.Append(Point{ fanTemp1, fanSpeed1 });
 
 			float fanSpeed2 = fanSpeedMaximum - slider_Fan_Speed_2().Value();
 			float fanTemp2 = slider_Fan_Temp_2().Value() / 100 * graphWidth;
+			ellipse_Fan_Point_2().Margin(Thickness(fanTemp2 + 1, fanSpeed2 + 1, 0, 0));
 			fanPoints.Append(Point{ fanTemp2, fanSpeed2 });
 
 			float fanSpeed3 = fanSpeedMaximum - slider_Fan_Speed_3().Value();
 			float fanTemp3 = slider_Fan_Temp_3().Value() / 100 * graphWidth;
+			ellipse_Fan_Point_3().Margin(Thickness(fanTemp3 + 1, fanSpeed3 + 1, 0, 0));
 			fanPoints.Append(Point{ fanTemp3, fanSpeed3 });
 
 			float fanSpeed4 = fanSpeedMaximum - slider_Fan_Speed_4().Value();
 			float fanTemp4 = slider_Fan_Temp_4().Value() / 100 * graphWidth;
+			ellipse_Fan_Point_4().Margin(Thickness(fanTemp4 + 1, fanSpeed4 + 1, 0, 0));
 			fanPoints.Append(Point{ fanTemp4, fanSpeed4 });
 
 			float fanSpeedEnd = fanSpeedMaximum - slider_Fan_Speed_4().Value();
@@ -327,23 +335,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set fan points to polyline
 			polyline_Fan_Lines_Profile().Points(fanPoints);
-
-			//Create fan point ellipses
-			grid_Fan_Dots().Children().Clear();
-			UINT fanPointsSize = fanPoints.Size();
-			for (UINT i = 0; i < fanPointsSize; i++)
-			{
-				if (i == 0 || i == fanPointsSize - 1) { continue; }
-				Point fanPoint = fanPoints.GetAt(i);
-				winrt::Windows::UI::Xaml::Shapes::Ellipse ellipse = {};
-				ellipse.Fill(SolidColorBrush(Windows::UI::Colors::White()));
-				ellipse.Width(8);
-				ellipse.Height(8);
-				ellipse.Margin(Thickness(fanPoint.X + 2, fanPoint.Y + 2, 0, 0));
-				ellipse.HorizontalAlignment(HorizontalAlignment::Left);
-				ellipse.VerticalAlignment(VerticalAlignment::Top);
-				grid_Fan_Dots().Children().Append(ellipse);
-			}
 
 			//Set result
 			//AVDebugWriteLine("Updated profile fan graph.");

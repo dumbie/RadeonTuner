@@ -160,10 +160,11 @@
                 <!-- Status -->
                 <Border x:Name="border_Status" Grid.Row="1" CornerRadius="8" Margin="5" Padding="8" Background="{ThemeResource ApplicationDarkGrayColor}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="textblock_Current_Gpu_Usage" Text="..." Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core activity"/>
+                        <TextBlock x:Name="textblock_Current_Gpu_Activity" Text="..." Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core activity"/>
                         <TextBlock x:Name="textblock_Current_Core_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Core speed"/>
-                        <TextBlock x:Name="textblock_Current_Memory_Usage" Text="" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory activity"/>
+                        <TextBlock x:Name="textblock_Current_Memory_Activity" Text="" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory activity"/>
                         <TextBlock x:Name="textblock_Current_Memory_Speed" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory speed"/>
+                        <TextBlock x:Name="textblock_Current_Memory_Usage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Memory usage"/>
                         <TextBlock x:Name="textblock_Current_Power_Wattage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power wattage"/>
                         <TextBlock x:Name="textblock_Current_Power_Voltage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Power voltage"/>
                         <TextBlock x:Name="textblock_Current_Fan_Speed_Percentage" Margin="0,0,8,0" FontSize="18" ToolTipService.ToolTip="Fan speed percentage"/>
@@ -665,7 +666,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Keep Active" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running, it may take a few seconds before the application profile is applied."/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
                             </Grid>
 
                             <!-- Keep Active -->
@@ -806,7 +807,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running, it may take a few seconds before the application profile is applied."/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
                             </Grid>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -843,18 +844,24 @@
                                     <Grid>
                                         <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" CornerRadius="6,0,0,6" Background="{ThemeResource ApplicationDarkGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is low enough."/>
                                         <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Line Margin="0,25,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line Margin="0,50,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line Margin="0,75,0,0" X1="500" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line Margin="125,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line Margin="250,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line Margin="375,0,0,0" Y1="100" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="0,25,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="0,50,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="0,75,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="125,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="250,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                            <Line Margin="375,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
                                             <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
-                                            <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="3" ToolTipService.ToolTip="Currently set to"/>
-                                            <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="3" ToolTipService.ToolTip="Profile target"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="2" ToolTipService.ToolTip="Currently set to"/>
+                                            <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2" ToolTipService.ToolTip="Profile target"/>
                                         </Grid>
-                                        <Grid x:Name="grid_Fan_Dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                        <Grid>
+                                            <Ellipse x:Name="ellipse_Fan_Point_0" Margin="0,50,0,0" Width="10" Height="10" Fill="{StaticResource ApplicationWhiteBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 1"/>
+                                            <Ellipse x:Name="ellipse_Fan_Point_1" Margin="125,50,0,0" Width="10" Height="10" Fill="{StaticResource ApplicationWhiteBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 2"/>
+                                            <Ellipse x:Name="ellipse_Fan_Point_2" Margin="250,50,0,0" Width="10" Height="10" Fill="{StaticResource ApplicationWhiteBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 3"/>
+                                            <Ellipse x:Name="ellipse_Fan_Point_3" Margin="375,50,0,0" Width="10" Height="10" Fill="{StaticResource ApplicationWhiteBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 4"/>
+                                            <Ellipse x:Name="ellipse_Fan_Point_4" Margin="500,50,0,0" Width="10" Height="10" Fill="{StaticResource ApplicationWhiteBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 5"/>
+                                        </Grid>
                                     </Grid>
                                 </Border>
 
