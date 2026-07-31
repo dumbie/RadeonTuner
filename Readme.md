@@ -42,6 +42,11 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.32.0.0 (1-August-2026)
+- Added tuning application profile support.
+- Added option to add game executables from Steam.
+- Added setting to check for update on startup.
+
 v0.21.0.0 (15-July-2026)
 - Replaced MFG ratio placeholders with 2x, 3x and 4x.
 - Added setting to change display resolution and refresh rate.
