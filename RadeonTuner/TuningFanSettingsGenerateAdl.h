@@ -5,33 +5,35 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromADL(int gpuAdapterIndex)
+	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application, bool loadDefault)
 	{
 		try
 		{
 			TuningFanSettings tuningFanSettings{};
 
 			//Device identifier
-			try
-			{
-				tuningFanSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
-			}
-			catch (...) {}
+			tuningFanSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
+
+			//Device application
+			tuningFanSettings.Application = application;
 
 			//Get overdrive capabilities
 			int iSupported = -1;
 			int iEnabled = -1;
 			int iVersion = -1;
 			adl_Res0 = _ADL2_Overdrive_Caps(adl_Context, gpuAdapterIndex, &iSupported, &iEnabled, &iVersion);
-			AVDebugWriteLine("Overdrive support: " << iSupported << " / enabled: " << iEnabled << " / version: " << iVersion);
 
 			//Check overdrive support
 			if (iSupported != 1 && iVersion != 8)
 			{
-				AVDebugWriteLine("Overdrive not supported or version is incompatible.");
+				AVDebugWriteLine("Overdrive not supported: " << iSupported << " / enabled: " << iEnabled << " / version: " << iVersion);
 				tuningFanSettings.FanSupport = false;
 				tuningFanSettings.TuningSupport = false;
 				return tuningFanSettings;
+			}
+			else
+			{
+				AVDebugWriteLine("Overdrive supported: " << iSupported << " / enabled: " << iEnabled << " / version: " << iVersion);
 			}
 
 			//Check tuning and fan support
@@ -47,7 +49,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.CoreMin.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.CoreMin.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.CoreMin.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.CoreMin.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.CoreMin.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.CoreMin.Step = 1;
@@ -66,7 +75,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.CoreMax.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.CoreMax.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.CoreMax.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.CoreMax.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.CoreMax.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.CoreMax.Step = 1;
@@ -85,7 +101,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.MemoryTiming.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.MemoryTiming.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.MemoryTiming.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.MemoryTiming.Support = true;
 					}
 				}
@@ -101,7 +124,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.MemoryMax.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.MemoryMax.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.MemoryMax.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.MemoryMax.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.MemoryMax.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.MemoryMax.Step = 2;
@@ -120,8 +150,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.PowerLimit.Current = settingValue.value();
-						tuningFanSettings.PowerLimitPB.Current = defaultValue.value().defaultValue;
+						if (!loadDefault)
+						{
+							tuningFanSettings.PowerLimit.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.PowerLimit.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.PowerLimit.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.PowerLimit.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.PowerLimit.Step = 1;
@@ -140,8 +176,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.PowerVoltage.Current = settingValue.value();
-						tuningFanSettings.PowerVoltagePB.Current = defaultValue.value().defaultValue;
+						if (!loadDefault)
+						{
+							tuningFanSettings.PowerVoltage.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.PowerVoltage.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.PowerVoltage.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.PowerVoltage.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.PowerVoltage.Step = 1;
@@ -160,8 +202,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.PowerTDC.Current = settingValue.value();
-						tuningFanSettings.PowerTDCPB.Current = defaultValue.value().defaultValue;
+						if (!loadDefault)
+						{
+							tuningFanSettings.PowerTDC.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.PowerTDC.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.PowerTDC.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.PowerTDC.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.PowerTDC.Step = 1;
@@ -180,7 +228,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanZeroRpm.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanZeroRpm.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanZeroRpm.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanZeroRpm.Support = true;
 					}
 				}
@@ -215,7 +270,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanSpeed0.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanSpeed0.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanSpeed0.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanSpeed0.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanSpeed0.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed0.Step = 1;
@@ -234,7 +296,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanTemp0.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanTemp0.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanTemp0.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanTemp0.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanTemp0.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanTemp0.Step = 1;
@@ -253,7 +322,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanSpeed1.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanSpeed1.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanSpeed1.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanSpeed1.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanSpeed1.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed1.Step = 1;
@@ -272,7 +348,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanTemp1.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanTemp1.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanTemp1.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanTemp1.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanTemp1.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanTemp1.Step = 1;
@@ -291,7 +374,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanSpeed2.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanSpeed2.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanSpeed2.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanSpeed2.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanSpeed2.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed2.Step = 1;
@@ -310,7 +400,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanTemp2.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanTemp2.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanTemp2.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanTemp2.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanTemp2.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanTemp2.Step = 1;
@@ -329,7 +426,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanSpeed3.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanSpeed3.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanSpeed3.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanSpeed3.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanSpeed3.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed3.Step = 1;
@@ -348,7 +452,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanTemp3.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanTemp3.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanTemp3.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanTemp3.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanTemp3.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanTemp3.Step = 1;
@@ -367,7 +478,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanSpeed4.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanSpeed4.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanSpeed4.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanSpeed4.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanSpeed4.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed4.Step = 1;
@@ -386,7 +504,14 @@ namespace winrt::RadeonTuner::implementation
 				{
 					if (defaultValue.value().IsSupported())
 					{
-						tuningFanSettings.FanTemp4.Current = settingValue.value();
+						if (!loadDefault)
+						{
+							tuningFanSettings.FanTemp4.Current = settingValue.value();
+						}
+						else
+						{
+							tuningFanSettings.FanTemp4.Current = defaultValue.value().defaultValue;
+						}
 						tuningFanSettings.FanTemp4.Minimum = defaultValue.value().minValue;
 						tuningFanSettings.FanTemp4.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanTemp4.Step = 1;
@@ -397,6 +522,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Return result
+			//AVDebugWriteLine("Generated tuning and fan settings from ADL.");
 			return tuningFanSettings;
 		}
 		catch (...)
