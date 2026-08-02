@@ -9,7 +9,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix remove Steam shader cache (HKEY_CURRENT_USER\Software\Valve\Steam\SteamPath)
 			//Fix this method does not delete inuse shader files, Adrenalin Software has the same issue. *1
 			//*1 Temporarily Disable GPU > Delete Cached Shaders > Enable GPU as workaround? 
 
@@ -45,6 +44,15 @@ namespace winrt::RadeonTuner::implementation
 			FolderDelete(folderLowAMDDxcCache, true);
 			FolderDelete(folderLowAMDOglCache, true);
 			FolderDelete(folderLowAMDVkCache, true);
+
+			//Clear Steam shader cache
+			auto steamLibraryFolders = LauncherSteam::LibraryFolders::GetLibraryFolders("");
+			for (const auto& folder : steamLibraryFolders)
+			{
+				std::wstring folderSteam = string_to_wstring(folder.path);
+				std::wstring folderSteamCache = PathMerge(folderSteam, L"steamapps\\shadercache");
+				FolderDelete(folderSteamCache, true);
+			}
 
 			//Return result
 			AVDebugWriteLine("Shader cache reset.");
