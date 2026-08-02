@@ -99,6 +99,7 @@
                             <VisualState x:Name="Enabled"/>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
+                                    <Setter Target="ContentPresenter.Opacity" Value="0.50"/>
                                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
                                 </VisualState.Setters>
                             </VisualState>
@@ -130,6 +131,7 @@
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
+                                    <Setter Target="ContentPresenter.Opacity" Value="0.50"/>
                                     <Setter Target="ContentPresenter.Background" Value="{ThemeResource ButtonBackgroundDisabled}"/>
                                     <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonBorderBrushDisabled}"/>
                                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
@@ -169,14 +171,15 @@
             </Style>
 
             <Style x:Name="ApplicationButton" TargetType="Button">
-                <Setter Property="CornerRadius" Value="8"/>
                 <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="CornerRadius" Value="8"/>
                 <Setter Property="Template" Value="{ThemeResource ButtonTemplateHover}"/>
             </Style>
 
             <Style x:Name="ApplicationButtonImage" TargetType="Button">
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Template" Value="{ThemeResource ButtonTemplateHover}"/>
             </Style>
 
             <Style x:Name="ApplicationTextBoxNoHit" TargetType="TextBox">
