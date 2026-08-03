@@ -131,8 +131,13 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill
 			if (graphicsSettings.ChillEnabled.Default.has_value())
 			{
-				//Disable Radeon Chill Link
-				radeon_Chill_Linked = false;
+				//Check Radeon Chill Link
+				if (radeon_Chill_Linked)
+				{
+					auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Unlink.png"));
+					image_RadeonChill_Link().Source(bitmapImage);
+					radeon_Chill_Linked = false;
+				}
 
 				toggleswitch_RadeonChill().IsOn(graphicsSettings.ChillEnabled.Default.value());
 				slider_RadeonChill_Min().IsEnabled(graphicsSettings.ChillEnabled.Default.value());

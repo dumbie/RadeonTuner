@@ -66,8 +66,12 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
+			//Get current application name
+			std::wstring currentAppName = adl_App_Current.FileName;
+
 			//Remove selected items
 			int removeCount = 0;
+			bool currentAppRemoved = false;
 			for (auto const& app : selectedApps)
 			{
 				//Get executable name
@@ -82,16 +86,30 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring removeResult = AdlAppRemove(adlApp);
 				if (removeResult == L"Application removed")
 				{
+					//Update remove count
 					removeCount++;
+
+					//Check if current application is removed
+					if (executableName == currentAppName)
+					{
+						currentAppRemoved = true;
+					}
 				}
 			}
-
-			//Fix check selected application name and reload values
 
 			//Show notification
 			//Fix show fail and duplicate count
 			ShowNotification(L"Applications removed: " + number_to_wstring(removeCount) + L" / " + number_to_wstring(selectedAppsCount));
 			AVDebugWriteLine(L"Applications removed: " << removeCount << L" / " << selectedAppsCount);
+
+			//Check selected application and reload
+			if (currentAppRemoved)
+			{
+				AVDebugWriteLine(L"Current application removed, selecting Global.");
+
+				//Load graphics settings
+				AdlxValuesLoadSelectGraphics(adl_App_Global);
+			}
 		}
 		catch (...) {}
 	}
@@ -1108,12 +1126,10 @@ namespace winrt::RadeonTuner::implementation
 					//Check Radeon Chill Link
 					if (radeon_Chill_Linked)
 					{
-						button_RadeonChill_Link().Opacity(1.00);
 						slider_RadeonChill_Min().IsEnabled(false);
 					}
 					else
 					{
-						button_RadeonChill_Link().Opacity(0.50);
 						slider_RadeonChill_Min().IsEnabled(true);
 					}
 					slider_RadeonChill_Max().IsEnabled(true);
@@ -1125,7 +1141,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					slider_RadeonChill_Min().IsEnabled(false);
 					slider_RadeonChill_Max().IsEnabled(false);
-					button_RadeonChill_Link().Opacity(0.50);
 					button_RadeonChill_Link().IsEnabled(false);
 					ShowNotification(L"Radeon Chill disabled");
 					AVDebugWriteLine(L"Radeon Chill disabled");
@@ -1277,14 +1292,16 @@ namespace winrt::RadeonTuner::implementation
 			if (!radeon_Chill_Linked)
 			{
 				AVDebugWriteLine("Link Radeon Chill.");
-				button_RadeonChill_Link().Opacity(1.00);
+				auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Link.png"));
+				image_RadeonChill_Link().Source(bitmapImage);
 				slider_RadeonChill_Min().IsEnabled(false);
 				radeon_Chill_Linked = true;
 			}
 			else
 			{
 				AVDebugWriteLine("Unlink Radeon Chill.");
-				button_RadeonChill_Link().Opacity(0.50);
+				auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Unlink.png"));
+				image_RadeonChill_Link().Source(bitmapImage);
 				slider_RadeonChill_Min().IsEnabled(true);
 				radeon_Chill_Linked = false;
 			}

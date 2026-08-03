@@ -41,12 +41,11 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//Adjust button colors
+			//Check add count
 			if (addCount > 0)
 			{
-				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-				button_Tuning_Apply().Background(colorIgnored);
-				button_Fan_Apply().Background(colorIgnored);
+				//Save tuning and fans settings
+				TuningFanSettings_Profiles_SaveToFile();
 			}
 
 			//Show notification
@@ -76,8 +75,12 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
+			//Get current application name
+			std::wstring currentAppName = tuningFanSettingsCurrent.Application.value();
+
 			//Remove selected items
 			int removeCount = 0;
+			bool currentAppRemoved = false;
 			for (auto const& app : selectedApps)
 			{
 				//Get executable name
@@ -86,24 +89,37 @@ namespace winrt::RadeonTuner::implementation
 				//Remove application and profile
 				if (TuningFanSettings_Profile_Remove(tuningFanSettingsCurrent.DeviceId.value(), executableName))
 				{
+					//Update remove count
 					removeCount++;
+
+					//Check if current application is removed
+					if (executableName == currentAppName)
+					{
+						currentAppRemoved = true;
+					}
 				}
 			}
 
-			//Adjust button colors
+			//Check remove count
 			if (removeCount > 0)
 			{
-				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-				button_Tuning_Apply().Background(colorIgnored);
-				button_Fan_Apply().Background(colorIgnored);
+				//Save tuning and fans settings
+				TuningFanSettings_Profiles_SaveToFile();
 			}
-
-			//Fix check selected application name and reload values
 
 			//Show notification
 			//Fix show fail and duplicate count
 			ShowNotification(L"Applications removed: " + number_to_wstring(removeCount) + L" / " + number_to_wstring(selectedAppsCount));
 			AVDebugWriteLine(L"Applications removed: " << removeCount << L" / " << selectedAppsCount);
+
+			//Check selected application and reload
+			if (currentAppRemoved)
+			{
+				AVDebugWriteLine(L"Current application removed, selecting Global.");
+
+				//Load tuning and fans settings
+				AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, L"Global");
+			}
 		}
 		catch (...) {}
 	}
@@ -115,39 +131,54 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Apply tuning and fans settings
-			//Fix do not apply tuning application profile directly
-			bool applyResult = AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent);
+			//Device identifier
+			std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
 
-			//Apply tuning and fans settings
-			if (applyResult)
+			//Device application
+			std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
+
+			//Replace tuning and fans settings
+			TuningFanSettings_Profile_Replace(tuningFanSettingsCurrent);
+
+			//Save tuning and fans settings
+			TuningFanSettings_Profiles_SaveToFile();
+
+			//Apply tuning and fans settings when application profile is used
+			if (tuningFanSettingsCurrent.UsingProfile)
 			{
-				//Replace tuning and fans settings
-				TuningFanSettings_Profile_Replace(tuningFanSettingsCurrent);
+				//Apply tuning and fans settings
+				bool applyResult = AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent);
+				if (applyResult)
+				{
+					//Load tuning and fans settings
+					AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, applicationW);
 
-				//Update application using status
-				TuningFanSettings_Profile_Set_Using(tuningFanSettingsCurrent.DeviceId.value(), tuningFanSettingsCurrent.Application.value());
+					//Show notification
+					ShowNotification(L"Tuning and fans settings applied");
+					AVDebugWriteLine(L"Tuning and fans settings applied: " << deviceIdW << L" / " << applicationW);
+				}
+				else
+				{
+					//Update button colors
+					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+					button_Tuning_Apply().Background(colorInvalid);
+					button_Fan_Apply().Background(colorInvalid);
 
-				//Save tuning and fans settings
-				TuningFanSettings_Profiles_SaveToFile();
-
-				//Load tuning values to interface
-				AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
-
-				//Show notification
-				ShowNotification(L"Tuning and fans settings applied");
-				AVDebugWriteLine(L"Tuning and fans settings applied");
+					//Show notification
+					ShowNotification(L"Failed applying tuning and fans settings");
+					AVDebugWriteLine(L"Failed applying tuning and fans settings: " << deviceIdW << L" / " << applicationW);
+				}
 			}
 			else
 			{
 				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Tuning_Apply().Background(colorInvalid);
-				button_Fan_Apply().Background(colorInvalid);
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Tuning_Apply().Background(colorValid);
+				button_Fan_Apply().Background(colorValid);
 
 				//Show notification
-				ShowNotification(L"Failed applying tuning and fans settings");
-				AVDebugWriteLine(L"Failed applying tuning and fans settings");
+				ShowNotification(L"Tuning and fans settings adjusted");
+				AVDebugWriteLine(L"Tuning and fans settings adjusted: " << deviceIdW << L" / " << applicationW);
 			}
 		}
 		catch (...) {}
@@ -168,23 +199,23 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
+			//Device identifier
+			std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
+
+			//Device application
+			std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
+
 			//Reset tuning and fans settings
 			if (Adl_Overdrive8_Reset(adl_Gpu_AdapterIndex))
 			{
-				//Device identifier
-				std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
-
-				//Device application
-				std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
-
 				//Remove tuning and fans settings
 				TuningFanSettings_Profile_Remove(deviceIdW, applicationW);
 
 				//Save tuning and fans settings
 				TuningFanSettings_Profiles_SaveToFile();
 
-				//Load tuning values to interface
-				AdlxValuesLoadTuning(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.Application.value());
+				//Load tuning and fans settings
+				AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, applicationW);
 
 				//Show notification
 				ShowNotification(L"Tuning and fans settings reset");
@@ -199,7 +230,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Show notification
 				ShowNotification(L"Failed resetting tuning and fans settings");
-				AVDebugWriteLine(L"Failed resetting tuning and fans settings");
+				AVDebugWriteLine(L"Failed resetting tuning and fans settings: " << deviceIdW << L" / " << applicationW);
 			}
 		}
 		catch (...) {}
