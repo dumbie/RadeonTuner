@@ -23,6 +23,11 @@ typedef struct ADL_RIS2_SETTINGS
 	int GlobalDesktop; //Global desktop value
 };
 
+typedef struct AdlGammaRamp
+{
+	uint32_t rgb[1024];
+};
+
 enum class ADLCvdcType : int
 {
 	CVDC_ENABLED,

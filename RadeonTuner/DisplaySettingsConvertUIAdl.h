@@ -405,6 +405,99 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().IsEnabled(false);
 			}
 
+			//Color Gamma Red
+			if (displaySettings.GammaRed.Support.has_value() && displaySettings.GammaRed.Support.value())
+			{
+				//Set setting
+				if (displaySettings.GammaRed.Current.has_value())
+				{
+					slider_Display_GammaRed().Value(displaySettings.GammaRed.Current.value());
+				}
+				else if (displaySettings.GammaRed.Default.has_value())
+				{
+					slider_Display_GammaRed().Value(displaySettings.GammaRed.Default.value());
+				}
+
+				//Set interface
+				if (displaySettings.GammaRed.Minimum.has_value())
+				{
+					slider_Display_GammaRed().Minimum(displaySettings.GammaRed.Minimum.value());
+					slider_Display_GammaRed().Maximum(displaySettings.GammaRed.Maximum.value());
+					slider_Display_GammaRed().StepFrequency(displaySettings.GammaRed.Step.value());
+					slider_Display_GammaRed().SmallChange(displaySettings.GammaRed.Step.value());
+				}
+
+				//Enable or disable interface
+				slider_Display_GammaRed().IsEnabled(true);
+			}
+			else
+			{
+				//Enable or disable interface
+				slider_Display_GammaRed().IsEnabled(false);
+			}
+
+			//Color Gamma Green
+			if (displaySettings.GammaGreen.Support.has_value() && displaySettings.GammaGreen.Support.value())
+			{
+				//Set setting
+				if (displaySettings.GammaGreen.Current.has_value())
+				{
+					slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Current.value());
+				}
+				else if (displaySettings.GammaGreen.Default.has_value())
+				{
+					slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Default.value());
+				}
+
+				//Set interface
+				if (displaySettings.GammaGreen.Minimum.has_value())
+				{
+					slider_Display_GammaGreen().Minimum(displaySettings.GammaGreen.Minimum.value());
+					slider_Display_GammaGreen().Maximum(displaySettings.GammaGreen.Maximum.value());
+					slider_Display_GammaGreen().StepFrequency(displaySettings.GammaGreen.Step.value());
+					slider_Display_GammaGreen().SmallChange(displaySettings.GammaGreen.Step.value());
+				}
+
+				//Enable or disable interface
+				slider_Display_GammaGreen().IsEnabled(true);
+			}
+			else
+			{
+				//Enable or disable interface
+				slider_Display_GammaGreen().IsEnabled(false);
+			}
+
+			//Color Gamma Blue
+			if (displaySettings.GammaBlue.Support.has_value() && displaySettings.GammaBlue.Support.value())
+			{
+				//Set setting
+				if (displaySettings.GammaBlue.Current.has_value())
+				{
+					slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Current.value());
+				}
+				else if (displaySettings.GammaBlue.Default.has_value())
+				{
+					slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Default.value());
+				}
+
+				//Set interface
+				if (displaySettings.GammaBlue.Minimum.has_value())
+				{
+					slider_Display_GammaBlue().Minimum(displaySettings.GammaBlue.Minimum.value());
+					slider_Display_GammaBlue().Maximum(displaySettings.GammaBlue.Maximum.value());
+					slider_Display_GammaBlue().StepFrequency(displaySettings.GammaBlue.Step.value());
+					slider_Display_GammaBlue().SmallChange(displaySettings.GammaBlue.Step.value());
+				}
+
+				//Enable or disable interface
+				slider_Display_GammaBlue().IsEnabled(true);
+			}
+			else
+			{
+				//Enable or disable interface
+				slider_Display_GammaBlue().IsEnabled(false);
+			}
+
 			//Color Deficiency Correction Control
 			if (displaySettings.CVDCControl.Support.has_value() && displaySettings.CVDCControl.Support.value())
 			{

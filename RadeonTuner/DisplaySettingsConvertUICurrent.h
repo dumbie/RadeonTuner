@@ -39,6 +39,24 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().Value(displaySettings.Hue.Current.value());
 			}
 
+			//Color Gamma Red
+			if (displaySettings.GammaRed.Current.has_value())
+			{
+				slider_Display_GammaRed().Value(displaySettings.GammaRed.Current.value());
+			}
+
+			//Color Gamma Green
+			if (displaySettings.GammaGreen.Current.has_value())
+			{
+				slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Current.value());
+			}
+
+			//Color Gamma Blue
+			if (displaySettings.GammaBlue.Current.has_value())
+			{
+				slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Current.value());
+			}
+
 			//Color Temperature Control
 			if (displaySettings.ColorTemperatureControl.Current.has_value())
 			{

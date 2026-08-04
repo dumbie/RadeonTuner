@@ -673,7 +673,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
-                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings before enabling Keep Active.&#10;&#10;* Keep active only works when RadeonTuner is running."/>
+                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings before enabling Keep Active.&#10;&#10;* This setting only works when RadeonTuner is running."/>
                                     <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active" Toggled="toggleswitch_KeepActive_Toggled"/>
                                     <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                 </StackPanel>
@@ -1100,7 +1100,7 @@
                                     <!-- FreeSync -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync / VRR / Adaptive Sync compatible monitor and graphics card."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
                                         <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_FreeSync_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1193,6 +1193,50 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_PixelFormat" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Margin="0,10,0,0" Text="Gamma Adjustment" FontSize="20" FontWeight="Medium"/>
+
+                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel>
+                                    <!-- Gamma Red Green Blue -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be closed first.&#10;&#10;* Some applications reset the Gamma to default, when RadeonTuner is running it will automatically try to restore it, but may take a few seconds."/>
+                                        <TextBlock Text="Red" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <TextBlock Text="Green" Margin="0,5,0,0"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                    </Grid>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <TextBlock Text="Blue" Margin="0,5,0,0"/>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -1379,7 +1423,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When you add an application to the list below Eyefinity will automatically be enabled when an application is running and disabled when no longer running."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* Automatic Eyefinity only works when RadeonTuner is running."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
                                         <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
                                     </StackPanel>
 
@@ -1680,7 +1724,7 @@
         </Grid>
 
         <!-- Overlay - Notification -->
-        <Border x:Name="grid_Overlay_Notification" Margin="0,130,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
+        <Border x:Name="grid_Overlay_Notification" Margin="0,122,5,0" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
             <Border.Background>
                 <SolidColorBrush Color="{ThemeResource ApplicationAccentDimColor}" Opacity="0.90"/>
             </Border.Background>

@@ -806,18 +806,18 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Display - Gamma
-			_ADL2_Display_RegammaR1_Set = (ADL2_Display_RegammaR1_Set)GetProcAddress(hInstance, "ADL2_Display_RegammaR1_Set");
-			if (_ADL2_Display_RegammaR1_Set == NULL)
+			_ADL2_Adapter_Gamma_Set = (ADL2_Adapter_Gamma_Set)GetProcAddress(hInstance, "ADL2_Adapter_Gamma_Set");
+			if (_ADL2_Adapter_Gamma_Set == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Display_RegammaR1_Set");
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_Gamma_Set");
 			}
 
-			_ADL2_Display_RegammaR1_Get = (ADL2_Display_RegammaR1_Get)GetProcAddress(hInstance, "ADL2_Display_RegammaR1_Get");
-			if (_ADL2_Display_RegammaR1_Get == NULL)
+			_ADL2_Adapter_Gamma_Get = (ADL2_Adapter_Gamma_Get)GetProcAddress(hInstance, "ADL2_Adapter_Gamma_Get");
+			if (_ADL2_Adapter_Gamma_Get == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Display_RegammaR1_Get");
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_Gamma_Get");
 			}
 
 			//Multimedia

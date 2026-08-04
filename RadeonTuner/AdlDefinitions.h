@@ -298,11 +298,11 @@ typedef int (*ADL2_Display_CustomizedModeListNum_Get)(ADL_CONTEXT_HANDLE context
 inline ADL2_Display_CustomizedModeListNum_Get _ADL2_Display_CustomizedModeListNum_Get;
 
 //Display - Gamma
-typedef int (*ADL2_Display_RegammaR1_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, const ADLRegammaEx* lpRegammaEx);
-inline ADL2_Display_RegammaR1_Set _ADL2_Display_RegammaR1_Set;
+typedef int (*ADL2_Adapter_Gamma_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, AdlGammaRamp lpGammaRamp);
+inline ADL2_Adapter_Gamma_Set _ADL2_Adapter_Gamma_Set;
 
-typedef int (*ADL2_Display_RegammaR1_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLRegammaEx* lpRegammaEx);
-inline ADL2_Display_RegammaR1_Get _ADL2_Display_RegammaR1_Get;
+typedef int (*ADL2_Adapter_Gamma_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, AdlGammaRamp* lpGammaRamp);
+inline ADL2_Adapter_Gamma_Get _ADL2_Adapter_Gamma_Get;
 
 //Multimedia
 typedef int(*ADL2_MMD_Features_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureCaps** lppFeatureCaps, int* lpFeatureCount);

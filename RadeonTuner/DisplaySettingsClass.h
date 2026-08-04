@@ -5,6 +5,7 @@ struct DisplaySettings
 {
 	//Settings
 	std::optional<std::wstring> DeviceId;
+	std::optional<std::wstring> Application;
 	SettingInt HdrEnabled;
 	SettingInt HdrMediaProfile;
 	SettingInt FreeSyncEnabled;
@@ -21,6 +22,9 @@ struct DisplaySettings
 	SettingInt Contrast;
 	SettingInt Saturation;
 	SettingInt Hue;
+	SettingFloat GammaRed;
+	SettingFloat GammaGreen;
+	SettingFloat GammaBlue;
 	SettingInt ColorTemperatureControl;
 	SettingInt ColorTemperatureKelvin;
 	SettingInt CVDCControl;
@@ -29,5 +33,11 @@ struct DisplaySettings
 	SettingInt CVDCTritanopia;
 	SettingInt HDCPEnabled;
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current)
+	//Custom
+	SettingInt EyefinityAutomatic;
+
+	//Variables (No export)
+	bool UsingProfile = false;
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Application, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, GammaRed.Current, GammaGreen.Current, GammaBlue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current)
 };

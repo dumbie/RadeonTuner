@@ -5,7 +5,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-
 	bool MainPage::Adl_Eyefinity_Create_Custom(int displayAdapterIndex)
 	{
 		try

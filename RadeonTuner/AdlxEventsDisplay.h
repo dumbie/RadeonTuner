@@ -180,6 +180,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				freeSyncSetting = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
 			}
+			//Note you can manually set the FreeSync Rate by using static usecase and providing microhertz for example: 50000000 (50Hz)
 			adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, freeSyncSetting, 0);
 
 			//Set result
@@ -688,6 +689,54 @@ namespace winrt::RadeonTuner::implementation
 
 				//Update current value
 				displaySettingsCurrent.Hue.Current = newValue;
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_Display_GammaRGB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting values
+			float redGain = slider_Display_GammaRed().Value();
+			float greenGain = slider_Display_GammaGreen().Value();
+			float blueGain = slider_Display_GammaBlue().Value();
+			bool newFailed = true;
+
+			//Set setting
+			AdlGammaRamp gammaRamp = AdlGammaRampBuild(redGain, greenGain, blueGain);
+			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, adl_Display_AdapterIndex, gammaRamp);
+
+			//Set result
+			newFailed = adl_Res0 != ADL_OK;
+
+			//Show result
+			if (newFailed)
+			{
+				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+				textbox_Display_GammaRed().Foreground(colorInvalid);
+				textbox_Display_GammaGreen().Foreground(colorInvalid);
+				textbox_Display_GammaBlue().Foreground(colorInvalid);
+				ShowNotification(L"Failed setting Gamma");
+				AVDebugWriteLine(L"Failed setting Gamma");
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				textbox_Display_GammaRed().Foreground(colorValid);
+				textbox_Display_GammaGreen().Foreground(colorValid);
+				textbox_Display_GammaBlue().Foreground(colorValid);
+				ShowNotification(L"Gamma set to (R) " + float_to_wstring(redGain, 2) + L" (G) " + float_to_wstring(greenGain, 2) + L" (B) " + float_to_wstring(blueGain, 2));
+				AVDebugWriteLine(L"Gamma set to " << redGain << L"/" << greenGain << L"/" << blueGain);
+
+				//Update current value
+				displaySettingsCurrent.GammaRed.Current = redGain;
+				displaySettingsCurrent.GammaGreen.Current = greenGain;
+				displaySettingsCurrent.GammaBlue.Current = blueGain;
 			}
 		}
 		catch (...) {}
