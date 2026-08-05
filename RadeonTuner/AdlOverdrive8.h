@@ -42,14 +42,15 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Note: when tuning preset is not set to default or custom mode, tuning fails to apply.
+			//Note: when setting reset and requested to true, tuning may fail to apply on certain graphics cards.
 
 			//Set defaults
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
 			for (int i = 0; i < requestSettingList.count; i++)
 			{
-				requestSettingList.od8SettingTable[i].reset = true;
-				requestSettingList.od8SettingTable[i].requested = true;
+				requestSettingList.od8SettingTable[i].reset = false;
+				requestSettingList.od8SettingTable[i].requested = false;
 				requestSettingList.od8SettingTable[i].value = 0;
 			}
 
