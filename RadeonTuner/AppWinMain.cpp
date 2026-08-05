@@ -35,9 +35,40 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 {
 	try
 	{
+		//Get application root path
+		std::wstring applicationRootPath = PathGetAppRoot();
+
+		//Set working directory to application root
+		SetCurrentDirectoryW(applicationRootPath.c_str());
+
+		//Checking folder write permission
+		bool writePermission = FolderWritePermission(L"");
+		if (!writePermission)
+		{
+			AVDebugWriteLine("No write permission in working directory.");
+
+			//Get path to local application data
+			std::wstring pathLocalAppData = PathGetFolderKnown(FOLDERID_LocalAppData);
+			std::wstring pathDataFolder = PathMerge(pathLocalAppData, L"RadeonTuner");
+
+			//Set data path to local application data
+			AppVariables::SaveDataPath = pathDataFolder;
+
+			//Create RadeonTuner folder
+			FolderCreate(AppVariables::SaveDataPath);
+		}
+		else
+		{
+			//Set data path to application root
+			AppVariables::SaveDataPath = applicationRootPath;
+		}
+
 		//Enable debug logging
-		//FileDelete(L"Debug.log");
-		//AVDebugWriteLineLogFile = true;
+		//Fix add -debug command line to enable debug logging
+		//std::wstring debugLogPath = PathMerge(AppVariables::SaveDataPath, L"Debug.log");
+		//FileDelete(debugLogPath);
+		//AVDebugWriteLineLogFileEnabled = true;
+		//AVDebugWriteLineLogFilePath = debugLogPath;
 
 		AVDebugWriteLine("Welcome to RadeonTuner.");
 
@@ -53,19 +84,12 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		//Set instance handle
 		AppVariables::hInstance = hInstance;
 
-		//Get executable directory
-		std::wstring exeDirectory = PathGetAppRoot();
-
-		//Set working directory
-		SetCurrentDirectoryW(exeDirectory.c_str());
+		//Create default folders
+		FolderCreate(PathMerge(AppVariables::SaveDataPath, L"Profiles"));
+		FolderCreate(PathMerge(AppVariables::SaveDataPath, L"Settings"));
 
 		//Initialize settings
-		std::wstring pathSettingFileW = PathMerge(exeDirectory, L"Settings\\Settings.json");
-		AppVariables::Settings = AVSettingsJson(pathSettingFileW);
-
-		//Create Profiles folder
-		std::wstring pathProfilesFolderW = PathMerge(exeDirectory, L"Profiles");
-		FolderCreate(pathProfilesFolderW);
+		AppVariables::Settings = AVSettingsJson(PathMerge(AppVariables::SaveDataPath, L"Settings\\Settings.json"));
 
 		//Replace updater executable
 		UpdateCleanup();
