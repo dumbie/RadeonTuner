@@ -70,6 +70,9 @@ namespace winrt::RadeonTuner::implementation
 		auto selectedList = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
 		try
 		{
+			//Set executable filter words
+			std::vector<std::wstring> executableFilter{ L"explorer.exe", L"radeontuner.exe" };
+
 			//Get running processes
 			auto pickerList = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
 			std::vector<AVProcess> processList = Get_ProcessAll();
@@ -92,11 +95,31 @@ namespace winrt::RadeonTuner::implementation
 						continue;
 					}
 
+					//Get executable name
+					std::wstring exeNameW = process.ExeName();
+					std::wstring exeNameNoExtW = process.ExeNameNoExt();
+					std::wstring exeNameLowerW = wstring_to_lower(exeNameW);
+
+					//Check executable filter strings
+					bool filtered = false;
+					for (const auto& filterString : executableFilter)
+					{
+						if (exeNameLowerW.find(filterString) != std::wstring::npos)
+						{
+							filtered = true;
+							break;
+						}
+					}
+					if (filtered)
+					{
+						continue;
+					}
+
 					//Add process
 					RadeonTuner::AppPickerIdl appPicker;
 					appPicker.Detail(number_to_wstring(process.Identifier()));
-					appPicker.AppName(process.ExeNameNoExt());
-					appPicker.ExeName(process.ExeName());
+					appPicker.AppName(exeNameNoExtW);
+					appPicker.ExeName(exeNameW);
 					pickerList.Append(appPicker);
 				}
 				catch (...) {}
@@ -217,7 +240,7 @@ namespace winrt::RadeonTuner::implementation
 
 						//Add game
 						RadeonTuner::AppPickerIdl appPicker;
-						appPicker.IconPath(L"/Assets/Cross.png");
+						appPicker.IconPath(L"/Assets/LauncherSteam.png");
 						appPicker.Detail(exeNameW);
 						appPicker.AppName(appNameW);
 						appPicker.ExeName(exeNameW);
