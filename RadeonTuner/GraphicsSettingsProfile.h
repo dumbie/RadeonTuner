@@ -6,7 +6,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Load settings from file
-	std::optional<GraphicsSettings> MainPage::GraphicsSettings_FileLoad(std::wstring loadPath)
+	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Profile_LoadFromFile(std::wstring loadPath)
 	{
 		try
 		{
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 	}
 
 	//Save settings to file
-	bool MainPage::GraphicsSettings_FileSave(GraphicsSettings graphicsSettings, std::wstring savePath)
+	bool MainPage::GraphicsSettings_Profile_SaveToFile(GraphicsSettings graphicsSettings, std::wstring savePath)
 	{
 		try
 		{

@@ -5,28 +5,39 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::GraphicsSettings_Convert_ToUI_ADL(GraphicsSettings graphicsSettings)
+	bool MainPage::GraphicsSettings_Convert_ToUI_Adl(GraphicsSettings graphicsSettings)
 	{
 		try
 		{
 			//FSR Upscaling Override
 			if (graphicsSettings.FsrOverride.Support.has_value() && graphicsSettings.FsrOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FsrOverride.Current.has_value())
 				{
-					toggleswitch_FsrOverrideUpscaling().IsOn(graphicsSettings.FsrOverride.Current.value());
+					valueInt = graphicsSettings.FsrOverride.Current.value();
 				}
 				else if (graphicsSettings.FsrOverride.Default.has_value())
 				{
-					toggleswitch_FsrOverrideUpscaling().IsOn(graphicsSettings.FsrOverride.Default.value());
+					valueInt = graphicsSettings.FsrOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrOverrideUpscaling().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrOverrideUpscaling_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrOverrideUpscaling().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOverrideUpscaling_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrOverrideUpscaling().IsEnabled(false);
 			}
@@ -34,21 +45,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Frame Generation Override
 			if (graphicsSettings.MlfiOverride.Support.has_value() && graphicsSettings.MlfiOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.MlfiOverride.Current.has_value())
 				{
-					toggleswitch_FsrOverrideFrameGeneration().IsOn(graphicsSettings.MlfiOverride.Current.value());
+					valueInt = graphicsSettings.MlfiOverride.Current.value();
 				}
 				else if (graphicsSettings.MlfiOverride.Default.has_value())
 				{
-					toggleswitch_FsrOverrideFrameGeneration().IsOn(graphicsSettings.MlfiOverride.Default.value());
+					valueInt = graphicsSettings.MlfiOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrOverrideFrameGeneration().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrOverrideFrameGeneration_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrOverrideFrameGeneration().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOverrideFrameGeneration_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrOverrideFrameGeneration().IsEnabled(false);
 			}
@@ -56,21 +78,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Multi Frame Generation Override
 			if (graphicsSettings.MfgOverride.Support.has_value() && graphicsSettings.MfgOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.MfgOverride.Current.has_value())
 				{
-					toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(graphicsSettings.MfgOverride.Current.value());
+					valueInt = graphicsSettings.MfgOverride.Current.value();
 				}
 				else if (graphicsSettings.MfgOverride.Default.has_value())
 				{
-					toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(graphicsSettings.MfgOverride.Default.value());
+					valueInt = graphicsSettings.MfgOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrOverrideMultiFrameGeneration_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrOverrideMultiFrameGeneration().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOverrideMultiFrameGeneration_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrOverrideMultiFrameGeneration().IsEnabled(false);
 			}
@@ -78,21 +111,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Ray Regeneration Denoiser Override
 			if (graphicsSettings.MldOverride.Support.has_value() && graphicsSettings.MldOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.MldOverride.Current.has_value())
 				{
-					toggleswitch_FsrOverrideRayRegeneration().IsOn(graphicsSettings.MldOverride.Current.value());
+					valueInt = graphicsSettings.MldOverride.Current.value();
 				}
 				else if (graphicsSettings.MldOverride.Default.has_value())
 				{
-					toggleswitch_FsrOverrideRayRegeneration().IsOn(graphicsSettings.MldOverride.Default.value());
+					valueInt = graphicsSettings.MldOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrOverrideRayRegeneration().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrOverrideRayRegeneration_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrOverrideRayRegeneration().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOverrideRayRegeneration_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrOverrideRayRegeneration().IsEnabled(false);
 			}
@@ -100,21 +144,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Neural Radiance Caching Override
 			if (graphicsSettings.NrcOverride.Support.has_value() && graphicsSettings.NrcOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.NrcOverride.Current.has_value())
 				{
-					toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(graphicsSettings.NrcOverride.Current.value());
+					valueInt = graphicsSettings.NrcOverride.Current.value();
 				}
 				else if (graphicsSettings.NrcOverride.Default.has_value())
 				{
-					toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(graphicsSettings.NrcOverride.Default.value());
+					valueInt = graphicsSettings.NrcOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrOverrideNeuralRadianceCaching_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrOverrideNeuralRadianceCaching().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOverrideNeuralRadianceCaching_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrOverrideNeuralRadianceCaching().IsEnabled(false);
 			}
@@ -122,23 +177,34 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Multi Frame Generation Ratio
 			if (graphicsSettings.MfgRatio.Support.has_value() && graphicsSettings.MfgRatio.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.MfgRatio.Current.has_value())
 				{
-					combobox_MultiFrameGenerationRatio().SelectedIndex(graphicsSettings.MfgRatio.Current.value());
+					valueInt = graphicsSettings.MfgRatio.Current.value();
 				}
 				else if (graphicsSettings.MfgRatio.Default.has_value())
 				{
-					combobox_MultiFrameGenerationRatio().SelectedIndex(graphicsSettings.MfgRatio.Default.value());
+					valueInt = graphicsSettings.MfgRatio.Default.value();
 				}
 
+				//Set setting value
+				combobox_FsrMultiFrameGenerationRatio().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADL_FSR_MULTIFRAMEGEN_RATIO[valueInt];
+				textblock_FsrMultiFrameGenerationRatio_Value().Text(valueHint);
+
 				//Enable or disable interface
-				combobox_MultiFrameGenerationRatio().IsEnabled(true);
+				combobox_FsrMultiFrameGenerationRatio().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrMultiFrameGenerationRatio_Value().Text(L"");
+
 				//Enable or disable interface
-				combobox_MultiFrameGenerationRatio().IsEnabled(false);
+				combobox_FsrMultiFrameGenerationRatio().IsEnabled(false);
 			}
 
 			//FSR Override Library
@@ -170,21 +236,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Over-The-Air Updates
 			if (graphicsSettings.FsrOtaIndex.Support.has_value() && graphicsSettings.FsrOtaIndex.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FsrOtaIndex.Current.has_value())
 				{
-					combobox_FsrOtaUpdates().SelectedIndex(graphicsSettings.FsrOtaIndex.Current.value());
+					valueInt = graphicsSettings.FsrOtaIndex.Current.value();
 				}
 				else if (graphicsSettings.FsrOtaIndex.Default.has_value())
 				{
-					combobox_FsrOtaUpdates().SelectedIndex(graphicsSettings.FsrOtaIndex.Default.value());
+					valueInt = graphicsSettings.FsrOtaIndex.Default.value();
 				}
+
+				//Set setting value
+				combobox_FsrOtaUpdates().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_FSR_OTA_CONTROL_STRING[valueInt];
+				textblock_FsrOtaUpdates_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_FsrOtaUpdates().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrOtaUpdates_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_FsrOtaUpdates().IsEnabled(false);
 			}
@@ -192,21 +269,32 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Latency Reduction
 			if (graphicsSettings.DeLagEnabled.Support.has_value() && graphicsSettings.DeLagEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.DeLagEnabled.Current.has_value())
 				{
-					toggleswitch_FsrLatencyReduction().IsOn(graphicsSettings.DeLagEnabled.Current.value());
+					valueInt = graphicsSettings.DeLagEnabled.Current.value();
 				}
 				else if (graphicsSettings.DeLagEnabled.Default.has_value())
 				{
-					toggleswitch_FsrLatencyReduction().IsOn(graphicsSettings.DeLagEnabled.Default.value());
+					valueInt = graphicsSettings.DeLagEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FsrLatencyReduction().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrLatencyReduction_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FsrLatencyReduction().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FsrLatencyReduction_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FsrLatencyReduction().IsEnabled(false);
 			}
@@ -214,29 +302,36 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames
 			if (graphicsSettings.FrameGenEnabled.Support.has_value() && graphicsSettings.FrameGenEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrameGenEnabled.Current.has_value())
 				{
-					toggleswitch_FrameGenEnabled().IsOn(graphicsSettings.FrameGenEnabled.Current.value());
-					combobox_FrameGenSearchMode().IsEnabled(graphicsSettings.FrameGenEnabled.Current.value());
-					combobox_FrameGenPerfMode().IsEnabled(graphicsSettings.FrameGenEnabled.Current.value());
-					combobox_FrameGenResponseMode().IsEnabled(graphicsSettings.FrameGenEnabled.Current.value());
-					combobox_FrameGenAlgorithm().IsEnabled(graphicsSettings.FrameGenEnabled.Current.value());
+					valueInt = graphicsSettings.FrameGenEnabled.Current.value();
 				}
 				else if (graphicsSettings.FrameGenEnabled.Default.has_value())
 				{
-					toggleswitch_FrameGenEnabled().IsOn(graphicsSettings.FrameGenEnabled.Default.value());
-					combobox_FrameGenSearchMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
-					combobox_FrameGenPerfMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
-					combobox_FrameGenResponseMode().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
-					combobox_FrameGenAlgorithm().IsEnabled(graphicsSettings.FrameGenEnabled.Default.value());
+					valueInt = graphicsSettings.FrameGenEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_FrameGenEnabled().IsOn(valueInt);
+				combobox_FrameGenSearchMode().IsEnabled(valueInt);
+				combobox_FrameGenPerfMode().IsEnabled(valueInt);
+				combobox_FrameGenResponseMode().IsEnabled(valueInt);
+				combobox_FrameGenAlgorithm().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FrameGenEnabled_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_FrameGenEnabled().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FrameGenEnabled_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_FrameGenEnabled().IsEnabled(false);
 			}
@@ -244,18 +339,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames - Search Mode
 			if (graphicsSettings.FrameGenSearchMode.Support.has_value() && graphicsSettings.FrameGenSearchMode.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrameGenSearchMode.Current.has_value())
 				{
-					combobox_FrameGenSearchMode().SelectedIndex(graphicsSettings.FrameGenSearchMode.Current.value());
+					valueInt = graphicsSettings.FrameGenSearchMode.Current.value();
 				}
 				else if (graphicsSettings.FrameGenSearchMode.Default.has_value())
 				{
-					combobox_FrameGenSearchMode().SelectedIndex(graphicsSettings.FrameGenSearchMode.Default.value());
+					valueInt = graphicsSettings.FrameGenSearchMode.Default.value();
 				}
+
+				//Set setting value
+				combobox_FrameGenSearchMode().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[valueInt];
+				textblock_FrameGenSearchMode_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FrameGenSearchMode_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_FrameGenSearchMode().IsEnabled(false);
 			}
@@ -263,18 +369,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames - Performance Mode
 			if (graphicsSettings.FrameGenPerfMode.Support.has_value() && graphicsSettings.FrameGenPerfMode.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrameGenPerfMode.Current.has_value())
 				{
-					combobox_FrameGenPerfMode().SelectedIndex(graphicsSettings.FrameGenPerfMode.Current.value());
+					valueInt = graphicsSettings.FrameGenPerfMode.Current.value();
 				}
 				else if (graphicsSettings.FrameGenPerfMode.Default.has_value())
 				{
-					combobox_FrameGenPerfMode().SelectedIndex(graphicsSettings.FrameGenPerfMode.Default.value());
+					valueInt = graphicsSettings.FrameGenPerfMode.Default.value();
 				}
+
+				//Set setting value
+				combobox_FrameGenPerfMode().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[valueInt];
+				textblock_FrameGenPerfMode_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FrameGenPerfMode_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_FrameGenPerfMode().IsEnabled(false);
 			}
@@ -282,18 +399,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames - Response Mode
 			if (graphicsSettings.FrameGenResponseMode.Support.has_value() && graphicsSettings.FrameGenResponseMode.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrameGenResponseMode.Current.has_value())
 				{
-					combobox_FrameGenResponseMode().SelectedIndex(graphicsSettings.FrameGenResponseMode.Current.value());
+					valueInt = graphicsSettings.FrameGenResponseMode.Current.value();
 				}
 				else if (graphicsSettings.FrameGenResponseMode.Default.has_value())
 				{
-					combobox_FrameGenResponseMode().SelectedIndex(graphicsSettings.FrameGenResponseMode.Default.value());
+					valueInt = graphicsSettings.FrameGenResponseMode.Default.value();
 				}
+
+				//Set setting value
+				combobox_FrameGenResponseMode().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[valueInt];
+				textblock_FrameGenResponseMode_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FrameGenResponseMode_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_FrameGenResponseMode().IsEnabled(false);
 			}
@@ -301,18 +429,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames - Algorithm
 			if (graphicsSettings.FrameGenAlgorithm.Support.has_value() && graphicsSettings.FrameGenAlgorithm.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrameGenAlgorithm.Current.has_value())
 				{
-					combobox_FrameGenAlgorithm().SelectedIndex(graphicsSettings.FrameGenAlgorithm.Current.value());
+					valueInt = graphicsSettings.FrameGenAlgorithm.Current.value();
 				}
 				else if (graphicsSettings.FrameGenAlgorithm.Default.has_value())
 				{
-					combobox_FrameGenAlgorithm().SelectedIndex(graphicsSettings.FrameGenAlgorithm.Default.value());
+					valueInt = graphicsSettings.FrameGenAlgorithm.Default.value();
 				}
+
+				//Set setting value
+				combobox_FrameGenAlgorithm().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_FRAMEGEN_ALGORITHM_MODE_STRING[valueInt];
+				textblock_FrameGenAlgorithm_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_FrameGenAlgorithm_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_FrameGenAlgorithm().IsEnabled(false);
 			}
@@ -320,23 +459,33 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost
 			if (graphicsSettings.BoostEnabled.Support.has_value() && graphicsSettings.BoostEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.BoostEnabled.Current.has_value())
 				{
-					toggleswitch_RadeonBoost().IsOn(graphicsSettings.BoostEnabled.Current.value());
-					slider_RadeonBoost_MinResolution().IsEnabled(graphicsSettings.BoostEnabled.Current.value());
+					valueInt = graphicsSettings.BoostEnabled.Current.value();
 				}
 				else if (graphicsSettings.BoostEnabled.Default.has_value())
 				{
-					toggleswitch_RadeonBoost().IsOn(graphicsSettings.BoostEnabled.Default.value());
-					slider_RadeonBoost_MinResolution().IsEnabled(graphicsSettings.BoostEnabled.Default.value());
+					valueInt = graphicsSettings.BoostEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_RadeonBoost().IsOn(valueInt);
+				slider_RadeonBoost_MinResolution().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonBoost_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_RadeonBoost().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonBoost_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_RadeonBoost().IsEnabled(false);
 			}
@@ -344,15 +493,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost - Minimum Resolution
 			if (graphicsSettings.BoostMinResolution.Support.has_value() && graphicsSettings.BoostMinResolution.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.BoostMinResolution.Current.has_value())
 				{
-					slider_RadeonBoost_MinResolution().Value(graphicsSettings.BoostMinResolution.Current.value());
+					valueInt = graphicsSettings.BoostMinResolution.Current.value();
 				}
 				else if (graphicsSettings.BoostMinResolution.Default.has_value())
 				{
-					slider_RadeonBoost_MinResolution().Value(graphicsSettings.BoostMinResolution.Default.value());
+					valueInt = graphicsSettings.BoostMinResolution.Default.value();
 				}
+
+				//Set setting value
+				slider_RadeonBoost_MinResolution().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+				textblock_RadeonBoost_MinResolution_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.BoostMinResolution.Minimum.has_value())
@@ -365,30 +522,43 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonBoost_MinResolution_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_RadeonBoost_MinResolution().IsEnabled(false);
 			}
 
-			//Radeon Frame Rate Target Control
+			//Radeon Frame Rate Target Control - Enabled
 			if (graphicsSettings.FrtcEnabled.Support.has_value() && graphicsSettings.FrtcEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrtcEnabled.Current.has_value())
 				{
-					toggleswitch_Frtc().IsOn(graphicsSettings.FrtcEnabled.Current.value());
-					slider_Frtc_FrameRateTarget().IsEnabled(graphicsSettings.FrtcEnabled.Current.value());
+					valueInt = graphicsSettings.FrtcEnabled.Current.value();
 				}
 				else if (graphicsSettings.FrtcEnabled.Default.has_value())
 				{
-					toggleswitch_Frtc().IsOn(graphicsSettings.FrtcEnabled.Default.value());
-					slider_Frtc_FrameRateTarget().IsEnabled(graphicsSettings.FrtcEnabled.Default.value());
+					valueInt = graphicsSettings.FrtcEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_Frtc().IsOn(valueInt);
+				slider_Frtc_FrameRateTarget().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Frtc_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_Frtc().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Frtc_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_Frtc().IsEnabled(false);
 			}
@@ -396,15 +566,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
 			if (graphicsSettings.FrtcFrameRateTarget.Support.has_value() && graphicsSettings.FrtcFrameRateTarget.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.FrtcFrameRateTarget.Current.has_value())
 				{
-					slider_Frtc_FrameRateTarget().Value(graphicsSettings.FrtcFrameRateTarget.Current.value());
+					valueInt = graphicsSettings.FrtcFrameRateTarget.Current.value();
 				}
 				else if (graphicsSettings.FrtcFrameRateTarget.Default.has_value())
 				{
-					slider_Frtc_FrameRateTarget().Value(graphicsSettings.FrtcFrameRateTarget.Default.value());
+					valueInt = graphicsSettings.FrtcFrameRateTarget.Default.value();
 				}
+
+				//Set setting value
+				slider_Frtc_FrameRateTarget().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L" FPS";
+				textblock_Frtc_FrameRateTarget_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.FrtcFrameRateTarget.Minimum.has_value())
@@ -417,6 +595,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Frtc_FrameRateTarget_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Frtc_FrameRateTarget().IsEnabled(false);
 			}
@@ -424,27 +605,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill
 			if (graphicsSettings.ChillEnabled.Support.has_value() && graphicsSettings.ChillEnabled.Support.value())
 			{
-				//Set setting
-				bool chillEnabled = false;
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.ChillEnabled.Current.has_value())
 				{
-					chillEnabled = graphicsSettings.ChillEnabled.Current.value();
-					toggleswitch_RadeonChill().IsOn(chillEnabled);
-					slider_RadeonChill_Min().IsEnabled(chillEnabled);
-					slider_RadeonChill_Max().IsEnabled(chillEnabled);
-					button_RadeonChill_Link().IsEnabled(chillEnabled);
+					valueInt = graphicsSettings.ChillEnabled.Current.value();
 				}
 				else if (graphicsSettings.ChillEnabled.Default.has_value())
 				{
-					chillEnabled = graphicsSettings.ChillEnabled.Default.value();
-					toggleswitch_RadeonChill().IsOn(chillEnabled);
-					slider_RadeonChill_Min().IsEnabled(chillEnabled);
-					slider_RadeonChill_Max().IsEnabled(chillEnabled);
-					button_RadeonChill_Link().IsEnabled(chillEnabled);
+					valueInt = graphicsSettings.ChillEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_RadeonChill().IsOn(valueInt);
+				slider_RadeonChill_Min().IsEnabled(valueInt);
+				slider_RadeonChill_Max().IsEnabled(valueInt);
+				button_RadeonChill_Link().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonChill_Value().Text(valueHint);
+
 				//Check Radeon Chill Link
-				if (chillEnabled && radeon_Chill_Linked)
+				if ((bool)valueInt && radeon_Chill_Linked)
 				{
 					slider_RadeonChill_Min().IsEnabled(false);
 				}
@@ -454,6 +637,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonChill_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_RadeonChill().IsEnabled(false);
 			}
@@ -461,15 +647,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill - Minimum Frame Rate
 			if (graphicsSettings.ChillMinFps.Support.has_value() && graphicsSettings.ChillMinFps.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.ChillMinFps.Current.has_value())
 				{
-					slider_RadeonChill_Min().Value(graphicsSettings.ChillMinFps.Current.value());
+					valueInt = graphicsSettings.ChillMinFps.Current.value();
 				}
 				else if (graphicsSettings.ChillMinFps.Default.has_value())
 				{
-					slider_RadeonChill_Min().Value(graphicsSettings.ChillMinFps.Default.value());
+					valueInt = graphicsSettings.ChillMinFps.Default.value();
 				}
+
+				//Set setting value
+				slider_RadeonChill_Min().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L" /";
+				textblock_RadeonChill_Min_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.ChillMinFps.Minimum.has_value())
@@ -482,6 +676,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonChill_Min_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_RadeonChill_Min().IsEnabled(false);
 			}
@@ -489,15 +686,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill - Maximum Frame Rate
 			if (graphicsSettings.ChillMaxFps.Support.has_value() && graphicsSettings.ChillMaxFps.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.ChillMaxFps.Current.has_value())
 				{
-					slider_RadeonChill_Max().Value(graphicsSettings.ChillMaxFps.Current.value());
+					valueInt = graphicsSettings.ChillMaxFps.Current.value();
 				}
 				else if (graphicsSettings.ChillMaxFps.Default.has_value())
 				{
-					slider_RadeonChill_Max().Value(graphicsSettings.ChillMaxFps.Default.value());
+					valueInt = graphicsSettings.ChillMaxFps.Default.value();
 				}
+
+				//Set setting value
+				slider_RadeonChill_Max().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L" FPS";
+				textblock_RadeonChill_Max_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.ChillMaxFps.Minimum.has_value())
@@ -510,6 +715,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonChill_Max_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_RadeonChill_Max().IsEnabled(false);
 			}
@@ -517,23 +725,33 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 1
 			if (graphicsSettings.RisEnabled.Support.has_value() && graphicsSettings.RisEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.RisEnabled.Current.has_value())
 				{
-					toggleswitch_RadeonImageSharpening1().IsOn(graphicsSettings.RisEnabled.Current.value());
-					slider_RadeonImageSharpening1_Sharpening().IsEnabled(graphicsSettings.RisEnabled.Current.value());
+					valueInt = graphicsSettings.RisEnabled.Current.value();
 				}
 				else if (graphicsSettings.RisEnabled.Default.has_value())
 				{
-					toggleswitch_RadeonImageSharpening1().IsOn(graphicsSettings.RisEnabled.Default.value());
-					slider_RadeonImageSharpening1_Sharpening().IsEnabled(graphicsSettings.RisEnabled.Default.value());
+					valueInt = graphicsSettings.RisEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_RadeonImageSharpening1().IsOn(valueInt);
+				slider_RadeonImageSharpening1_Sharpening().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonImageSharpening1_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonImageSharpening1_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening1().IsEnabled(false);
 			}
@@ -541,15 +759,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 1 - Sharpening Degree
 			if (graphicsSettings.RisSharpeningDegree.Support.has_value() && graphicsSettings.RisSharpeningDegree.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.RisSharpeningDegree.Current.has_value())
 				{
-					slider_RadeonImageSharpening1_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Current.value());
+					valueInt = graphicsSettings.RisSharpeningDegree.Current.value();
 				}
 				else if (graphicsSettings.RisSharpeningDegree.Default.has_value())
 				{
-					slider_RadeonImageSharpening1_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Default.value());
+					valueInt = graphicsSettings.RisSharpeningDegree.Default.value();
 				}
+
+				//Set setting value
+				slider_RadeonImageSharpening1_Sharpening().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+				textblock_RadeonImageSharpening1_Sharpening_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
@@ -562,6 +788,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonImageSharpening1_Sharpening_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
 			}
@@ -569,19 +798,25 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 2
 			if (graphicsSettings.Ris2Enabled.Support.has_value() && graphicsSettings.Ris2Enabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.Ris2Enabled.Current.has_value())
 				{
-					toggleswitch_RadeonImageSharpening2().IsOn(graphicsSettings.Ris2Enabled.Current.value());
-					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Ris2Enabled.Current.value());
-					slider_RadeonImageSharpening2_Sharpening().IsEnabled(graphicsSettings.Ris2Enabled.Current.value());
+					valueInt = graphicsSettings.Ris2Enabled.Current.value();
 				}
 				else if (graphicsSettings.Ris2Enabled.Default.has_value())
 				{
-					toggleswitch_RadeonImageSharpening2().IsOn(graphicsSettings.Ris2Enabled.Default.value());
-					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Ris2Enabled.Default.value());
-					slider_RadeonImageSharpening2_Sharpening().IsEnabled(graphicsSettings.Ris2Enabled.Default.value());
+					valueInt = graphicsSettings.Ris2Enabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_RadeonImageSharpening2().IsOn(valueInt);
+				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(valueInt);
+				slider_RadeonImageSharpening2_Sharpening().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonImageSharpening2_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening2().IsEnabled(true);
@@ -595,18 +830,29 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 2 - Sharpen Desktop
 			if (graphicsSettings.Ris2DesktopEnabled.Support.has_value() && graphicsSettings.Ris2DesktopEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.Ris2DesktopEnabled.Current.has_value())
 				{
-					toggleswitch_RadeonImageSharpening2_Desktop().IsOn(graphicsSettings.Ris2DesktopEnabled.Current.value());
+					valueInt = graphicsSettings.Ris2DesktopEnabled.Current.value();
 				}
 				else if (graphicsSettings.Ris2DesktopEnabled.Default.has_value())
 				{
-					toggleswitch_RadeonImageSharpening2_Desktop().IsOn(graphicsSettings.Ris2DesktopEnabled.Default.value());
+					valueInt = graphicsSettings.Ris2DesktopEnabled.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_RadeonImageSharpening2_Desktop().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonImageSharpening2_Desktop_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonImageSharpening2_Desktop_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 			}
@@ -614,15 +860,23 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 2 - Sharpening Degree
 			if (graphicsSettings.Ris2SharpeningDegree.Support.has_value() && graphicsSettings.Ris2SharpeningDegree.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.Ris2SharpeningDegree.Current.has_value())
 				{
-					slider_RadeonImageSharpening2_Sharpening().Value(graphicsSettings.Ris2SharpeningDegree.Current.value());
+					valueInt = graphicsSettings.Ris2SharpeningDegree.Current.value();
 				}
 				else if (graphicsSettings.Ris2SharpeningDegree.Default.has_value())
 				{
-					slider_RadeonImageSharpening2_Sharpening().Value(graphicsSettings.Ris2SharpeningDegree.Default.value());
+					valueInt = graphicsSettings.Ris2SharpeningDegree.Default.value();
 				}
+
+				//Set setting value
+				slider_RadeonImageSharpening2_Sharpening().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+				textblock_RadeonImageSharpening2_Sharpening_Value().Text(valueHint);
 
 				//Set interface
 				if (graphicsSettings.Ris2SharpeningDegree.Minimum.has_value())
@@ -635,6 +889,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonImageSharpening2_Sharpening_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
 			}
@@ -642,21 +899,32 @@ namespace winrt::RadeonTuner::implementation
 			//Enhanced Sync
 			if (graphicsSettings.EnhancedSync.Support.has_value() && graphicsSettings.EnhancedSync.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.EnhancedSync.Current.has_value())
 				{
-					toggleswitch_RadeonEnhancedSync().IsOn(graphicsSettings.EnhancedSync.Current.value());
+					valueInt = graphicsSettings.EnhancedSync.Current.value();
 				}
 				else if (graphicsSettings.EnhancedSync.Default.has_value())
 				{
-					toggleswitch_RadeonEnhancedSync().IsOn(graphicsSettings.EnhancedSync.Default.value());
+					valueInt = graphicsSettings.EnhancedSync.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_RadeonEnhancedSync().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_RadeonEnhancedSync_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_RadeonEnhancedSync().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_RadeonEnhancedSync_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_RadeonEnhancedSync().IsEnabled(false);
 			}
@@ -664,21 +932,32 @@ namespace winrt::RadeonTuner::implementation
 			//Vertical Sync
 			if (graphicsSettings.VerticalSync.Support.has_value() && graphicsSettings.VerticalSync.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.VerticalSync.Current.has_value())
 				{
-					combobox_VerticalSync().SelectedIndex(graphicsSettings.VerticalSync.Current.value());
+					valueInt = graphicsSettings.VerticalSync.Current.value();
 				}
 				else if (graphicsSettings.VerticalSync.Default.has_value())
 				{
-					combobox_VerticalSync().SelectedIndex(graphicsSettings.VerticalSync.Default.value());
+					valueInt = graphicsSettings.VerticalSync.Default.value();
 				}
+
+				//Set setting value
+				combobox_VerticalSync().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING[valueInt];
+				textblock_VerticalSync_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_VerticalSync().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_VerticalSync_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_VerticalSync().IsEnabled(false);
 			}
@@ -686,27 +965,40 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Override
 			if (graphicsSettings.AntiAliasingOverride.Support.has_value() && graphicsSettings.AntiAliasingOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AntiAliasingOverride.Current.has_value())
 				{
-					toggleswitch_AntiAliasingOverride().IsOn(graphicsSettings.AntiAliasingOverride.Current.value());
-					combobox_AntiAliasingMethod().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
-					combobox_AntiAliasingLevel().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
-					toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
+					valueInt = graphicsSettings.AntiAliasingOverride.Current.value();
 				}
 				else if (graphicsSettings.AntiAliasingOverride.Default.has_value())
 				{
-					toggleswitch_AntiAliasingOverride().IsOn(graphicsSettings.AntiAliasingOverride.Default.value());
-					combobox_AntiAliasingMethod().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
-					combobox_AntiAliasingLevel().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
-					toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(graphicsSettings.AntiAliasingOverride.Default.value());
+					valueInt = graphicsSettings.AntiAliasingOverride.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_AntiAliasingOverride().IsOn(valueInt);
+				combobox_AntiAliasingMethod().IsEnabled(valueInt);
+				combobox_AntiAliasingLevel().IsEnabled(valueInt);
+				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_AntiAliasingOverride_Value().Text(valueHint);
+
+				toggleswitch_AntiAliasingOverride().IsOn(graphicsSettings.AntiAliasingOverride.Current.value());
+				combobox_AntiAliasingMethod().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
+				combobox_AntiAliasingLevel().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
+				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
 
 				//Enable or disable interface
 				toggleswitch_AntiAliasingOverride().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_AntiAliasingOverride_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_AntiAliasingOverride().IsEnabled(false);
 			}
@@ -714,18 +1006,29 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Method
 			if (graphicsSettings.AntiAliasingMethod.Support.has_value() && graphicsSettings.AntiAliasingMethod.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AntiAliasingMethod.Current.has_value())
 				{
-					combobox_AntiAliasingMethod().SelectedIndex(graphicsSettings.AntiAliasingMethod.Current.value());
+					valueInt = graphicsSettings.AntiAliasingMethod.Current.value();
 				}
 				else if (graphicsSettings.AntiAliasingMethod.Default.has_value())
 				{
-					combobox_AntiAliasingMethod().SelectedIndex(graphicsSettings.AntiAliasingMethod.Default.value());
+					valueInt = graphicsSettings.AntiAliasingMethod.Default.value();
 				}
+
+				//Set setting value
+				combobox_AntiAliasingMethod().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_ANTI_ALIASING_METHOD_STRING[valueInt];
+				textblock_AntiAliasingMethod_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_AntiAliasingMethod_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_AntiAliasingMethod().IsEnabled(false);
 			}
@@ -733,18 +1036,29 @@ namespace winrt::RadeonTuner::implementation
 			//Anti-Aliasing Level
 			if (graphicsSettings.AntiAliasingLevel.Support.has_value() && graphicsSettings.AntiAliasingLevel.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AntiAliasingLevel.Current.has_value())
 				{
-					combobox_AntiAliasingLevel().SelectedIndex(graphicsSettings.AntiAliasingLevel.Current.value());
+					valueInt = graphicsSettings.AntiAliasingLevel.Current.value();
 				}
 				else if (graphicsSettings.AntiAliasingLevel.Default.has_value())
 				{
-					combobox_AntiAliasingLevel().SelectedIndex(graphicsSettings.AntiAliasingLevel.Default.value());
+					valueInt = graphicsSettings.AntiAliasingLevel.Default.value();
 				}
+
+				//Set setting value
+				combobox_AntiAliasingLevel().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_ANTI_ALIASING_LEVEL_STRING[valueInt];
+				textblock_AntiAliasingLevel_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_AntiAliasingLevel_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_AntiAliasingLevel().IsEnabled(false);
 			}
@@ -752,18 +1066,29 @@ namespace winrt::RadeonTuner::implementation
 			//Enhanced Quality Anti-Aliasing
 			if (graphicsSettings.AntiAliasingEnhancedQuality.Support.has_value() && graphicsSettings.AntiAliasingEnhancedQuality.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AntiAliasingEnhancedQuality.Current.has_value())
 				{
-					toggleswitch_AntiAliasingEnhancedQuality().IsOn(graphicsSettings.AntiAliasingEnhancedQuality.Current.value());
+					valueInt = graphicsSettings.AntiAliasingEnhancedQuality.Current.value();
 				}
 				else if (graphicsSettings.AntiAliasingEnhancedQuality.Default.has_value())
 				{
-					toggleswitch_AntiAliasingEnhancedQuality().IsOn(graphicsSettings.AntiAliasingEnhancedQuality.Default.value());
+					valueInt = graphicsSettings.AntiAliasingEnhancedQuality.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_AntiAliasingEnhancedQuality().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_AntiAliasingEnhancedQuality_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_AntiAliasingEnhancedQuality_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(false);
 			}
@@ -771,21 +1096,32 @@ namespace winrt::RadeonTuner::implementation
 			//Morphological Anti-Aliasing
 			if (graphicsSettings.AntiAliasingMorphological.Support.has_value() && graphicsSettings.AntiAliasingMorphological.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AntiAliasingMorphological.Current.has_value())
 				{
-					toggleswitch_MorphologicalAntiAliasing().IsOn(graphicsSettings.AntiAliasingMorphological.Current.value());
+					valueInt = graphicsSettings.AntiAliasingMorphological.Current.value();
 				}
 				else if (graphicsSettings.AntiAliasingMorphological.Default.has_value())
 				{
-					toggleswitch_MorphologicalAntiAliasing().IsOn(graphicsSettings.AntiAliasingMorphological.Default.value());
+					valueInt = graphicsSettings.AntiAliasingMorphological.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_MorphologicalAntiAliasing().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_MorphologicalAntiAliasing_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_MorphologicalAntiAliasing().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_MorphologicalAntiAliasing_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_MorphologicalAntiAliasing().IsEnabled(false);
 			}
@@ -793,21 +1129,32 @@ namespace winrt::RadeonTuner::implementation
 			//Anisotropic Texture Filtering Override
 			if (graphicsSettings.AnisotropicOverride.Support.has_value() && graphicsSettings.AnisotropicOverride.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.AnisotropicOverride.Current.has_value())
 				{
-					combobox_AnisotropicTextureFiltering().SelectedIndex(graphicsSettings.AnisotropicOverride.Current.value());
+					valueInt = graphicsSettings.AnisotropicOverride.Current.value();
 				}
 				else if (graphicsSettings.AnisotropicOverride.Default.has_value())
 				{
-					combobox_AnisotropicTextureFiltering().SelectedIndex(graphicsSettings.AnisotropicOverride.Default.value());
+					valueInt = graphicsSettings.AnisotropicOverride.Default.value();
 				}
+
+				//Set setting value
+				combobox_AnisotropicTextureFiltering().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_ANISOTROPIC_FILTERING_LEVEL_STRING[valueInt];
+				textblock_AnisotropicTextureFiltering_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_AnisotropicTextureFiltering().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_AnisotropicTextureFiltering_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_AnisotropicTextureFiltering().IsEnabled(false);
 			}
@@ -815,21 +1162,32 @@ namespace winrt::RadeonTuner::implementation
 			//Texture Filtering Quality
 			if (graphicsSettings.TextureFilteringQuality.Support.has_value() && graphicsSettings.TextureFilteringQuality.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.TextureFilteringQuality.Current.has_value())
 				{
-					combobox_TextureFilteringQuality().SelectedIndex(graphicsSettings.TextureFilteringQuality.Current.value());
+					valueInt = graphicsSettings.TextureFilteringQuality.Current.value();
 				}
 				else if (graphicsSettings.TextureFilteringQuality.Default.has_value())
 				{
-					combobox_TextureFilteringQuality().SelectedIndex(graphicsSettings.TextureFilteringQuality.Default.value());
+					valueInt = graphicsSettings.TextureFilteringQuality.Default.value();
 				}
+
+				//Set setting value
+				combobox_TextureFilteringQuality().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = REGISTRY_TEXTURE_FILTERING_QUALITY_STRING[valueInt];
+				textblock_TextureFilteringQuality_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_TextureFilteringQuality().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_TextureFilteringQuality_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_TextureFilteringQuality().IsEnabled(false);
 			}
@@ -837,21 +1195,32 @@ namespace winrt::RadeonTuner::implementation
 			//Surface Format Optimization
 			if (graphicsSettings.SurfaceFormatOptimization.Support.has_value() && graphicsSettings.SurfaceFormatOptimization.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.SurfaceFormatOptimization.Current.has_value())
 				{
-					toggleswitch_SurfaceFormatOptimization().IsOn(graphicsSettings.SurfaceFormatOptimization.Current.value());
+					valueInt = graphicsSettings.SurfaceFormatOptimization.Current.value();
 				}
 				else if (graphicsSettings.SurfaceFormatOptimization.Default.has_value())
 				{
-					toggleswitch_SurfaceFormatOptimization().IsOn(graphicsSettings.SurfaceFormatOptimization.Default.value());
+					valueInt = graphicsSettings.SurfaceFormatOptimization.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_SurfaceFormatOptimization().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_SurfaceFormatOptimization_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_SurfaceFormatOptimization().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_SurfaceFormatOptimization_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_SurfaceFormatOptimization().IsEnabled(false);
 			}
@@ -859,16 +1228,32 @@ namespace winrt::RadeonTuner::implementation
 			//Tessellation Mode
 			if (graphicsSettings.TessellationMode.Support.has_value() && graphicsSettings.TessellationMode.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.TessellationMode.Current.has_value())
 				{
-					combobox_Tessellation_Mode().SelectedIndex(graphicsSettings.TessellationMode.Current.value());
-					combobox_Tessellation_Level().IsEnabled(graphicsSettings.TessellationMode.Current.value());
+					valueInt = graphicsSettings.TessellationMode.Current.value();
 				}
 				else if (graphicsSettings.TessellationMode.Default.has_value())
 				{
-					combobox_Tessellation_Mode().SelectedIndex(graphicsSettings.TessellationMode.Default.value());
-					combobox_Tessellation_Level().IsEnabled(graphicsSettings.TessellationMode.Default.value());
+					valueInt = graphicsSettings.TessellationMode.Default.value();
+				}
+
+				//Set setting value
+				combobox_Tessellation_Mode().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_TESSELLATION_MODE_STRING[valueInt];
+				textblock_TessellationMode_Value().Text(valueHint);
+
+				//Check if setting is enabled
+				if (valueInt != 2)
+				{
+					combobox_Tessellation_Level().IsEnabled(false);
+				}
+				else
+				{
+					combobox_Tessellation_Level().IsEnabled(true);
 				}
 
 				//Enable or disable interface
@@ -883,18 +1268,29 @@ namespace winrt::RadeonTuner::implementation
 			//Tessellation Level
 			if (graphicsSettings.TessellationLevel.Support.has_value() && graphicsSettings.TessellationLevel.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.TessellationLevel.Current.has_value())
 				{
-					combobox_Tessellation_Level().SelectedIndex(graphicsSettings.TessellationLevel.Current.value());
+					valueInt = graphicsSettings.TessellationLevel.Current.value();
 				}
 				else if (graphicsSettings.TessellationLevel.Default.has_value())
 				{
-					combobox_Tessellation_Level().SelectedIndex(graphicsSettings.TessellationLevel.Default.value());
+					valueInt = graphicsSettings.TessellationLevel.Default.value();
 				}
+
+				//Set setting value
+				combobox_Tessellation_Level().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_TESSELLATION_LEVEL_STRING[valueInt];
+				textblock_TessellationLevel_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_TessellationLevel_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Tessellation_Level().IsEnabled(false);
 			}
@@ -902,21 +1298,32 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL Triple Buffering
 			if (graphicsSettings.OpenGLTripleBuffering.Support.has_value() && graphicsSettings.OpenGLTripleBuffering.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.OpenGLTripleBuffering.Current.has_value())
 				{
-					toggleswitch_OpenGLTripleBuffering().IsOn(graphicsSettings.OpenGLTripleBuffering.Current.value());
+					valueInt = graphicsSettings.OpenGLTripleBuffering.Current.value();
 				}
 				else if (graphicsSettings.OpenGLTripleBuffering.Default.has_value())
 				{
-					toggleswitch_OpenGLTripleBuffering().IsOn(graphicsSettings.OpenGLTripleBuffering.Default.value());
+					valueInt = graphicsSettings.OpenGLTripleBuffering.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_OpenGLTripleBuffering().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_OpenGLTripleBuffering_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_OpenGLTripleBuffering().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_OpenGLTripleBuffering_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_OpenGLTripleBuffering().IsEnabled(false);
 			}
@@ -924,33 +1331,44 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL 10-Bit Pixel Format
 			if (graphicsSettings.OpenGL10BitPixelFormat.Support.has_value() && graphicsSettings.OpenGL10BitPixelFormat.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (graphicsSettings.OpenGL10BitPixelFormat.Current.has_value())
 				{
-					toggleswitch_OpenGL10BitPixelFormat().IsOn(graphicsSettings.OpenGL10BitPixelFormat.Current.value());
+					valueInt = graphicsSettings.OpenGL10BitPixelFormat.Current.value();
 				}
 				else if (graphicsSettings.OpenGL10BitPixelFormat.Default.has_value())
 				{
-					toggleswitch_OpenGL10BitPixelFormat().IsOn(graphicsSettings.OpenGL10BitPixelFormat.Default.value());
+					valueInt = graphicsSettings.OpenGL10BitPixelFormat.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_OpenGL10BitPixelFormat().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_OpenGL10BitPixelFormat_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_OpenGL10BitPixelFormat().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_OpenGL10BitPixelFormat_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_OpenGL10BitPixelFormat().IsEnabled(false);
 			}
 
 			//Return result
-			AVDebugWriteLine(L"Graphics settings applied to interface.");
+			AVDebugWriteLine(L"Graphics settings applied to interface (ADL)");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine(L"Failed applying graphics settings to interface.");
+			AVDebugWriteLine(L"Failed applying graphics settings to interface (ADL)");
 			return false;
 		}
 	}

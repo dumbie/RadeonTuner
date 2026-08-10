@@ -23,10 +23,10 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Importing graphics settings: " << importPath.c_str());
 
 			//Load settings from file
-			GraphicsSettings graphicsSettings = GraphicsSettings_FileLoad(importPath).value();
+			GraphicsSettings graphicsSettings = GraphicsSettings_Profile_LoadFromFile(importPath).value();
 
 			//Set settings values
-			GraphicsSettings_Convert_ToUI_Current(graphicsSettings);
+			GraphicsSettings_Convert_ToUI_Profile(graphicsSettings, AdlSettingGet::Current);
 
 			//Set result
 			ShowNotification(L"Graphics settings imported");

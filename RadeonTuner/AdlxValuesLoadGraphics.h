@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectGraphics(AdlApplication& appInfo)
+	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectGraphicsApp(AdlApplication& appInfo)
 	{
 		try
 		{
@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get application details
 			std::wstring applicationFileName = appInfo.FileName;
 			std::wstring applicationFilePath = appInfo.FilePath;
-			AVDebugWriteLine("Selected app: " << applicationFileName << " / G" << appInfo.Global);
+			AVDebugWriteLine("Selected app: " << applicationFileName << " / G" << appInfo.Global());
 
 			//Update interface text
 			textblock_AppSelect_Graphics().Text(applicationFileName);
@@ -30,15 +30,12 @@ namespace winrt::RadeonTuner::implementation
 			adl_App_Current = appInfo;
 
 			//Check application type
-			if (applicationFileName == L"Global" && appInfo.Global)
+			if (appInfo.Global())
 			{
 				//Fix make sure default settings are set before loading settings
 
 				//Get current and default settings
 				graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex).value();
-
-				//Convert settings values to interface
-				GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 			}
 			else
 			{
@@ -49,10 +46,14 @@ namespace winrt::RadeonTuner::implementation
 
 				//Get current and default settings
 				graphicsSettingsCurrent = GraphicsSettings_Generate_FromADLApp(appInfo).value();
-
-				//Convert settings values to interface
-				GraphicsSettings_Convert_ToUI_ADL(graphicsSettingsCurrent);
 			}
+
+			//Convert settings values to interface
+			GraphicsSettings_Convert_ToUI_Adl(graphicsSettingsCurrent);
+
+			//Update button colors
+			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+			button_Graphics_Apply().Background(colorValid);
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
