@@ -44,11 +44,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				ShowNotification(L"Display reverted to " + resolutionString);
 				AVDebugWriteLine(L"Display reverted to " << resolutionString);
-
-				disable_saving = true;
-				//Select current display values
-				DisplayList_SelectCurrent_Values();
-				disable_saving = false;
 			}
 		}
 		catch (...) {}
@@ -111,13 +106,15 @@ namespace winrt::RadeonTuner::implementation
 			grid_Main().IsHitTestVisible(true);
 			grid_Overlay_ConfirmResolution().Visibility(Visibility::Collapsed);
 
-			//Revert resolution
 			if (revertResolution)
 			{
 				//Revert resolution and refresh rate
 				DisplaySettings_Resolution_Revert();
 
-				//Fix select resolution and refresh rate
+				//Select current resolution and refresh rate
+				disable_saving = true;
+				DisplayList_SelectCurrent_Values(false);
+				disable_saving = false;
 			}
 		}
 		catch (...) {}

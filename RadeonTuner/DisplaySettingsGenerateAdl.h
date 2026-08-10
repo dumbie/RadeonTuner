@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<DisplaySettings> MainPage::DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex)
+	std::optional<DisplaySettings> MainPage::DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex, std::wstring application)
 	{
 		try
 		{
@@ -15,11 +15,10 @@ namespace winrt::RadeonTuner::implementation
 			DisplaySettings displaySettings{};
 
 			//Device identifier
-			try
-			{
-				displaySettings.DeviceId = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
-			}
-			catch (...) {}
+			displaySettings.DeviceId = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
+
+			//Device application
+			displaySettings.Application = application;
 
 			//HDR Enabled
 			try
@@ -37,7 +36,7 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.HdrEnabled.Current = hdrEnabled;
 
 					//Set default
-					displaySettings.HdrEnabled.Default = 1;
+					displaySettings.HdrEnabled.Default = 0;
 
 					//Set support
 					displaySettings.HdrEnabled.Support = hdrSupported;
@@ -46,30 +45,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set support
 					displaySettings.HdrEnabled.Support = false;
-				}
-			}
-			catch (...) {}
-
-			//HDR Media Profile
-			try
-			{
-				UINT hdrTypePreference = -1;
-				adl_Res0 = _ADL2_Display_HdrTypePreference_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &hdrTypePreference);
-				if (adl_Res0 == ADL_OK)
-				{
-					//Set current
-					displaySettings.HdrMediaProfile.Current = hdrTypePreference;
-
-					//Set default
-					displaySettings.HdrMediaProfile.Default = 0;
-
-					//Set support
-					displaySettings.HdrMediaProfile.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.HdrMediaProfile.Support = false;
 				}
 			}
 			catch (...) {}
@@ -244,7 +219,7 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.ColorDepth.Current = colorDepth - 1;
 
 					//Set default
-					displaySettings.ColorDepth.Default = 0;
+					displaySettings.ColorDepth.Default = 1;
 
 					//Set support
 					displaySettings.ColorDepth.Support = true;

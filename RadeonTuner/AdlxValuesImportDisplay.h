@@ -23,11 +23,11 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Importing display settings: " << importPath.c_str());
 
 			//Load settings from file
-			DisplaySettings displaySettings = DisplaySettings_FileLoad(importPath).value();
+			DisplaySettings displaySettings = DisplaySettings_Profile_LoadFromFile(importPath).value();
 
 			//Check device identifier
 			std::wstring device_id_import_w = displaySettings.DeviceId.value();
-			std::wstring device_id_current_w = AdlxGetDisplayIdentifier(adl_Display_AdapterIndex, adl_Display_DisplayIndex);
+			std::wstring device_id_current_w = adl_Display_DeviceIdentifier;
 			if (!device_id_import_w.empty() && !device_id_current_w.empty())
 			{
 				if (device_id_import_w != device_id_current_w)
@@ -47,7 +47,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set settings values
-			DisplaySettings_Convert_ToUI_Current(displaySettings);
+			DisplaySettings_Convert_ToUI_Profile(displaySettings, AdlSettingGet::Current);
 
 			//Set result
 			ShowNotification(L"Display settings imported");

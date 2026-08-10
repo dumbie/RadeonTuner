@@ -1,14 +1,20 @@
-#pragma once
+﻿#pragma once
 #include "pch.h"
 #include "MainPage.h"
 #include "MainVariables.h"
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::DisplayList_SelectCurrent_Values()
+	winrt::fire_and_forget MainPage::DisplayList_SelectCurrent_Values(bool waitUpdate)
 	{
 		try
 		{
+			//Wait for resolutions to have updated
+			if (waitUpdate)
+			{
+				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
+			}
+
 			//Get current display mode
 			int numModes = -1;
 			ADLMode* adlModeCurrent{};
@@ -16,8 +22,16 @@ namespace winrt::RadeonTuner::implementation
 			if (adl_Res0 != ADL_OK)
 			{
 				AVDebugWriteLine(L"Failed getting current display mode.");
-				return;
+				co_return;
 			}
+
+			//AVDebugWriteLine(L"Selecting display modes: " << adlModeCurrent->iXRes << L"x" << adlModeCurrent->iYRes << L" / " << adlModeCurrent->fRefreshRate << L" Hz / Orientation: " << adlModeCurrent->iOrientation);
+
+			//Update current modes text
+			//Fix when changing resolution text is not updated because nothing triggers this
+			//textblock_Display_Resolution_Value().Text(number_to_wstring(adlModeCurrent->iXRes) + L"x" + number_to_wstring(adlModeCurrent->iYRes));
+			//textblock_Display_RefreshRate_Value().Text(float_to_wstring(adlModeCurrent->fRefreshRate, 2) + L" Hz");
+			//textblock_Display_Orientation_Value().Text(number_to_wstring(adlModeCurrent->iOrientation) + L"°");
 
 			//Select display resolution
 			for (int i = 0; i < combobox_Display_Resolution().Items().Size(); i++)
@@ -62,14 +76,14 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::DisplayList_Resolution(bool waitUpdate)
+	winrt::fire_and_forget MainPage::DisplayList_Resolution(bool waitUpdate)
 	{
 		try
 		{
 			//Wait for resolutions to have updated
 			if (waitUpdate)
 			{
-				Sleep(500);
+				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
 			}
 
 			//Create item collection

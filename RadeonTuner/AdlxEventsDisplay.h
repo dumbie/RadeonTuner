@@ -5,6 +5,189 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	winrt::fire_and_forget MainPage::button_AppAdd_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { co_return; }
+
+			//Show application picker
+			auto selectedApps = co_await AdlAppPickerAdd();
+			int selectedAppsCount = selectedApps.Size();
+
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
+
+			//Add selected items
+			int addCount = 0;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
+
+				//Get current and default settings
+				DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, executableName).value();
+
+				//Add display settings profile
+				if (DisplaySettings_Profile_Add(displaySettingsAdl))
+				{
+					addCount++;
+				}
+			}
+
+			//Check add count
+			if (addCount > 0)
+			{
+				//Save display settings
+				DisplaySettings_Profiles_SaveToFile();
+			}
+
+			//Show notification
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications added: " + number_to_wstring(addCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications added: " << addCount << L" / " << selectedAppsCount);
+		}
+		catch (...) {}
+	}
+
+	winrt::fire_and_forget MainPage::button_AppRemove_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { co_return; }
+
+			//Show remove dialog
+			auto selectedApps = co_await AdlAppPickerRemoveAppDisplay();
+			int selectedAppsCount = selectedApps.Size();
+
+			//Check selected items
+			if (selectedAppsCount == 0)
+			{
+				ShowNotification(L"No applications selected");
+				AVDebugWriteLine(L"No applications selected.");
+				co_return;
+			}
+
+			//Get current application name
+			std::wstring currentAppName = displaySettingsCurrent.Application.value();
+
+			//Remove selected items
+			int removeCount = 0;
+			bool currentAppRemoved = false;
+			for (auto const& app : selectedApps)
+			{
+				//Get executable name
+				std::wstring executableName = hstring_to_wstring(app.ExeName());
+
+				//Remove application and profile
+				if (DisplaySettings_Profile_Remove(displaySettingsCurrent.DeviceId.value(), executableName))
+				{
+					//Update remove count
+					removeCount++;
+
+					//Check if current application is removed
+					if (executableName == currentAppName)
+					{
+						currentAppRemoved = true;
+					}
+				}
+			}
+
+			//Check remove count
+			if (removeCount > 0)
+			{
+				//Save display settings
+				DisplaySettings_Profiles_SaveToFile();
+			}
+
+			//Show notification
+			//Fix show fail and duplicate count
+			ShowNotification(L"Applications removed: " + number_to_wstring(removeCount) + L" / " + number_to_wstring(selectedAppsCount));
+			AVDebugWriteLine(L"Applications removed: " << removeCount << L" / " << selectedAppsCount);
+
+			//Check selected application and reload
+			if (currentAppRemoved)
+			{
+				AVDebugWriteLine(L"Current application removed, selecting Global.");
+
+				//Load display settings
+				AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"Global");
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_Display_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Profile is used
+			bool usingProfile = displaySettingsCurrent.UsingProfile;
+
+			//Device identifier
+			std::wstring deviceIdW = displaySettingsCurrent.DeviceId.value();
+
+			//Device application
+			std::wstring applicationW = displaySettingsCurrent.Application.value();
+
+			//Replace display settings
+			DisplaySettings_Profile_Replace(displaySettingsCurrent);
+
+			//Save display settings
+			DisplaySettings_Profiles_SaveToFile();
+
+			//Check if profile is used
+			if (usingProfile)
+			{
+				//Check settings apply type
+				bool appOnly = applicationW != L"Global";
+
+				//Apply current settings
+				bool applyResult = AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent, AdlSettingGet::Current, appOnly);
+				if (applyResult)
+				{
+					//Show notification
+					ShowNotification(L"Display settings applied");
+					AVDebugWriteLine(L"Display settings applied: " << deviceIdW << L" / " << applicationW);
+				}
+				else
+				{
+					//Update button colors
+					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+					button_Display_Apply().Background(colorInvalid);
+
+					//Show notification
+					ShowNotification(L"Failed applying display settings");
+					AVDebugWriteLine(L"Failed applying display settings: " << deviceIdW << L" / " << applicationW);
+				}
+			}
+			else
+			{
+				//Update button colors
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Display_Apply().Background(colorValid);
+
+				//Show notification
+				ShowNotification(L"Display settings adjusted");
+				AVDebugWriteLine(L"Display settings adjusted: " << deviceIdW << L" / " << applicationW);
+			}
+
+			//Load display settings
+			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
+		}
+		catch (...) {}
+	}
+
 	winrt::fire_and_forget MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -20,25 +203,40 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
-			//Get current and default settings
-			DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
+			//Profile is used
+			bool usingProfile = displaySettingsCurrent.UsingProfile;
 
-			//Convert settings to interface
-			bool resetResult = DisplaySettings_Convert_ToUI_Default(displaySettings);
+			//Device identifier
+			std::wstring deviceIdW = displaySettingsCurrent.DeviceId.value();
 
-			//Check result
-			if (resetResult)
+			//Device application
+			std::wstring applicationW = displaySettingsCurrent.Application.value();
+
+			//Remove display settings
+			DisplaySettings_Profile_Remove(deviceIdW, applicationW);
+
+			//Save display settings
+			DisplaySettings_Profiles_SaveToFile();
+
+			//Check if profile is used
+			if (usingProfile)
 			{
-				//Show notification
-				ShowNotification(L"Display color settings reset");
-				AVDebugWriteLine(L"Display color settings reset");
+				//Get current and default settings
+				DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"").value();
+
+				//Check settings apply type
+				bool appOnly = applicationW != L"Global";
+
+				//Apply default settings
+				AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettings, AdlSettingGet::Default, appOnly);
 			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Display color settings not reset");
-				AVDebugWriteLine(L"Display color settings not reset");
-			}
+
+			//Show notification
+			ShowNotification(L"Display settings reset");
+			AVDebugWriteLine(L"Display settings reset: " << deviceIdW << L" / " << applicationW);
+
+			//Load display settings
+			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
 		}
 		catch (...) {}
 	}
@@ -69,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_HdrEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_HdrEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -79,90 +277,18 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			ADLDisplayID displayId{};
-			displayId.iDisplayLogicalAdapterIndex = adl_Display_AdapterIndex;
-			displayId.iDisplayLogicalIndex = adl_Display_DisplayIndex;
-			adl_Res0 = _ADL2_Display_HDRState_Set(adl_Context, adl_Display_AdapterIndex, displayId, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling High Dynamic Range");
-					AVDebugWriteLine(L"Failed enabling High Dynamic Range");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling High Dynamic Range");
-					AVDebugWriteLine(L"Failed disabling High Dynamic Range");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"High Dynamic Range enabled");
-					AVDebugWriteLine(L"High Dynamic Range enabled");
-				}
-				else
-				{
-					ShowNotification(L"High Dynamic Range disabled");
-					AVDebugWriteLine(L"High Dynamic Range disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.HdrEnabled.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.HdrEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::combobox_Display_HdrMediaProfile_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
-
-			//Set setting
-			adl_Res0 = _ADL2_Display_HdrTypePreference_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
-
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting HDR Media Profile");
-				AVDebugWriteLine(L"Failed setting HDR Media Profile");
-			}
-			else
-			{
-				ShowNotification(L"HDR Media Profile set to " + ADL_HDR_TYPE_PREFERENCE[newValue]);
-				AVDebugWriteLine(L"HDR Media Profile set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.HdrMediaProfile.Current = newValue;
-			}
-		}
-		catch (...) {}
-	}
-
-	void MainPage::toggleswitch_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -172,58 +298,18 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			int freeSyncSetting = 0;
-			if (newValue)
-			{
-				freeSyncSetting = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
-			}
-			//Note you can manually set the FreeSync Rate by using static usecase and providing microhertz for example: 50000000 (50Hz)
-			adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, freeSyncSetting, 0);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling FreeSync");
-					AVDebugWriteLine(L"Failed enabling FreeSync");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling FreeSync");
-					AVDebugWriteLine(L"Failed disabling FreeSync");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"FreeSync enabled");
-					AVDebugWriteLine(L"FreeSync enabled");
-				}
-				else
-				{
-					ShowNotification(L"FreeSync disabled");
-					AVDebugWriteLine(L"FreeSync disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.FreeSyncEnabled.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.FreeSyncEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_VSR_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_VSR_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -233,59 +319,13 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			ADLDisplayProperty displayProperty{};
-			displayProperty.iSize = sizeof(displayProperty);
-			displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_DOWNSCALE;
-			displayProperty.iCurrent = newValue;
-			adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Virtual Super Resolution");
-					AVDebugWriteLine(L"Failed enabling Virtual Super Resolution");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Virtual Super Resolution");
-					AVDebugWriteLine(L"Failed disabling Virtual Super Resolution");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"Virtual Super Resolution enabled");
-					AVDebugWriteLine(L"Virtual Super Resolution enabled");
-				}
-				else
-				{
-					ShowNotification(L"Virtual Super Resolution disabled");
-					AVDebugWriteLine(L"Virtual Super Resolution disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.VsrEnabled.Current = newValue;
-
-				disable_saving = true;
-				//Load display resolution values
-				DisplayList_Resolution(true);
-
-				//Select current display values
-				DisplayList_SelectCurrent_Values();
-				disable_saving = false;
-			}
+			//Update current value
+			displaySettingsCurrent.VsrEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -299,29 +339,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			auto setValue = newValue + 1;
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, setValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Color depth");
-				AVDebugWriteLine(L"Failed setting Color depth");
-			}
-			else
-			{
-				ShowNotification(L"Color depth set to " + ADLX_COLOR_DEPTH_STRING[setValue]);
-				AVDebugWriteLine(L"Color depth set to " << setValue);
-
-				//Update current value
-				displaySettingsCurrent.ColorDepth.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.ColorDepth.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -335,52 +359,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			auto setValue = newValue + 1;
-			bool newFailed = true;
 
-			//Enumeration index correction
-			int convertedValue = 0;
-			if (newValue == 0)
-			{
-				convertedValue = ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE;
-			}
-			else if (newValue == 1)
-			{
-				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB444;
-			}
-			else if (newValue == 2)
-			{
-				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB422;
-			}
-			else if (newValue == 3)
-			{
-				convertedValue = ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE;
-			}
-			else if (newValue == 4)
-			{
-				convertedValue = ADL_DISPLAY_PIXELFORMAT_YCRCB420;
-			}
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_PixelFormat_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, convertedValue);
-
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Pixel format");
-				AVDebugWriteLine(L"Failed setting Pixel format");
-			}
-			else
-			{
-				ShowNotification(L"Pixel format set to " + ADLX_PIXEL_FORMAT_STRING[setValue]);
-				AVDebugWriteLine(L"Pixel format set to " << setValue);
-
-				//Update current value
-				displaySettingsCurrent.PixelFormat.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.PixelFormat.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -394,43 +379,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
 
-			//Enumeration index correction
-			int convertedValue = 0;
-			if (newValue == 0)
-			{
-				convertedValue = (int)ADLColorEnhancementType::SCE_Disabled;
-			}
-			else if (newValue == 1)
-			{
-				convertedValue = (int)ADLColorEnhancementType::SCE_VividGaming;
-			}
-			else if (newValue == 2)
-			{
-				convertedValue = (int)ADLColorEnhancementType::SCE_DynamicContrast;
-			}
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set Setting
-			adl_Res0 = _ADL2_Display_SCE_State_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, convertedValue);
-
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Color enhancement");
-				AVDebugWriteLine(L"Failed setting Color enhancement");
-			}
-			else
-			{
-				ShowNotification(L"Color enhancement set to " + ADLX_SCE_PROFILE_STRING[newValue]);
-				AVDebugWriteLine(L"Color enhancement set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.ColorEnhancement.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.ColorEnhancement.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -445,56 +400,23 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
+			//Update interface
 			if (newValue)
 			{
-				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(true);
 			}
 			else
 			{
-				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_EDID);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 			}
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Temperature Control");
-					AVDebugWriteLine(L"Failed enabling Temperature Control");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Temperature Control");
-					AVDebugWriteLine(L"Failed disabling Temperature Control");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					slider_Display_ColorTemperature_Kelvin().IsEnabled(true);
-					ShowNotification(L"Temperature Control enabled");
-					AVDebugWriteLine(L"Temperature Control enabled");
-				}
-				else
-				{
-					slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
-					ShowNotification(L"Temperature Control disabled");
-					AVDebugWriteLine(L"Temperature Control disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.ColorTemperatureControl.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.ColorTemperatureControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -508,32 +430,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_ColorTemperature().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Color temperature");
-				AVDebugWriteLine(L"Failed setting Color temperature");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_ColorTemperature().Foreground(colorValid);
-				ShowNotification(L"Color temperature set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Color temperature set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.ColorTemperatureKelvin.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.ColorTemperatureKelvin.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -547,32 +450,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Brightness().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Brightness");
-				AVDebugWriteLine(L"Failed setting Brightness");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Brightness().Foreground(colorValid);
-				ShowNotification(L"Brightness set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Brightness set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.Brightness.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.Brightness.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -586,32 +470,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Contrast().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Contrast");
-				AVDebugWriteLine(L"Failed setting Contrast");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Contrast().Foreground(colorValid);
-				ShowNotification(L"Contrast set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Contrast set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.Contrast.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.Contrast.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -625,32 +490,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_SATURATION, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Saturation().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Saturation");
-				AVDebugWriteLine(L"Failed setting Saturation");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Saturation().Foreground(colorValid);
-				ShowNotification(L"Saturation set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Saturation set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.Saturation.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.Saturation.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -664,32 +510,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_Color_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_HUE, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Hue().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Hue");
-				AVDebugWriteLine(L"Failed setting Hue");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Hue().Foreground(colorValid);
-				ShowNotification(L"Hue set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Hue set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.Hue.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.Hue.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -705,39 +532,15 @@ namespace winrt::RadeonTuner::implementation
 			float redGain = slider_Display_GammaRed().Value();
 			float greenGain = slider_Display_GammaGreen().Value();
 			float blueGain = slider_Display_GammaBlue().Value();
-			bool newFailed = true;
 
-			//Set setting
-			AdlGammaRamp gammaRamp = AdlGammaRampBuild(redGain, greenGain, blueGain);
-			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, adl_Display_AdapterIndex, gammaRamp);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_GammaRed().Foreground(colorInvalid);
-				textbox_Display_GammaGreen().Foreground(colorInvalid);
-				textbox_Display_GammaBlue().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Gamma");
-				AVDebugWriteLine(L"Failed setting Gamma");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_GammaRed().Foreground(colorValid);
-				textbox_Display_GammaGreen().Foreground(colorValid);
-				textbox_Display_GammaBlue().Foreground(colorValid);
-				ShowNotification(L"Gamma set to (R) " + float_to_wstring(redGain, 2) + L" (G) " + float_to_wstring(greenGain, 2) + L" (B) " + float_to_wstring(blueGain, 2));
-				AVDebugWriteLine(L"Gamma set to " << redGain << L"/" << greenGain << L"/" << blueGain);
-
-				//Update current value
-				displaySettingsCurrent.GammaRed.Current = redGain;
-				displaySettingsCurrent.GammaGreen.Current = greenGain;
-				displaySettingsCurrent.GammaBlue.Current = blueGain;
-			}
+			//Update current value
+			displaySettingsCurrent.GammaRed.Current = redGain;
+			displaySettingsCurrent.GammaGreen.Current = greenGain;
+			displaySettingsCurrent.GammaBlue.Current = blueGain;
 		}
 		catch (...) {}
 	}
@@ -752,53 +555,27 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_ENABLED, newValue);
-
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
+			//Update interface
+			if (newValue)
 			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling CVDC Control");
-					AVDebugWriteLine(L"Failed enabling CVDC Control");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling CVDC Control");
-					AVDebugWriteLine(L"Failed disabling CVDC Control");
-				}
+				slider_Display_Protanopia().IsEnabled(true);
+				slider_Display_Deuteranopia().IsEnabled(true);
+				slider_Display_Tritanopia().IsEnabled(true);
 			}
 			else
 			{
-				if (newValue)
-				{
-					slider_Display_Protanopia().IsEnabled(true);
-					slider_Display_Deuteranopia().IsEnabled(true);
-					slider_Display_Tritanopia().IsEnabled(true);
-					ShowNotification(L"CVDC Control enabled");
-					AVDebugWriteLine(L"CVDC Control enabled");
-				}
-				else
-				{
-					slider_Display_Protanopia().IsEnabled(false);
-					slider_Display_Deuteranopia().IsEnabled(false);
-					slider_Display_Tritanopia().IsEnabled(false);
-					ShowNotification(L"CVDC Control disabled");
-					AVDebugWriteLine(L"CVDC Control disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.CVDCControl.Current = newValue;
+				slider_Display_Protanopia().IsEnabled(false);
+				slider_Display_Deuteranopia().IsEnabled(false);
+				slider_Display_Tritanopia().IsEnabled(false);
 			}
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsCurrent.CVDCControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -812,32 +589,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Protanopia().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Protanopia");
-				AVDebugWriteLine(L"Failed setting Protanopia");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Protanopia().Foreground(colorValid);
-				ShowNotification(L"Protanopia set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Protanopia set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.CVDCProtanopia.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.CVDCProtanopia.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -851,32 +609,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Deuteranopia().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Deuteranopia");
-				AVDebugWriteLine(L"Failed setting Deuteranopia");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Deuteranopia().Foreground(colorValid);
-				ShowNotification(L"Deuteranopia set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Deuteranopia set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.CVDCDeuteranopia.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.CVDCDeuteranopia.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -890,37 +629,18 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			int newValue = (int)e.NewValue();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				textbox_Display_Tritanopia().Foreground(colorInvalid);
-				ShowNotification(L"Failed setting Tritanopia");
-				AVDebugWriteLine(L"Failed setting Tritanopia");
-			}
-			else
-			{
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				textbox_Display_Tritanopia().Foreground(colorValid);
-				ShowNotification(L"Tritanopia set to " + number_to_wstring(newValue));
-				AVDebugWriteLine(L"Tritanopia set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.CVDCTritanopia.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.CVDCTritanopia.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_GpuScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_GpuScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -930,52 +650,18 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_DFP_GPUScalingEnable_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling GPU Scaling");
-					AVDebugWriteLine(L"Failed enabling GPU Scaling");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling GPU Scaling");
-					AVDebugWriteLine(L"Failed disabling GPU Scaling");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"GPU Scaling enabled");
-					AVDebugWriteLine(L"GPU Scaling enabled");
-				}
-				else
-				{
-					ShowNotification(L"GPU Scaling disabled");
-					AVDebugWriteLine(L"GPU Scaling disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.GpuScalingEnabled.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.GpuScalingEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_IntegerScaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -985,51 +671,13 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			ADLDisplayProperty displayProperty{};
-			displayProperty.iSize = sizeof(displayProperty);
-			displayProperty.iPropertyType = ADL_DL_DISPLAYPROPERTY_TYPE_INTEGER_SCALING;
-			displayProperty.iCurrent = newValue;
-			adl_Res0 = _ADL2_Display_Property_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Integer Scaling");
-					AVDebugWriteLine(L"Failed enabling Integer Scaling");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Integer Scaling");
-					AVDebugWriteLine(L"Failed disabling Integer Scaling");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"Integer Scaling enabled");
-					AVDebugWriteLine(L"Integer Scaling enabled");
-				}
-				else
-				{
-					ShowNotification(L"Integer Scaling disabled");
-					AVDebugWriteLine(L"Integer Scaling disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.IntegerScalingEnabled.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.IntegerScalingEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1043,47 +691,18 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
 
-			//Set setting
-			if (newValue == 0)
-			{
-				//Preserve Aspect Ratio
-				adl_Res0 = _ADL2_Display_PreservedAspectRatio_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1);
-			}
-			else if (newValue == 1)
-			{
-				//Full Panel
-				adl_Res0 = _ADL2_Display_ImageExpansion_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 1);
-			}
-			else if (newValue == 2)
-			{
-				//Centered
-				adl_Res0 = _ADL2_Display_ImageExpansion_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, 0);
-			}
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Scaling mode");
-				AVDebugWriteLine(L"Failed setting Scaling mode");
-			}
-			else
-			{
-				ShowNotification(L"Scaling mode set to " + ADLX_SCALE_MODE_STRING[newValue]);
-				AVDebugWriteLine(L"Scaling mode set to " << newValue);
-
-				//Update current value
-				displaySettingsCurrent.ScalingMode.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.ScalingMode.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_HDCPSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_HDCPSupport_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1093,52 +712,18 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Display_HDCP_Set(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, false, newValue);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
-			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling HDCP Support");
-					AVDebugWriteLine(L"Failed enabling HDCP Support");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling HDCP Support");
-					AVDebugWriteLine(L"Failed disabling HDCP Support");
-				}
-			}
-			else
-			{
-				if (newValue)
-				{
-					ShowNotification(L"HDCP Support enabled");
-					AVDebugWriteLine(L"HDCP Support enabled");
-				}
-				else
-				{
-					ShowNotification(L"HDCP Support disabled");
-					AVDebugWriteLine(L"HDCP Support disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.HDCPEnabled.Current = newValue;
-			}
+			//Update current value
+			displaySettingsCurrent.HDCPEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_VariBright_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_Display_VariBright_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1148,49 +733,23 @@ namespace winrt::RadeonTuner::implementation
 			//Get setting value
 			auto newSender = sender.as<ToggleSwitch>();
 			bool newValue = newSender.IsOn();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Adapter_VariBrightEnable_Set(adl_Context, adl_Gpu_AdapterIndex, newValue);
-
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
-
-			//Show result
-			if (newFailed)
+			//Update interface
+			if (newValue)
 			{
-				disable_saving = true;
-				newSender.IsOn(!newValue);
-				disable_saving = false;
-				if (newValue)
-				{
-					ShowNotification(L"Failed enabling Vari-Bright");
-					AVDebugWriteLine(L"Failed enabling Vari-Bright");
-				}
-				else
-				{
-					ShowNotification(L"Failed disabling Vari-Bright");
-					AVDebugWriteLine(L"Failed disabling Vari-Bright");
-				}
+				combobox_Display_VariBright_Level().IsEnabled(true);
 			}
 			else
 			{
-				if (newValue)
-				{
-					combobox_Display_VariBright_Level().IsEnabled(true);
-					ShowNotification(L"Vari-Bright enabled");
-					AVDebugWriteLine(L"Vari-Bright enabled");
-				}
-				else
-				{
-					combobox_Display_VariBright_Level().IsEnabled(false);
-					ShowNotification(L"Vari-Bright disabled");
-					AVDebugWriteLine(L"Vari-Bright disabled");
-				}
-
-				//Update current value
-				displaySettingsCurrent.VariBrightEnabled.Current = newValue;
+				combobox_Display_VariBright_Level().IsEnabled(false);
 			}
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsCurrent.VariBrightEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1204,28 +763,34 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get setting value
 			auto newValue = sender.as<ComboBox>().SelectedIndex();
-			bool newFailed = true;
 
-			//Set setting
-			adl_Res0 = _ADL2_Adapter_VariBrightLevel_Set(adl_Context, adl_Gpu_AdapterIndex, newValue, true);
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
 
-			//Set result
-			newFailed = adl_Res0 != ADL_OK;
+			//Update current value
+			displaySettingsCurrent.VariBrightLevel.Current = newValue;
+		}
+		catch (...) {}
+	}
 
-			//Show result
-			if (newFailed)
-			{
-				ShowNotification(L"Failed setting Vari-Bright level");
-				AVDebugWriteLine(L"Failed setting Vari-Bright level");
-			}
-			else
-			{
-				ShowNotification(L"Vari-Bright set to " + ADLX_VARIBRIGHT_LEVEL_STRING[newValue]);
-				AVDebugWriteLine(L"Vari-Bright set to " << newValue);
+	void MainPage::toggleswitch_Eyefinity_Automatic_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
 
-				//Update current value
-				displaySettingsCurrent.VariBrightLevel.Current = newValue;
-			}
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsCurrent.EyefinityAutomatic.Current = newValue;
 		}
 		catch (...) {}
 	}

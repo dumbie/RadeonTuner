@@ -6,39 +6,159 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	//Note: IADLXGPUTuningChangedEvent does not get triggered when tuning is reset by system failure so manual polling is needed.
-	//Fix: Change power boost and eyefinity to event that triggers on process launch and close or check foreground window.
+	//Fix: Change display and tuning check to event that triggers on process launch and close or check foreground window switch.
+	//Fix: Add support to manually enable RIS2 desktop when it used in an application profile.
+	//Fix: Make sure Gamma RGB is set to currently used value, changing resolution etc resets it.
 
-	void MainPage::AdlxCheckAutomaticEyefinity(std::vector<std::wstring> processExeRunning)
+	void MainPage::AdlxCheckDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning)
 	{
 		try
 		{
-			//Check Automatic Eyefinity setting
-			bool eyefinityAutomatic = false;
-			std::optional<bool> eyefinityAutomaticOpt = AppVariables::Settings.Load<bool>("EyefinityAutomatic");
-			if (eyefinityAutomaticOpt.has_value())
+			//Get all display's
+			for (auto displayInfo : AdlGetDisplayAll())
 			{
-				eyefinityAutomatic = eyefinityAutomaticOpt.value();
-			}
+				//Device index
+				int adapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
+				int displayIndex = displayInfo.displayID.iDisplayLogicalIndex;
 
-			//Check if Automatic Eyefinity is enabled and app is added
-			bool eyefinityProcessFound = false;
-			if (eyefinityAutomatic && eyefinityAppsCache.size() > 0)
-			{
-				//Check if Eyefinity process is running
-				for (auto eyefinityApp : eyefinityAppsCache)
+				//Device identifier
+				std::wstring deviceIdentifier = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
+
+				//Loop settings
+				std::optional<std::reference_wrapper<DisplaySettings>> displaySettingsProfileOpt;
+				for (DisplaySettings& displaySettings : displaySettingsCache)
 				{
-					std::wstring eyefinityAppLower = wstring_to_lower(eyefinityApp);
-					if (array_contains(processExeRunning, eyefinityAppLower))
+					try
 					{
-						//AVDebugWriteLine("Eyefinity process is running: " << exeNameW);
-						eyefinityProcessFound = true;
-						break;
+						//Check and match device id
+						if (displaySettings.DeviceId.value() == deviceIdentifier)
+						{
+							//Check if profile application is running
+							if (displaySettings.Application.has_value())
+							{
+								//Check if Eyefinity automatic is enabled
+								if (displaySettings.EyefinityAutomatic.Current.has_value())
+								{
+									if (displaySettings.EyefinityAutomatic.Current.value())
+									{
+										//Lower case application name
+										std::wstring appNameLower = wstring_to_lower(displaySettings.Application.value());
+
+										//Check and set application profile
+										if (array_contains(processExeRunning, appNameLower))
+										{
+											displaySettingsProfileOpt = displaySettings;
+											break;
+										}
+									}
+								}
+							}
+						}
 					}
+					catch (...) {}
 				}
 
+				//Check if Eyefinity needs to be enabled
+				bool enableEyefinity = displaySettingsProfileOpt.has_value();
+
 				//Enable or disable Eyefinity
-				Adl_Eyefinity_Toggle(adl_Display_AdapterIndex, eyefinityProcessFound);
+				Adl_Eyefinity_Toggle(adapterIndex, enableEyefinity);
+
+				//Ignore other displays when enabled
+				if (enableEyefinity)
+				{
+					break;
+				}
+			}
+		}
+		catch (...) {}
+	}
+
+	void MainPage::AdlxCheckDisplayApplicationProfile(std::vector<std::wstring> processExeRunning)
+	{
+		try
+		{
+			//Get all display's
+			for (auto displayInfo : AdlGetDisplayAll())
+			{
+				//Device index
+				int adapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
+				int displayIndex = displayInfo.displayID.iDisplayLogicalIndex;
+
+				//Device identifier
+				std::wstring deviceIdentifier = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
+
+				//Loop settings
+				std::optional<std::reference_wrapper<DisplaySettings>> displaySettingsProfileOpt;
+				for (DisplaySettings& displaySettings : displaySettingsCache)
+				{
+					try
+					{
+						//Check and match device id
+						if (displaySettings.DeviceId.value() == deviceIdentifier)
+						{
+							//Check if profile application is running
+							if (displaySettings.Application.has_value())
+							{
+								//Lower case application name
+								std::wstring appNameLower = wstring_to_lower(displaySettings.Application.value());
+
+								//Check and set global profile
+								if (appNameLower == L"global")
+								{
+									displaySettingsProfileOpt = displaySettings;
+								}
+
+								//Check and set application profile
+								if (array_contains(processExeRunning, appNameLower))
+								{
+									//AVDebugWriteLine("Application profile application running: " << appNameLower);
+									displaySettingsProfileOpt = displaySettings;
+									break;
+								}
+							}
+						}
+					}
+					catch (...) {}
+				}
+
+				//Compare settings
+				if (displaySettingsProfileOpt.has_value())
+				{
+					//Get profile value
+					DisplaySettings& displaySettingsProfile = displaySettingsProfileOpt.value();
+					//AVDebugWriteLine("Comparing display settings: " << displaySettingsProfile.DeviceId.value() << L" / " << displaySettingsProfile.Application.value());
+
+					//Check if apply is required
+					if (displaySettingsProfile.UsingProfile)
+					{
+						//AVDebugWriteLine(L"Profile is currently in use: " << displaySettingsProfile.Application.value());
+						continue;
+					}
+
+					//Apply display settings
+					bool applyResult = AdlDisplaySettingsApply(adapterIndex, displayIndex, displaySettingsProfile, AdlSettingGet::Current, true);
+
+					//Update application using status
+					if (applyResult)
+					{
+						DisplaySettings_Profile_Set_Using(displaySettingsProfile.DeviceId.value(), displaySettingsProfile.Application.value());
+					}
+
+					std::function<void()> updateFunction = [=]
+						{
+							if (applyResult)
+							{
+								//Show notification
+								ShowNotification(L"Display settings applied: " + displaySettingsProfile.Application.value());
+								AVDebugWriteLine(L"Display settings applied: " << displaySettingsProfile.Application.value());
+
+								//Load display settings
+								AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.Application.value());
+							}
+						};
+					AppVariables::App.DispatcherInvoke(updateFunction);
+				}
 			}
 		}
 		catch (...) {}
@@ -55,17 +175,17 @@ namespace winrt::RadeonTuner::implementation
 				int adapterIndex = adapterInfo.iAdapterIndex;
 
 				//Device identifier
-				std::wstring adapterDeviceId = char_to_wstring(adapterInfo.strPNPString);
-				adapterDeviceId = wstring_get_between(adapterDeviceId, L"\\", L"\\");
+				std::wstring deviceIdentifier = char_to_wstring(adapterInfo.strPNPString);
+				deviceIdentifier = wstring_get_between(deviceIdentifier, L"\\", L"\\");
 
-				//Loop tuning and fans settings
+				//Loop settings
 				std::optional<std::reference_wrapper<TuningFanSettings>> tuningFanSettingsProfileOpt;
 				for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
 				{
 					try
 					{
 						//Check and match device id
-						if (tuningFanSettings.DeviceId.value() == adapterDeviceId)
+						if (tuningFanSettings.DeviceId.value() == deviceIdentifier)
 						{
 							//Check if profile keep active is enabled
 							if (tuningFanSettings.KeepActive.Current.has_value())
@@ -101,7 +221,7 @@ namespace winrt::RadeonTuner::implementation
 					catch (...) {}
 				}
 
-				//Compare tuning fan settings
+				//Compare settings
 				if (tuningFanSettingsProfileOpt.has_value())
 				{
 					//Get profile value
@@ -131,7 +251,7 @@ namespace winrt::RadeonTuner::implementation
 						AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
 
 						//Apply tuning and fans settings
-						bool applyResult = AdlTuningApply(adapterIndex, tuningFanSettingsProfile);
+						bool applyResult = AdlTuningFanSettingsApply(adapterIndex, tuningFanSettingsProfile, AdlSettingGet::Current);
 
 						//Update application using status
 						if (applyResult)
@@ -139,13 +259,12 @@ namespace winrt::RadeonTuner::implementation
 							TuningFanSettings_Profile_Set_Using(tuningFanSettingsProfile.DeviceId.value(), tuningFanSettingsProfile.Application.value());
 						}
 
-						//Show notification
 						std::function<void()> updateFunction = [=]
 							{
 								if (applyResult)
 								{
 									//Load tuning and fans settings
-									AdlxValuesLoadSelectTuning(adapterIndex, tuningFanSettingsCurrent.Application.value());
+									AdlxValuesLoadSelectTuningApp(adapterIndex, tuningFanSettingsCurrent.Application.value());
 
 									//Show notification
 									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsProfile.Application.value());
@@ -195,10 +314,13 @@ namespace winrt::RadeonTuner::implementation
 					processExeRunning.push_back(exeNameLower);
 				}
 
-				//Check display Automatic Eyefinity
-				AdlxCheckAutomaticEyefinity(processExeRunning);
+				//Check display automatic eyefinity
+				AdlxCheckDisplayEyefinityAutomatic(processExeRunning);
 
-				//Check tuning Application Profile
+				//Check display application profile
+				AdlxCheckDisplayApplicationProfile(processExeRunning);
+
+				//Check tuning application profile
 				AdlxCheckTuningApplicationProfile(processExeRunning);
 			}
 			catch (...) {}

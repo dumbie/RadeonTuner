@@ -143,7 +143,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all fsr multi frame generation ratios
 			{
-				auto itemCollection = combobox_MultiFrameGenerationRatio().Items();
+				auto itemCollection = combobox_FsrMultiFrameGenerationRatio().Items();
 				UINT appendCount = ADL_FSR_MULTIFRAMEGEN_RATIO.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
@@ -168,16 +168,6 @@ namespace winrt::RadeonTuner::implementation
 				for (UINT i = 0; i < appendCount; i++)
 				{
 					itemCollection.Append(box_value(ADL_DISPLAY_ORIENTATIONS[i]));
-				}
-			}
-
-			//List all HDR Media Profiles
-			{
-				auto itemCollection = combobox_Display_HdrMediaProfile().Items();
-				UINT appendCount = ADL_HDR_TYPE_PREFERENCE.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(ADL_HDR_TYPE_PREFERENCE[i]));
 				}
 			}
 

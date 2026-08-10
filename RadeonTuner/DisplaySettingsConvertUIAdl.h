@@ -12,153 +12,197 @@ namespace winrt::RadeonTuner::implementation
 			//HDR Enabled
 			if (displaySettings.HdrEnabled.Support.has_value() && displaySettings.HdrEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.HdrEnabled.Current.has_value())
 				{
-					toggleswitch_HdrEnabled().IsOn(displaySettings.HdrEnabled.Current.value());
+					valueInt = displaySettings.HdrEnabled.Current.value();
 				}
 				else if (displaySettings.HdrEnabled.Default.has_value())
 				{
-					toggleswitch_HdrEnabled().IsOn(displaySettings.HdrEnabled.Default.value());
+					valueInt = displaySettings.HdrEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_HdrEnabled().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_HdrEnabled_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_HdrEnabled().IsEnabled(true);
+				toggleswitch_Display_HdrEnabled().IsEnabled(true);
 			}
 			else
 			{
-				//Enable or disable interface
-				toggleswitch_HdrEnabled().IsEnabled(false);
-			}
-
-			//HDR Media Profile
-			if (displaySettings.HdrMediaProfile.Support.has_value() && displaySettings.HdrMediaProfile.Support.value())
-			{
-				//Set setting
-				if (displaySettings.HdrMediaProfile.Current.has_value())
-				{
-					combobox_Display_HdrMediaProfile().SelectedIndex(displaySettings.HdrMediaProfile.Current.value());
-				}
-				else if (displaySettings.HdrMediaProfile.Default.has_value())
-				{
-					combobox_Display_HdrMediaProfile().SelectedIndex(displaySettings.HdrMediaProfile.Default.value());
-				}
+				//Set hint value
+				textblock_Display_HdrEnabled_Value().Text(L"");
 
 				//Enable or disable interface
-				combobox_Display_HdrMediaProfile().IsEnabled(true);
-			}
-			else
-			{
-				//Enable or disable interface
-				combobox_Display_HdrMediaProfile().IsEnabled(false);
+				toggleswitch_Display_HdrEnabled().IsEnabled(false);
 			}
 
 			//FreeSync
 			if (displaySettings.FreeSyncEnabled.Support.has_value() && displaySettings.FreeSyncEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.FreeSyncEnabled.Current.has_value())
 				{
-					toggleswitch_FreeSync().IsOn(displaySettings.FreeSyncEnabled.Current.value());
+					valueInt = displaySettings.FreeSyncEnabled.Current.value();
 				}
 				else if (displaySettings.FreeSyncEnabled.Default.has_value())
 				{
-					toggleswitch_FreeSync().IsOn(displaySettings.FreeSyncEnabled.Default.value());
+					valueInt = displaySettings.FreeSyncEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_FreeSync().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_FreeSync_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_FreeSync().IsEnabled(true);
+				toggleswitch_Display_FreeSync().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_FreeSync_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_FreeSync().IsEnabled(false);
+				toggleswitch_Display_FreeSync().IsEnabled(false);
 			}
 
 			//Virtual Super Resolution
 			if (displaySettings.VsrEnabled.Support.has_value() && displaySettings.VsrEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.VsrEnabled.Current.has_value())
 				{
-					toggleswitch_VSR().IsOn(displaySettings.VsrEnabled.Current.value());
+					valueInt = displaySettings.VsrEnabled.Current.value();
 				}
 				else if (displaySettings.VsrEnabled.Default.has_value())
 				{
-					toggleswitch_VSR().IsOn(displaySettings.VsrEnabled.Default.value());
+					valueInt = displaySettings.VsrEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_VSR().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_VSR_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_VSR().IsEnabled(true);
+				toggleswitch_Display_VSR().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_VSR_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_VSR().IsEnabled(false);
+				toggleswitch_Display_VSR().IsEnabled(false);
 			}
 
 			//Gpu Scaling
 			if (displaySettings.GpuScalingEnabled.Support.has_value() && displaySettings.GpuScalingEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.GpuScalingEnabled.Current.has_value())
 				{
-					toggleswitch_GpuScaling().IsOn(displaySettings.GpuScalingEnabled.Current.value());
+					valueInt = displaySettings.GpuScalingEnabled.Current.value();
 				}
 				else if (displaySettings.GpuScalingEnabled.Default.has_value())
 				{
-					toggleswitch_GpuScaling().IsOn(displaySettings.GpuScalingEnabled.Default.value());
+					valueInt = displaySettings.GpuScalingEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_GpuScaling().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_GpuScaling_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_GpuScaling().IsEnabled(true);
+				toggleswitch_Display_GpuScaling().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_GpuScaling_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_GpuScaling().IsEnabled(false);
+				toggleswitch_Display_GpuScaling().IsEnabled(false);
 			}
 
 			//Integer Scaling
 			if (displaySettings.IntegerScalingEnabled.Support.has_value() && displaySettings.IntegerScalingEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.IntegerScalingEnabled.Current.has_value())
 				{
-					toggleswitch_IntegerScaling().IsOn(displaySettings.IntegerScalingEnabled.Current.value());
+					valueInt = displaySettings.IntegerScalingEnabled.Current.value();
 				}
 				else if (displaySettings.IntegerScalingEnabled.Default.has_value())
 				{
-					toggleswitch_IntegerScaling().IsOn(displaySettings.IntegerScalingEnabled.Default.value());
+					valueInt = displaySettings.IntegerScalingEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_IntegerScaling().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_IntegerScaling_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_IntegerScaling().IsEnabled(true);
+				toggleswitch_Display_IntegerScaling().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_IntegerScaling_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_IntegerScaling().IsEnabled(false);
+				toggleswitch_Display_IntegerScaling().IsEnabled(false);
 			}
 
 			//Scaling Mode
 			if (displaySettings.ScalingMode.Support.has_value() && displaySettings.ScalingMode.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.ScalingMode.Current.has_value())
 				{
-					combobox_Display_ScalingMode().SelectedIndex(displaySettings.ScalingMode.Current.value());
+					valueInt = displaySettings.ScalingMode.Current.value();
 				}
 				else if (displaySettings.ScalingMode.Default.has_value())
 				{
-					combobox_Display_ScalingMode().SelectedIndex(displaySettings.ScalingMode.Default.value());
+					valueInt = displaySettings.ScalingMode.Default.value();
 				}
+
+				//Set setting value
+				combobox_Display_ScalingMode().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_SCALE_MODE_STRING[valueInt];
+				textblock_Display_ScalingMode_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_Display_ScalingMode().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_ScalingMode_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Display_ScalingMode().IsEnabled(false);
 			}
@@ -166,21 +210,32 @@ namespace winrt::RadeonTuner::implementation
 			//Color Depth
 			if (displaySettings.ColorDepth.Support.has_value() && displaySettings.ColorDepth.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.ColorDepth.Current.has_value())
 				{
-					combobox_Display_ColorDepth().SelectedIndex(displaySettings.ColorDepth.Current.value());
+					valueInt = displaySettings.ColorDepth.Current.value();
 				}
 				else if (displaySettings.ColorDepth.Default.has_value())
 				{
-					combobox_Display_ColorDepth().SelectedIndex(displaySettings.ColorDepth.Default.value());
+					valueInt = displaySettings.ColorDepth.Default.value();
 				}
+
+				//Set setting value
+				combobox_Display_ColorDepth().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_COLOR_DEPTH_STRING[valueInt + 1];
+				textblock_Display_ColorDepth_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_Display_ColorDepth().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_ColorDepth_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Display_ColorDepth().IsEnabled(false);
 			}
@@ -188,21 +243,32 @@ namespace winrt::RadeonTuner::implementation
 			//Pixel Format
 			if (displaySettings.PixelFormat.Support.has_value() && displaySettings.PixelFormat.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.PixelFormat.Current.has_value())
 				{
-					combobox_Display_PixelFormat().SelectedIndex(displaySettings.PixelFormat.Current.value());
+					valueInt = displaySettings.PixelFormat.Current.value();
 				}
 				else if (displaySettings.PixelFormat.Default.has_value())
 				{
-					combobox_Display_PixelFormat().SelectedIndex(displaySettings.PixelFormat.Default.value());
+					valueInt = displaySettings.PixelFormat.Default.value();
 				}
+
+				//Set setting value
+				combobox_Display_PixelFormat().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_PIXEL_FORMAT_STRING[valueInt + 1];
+				textblock_Display_PixelFormat_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_Display_PixelFormat().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_PixelFormat_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Display_PixelFormat().IsEnabled(false);
 			}
@@ -210,21 +276,32 @@ namespace winrt::RadeonTuner::implementation
 			//Color Enhancement
 			if (displaySettings.ColorEnhancement.Support.has_value() && displaySettings.ColorEnhancement.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.ColorEnhancement.Current.has_value())
 				{
-					combobox_Display_DisplayColorEnhancement().SelectedIndex(displaySettings.ColorEnhancement.Current.value());
+					valueInt = displaySettings.ColorEnhancement.Current.value();
 				}
 				else if (displaySettings.ColorEnhancement.Default.has_value())
 				{
-					combobox_Display_DisplayColorEnhancement().SelectedIndex(displaySettings.ColorEnhancement.Default.value());
+					valueInt = displaySettings.ColorEnhancement.Default.value();
 				}
+
+				//Set setting value
+				combobox_Display_DisplayColorEnhancement().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_SCE_PROFILE_STRING[valueInt];
+				textblock_Display_DisplayColorEnhancement_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_Display_DisplayColorEnhancement().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_DisplayColorEnhancement_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Display_DisplayColorEnhancement().IsEnabled(false);
 			}
@@ -232,22 +309,33 @@ namespace winrt::RadeonTuner::implementation
 			//Color Temperature Control
 			if (displaySettings.ColorTemperatureControl.Support.has_value() && displaySettings.ColorTemperatureControl.Support.value())
 			{
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.ColorTemperatureControl.Current.has_value())
 				{
-					toggleswitch_Display_ColorTemperature_Control().IsOn(displaySettings.ColorTemperatureControl.Current.value());
-					slider_Display_ColorTemperature_Kelvin().IsEnabled(displaySettings.ColorTemperatureControl.Current.value());
+					valueInt = displaySettings.ColorTemperatureControl.Current.value();
 				}
 				else if (displaySettings.ColorTemperatureControl.Default.has_value())
 				{
-					toggleswitch_Display_ColorTemperature_Control().IsOn(displaySettings.ColorTemperatureControl.Default.value());
-					slider_Display_ColorTemperature_Kelvin().IsEnabled(displaySettings.ColorTemperatureControl.Default.value());
+					valueInt = displaySettings.ColorTemperatureControl.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_Display_ColorTemperature_Control().IsOn(valueInt);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_ColorTemperature_Control_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_Display_ColorTemperature_Control().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_ColorTemperature_Control_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_Display_ColorTemperature_Control().IsEnabled(false);
 				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
@@ -256,15 +344,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Temperature Kelvin
 			if (displaySettings.ColorTemperatureKelvin.Support.has_value() && displaySettings.ColorTemperatureKelvin.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.ColorTemperatureKelvin.Current.has_value())
 				{
-					slider_Display_ColorTemperature_Kelvin().Value(displaySettings.ColorTemperatureKelvin.Current.value());
+					valueInt = displaySettings.ColorTemperatureKelvin.Current.value();
 				}
 				else if (displaySettings.ColorTemperatureKelvin.Default.has_value())
 				{
-					slider_Display_ColorTemperature_Kelvin().Value(displaySettings.ColorTemperatureKelvin.Default.value());
+					valueInt = displaySettings.ColorTemperatureKelvin.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_ColorTemperature_Kelvin().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt) + L"K";
+				textblock_Display_ColorTemperature_Kelvin_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.ColorTemperatureKelvin.Minimum.has_value())
@@ -277,6 +373,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_ColorTemperature_Kelvin_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_ColorTemperature_Kelvin().IsEnabled(false);
 			}
@@ -284,15 +383,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Brightness
 			if (displaySettings.Brightness.Support.has_value() && displaySettings.Brightness.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.Brightness.Current.has_value())
 				{
-					slider_Display_Brightness().Value(displaySettings.Brightness.Current.value());
+					valueInt = displaySettings.Brightness.Current.value();
 				}
 				else if (displaySettings.Brightness.Default.has_value())
 				{
-					slider_Display_Brightness().Value(displaySettings.Brightness.Default.value());
+					valueInt = displaySettings.Brightness.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Brightness().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Brightness_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.Brightness.Minimum.has_value())
@@ -308,6 +415,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Brightness_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Brightness().IsEnabled(false);
 			}
@@ -315,15 +425,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Contrast
 			if (displaySettings.Contrast.Support.has_value() && displaySettings.Contrast.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.Contrast.Current.has_value())
 				{
-					slider_Display_Contrast().Value(displaySettings.Contrast.Current.value());
+					valueInt = displaySettings.Contrast.Current.value();
 				}
 				else if (displaySettings.Contrast.Default.has_value())
 				{
-					slider_Display_Contrast().Value(displaySettings.Contrast.Default.value());
+					valueInt = displaySettings.Contrast.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Contrast().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Contrast_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.Contrast.Minimum.has_value())
@@ -339,6 +457,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Contrast_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Contrast().IsEnabled(false);
 			}
@@ -346,15 +467,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Saturation
 			if (displaySettings.Saturation.Support.has_value() && displaySettings.Saturation.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.Saturation.Current.has_value())
 				{
-					slider_Display_Saturation().Value(displaySettings.Saturation.Current.value());
+					valueInt = displaySettings.Saturation.Current.value();
 				}
 				else if (displaySettings.Saturation.Default.has_value())
 				{
-					slider_Display_Saturation().Value(displaySettings.Saturation.Default.value());
+					valueInt = displaySettings.Saturation.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Saturation().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Saturation_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.Saturation.Minimum.has_value())
@@ -370,6 +499,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Saturation_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Saturation().IsEnabled(false);
 			}
@@ -377,15 +509,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Hue
 			if (displaySettings.Hue.Support.has_value() && displaySettings.Hue.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.Hue.Current.has_value())
 				{
-					slider_Display_Hue().Value(displaySettings.Hue.Current.value());
+					valueInt = displaySettings.Hue.Current.value();
 				}
 				else if (displaySettings.Hue.Default.has_value())
 				{
-					slider_Display_Hue().Value(displaySettings.Hue.Default.value());
+					valueInt = displaySettings.Hue.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Hue().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Hue_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.Hue.Minimum.has_value())
@@ -401,6 +541,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Hue_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Hue().IsEnabled(false);
 			}
@@ -408,15 +551,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Gamma Red
 			if (displaySettings.GammaRed.Support.has_value() && displaySettings.GammaRed.Support.value())
 			{
-				//Set setting
+				//Get setting
+				float valueFloat = 0.0f;
 				if (displaySettings.GammaRed.Current.has_value())
 				{
-					slider_Display_GammaRed().Value(displaySettings.GammaRed.Current.value());
+					valueFloat = displaySettings.GammaRed.Current.value();
 				}
 				else if (displaySettings.GammaRed.Default.has_value())
 				{
-					slider_Display_GammaRed().Value(displaySettings.GammaRed.Default.value());
+					valueFloat = displaySettings.GammaRed.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_GammaRed().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaRed_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.GammaRed.Minimum.has_value())
@@ -432,6 +583,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_GammaRed_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_GammaRed().IsEnabled(false);
 			}
@@ -439,15 +593,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Gamma Green
 			if (displaySettings.GammaGreen.Support.has_value() && displaySettings.GammaGreen.Support.value())
 			{
-				//Set setting
+				//Get setting
+				float valueFloat = 0.0f;
 				if (displaySettings.GammaGreen.Current.has_value())
 				{
-					slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Current.value());
+					valueFloat = displaySettings.GammaGreen.Current.value();
 				}
 				else if (displaySettings.GammaGreen.Default.has_value())
 				{
-					slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Default.value());
+					valueFloat = displaySettings.GammaGreen.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_GammaGreen().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaGreen_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.GammaGreen.Minimum.has_value())
@@ -463,6 +625,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_GammaGreen_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_GammaGreen().IsEnabled(false);
 			}
@@ -470,15 +635,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Gamma Blue
 			if (displaySettings.GammaBlue.Support.has_value() && displaySettings.GammaBlue.Support.value())
 			{
-				//Set setting
+				//Get setting
+				float valueFloat = 0.0f;
 				if (displaySettings.GammaBlue.Current.has_value())
 				{
-					slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Current.value());
+					valueFloat = displaySettings.GammaBlue.Current.value();
 				}
 				else if (displaySettings.GammaBlue.Default.has_value())
 				{
-					slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Default.value());
+					valueFloat = displaySettings.GammaBlue.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_GammaBlue().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaBlue_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.GammaBlue.Minimum.has_value())
@@ -494,6 +667,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_GammaBlue_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_GammaBlue().IsEnabled(false);
 			}
@@ -501,30 +677,35 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Control
 			if (displaySettings.CVDCControl.Support.has_value() && displaySettings.CVDCControl.Support.value())
 			{
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.CVDCControl.Current.has_value())
 				{
-					toggleswitch_Display_CVDC_Control().IsOn(displaySettings.CVDCControl.Current.value());
-
-					//Enable or disable interface
-					slider_Display_Protanopia().IsEnabled(displaySettings.CVDCControl.Current.value());
-					slider_Display_Deuteranopia().IsEnabled(displaySettings.CVDCControl.Current.value());
-					slider_Display_Tritanopia().IsEnabled(displaySettings.CVDCControl.Current.value());
+					valueInt = displaySettings.CVDCControl.Current.value();
 				}
 				else if (displaySettings.CVDCControl.Default.has_value())
 				{
-					toggleswitch_Display_CVDC_Control().IsOn(displaySettings.CVDCControl.Default.value());
-
-					//Enable or disable interface
-					slider_Display_Protanopia().IsEnabled(displaySettings.CVDCControl.Default.value());
-					slider_Display_Deuteranopia().IsEnabled(displaySettings.CVDCControl.Default.value());
-					slider_Display_Tritanopia().IsEnabled(displaySettings.CVDCControl.Default.value());
+					valueInt = displaySettings.CVDCControl.Default.value();
 				}
+
+				//Set setting value
+				toggleswitch_Display_CVDC_Control().IsOn(valueInt);
+				slider_Display_Protanopia().IsEnabled(valueInt);
+				slider_Display_Deuteranopia().IsEnabled(valueInt);
+				slider_Display_Tritanopia().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_CVDC_Control_Value().Text(valueHint);
 
 				//Enable or disable interface
 				toggleswitch_Display_CVDC_Control().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_CVDC_Control_Value().Text(L"");
+
 				//Enable or disable interface
 				toggleswitch_Display_CVDC_Control().IsEnabled(false);
 				slider_Display_Protanopia().IsEnabled(false);
@@ -535,15 +716,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Protanopia
 			if (displaySettings.CVDCProtanopia.Support.has_value() && displaySettings.CVDCProtanopia.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.CVDCProtanopia.Current.has_value())
 				{
-					slider_Display_Protanopia().Value(displaySettings.CVDCProtanopia.Current.value());
+					valueInt = displaySettings.CVDCProtanopia.Current.value();
 				}
 				else if (displaySettings.CVDCProtanopia.Default.has_value())
 				{
-					slider_Display_Protanopia().Value(displaySettings.CVDCProtanopia.Default.value());
+					valueInt = displaySettings.CVDCProtanopia.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Protanopia().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Protanopia_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.CVDCProtanopia.Minimum.has_value())
@@ -556,6 +745,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Protanopia_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Protanopia().IsEnabled(false);
 			}
@@ -563,15 +755,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Deuteranopia
 			if (displaySettings.CVDCDeuteranopia.Support.has_value() && displaySettings.CVDCDeuteranopia.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.CVDCDeuteranopia.Current.has_value())
 				{
-					slider_Display_Deuteranopia().Value(displaySettings.CVDCDeuteranopia.Current.value());
+					valueInt = displaySettings.CVDCDeuteranopia.Current.value();
 				}
 				else if (displaySettings.CVDCDeuteranopia.Default.has_value())
 				{
-					slider_Display_Deuteranopia().Value(displaySettings.CVDCDeuteranopia.Default.value());
+					valueInt = displaySettings.CVDCDeuteranopia.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Deuteranopia().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Deuteranopia_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.CVDCDeuteranopia.Minimum.has_value())
@@ -584,6 +784,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Deuteranopia_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Deuteranopia().IsEnabled(false);
 			}
@@ -591,15 +794,23 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Tritanopia
 			if (displaySettings.CVDCTritanopia.Support.has_value() && displaySettings.CVDCTritanopia.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.CVDCTritanopia.Current.has_value())
 				{
-					slider_Display_Tritanopia().Value(displaySettings.CVDCTritanopia.Current.value());
+					valueInt = displaySettings.CVDCTritanopia.Current.value();
 				}
 				else if (displaySettings.CVDCTritanopia.Default.has_value())
 				{
-					slider_Display_Tritanopia().Value(displaySettings.CVDCTritanopia.Default.value());
+					valueInt = displaySettings.CVDCTritanopia.Default.value();
 				}
+
+				//Set setting value
+				slider_Display_Tritanopia().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(valueInt);
+				textblock_Display_Tritanopia_Value().Text(valueHint);
 
 				//Set interface
 				if (displaySettings.CVDCTritanopia.Minimum.has_value())
@@ -612,6 +823,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_Tritanopia_Value().Text(L"");
+
 				//Enable or disable interface
 				slider_Display_Tritanopia().IsEnabled(false);
 			}
@@ -619,43 +833,64 @@ namespace winrt::RadeonTuner::implementation
 			//Vari-Bright Enabled
 			if (displaySettings.VariBrightEnabled.Support.has_value() && displaySettings.VariBrightEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.VariBrightEnabled.Current.has_value())
 				{
-					toggleswitch_VariBright().IsOn(displaySettings.VariBrightEnabled.Current.value());
-					combobox_Display_VariBright_Level().IsEnabled(displaySettings.VariBrightEnabled.Current.value());
+					valueInt = displaySettings.VariBrightEnabled.Current.value();
 				}
 				else if (displaySettings.VariBrightEnabled.Default.has_value())
 				{
-					toggleswitch_VariBright().IsOn(displaySettings.VariBrightEnabled.Default.value());
-					combobox_Display_VariBright_Level().IsEnabled(displaySettings.VariBrightEnabled.Default.value());
+					valueInt = displaySettings.VariBrightEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_VariBright().IsOn(valueInt);
+				combobox_Display_VariBright_Level().IsEnabled(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_VariBright_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_VariBright().IsEnabled(true);
+				toggleswitch_Display_VariBright().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_VariBright_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_VariBright().IsEnabled(false);
+				toggleswitch_Display_VariBright().IsEnabled(false);
 				combobox_Display_VariBright_Level().IsEnabled(false);
 			}
 
 			//Vari-Bright Level
 			if (displaySettings.VariBrightLevel.Support.has_value() && displaySettings.VariBrightLevel.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.VariBrightLevel.Current.has_value())
 				{
-					combobox_Display_VariBright_Level().SelectedIndex(displaySettings.VariBrightLevel.Current.value());
+					valueInt = displaySettings.VariBrightLevel.Current.value();
 				}
 				else if (displaySettings.VariBrightLevel.Default.has_value())
 				{
-					combobox_Display_VariBright_Level().SelectedIndex(displaySettings.VariBrightLevel.Default.value());
+					valueInt = displaySettings.VariBrightLevel.Default.value();
 				}
+
+				//Set setting value
+				combobox_Display_VariBright_Level().SelectedIndex(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = ADLX_VARIBRIGHT_LEVEL_STRING[valueInt];
+				textblock_Display_VariBright_Level_Value().Text(valueHint);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_VariBright_Level_Value().Text(L"");
+
 				//Enable or disable interface
 				combobox_Display_VariBright_Level().IsEnabled(false);
 			}
@@ -663,33 +898,44 @@ namespace winrt::RadeonTuner::implementation
 			//HDCP Support
 			if (displaySettings.HDCPEnabled.Support.has_value() && displaySettings.HDCPEnabled.Support.value())
 			{
-				//Set setting
+				//Get setting
+				int valueInt = 0;
 				if (displaySettings.HDCPEnabled.Current.has_value())
 				{
-					toggleswitch_HDCPSupport().IsOn(displaySettings.HDCPEnabled.Current.value());
+					valueInt = displaySettings.HDCPEnabled.Current.value();
 				}
 				else if (displaySettings.HDCPEnabled.Default.has_value())
 				{
-					toggleswitch_HDCPSupport().IsOn(displaySettings.HDCPEnabled.Default.value());
+					valueInt = displaySettings.HDCPEnabled.Default.value();
 				}
 
+				//Set setting value
+				toggleswitch_Display_HDCPSupport().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_Display_HDCPSupport_Value().Text(valueHint);
+
 				//Enable or disable interface
-				toggleswitch_HDCPSupport().IsEnabled(true);
+				toggleswitch_Display_HDCPSupport().IsEnabled(true);
 			}
 			else
 			{
+				//Set hint value
+				textblock_Display_HDCPSupport_Value().Text(L"");
+
 				//Enable or disable interface
-				toggleswitch_HDCPSupport().IsEnabled(false);
+				toggleswitch_Display_HDCPSupport().IsEnabled(false);
 			}
 
 			//Return result
-			AVDebugWriteLine(L"Display settings applied to interface.");
+			AVDebugWriteLine(L"Display settings applied to interface (ADL)");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine(L"Failed applying display settings to interface.");
+			AVDebugWriteLine(L"Failed applying display settings to interface (ADL)");
 			return false;
 		}
 	}

@@ -153,6 +153,30 @@
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
+
+                            <StackPanel x:Name="stackpanel_AppSelect_Display" Orientation="Horizontal">
+                                <!-- Application Select -->
+                                <Button x:Name="button_AppSelect_Display" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current application" Click="button_AppSelect_Display_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Apps.png" Width="28" Height="28"/>
+                                        <TextBlock x:Name="textblock_AppSelect_Display" Text="Select application" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Application Add -->
+                                <Button x:Name="button_AppAdd_Display" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add applications" Click="button_AppAdd_Display_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Plus.png" Width="28" Height="28"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Application Remove -->
+                                <Button x:Name="button_AppRemove_Display" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove applications" Click="button_AppRemove_Display_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image HorizontalAlignment="Center" Source="/Assets/Remove.png" Width="28" Height="28"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -190,17 +214,20 @@
                     <Button x:Name="button_Fan_Export" Click="button_Tuning_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current tuning and fans settings to file."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Graphics_Buttons" Grid.Row="2" ItemWidth="125" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Graphics_Reset_Settings" Click="button_Graphics_Reset_Settings_Click" Content="Reset" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
+                    <Button x:Name="button_Graphics_Apply" Click="button_Graphics_Apply_Click" Content="Apply" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply graphics settings.&#10;&#10;* Green: Settings are up to date.&#10;* Orange: Settings changed please apply.&#10;* Red: Settings failed to apply."/>
+                    <Button x:Name="button_Graphics_Reset" Click="button_Graphics_Reset_Click" Content="Reset" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset graphics settings to it's defaults."/>
                     <Button x:Name="button_Graphics_Import" Click="button_Graphics_Import_Click" Content="Import" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import graphics settings from file."/>
                     <Button x:Name="button_Graphics_Export" Click="button_Graphics_Export_Click" Content="Export" Width="120" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current graphics settings to file."/>
                     <Button x:Name="button_Graphics_Clear_ShaderCache" Click="button_Graphics_Clear_ShaderCache_Click" Content="Clear Shaders" Width="120" ToolTipService.ToolTip="Clear contents of the disk-based shader cache." Style="{ThemeResource ApplicationButton}"/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Display_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
-                    <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display color settings to it's defaults."/>
-                    <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import display color settings from file."/>
-                    <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current display color settings to file."/>
+                    <Button x:Name="button_Display_Apply" Click="button_Display_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply display settings.&#10;&#10;* Green: Settings are up to date.&#10;* Orange: Settings changed please apply.&#10;* Red: Settings failed to apply."/>
+                    <Button x:Name="button_Display_Reset" Click="button_Display_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset display settings to it's defaults."/>
+                    <Button x:Name="button_Display_Import" Click="button_Display_Import_Click" Content="Import" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Import display settings from file."/>
+                    <Button x:Name="button_Display_Export" Click="button_Display_Export_Click" Content="Export" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Export current display settings to file."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Multimedia_Buttons" Grid.Row="2" ItemWidth="105" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
+                    <Button x:Name="button_Multimedia_Apply" Click="button_Multimedia_Apply_Click" Content="Apply" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Apply multimedia settings.&#10;&#10;* Green: Settings are up to date.&#10;* Orange: Settings changed please apply.&#10;* Red: Settings failed to apply."/>
                     <Button x:Name="button_Multimedia_Reset" Click="button_Multimedia_Reset_Click" Content="Reset" Width="100" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Reset multimedia settings to it's defaults."/>
                 </VariableSizedWrapGrid>
                 <VariableSizedWrapGrid x:Name="stackpanel_Information_Buttons" Grid.Row="2" ItemWidth="155" ItemHeight="42" Margin="5,0,5,0" Orientation="Horizontal">
@@ -222,7 +249,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards, due to a limitation in the drivers.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
                             </Grid>
 
                             <!-- Radeon FSR Options -->
@@ -234,23 +261,25 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled."/>
                                         <Image x:Name="image_FsrLatencyReduction_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrLatencyReduction" Margin="10,0,0,0" OffContent="FSR Latency Reduction" OnContent="FSR Latency Reduction" Toggled="toggleswitch_FsrLatencyReduction_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrLatencyReduction_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <!-- FSR Multi Frame Generation Ratio -->
-                                    <StackPanel x:Name="stackpanel_MultiFrameGenerationRatio">
+                                    <StackPanel x:Name="stackpanel_FsrMultiFrameGenerationRatio">
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the frame rate multipier used by FSR Multi Frame Generation, a higher multiplier increases smoothness but may cause more graphical glitches based on the intensity of in-game movement."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
                                             <TextBlock Text="FSR Multi Frame Generation Ratio" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrMultiFrameGenerationRatio_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
-                                        <ComboBox x:Name="combobox_MultiFrameGenerationRatio" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_MultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                        <ComboBox x:Name="combobox_FsrMultiFrameGenerationRatio" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FsrMultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="0,10,0,0" Text="FSR Override" FontSize="20" FontWeight="Medium"/>
+                            <TextBlock Margin="0,10,0,0" Text="FSR Overrides" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Radeon FSR Override -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -261,6 +290,7 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or newer graphic cards and requires an application to have at least FSR 3.1.0 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                         <Image x:Name="image_FsrOverrideUpscaling_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="FSR Upscaling Override" OnContent="FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideUpscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -271,6 +301,7 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.4 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                         <Image x:Name="image_FsrOverrideFrameGeneration_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_FsrOverrideFrameGeneration" Margin="10,0,0,0" OffContent="FSR Frame Generation Override" OnContent="FSR Frame Generation Override" Toggled="toggleswitch_FsrOverrideFrameGeneration_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideFrameGeneration_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <!-- FSR Multi Frame Generation Override -->
@@ -282,6 +313,7 @@
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <Image x:Name="image_FsrOverrideMultiFrameGeneration_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideMultiFrameGeneration_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                     </StackPanel>
 
@@ -294,6 +326,7 @@
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <Image x:Name="image_FsrOverrideRayRegeneration_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideRayRegeneration_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                     </StackPanel>
 
@@ -306,6 +339,7 @@
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <Image x:Name="image_FsrOverrideNeuralRadianceCaching_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideNeuralRadianceCaching_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                     </StackPanel>
 
@@ -316,7 +350,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (amdxcffx dll) file that gets used when overriding FSR features in applications."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA3 or newer graphic cards."/>
                                         <TextBlock Text="FSR Override Library" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{StaticResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{StaticResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Currently used version"/>
                                     </StackPanel>
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Button x:Name="button_FsrDllLoadPath_Set" Content="Set" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
@@ -333,9 +367,10 @@
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the source for AMD FSR Over-The-Air (OTA) updates. Use the driver's built-in package or receive newer builds Over-The-Air from AMD Install Manager."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or newer graphic cards."/>
                                             <TextBlock Text="FSR Over-The-Air Updates" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOtaUpdates_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
 
-                                        <ComboBox x:Name="combobox_FsrOtaUpdates" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FsrOtaUpdates_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                        <ComboBox x:Name="combobox_FsrOtaUpdates" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FsrOtaUpdates_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -352,6 +387,7 @@
                                                 <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may introduce additional latency in games, it is recommended to use 'FSR Latency Reduction' for optimal performance.&#10;&#10;* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards.&#10;&#10;* This setting disables 'Vertical Sync' and 'Frame Rate Target Control' when active, you can still limit the FPS using 'Radeon Chill'.&#10;&#10;* This setting only works when using the 'Default' driver software installation type and needs Adrenalin Software to be running in the background and also requires an application to be added to the game library."/>
                                                 <Image x:Name="image_FrameGenEnabled_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                                 <ToggleSwitch x:Name="toggleswitch_FrameGenEnabled" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_FrameGenEnabled_Toggled"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenEnabled_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                             </StackPanel>
 
                                             <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -360,8 +396,9 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjusts Fluid Motion Frames search mode to respond better to high-motion scenes and improve smoothness."/>
                                                     <TextBlock Margin="10,0,0,0" Text="Search Mode" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenSearchMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                                 </StackPanel>
-                                                <ComboBox x:Name="combobox_FrameGenSearchMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenSearchMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                                <ComboBox x:Name="combobox_FrameGenSearchMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenSearchMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                             </StackPanel>
 
                                             <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -370,8 +407,9 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reduces the potential performance overhead of Fluid Motion but may lower the image quality during high-motion scenes."/>
                                                     <TextBlock Margin="10,0,0,0" Text="Performance Mode" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenPerfMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                                 </StackPanel>
-                                                <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                                <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                             </StackPanel>
 
                                             <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -380,8 +418,9 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Configure AFMF's response to fast motion to either use a 'Repeat Frame' to maintain image quality or 'Blended Frame' for smoother motion."/>
                                                     <TextBlock Margin="10,0,0,0" Text="Fast Motion Response" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenResponseMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                                 </StackPanel>
-                                                <ComboBox x:Name="combobox_FrameGenResponseMode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenResponseMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                                <ComboBox x:Name="combobox_FrameGenResponseMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenResponseMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                             </StackPanel>
 
                                             <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -390,8 +429,9 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjusts the Fluid Motion Frames algorithm used."/>
                                                     <TextBlock Margin="10,0,0,0" Text="Algorithm" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenAlgorithm_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                                 </StackPanel>
-                                                <ComboBox x:Name="combobox_FrameGenAlgorithm" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_FrameGenAlgorithm_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                                <ComboBox x:Name="combobox_FrameGenAlgorithm" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenAlgorithm_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
@@ -408,6 +448,7 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on OpenGL applications.&#10;&#10;* This setting cannot be used when 'FSR Latency Reduction' or 'Radeon Boost' is enabled."/>
                                         <Image x:Name="image_RadeonChill_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Button x:Name="button_RadeonChill_Link" Click="button_RadeonChill_Link_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0">
@@ -420,6 +461,8 @@
                                         <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
                                         <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Min_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -431,12 +474,14 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets an user-defined target maximum frame rate to reduce power consumption."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode."/>
                                         <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Frtc_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Maximum" VerticalAlignment="Center"/>
                                         <TextBox x:Name="textbox_Frtc_Fps" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_FrameRateTarget, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_Frtc_FrameRateTarget" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged"/>
                                         <TextBlock Text="FPS" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Frtc_FrameRateTarget_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -449,12 +494,14 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* DirectX 12 applications are only supported on RDNA2 and newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
                                         <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonBoost_MinResolution" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_MinResolution_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -469,6 +516,7 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* As Global setting this feature only works on RDNA3 and older graphic cards and requires using full-screen mode.&#10;&#10;* In application profiles this setting only works on RDNA and newer graphic cards.&#10;&#10;* DirectX 9 applications are only supported on RDNA and newer graphic cards."/>
                                         <Image x:Name="image_RadeonImageSharpening1_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening1" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 1" OnContent="Radeon Image Sharpening 1" Toggled="toggleswitch_RadeonImageSharpening1_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening1_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <!-- Radeon Image Sharpening 1 Sharpness -->
@@ -477,6 +525,7 @@
                                         <TextBox x:Name="textbox_RadeonImageSharpening1_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonImageSharpening1_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening1_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -489,12 +538,14 @@
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works when using full-screen mode, unless you also enable the 'Sharpen Desktop' option."/>
                                         <Image x:Name="image_RadeonImageSharpening2_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening2" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 2" OnContent="Radeon Image Sharpening 2" Toggled="toggleswitch_RadeonImageSharpening2_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening2_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <!-- Radeon Image Sharpening 2 Desktop -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Apply sharpening to your desktop and applications, including windowed applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening2_Desktop" Margin="10,0,0,0" OffContent="Sharpen Desktop" OnContent="Sharpen Desktop" Toggled="toggleswitch_RadeonImageSharpening2_Desktop_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening2_Desktop_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <!-- Radeon Image Sharpening 2 Sharpness -->
@@ -503,6 +554,7 @@
                                         <TextBox x:Name="textbox_RadeonImageSharpening2_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider x:Name="slider_RadeonImageSharpening2_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged"/>
                                         <TextBlock Text="%" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening2_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -516,8 +568,9 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vertical Sync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;* Limits the frame rate at the display's refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
                                         <TextBlock Margin="10,0,0,0" Text="Vertical Sync" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_VerticalSync_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_VerticalSync" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_VerticalSync_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_VerticalSync" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_VerticalSync_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -526,6 +579,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Enhanced Sync synchronizes the transition to a new frame of animation with the display refresh rate at a low latency, so minimal tearing is visible between frames.&#10;&#10;* Does not limit the frame rate at the display's refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline.&#10;&#10;* When an application does not support 'Enhanced Sync' it will fallback and use the 'Vertical Sync' setting."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonEnhancedSync" Margin="10,0,0,0" OffContent="Radeon Enhanced Sync" OnContent="Radeon Enhanced Sync" Toggled="toggleswitch_RadeonEnhancedSync_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonEnhancedSync_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -535,6 +589,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Alternative vertical refresh mode exclusively for OpenGL applications.&#10;&#10;* Does not limit the frame rate at the display's refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
                                         <ToggleSwitch x:Name="toggleswitch_OpenGLTripleBuffering" Margin="10,0,0,0" OffContent="OpenGL Triple Buffering" OnContent="OpenGL Triple Buffering" Toggled="toggleswitch_OpenGLTripleBuffering_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_OpenGLTripleBuffering_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -548,6 +603,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anti-aliasing improves image quality by smoothing jagged edges at the cost of some performance and video memory usage."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Anti-Aliasing Override, Method, Level and EQAA only works on DirectX 9 (and older) and some OpenGL applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_AntiAliasingOverride" Margin="10,0,0,0" OffContent="Anti-Aliasing Override" OnContent="Anti-Aliasing Override" Toggled="toggleswitch_AntiAliasingOverride_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_AntiAliasingOverride_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -556,8 +612,9 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the method used to smooth object edges, more sampling improves quality but reduces performance.&#10;&#10;* Multisampling (MSAA) targets only object edges.&#10;&#10;* Adaptive Multisampling (Adaptive MSAA) smooths both edges and transparent textures.&#10;&#10;* Supersampling (SSAA/FSAA) covers every pixel for excellent quality but a substantial performance cost."/>
                                         <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_AntiAliasingMethod_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_AntiAliasingMethod" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_AntiAliasingMethod" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_AntiAliasingMethod_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -565,8 +622,9 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the number of samples used for edge anti-aliasing, higher sample counts improve image quality at the cost of performance."/>
                                         <TextBlock Text="Anti-Aliasing Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_AntiAliasingLevel_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_AntiAliasingLevel" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_AntiAliasingLevel" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_AntiAliasingLevel_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -574,6 +632,7 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enhanced Quality Anti-Aliasing (EQAA) is an anti-aliasing technology that offers advanced smoothing of aliased edges without requiring additional video memory but comes with a small additional performance cost."/>
                                         <ToggleSwitch x:Name="toggleswitch_AntiAliasingEnhancedQuality" Margin="10,0,0,0" OffContent="Enhanced Quality Anti-Aliasing" OnContent="Enhanced Quality Anti-Aliasing" Toggled="toggleswitch_AntiAliasingEnhancedQuality_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_AntiAliasingEnhancedQuality_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -583,6 +642,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Morphological Anti-Aliasing (MLAA) is an edge-smoothing technique with minimal performance overhead."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on DirectX 9 applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_MorphologicalAntiAliasing" Margin="10,0,0,0" OffContent="Morphological Anti-Aliasing" OnContent="Morphological Anti-Aliasing" Toggled="toggleswitch_MorphologicalAntiAliasing_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_MorphologicalAntiAliasing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -596,8 +656,9 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Anisotropic filtering improves texture quality in most 3D applications on surfaces that appear far away or at odd angles - such as roads or trees - at the cost of some frame rate performance."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have texture filtering type set to 'Trilinear' or 'Bilinear' to make the override work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <TextBlock Text="Anisotropic Texture Filtering Override" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_AnisotropicTextureFiltering_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_AnisotropicTextureFiltering_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_AnisotropicTextureFiltering" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_AnisotropicTextureFiltering_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
 
@@ -608,8 +669,9 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Controls the optimization point for texture filtering, 'Standard' is typically the best mix of image quality and performance."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Requires a texture filtering type like 'Anisotropic' to be enabled in an application to work.&#10;&#10;* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <TextBlock Text="Texture Filtering Quality" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_TextureFilteringQuality_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_TextureFilteringQuality" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_TextureFilteringQuality_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
 
@@ -620,6 +682,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Allows the driver to override the application and choose a more optimal texture format to improve performance and lower video memory usage, typically has a minimal impact on image quality."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on DirectX 12 and Vulkan applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_SurfaceFormatOptimization" Margin="10,0,0,0" OffContent="Surface Format Optimization" OnContent="Surface Format Optimization" Toggled="toggleswitch_SurfaceFormatOptimization_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_SurfaceFormatOptimization_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -630,6 +693,7 @@
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
                                     <ToggleSwitch x:Name="toggleswitch_OpenGL10BitPixelFormat" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10BitPixelFormat_Toggled"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_OpenGL10BitPixelFormat_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                 </StackPanel>
                             </Border>
 
@@ -642,8 +706,9 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Tessellation adjusts the number of polygons used to render objects with enhanced detail, at the cost of some frame rate performance."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Some applications require to have 'Tessellation' enabled to make the override work.&#10;&#10;* Tessellation Mode and Level only works on DirectX 11 applications."/>
                                         <TextBlock Text="Tessellation Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_TessellationMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_Tessellation_Mode" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_Tessellation_Mode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Tessellation_Mode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -651,8 +716,9 @@
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the number of polygons to be produced during the tessellation of objects, setting a limit can prevent excessive tessellation with little or no benefit in image quality and performance."/>
                                         <TextBlock Text="Tessellation Level" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_TessellationLevel_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="260" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_Tessellation_Level" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Tessellation_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -842,7 +908,7 @@
 
                                 <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ApplicationWhiteColor}" BorderThickness="2" CornerRadius="6">
                                     <Grid>
-                                        <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" CornerRadius="6,0,0,6" Background="{ThemeResource ApplicationDarkGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is low enough."/>
+                                        <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" CornerRadius="6,0,0,6" Background="{ThemeResource ApplicationDarkGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is considered low enough."/>
                                         <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Line Margin="0,25,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="0,50,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
@@ -850,7 +916,7 @@
                                             <Line Margin="125,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="250,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="375,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, Current state"/>
                                             <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
                                             <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="2" ToolTipService.ToolTip="Currently set to"/>
                                             <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2" ToolTipService.ToolTip="Profile target"/>
@@ -1033,12 +1099,23 @@
 
                         <!-- Display -->
                         <StackPanel x:Name="stackpanel_Display" Visibility="Collapsed">
-                            <TextBlock Text="Display Options" FontSize="20" FontWeight="Medium"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Display Options" FontSize="20" FontWeight="Medium"/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Display application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application.&#10;&#10;* Some settings like Display, HDR, Scaling, Power, Format and Override options are not available in application profiles."/>
+                            </Grid>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Display Resolution -->
-                                    <TextBlock Text="Display Resolution" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Display Resolution" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Resolution_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <ComboBox x:Name="combobox_Display_Resolution" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Resolution_SelectionChanged">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate x:DataType="local:DisplayDetailsIdl">
@@ -1050,7 +1127,10 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Display Refresh Rate -->
-                                    <TextBlock Text="Display Refresh Rate" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Display Refresh Rate" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_RefreshRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <ComboBox x:Name="combobox_Display_RefreshRate" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_RefreshRate_SelectionChanged">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate x:DataType="local:DisplayDetailsIdl">
@@ -1062,7 +1142,10 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Display Orientation -->
-                                    <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Display Orientation" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Orientation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <ComboBox x:Name="combobox_Display_Orientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Orientation_SelectionChanged"/>
                                 </StackPanel>
                             </Border>
@@ -1070,26 +1153,12 @@
                             <TextBlock Margin="0,10,0,0" Text="HDR Options" FontSize="20" FontWeight="Medium"/>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <!-- High Dynamic Range -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable High Dynamic Range for the display to enable a wider range of colors to improve visual quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires a High Dynamic Range compatible monitor."/>
-                                        <ToggleSwitch x:Name="toggleswitch_HdrEnabled" Margin="10,0,0,0" OffContent="High Dynamic Range" OnContent="High Dynamic Range" Toggled="toggleswitch_HdrEnabled_Toggled"/>
-                                    </StackPanel>
-
-                                    <!-- HDR Media Profile -->
-                                    <StackPanel x:Name="stackpanel_Display_HdrTypePreference">
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-                                        <StackPanel Margin="0,10,0,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Change the display HDR Media Profile for optimal color accuracy when viewing HDR content."/>
-                                                <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync Premium Pro compatible monitor."/>
-                                                <TextBlock Text="HDR Media Profile" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                            <ComboBox x:Name="combobox_Display_HdrMediaProfile" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_HdrMediaProfile_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                        </StackPanel>
-                                    </StackPanel>
+                                <!-- High Dynamic Range -->
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable High Dynamic Range for the display to enable a wider range of colors to improve visual quality."/>
+                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires a High Dynamic Range compatible monitor.&#10;&#10;* HDR cannot be enabled when you are not using a 4:4:4 pixel format."/>
+                                    <ToggleSwitch x:Name="toggleswitch_Display_HdrEnabled" Margin="10,0,0,0" OffContent="High Dynamic Range" OnContent="High Dynamic Range" Toggled="toggleswitch_Display_HdrEnabled_Toggled"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HdrEnabled_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                 </StackPanel>
                             </Border>
 
@@ -1101,7 +1170,8 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
-                                        <ToggleSwitch x:Name="toggleswitch_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_FreeSync_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_Display_FreeSync_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSync_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1113,7 +1183,8 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native resolution and then scales the image down to match the display, producing higher quality visuals at the expense of performance.&#10;&#10;VSR is beneficial for games lacking anti-aliasing options or those with insufficient anti-aliasing, this is often seen in older gaming titles."/>
-                                        <ToggleSwitch x:Name="toggleswitch_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_VSR_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_Display_VSR_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VSR_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1123,7 +1194,8 @@
                                     <!-- GPU Scaling -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display.&#10;&#10;When not enabled, displays typically handle scaling themselves."/>
-                                        <ToggleSwitch x:Name="toggleswitch_GpuScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_GpuScaling_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_GpuScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_Display_GpuScaling_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GpuScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1131,7 +1203,8 @@
                                     <!-- Integer Scaling -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Scaling gives a sharp, pixelated look to images scaled up to fit the display, images that can't be scaled to match the display's exact size and shape will be centered on screen.&#10;&#10;Integer Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display."/>
-                                        <ToggleSwitch x:Name="toggleswitch_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_IntegerScaling_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_Display_IntegerScaling_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_IntegerScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1141,6 +1214,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Method used to stretch and position images to fit the display.&#10;&#10;- Preserve aspect ratio: Maintains the original aspect ratio of the image while fitting it to the display.&#10;&#10;- Full panel: Stretches image to fill the entire display.&#10;&#10;- Center: Centers image on the display keeping original aspect and pixel ratio."/>
                                             <TextBlock Text="Scaling Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ScalingMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_ScalingMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_ScalingMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1155,14 +1229,18 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
-                                        <ToggleSwitch x:Name="toggleswitch_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_VariBright_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_Display_VariBright_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Vari-Bright Level -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Vertical">
-                                        <TextBlock Text="Vari-Bright Level" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Vari-Bright Level" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Level_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        </StackPanel>
                                         <ComboBox x:Name="combobox_Display_VariBright_Level" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_VariBright_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1177,6 +1255,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Color depth to be used with your display."/>
                                             <TextBlock Text="Color Depth" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorDepth_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_ColorDepth" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1190,6 +1269,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Pixel format used to encode images for the display."/>
                                             <TextBlock Text="Pixel Format" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_PixelFormat_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_PixelFormat" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1202,8 +1282,9 @@
                                 <StackPanel>
                                     <!-- Gamma Red Green Blue -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be closed first.&#10;&#10;* Some applications reset the Gamma to default, when RadeonTuner is running it will automatically try to restore it, but may take a few seconds."/>
-                                        <TextBlock Text="Red" Margin="10,0,0,0"/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* Some applications reset the Gamma to default, when RadeonTuner is running it will automatically try to restore it, but may take a few seconds."/>
+                                        <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1216,7 +1297,10 @@
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <TextBlock Text="Green" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Green" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1228,7 +1312,10 @@
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <TextBlock Text="Blue" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Blue" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1246,7 +1333,10 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Brightness -->
-                                    <TextBlock Text="Brightness"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Brightness" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1259,7 +1349,10 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Contrast -->
-                                    <TextBlock Text="Contrast" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Contrast" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Contrast_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1272,7 +1365,11 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Saturation -->
-                                    <TextBlock Text="Saturation" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Saturation" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Saturation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1285,7 +1382,10 @@
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- Hue -->
-                                    <TextBlock Text="Hue" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Hue" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Hue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1304,6 +1404,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Improves visibility of dimmed details."/>
                                             <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_DisplayColorEnhancement_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1320,6 +1421,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable color temperature control."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When 'Color Temperature Control' is disabled your colors will be limited to a narrow color gamut which may lead to oversaturated and incorrect color accuracy on HDR enabled displays."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_ColorTemperature_Control" Margin="10,0,0,0" OffContent="Color Temperature Control" OnContent="Color Temperature Control" Toggled="toggleswitch_Display_ColorTemperature_Control_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1328,6 +1430,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose how warm or cool images will look on your display."/>
                                         <TextBlock Text="Color Temperature Kelvin" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Kelvin_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1349,6 +1452,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable accessibility mode that allows tweaking of colors for users who experience varying levels of Color Deficiency Correction."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_CVDC_Control" Margin="10,0,0,0" OffContent="Color Deficiency Correction Control" OnContent="Color Deficiency Correction Control" Toggled="toggleswitch_Display_CVDC_Control_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_CVDC_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1357,6 +1461,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for red color blindness."/>
                                         <TextBlock Text="Protanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Protanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1373,6 +1478,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for green color blindness."/>
                                         <TextBlock Text="Deuteranopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Deuteranopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1389,6 +1495,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for blue color blindness."/>
                                         <TextBlock Text="Tritanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Tritanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1401,8 +1508,8 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Overrides -->
-                            <TextBlock Text="Overrides" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <!-- Override Options -->
+                            <TextBlock Text="Override Options" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- HDCP Support -->
                             <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -1410,33 +1517,27 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
-                                        <ToggleSwitch x:Name="toggleswitch_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_HDCPSupport_Toggled"/>
+                                        <ToggleSwitch x:Name="toggleswitch_Display_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_Display_HDCPSupport_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HDCPSupport_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Eyefinity -->
-                            <TextBlock Text="Eyefinity" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+                            <!-- Eyefinity Options -->
+                            <TextBlock Text="Eyefinity Options" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
                             <!-- Automatic Eyefinity -->
                             <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="When you add an application to the list below Eyefinity will automatically be enabled when an application is running and disabled when no longer running."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
-                                        <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <ComboBox x:Name="combobox_Eyefinity_Applications" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
-                                        <Button x:Name="button_Eyefinity_AddExe" Content="Add application" Click="button_Eyefinity_AppAddExe_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Add application."/>
-                                        <Button x:Name="button_Eyefinity_Remove" Content="Remove" Click="button_Eyefinity_AppRemove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove selected application."/>
-                                    </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity will automatically be enabled when the display profile application is running and disabled when no longer running."/>
+                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
+                                    <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Eyefinity_Automatic_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                 </StackPanel>
                             </Border>
 
                             <!-- Create Eyefinity -->
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                            <Border x:Name="border_Eyefinity" Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <!-- Buttons -->
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -1521,13 +1622,20 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Upscaling improves video playback quality by upscaling video playback resolution and adjusting details for a better visual experience."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 and newer graphic cards."/>
                                         <ToggleSwitch x:Name="toggleswitch_Video_Upscaling" Margin="10,0,0,0" OffContent="Video Upscaling" OnContent="Video Upscaling" Toggled="toggleswitch_Video_Upscaling_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Upscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_VideoUpscale_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_Video_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
-                                        <TextBlock Text="%" VerticalAlignment="Center"/>
-                                    </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Sharpening" VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1" x:Name="textbox_VideoUpscale_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_Video_Sharpening" Margin="10,0,0,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
+                                        <TextBlock Grid.Column="3" Margin="10,0,0,0" x:Name="textblock_Video_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -1539,9 +1647,11 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBox Grid.Column="0" x:Name="textbox_Video_Brightness" Text="{Binding ElementName=slider_Video_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Video_Brightness" Margin="10,0,0,0" ValueChanged="slider_Video_Brightness_ValueChanged"/>
+                                        <TextBlock Grid.Column="2" Margin="10,0,0,0" x:Name="textblock_Video_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>

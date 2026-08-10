@@ -5,62 +5,77 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
+	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectDisplayApp(int dispAdapterIndex, int dispDisplayIndex, std::wstring application)
 	{
 		try
 		{
 			//Disable saving
 			disable_saving = true;
 
-			//Get adapter and display index
-			adl_Display_AdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
-			adl_Display_DisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
-			AVDebugWriteLine("Selected display index: A" << adl_Display_AdapterIndex << " / D" << adl_Display_DisplayIndex);
+			//Get current and default settings
+			DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(dispAdapterIndex, dispDisplayIndex, application).value();
+
+			//Add settings profile
+			DisplaySettings_Profile_Add(displaySettingsAdl);
+
+			//Device identifier
+			std::wstring deviceId = displaySettingsAdl.DeviceId.value();
+
+			//Get and set settings
+			displaySettingsCurrent = DisplaySettings_Profile_Get(deviceId, application).value();
+
+			//Convert settings values to interface
+			DisplaySettings_Convert_ToUI_Adl(displaySettingsAdl);
+			DisplaySettings_Convert_ToUI_Profile(displaySettingsCurrent, AdlSettingGet::Current);
 
 			//Update button text
-			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
+			textblock_AppSelect_Display().Text(application);
 
-			//Load display settings
-			AdlxValuesLoadDisplay();
+			//Disable or enable settings
+			if (application == L"Global")
+			{
+				//Enable settings
+				combobox_Display_Resolution().IsEnabled(true);
+				combobox_Display_RefreshRate().IsEnabled(true);
+				combobox_Display_Orientation().IsEnabled(true);
 
-			//Load eyefinity settings
-			AdlxValuesLoadEyefinity();
+				//Disable settings
+				toggleswitch_Eyefinity_Automatic().IsEnabled(false);
 
-			//Load information
-			AdlxInfoLoad();
+				//Show settings
+				border_Eyefinity().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				//Enable settings
+				toggleswitch_Eyefinity_Automatic().IsEnabled(true);
+
+				//Disable settings
+				combobox_Display_Resolution().IsEnabled(false);
+				combobox_Display_RefreshRate().IsEnabled(false);
+				combobox_Display_Orientation().IsEnabled(false);
+				toggleswitch_Display_HdrEnabled().IsEnabled(false);
+				toggleswitch_Display_VSR().IsEnabled(false);
+				toggleswitch_Display_GpuScaling().IsEnabled(false);
+				toggleswitch_Display_IntegerScaling().IsEnabled(false);
+				combobox_Display_ScalingMode().IsEnabled(false);
+				toggleswitch_Display_VariBright().IsEnabled(false);
+				combobox_Display_VariBright_Level().IsEnabled(false);
+				combobox_Display_ColorDepth().IsEnabled(false);
+				combobox_Display_PixelFormat().IsEnabled(false);
+				toggleswitch_Display_HDCPSupport().IsEnabled(false);
+
+				//Hide settings
+				border_Eyefinity().Visibility(Visibility::Collapsed);
+			}
+
+			//Update button colors
+			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorValid);
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
 			disable_saving = false;
-
-			//Set result
-			AVDebugWriteLine("Loaded selected display values.");
-		}
-		catch (...)
-		{
-			//Set result
-			AVDebugWriteLine("Failed loading selected display values (Exception)");
-		}
-	}
-
-	void MainPage::AdlxValuesLoadDisplay()
-	{
-		try
-		{
-			//Get current and default settings
-			displaySettingsCurrent = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex).value();
-
-			//Convert settings values to interface
-			DisplaySettings_Convert_ToUI_Adl(displaySettingsCurrent);
-
-			//Load display resolution values
-			DisplayList_Resolution(false);
-
-			//Load display refresh rate values
-			DisplayList_RefreshRate();
-
-			//Select current display values
-			DisplayList_SelectCurrent_Values();
 
 			//Set result
 			AVDebugWriteLine("ADLX loaded display values.");
@@ -72,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	void MainPage::AdlxValuesLoadEyefinity()
+	void MainPage::AdlxValuesLoadEyefinityDisplays()
 	{
 		try
 		{
