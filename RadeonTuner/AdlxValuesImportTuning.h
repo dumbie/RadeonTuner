@@ -47,7 +47,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set settings values to interface
-			TuningFanSettings_Convert_ToUI_Current(tuningFanSettings);
+			TuningFanSettings_Convert_ToUI_Profile(tuningFanSettings, AdlSettingGet::Current);
 
 			//Set result
 			ShowNotification(L"Tuning and fans imported");

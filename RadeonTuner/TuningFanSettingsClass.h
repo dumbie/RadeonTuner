@@ -6,28 +6,28 @@ struct TuningFanSettings
 	//Settings
 	std::optional<std::wstring> DeviceId;
 	std::optional<std::wstring> Application;
-	SettingInt CoreMin;
-	SettingInt CoreMax;
-	SettingInt MemoryTiming;
-	SettingInt MemoryMax;
-	SettingInt PowerLimit;
-	SettingInt PowerVoltage;
-	SettingInt PowerTDC;
-	SettingInt FanZeroRpm;
-	SettingInt FanSpeed0;
-	SettingInt FanTemp0;
-	SettingInt FanSpeed1;
-	SettingInt FanTemp1;
-	SettingInt FanSpeed2;
-	SettingInt FanTemp2;
-	SettingInt FanSpeed3;
-	SettingInt FanTemp3;
-	SettingInt FanSpeed4;
-	SettingInt FanTemp4;
+	AdlSettingInt CoreMin;
+	AdlSettingInt CoreMax;
+	AdlSettingInt MemoryTiming;
+	AdlSettingInt MemoryMax;
+	AdlSettingInt PowerLimit;
+	AdlSettingInt PowerVoltage;
+	AdlSettingInt PowerTDC;
+	AdlSettingInt FanZeroRpm;
+	AdlSettingInt FanSpeed0;
+	AdlSettingInt FanTemp0;
+	AdlSettingInt FanSpeed1;
+	AdlSettingInt FanTemp1;
+	AdlSettingInt FanSpeed2;
+	AdlSettingInt FanTemp2;
+	AdlSettingInt FanSpeed3;
+	AdlSettingInt FanTemp3;
+	AdlSettingInt FanSpeed4;
+	AdlSettingInt FanTemp4;
 
 	//Custom
-	SettingInt FanControl;
-	SettingInt KeepActive;
+	AdlSettingInt FanControl;
+	AdlSettingInt KeepActive;
 
 	//Variables (No export)
 	int FanZeroTemp = -1;

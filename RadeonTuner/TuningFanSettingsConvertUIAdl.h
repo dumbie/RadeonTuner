@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "pch.h"
 #include "MainPage.h"
 #include "MainVariables.h"
@@ -12,9 +12,9 @@ namespace winrt::RadeonTuner::implementation
 			//Gpu Core Minimum
 			if (tuningFanSettings.CoreMin.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.CoreMin.Current.value()) + L"MHz";
-				textblock_Core_Min_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.CoreMin.Current.value()) + L"MHz";
+				textblock_Core_Min_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.CoreMin.Minimum.has_value())
@@ -30,7 +30,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Core_Min_Value().Text(L"");
 
 				//Enable or disable interface
@@ -40,9 +40,9 @@ namespace winrt::RadeonTuner::implementation
 			//Gpu Core Maximum
 			if (tuningFanSettings.CoreMax.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.CoreMax.Current.value()) + L"MHz";
-				textblock_Core_Max_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.CoreMax.Current.value()) + L"MHz";
+				textblock_Core_Max_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.CoreMax.Minimum.has_value())
@@ -68,7 +68,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Core_Max_Value().Text(L"");
 
 				//Enable or disable interface
@@ -78,16 +78,16 @@ namespace winrt::RadeonTuner::implementation
 			//Memory Timing
 			if (tuningFanSettings.MemoryTiming.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = ADLX_MEMORYTIMING_DESCRIPTION_STRING[tuningFanSettings.MemoryTiming.Current.value()];
-				textblock_Memory_Timing_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = ADLX_MEMORYTIMING_DESCRIPTION_STRING[tuningFanSettings.MemoryTiming.Current.value()];
+				textblock_Memory_Timing_Value().Text(valueHint);
 
 				//Enable or disable interface
 				combobox_Memory_Timing().IsEnabled(true);
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Memory_Timing_Value().Text(L"");
 
 				//Enable or disable interface
@@ -97,9 +97,9 @@ namespace winrt::RadeonTuner::implementation
 			//Memory Frequency
 			if (tuningFanSettings.MemoryMax.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.MemoryMax.Current.value()) + L"MTs";
-				textblock_Memory_Max_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.MemoryMax.Current.value()) + L"MTs";
+				textblock_Memory_Max_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.MemoryMax.Minimum.has_value())
@@ -115,7 +115,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Memory_Max_Value().Text(L"");
 
 				//Enable or disable interface
@@ -125,9 +125,9 @@ namespace winrt::RadeonTuner::implementation
 			//Power Limit
 			if (tuningFanSettings.PowerLimit.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerLimit.Current.value()) + L"%";
-				textblock_Power_Limit_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.PowerLimit.Current.value()) + L"%";
+				textblock_Power_Limit_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.PowerLimit.Minimum.has_value())
@@ -143,7 +143,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Power_Limit_Value().Text(L"");
 
 				//Enable or disable interface
@@ -153,9 +153,9 @@ namespace winrt::RadeonTuner::implementation
 			//Power Voltage
 			if (tuningFanSettings.PowerVoltage.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerVoltage.Current.value()) + L"mV";
-				textblock_Power_Voltage_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.PowerVoltage.Current.value()) + L"mV";
+				textblock_Power_Voltage_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.PowerVoltage.Minimum.has_value())
@@ -181,7 +181,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Power_Voltage_Value().Text(L"");
 
 				//Enable or disable interface
@@ -191,9 +191,9 @@ namespace winrt::RadeonTuner::implementation
 			//Power TDC
 			if (tuningFanSettings.PowerTDC.Current.has_value())
 			{
-				//Set value text
-				std::wstring valueText = number_to_wstring(tuningFanSettings.PowerTDC.Current.value()) + L"%";
-				textblock_Power_TDC_Value().Text(valueText);
+				//Set hint value
+				std::wstring valueHint = number_to_wstring(tuningFanSettings.PowerTDC.Current.value()) + L"%";
+				textblock_Power_TDC_Value().Text(valueHint);
 
 				//Set interface
 				if (tuningFanSettings.PowerTDC.Minimum.has_value())
@@ -209,7 +209,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Set value text
+				//Set hint value
 				textblock_Power_TDC_Value().Text(L"");
 
 				//Enable or disable interface
@@ -222,7 +222,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Zero RPM
 			if (tuningFanSettings.FanZeroRpm.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				bool zeroRpm = tuningFanSettings.FanZeroRpm.Current.value();
 				textblock_Fan_Zero_Rpm_Value().Text(zeroRpm ? L"Enabled" : L"Disabled");
 
@@ -241,7 +241,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Speed 0
 			if (tuningFanSettings.FanSpeed0.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				textblock_Fan_Curve_0_Speed_Value().Text(number_to_wstring(tuningFanSettings.FanSpeed0.Current.value()) + L"%");
 
 				//Set interface
@@ -265,8 +265,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Temperature 0
 			if (tuningFanSettings.FanTemp0.Current.has_value())
 			{
-				//Set value text
-				textblock_Fan_Curve_0_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp0.Current.value()) + L"C");
+				//Set hint value
+				textblock_Fan_Curve_0_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp0.Current.value()) + L"°C");
 
 				//Set interface
 				if (tuningFanSettings.FanTemp0.Minimum.has_value())
@@ -289,7 +289,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Speed 1
 			if (tuningFanSettings.FanSpeed1.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				textblock_Fan_Curve_1_Speed_Value().Text(number_to_wstring(tuningFanSettings.FanSpeed1.Current.value()) + L"%");
 
 				//Set interface
@@ -313,8 +313,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Temperature 1
 			if (tuningFanSettings.FanTemp1.Current.has_value())
 			{
-				//Set value text
-				textblock_Fan_Curve_1_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp1.Current.value()) + L"C");
+				//Set hint value
+				textblock_Fan_Curve_1_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp1.Current.value()) + L"°C");
 
 				//Set interface
 				if (tuningFanSettings.FanTemp1.Minimum.has_value())
@@ -337,7 +337,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Speed 2
 			if (tuningFanSettings.FanSpeed2.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				textblock_Fan_Curve_2_Speed_Value().Text(number_to_wstring(tuningFanSettings.FanSpeed2.Current.value()) + L"%");
 
 				//Set interface
@@ -361,8 +361,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Temperature 2
 			if (tuningFanSettings.FanTemp2.Current.has_value())
 			{
-				//Set value text
-				textblock_Fan_Curve_2_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp2.Current.value()) + L"C");
+				//Set hint value
+				textblock_Fan_Curve_2_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp2.Current.value()) + L"°C");
 
 				//Set interface
 				if (tuningFanSettings.FanTemp2.Minimum.has_value())
@@ -385,7 +385,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Speed 3
 			if (tuningFanSettings.FanSpeed3.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				textblock_Fan_Curve_3_Speed_Value().Text(number_to_wstring(tuningFanSettings.FanSpeed3.Current.value()) + L"%");
 
 				//Set interface
@@ -409,8 +409,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Temperature 3
 			if (tuningFanSettings.FanTemp3.Current.has_value())
 			{
-				//Set value text
-				textblock_Fan_Curve_3_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp3.Current.value()) + L"C");
+				//Set hint value
+				textblock_Fan_Curve_3_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp3.Current.value()) + L"°C");
 
 				//Set interface
 				if (tuningFanSettings.FanTemp3.Minimum.has_value())
@@ -433,7 +433,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Speed 4
 			if (tuningFanSettings.FanSpeed4.Current.has_value())
 			{
-				//Set value text
+				//Set hint value
 				textblock_Fan_Curve_4_Speed_Value().Text(number_to_wstring(tuningFanSettings.FanSpeed4.Current.value()) + L"%");
 
 				//Set interface
@@ -457,8 +457,8 @@ namespace winrt::RadeonTuner::implementation
 			//Fan Temperature 4
 			if (tuningFanSettings.FanTemp4.Current.has_value())
 			{
-				//Set value text
-				textblock_Fan_Curve_4_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp4.Current.value()) + L"C");
+				//Set hint value
+				textblock_Fan_Curve_4_Temp_Value().Text(number_to_wstring(tuningFanSettings.FanTemp4.Current.value()) + L"°C");
 
 				//Set interface
 				if (tuningFanSettings.FanTemp4.Minimum.has_value())
@@ -482,6 +482,9 @@ namespace winrt::RadeonTuner::implementation
 			if (!tuningFanSettings.TuningSupport)
 			{
 				//Top buttons
+				button_AppSelect_Tuning().IsEnabled(false);
+				button_AppAdd_Tuning().IsEnabled(false);
+				button_AppRemove_Tuning().IsEnabled(false);
 				button_Tuning_Apply().IsEnabled(false);
 				button_Tuning_Reset().IsEnabled(false);
 				button_Tuning_Import().IsEnabled(false);
@@ -493,6 +496,9 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Top buttons
+				button_AppSelect_Tuning().IsEnabled(true);
+				button_AppAdd_Tuning().IsEnabled(true);
+				button_AppRemove_Tuning().IsEnabled(true);
 				button_Tuning_Apply().IsEnabled(true);
 				button_Tuning_Reset().IsEnabled(true);
 				button_Tuning_Import().IsEnabled(true);
@@ -505,6 +511,7 @@ namespace winrt::RadeonTuner::implementation
 			//Enable or disable fan interface
 			if (!tuningFanSettings.FanSupport)
 			{
+				//Top buttons
 				button_Fan_Apply().IsEnabled(false);
 				button_Fan_Reset().IsEnabled(false);
 				button_Fan_Import().IsEnabled(false);
@@ -516,6 +523,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Top buttons
 				button_Fan_Apply().IsEnabled(true);
 				button_Fan_Reset().IsEnabled(true);
 				button_Fan_Import().IsEnabled(true);
@@ -528,13 +536,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			AVDebugWriteLine(L"ADL tuning and fans settings applied to interface.");
+			AVDebugWriteLine(L"Tuning and fans settings applied to interface (ADL)");
 			return true;
 		}
 		catch (...)
 		{
 			//Return result
-			AVDebugWriteLine(L"Failed applying ADL tuning and fans settings to interface.");
+			AVDebugWriteLine(L"Failed applying tuning and fans settings to interface (ADL)");
 			return false;
 		}
 	}

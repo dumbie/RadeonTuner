@@ -34,7 +34,7 @@ namespace winrt::RadeonTuner::implementation
 				//Get current and default settings
 				TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(adl_Gpu_AdapterIndex, executableName, true).value();
 
-				//Add gpu tuning and fans settings profile
+				//Add settings profile
 				if (TuningFanSettings_Profile_Add(tuningFanSettingsAdl))
 				{
 					addCount++;
@@ -118,7 +118,7 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Current application removed, selecting Global.");
 
 				//Load tuning and fans settings
-				AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, L"Global");
+				AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, L"Global");
 			}
 		}
 		catch (...) {}
@@ -143,16 +143,13 @@ namespace winrt::RadeonTuner::implementation
 			//Save tuning and fans settings
 			TuningFanSettings_Profiles_SaveToFile();
 
-			//Apply tuning and fans settings when application profile is used
+			//Apply settings when application profile is used
 			if (tuningFanSettingsCurrent.UsingProfile)
 			{
 				//Apply tuning and fans settings
-				bool applyResult = AdlTuningApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent);
+				bool applyResult = AdlTuningFanSettingsApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent, AdlSettingGet::Current);
 				if (applyResult)
 				{
-					//Load tuning and fans settings
-					AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, applicationW);
-
 					//Show notification
 					ShowNotification(L"Tuning and fans settings applied");
 					AVDebugWriteLine(L"Tuning and fans settings applied: " << deviceIdW << L" / " << applicationW);
@@ -180,6 +177,9 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Tuning and fans settings adjusted");
 				AVDebugWriteLine(L"Tuning and fans settings adjusted: " << deviceIdW << L" / " << applicationW);
 			}
+
+			//Load tuning and fans settings
+			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
@@ -199,39 +199,34 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
+			//Profile is used
+			bool usingProfile = tuningFanSettingsCurrent.UsingProfile;
+
 			//Device identifier
 			std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
 
 			//Device application
 			std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
 
-			//Reset tuning and fans settings
-			if (Adl_Overdrive8_Reset(adl_Gpu_AdapterIndex))
+			//Remove tuning and fans settings
+			TuningFanSettings_Profile_Remove(deviceIdW, applicationW);
+
+			//Save tuning and fans settings
+			TuningFanSettings_Profiles_SaveToFile();
+
+			//Check if profile is used
+			if (usingProfile)
 			{
-				//Remove tuning and fans settings
-				TuningFanSettings_Profile_Remove(deviceIdW, applicationW);
-
-				//Save tuning and fans settings
-				TuningFanSettings_Profiles_SaveToFile();
-
-				//Load tuning and fans settings
-				AdlxValuesLoadSelectTuning(adl_Gpu_AdapterIndex, applicationW);
-
-				//Show notification
-				ShowNotification(L"Tuning and fans settings reset");
-				AVDebugWriteLine(L"Tuning and fans settings reset: " << deviceIdW << L" / " << applicationW);
+				//Reset tuning and fans settings
+				Adl_Overdrive8_Values_Reset(adl_Gpu_AdapterIndex);
 			}
-			else
-			{
-				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Tuning_Apply().Background(colorInvalid);
-				button_Fan_Apply().Background(colorInvalid);
 
-				//Show notification
-				ShowNotification(L"Failed resetting tuning and fans settings");
-				AVDebugWriteLine(L"Failed resetting tuning and fans settings: " << deviceIdW << L" / " << applicationW);
-			}
+			//Show notification
+			ShowNotification(L"Tuning and fans settings reset");
+			AVDebugWriteLine(L"Tuning and fans settings reset: " << deviceIdW << L" / " << applicationW);
+
+			//Load tuning and fans settings
+			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}

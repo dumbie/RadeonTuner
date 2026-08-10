@@ -18,11 +18,22 @@ namespace winrt::RadeonTuner::implementation
 			//Get tuning fan settings
 			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
 
-			//Add tuning fan settings profile
+			//Check tuning fan settings profile
 			if (!tuningFanSettingsProfile.has_value())
 			{
-				AVDebugWriteLine(L"Added tuning settings profile: " + deviceIdW + L" / " + applicationW);
+				//Check if any profile is used
+				if (!TuningFanSettings_Profile_Any_Using(deviceIdW))
+				{
+					tuningFanSettings.UsingProfile = true;
+				}
+
+				//Add tuning fan settings profile
 				tuningFanSettingsCache.push_back(tuningFanSettings);
+
+				//Save tuning fan settings profile
+				TuningFanSettings_Profiles_SaveToFile();
+
+				AVDebugWriteLine(L"Added tuning settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << tuningFanSettings.UsingProfile);
 			}
 
 			//Return result
@@ -43,7 +54,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					//Check gpu identifier
 					if (tuningFanSettings.DeviceId.value() == tuningFanSettingsReplace.DeviceId.value() && tuningFanSettings.Application.value() == tuningFanSettingsReplace.Application.value())
 					{
 						tuningFanSettings = tuningFanSettingsReplace;
@@ -88,7 +98,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					//Check gpu identifier
 					if (tuningFanSettings.DeviceId.value() == deviceId && tuningFanSettings.Application.value() == application)
 					{
 						return tuningFanSettings;
@@ -110,7 +119,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					//Check gpu identifier
 					if (tuningFanSettings.DeviceId.value() == deviceId)
 					{
 						if (tuningFanSettings.Application.has_value())
@@ -133,7 +141,7 @@ namespace winrt::RadeonTuner::implementation
 		return apps;
 	}
 
-	bool MainPage::TuningFanSettings_Profile_Set_Using(std::wstring deviceId, std::wstring application)
+	bool MainPage::TuningFanSettings_Profile_Set_UsingGlobal()
 	{
 		try
 		{
@@ -141,8 +149,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					//Check gpu identifier and application
-					if (tuningFanSettings.DeviceId.value() == deviceId && tuningFanSettings.Application.value() == application)
+					if (tuningFanSettings.Application.value() == L"Global")
 					{
 						tuningFanSettings.UsingProfile = true;
 					}
@@ -162,6 +169,64 @@ namespace winrt::RadeonTuner::implementation
 			//Return result
 			return false;
 		}
+	}
+
+	bool MainPage::TuningFanSettings_Profile_Set_Using(std::wstring deviceId, std::wstring application)
+	{
+		try
+		{
+			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+			{
+				try
+				{
+					if (tuningFanSettings.DeviceId.value() == deviceId)
+					{
+						if (tuningFanSettings.Application.value() == application)
+						{
+							tuningFanSettings.UsingProfile = true;
+						}
+						else
+						{
+							tuningFanSettings.UsingProfile = false;
+						}
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::TuningFanSettings_Profile_Any_Using(std::wstring deviceId)
+	{
+		bool anyUsing = false;
+		try
+		{
+			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+			{
+				try
+				{
+					if (tuningFanSettings.DeviceId.value() == deviceId)
+					{
+						if (tuningFanSettings.UsingProfile)
+						{
+							anyUsing = true;
+						}
+					}
+				}
+				catch (...) {}
+			}
+		}
+		catch (...) {}
+		//Return result
+		return anyUsing;
 	}
 
 	std::optional<TuningFanSettings> MainPage::TuningFanSettings_Profile_LoadFromFile(std::wstring loadPath)
@@ -202,8 +267,8 @@ namespace winrt::RadeonTuner::implementation
 			//Convert json to string
 			std::wstring jsonStringW = struct_to_jsonstring(tuningFanSettingsCache, true);
 
-			//Get tuning profiles file path
-			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\TuningProfiles.json");
+			//Get tuning profiles file path	
+			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\TuningProfiles.json");
 
 			//Save tuning profiles json file
 			string_to_file(pathSettingFileW, jsonStringW);
@@ -223,13 +288,16 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get tuning profiles file path
-			std::wstring pathSettingFileW = PathMerge(PathGetAppRoot(), L"Profiles\\TuningProfiles.json");
+			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\TuningProfiles.json");
 
 			//Open tuning profiles file
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize tuning profiles
 			tuningFanSettingsCache = jsonstring_to_struct<std::vector<TuningFanSettings>>(jsonStringW);
+
+			//Set Global profile as using
+			TuningFanSettings_Profile_Set_UsingGlobal();
 
 			AVDebugWriteLine("Loaded tuning profiles: " << tuningFanSettingsCache.size());
 			return true;
