@@ -26,9 +26,6 @@ namespace winrt::RadeonTuner::implementation
 			//Load display settings
 			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.Application.value());
 
-			//Load eyefinity displays
-			AdlxValuesLoadEyefinityDisplays();
-
 			//Load display resolution values
 			DisplayList_Resolution(false);
 

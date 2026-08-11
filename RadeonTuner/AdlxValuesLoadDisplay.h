@@ -38,12 +38,12 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_Resolution().IsEnabled(true);
 				combobox_Display_RefreshRate().IsEnabled(true);
 				combobox_Display_Orientation().IsEnabled(true);
+				button_Eyefinity_Manage().IsEnabled(true);
+				button_Eyefinity_Enable().IsEnabled(true);
+				button_Eyefinity_Disable().IsEnabled(true);
 
 				//Disable settings
 				toggleswitch_Eyefinity_Automatic().IsEnabled(false);
-
-				//Show settings
-				border_Eyefinity().Visibility(Visibility::Visible);
 			}
 			else
 			{
@@ -64,9 +64,9 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_ColorDepth().IsEnabled(false);
 				combobox_Display_PixelFormat().IsEnabled(false);
 				toggleswitch_Display_HDCPSupport().IsEnabled(false);
-
-				//Hide settings
-				border_Eyefinity().Visibility(Visibility::Collapsed);
+				button_Eyefinity_Manage().IsEnabled(false);
+				button_Eyefinity_Enable().IsEnabled(false);
+				button_Eyefinity_Disable().IsEnabled(false);
 			}
 
 			//Update button colors

@@ -6,6 +6,30 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::button_Eyefinity_Manage_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			bool manageVisible = grid_Overlay_ManageEyefinity().Visibility() == Visibility::Visible;
+			if (manageVisible)
+			{
+				//Hide Eyefinity manage overlay
+				grid_Overlay_ManageEyefinity().Visibility(Visibility::Collapsed);
+				AVDebugWriteLine(L"Closed Eyefinity manage overlay");
+			}
+			else
+			{
+				//Load Eyefinity displays
+				AdlxValuesLoadEyefinityDisplays();
+
+				//Show Eyefinity manage overlay
+				grid_Overlay_ManageEyefinity().Visibility(Visibility::Visible);
+				AVDebugWriteLine(L"Opened Eyefinity manage overlay");
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::button_Eyefinity_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

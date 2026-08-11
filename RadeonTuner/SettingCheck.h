@@ -40,11 +40,6 @@ void SettingCheck()
 			AppVariables::Settings.Set("ShowExperimental", false);
 		}
 
-		if (!AppVariables::Settings.Check("EyefinityAutomatic"))
-		{
-			AppVariables::Settings.Set("EyefinityAutomatic", false);
-		}
-
 		AVDebugWriteLine("Application settings checked.");
 	}
 	catch (...)

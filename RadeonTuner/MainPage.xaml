@@ -450,20 +450,30 @@
                                         <ToggleSwitch x:Name="toggleswitch_RadeonChill" Margin="10,0,0,0" OffContent="Radeon Chill" OnContent="Radeon Chill" Toggled="toggleswitch_RadeonChill_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="button_RadeonChill_Link" Click="button_RadeonChill_Link_Click" Style="{ThemeResource ApplicationButtonImage}" Margin="0,0,10,0">
-                                            <Image x:Name="image_RadeonChill_Link" Source="/Assets/Unlink.png" Width="24" Height="24" ToolTipService.ToolTip="Match minimum and maximum when changing Radeon Chill to limit frames per second instead of adjusting."/>
-                                        </Button>
-                                        <TextBlock Text="Min" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonChill_Min" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_RadeonChill_Min" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
-                                        <TextBlock Text="Max" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonChill_Max" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_RadeonChill_Max" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
-                                        <TextBlock Text="FPS" VerticalAlignment="Center"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Minimum and maximum FPS" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Min_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Max_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" x:Name="button_RadeonChill_Link" Click="button_RadeonChill_Link_Click" Style="{ThemeResource ApplicationButtonImage}">
+                                            <Image x:Name="image_RadeonChill_Link" Source="/Assets/Unlink.png" Width="24" Height="24" ToolTipService.ToolTip="Match minimum and maximum when changing Radeon Chill to limit frames per second instead of adjusting."/>
+                                        </Button>
+                                        <TextBox Grid.Column="1" x:Name="textbox_RadeonChill_Min" Margin="10,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="2" x:Name="slider_RadeonChill_Min" Margin="10,0,0,0" ValueChanged="slider_RadeonChill_Min_ValueChanged"/>
+                                        <TextBox Grid.Column="3" x:Name="textbox_RadeonChill_Max" Margin="10,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="4" x:Name="slider_RadeonChill_Max" Margin="10,0,0,0" ValueChanged="slider_RadeonChill_Max_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -476,13 +486,20 @@
                                         <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Frtc_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Maximum" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_Frtc_Fps" Margin="5,0,0,0" Text="{Binding ElementName=slider_Frtc_FrameRateTarget, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_Frtc_FrameRateTarget" Width="150" Margin="10,0,10,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged"/>
-                                        <TextBlock Text="FPS" VerticalAlignment="Center"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Maximum FPS" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Frtc_FrameRateTarget_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Frtc_Fps" Text="{Binding ElementName=slider_Frtc_FrameRateTarget, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Frtc_FrameRateTarget" Margin="10,0,0,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -496,13 +513,20 @@
                                         <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Min. Resolution" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonBoost_MinRes" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_RadeonBoost_MinResolution" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged"/>
-                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Minimum resolution" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_MinResolution_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_RadeonBoost_MinRes" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_RadeonBoost_MinResolution" Margin="10,0,0,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -519,14 +543,20 @@
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening1_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
-                                    <!-- Radeon Image Sharpening 1 Sharpness -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonImageSharpening1_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_RadeonImageSharpening1_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged"/>
-                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    <!-- Radeon Image Sharpening 1 Sharpening -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Sharpening amount" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening1_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_RadeonImageSharpening1_Sharpening" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening1_Sharpening" Margin="10,0,0,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -548,14 +578,20 @@
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening2_Desktop_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
-                                    <!-- Radeon Image Sharpening 2 Sharpness -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox x:Name="textbox_RadeonImageSharpening2_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider x:Name="slider_RadeonImageSharpening2_Sharpening" Width="150" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged"/>
-                                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                                    <!-- Radeon Image Sharpening 2 Sharpening -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Sharpening amount" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening2_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_RadeonImageSharpening2_Sharpening" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening2_Sharpening" Margin="10,0,0,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -916,7 +952,7 @@
                                             <Line Margin="125,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="250,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
                                             <Line Margin="375,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, Current state"/>
+                                            <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
                                             <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
                                             <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource ApplicationDimGrayColor}" StrokeThickness="2" ToolTipService.ToolTip="Currently set to"/>
                                             <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{StaticResource SystemAccentColor}" StrokeThickness="2" ToolTipService.ToolTip="Profile target"/>
@@ -1114,7 +1150,7 @@
                                     <!-- Display Resolution -->
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Display Resolution" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Resolution_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Resolution_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Display_Resolution" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Resolution_SelectionChanged">
                                         <ComboBox.ItemTemplate>
@@ -1129,7 +1165,7 @@
                                     <!-- Display Refresh Rate -->
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <TextBlock Text="Display Refresh Rate" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_RefreshRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_RefreshRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Display_RefreshRate" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_RefreshRate_SelectionChanged">
                                         <ComboBox.ItemTemplate>
@@ -1144,7 +1180,7 @@
                                     <!-- Display Orientation -->
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <TextBlock Text="Display Orientation" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Orientation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Orientation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Display_Orientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_Orientation_SelectionChanged"/>
                                 </StackPanel>
@@ -1158,7 +1194,7 @@
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable High Dynamic Range for the display to enable a wider range of colors to improve visual quality."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires a High Dynamic Range compatible monitor.&#10;&#10;* HDR cannot be enabled when you are not using a 4:4:4 pixel format."/>
                                     <ToggleSwitch x:Name="toggleswitch_Display_HdrEnabled" Margin="10,0,0,0" OffContent="High Dynamic Range" OnContent="High Dynamic Range" Toggled="toggleswitch_Display_HdrEnabled_Toggled"/>
-                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HdrEnabled_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HdrEnabled_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                 </StackPanel>
                             </Border>
 
@@ -1171,7 +1207,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_FreeSync" Margin="10,0,0,0" OffContent="AMD FreeSync / VRR / Adaptive Sync" OnContent="AMD FreeSync / VRR / Adaptive Sync" Toggled="toggleswitch_Display_FreeSync_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSync_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSync_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1184,7 +1220,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Virtual Super Resolution allows applications to render at resolutions higher than the display's native resolution and then scales the image down to match the display, producing higher quality visuals at the expense of performance.&#10;&#10;VSR is beneficial for games lacking anti-aliasing options or those with insufficient anti-aliasing, this is often seen in older gaming titles."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_VSR" Margin="10,0,0,0" OffContent="AMD Virtual Super Resolution" OnContent="AMD Virtual Super Resolution" Toggled="toggleswitch_Display_VSR_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VSR_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VSR_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1195,7 +1231,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="GPU scaling uses the GPU to scale up lower resolutions to fit the display.&#10;&#10;When not enabled, displays typically handle scaling themselves."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_GpuScaling" Margin="10,0,0,0" OffContent="GPU Scaling" OnContent="GPU Scaling" Toggled="toggleswitch_Display_GpuScaling_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GpuScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GpuScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1204,7 +1240,7 @@
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Integer Scaling gives a sharp, pixelated look to images scaled up to fit the display, images that can't be scaled to match the display's exact size and shape will be centered on screen.&#10;&#10;Integer Scaling enhances visuals in old games to revive vintage gaming experiences on a modern display."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_IntegerScaling" Margin="10,0,0,0" OffContent="Integer Scaling" OnContent="Integer Scaling" Toggled="toggleswitch_Display_IntegerScaling_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_IntegerScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_IntegerScaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1214,7 +1250,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Method used to stretch and position images to fit the display.&#10;&#10;- Preserve aspect ratio: Maintains the original aspect ratio of the image while fitting it to the display.&#10;&#10;- Full panel: Stretches image to fill the entire display.&#10;&#10;- Center: Centers image on the display keeping original aspect and pixel ratio."/>
                                             <TextBlock Text="Scaling Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ScalingMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ScalingMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_ScalingMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_ScalingMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1230,7 +1266,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_Display_VariBright_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1239,7 +1275,7 @@
                                     <StackPanel Margin="0,5,0,0" Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Vari-Bright Level" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Level_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Level_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_VariBright_Level" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_VariBright_Level_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1255,7 +1291,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Color depth to be used with your display."/>
                                             <TextBlock Text="Color Depth" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorDepth_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorDepth_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_ColorDepth" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_ColorDepth_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1269,7 +1305,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Pixel format used to encode images for the display."/>
                                             <TextBlock Text="Pixel Format" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_PixelFormat_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_PixelFormat_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_PixelFormat" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_PixelFormat_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1284,7 +1320,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* Some applications reset the Gamma to default, when RadeonTuner is running it will automatically try to restore it, but may take a few seconds."/>
                                         <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1299,7 +1335,7 @@
 
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <TextBlock Text="Green" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1314,7 +1350,7 @@
 
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <TextBlock Text="Blue" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1335,7 +1371,7 @@
                                     <!-- Brightness -->
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Brightness" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1351,7 +1387,7 @@
                                     <!-- Contrast -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <TextBlock Text="Contrast" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Contrast_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Contrast_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1367,7 +1403,7 @@
                                     <!-- Saturation -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <TextBlock Text="Saturation" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Saturation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Saturation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
 
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
@@ -1384,7 +1420,7 @@
                                     <!-- Hue -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <TextBlock Text="Hue" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Hue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Hue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1404,7 +1440,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Improves visibility of dimmed details."/>
                                             <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_DisplayColorEnhancement_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_DisplayColorEnhancement_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_Display_DisplayColorEnhancement" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_Display_DisplayColorEnhancement_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
@@ -1421,7 +1457,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable color temperature control."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* When 'Color Temperature Control' is disabled your colors will be limited to a narrow color gamut which may lead to oversaturated and incorrect color accuracy on HDR enabled displays."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_ColorTemperature_Control" Margin="10,0,0,0" OffContent="Color Temperature Control" OnContent="Color Temperature Control" Toggled="toggleswitch_Display_ColorTemperature_Control_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1430,7 +1466,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose how warm or cool images will look on your display."/>
                                         <TextBlock Text="Color Temperature Kelvin" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Kelvin_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ColorTemperature_Kelvin_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1452,7 +1488,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enable or disable accessibility mode that allows tweaking of colors for users who experience varying levels of Color Deficiency Correction."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_CVDC_Control" Margin="10,0,0,0" OffContent="Color Deficiency Correction Control" OnContent="Color Deficiency Correction Control" Toggled="toggleswitch_Display_CVDC_Control_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_CVDC_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_CVDC_Control_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
@@ -1461,7 +1497,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for red color blindness."/>
                                         <TextBlock Text="Protanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Protanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Protanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1478,7 +1514,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for green color blindness."/>
                                         <TextBlock Text="Deuteranopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Deuteranopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Deuteranopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1495,7 +1531,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjustments for blue color blindness."/>
                                         <TextBlock Text="Tritanopia Correction" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Tritanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_Tritanopia_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
@@ -1518,7 +1554,7 @@
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_Display_HDCPSupport_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HDCPSupport_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HDCPSupport_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1526,87 +1562,24 @@
                             <!-- Eyefinity Options -->
                             <TextBlock Text="Eyefinity Options" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
-                            <!-- Automatic Eyefinity -->
                             <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity will automatically be enabled when the display profile application is running and disabled when no longer running."/>
-                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
-                                    <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
-                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Eyefinity_Automatic_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Create Eyefinity -->
-                            <Border x:Name="border_Eyefinity" Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <!-- Buttons -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations."/>
-                                        <Button x:Name="button_Eyefinity_CreateCustom" Content="Create Eyefinity" Click="button_Eyefinity_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create configuration and enable Eyefinity based on settings below."/>
-                                        <Button x:Name="button_Eyefinity_DeleteAll" Content="Remove Eyefinity" Click="button_Eyefinity_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove configuration and disable Eyefinity."/>
-                                        <Button x:Name="button_Eyefinity_Enable" Content="Enable Eyefinity" Click="button_Eyefinity_Enable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>
-                                        <Button x:Name="button_Eyefinity_Disable" Content="Disable Eyefinity" Click="button_Eyefinity_Disable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Disable Eyefinity when it is active."/>
+                                    <!-- Automatic Eyefinity -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen.&#10;&#10;* Automatic Eyefinity will automatically enable Eyefinity when the display profile application is running and disabled when no longer running."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
+                                        <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Eyefinity_Automatic_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                    <!-- Rows -->
-                                    <TextBlock Text="Horizontal displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Rows, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Rows" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
-                                    </Grid>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Columns -->
-                                    <TextBlock Text="Vertical displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Columns, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Eyefinity_Columns" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
-                                    </Grid>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Display Placement Order -->
-                                    <TextBlock Text="Display Placement Order" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Image Grid.Column="0" Source="/Assets/DragDrop.png" Width="30" Height="30" ToolTipService.ToolTip="Drag and drop displays in the order you want them to be, from left to right and top to bottom."/>
-                                        <ListView Grid.Column="1" x:Name="listview_EyefinityMonitorIndex" Margin="5,0,0,0" Height="40" SelectionMode="None" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
-                                            <ListView.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ListView.ItemsPanel>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate x:DataType="local:DisplayDetailsIdl">
-                                                    <Border CornerRadius="4" BorderThickness="2" BorderBrush="{ThemeResource ApplicationDimGrayColor}" Margin="-10">
-                                                        <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center" Margin="5"/>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </Grid>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <!-- Display Orientation -->
-                                    <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
-                                    <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <!-- Buttons Eyefinity -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Button x:Name="button_Eyefinity_Manage" Content="Manage Eyefinity" Click="button_Eyefinity_Manage_Click" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>
+                                        <Button x:Name="button_Eyefinity_Enable" Content="Enable Eyefinity" Click="button_Eyefinity_Enable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>
+                                        <Button x:Name="button_Eyefinity_Disable" Content="Disable Eyefinity" Click="button_Eyefinity_Disable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Disable Eyefinity when it is active."/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -1615,26 +1588,28 @@
                         <StackPanel x:Name="stackpanel_Multimedia" Visibility="Collapsed">
                             <TextBlock Text="Video Options" FontSize="20" FontWeight="Medium"/>
 
-                            <!-- Video Upscaling -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
+                                    <!-- Video Upscaling -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Upscaling improves video playback quality by upscaling video playback resolution and adjusting details for a better visual experience."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 and newer graphic cards."/>
                                         <ToggleSwitch x:Name="toggleswitch_Video_Upscaling" Margin="10,0,0,0" OffContent="Video Upscaling" OnContent="Video Upscaling" Toggled="toggleswitch_Video_Upscaling_Toggled"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Upscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Upscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                    </StackPanel>
+
+                                    <!-- Sharpening amount -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Sharpening amount"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Sharpening" VerticalAlignment="Center"/>
-                                        <TextBox Grid.Column="1" x:Name="textbox_VideoUpscale_Sharpening" Margin="5,0,0,0" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="2" x:Name="slider_Video_Sharpening" Margin="10,0,0,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
-                                        <TextBlock Grid.Column="3" Margin="10,0,0,0" x:Name="textblock_Video_Sharpening_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
+                                        <TextBox Grid.Column="0" x:Name="textbox_VideoUpscale_Sharpening" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Video_Sharpening" Margin="10,0,0,0" ValueChanged="slider_Video_Sharpening_ValueChanged"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -1642,7 +1617,10 @@
                             <!-- Video Brightness -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <TextBlock Text="Video Brightness"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Video Brightness"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                    </StackPanel>
                                     <Grid Margin="0,5,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1651,7 +1629,6 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBox Grid.Column="0" x:Name="textbox_Video_Brightness" Text="{Binding ElementName=slider_Video_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                         <Slider Grid.Column="1" x:Name="slider_Video_Brightness" Margin="10,0,0,0" ValueChanged="slider_Video_Brightness_ValueChanged"/>
-                                        <TextBlock Grid.Column="2" Margin="10,0,0,0" x:Name="textblock_Video_Brightness_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Current state"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -1748,6 +1725,88 @@
                     </Grid>
                 </ScrollViewer>
             </Grid>
+        </Grid>
+
+        <!-- Overlay - Manage Eyefinity -->
+        <Grid x:Name="grid_Overlay_ManageEyefinity" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
+            </Grid.Background>
+            <StackPanel MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="8,8,0,0" Background="{ThemeResource ApplicationDarkGrayColor}" Padding="10">
+                    <TextBlock Text="Manage Eyefinity" TextWrapping="Wrap" FontSize="24" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                </Border>
+                <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
+                    <StackPanel>
+                        <!-- Buttons -->
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations."/>
+                            <Button x:Name="button_Eyefinity_Create" Content="Create Eyefinity" Click="button_Eyefinity_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create configuration and enable Eyefinity based on settings below."/>
+                            <Button x:Name="button_Eyefinity_Remove" Content="Remove Eyefinity" Click="button_Eyefinity_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove configuration and disable Eyefinity."/>
+                            <Button x:Name="button_Eyefinity_Close" Content="Close" Click="button_Eyefinity_Manage_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Close Eyefinity manage overlay."/>
+                        </StackPanel>
+
+                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Rows -->
+                        <TextBlock Text="Horizontal displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Rows, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                            <Slider Grid.Column="1" x:Name="slider_Eyefinity_Rows" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
+                        </Grid>
+
+                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Columns -->
+                        <TextBlock Text="Vertical displays" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding ElementName=slider_Eyefinity_Columns, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                            <Slider Grid.Column="1" x:Name="slider_Eyefinity_Columns" Margin="10,0,0,0" Minimum="1" Maximum="6"/>
+                        </Grid>
+
+                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Display Placement Order -->
+                        <TextBlock Text="Display Placement Order" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Source="/Assets/DragDrop.png" Width="30" Height="30" ToolTipService.ToolTip="Drag and drop displays in the order you want them to be, from left to right and top to bottom."/>
+                            <ListView Grid.Column="1" x:Name="listview_EyefinityMonitorIndex" Margin="5,0,0,0" Height="40" SelectionMode="None" CanReorderItems="True" CanDragItems="True" AllowDrop="True">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="local:DisplayDetailsIdl">
+                                        <Border CornerRadius="4" BorderThickness="2" BorderBrush="{ThemeResource ApplicationDimGrayColor}" Margin="-10">
+                                            <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center" Margin="5"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+
+                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Display Orientation -->
+                        <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Grid>
 
         <!-- Overlay - Confirm Resolution -->
