@@ -98,10 +98,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost
-			if (graphicsSettings.BoostEnabled.Get(settingType).has_value())
+			if (graphicsSettings.BoostMode.Get(settingType).has_value())
 			{
-				toggleswitch_RadeonBoost().IsOn(graphicsSettings.BoostEnabled.Get(settingType).value());
-				slider_RadeonBoost_MinResolution().IsEnabled(graphicsSettings.BoostEnabled.Get(settingType).value());
+				combobox_RadeonBoost().SelectedIndex(graphicsSettings.BoostMode.Get(settingType).value());
+				slider_RadeonBoost_MinResolution().IsEnabled(graphicsSettings.BoostMode.Get(settingType).value());
 			}
 
 			//Radeon Boost - Minimum Resolution

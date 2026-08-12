@@ -11,6 +11,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
+			AVDebugWriteLine(L"Generating application graphics settings for: " << adlApplication.ProfileName << L" / " << adlApplication.DriverArea << L" / " << adlApplication.FileName << L" / " << adlApplication.FilePath);
 			GraphicsSettings graphicsSettings{};
 
 			//FSR Upscaling Override
@@ -232,23 +233,56 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.BoostEnabled.Support = true;
+				graphicsSettings.BoostMode.Support = true;
 
 				//Set default
-				graphicsSettings.BoostEnabled.Default = 0;
+				graphicsSettings.BoostMode.Default = 0;
 
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"Bst_PFEnable");
-				if (adlProperty.has_value())
+				std::optional<AdlAppProperty> boostNormalProperty = AdlAppPropertyGet(adlApplication, L"Bst_PFEnable");
+				std::optional<AdlAppProperty> boostAdaptiveProperty = AdlAppPropertyGet(adlApplication, L"Bst_AdaPFEnable");
+				if (boostNormalProperty.has_value() && boostAdaptiveProperty.has_value())
 				{
 					//Set current
-					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					int boostNormalValue = 0;
+					for (AdlAppPropertyValue value : boostNormalProperty.value().Values)
 					{
 						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
-							bool convertedValue = (bool)wstring_to_int(value.Value);
-							graphicsSettings.BoostEnabled.Current = convertedValue;
+							boostNormalValue = wstring_to_int(value.Value);
 							break;
 						}
+					}
+
+					int boostAdaptiveValue = 0;
+					for (AdlAppPropertyValue value : boostAdaptiveProperty.value().Values)
+					{
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
+						{
+							boostAdaptiveValue = wstring_to_int(value.Value);
+							break;
+						}
+					}
+
+					//Enumeration index correction
+					if (boostNormalValue == 0 && boostAdaptiveValue == 0)
+					{
+						//Disabled
+						graphicsSettings.BoostMode.Current = 0;
+					}
+					else if (boostNormalValue == 1 && boostAdaptiveValue == 0)
+					{
+						//Input-Based
+						graphicsSettings.BoostMode.Current = 1;
+					}
+					else if (boostNormalValue == 0 && boostAdaptiveValue == 1)
+					{
+						//Scene-Based
+						graphicsSettings.BoostMode.Current = 2;
+					}
+					else if (boostNormalValue == 1 && boostAdaptiveValue == 1)
+					{
+						//Multi-Modal
+						graphicsSettings.BoostMode.Current = 3;
 					}
 				}
 			}

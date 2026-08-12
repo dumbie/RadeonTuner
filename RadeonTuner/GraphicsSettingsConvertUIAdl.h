@@ -457,29 +457,29 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost
-			if (graphicsSettings.BoostEnabled.Support.has_value() && graphicsSettings.BoostEnabled.Support.value())
+			if (graphicsSettings.BoostMode.Support.has_value() && graphicsSettings.BoostMode.Support.value())
 			{
 				//Get setting
 				int valueInt = 0;
-				if (graphicsSettings.BoostEnabled.Current.has_value())
+				if (graphicsSettings.BoostMode.Current.has_value())
 				{
-					valueInt = graphicsSettings.BoostEnabled.Current.value();
+					valueInt = graphicsSettings.BoostMode.Current.value();
 				}
-				else if (graphicsSettings.BoostEnabled.Default.has_value())
+				else if (graphicsSettings.BoostMode.Default.has_value())
 				{
-					valueInt = graphicsSettings.BoostEnabled.Default.value();
+					valueInt = graphicsSettings.BoostMode.Default.value();
 				}
 
 				//Set setting value
-				toggleswitch_RadeonBoost().IsOn(valueInt);
+				combobox_RadeonBoost().SelectedIndex(valueInt);
 				slider_RadeonBoost_MinResolution().IsEnabled(valueInt);
 
 				//Set hint value
-				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				std::wstring valueHint = ADL_BOOST2_ALGORITHM[valueInt];
 				textblock_RadeonBoost_Value().Text(valueHint);
 
 				//Enable or disable interface
-				toggleswitch_RadeonBoost().IsEnabled(true);
+				combobox_RadeonBoost().IsEnabled(true);
 			}
 			else
 			{
@@ -487,7 +487,7 @@ namespace winrt::RadeonTuner::implementation
 				textblock_RadeonBoost_Value().Text(L"");
 
 				//Enable or disable interface
-				toggleswitch_RadeonBoost().IsEnabled(false);
+				combobox_RadeonBoost().IsEnabled(false);
 			}
 
 			//Radeon Boost - Minimum Resolution

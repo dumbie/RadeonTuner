@@ -507,12 +507,13 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Boost dynamically reduces resolution during motion to improve performance with minimal perceptible impact on image quality."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* DirectX 12 applications are only supported on RDNA2 and newer graphic cards."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;* Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;* Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;* Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
-                                        <ToggleSwitch x:Name="toggleswitch_RadeonBoost" Margin="10,0,0,0" OffContent="Radeon Boost" OnContent="Radeon Boost" Toggled="toggleswitch_RadeonBoost_Toggled"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
+                                    <ComboBox x:Name="combobox_RadeonBoost" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_RadeonBoost_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <TextBlock Text="Minimum resolution" VerticalAlignment="Center"/>

@@ -108,11 +108,11 @@ inline ADL2_CHILL_SettingsX2_Set _ADL2_CHILL_SettingsX2_Set;
 typedef int(*ADL2_CHILL_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_CHILL_SETTINGS* settings);
 inline ADL2_CHILL_SettingsX2_Get _ADL2_CHILL_SettingsX2_Get;
 
-typedef int (*ADL2_BOOST_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGS settings, ADL_BOOST_NOTFICATION_REASON changeReason, ADL_ERROR_REASON2* errorReason);
-inline ADL2_BOOST_SettingsX2_Set _ADL2_BOOST_SettingsX2_Set;
+typedef int (*ADL2_BOOST_SettingsX4_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGSX4 settings, ADL_BOOST_NOTIFICATION_REASONX4 changeReason, ADL_ERROR_REASON2* errorReason);
+inline ADL2_BOOST_SettingsX4_Set _ADL2_BOOST_SettingsX4_Set;
 
-typedef int (*ADL2_BOOST_Settings_GetX2)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGS* settings);
-inline ADL2_BOOST_Settings_GetX2 _ADL2_BOOST_Settings_GetX2;
+typedef int (*ADL2_BOOST_SettingsX4_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGSX4* settings);
+inline ADL2_BOOST_SettingsX4_Get _ADL2_BOOST_SettingsX4_Get;
 
 typedef int(*ADL2_RIS_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS_SETTINGS settings, ADL_RIS_NOTFICATION_REASON changeReason);
 inline ADL2_RIS_Settings_Set _ADL2_RIS_Settings_Set;
@@ -266,13 +266,6 @@ inline ADL2_Display_HDRState_Get _ADL2_Display_HDRState_Get;
 typedef int (*ADL2_Display_HDRState_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, int iEnable);
 inline ADL2_Display_HDRState_Set _ADL2_Display_HDRState_Set;
 
-//Display - HDR Type Preference
-typedef int (*ADL2_Display_HdrTypePreference_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, UINT* iType);
-inline ADL2_Display_HdrTypePreference_Get _ADL2_Display_HdrTypePreference_Get;
-
-typedef int (*ADL2_Display_HdrTypePreference_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, UINT iType);
-inline ADL2_Display_HdrTypePreference_Set _ADL2_Display_HdrTypePreference_Set;
-
 //Display - EDID
 typedef int (*ADL2_Display_EdidData_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayEDIDData* lpEDIDData);
 inline ADL2_Display_EdidData_Get _ADL2_Display_EdidData_Get;
@@ -298,6 +291,12 @@ typedef int (*ADL2_Display_CustomizedModeListNum_Get)(ADL_CONTEXT_HANDLE context
 inline ADL2_Display_CustomizedModeListNum_Get _ADL2_Display_CustomizedModeListNum_Get;
 
 //Display - Gamma
+//ADL2_Display_Gamut_Get (Not working HDR -1)
+//ADL2_Display_Regamma_Get (Not working HDR -1)
+//ADL2_Display_RegammaR1_Get (Not working HDR -1)
+//ADL2_Display_ReGammaCoefficients_Get (Not working HDR -1)
+//ADL2_Display_User3DLUT_Get (Returns unsupported error)
+//ADL2_Adapter_Gamma_Get (Works HDR uses SetDeviceGammaRamp)
 typedef int (*ADL2_Adapter_Gamma_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, AdlGammaRamp lpGammaRamp);
 inline ADL2_Adapter_Gamma_Set _ADL2_Adapter_Gamma_Set;
 

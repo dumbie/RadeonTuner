@@ -11,6 +11,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
+			AVDebugWriteLine(L"Generating registry graphics settings for: " << gpuAdapterIndex);
 			GraphicsSettings graphicsSettings{};
 
 			//FSR Upscaling Override
@@ -300,12 +301,33 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost
 			try
 			{
-				ADL_BOOST_SETTINGS adlSettings;
-				adl_Res0 = _ADL2_BOOST_Settings_GetX2(adl_Context, gpuAdapterIndex, &adlSettings);
+				ADL_BOOST_SETTINGSX4 adlSettings;
+				adl_Res0 = _ADL2_BOOST_SettingsX4_Get(adl_Context, gpuAdapterIndex, &adlSettings);
 				if (adl_Res0 == ADL_OK)
 				{
+					//Enumeration index correction
+					if (!adlSettings.GlobalEnable && !adlSettings.AdaptiveVrsEnabled)
+					{
+						//Disabled
+						graphicsSettings.BoostMode.Current = 0;
+					}
+					else if (adlSettings.GlobalEnable && !adlSettings.AdaptiveVrsEnabled)
+					{
+						//Input-Based
+						graphicsSettings.BoostMode.Current = 1;
+					}
+					else if (!adlSettings.GlobalEnable && adlSettings.AdaptiveVrsEnabled)
+					{
+						//Scene-Based
+						graphicsSettings.BoostMode.Current = 2;
+					}
+					else if (adlSettings.GlobalEnable && adlSettings.AdaptiveVrsEnabled)
+					{
+						//Multi-Modal
+						graphicsSettings.BoostMode.Current = 3;
+					}
+
 					//Set current
-					graphicsSettings.BoostEnabled.Current = adlSettings.GlobalEnable;
 					graphicsSettings.BoostMinResolution.Current = adlSettings.GlobalMinRes;
 
 					//Set interface
@@ -314,17 +336,17 @@ namespace winrt::RadeonTuner::implementation
 					graphicsSettings.BoostMinResolution.Step = adlSettings.GlobalMinRes_Step;
 
 					//Set default
-					graphicsSettings.BoostEnabled.Default = 0;
+					graphicsSettings.BoostMode.Default = 0;
 					graphicsSettings.BoostMinResolution.Default = 84;
 
 					//Set support
-					graphicsSettings.BoostEnabled.Support = true;
+					graphicsSettings.BoostMode.Support = true;
 					graphicsSettings.BoostMinResolution.Support = true;
 				}
 				else
 				{
 					//Set support
-					graphicsSettings.BoostEnabled.Support = false;
+					graphicsSettings.BoostMode.Support = false;
 					graphicsSettings.BoostMinResolution.Support = false;
 				}
 			}

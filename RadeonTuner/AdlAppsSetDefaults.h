@@ -117,7 +117,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperty0.Name = L"Bst_PFEnable";
 				AdlAppPropertyValue adlAppPropertyValue0{};
 				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
-				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.BoostEnabled.Default.value());
+				adlAppPropertyValue0.Value = number_to_wstring(graphicsSettings.BoostMode.Default.value());
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
 			}

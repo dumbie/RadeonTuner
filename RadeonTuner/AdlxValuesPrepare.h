@@ -221,6 +221,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all Radeon Boost modes
+			{
+				auto itemCollection = combobox_RadeonBoost().Items();
+				UINT appendCount = ADL_BOOST2_ALGORITHM.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_BOOST2_ALGORITHM[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
 		}

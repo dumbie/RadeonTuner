@@ -781,7 +781,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_RadeonBoost_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::combobox_RadeonBoost_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -789,8 +789,8 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
+			auto newSender = sender.as<ComboBox>();
+			int newValue = newSender.SelectedIndex();
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
@@ -807,7 +807,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.BoostEnabled.Current = newValue;
+			graphicsSettingsCurrent.BoostMode.Current = newValue;
 		}
 		catch (...) {}
 	}

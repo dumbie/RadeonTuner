@@ -380,18 +380,18 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_CHILL_SettingsX2_Get");
 			}
 
-			_ADL2_BOOST_SettingsX2_Set = (ADL2_BOOST_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_BOOST_SettingsX2_Set");
-			if (_ADL2_BOOST_SettingsX2_Set == NULL)
+			_ADL2_BOOST_SettingsX4_Set = (ADL2_BOOST_SettingsX4_Set)GetProcAddress(hInstance, "ADL2_BOOST_SettingsX4_Set");
+			if (_ADL2_BOOST_SettingsX4_Set == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_BOOST_SettingsX2_Set");
+				AVDebugWriteLine("Failed to init _ADL2_BOOST_SettingsX4_Set");
 			}
 
-			_ADL2_BOOST_Settings_GetX2 = (ADL2_BOOST_Settings_GetX2)GetProcAddress(hInstance, "ADL2_BOOST_Settings_GetX2");
-			if (_ADL2_BOOST_Settings_GetX2 == NULL)
+			_ADL2_BOOST_SettingsX4_Get = (ADL2_BOOST_SettingsX4_Get)GetProcAddress(hInstance, "ADL2_BOOST_SettingsX4_Get");
+			if (_ADL2_BOOST_SettingsX4_Get == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_BOOST_Settings_GetX2");
+				AVDebugWriteLine("Failed to init _ADL2_BOOST_SettingsX4_Get");
 			}
 
 			_ADL2_RIS_Settings_Set = (ADL2_RIS_Settings_Set)GetProcAddress(hInstance, "ADL2_RIS_Settings_Set");
@@ -736,21 +736,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Display_HDRState_Set");
-			}
-
-			//Display - HDR Type Preference
-			_ADL2_Display_HdrTypePreference_Get = (ADL2_Display_HdrTypePreference_Get)GetProcAddress(hInstance, "ADL2_Display_HdrTypePreference_Get");
-			if (_ADL2_Display_HdrTypePreference_Get == NULL)
-			{
-				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Display_HdrTypePreference_Get");
-			}
-
-			_ADL2_Display_HdrTypePreference_Set = (ADL2_Display_HdrTypePreference_Set)GetProcAddress(hInstance, "ADL2_Display_HdrTypePreference_Set");
-			if (_ADL2_Display_HdrTypePreference_Set == NULL)
-			{
-				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Display_HdrTypePreference_Set");
 			}
 
 			//Display - EDID

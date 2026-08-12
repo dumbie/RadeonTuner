@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlGraphicsSettingsApply(int gpuAdapterIndex, std::wstring gpuUniqueIdentifierHex, AdlApplication adlApp, GraphicsSettings targetSettings, AdlSettingGet settingGet)
+	bool MainPage::AdlGraphicsSettingsApply(int gpuAdapterIndex, std::wstring gpuUniqueIdentifierHex, AdlApplication& adlApp, GraphicsSettings targetSettings, AdlSettingGet settingGet)
 	{
 		try
 		{
@@ -488,23 +488,53 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost
 			try
 			{
-				if (targetSettings.BoostEnabled.Get(settingGet).has_value())
+				if (targetSettings.BoostMode.Get(settingGet).has_value())
 				{
 					//Get value
-					auto newValue = targetSettings.BoostEnabled.Get(settingGet).value();
+					auto newValue = targetSettings.BoostMode.Get(settingGet).value();
+
+					//Enumeration index correction
+					int setValueNormal = 0;
+					int setValueAdaptive = 0;
+					if (newValue == 0)
+					{
+						//Disabled
+						setValueNormal = 0;
+						setValueAdaptive = 0;
+					}
+					else if (newValue == 1)
+					{
+						//Input-Based
+						setValueNormal = 1;
+						setValueAdaptive = 0;
+					}
+					else if (newValue == 2)
+					{
+						//Scene-Based
+						setValueNormal = 0;
+						setValueAdaptive = 1;
+					}
+					else if (newValue == 3)
+					{
+						//Multi-Modal
+						setValueNormal = 1;
+						setValueAdaptive = 1;
+					}
 
 					//Check application type
 					if (adlApp.Global())
 					{
 						//Set setting
-						ADL_BOOST_SETTINGS adlSettings{};
-						adlSettings.GlobalEnable = newValue;
+						ADL_BOOST_SETTINGSX4 adlSettings{};
+						adlSettings.GlobalEnable = setValueNormal;
+						adlSettings.AdaptiveVrsEnabled = setValueAdaptive;
 
-						ADL_BOOST_NOTFICATION_REASON adlNotificationReason{};
+						ADL_BOOST_NOTIFICATION_REASONX4 adlNotificationReason{};
 						adlNotificationReason.GlobalEnableChanged = true;
+						adlNotificationReason.AdaptiveVrsChanged = true;
 
 						ADL_ERROR_REASON2 adlErrorReason;
-						adl_Res0 = _ADL2_BOOST_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+						adl_Res0 = _ADL2_BOOST_SettingsX4_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
 						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);
@@ -512,7 +542,8 @@ namespace winrt::RadeonTuner::implementation
 					else
 					{
 						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(newValue));
+						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(setValueNormal));
+						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_AdaPFEnable", number_to_wstring(setValueAdaptive));
 					}
 				}
 			}
@@ -530,14 +561,14 @@ namespace winrt::RadeonTuner::implementation
 					if (adlApp.Global())
 					{
 						//Set setting
-						ADL_BOOST_SETTINGS adlSettings{};
+						ADL_BOOST_SETTINGSX4 adlSettings{};
 						adlSettings.GlobalMinRes = newValue;
 
-						ADL_BOOST_NOTFICATION_REASON adlNotificationReason{};
+						ADL_BOOST_NOTIFICATION_REASONX4 adlNotificationReason{};
 						adlNotificationReason.GlobalMinResChanged = true;
 
 						ADL_ERROR_REASON2 adlErrorReason;
-						adl_Res0 = _ADL2_BOOST_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+						adl_Res0 = _ADL2_BOOST_SettingsX4_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
 						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);

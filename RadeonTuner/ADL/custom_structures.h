@@ -23,6 +23,28 @@ typedef struct ADL_RIS2_SETTINGS
 	int GlobalDesktop; //Global desktop value
 };
 
+typedef struct ADL_BOOST_SETTINGSX4
+{
+	int Hotkey; // Hotkey value
+	int GlobalEnable; //Global enable value
+	int GlobalMinRes; //Global Min Resolution value
+	int GlobalMinRes_MinLimit; //Global Min Resolution slider min limit value
+	int GlobalMinRes_MaxLimit; //Global Min Resolution slider max limit value
+	int GlobalMinRes_Step; //Global Min Resolution step value
+	int VsrSupported; //Allows for interop with Upscaling/RSR
+	int BoostUnknown; //Unknown value
+	int AdaptiveVrsEnabled; //Adaptive Vrs enabled value
+};
+
+typedef struct ADL_BOOST_NOTIFICATION_REASONX4
+{
+	int HotkeyChanged; //Set when Hotkey value is changed
+	int GlobalEnableChanged; //Set when Global enable value is changed
+	int GlobalMinResChanged; //Set when Global min resolution value is changed
+	int BoostUnknownChanged; //Set when unknown value is changed
+	int AdaptiveVrsChanged; //Set when Adaptive Vrs enable value is changed
+};
+
 typedef struct AdlGammaRamp
 {
 	uint32_t rgb[1024];
