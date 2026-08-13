@@ -288,7 +288,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_Display_FreeSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::combobox_Display_FreeSyncMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -296,15 +296,15 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
+			auto newSender = sender.as<ComboBox>();
+			int newValue = newSender.SelectedIndex();
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.FreeSyncEnabled.Current = newValue;
+			displaySettingsCurrent.FreeSyncMode.Current = newValue;
 		}
 		catch (...) {}
 	}

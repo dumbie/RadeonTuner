@@ -42,37 +42,37 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Display_HdrEnabled().IsEnabled(false);
 			}
 
-			//FreeSync
-			if (displaySettings.FreeSyncEnabled.Support.has_value() && displaySettings.FreeSyncEnabled.Support.value())
+			//FreeSync Mode
+			if (displaySettings.FreeSyncMode.Support.has_value() && displaySettings.FreeSyncMode.Support.value())
 			{
 				//Get setting
 				int valueInt = 0;
-				if (displaySettings.FreeSyncEnabled.Current.has_value())
+				if (displaySettings.FreeSyncMode.Current.has_value())
 				{
-					valueInt = displaySettings.FreeSyncEnabled.Current.value();
+					valueInt = displaySettings.FreeSyncMode.Current.value();
 				}
-				else if (displaySettings.FreeSyncEnabled.Default.has_value())
+				else if (displaySettings.FreeSyncMode.Default.has_value())
 				{
-					valueInt = displaySettings.FreeSyncEnabled.Default.value();
+					valueInt = displaySettings.FreeSyncMode.Default.value();
 				}
 
 				//Set setting value
-				toggleswitch_Display_FreeSync().IsOn(valueInt);
+				combobox_Display_FreeSyncMode().SelectedIndex(valueInt);
 
 				//Set hint value
-				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
-				textblock_Display_FreeSync_Value().Text(valueHint);
+				std::wstring valueHint = ADL_FREESYNC_MODE[valueInt];
+				textblock_Display_FreeSyncMode_Value().Text(valueHint);
 
 				//Enable or disable interface
-				toggleswitch_Display_FreeSync().IsEnabled(true);
+				combobox_Display_FreeSyncMode().IsEnabled(true);
 			}
 			else
 			{
 				//Set hint value
-				textblock_Display_FreeSync_Value().Text(L"");
+				textblock_Display_FreeSyncMode_Value().Text(L"");
 
 				//Enable or disable interface
-				toggleswitch_Display_FreeSync().IsEnabled(false);
+				combobox_Display_FreeSyncMode().IsEnabled(false);
 			}
 
 			//Virtual Super Resolution

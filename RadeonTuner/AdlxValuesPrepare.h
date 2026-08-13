@@ -231,6 +231,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all FreeSync modes
+			{
+				auto itemCollection = combobox_Display_FreeSyncMode().Items();
+				UINT appendCount = ADL_FREESYNC_MODE.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_FREESYNC_MODE[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
 		}

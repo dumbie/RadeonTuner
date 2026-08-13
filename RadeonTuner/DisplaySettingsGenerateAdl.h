@@ -59,19 +59,33 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_FreeSyncState_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &freeSyncCurrent, &freeSyncDefault, &freeSyncMinRefreshRateInMicroHz, &freeSyncMaxRefreshRateInMicroHz);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set current
-					displaySettings.FreeSyncEnabled.Current = freeSyncCurrent > 0;
+					//Enumeration index correction
+					if (freeSyncCurrent == 0)
+					{
+						//Disabled
+						displaySettings.FreeSyncMode.Current = 0;
+					}
+					else if (freeSyncCurrent == 1)
+					{
+						//Static
+						displaySettings.FreeSyncMode.Current = 2;
+					}
+					else
+					{
+						//Variable or combined
+						displaySettings.FreeSyncMode.Current = 1;
+					}
 
 					//Set default
-					displaySettings.FreeSyncEnabled.Default = 1;
+					displaySettings.FreeSyncMode.Default = 1;
 
 					//Set support
-					displaySettings.FreeSyncEnabled.Support = true;
+					displaySettings.FreeSyncMode.Support = true;
 				}
 				else
 				{
 					//Set support
-					displaySettings.FreeSyncEnabled.Support = false;
+					displaySettings.FreeSyncMode.Support = false;
 				}
 			}
 			catch (...) {}
@@ -531,13 +545,13 @@ namespace winrt::RadeonTuner::implementation
 					//Set interface
 					displaySettings.GammaRed.Minimum = 0.5F;
 					displaySettings.GammaRed.Maximum = 2.0F;
-					displaySettings.GammaRed.Step = 0.01F;
+					displaySettings.GammaRed.Step = 0.02F;
 					displaySettings.GammaGreen.Minimum = 0.5F;
 					displaySettings.GammaGreen.Maximum = 2.0F;
-					displaySettings.GammaGreen.Step = 0.01F;
+					displaySettings.GammaGreen.Step = 0.02F;
 					displaySettings.GammaBlue.Minimum = 0.5F;
 					displaySettings.GammaBlue.Maximum = 2.0F;
-					displaySettings.GammaBlue.Step = 0.01F;
+					displaySettings.GammaBlue.Step = 0.02F;
 				}
 				else
 				{

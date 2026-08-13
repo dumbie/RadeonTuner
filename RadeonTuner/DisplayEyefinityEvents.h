@@ -30,7 +30,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Eyefinity_Overlay_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -55,7 +55,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Eyefinity_Overlay_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{

@@ -45,6 +45,9 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set setting
 					adl_Res0 = _ADL2_Display_PixelFormat_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
+
+					//Delay to prevent no display issue
+					Sleep(200);
 				}
 			}
 			catch (...) {}
@@ -63,26 +66,42 @@ namespace winrt::RadeonTuner::implementation
 					displayId.iDisplayLogicalAdapterIndex = displayAdapterIndex;
 					displayId.iDisplayLogicalIndex = displayDisplayIndex;
 					adl_Res0 = _ADL2_Display_HDRState_Set(adl_Context, displayAdapterIndex, displayId, newValue);
+
+					//Delay to prevent no display issue
+					Sleep(200);
 				}
 			}
 			catch (...) {}
 
-			//FreeSync
+			//FreeSync Mode
 			//Note: you can manually set the FreeSync Rate by using static usecase and providing microhertz for example: 50000000 (50Hz)
 			try
 			{
 				//Get and match values
-				auto newValue = targetSettings.FreeSyncEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.FreeSyncEnabled.Current.value();
+				auto newValue = targetSettings.FreeSyncMode.Get(settingGet).value();
+				auto currentValue = currentSettings.FreeSyncMode.Current.value();
 				if (newValue != currentValue)
 				{
-					//Set setting
-					int freeSyncSetting = 0;
-					if (newValue)
+					//Enumeration index correction
+					int freeSyncFlag = 0;
+					if (newValue == 0)
 					{
-						freeSyncSetting = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+						//Disabled
+						freeSyncFlag = 0;
 					}
-					adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncSetting, 0);
+					else if (newValue == 1)
+					{
+						//Variable or combined
+						freeSyncFlag = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+					}
+					else if (newValue == 2)
+					{
+						//Static
+						freeSyncFlag = ADL_FREESYNC_USECASE_STATIC;
+					}
+
+					//Set setting
+					adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncFlag, 0);
 				}
 			}
 			catch (...) {}
@@ -118,6 +137,9 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set setting
 					adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
+
+					//Delay to prevent no display issue
+					Sleep(200);
 				}
 			}
 			catch (...) {}

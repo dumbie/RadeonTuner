@@ -149,7 +149,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					if (displaySettings.Application.value() == L"Global")
+					if (displaySettings.Global())
 					{
 						displaySettings.UsingProfile = true;
 					}

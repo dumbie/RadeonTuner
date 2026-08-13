@@ -69,6 +69,11 @@ const std::vector<std::wstring> ADL_BOOST_PERFORMANCE_MODE =
 	L"Quality", L"Performance"
 };
 
+const std::vector<std::wstring> ADL_FREESYNC_MODE =
+{
+	L"Disabled", L"Variable", L"Static"
+};
+
 //ADLX
 const std::vector<std::wstring> ADLX_RESULT_STRING =
 {
