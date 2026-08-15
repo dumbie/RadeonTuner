@@ -9,6 +9,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			std::vector<AdlAppProperty> adlAppProperties{};
+
 			//FSR Upscaling Override
 			try
 			{
@@ -18,15 +20,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FsrOverride.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "FsrOverride", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"FsrOverride", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"FsrOverride";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -41,15 +49,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.MlfiOverride.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "MlfiOverride", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"MlfiOverride", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"MlfiOverride";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -64,15 +78,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.MfgOverride.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "MfgOverride", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"MfgOverride", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"MfgOverride";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -87,15 +107,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.MldOverride.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "MldOverride", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"MldOverride", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"MldOverride";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -110,15 +136,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.NrcOverride.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "NrcOverride", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"NrcOverride", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"NrcOverride";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -152,15 +184,21 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "MfgRatio", setValue);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"MfgRatio", setValue);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"MfgRatio";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = setValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -175,15 +213,22 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FsrOvrDLLPath.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "FsrOvrDLLPath", newValue);
 					}
 					else
 					{
-						//Set setting
-						//AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"FfxDllPath", targetSettings.FsrOvrDLLPath.Get(settingGet).value());
+						//Note: Disabled because setting does not seem to work.
+						////Set application properties
+						//AdlAppProperty adlAppProperty0{};
+						//adlAppProperty0.Name = L"FfxDllPath";
+						//AdlAppPropertyValue adlAppPropertyValue0{};
+						//adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						//adlAppPropertyValue0.Value = newValue;
+						//adlAppProperty0.Values = { adlAppPropertyValue0 };
+						//adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -200,15 +245,22 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FsrOtaIndex.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "FsrOtaIndex", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"FsrOtaIndex", number_to_wstring(newValue));
+						//Note: Disabled because setting does not seem to work.
+						////Set application properties
+						//AdlAppProperty adlAppProperty0{};
+						//adlAppProperty0.Name = L"FsrOtaIndex";
+						//AdlAppPropertyValue adlAppPropertyValue0{};
+						//adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						//adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						//adlAppProperty0.Values = { adlAppPropertyValue0 };
+						//adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -223,7 +275,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.DeLagEnabled.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_DELAG_SETTINGS adlSettings{};
@@ -236,12 +288,18 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_DELAG_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_DELAG_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_DELAG_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Dlg_PFEnable", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Dlg_PFEnable";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -256,18 +314,24 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.EnhancedSync.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "TurboSync", number_to_wstring(newValue));
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_ENHANCEDSYNC, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_ENHANCEDSYNC, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"TurboSync", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"TurboSync";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -282,15 +346,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.VerticalSync.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "VSyncControl", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"VSyncControl", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"VSyncControl";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -305,7 +375,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FrameGenEnabled.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "", "DrvFrameGenEnabled", newValue);
@@ -323,7 +393,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FrameGenSearchMode.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue);
@@ -341,7 +411,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FrameGenPerfMode.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue);
@@ -359,7 +429,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FrameGenResponseMode.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue);
@@ -377,7 +447,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.FrameGenAlgorithm.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenAlgorithm", newValue);
@@ -395,7 +465,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.ChillEnabled.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_CHILL_SETTINGS adlSettings{};
@@ -408,12 +478,18 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Chil_PFEnable", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Chil_PFEnable";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -428,7 +504,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.ChillMinFps.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_CHILL_SETTINGS adlSettings{};
@@ -441,12 +517,18 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Chil_MinFRate", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Chil_MinFRate";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -461,7 +543,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.ChillMaxFps.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_CHILL_SETTINGS adlSettings{};
@@ -474,12 +556,18 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_CHILL_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_CHILL_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Chil_MaxFRate", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Chil_MaxFRate";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -522,7 +610,7 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_BOOST_SETTINGSX4 adlSettings{};
@@ -537,13 +625,26 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_BOOST_SettingsX4_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_PFEnable", number_to_wstring(setValueNormal));
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_AdaPFEnable", number_to_wstring(setValueAdaptive));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Bst_PFEnable";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(setValueNormal);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
+
+						AdlAppProperty adlAppProperty1{};
+						adlAppProperty1.Name = L"Bst_AdaPFEnable";
+						AdlAppPropertyValue adlAppPropertyValue1{};
+						adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue1.Value = number_to_wstring(setValueAdaptive);
+						adlAppProperty1.Values = { adlAppPropertyValue1 };
+						adlAppProperties.push_back(adlAppProperty1);
 					}
 				}
 			}
@@ -558,7 +659,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.BoostMinResolution.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_BOOST_SETTINGSX4 adlSettings{};
@@ -571,12 +672,18 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_BOOST_SettingsX4_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_BOOST_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Bst_MaxScale", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Bst_MaxScale";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -588,17 +695,17 @@ namespace winrt::RadeonTuner::implementation
 				if (targetSettings.RisEnabled.Get(settingGet).has_value() && targetSettings.RisSharpeningDegree.Get(settingGet).has_value())
 				{
 					//Get value
-					auto newValue = targetSettings.RisEnabled.Get(settingGet).value();
-					auto sharpeningValueGlobal = targetSettings.RisSharpeningDegree.Get(settingGet).value();
-					float sharpeningValueApp = (float)sharpeningValueGlobal / 100.0F;
+					auto enabledValue = targetSettings.RisEnabled.Get(settingGet).value();
+					auto sharpeningValue = targetSettings.RisSharpeningDegree.Get(settingGet).value();
+					float sharpeningValueApp = (float)sharpeningValue / 100.0F;
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_RIS_SETTINGS adlSettings{};
-						adlSettings.GlobalEnable = newValue;
-						adlSettings.GlobalSharpeningDegree = sharpeningValueGlobal;
+						adlSettings.GlobalEnable = enabledValue;
+						adlSettings.GlobalSharpeningDegree = sharpeningValue;
 
 						ADL_RIS_NOTFICATION_REASON adlNotificationReason{};
 						adlNotificationReason.GlobalEnableChanged = true;
@@ -607,13 +714,26 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_RIS_Settings_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, true);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Ris_PFEnable", number_to_wstring(newValue));
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Ris_SHDegree", float_to_wstring(sharpeningValueApp, 1));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Ris_PFEnable";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(enabledValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
+
+						AdlAppProperty adlAppProperty1{};
+						adlAppProperty1.Name = L"Ris_SHDegree";
+						AdlAppPropertyValue adlAppPropertyValue1{};
+						adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue1.Value = float_to_wstring(sharpeningValueApp, 1);
+						adlAppProperty1.Values = { adlAppPropertyValue1 };
+						adlAppProperties.push_back(adlAppProperty1);
 					}
 				}
 			}
@@ -627,16 +747,16 @@ namespace winrt::RadeonTuner::implementation
 					//Note: RIS2 registry states 0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop
 
 					//Get value
-					auto newValue = targetSettings.Ris2Enabled.Get(settingGet).value();
+					auto enabledValue = targetSettings.Ris2Enabled.Get(settingGet).value();
 					auto desktopValue = targetSettings.Ris2DesktopEnabled.Get(settingGet).value();
 					auto sharpeningValue = targetSettings.Ris2SharpeningDegree.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						ADL_RIS2_SETTINGS adlSettings{};
-						adlSettings.GlobalEnable = newValue;
+						adlSettings.GlobalEnable = enabledValue;
 						adlSettings.GlobalDesktop = desktopValue;
 						adlSettings.GlobalSharpeningDegree = sharpeningValue;
 
@@ -648,7 +768,7 @@ namespace winrt::RadeonTuner::implementation
 						adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
 
 						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, ADL_TRUE);
+						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, true);
 					}
 				}
 			}
@@ -662,17 +782,25 @@ namespace winrt::RadeonTuner::implementation
 					//Get value
 					auto newValue = targetSettings.AntiAliasingOverride.Get(settingGet).value();
 
-					//Check application type
+					//Enumeration index correction
 					std::wstring setValue = newValue ? L"2" : L"1";
-					if (adlApp.Global())
+
+					//Check application type
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AntiAlias", setValue);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"AntiAlias", setValue);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"AntiAlias";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = setValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -713,7 +841,7 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Set setting
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "ASD", setValueAsd);
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "ASE", setValueAse);
@@ -721,8 +849,7 @@ namespace winrt::RadeonTuner::implementation
 					}
 					else
 					{
-						std::vector<AdlAppProperty> adlAppProperties{};
-
+						//Set application properties
 						AdlAppProperty adlAppProperty0{};
 						adlAppProperty0.Name = L"ASD";
 						AdlAppPropertyValue adlAppPropertyValue0{};
@@ -746,9 +873,6 @@ namespace winrt::RadeonTuner::implementation
 						adlAppPropertyValue2.Value = setValueAstt;
 						adlAppProperty2.Values = { adlAppPropertyValue2 };
 						adlAppProperties.push_back(adlAppProperty2);
-
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, adlAppProperties, false);
 					}
 				}
 			}
@@ -778,15 +902,21 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AntiAliasSamples", setValue);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"AntiAliasSmpls", setValue);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"AntiAliasSmpls";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = setValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -801,15 +931,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.AntiAliasingEnhancedQuality.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "EQAA", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"EQAA", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"EQAA";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -824,15 +960,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.AntiAliasingMorphological.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "MLF", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"MLF", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"MLF";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -870,15 +1012,21 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "AnisoDegree", setValue);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"AnisoDegree", setValue);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"AnisoDegree";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = setValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -893,15 +1041,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.TessellationMode.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "Tessellation_OPTION", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Tessellation_OP", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Tessellation_OP";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -951,15 +1105,21 @@ namespace winrt::RadeonTuner::implementation
 					}
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "Tessellation", setValue);
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"Tessellation", setValue);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"Tessellation";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = setValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -973,15 +1133,21 @@ namespace winrt::RadeonTuner::implementation
 					//Get value
 					auto newValue = targetSettings.OpenGLTripleBuffering.Get(settingGet).value();
 
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "EnableTripleBuffering", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"EnableTrplBffr", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"EnableTrplBffr";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -996,15 +1162,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.TextureFilteringQuality.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "TFQ", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"TFQ", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"TFQ";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -1019,15 +1191,21 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.SurfaceFormatOptimization.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "SurfaceFormatReplacements", number_to_wstring(newValue));
 					}
 					else
 					{
-						//Set setting
-						AdlAppPropertyUpdate(adlApp, gpuUniqueIdentifierHex, L"SrfcFrmtRplcmnt", number_to_wstring(newValue));
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"SrfcFrmtRplcmnt";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValue);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -1043,7 +1221,7 @@ namespace winrt::RadeonTuner::implementation
 					auto frameRateValue = targetSettings.FrtcFrameRateTarget.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						ADLFPSSettingsInput adlSettings{};
 						adlSettings.bGlobalSettings = true;
@@ -1065,7 +1243,7 @@ namespace winrt::RadeonTuner::implementation
 					auto frameRateValue = targetSettings.FrtcFrameRateTarget.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Set setting
 						if (enabledValue)
@@ -1098,7 +1276,7 @@ namespace winrt::RadeonTuner::implementation
 					auto newValue = targetSettings.OpenGL10BitPixelFormat.Get(settingGet).value();
 
 					//Check application type
-					if (adlApp.Global())
+					if (targetSettings.Global())
 					{
 						//Enumeration index correction
 						int setValue = 1;
@@ -1118,6 +1296,13 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 			catch (...) {}
+
+			//Update properties for ADL application
+			if (!targetSettings.Global())
+			{
+				//Set setting
+				return AdlAppPropertyUpdate(adlApp, adlAppProperties, false);
+			}
 
 			//Return result
 			return true;
