@@ -15,10 +15,10 @@ namespace winrt::RadeonTuner::implementation
 			//Device application
 			std::wstring applicationW = displaySettings.Application.value();
 
-			//Get display settings
+			//Get settings
 			auto displaySettingsProfile = DisplaySettings_Profile_Get(deviceIdW, applicationW);
 
-			//Check display settings profile
+			//Check settings profile
 			if (!displaySettingsProfile.has_value())
 			{
 				//Check if any profile is used
@@ -27,39 +27,13 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.UsingProfile = true;
 				}
 
-				//Add display settings profile
+				//Add settings profile
 				displaySettingsCache.push_back(displaySettings);
 
-				//Save display settings profile
+				//Save settings profile
 				DisplaySettings_Profiles_SaveToFile();
 
 				AVDebugWriteLine(L"Added display settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << displaySettings.UsingProfile);
-			}
-
-			//Return result
-			return true;
-		}
-		catch (...)
-		{
-			//Return result
-			return false;
-		}
-	}
-
-	bool MainPage::DisplaySettings_Profile_Replace(DisplaySettings displaySettingsReplace)
-	{
-		try
-		{
-			for (DisplaySettings& displaySettings : displaySettingsCache)
-			{
-				try
-				{
-					if (displaySettings.DeviceId.value() == displaySettingsReplace.DeviceId.value() && displaySettings.Application.value() == displaySettingsReplace.Application.value())
-					{
-						displaySettings = displaySettingsReplace;
-					}
-				}
-				catch (...) {}
 			}
 
 			//Return result
@@ -76,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Remove display settings profile
+			//Remove settings profile
 			auto iterator = std::remove_if(displaySettingsCache.begin(), displaySettingsCache.end(), [&](DisplaySettings& x) { return x.DeviceId == deviceId && x.Application == application; });
 			displaySettingsCache.erase(iterator, displaySettingsCache.end());
 
@@ -267,10 +241,10 @@ namespace winrt::RadeonTuner::implementation
 			//Convert json to string
 			std::wstring jsonStringW = struct_to_jsonstring(displaySettingsCache, true);
 
-			//Get display profiles file path	
+			//Get profiles file path	
 			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\DisplayProfiles.json");
 
-			//Save display profiles json file
+			//Save profiles json file
 			string_to_file(pathSettingFileW, jsonStringW);
 
 			AVDebugWriteLine("Saved display profiles: " << displaySettingsCache.size());
@@ -287,13 +261,13 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get display profiles file path
+			//Get profiles file path
 			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\DisplayProfiles.json");
 
-			//Open display profiles file
+			//Open profiles file
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
-			//Deserialize display profiles
+			//Deserialize profiles
 			displaySettingsCache = jsonstring_to_struct<std::vector<DisplaySettings>>(jsonStringW);
 
 			//Set Global profile as using

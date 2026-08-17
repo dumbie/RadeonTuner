@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save settings to file
-			bool saveResult = GraphicsSettings_Profile_SaveToFile(graphicsSettingsCurrent, exportPath);
+			bool saveResult = GraphicsSettings_Profile_SaveToFile(graphicsSettingsCurrent.get(), exportPath);
 
 			//Set result
 			if (saveResult)

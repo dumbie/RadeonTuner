@@ -26,13 +26,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Convert settings values to interface
 			DisplaySettings_Convert_ToUI_Adl(displaySettingsAdl);
-			DisplaySettings_Convert_ToUI_Profile(displaySettingsCurrent, AdlSettingGet::Current);
+			DisplaySettings_Convert_ToUI_Profile(displaySettingsCurrent.get(), AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Display().Text(application);
 
 			//Disable or enable settings
-			if (application == L"Global")
+			if (displaySettingsCurrent.get().Global())
 			{
 				//Enable settings
 				combobox_Display_Resolution().IsEnabled(true);
@@ -70,6 +70,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
+			//Fix check if current settings match profile and set button color accordingly
 			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 			button_Display_Apply().Background(colorValid);
 
@@ -78,7 +79,7 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = false;
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded display values.");
+			AVDebugWriteLine(L"ADLX loaded display values: " << deviceId << L" / " << application);
 		}
 		catch (...)
 		{

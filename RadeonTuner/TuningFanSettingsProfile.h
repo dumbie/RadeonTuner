@@ -15,10 +15,10 @@ namespace winrt::RadeonTuner::implementation
 			//Device application
 			std::wstring applicationW = tuningFanSettings.Application.value();
 
-			//Get tuning fan settings
+			//Get settings
 			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
 
-			//Check tuning fan settings profile
+			//Check settings profile
 			if (!tuningFanSettingsProfile.has_value())
 			{
 				//Check if any profile is used
@@ -27,39 +27,13 @@ namespace winrt::RadeonTuner::implementation
 					tuningFanSettings.UsingProfile = true;
 				}
 
-				//Add tuning fan settings profile
+				//Add settings profile
 				tuningFanSettingsCache.push_back(tuningFanSettings);
 
-				//Save tuning fan settings profile
+				//Save settings profile
 				TuningFanSettings_Profiles_SaveToFile();
 
 				AVDebugWriteLine(L"Added tuning settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << tuningFanSettings.UsingProfile);
-			}
-
-			//Return result
-			return true;
-		}
-		catch (...)
-		{
-			//Return result
-			return false;
-		}
-	}
-
-	bool MainPage::TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettingsReplace)
-	{
-		try
-		{
-			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
-			{
-				try
-				{
-					if (tuningFanSettings.DeviceId.value() == tuningFanSettingsReplace.DeviceId.value() && tuningFanSettings.Application.value() == tuningFanSettingsReplace.Application.value())
-					{
-						tuningFanSettings = tuningFanSettingsReplace;
-					}
-				}
-				catch (...) {}
 			}
 
 			//Return result
@@ -76,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Remove tuning fan settings profile
+			//Remove settings profile
 			auto iterator = std::remove_if(tuningFanSettingsCache.begin(), tuningFanSettingsCache.end(), [&](TuningFanSettings& x) { return x.DeviceId == deviceId && x.Application == application; });
 			tuningFanSettingsCache.erase(iterator, tuningFanSettingsCache.end());
 
@@ -149,7 +123,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					if (tuningFanSettings.Application.value() == L"Global")
+					if (tuningFanSettings.Global())
 					{
 						tuningFanSettings.UsingProfile = true;
 					}
@@ -267,10 +241,10 @@ namespace winrt::RadeonTuner::implementation
 			//Convert json to string
 			std::wstring jsonStringW = struct_to_jsonstring(tuningFanSettingsCache, true);
 
-			//Get tuning profiles file path	
+			//Get profiles file path
 			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\TuningProfiles.json");
 
-			//Save tuning profiles json file
+			//Save profiles json file
 			string_to_file(pathSettingFileW, jsonStringW);
 
 			AVDebugWriteLine("Saved tuning profiles: " << tuningFanSettingsCache.size());
@@ -287,13 +261,13 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get tuning profiles file path
+			//Get profiles file path
 			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\TuningProfiles.json");
 
-			//Open tuning profiles file
+			//Open profiles file
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
-			//Deserialize tuning profiles
+			//Deserialize profiles
 			tuningFanSettingsCache = jsonstring_to_struct<std::vector<TuningFanSettings>>(jsonStringW);
 
 			//Set Global profile as using

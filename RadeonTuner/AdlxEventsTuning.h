@@ -76,7 +76,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get current application name
-			std::wstring currentAppName = tuningFanSettingsCurrent.Application.value();
+			std::wstring currentAppName = tuningFanSettingsCurrent.get().Application.value();
 
 			//Remove selected items
 			int removeCount = 0;
@@ -87,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
 
 				//Remove application and profile
-				if (TuningFanSettings_Profile_Remove(tuningFanSettingsCurrent.DeviceId.value(), executableName))
+				if (TuningFanSettings_Profile_Remove(tuningFanSettingsCurrent.get().DeviceId.value(), executableName))
 				{
 					//Update remove count
 					removeCount++;
@@ -131,28 +131,33 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
+			//Profile is used
+			bool usingProfile = tuningFanSettingsCurrent.get().UsingProfile;
+
 			//Device identifier
-			std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
+			std::wstring deviceIdW = tuningFanSettingsCurrent.get().DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
-
-			//Replace tuning and fans settings
-			TuningFanSettings_Profile_Replace(tuningFanSettingsCurrent);
+			std::wstring applicationW = tuningFanSettingsCurrent.get().Application.value();
 
 			//Save tuning and fans settings
 			TuningFanSettings_Profiles_SaveToFile();
 
 			//Apply settings when application profile is used
-			if (tuningFanSettingsCurrent.UsingProfile)
+			if (usingProfile)
 			{
 				//Apply tuning and fans settings
-				bool applyResult = AdlTuningFanSettingsApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent, AdlSettingGet::Current);
+				bool applyResult = AdlTuningFanSettingsApply(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.get(), AdlSettingGet::Current);
+
+				//Check result
 				if (applyResult)
 				{
 					//Show notification
 					ShowNotification(L"Tuning and fans settings applied");
 					AVDebugWriteLine(L"Tuning and fans settings applied: " << deviceIdW << L" / " << applicationW);
+
+					//Load tuning and fans settings
+					AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 				}
 				else
 				{
@@ -177,9 +182,6 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Tuning and fans settings adjusted");
 				AVDebugWriteLine(L"Tuning and fans settings adjusted: " << deviceIdW << L" / " << applicationW);
 			}
-
-			//Load tuning and fans settings
-			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
@@ -193,26 +195,27 @@ namespace winrt::RadeonTuner::implementation
 
 			//Confirm reset
 			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
-			int messageResult = co_await ShowMessageBox(L"Reset tuning and fans?", L"", messageAnswers);
+			int messageResult = co_await ShowMessageBox(L"Reset tuning and fans settings?", L"", messageAnswers);
 			if (messageResult == 1)
 			{
 				co_return;
 			}
 
 			//Profile is used
-			bool usingProfile = tuningFanSettingsCurrent.UsingProfile;
+			bool usingProfile = tuningFanSettingsCurrent.get().UsingProfile;
 
 			//Device identifier
-			std::wstring deviceIdW = tuningFanSettingsCurrent.DeviceId.value();
+			std::wstring deviceIdW = tuningFanSettingsCurrent.get().DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = tuningFanSettingsCurrent.Application.value();
+			std::wstring applicationW = tuningFanSettingsCurrent.get().Application.value();
 
 			//Remove tuning and fans settings
-			TuningFanSettings_Profile_Remove(deviceIdW, applicationW);
-
-			//Save tuning and fans settings
-			TuningFanSettings_Profiles_SaveToFile();
+			if (TuningFanSettings_Profile_Remove(deviceIdW, applicationW))
+			{
+				//Save tuning and fans settings
+				TuningFanSettings_Profiles_SaveToFile();
+			}
 
 			//Check if profile is used
 			if (usingProfile)
@@ -269,7 +272,7 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 
 			//Update current value
-			tuningFanSettingsCurrent.KeepActive.Current = newValue;
+			tuningFanSettingsCurrent.get().KeepActive.Current = newValue;
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
@@ -309,7 +312,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.CoreMin.Current = newValue;
+			tuningFanSettingsCurrent.get().CoreMin.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -348,7 +351,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.CoreMax.Current = newValue;
+			tuningFanSettingsCurrent.get().CoreMax.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -370,7 +373,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.SelectedIndex();
 
 			//Update current value
-			tuningFanSettingsCurrent.MemoryTiming.Current = newValue;
+			tuningFanSettingsCurrent.get().MemoryTiming.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -392,7 +395,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.MemoryMax.Current = newValue;
+			tuningFanSettingsCurrent.get().MemoryMax.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -414,7 +417,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.PowerLimit.Current = newValue;
+			tuningFanSettingsCurrent.get().PowerLimit.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -436,7 +439,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.PowerVoltage.Current = newValue;
+			tuningFanSettingsCurrent.get().PowerVoltage.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -458,7 +461,7 @@ namespace winrt::RadeonTuner::implementation
 			int newValue = (int)newSender.Value();
 
 			//Update current value
-			tuningFanSettingsCurrent.PowerTDC.Current = newValue;
+			tuningFanSettingsCurrent.get().PowerTDC.Current = newValue;
 		}
 		catch (...) {}
 	}

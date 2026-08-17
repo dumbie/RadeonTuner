@@ -19,20 +19,20 @@ namespace winrt::RadeonTuner::implementation
 			TuningFanSettings_Profile_Add(tuningFanSettingsAdl);
 
 			//Device identifier
-			std::wstring gpuDeviceId = tuningFanSettingsAdl.DeviceId.value();
+			std::wstring deviceId = tuningFanSettingsAdl.DeviceId.value();
 
 			//Get and set settings
-			tuningFanSettingsCurrent = TuningFanSettings_Profile_Get(gpuDeviceId, application).value();
+			tuningFanSettingsCurrent = TuningFanSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
 			TuningFanSettings_Convert_ToUI_Adl(tuningFanSettingsAdl);
-			TuningFanSettings_Convert_ToUI_Profile(tuningFanSettingsCurrent, AdlSettingGet::Current);
+			TuningFanSettings_Convert_ToUI_Profile(tuningFanSettingsCurrent.get(), AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Tuning().Text(application);
 
 			//Disable or enable settings
-			if (tuningFanSettingsAdl.TuningSupport && application == L"Global")
+			if (tuningFanSettingsAdl.TuningSupport && tuningFanSettingsAdl.Global())
 			{
 				toggleswitch_KeepActive().IsEnabled(true);
 			}
@@ -42,6 +42,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
+			//Fix check if current settings match profile and set button color accordingly
 			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 			button_Tuning_Apply().Background(colorValid);
 			button_Fan_Apply().Background(colorValid);
@@ -51,12 +52,12 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = false;
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded tuning and fans values: " << gpuDeviceId << L" / " << application);
+			AVDebugWriteLine(L"ADLX loaded tuning and fans values: " << deviceId << L" / " << application);
 		}
 		catch (...)
 		{
 			//Set result
-			AVDebugWriteLine("ADLX failed loading tuning and fans values.");
+			AVDebugWriteLine("Failed loading selected app values (Exception)");
 		}
 	}
 }

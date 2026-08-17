@@ -38,7 +38,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Apply().Background(colorIgnored);
 
 			//Update current value
-			tuningFanSettingsCurrent.FanControl.Current = newValue;
+			tuningFanSettingsCurrent.get().FanControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -73,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Apply().Background(colorIgnored);
 
 			//Update current value
-			tuningFanSettingsCurrent.FanZeroRpm.Current = newValue;
+			tuningFanSettingsCurrent.get().FanZeroRpm.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -104,16 +104,16 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Apply().Background(colorIgnored);
 
 			//Update current value
-			tuningFanSettingsCurrent.FanSpeed0.Current = (int)slider_Fan_Speed_0().Value();
-			tuningFanSettingsCurrent.FanSpeed1.Current = (int)slider_Fan_Speed_1().Value();
-			tuningFanSettingsCurrent.FanSpeed2.Current = (int)slider_Fan_Speed_2().Value();
-			tuningFanSettingsCurrent.FanSpeed3.Current = (int)slider_Fan_Speed_3().Value();
-			tuningFanSettingsCurrent.FanSpeed4.Current = (int)slider_Fan_Speed_4().Value();
-			tuningFanSettingsCurrent.FanTemp0.Current = (int)slider_Fan_Temp_0().Value();
-			tuningFanSettingsCurrent.FanTemp1.Current = (int)slider_Fan_Temp_1().Value();
-			tuningFanSettingsCurrent.FanTemp2.Current = (int)slider_Fan_Temp_2().Value();
-			tuningFanSettingsCurrent.FanTemp3.Current = (int)slider_Fan_Temp_3().Value();
-			tuningFanSettingsCurrent.FanTemp4.Current = (int)slider_Fan_Temp_4().Value();
+			tuningFanSettingsCurrent.get().FanSpeed0.Current = (int)slider_Fan_Speed_0().Value();
+			tuningFanSettingsCurrent.get().FanSpeed1.Current = (int)slider_Fan_Speed_1().Value();
+			tuningFanSettingsCurrent.get().FanSpeed2.Current = (int)slider_Fan_Speed_2().Value();
+			tuningFanSettingsCurrent.get().FanSpeed3.Current = (int)slider_Fan_Speed_3().Value();
+			tuningFanSettingsCurrent.get().FanSpeed4.Current = (int)slider_Fan_Speed_4().Value();
+			tuningFanSettingsCurrent.get().FanTemp0.Current = (int)slider_Fan_Temp_0().Value();
+			tuningFanSettingsCurrent.get().FanTemp1.Current = (int)slider_Fan_Temp_1().Value();
+			tuningFanSettingsCurrent.get().FanTemp2.Current = (int)slider_Fan_Temp_2().Value();
+			tuningFanSettingsCurrent.get().FanTemp3.Current = (int)slider_Fan_Temp_3().Value();
+			tuningFanSettingsCurrent.get().FanTemp4.Current = (int)slider_Fan_Temp_4().Value();
 		}
 		catch (...) {}
 	}
