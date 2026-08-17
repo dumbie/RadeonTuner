@@ -12,28 +12,44 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Apply current settings
-			bool applyResult = AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettingsCurrent, AdlSettingGet::Current);
+			//Profile is used
+			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
 
-			//Check result
-			if (applyResult)
+			//Device identifier
+			std::wstring deviceIdW = multimediaSettingsCurrent.get().DeviceId.value();
+
+			//Device application
+			std::wstring applicationW = multimediaSettingsCurrent.get().Application.value();
+
+			//Save multimedia settings
+			MultimediaSettings_Profiles_SaveToFile();
+
+			//Check if profile is used
+			if (usingProfile)
 			{
-				//Show notification
-				ShowNotification(L"Multimedia settings applied");
-				AVDebugWriteLine(L"Multimedia settings applied");
+				//Apply current settings
+				bool applyResult = AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettingsCurrent.get(), AdlSettingGet::Current);
 
-				//Load multimedia settings
-				AdlxValuesLoadSelectMultimediaApp();
-			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Multimedia settings not applied");
-				AVDebugWriteLine(L"Multimedia settings not applied");
+				//Check result
+				if (applyResult)
+				{
+					//Show notification
+					ShowNotification(L"Multimedia settings applied");
+					AVDebugWriteLine(L"Multimedia settings applied");
 
-				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Multimedia_Apply().Background(colorInvalid);
+					//Load multimedia settings
+					AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
+				}
+				else
+				{
+					//Show notification
+					ShowNotification(L"Multimedia settings not applied");
+					AVDebugWriteLine(L"Multimedia settings not applied");
+
+					//Update button colors
+					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
+					button_Multimedia_Apply().Background(colorInvalid);
+				}
 			}
 		}
 		catch (...) {}
@@ -48,38 +64,44 @@ namespace winrt::RadeonTuner::implementation
 
 			//Confirm reset
 			std::vector<std::wstring> messageAnswers{ L"Yes", L"No" };
-			int messageResult = co_await ShowMessageBox(L"Reset settings?", L"", messageAnswers);
+			int messageResult = co_await ShowMessageBox(L"Reset multimedia settings?", L"", messageAnswers);
 			if (messageResult == 1)
 			{
 				co_return;
 			}
 
-			//Get current and default settings
-			MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
+			//Profile is used
+			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
 
-			//Apply default settings
-			bool applyResult = AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettings, AdlSettingGet::Default);
+			//Device identifier
+			std::wstring deviceIdW = multimediaSettingsCurrent.get().DeviceId.value();
 
-			//Check result
-			if (applyResult)
+			//Device application
+			std::wstring applicationW = multimediaSettingsCurrent.get().Application.value();
+
+			//Remove multimedia settings
+			if (MultimediaSettings_Profile_Remove(deviceIdW, applicationW))
 			{
-				//Show notification
-				ShowNotification(L"Multimedia settings reset");
-				AVDebugWriteLine(L"Multimedia settings reset");
-
-				//Load multimedia settings
-				AdlxValuesLoadSelectMultimediaApp();
+				//Save multimedia settings
+				MultimediaSettings_Profiles_SaveToFile();
 			}
-			else
+
+			//Check if profile is used
+			if (usingProfile)
 			{
-				//Show notification
-				ShowNotification(L"Multimedia settings not reset");
-				AVDebugWriteLine(L"Multimedia settings not reset");
+				//Get current and default settings
+				MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex, L"").value();
 
-				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Multimedia_Apply().Background(colorInvalid);
+				//Apply default settings
+				AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettings, AdlSettingGet::Default);
 			}
+
+			//Show notification
+			ShowNotification(L"Multimedia settings reset");
+			AVDebugWriteLine(L"Multimedia settings reset: " << deviceIdW << L" / " << applicationW);
+
+			//Load multimedia settings
+			AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
@@ -110,7 +132,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.VideoUpscaling.Current = newValue;
+			multimediaSettingsCurrent.get().VideoUpscaling.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -130,7 +152,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.VideoSharpening.Current = newValue;
+			multimediaSettingsCurrent.get().VideoSharpening.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -150,7 +172,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.VideoBrightness.Current = newValue;
+			multimediaSettingsCurrent.get().VideoBrightness.Current = newValue;
 		}
 		catch (...) {}
 	}

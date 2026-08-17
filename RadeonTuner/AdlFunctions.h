@@ -30,9 +30,6 @@ namespace winrt::RadeonTuner::implementation
 					//DriverBug#1
 					//Set gpu application identifier
 					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "UMD", "AppGpuId", L"0x0001");
-
-					//Set multimedia video profile mode
-					Adl_Multimedia_Set_Mode(adapterInfo.iAdapterIndex);
 				}
 				catch (...) {}
 			}

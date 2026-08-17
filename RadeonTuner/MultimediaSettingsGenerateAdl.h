@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<MultimediaSettings> MainPage::MultimediaSettings_Generate_FromADL(int gpuAdapterIndex)
+	std::optional<MultimediaSettings> MainPage::MultimediaSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application)
 	{
 		try
 		{
@@ -13,6 +13,12 @@ namespace winrt::RadeonTuner::implementation
 			//Fix add SteadyVideo FluidMotion Color support
 
 			MultimediaSettings multimediaSettings{};
+
+			//Device identifier
+			multimediaSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
+
+			//Device application
+			multimediaSettings.Application = application;
 
 			//Set settings
 			int adlFeatureCount = 0;

@@ -22,6 +22,15 @@ namespace winrt::RadeonTuner::implementation
 					//Get feature name
 					std::string featureName = std::string(adlFeatureValues.Get()[index].Name.FeatureName);
 
+					//Custom preset
+					if (featureName == "Preset")
+					{
+						//Note: When multimedia preset is not set to Custom, brightness does not work.
+
+						//Set setting
+						adlFeatureValues.Get()[index].EnumStates = 128;
+					}
+
 					//Video Upscaling
 					if (targetSettings.VideoUpscaling.Get(settingGet).has_value())
 					{

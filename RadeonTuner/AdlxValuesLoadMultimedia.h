@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectMultimediaApp()
+	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectMultimediaApp(int gpuAdapterIndex, std::wstring application)
 	{
 		try
 		{
@@ -13,12 +13,26 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = true;
 
 			//Get current and default settings
-			multimediaSettingsCurrent = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex).value();
+			MultimediaSettings multimediaSettingsAdl = MultimediaSettings_Generate_FromADL(gpuAdapterIndex, application).value();
+
+			//Add settings profile
+			MultimediaSettings_Profile_Add(multimediaSettingsAdl);
+
+			//Device identifier
+			std::wstring deviceId = multimediaSettingsAdl.DeviceId.value();
+
+			//Get and set settings
+			multimediaSettingsCurrent = MultimediaSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
-			MultimediaSettings_Convert_ToUI_Adl(multimediaSettingsCurrent);
+			MultimediaSettings_Convert_ToUI_Adl(multimediaSettingsAdl);
+			MultimediaSettings_Convert_ToUI_Profile(multimediaSettingsCurrent.get(), AdlSettingGet::Current);
+
+			//Update button text
+			textblock_AppSelect_Multimedia().Text(application);
 
 			//Update button colors
+			//Fix check if current settings match profile and set button color accordingly
 			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
 			button_Multimedia_Apply().Background(colorValid);
 
@@ -27,7 +41,7 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = false;
 
 			//Set result
-			AVDebugWriteLine("ADLX loaded multimedia values.");
+			AVDebugWriteLine(L"ADLX loaded multimedia values: " << deviceId << L" / " << application);
 		}
 		catch (...)
 		{
