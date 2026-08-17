@@ -53,13 +53,13 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Adding application: " << addFileName << " / " << addFilePath << " / " << driverArea);
 
 			//Create adl application
-			AdlApplication adlApp{};
-			adlApp.FileName = addFileName;
-			adlApp.FilePath = addFilePath;
-			adlApp.DriverArea = driverArea;
+			AdlApplication adlApplication{};
+			adlApplication.FileName = addFileName;
+			adlApplication.FilePath = addFilePath;
+			adlApplication.DriverArea = driverArea;
 
 			//Set default properties
-			if (AdlAppsSetDefaults(adlApp, true, false))
+			if (AdlAppsSetDefaults(adlApplication, true, false))
 			{
 				return L"Application added";
 			}

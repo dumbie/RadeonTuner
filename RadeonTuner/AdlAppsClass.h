@@ -42,7 +42,6 @@ struct AdlAppProperty
 
 struct AdlApplication
 {
-	bool Global;
 	std::wstring FileName;
 	std::wstring FilePath;
 	std::wstring ProfileName;
@@ -52,6 +51,11 @@ struct AdlApplication
 	bool Initialized()
 	{
 		return !FileName.empty();
+	}
+
+	bool Global()
+	{
+		return FileName == L"Global";
 	}
 
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(AdlApplication, FileName, FilePath, ProfileName, DriverArea, Properties)

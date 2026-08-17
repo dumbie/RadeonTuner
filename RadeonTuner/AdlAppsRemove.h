@@ -6,6 +6,37 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	bool MainPage::AdlAppRemoveAll()
+	{
+		try
+		{
+			AVDebugWriteLine("Removing all ADL applications.");
+
+			//Get all applications
+			std::vector<AdlApplication> appList = AdlAppsLoadAll(L"3D_User", false);
+
+			//Remove each application
+			int removeCount = 0;
+			for (const auto& adlApp : appList)
+			{
+				if (AdlAppRemove(adlApp) == L"Application removed")
+				{
+					removeCount++;
+				}
+			}
+
+			//Set result
+			AVDebugWriteLine(L"Removed all ADL applications: " << removeCount << L" / " << appList.size());
+			return true;
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed removing all application profiles (Exception)");
+			return false;
+		}
+	}
+
 	std::wstring MainPage::AdlAppRemove(AdlApplication adlApp)
 	{
 		try
@@ -48,7 +79,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, areaName.c_str());
 					if (adl_Res0 == ADL_OK) { removeCount++; }
-					AVDebugWriteLine("Removed application profile: " << areaName << " / " << adl_Res0);
+					AVDebugWriteLine("Removed application profile: " << adl_Res0 << L" / " << areaName << L" / " << adlApp.FileName << L" / " << adlApp.FilePath);
 				}
 				catch (...) {}
 			}

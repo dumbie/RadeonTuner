@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppUnlock(AdlApplication adlApp, bool unlock)
+	bool MainPage::AdlAppUnlock(AdlApplication& adlApp, bool unlock)
 	{
 		try
 		{

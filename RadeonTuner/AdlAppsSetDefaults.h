@@ -19,7 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get current and default settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLApp(adlApp).value();
+			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApp).value();
 
 			//Set default application properties
 			std::vector<AdlAppProperty> adlAppProperties{};

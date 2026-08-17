@@ -43,20 +43,20 @@ namespace winrt::RadeonTuner::implementation
 
 			//Remove profile from application
 			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());
-			AVDebugWriteLine("Removed application profile: " << adl_Res0);
+			AVDebugWriteLine("Removed application profile: " << adl_Res0 << L" / " << adlApp.DriverArea << L" / " << adlApp.FileName << L" / " << adlApp.FilePath);
 			//-1 profile not found or invalid
 			//-17 profile not found
 
 			//Create application profile
 			adl_Res0 = _ADL2_ApplicationProfiles_Profile_Create(adl_Context, adlApp.DriverArea.c_str(), adlApp.ProfileName.c_str(), recordCreate.size(), recordCreate.data());
-			AVDebugWriteLine("Created application profile: " << adl_Res0);
+			AVDebugWriteLine("Created application profile: " << adl_Res0 << L" / " << adlApp.DriverArea << L" / " << adlApp.FileName << L" / " << adlApp.FilePath);
 			//-3 invalid profile, atleast 1 property needed
 			//-16 invalid properties
 			//-18 already exists
 
 			//Assign application profile
 			adl_Res0 = _ADL2_ApplicationProfiles_ProfileApplicationX2_Assign(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, NULL, adlApp.DriverArea.c_str(), adlApp.ProfileName.c_str());
-			AVDebugWriteLine("Assigned application profile: " << adl_Res0);
+			AVDebugWriteLine("Assigned application profile: " << adl_Res0 << L" / " << adlApp.DriverArea << L" / " << adlApp.FileName << L" / " << adlApp.FilePath);
 			//-15 profile not found or invalid or already assigned
 
 			//Fix find way to make settings work on already running processes without needing to restart them

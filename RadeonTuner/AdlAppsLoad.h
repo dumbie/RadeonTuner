@@ -17,7 +17,135 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::vector<AdlApplication> MainPage::AdlAppsLoad(std::wstring driverArea)
+	bool MainPage::AdlAppsLoadProperties(AdlApplication& adlApplication)
+	{
+		try
+		{
+			//Load application profile properties
+			auto appProfile = AVFin<ADLApplicationProfile*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApplication.FileName.c_str(), adlApplication.FilePath.c_str(), NULL, adlApplication.DriverArea.c_str(), &appProfile.Get());
+			if (adl_Res0 == ADL_OK)
+			{
+				uint32_t propertyOffset = 0;
+				for (int index = 0; index < appProfile.Get()->iCount; index++)
+				{
+					try
+					{
+						//Get property record
+						PropertyRecord* propertyRecord = (PropertyRecord*)((BYTE*)appProfile.Get()->record + propertyOffset);
+
+						//Create adl application property
+						AdlAppProperty adlAppProperty{};
+
+						//Get property name
+						adlAppProperty.Name = char_to_wstring(propertyRecord->strName);
+
+						//Get property type
+						adlAppProperty.Type = AdlAppPropertyDataTypeGet(adlAppProperty.Name, adlApplication.DriverArea);
+
+						//Get property value
+						if (propertyRecord->iDataSize > 0)
+						{
+							if (adlAppProperty.Type == DT_Stringed)
+							{
+								std::wstring convertedValue;
+								convertedValue.resize(propertyRecord->iDataSize / 2);
+								memcpy(convertedValue.data(), propertyRecord->uData, propertyRecord->iDataSize);
+								if (wstring_contains(convertedValue, L"::"))
+								{
+									//Extract gpuid and values
+									std::wsmatch regexMatch;
+									std::wstring regexString = convertedValue;
+									std::wregex regexPattern(L"(0[xX][0-9a-fA-F]+)::(.*?);;");
+									while (std::regex_search(regexString, regexMatch, regexPattern))
+									{
+										AdlAppPropertyValue adlAppPropertyValue{};
+										adlAppPropertyValue.GpuId = regexMatch[1];
+										adlAppPropertyValue.Value = regexMatch[2];
+										adlAppProperty.Values.push_back(adlAppPropertyValue);
+										regexString = regexMatch.suffix().str();
+									}
+								}
+								else
+								{
+									AdlAppPropertyValue adlAppPropertyValue{};
+									adlAppPropertyValue.Value = convertedValue;
+									adlAppProperty.Values.push_back(adlAppPropertyValue);
+								}
+							}
+							else if (adlAppProperty.Type == DT_Boolean)
+							{
+								bool convertedValue = (bool)propertyRecord->uData[0] ? true : false;
+								AdlAppPropertyValue adlAppPropertyValue{};
+								adlAppPropertyValue.Value = number_to_wstring(convertedValue);
+								adlAppProperty.Values.push_back(adlAppPropertyValue);
+							}
+							else if (adlAppProperty.Type == DT_Dword)
+							{
+								UCHAR convertedValue = (UCHAR)propertyRecord->uData[0];
+								AdlAppPropertyValue adlAppPropertyValue{};
+								adlAppPropertyValue.Value = number_to_wstring(convertedValue);
+								adlAppProperty.Values.push_back(adlAppPropertyValue);
+							}
+							else
+							{
+								AVDebugWriteLine("Property load type not supported: " << adlAppProperty.Type);
+							}
+						}
+
+						//Add adl application property
+						adlApplication.Properties.push_back(adlAppProperty);
+
+						//Move to next property record
+						propertyOffset += sizeof(PropertyRecord) + (propertyRecord->iDataSize - 4);
+					}
+					catch (...) {}
+				}
+			}
+
+			//Return result
+			AVDebugWriteLine("Loaded ADL application properties: " << adlApplication.Properties.size());
+			return true;
+		}
+		catch (...)
+		{
+			//Return result
+			AVDebugWriteLine("Failed loading ADL application properties (Exception)");
+			return false;
+		}
+	}
+
+	std::optional<AdlApplication> MainPage::AdlAppsLoadSearch(std::wstring driverArea, std::wstring fileName, std::wstring filePath)
+	{
+		try
+		{
+			//Create adl application
+			AdlApplication adlApplication{};
+			adlApplication.FileName = fileName;
+			adlApplication.FilePath = filePath;
+			adlApplication.DriverArea = driverArea;
+
+			//Load application profile properties
+			if (AdlAppsLoadProperties(adlApplication))
+			{
+				AVDebugWriteLine("ADL application found: " << driverArea << " / " << fileName << " / " << filePath);
+				return adlApplication;
+			}
+			else
+			{
+				AVDebugWriteLine("ADL application not found: " << driverArea << " / " << fileName << " / " << filePath);
+				return std::nullopt;
+			}
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed loading search ADL application (Exception)");
+			return std::nullopt;
+		}
+	}
+
+	std::vector<AdlApplication> MainPage::AdlAppsLoadAll(std::wstring driverArea, bool loadProperties)
 	{
 		std::vector<AdlApplication> adlApps{};
 		try
@@ -51,108 +179,32 @@ namespace winrt::RadeonTuner::implementation
 					try
 					{
 						//Create adl application
-						AdlApplication adlApp{};
+						AdlApplication adlApplication{};
 						if (adlApplications.Get()[i].strFileName != NULL)
 						{
-							adlApp.FileName = adlApplications.Get()[i].strFileName;
+							adlApplication.FileName = adlApplications.Get()[i].strFileName;
 						}
 						if (adlApplications.Get()[i].strPathName != NULL)
 						{
-							adlApp.FilePath = adlApplications.Get()[i].strPathName;
+							adlApplication.FilePath = adlApplications.Get()[i].strPathName;
 						}
 						if (adlApplications.Get()[i].strProfileName != NULL)
 						{
-							adlApp.ProfileName = adlApplications.Get()[i].strProfileName;
+							adlApplication.ProfileName = adlApplications.Get()[i].strProfileName;
 						}
 						if (adlApplications.Get()[i].strArea != NULL)
 						{
-							adlApp.DriverArea = adlApplications.Get()[i].strArea;
+							adlApplication.DriverArea = adlApplications.Get()[i].strArea;
 						}
 
-						//Load application profile
-						auto appProfile = AVFin<ADLApplicationProfile*>(AVFinMethod::FreeMarshal);
-						adl_Res0 = _ADL2_ApplicationProfiles_ProfileOfAnApplicationX2_Search(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str(), &appProfile.Get());
-						if (adl_Res0 == ADL_OK)
+						//Load application profile properties
+						if (loadProperties)
 						{
-							uint32_t propertyOffset = 0;
-							for (int index = 0; index < appProfile.Get()->iCount; index++)
-							{
-								try
-								{
-									//Get property record
-									PropertyRecord* propertyRecord = (PropertyRecord*)((BYTE*)appProfile.Get()->record + propertyOffset);
-
-									//Create adl application property
-									AdlAppProperty adlAppProperty{};
-
-									//Get property name
-									adlAppProperty.Name = char_to_wstring(propertyRecord->strName);
-
-									//Get property type
-									adlAppProperty.Type = AdlAppPropertyDataTypeGet(adlAppProperty.Name, adlApp.DriverArea);
-
-									//Get property value
-									if (propertyRecord->iDataSize > 0)
-									{
-										if (adlAppProperty.Type == DT_Stringed)
-										{
-											std::wstring convertedValue;
-											convertedValue.resize(propertyRecord->iDataSize / 2);
-											memcpy(convertedValue.data(), propertyRecord->uData, propertyRecord->iDataSize);
-											if (wstring_contains(convertedValue, L"::"))
-											{
-												//Extract gpuid and values
-												std::wsmatch regexMatch;
-												std::wstring regexString = convertedValue;
-												std::wregex regexPattern(L"(0[xX][0-9a-fA-F]+)::(.*?);;");
-												while (std::regex_search(regexString, regexMatch, regexPattern))
-												{
-													AdlAppPropertyValue adlAppPropertyValue{};
-													adlAppPropertyValue.GpuId = regexMatch[1];
-													adlAppPropertyValue.Value = regexMatch[2];
-													adlAppProperty.Values.push_back(adlAppPropertyValue);
-													regexString = regexMatch.suffix().str();
-												}
-											}
-											else
-											{
-												AdlAppPropertyValue adlAppPropertyValue{};
-												adlAppPropertyValue.Value = convertedValue;
-												adlAppProperty.Values.push_back(adlAppPropertyValue);
-											}
-										}
-										else if (adlAppProperty.Type == DT_Boolean)
-										{
-											bool convertedValue = (bool)propertyRecord->uData[0] ? true : false;
-											AdlAppPropertyValue adlAppPropertyValue{};
-											adlAppPropertyValue.Value = number_to_wstring(convertedValue);
-											adlAppProperty.Values.push_back(adlAppPropertyValue);
-										}
-										else if (adlAppProperty.Type == DT_Dword)
-										{
-											UCHAR convertedValue = (UCHAR)propertyRecord->uData[0];
-											AdlAppPropertyValue adlAppPropertyValue{};
-											adlAppPropertyValue.Value = number_to_wstring(convertedValue);
-											adlAppProperty.Values.push_back(adlAppPropertyValue);
-										}
-										else
-										{
-											AVDebugWriteLine("Property load type not supported: " << adlAppProperty.Type);
-										}
-									}
-
-									//Add adl application property
-									adlApp.Properties.push_back(adlAppProperty);
-
-									//Move to next property record
-									propertyOffset += sizeof(PropertyRecord) + (propertyRecord->iDataSize - 4);
-								}
-								catch (...) {}
-							}
+							AdlAppsLoadProperties(adlApplication);
 						}
 
 						//Add application to list
-						adlApps.push_back(adlApp);
+						adlApps.push_back(adlApplication);
 					}
 					catch (...) {}
 				}
