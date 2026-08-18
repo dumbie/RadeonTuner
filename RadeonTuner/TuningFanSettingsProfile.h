@@ -109,7 +109,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Sort applications by name
-			std::sort(apps.begin(), apps.end());
+			std::sort(apps.begin(), apps.end(), [](const std::wstring& a, const std::wstring& b) { return wstring_to_lower(a) < wstring_to_lower(b); });
 		}
 		catch (...) {}
 		return apps;

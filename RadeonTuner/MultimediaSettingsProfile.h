@@ -109,7 +109,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Sort applications by name
-			std::sort(apps.begin(), apps.end());
+			std::sort(apps.begin(), apps.end(), [](const std::wstring& a, const std::wstring& b) { return wstring_to_lower(a) < wstring_to_lower(b); });
 		}
 		catch (...) {}
 		return apps;
@@ -241,7 +241,7 @@ namespace winrt::RadeonTuner::implementation
 			//Convert json to string
 			std::wstring jsonStringW = struct_to_jsonstring(multimediaSettingsCache, true);
 
-			//Get profiles file path	
+			//Get profiles file path
 			std::wstring pathSettingFileW = PathMerge(AppVariables::SaveDataPath, L"Profiles\\MultimediaProfiles.json");
 
 			//Save profiles json file
