@@ -69,26 +69,19 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { co_return; }
 
 			//Get all applications
-			std::vector<AdlApplication> appList = AdlAppsLoad(L"3D_User");
+			std::vector<std::wstring> messageAnswers = GraphicsSettings_Profile_GetAllApps(adl_Gpu_DeviceIdentifier);
 
 			//Add global application
-			appList.insert(appList.begin(), adl_App_Global);
-
-			//List all applications
-			std::vector<std::wstring> messageAnswers{};
-			for (AdlApplication appInfo : appList)
-			{
-				messageAnswers.push_back(appInfo.FileName);
-			}
+			messageAnswers.insert(messageAnswers.begin(), L"Global");
 
 			//Show selection prompt
 			int messageResult = co_await ShowMessageBox(L"Select application", L"Select the application you want to adjust.", messageAnswers);
 
 			//Get selected application
-			AdlApplication appInfo = appList[messageResult];
+			std::wstring selectedApplication = messageAnswers[messageResult];
 
 			//Load graphics settings
-			AdlxValuesLoadSelectGraphicsApp(appInfo);
+			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, selectedApplication);
 		}
 		catch (...) {}
 	}
@@ -109,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 			//Show selection prompt
 			int messageResult = co_await ShowMessageBox(L"Select application", L"Select the application you want to adjust.", messageAnswers);
 
-			//Set selected application
+			//Get selected application
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
 			//Load tuning and fans settings
@@ -134,7 +127,7 @@ namespace winrt::RadeonTuner::implementation
 			//Show selection prompt
 			int messageResult = co_await ShowMessageBox(L"Select application", L"Select the application you want to adjust.", messageAnswers);
 
-			//Set selected application
+			//Get selected application
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
 			//Load selected settings

@@ -316,7 +316,7 @@ namespace winrt::RadeonTuner::implementation
 			auto appListIdl = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
 
 			//Get all applications
-			std::vector<AdlApplication> appList = AdlAppsLoad(L"3D_User");
+			std::vector<std::wstring> appList = GraphicsSettings_Profile_GetAllApps(adl_Gpu_DeviceIdentifier);
 
 			//Check applications
 			if (appList.size() == 0)
@@ -325,15 +325,14 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Append applications
-			for (AdlApplication app : appList)
+			for (std::wstring app : appList)
 			{
 				try
 				{
 					//Add application
 					RadeonTuner::AppPickerIdl appPicker;
-					appPicker.AppName(app.FileName);
-					appPicker.ExeName(app.FileName);
-					appPicker.ExePath(app.FilePath);
+					appPicker.AppName(app);
+					appPicker.ExeName(app);
 					appListIdl.Append(appPicker);
 				}
 				catch (...) {}

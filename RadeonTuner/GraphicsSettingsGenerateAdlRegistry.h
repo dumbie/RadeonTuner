@@ -5,14 +5,20 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLRegistry(int gpuAdapterIndex)
+	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLRegistry(int gpuAdapterIndex, std::wstring application)
 	{
 		try
 		{
 			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
-			AVDebugWriteLine(L"Generating registry graphics settings for: " << gpuAdapterIndex);
+			AVDebugWriteLine(L"Generating registry graphics settings for: " << gpuAdapterIndex << L" / " << application);
 			GraphicsSettings graphicsSettings{};
+
+			//Device identifier
+			graphicsSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
+
+			//Device application
+			graphicsSettings.Application = application;
 
 			//FSR Upscaling Override
 			//Note: When using Driver only software type this setting is disabled, Default type it is enabled by default

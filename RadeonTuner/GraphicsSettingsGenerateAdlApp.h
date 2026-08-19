@@ -5,14 +5,21 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLApp(AdlApplication& adlApplication)
+	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLApp(int gpuAdapterIndex, AdlApplication& adlApplication)
 	{
 		try
 		{
+			//Note: Application profile always needs to have Current value set to override Global settings.
 			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
 
 			AVDebugWriteLine(L"Generating application graphics settings for: " << adlApplication.ProfileName << L" / " << adlApplication.DriverArea << L" / " << adlApplication.FileName << L" / " << adlApplication.FilePath);
 			GraphicsSettings graphicsSettings{};
+
+			//Device identifier
+			graphicsSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
+
+			//Device application
+			graphicsSettings.Application = adlApplication.FileName;
 
 			//FSR Upscaling Override
 			//Note: When using Driver only software type this setting is disabled, Default type it is enabled by default
@@ -37,6 +44,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.FsrOverride.Current = graphicsSettings.FsrOverride.Default;
 				}
 			}
 			catch (...) {}
@@ -64,6 +76,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.MlfiOverride.Current = graphicsSettings.MlfiOverride.Default;
+				}
 			}
 			catch (...) {}
 
@@ -89,6 +106,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.MfgOverride.Current = graphicsSettings.MfgOverride.Default;
 				}
 			}
 			catch (...) {}
@@ -116,6 +138,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.MldOverride.Current = graphicsSettings.MldOverride.Default;
+				}
 			}
 			catch (...) {}
 
@@ -141,6 +168,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.NrcOverride.Current = graphicsSettings.NrcOverride.Default;
 				}
 			}
 			catch (...) {}
@@ -185,6 +217,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.MfgRatio.Current = graphicsSettings.MfgRatio.Default;
+				}
 			}
 			catch (...) {}
 
@@ -220,6 +257,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.DeLagEnabled.Current = graphicsSettings.DeLagEnabled.Default;
 				}
 			}
 			catch (...) {}
@@ -285,6 +327,11 @@ namespace winrt::RadeonTuner::implementation
 						graphicsSettings.BoostMode.Current = 3;
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.BoostMode.Current = graphicsSettings.BoostMode.Default;
+				}
 			}
 			catch (...) {}
 
@@ -315,6 +362,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.BoostMinResolution.Current = graphicsSettings.BoostMinResolution.Default;
 				}
 			}
 			catch (...) {}
@@ -347,6 +399,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.ChillEnabled.Current = graphicsSettings.ChillEnabled.Default;
+				}
 			}
 			catch (...) {}
 
@@ -377,6 +434,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.ChillMinFps.Current = graphicsSettings.ChillMinFps.Default;
 				}
 			}
 			catch (...) {}
@@ -409,6 +471,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.ChillMaxFps.Current = graphicsSettings.ChillMaxFps.Default;
+				}
 			}
 			catch (...) {}
 
@@ -434,6 +501,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.RisEnabled.Current = graphicsSettings.RisEnabled.Default;
 				}
 			}
 			catch (...) {}
@@ -465,6 +537,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.RisSharpeningDegree.Current = graphicsSettings.RisSharpeningDegree.Default;
 				}
 			}
 			catch (...) {}
@@ -498,6 +575,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.EnhancedSync.Current = graphicsSettings.EnhancedSync.Default;
+				}
 			}
 			catch (...) {}
 
@@ -524,6 +606,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.VerticalSync.Current = graphicsSettings.VerticalSync.Default;
+				}
 			}
 			catch (...) {}
 
@@ -549,6 +636,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.AntiAliasingOverride.Current = graphicsSettings.AntiAliasingOverride.Default;
 				}
 			}
 			catch (...) {}
@@ -615,6 +707,11 @@ namespace winrt::RadeonTuner::implementation
 						graphicsSettings.AntiAliasingMethod.Current = 2;
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.AntiAliasingMethod.Current = graphicsSettings.AntiAliasingMethod.Default;
+				}
 			}
 			catch (...) {}
 
@@ -654,6 +751,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.AntiAliasingLevel.Current = graphicsSettings.AntiAliasingLevel.Default;
+				}
 			}
 			catch (...) {}
 
@@ -680,6 +782,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.AntiAliasingEnhancedQuality.Current = graphicsSettings.AntiAliasingEnhancedQuality.Default;
+				}
 			}
 			catch (...) {}
 
@@ -705,6 +812,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.AntiAliasingMorphological.Current = graphicsSettings.AntiAliasingMorphological.Default;
 				}
 			}
 			catch (...) {}
@@ -753,6 +865,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.AnisotropicOverride.Current = graphicsSettings.AnisotropicOverride.Default;
+				}
 			}
 			catch (...) {}
 
@@ -778,6 +895,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.TextureFilteringQuality.Current = graphicsSettings.TextureFilteringQuality.Default;
 				}
 			}
 			catch (...) {}
@@ -805,6 +927,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.SurfaceFormatOptimization.Current = graphicsSettings.SurfaceFormatOptimization.Default;
+				}
 			}
 			catch (...) {}
 
@@ -830,6 +957,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.TessellationMode.Current = graphicsSettings.TessellationMode.Default;
 				}
 			}
 			catch (...) {}
@@ -890,6 +1022,11 @@ namespace winrt::RadeonTuner::implementation
 						}
 					}
 				}
+				else
+				{
+					//Set current
+					graphicsSettings.TessellationLevel.Current = graphicsSettings.TessellationLevel.Default;
+				}
 			}
 			catch (...) {}
 
@@ -915,6 +1052,11 @@ namespace winrt::RadeonTuner::implementation
 							break;
 						}
 					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.OpenGLTripleBuffering.Current = graphicsSettings.OpenGLTripleBuffering.Default;
 				}
 			}
 			catch (...) {}
