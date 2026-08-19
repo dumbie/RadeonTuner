@@ -312,6 +312,26 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::slider_Display_FreeSyncFrameRate_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValue = (int)e.NewValue();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsCurrent.get().FreeSyncFrameRate.Current = newValue;
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_Display_VSR_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

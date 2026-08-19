@@ -49,7 +49,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//FreeSync
+			//FreeSync Mode
 			try
 			{
 				int freeSyncCurrent = -1;
@@ -86,6 +86,40 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set support
 					displaySettings.FreeSyncMode.Support = false;
+				}
+			}
+			catch (...) {}
+
+			//FreeSync Frame Rate
+			try
+			{
+				int freeSyncCurrent = -1;
+				int freeSyncDefault = -1;
+				int freeSyncMinRefreshRateInMicroHz = -1;
+				int freeSyncMaxRefreshRateInMicroHz = -1;
+				adl_Res0 = _ADL2_Display_FreeSyncState_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &freeSyncCurrent, &freeSyncDefault, &freeSyncMinRefreshRateInMicroHz, &freeSyncMaxRefreshRateInMicroHz);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set current
+					//Fix find way to get freesync static frame rate
+					displaySettings.FreeSyncFrameRate.Current = 0;
+
+					//Set default
+					displaySettings.FreeSyncFrameRate.Default = freeSyncMaxRefreshRateInMicroHz / 1000000;
+
+					//Set support
+					displaySettings.FreeSyncFrameRate.Support = true;
+
+					//Set interface
+					//Fix maximum refresh rate is capped to current display refresh rate not maximum
+					displaySettings.FreeSyncFrameRate.Minimum = freeSyncMinRefreshRateInMicroHz / 1000000;
+					displaySettings.FreeSyncFrameRate.Maximum = freeSyncMaxRefreshRateInMicroHz / 1000000;
+					displaySettings.FreeSyncFrameRate.Step = 1;
+				}
+				else
+				{
+					//Set support
+					displaySettings.FreeSyncFrameRate.Support = false;
 				}
 			}
 			catch (...) {}
@@ -545,13 +579,13 @@ namespace winrt::RadeonTuner::implementation
 					//Set interface
 					displaySettings.GammaRed.Minimum = 0.5F;
 					displaySettings.GammaRed.Maximum = 2.0F;
-					displaySettings.GammaRed.Step = 0.02F;
+					displaySettings.GammaRed.Step = 0.01F;
 					displaySettings.GammaGreen.Minimum = 0.5F;
 					displaySettings.GammaGreen.Maximum = 2.0F;
-					displaySettings.GammaGreen.Step = 0.02F;
+					displaySettings.GammaGreen.Step = 0.01F;
 					displaySettings.GammaBlue.Minimum = 0.5F;
 					displaySettings.GammaBlue.Maximum = 2.0F;
-					displaySettings.GammaBlue.Step = 0.02F;
+					displaySettings.GammaBlue.Step = 0.01F;
 				}
 				else
 				{

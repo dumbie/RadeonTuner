@@ -8,6 +8,7 @@ struct DisplaySettings
 	std::optional<std::wstring> Application;
 	AdlSettingInt HdrEnabled;
 	AdlSettingInt FreeSyncMode;
+	AdlSettingInt FreeSyncFrameRate;
 	AdlSettingInt VsrEnabled;
 	AdlSettingInt GpuScalingEnabled;
 	AdlSettingInt IntegerScalingEnabled;
@@ -44,5 +45,5 @@ struct DisplaySettings
 		return Application.has_value() && Application.value() == L"Global";
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Application, HdrEnabled.Current, FreeSyncMode.Current, VsrEnabled.Current, GpuScalingEnabled.Current, IntegerScalingEnabled.Current, ScalingMode.Current, VariBrightEnabled.Current, VariBrightLevel.Current, ColorDepth.Current, PixelFormat.Current, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, GammaRed.Current, GammaGreen.Current, GammaBlue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current, HDCPEnabled.Current, EyefinityAutomatic.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Application, HdrEnabled.Current, FreeSyncMode.Current, FreeSyncFrameRate.Current, VsrEnabled.Current, GpuScalingEnabled.Current, IntegerScalingEnabled.Current, ScalingMode.Current, VariBrightEnabled.Current, VariBrightLevel.Current, ColorDepth.Current, PixelFormat.Current, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, GammaRed.Current, GammaGreen.Current, GammaBlue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current, HDCPEnabled.Current, EyefinityAutomatic.Current)
 };

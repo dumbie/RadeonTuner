@@ -259,7 +259,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards, due to a limitation in the drivers.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards, due to a limitation in the driver.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
                             </Grid>
 
                             <!-- Radeon FSR Options -->
@@ -517,7 +517,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;* Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;* Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;* Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
@@ -1213,14 +1213,30 @@
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
-                                    <!-- FreeSync -->
+                                    <!-- FreeSync Mode -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable: Dynamically adjusts FreeSync refresh rate to the frame rate of running applications.&#10;&#10;- Static: Adjusts FreeSync refresh rate to your set display refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
                                         <TextBlock Text="AMD FreeSync / VRR / Adaptive Sync" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Display_FreeSyncMode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_FreeSyncMode_SelectionChanged"/>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <!-- FreeSync Static Frame Rate -->
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="FreeSync Static Frame Rate"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncFrameRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                    </StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="textbox_Display_FreeSyncFrameRate" Text="{Binding ElementName=slider_Display_FreeSyncFrameRate, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                        <Slider Grid.Column="1" x:Name="slider_Display_FreeSyncFrameRate" Margin="10,0,0,0" ValueChanged="slider_Display_FreeSyncFrameRate_ValueChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -1330,7 +1346,7 @@
                                 <StackPanel>
                                     <!-- Gamma Red Green Blue -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* Some applications reset the Gamma to default, when RadeonTuner is running it will automatically try to restore it, but may take a few seconds."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* Some applications and resolution changes reset the Gamma to default and require an application restart to apply the gamma adjustment again."/>
                                         <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>

@@ -135,7 +135,7 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_Display_PossibleMode_Get(adl_Context, adl_Display_AdapterIndex, &lpNumModes, &lppModes);
 
 			//Sort refresh rates
-			std::sort(lppModes, lppModes + lpNumModes, [](ADLMode const& a, ADLMode const& b) { return a.fRefreshRate > b.fRefreshRate; });
+			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.fRefreshRate > b.fRefreshRate; });
 
 			//Append refresh rates
 			for (int i = 0; i < lpNumModes; i++)

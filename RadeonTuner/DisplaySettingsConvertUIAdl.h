@@ -65,6 +65,8 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				combobox_Display_FreeSyncMode().IsEnabled(true);
+
+				//Fix disable framerate slider when not static
 			}
 			else
 			{
@@ -73,6 +75,49 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				combobox_Display_FreeSyncMode().IsEnabled(false);
+			}
+
+			//FreeSync Frame Rate
+			if (displaySettings.FreeSyncFrameRate.Support.has_value() && displaySettings.FreeSyncFrameRate.Support.value())
+			{
+				//Get setting
+				int valueInt = 0;
+				if (displaySettings.FreeSyncFrameRate.Current.has_value())
+				{
+					valueInt = displaySettings.FreeSyncFrameRate.Current.value();
+				}
+				else if (displaySettings.FreeSyncFrameRate.Default.has_value())
+				{
+					valueInt = displaySettings.FreeSyncFrameRate.Default.value();
+				}
+
+				//Set setting value
+				slider_Display_FreeSyncFrameRate().Value(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = L"? Hz";
+				//std::wstring valueHint = number_to_wstring(valueInt) + L" Hz";
+				textblock_Display_FreeSyncFrameRate_Value().Text(valueHint);
+
+				//Enable or disable interface
+				slider_Display_FreeSyncFrameRate().IsEnabled(true);
+
+				//Set interface
+				if (displaySettings.FreeSyncFrameRate.Minimum.has_value())
+				{
+					slider_Display_FreeSyncFrameRate().Minimum(displaySettings.FreeSyncFrameRate.Minimum.value());
+					slider_Display_FreeSyncFrameRate().Maximum(displaySettings.FreeSyncFrameRate.Maximum.value());
+					slider_Display_FreeSyncFrameRate().StepFrequency(displaySettings.FreeSyncFrameRate.Step.value());
+					slider_Display_FreeSyncFrameRate().SmallChange(displaySettings.FreeSyncFrameRate.Step.value());
+				}
+			}
+			else
+			{
+				//Set hint value
+				textblock_Display_FreeSyncFrameRate_Value().Text(L"");
+
+				//Enable or disable interface
+				slider_Display_FreeSyncFrameRate().IsEnabled(false);
 			}
 
 			//Virtual Super Resolution

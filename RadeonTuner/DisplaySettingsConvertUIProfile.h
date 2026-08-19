@@ -21,6 +21,12 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_FreeSyncMode().SelectedIndex(displaySettings.FreeSyncMode.Get(settingType).value());
 			}
 
+			//FreeSync Frame Rate
+			if (displaySettings.FreeSyncFrameRate.Get(settingType).has_value())
+			{
+				slider_Display_FreeSyncFrameRate().Value(displaySettings.FreeSyncFrameRate.Get(settingType).value());
+			}
+
 			//Virtual Super Resolution
 			if (displaySettings.VsrEnabled.Get(settingType).has_value())
 			{

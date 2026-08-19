@@ -73,35 +73,40 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//FreeSync Mode
-			//Note: you can manually set the FreeSync Rate by using static usecase and providing microhertz for example: 50000000 (50Hz)
+			//FreeSync Mode and Frame Rate
 			try
 			{
 				//Get and match values
-				auto newValue = targetSettings.FreeSyncMode.Get(settingGet).value();
-				auto currentValue = currentSettings.FreeSyncMode.Current.value();
-				if (newValue != currentValue)
+				auto newValueMode = targetSettings.FreeSyncMode.Get(settingGet).value();
+				auto currentValueMode = currentSettings.FreeSyncMode.Current.value();
+				auto newValueFrameRate = targetSettings.FreeSyncFrameRate.Get(settingGet).value();
+				auto currentValueFrameRate = currentSettings.FreeSyncFrameRate.Current.value();
+				if (newValueMode != currentValueMode || newValueFrameRate != currentValueFrameRate)
 				{
 					//Enumeration index correction
-					int freeSyncFlag = 0;
-					if (newValue == 0)
+					int freeSyncMode = 0;
+					int freeSyncFrameRate = 0;
+					if (newValueMode == 0)
 					{
 						//Disabled
-						freeSyncFlag = 0;
+						freeSyncMode = 0;
+						freeSyncFrameRate = 0;
 					}
-					else if (newValue == 1)
+					else if (newValueMode == 1)
 					{
 						//Variable or combined
-						freeSyncFlag = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+						freeSyncMode = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+						freeSyncFrameRate = 0;
 					}
-					else if (newValue == 2)
+					else if (newValueMode == 2)
 					{
 						//Static
-						freeSyncFlag = ADL_FREESYNC_USECASE_STATIC;
+						freeSyncMode = ADL_FREESYNC_USECASE_STATIC;
+						freeSyncFrameRate = newValueFrameRate * 1000000;
 					}
 
 					//Set setting
-					adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncFlag, 0);
+					adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncMode, freeSyncFrameRate);
 				}
 			}
 			catch (...) {}
@@ -437,9 +442,15 @@ namespace winrt::RadeonTuner::implementation
 				auto currentValueBlue = currentSettings.GammaBlue.Current.value();
 				if (newValueRed != currentValueRed || newValueGreen != currentValueGreen || newValueBlue != currentValueBlue)
 				{
+					//Note: Gamma sometimes gets stuck so resetting it to default first may help.
+
 					//Set setting
-					AdlGammaRamp gammaRamp = AdlGammaRampBuild(newValueRed, newValueGreen, newValueBlue);
-					adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRamp);
+					AdlGammaRamp gammaRampDefault = AdlGammaRampBuild(1.00, 1.00, 1.00);
+					adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampDefault);
+
+					//Set setting
+					AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(newValueRed, newValueGreen, newValueBlue);
+					adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampTarget);
 				}
 			}
 			catch (...) {}
