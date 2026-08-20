@@ -189,6 +189,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//FSR Show Information
+			try
+			{
+				//Set support
+				graphicsSettings.FsrShowInformation.Support = true;
+
+				//Set default
+				graphicsSettings.FsrShowInformation.Default = 0;
+
+				//Set current
+				graphicsSettings.FsrShowInformation.Current = FsrShowInformationIsEnabled();
+			}
+			catch (...) {}
+
 			//FSR Latency Reduction
 			try
 			{

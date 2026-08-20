@@ -15,6 +15,7 @@ struct GraphicsSettings
 	AdlSettingInt NrcOverride;
 	AdlSettingString FsrOvrDLLPath;
 	AdlSettingInt FsrOtaIndex;
+	AdlSettingInt FsrShowInformation;
 	AdlSettingInt ChillEnabled;
 	AdlSettingInt ChillMinFps;
 	AdlSettingInt ChillMaxFps;
@@ -56,5 +57,5 @@ struct GraphicsSettings
 		return Application.has_value() && Application.value() == L"Global";
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeviceId, Application, DeLagEnabled.Current, MfgRatio.Current, FsrOverride.Current, MlfiOverride.Current, MfgOverride.Current, MldOverride.Current, NrcOverride.Current, FsrOvrDLLPath.Current, FsrOtaIndex.Current, ChillEnabled.Current, ChillMinFps.Current, ChillMaxFps.Current, FrtcEnabled.Current, FrtcFrameRateTarget.Current, BoostMode.Current, BoostMinResolution.Current, RisEnabled.Current, RisSharpeningDegree.Current, Ris2Enabled.Current, Ris2DesktopEnabled.Current, Ris2SharpeningDegree.Current, VerticalSync.Current, EnhancedSync.Current, OpenGLTripleBuffering.Current, AntiAliasingOverride.Current, AntiAliasingMethod.Current, AntiAliasingLevel.Current, AntiAliasingEnhancedQuality.Current, AntiAliasingMorphological.Current, AnisotropicOverride.Current, TextureFilteringQuality.Current, SurfaceFormatOptimization.Current, OpenGL10BitPixelFormat.Current, TessellationMode.Current, TessellationLevel.Current, FrameGenEnabled.Current, FrameGenSearchMode.Current, FrameGenPerfMode.Current, FrameGenResponseMode.Current, FrameGenAlgorithm.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeviceId, Application, DeLagEnabled.Current, MfgRatio.Current, FsrOverride.Current, MlfiOverride.Current, MfgOverride.Current, MldOverride.Current, NrcOverride.Current, FsrOvrDLLPath.Current, FsrOtaIndex.Current, FsrShowInformation.Current, ChillEnabled.Current, ChillMinFps.Current, ChillMaxFps.Current, FrtcEnabled.Current, FrtcFrameRateTarget.Current, BoostMode.Current, BoostMinResolution.Current, RisEnabled.Current, RisSharpeningDegree.Current, Ris2Enabled.Current, Ris2DesktopEnabled.Current, Ris2SharpeningDegree.Current, VerticalSync.Current, EnhancedSync.Current, OpenGLTripleBuffering.Current, AntiAliasingOverride.Current, AntiAliasingMethod.Current, AntiAliasingLevel.Current, AntiAliasingEnhancedQuality.Current, AntiAliasingMorphological.Current, AnisotropicOverride.Current, TextureFilteringQuality.Current, SurfaceFormatOptimization.Current, OpenGL10BitPixelFormat.Current, TessellationMode.Current, TessellationLevel.Current, FrameGenEnabled.Current, FrameGenSearchMode.Current, FrameGenPerfMode.Current, FrameGenResponseMode.Current, FrameGenAlgorithm.Current)
 };

@@ -41,7 +41,7 @@ namespace winrt::RadeonTuner::implementation
 				GraphicsSettings graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApplication).value();
 
 				//Add application to user.blb
-				bool resultAddApp = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Current);
+				bool resultAddApp = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Default);
 
 				//Add application to profiles
 				bool resultAddProfile = GraphicsSettings_Profile_Add(graphicsSettingsAdl);
@@ -452,6 +452,27 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			graphicsSettingsCurrent.get().MfgRatio.Current = newValue;
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_FsrShowInformation_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Graphics_Apply().Background(colorIgnored);
+
+			//Update current value
+			graphicsSettingsCurrent.get().FsrShowInformation.Current = newValue;
 		}
 		catch (...) {}
 	}

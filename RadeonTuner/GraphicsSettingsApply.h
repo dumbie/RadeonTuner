@@ -266,6 +266,24 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//FSR Show Information
+			try
+			{
+				if (targetSettings.FsrShowInformation.Get(settingGet).has_value())
+				{
+					//Get value
+					auto newValue = targetSettings.FsrShowInformation.Get(settingGet).value();
+
+					//Check application type
+					if (targetSettings.Global())
+					{
+						//Set setting
+						FsrShowInformationToggle(newValue);
+					}
+				}
+			}
+			catch (...) {}
+
 			//FSR Latency Reduction
 			try
 			{

@@ -286,6 +286,18 @@
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_FsrMultiFrameGenerationRatio" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FsrMultiFrameGenerationRatio_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                     </StackPanel>
+
+                                    <!-- FSR Show information in-game -->
+                                    <StackPanel x:Name="stackpanel_FsrShowInformation">
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show debug (watermark) information like FSR version numbers in a running application."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when the application uses FSR 3.1.5 or newer."/>
+                                            <ToggleSwitch x:Name="toggleswitch_FsrShowInformation" Margin="10,0,0,0" OffContent="FSR Show Information" OnContent="FSR Show Information" Toggled="toggleswitch_FsrShowInformation_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrShowInformation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
@@ -1226,7 +1238,8 @@
 
                                     <!-- FreeSync Static Frame Rate -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <TextBlock Text="FreeSync Static Frame Rate"/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* This setting is temporary and resets on system reboots."/>
+                                        <TextBlock Margin="10,0,0,0" Text="FreeSync Static Frame Rate"  VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncFrameRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>
                                     <Grid Margin="0,5,0,0">
@@ -1346,7 +1359,7 @@
                                 <StackPanel>
                                     <!-- Gamma Red Green Blue -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* Some applications and resolution changes reset the Gamma to default and require an application restart to apply the gamma adjustment again."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* This setting is temporary and resets on resolution changes and requires an application restart to apply the gamma adjustment again."/>
                                         <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                     </StackPanel>

@@ -235,6 +235,11 @@ namespace winrt::RadeonTuner::implementation
 				//Not supported
 			}
 
+			//FSR Show Information
+			{
+				//Not supported
+			}
+
 			//FSR Latency Reduction
 			try
 			{

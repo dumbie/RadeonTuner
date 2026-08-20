@@ -266,6 +266,39 @@ namespace winrt::RadeonTuner::implementation
 				combobox_FsrOtaUpdates().IsEnabled(false);
 			}
 
+			//FSR Show Information
+			if (graphicsSettings.FsrShowInformation.Support.has_value() && graphicsSettings.FsrShowInformation.Support.value())
+			{
+				//Get setting
+				int valueInt = 0;
+				if (graphicsSettings.FsrShowInformation.Current.has_value())
+				{
+					valueInt = graphicsSettings.FsrShowInformation.Current.value();
+				}
+				else if (graphicsSettings.FsrShowInformation.Default.has_value())
+				{
+					valueInt = graphicsSettings.FsrShowInformation.Default.value();
+				}
+
+				//Set setting value
+				toggleswitch_FsrShowInformation().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrShowInformation_Value().Text(valueHint);
+
+				//Enable or disable interface
+				toggleswitch_FsrShowInformation().IsEnabled(true);
+			}
+			else
+			{
+				//Set hint value
+				textblock_FsrShowInformation_Value().Text(L"");
+
+				//Enable or disable interface
+				toggleswitch_FsrShowInformation().IsEnabled(false);
+			}
+
 			//FSR Latency Reduction
 			if (graphicsSettings.DeLagEnabled.Support.has_value() && graphicsSettings.DeLagEnabled.Support.value())
 			{
@@ -315,10 +348,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_FrameGenEnabled().IsOn(valueInt);
-				combobox_FrameGenSearchMode().IsEnabled(valueInt);
-				combobox_FrameGenPerfMode().IsEnabled(valueInt);
-				combobox_FrameGenResponseMode().IsEnabled(valueInt);
-				combobox_FrameGenAlgorithm().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -326,6 +355,10 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_FrameGenEnabled().IsEnabled(true);
+				combobox_FrameGenSearchMode().IsEnabled(valueInt);
+				combobox_FrameGenPerfMode().IsEnabled(valueInt);
+				combobox_FrameGenResponseMode().IsEnabled(valueInt);
+				combobox_FrameGenAlgorithm().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -472,7 +505,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				combobox_RadeonBoost().SelectedIndex(valueInt);
-				slider_RadeonBoost_MinResolution().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = ADL_BOOST2_ALGORITHM[valueInt];
@@ -480,6 +512,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				combobox_RadeonBoost().IsEnabled(true);
+				slider_RadeonBoost_MinResolution().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -545,7 +578,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Frtc().IsOn(valueInt);
-				slider_Frtc_FrameRateTarget().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -553,6 +585,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Frtc().IsEnabled(true);
+				slider_Frtc_FrameRateTarget().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -618,22 +651,22 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_RadeonChill().IsOn(valueInt);
-				slider_RadeonChill_Min().IsEnabled(valueInt);
-				slider_RadeonChill_Max().IsEnabled(valueInt);
-				button_RadeonChill_Link().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
 				textblock_RadeonChill_Value().Text(valueHint);
 
 				//Check Radeon Chill Link
-				if ((bool)valueInt && radeon_Chill_Linked)
+				if (radeon_Chill_Linked)
 				{
 					slider_RadeonChill_Min().IsEnabled(false);
 				}
 
 				//Enable or disable interface
 				toggleswitch_RadeonChill().IsEnabled(true);
+				slider_RadeonChill_Min().IsEnabled(valueInt);
+				slider_RadeonChill_Max().IsEnabled(valueInt);
+				button_RadeonChill_Link().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -738,7 +771,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_RadeonImageSharpening1().IsOn(valueInt);
-				slider_RadeonImageSharpening1_Sharpening().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -746,6 +778,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
+				slider_RadeonImageSharpening1_Sharpening().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -811,8 +844,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_RadeonImageSharpening2().IsOn(valueInt);
-				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(valueInt);
-				slider_RadeonImageSharpening2_Sharpening().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -820,6 +851,8 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening2().IsEnabled(true);
+				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(valueInt);
+				slider_RadeonImageSharpening2_Sharpening().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -978,21 +1011,16 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_AntiAliasingOverride().IsOn(valueInt);
-				combobox_AntiAliasingMethod().IsEnabled(valueInt);
-				combobox_AntiAliasingLevel().IsEnabled(valueInt);
-				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
 				textblock_AntiAliasingOverride_Value().Text(valueHint);
 
-				toggleswitch_AntiAliasingOverride().IsOn(graphicsSettings.AntiAliasingOverride.Current.value());
-				combobox_AntiAliasingMethod().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
-				combobox_AntiAliasingLevel().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
-				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(graphicsSettings.AntiAliasingOverride.Current.value());
-
 				//Enable or disable interface
 				toggleswitch_AntiAliasingOverride().IsEnabled(true);
+				combobox_AntiAliasingMethod().IsEnabled(valueInt);
+				combobox_AntiAliasingLevel().IsEnabled(valueInt);
+				toggleswitch_AntiAliasingEnhancedQuality().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -1246,18 +1274,11 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring valueHint = ADLX_TESSELLATION_MODE_STRING[valueInt];
 				textblock_TessellationMode_Value().Text(valueHint);
 
-				//Check if setting is enabled
-				if (valueInt != 2)
-				{
-					combobox_Tessellation_Level().IsEnabled(false);
-				}
-				else
-				{
-					combobox_Tessellation_Level().IsEnabled(true);
-				}
-
 				//Enable or disable interface
 				combobox_Tessellation_Mode().IsEnabled(true);
+
+				bool subSettingDisabled = valueInt != 2;
+				combobox_Tessellation_Level().IsEnabled(subSettingDisabled);
 			}
 			else
 			{
