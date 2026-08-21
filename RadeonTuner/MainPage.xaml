@@ -281,6 +281,7 @@
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the frame rate multipier used by FSR Multi Frame Generation, a higher multiplier increases smoothness but may cause more graphical glitches based on the intensity of in-game movement."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards.&#10;&#10;* This setting only works on white listed applications."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <TextBlock Text="FSR Multi Frame Generation Ratio" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrMultiFrameGenerationRatio_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
@@ -291,9 +292,10 @@
                                     <StackPanel x:Name="stackpanel_FsrShowInformation">
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
-                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show debug (watermark) information like FSR version numbers in a running application."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when the application uses FSR 3.1.5 or newer."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrShowInformation" Margin="10,0,0,0" OffContent="FSR Show Information" OnContent="FSR Show Information" Toggled="toggleswitch_FsrShowInformation_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrShowInformation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
@@ -333,6 +335,7 @@
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <Image x:Name="image_FsrOverrideMultiFrameGeneration_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideMultiFrameGeneration" Margin="10,0,0,0" OffContent="FSR Multi Frame Generation Override" OnContent="FSR Multi Frame Generation Override" Toggled="toggleswitch_FsrOverrideMultiFrameGeneration_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideMultiFrameGeneration_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
@@ -346,6 +349,7 @@
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <Image x:Name="image_FsrOverrideRayRegeneration_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideRayRegeneration" Margin="10,0,0,0" OffContent="FSR Ray Regeneration Denoiser Override" OnContent="FSR Ray Regeneration Denoiser Override" Toggled="toggleswitch_FsrOverrideRayRegeneration_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideRayRegeneration_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
@@ -359,6 +363,7 @@
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA4 or newer graphic cards and requires an application to have at least FSR 3.1.6 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <Image x:Name="image_FsrOverrideNeuralRadianceCaching_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideNeuralRadianceCaching" Margin="10,0,0,0" OffContent="FSR Neural Radiance Caching Override" OnContent="FSR Neural Radiance Caching Override" Toggled="toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideNeuralRadianceCaching_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
@@ -388,6 +393,7 @@
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Choose the source for AMD FSR Over-The-Air (OTA) updates. Use the driver's built-in package or receive newer builds Over-The-Air from AMD Install Manager."/>
                                             <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or newer graphic cards."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <TextBlock Text="FSR Over-The-Air Updates" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOtaUpdates_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
                                         </StackPanel>
@@ -407,6 +413,7 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Fluid Motion Frames is a frame generation feature to boost the displayed frames beyond the in-game limit, resulting in a smoother experience."/>
                                                 <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may introduce additional latency in games, it is recommended to use 'FSR Latency Reduction' for optimal performance.&#10;&#10;* This setting only works when using exclusive full-screen mode.&#10;&#10;* This setting only works on applications using OpenGL, Vulkan and DirectX 11 or 12.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards.&#10;&#10;* This setting disables 'Vertical Sync' and 'Frame Rate Target Control' when active, you can still limit the FPS using 'Radeon Chill'.&#10;&#10;* This setting only works when using the 'Default' driver software installation type and needs Adrenalin Software to be running in the background and also requires an application to be added to the game library."/>
+                                                <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                                 <Image x:Name="image_FrameGenEnabled_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                                 <ToggleSwitch x:Name="toggleswitch_FrameGenEnabled" Margin="10,0,0,0" OffContent="Radeon Fluid Motion Frames" OnContent="Radeon Fluid Motion Frames" Toggled="toggleswitch_FrameGenEnabled_Toggled"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenEnabled_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
@@ -1234,22 +1241,25 @@
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Display_FreeSyncMode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Display_FreeSyncMode_SelectionChanged"/>
 
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                                     <!-- FreeSync Static Frame Rate -->
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* This setting is temporary and resets on system reboots."/>
-                                        <TextBlock Margin="10,0,0,0" Text="FreeSync Static Frame Rate"  VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncFrameRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                    <StackPanel x:Name="stackpanel_Display_FreeSyncFrameRate">
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* This setting is temporary and resets on system reboots."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
+                                            <TextBlock Margin="10,0,0,0" Text="FreeSync Static Frame Rate"  VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncFrameRate_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_FreeSyncFrameRate" Text="{Binding ElementName=slider_Display_FreeSyncFrameRate, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_FreeSyncFrameRate" Margin="10,0,0,0" ValueChanged="slider_Display_FreeSyncFrameRate_ValueChanged"/>
+                                        </Grid>
                                     </StackPanel>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_FreeSyncFrameRate" Text="{Binding ElementName=slider_Display_FreeSyncFrameRate, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_FreeSyncFrameRate" Margin="10,0,0,0" ValueChanged="slider_Display_FreeSyncFrameRate_ValueChanged"/>
-                                    </Grid>
                                 </StackPanel>
                             </Border>
 
@@ -1353,56 +1363,59 @@
                                 </StackPanel>
                             </Border>
 
-                            <TextBlock Margin="0,10,0,0" Text="Gamma Adjustment" FontSize="20" FontWeight="Medium"/>
+                            <StackPanel x:Name="stackpanel_Display_Gamma">
+                                <TextBlock Margin="0,10,0,0" Text="Gamma Adjustment" FontSize="20" FontWeight="Medium"/>
 
-                            <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                <StackPanel>
-                                    <!-- Gamma Red Green Blue -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* This setting is temporary and resets on resolution changes and requires an application restart to apply the gamma adjustment again."/>
-                                        <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                    <StackPanel>
+                                        <!-- Gamma Red Green Blue -->
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications or playing video may prevent the Gamma from changing and need to be minimized or closed first.&#10;&#10;* This setting is temporary and resets on resolution changes and requires an application restart to apply the gamma adjustment again."/>
+                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
+                                            <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Green" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Blue" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
                                     </StackPanel>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                    </Grid>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <TextBlock Text="Green" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
-                                    </StackPanel>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                    </Grid>
-
-                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                        <TextBlock Text="Blue" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
-                                    </StackPanel>
-                                    <Grid Margin="0,5,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                        <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
+                                </Border>
+                            </StackPanel>
 
                             <!-- Color Adjustment -->
                             <TextBlock Text="Color Adjustment" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
@@ -1733,7 +1746,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show experimental settings used for testing purposes."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show experimental settings used for testing purposes, some of those settings have placeholder values."/>
                                         <ToggleSwitch x:Name="toggleswitch_ShowExperimental" Margin="10,0,0,0" OffContent="Show experimental settings" OnContent="Show experimental settings" Toggled="toggleswitch_ShowExperimental_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
