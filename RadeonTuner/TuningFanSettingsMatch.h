@@ -5,119 +5,100 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::TuningFanSettings_Match(TuningFanSettings tuningFanSettingsProfile, TuningFanSettings tuningFanSettingsGpu)
+	bool MainPage::TuningFanSettings_Match(TuningFanSettings settingsProfile, TuningFanSettings settingsAdl)
 	{
 		try
 		{
-			//Gpu Core Minimum
-			if (tuningFanSettingsProfile.CoreMin.Current.has_value() && tuningFanSettingsGpu.CoreMin.Current.has_value())
+			if (settingsProfile.CoreMin.Current.has_value() && settingsAdl.CoreMin.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.CoreMin.Current.value() != tuningFanSettingsGpu.CoreMin.Current.value()) { return false; }
+				if (settingsProfile.CoreMin.Current.value() != settingsAdl.CoreMin.Current.value()) { return false; }
 			}
 
-			//Gpu Core Maximum
-			if (tuningFanSettingsProfile.CoreMax.Current.has_value() && tuningFanSettingsGpu.CoreMax.Current.has_value())
+			if (settingsProfile.CoreMax.Current.has_value() && settingsAdl.CoreMax.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.CoreMax.Current.value() != tuningFanSettingsGpu.CoreMax.Current.value()) { return false; }
+				if (settingsProfile.CoreMax.Current.value() != settingsAdl.CoreMax.Current.value()) { return false; }
 			}
 
-			//Memory Timing
-			if (tuningFanSettingsProfile.MemoryTiming.Current.has_value() && tuningFanSettingsGpu.MemoryTiming.Current.has_value())
+			if (settingsProfile.MemoryTiming.Current.has_value() && settingsAdl.MemoryTiming.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.MemoryTiming.Current.value() != tuningFanSettingsGpu.MemoryTiming.Current.value()) { return false; }
+				if (settingsProfile.MemoryTiming.Current.value() != settingsAdl.MemoryTiming.Current.value()) { return false; }
 			}
 
-			//Memory Frequency
-			if (tuningFanSettingsProfile.MemoryMax.Current.has_value() && tuningFanSettingsGpu.MemoryMax.Current.has_value())
+			if (settingsProfile.MemoryMax.Current.has_value() && settingsAdl.MemoryMax.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.MemoryMax.Current.value() != tuningFanSettingsGpu.MemoryMax.Current.value()) { return false; }
+				if (settingsProfile.MemoryMax.Current.value() != settingsAdl.MemoryMax.Current.value()) { return false; }
 			}
 
-			//Power Limit
-			if (tuningFanSettingsProfile.PowerLimit.Current.has_value() && tuningFanSettingsGpu.PowerLimit.Current.has_value())
+			if (settingsProfile.PowerLimit.Current.has_value() && settingsAdl.PowerLimit.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.PowerLimit.Current.value() != tuningFanSettingsGpu.PowerLimit.Current.value()) { return false; }
+				if (settingsProfile.PowerLimit.Current.value() != settingsAdl.PowerLimit.Current.value()) { return false; }
 			}
 
-			//Power Voltage
-			if (tuningFanSettingsProfile.PowerVoltage.Current.has_value() && tuningFanSettingsGpu.PowerVoltage.Current.has_value())
+			if (settingsProfile.PowerVoltage.Current.has_value() && settingsAdl.PowerVoltage.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.PowerVoltage.Current.value() != tuningFanSettingsGpu.PowerVoltage.Current.value()) { return false; }
+				if (settingsProfile.PowerVoltage.Current.value() != settingsAdl.PowerVoltage.Current.value()) { return false; }
 			}
 
-			//Power TDC
-			if (tuningFanSettingsProfile.PowerTDC.Current.has_value() && tuningFanSettingsGpu.PowerTDC.Current.has_value())
+			if (settingsProfile.PowerTDC.Current.has_value() && settingsAdl.PowerTDC.Current.has_value())
 			{
-				if (tuningFanSettingsProfile.PowerTDC.Current.value() != tuningFanSettingsGpu.PowerTDC.Current.value()) { return false; }
+				if (settingsProfile.PowerTDC.Current.value() != settingsAdl.PowerTDC.Current.value()) { return false; }
 			}
 
-			//Fan Control
-			if (tuningFanSettingsProfile.FanControl.Current.has_value() && tuningFanSettingsProfile.FanControl.Current.value())
+			if (settingsProfile.FanControl.Current.has_value() && settingsProfile.FanControl.Current.value())
 			{
-				//Fan Zero RPM
-				if (tuningFanSettingsProfile.FanZeroRpm.Current.has_value() && tuningFanSettingsGpu.FanZeroRpm.Current.has_value())
+				if (settingsProfile.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanZeroRpm.Current.value() != tuningFanSettingsGpu.FanZeroRpm.Current.value()) { return false; }
+					if (settingsProfile.FanZeroRpm.Current.value() != settingsAdl.FanZeroRpm.Current.value()) { return false; }
 				}
 
-				//Fan Speed 0
-				if (tuningFanSettingsProfile.FanSpeed0.Current.has_value() && tuningFanSettingsGpu.FanSpeed0.Current.has_value())
+				if (settingsProfile.FanSpeed0.Current.has_value() && settingsAdl.FanSpeed0.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanSpeed0.Current.value() != tuningFanSettingsGpu.FanSpeed0.Current.value()) { return false; }
+					if (settingsProfile.FanSpeed0.Current.value() != settingsAdl.FanSpeed0.Current.value()) { return false; }
 				}
 
-				//Fan Temperature 0
-				if (tuningFanSettingsProfile.FanTemp0.Current.has_value() && tuningFanSettingsGpu.FanTemp0.Current.has_value())
+				if (settingsProfile.FanTemp0.Current.has_value() && settingsAdl.FanTemp0.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanTemp0.Current.value() != tuningFanSettingsGpu.FanTemp0.Current.value()) { return false; }
+					if (settingsProfile.FanTemp0.Current.value() != settingsAdl.FanTemp0.Current.value()) { return false; }
 				}
 
-				//Fan Speed 1
-				if (tuningFanSettingsProfile.FanSpeed1.Current.has_value() && tuningFanSettingsGpu.FanSpeed1.Current.has_value())
+				if (settingsProfile.FanSpeed1.Current.has_value() && settingsAdl.FanSpeed1.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanSpeed1.Current.value() != tuningFanSettingsGpu.FanSpeed1.Current.value()) { return false; }
+					if (settingsProfile.FanSpeed1.Current.value() != settingsAdl.FanSpeed1.Current.value()) { return false; }
 				}
 
-				//Fan Temperature 1
-				if (tuningFanSettingsProfile.FanTemp1.Current.has_value() && tuningFanSettingsGpu.FanTemp1.Current.has_value())
+				if (settingsProfile.FanTemp1.Current.has_value() && settingsAdl.FanTemp1.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanTemp1.Current.value() != tuningFanSettingsGpu.FanTemp1.Current.value()) { return false; }
+					if (settingsProfile.FanTemp1.Current.value() != settingsAdl.FanTemp1.Current.value()) { return false; }
 				}
 
-				//Fan Speed 2
-				if (tuningFanSettingsProfile.FanSpeed2.Current.has_value() && tuningFanSettingsGpu.FanSpeed2.Current.has_value())
+				if (settingsProfile.FanSpeed2.Current.has_value() && settingsAdl.FanSpeed2.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanSpeed2.Current.value() != tuningFanSettingsGpu.FanSpeed2.Current.value()) { return false; }
+					if (settingsProfile.FanSpeed2.Current.value() != settingsAdl.FanSpeed2.Current.value()) { return false; }
 				}
 
-				//Fan Temperature 2
-				if (tuningFanSettingsProfile.FanTemp2.Current.has_value() && tuningFanSettingsGpu.FanTemp2.Current.has_value())
+				if (settingsProfile.FanTemp2.Current.has_value() && settingsAdl.FanTemp2.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanTemp2.Current.value() != tuningFanSettingsGpu.FanTemp2.Current.value()) { return false; }
+					if (settingsProfile.FanTemp2.Current.value() != settingsAdl.FanTemp2.Current.value()) { return false; }
 				}
 
-				//Fan Speed 3
-				if (tuningFanSettingsProfile.FanSpeed3.Current.has_value() && tuningFanSettingsGpu.FanSpeed3.Current.has_value())
+				if (settingsProfile.FanSpeed3.Current.has_value() && settingsAdl.FanSpeed3.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanSpeed3.Current.value() != tuningFanSettingsGpu.FanSpeed3.Current.value()) { return false; }
+					if (settingsProfile.FanSpeed3.Current.value() != settingsAdl.FanSpeed3.Current.value()) { return false; }
 				}
 
-				//Fan Temperature 3
-				if (tuningFanSettingsProfile.FanTemp3.Current.has_value() && tuningFanSettingsGpu.FanTemp3.Current.has_value())
+				if (settingsProfile.FanTemp3.Current.has_value() && settingsAdl.FanTemp3.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanTemp3.Current.value() != tuningFanSettingsGpu.FanTemp3.Current.value()) { return false; }
+					if (settingsProfile.FanTemp3.Current.value() != settingsAdl.FanTemp3.Current.value()) { return false; }
 				}
 
-				//Fan Speed 4
-				if (tuningFanSettingsProfile.FanSpeed4.Current.has_value() && tuningFanSettingsGpu.FanSpeed4.Current.has_value())
+				if (settingsProfile.FanSpeed4.Current.has_value() && settingsAdl.FanSpeed4.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanSpeed4.Current.value() != tuningFanSettingsGpu.FanSpeed4.Current.value()) { return false; }
+					if (settingsProfile.FanSpeed4.Current.value() != settingsAdl.FanSpeed4.Current.value()) { return false; }
 				}
 
-				//Fan Temperature 4
-				if (tuningFanSettingsProfile.FanTemp4.Current.has_value() && tuningFanSettingsGpu.FanTemp4.Current.has_value())
+				if (settingsProfile.FanTemp4.Current.has_value() && settingsAdl.FanTemp4.Current.has_value())
 				{
-					if (tuningFanSettingsProfile.FanTemp4.Current.value() != tuningFanSettingsGpu.FanTemp4.Current.value()) { return false; }
+					if (settingsProfile.FanTemp4.Current.value() != settingsAdl.FanTemp4.Current.value()) { return false; }
 				}
 			}
 		}

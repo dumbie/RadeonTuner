@@ -9,17 +9,14 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get current display settings
-			DisplaySettings currentSettings = DisplaySettings_Generate_FromADL(displayAdapterIndex, displayDisplayIndex, targetSettings.Application.value()).value();
-
 			//Pixel Format
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.PixelFormat.Get(settingGet).value();
-				auto currentValue = currentSettings.PixelFormat.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.PixelFormat.Get(settingGet).value();
+
 					//Enumeration index correction
 					int setValue = 0;
 					if (newValue == 0)
@@ -47,7 +44,7 @@ namespace winrt::RadeonTuner::implementation
 					adl_Res0 = _ADL2_Display_PixelFormat_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
 
 					//Delay to prevent no display issue
-					Sleep(200);
+					Sleep(250);
 				}
 			}
 			catch (...) {}
@@ -56,11 +53,11 @@ namespace winrt::RadeonTuner::implementation
 			//Note: HDR requires a 4:4:4 pixel format so set pixel format before HDR.
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.HdrEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.HdrEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.HdrEnabled.Get(settingGet).value();
+
 					//Set setting
 					ADLDisplayID displayId{};
 					displayId.iDisplayLogicalAdapterIndex = displayAdapterIndex;
@@ -68,7 +65,7 @@ namespace winrt::RadeonTuner::implementation
 					adl_Res0 = _ADL2_Display_HDRState_Set(adl_Context, displayAdapterIndex, displayId, newValue);
 
 					//Delay to prevent no display issue
-					Sleep(200);
+					Sleep(250);
 				}
 			}
 			catch (...) {}
@@ -76,49 +73,45 @@ namespace winrt::RadeonTuner::implementation
 			//FreeSync Mode and Frame Rate
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValueMode = targetSettings.FreeSyncMode.Get(settingGet).value();
-				auto currentValueMode = currentSettings.FreeSyncMode.Current.value();
-				auto newValueFrameRate = targetSettings.FreeSyncFrameRate.Get(settingGet).value();
-				auto currentValueFrameRate = currentSettings.FreeSyncFrameRate.Current.value();
-				if (newValueMode != currentValueMode || newValueFrameRate != currentValueFrameRate)
-				{
-					//Enumeration index correction
-					int freeSyncMode = 0;
-					int freeSyncFrameRate = 0;
-					if (newValueMode == 0)
-					{
-						//Disabled
-						freeSyncMode = 0;
-						freeSyncFrameRate = 0;
-					}
-					else if (newValueMode == 1)
-					{
-						//Variable or combined
-						freeSyncMode = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
-						freeSyncFrameRate = 0;
-					}
-					else if (newValueMode == 2)
-					{
-						//Static
-						freeSyncMode = ADL_FREESYNC_USECASE_STATIC;
-						freeSyncFrameRate = newValueFrameRate * 1000000;
-					}
 
-					//Set setting
-					adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncMode, freeSyncFrameRate);
+				//Enumeration index correction
+				int freeSyncMode = 0;
+				int freeSyncFrameRate = 0;
+				if (newValueMode == 0)
+				{
+					//Disabled
+					freeSyncMode = 0;
+					freeSyncFrameRate = 0;
 				}
+				else if (newValueMode == 1)
+				{
+					//Variable or combined
+					freeSyncMode = ADL_FREESYNC_USECASE_STATIC | ADL_FREESYNC_USECASE_VIDEO | ADL_FREESYNC_USECASE_GAMING;
+					freeSyncFrameRate = 0;
+				}
+				else if (newValueMode == 2)
+				{
+					//Static
+					freeSyncMode = ADL_FREESYNC_USECASE_STATIC;
+					freeSyncFrameRate = 0;
+					//freeSyncFrameRate = newValueFrameRate * 1000000;
+				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_FreeSyncState_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, freeSyncMode, freeSyncFrameRate);
 			}
 			catch (...) {}
 
 			//Virtual Super Resolution
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.VsrEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.VsrEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.VsrEnabled.Get(settingGet).value();
+
 					//Set setting
 					ADLDisplayProperty displayProperty{};
 					displayProperty.iSize = sizeof(displayProperty);
@@ -132,11 +125,11 @@ namespace winrt::RadeonTuner::implementation
 			//Color Depth
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.ColorDepth.Get(settingGet).value();
-				auto currentValue = currentSettings.ColorDepth.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.ColorDepth.Get(settingGet).value();
+
 					//Enumeration index correction
 					int setValue = newValue + 1;
 
@@ -144,7 +137,7 @@ namespace winrt::RadeonTuner::implementation
 					adl_Res0 = _ADL2_Display_ColorDepth_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
 
 					//Delay to prevent no display issue
-					Sleep(200);
+					Sleep(250);
 				}
 			}
 			catch (...) {}
@@ -152,49 +145,43 @@ namespace winrt::RadeonTuner::implementation
 			//Color Enhancement
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.ColorEnhancement.Get(settingGet).value();
-				auto currentValue = currentSettings.ColorEnhancement.Current.value();
-				if (newValue != currentValue)
-				{
-					//Enumeration index correction
-					int setValue = 0;
-					if (newValue == 0)
-					{
-						setValue = (int)ADLColorEnhancementType::SCE_Disabled;
-					}
-					else if (newValue == 1)
-					{
-						setValue = (int)ADLColorEnhancementType::SCE_VividGaming;
-					}
-					else if (newValue == 2)
-					{
-						setValue = (int)ADLColorEnhancementType::SCE_DynamicContrast;
-					}
 
-					//Set Setting
-					adl_Res0 = _ADL2_Display_SCE_State_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
+				//Enumeration index correction
+				int setValue = 0;
+				if (newValue == 0)
+				{
+					setValue = (int)ADLColorEnhancementType::SCE_Disabled;
 				}
+				else if (newValue == 1)
+				{
+					setValue = (int)ADLColorEnhancementType::SCE_VividGaming;
+				}
+				else if (newValue == 2)
+				{
+					setValue = (int)ADLColorEnhancementType::SCE_DynamicContrast;
+				}
+
+				//Set Setting
+				adl_Res0 = _ADL2_Display_SCE_State_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, setValue);
 			}
 			catch (...) {}
 
 			//Color Temperature Control
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.ColorTemperatureControl.Get(settingGet).value();
-				auto currentValue = currentSettings.ColorTemperatureControl.Current.value();
-				if (newValue != currentValue)
+
+				//Set setting
+				if (newValue)
 				{
-					//Set setting
-					if (newValue)
-					{
-						adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER);
-					}
-					else
-					{
-						adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_EDID);
-					}
+					adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER);
+				}
+				else
+				{
+					adl_Res0 = _ADL2_Display_ColorTemperatureSource_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_EDID);
 				}
 			}
 			catch (...) {}
@@ -202,137 +189,110 @@ namespace winrt::RadeonTuner::implementation
 			//Color Temperature Kelvin
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.ColorTemperatureKelvin.Get(settingGet).value();
-				auto currentValue = currentSettings.ColorTemperatureKelvin.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, newValue);
 			}
 			catch (...) {}
 
 			//Color Brightness
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.Brightness.Get(settingGet).value();
-				auto currentValue = currentSettings.Brightness.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, newValue);
 			}
 			catch (...) {}
 
 			//Color Contrast
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.Contrast.Get(settingGet).value();
-				auto currentValue = currentSettings.Contrast.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, newValue);
 			}
 			catch (...) {}
 
 			//Color Saturation
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.Saturation.Get(settingGet).value();
-				auto currentValue = currentSettings.Saturation.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_SATURATION, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_SATURATION, newValue);
 			}
 			catch (...) {}
 
 			//Color Hue
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.Hue.Get(settingGet).value();
-				auto currentValue = currentSettings.Hue.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_HUE, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_Color_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADL_DISPLAY_COLOR_HUE, newValue);
 			}
 			catch (...) {}
 
 			//Color Deficiency Correction Control
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.CVDCControl.Get(settingGet).value();
-				auto currentValue = currentSettings.CVDCControl.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_ENABLED, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_ENABLED, newValue);
 			}
 			catch (...) {}
 
 			//Color Deficiency Correction Protanopia
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.CVDCProtanopia.Get(settingGet).value();
-				auto currentValue = currentSettings.CVDCProtanopia.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, newValue);
 			}
 			catch (...) {}
 
 			//Color Deficiency Correction Deuteranopia
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.CVDCDeuteranopia.Get(settingGet).value();
-				auto currentValue = currentSettings.CVDCDeuteranopia.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, newValue);
 			}
 			catch (...) {}
 
 			//Color Deficiency Correction Tritanopia
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValue = targetSettings.CVDCTritanopia.Get(settingGet).value();
-				auto currentValue = currentSettings.CVDCTritanopia.Current.value();
-				if (newValue != currentValue)
-				{
-					//Set setting
-					adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, newValue);
-				}
+
+				//Set setting
+				adl_Res0 = _ADL2_Display_CVDC_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, newValue);
 			}
 			catch (...) {}
 
 			//Gpu Scaling
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.GpuScalingEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.GpuScalingEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.GpuScalingEnabled.Get(settingGet).value();
+
 					//Set setting
 					adl_Res0 = _ADL2_DFP_GPUScalingEnable_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, newValue);
 				}
@@ -342,11 +302,11 @@ namespace winrt::RadeonTuner::implementation
 			//Integer Scaling
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.IntegerScalingEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.IntegerScalingEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.IntegerScalingEnabled.Get(settingGet).value();
+
 					//Set setting
 					ADLDisplayProperty displayProperty{};
 					displayProperty.iSize = sizeof(displayProperty);
@@ -360,11 +320,11 @@ namespace winrt::RadeonTuner::implementation
 			//Scaling Mode
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.ScalingMode.Get(settingGet).value();
-				auto currentValue = currentSettings.ScalingMode.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.ScalingMode.Get(settingGet).value();
+
 					//Set setting
 					//Enumeration index correction
 					if (newValue == 0)
@@ -389,11 +349,11 @@ namespace winrt::RadeonTuner::implementation
 			//HDCP Support
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.HDCPEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.HDCPEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.HDCPEnabled.Get(settingGet).value();
+
 					//Set setting
 					adl_Res0 = _ADL2_Display_HDCP_Set(adl_Context, displayAdapterIndex, displayDisplayIndex, false, newValue);
 				}
@@ -403,11 +363,11 @@ namespace winrt::RadeonTuner::implementation
 			//Vari-Bright Enabled
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.VariBrightEnabled.Get(settingGet).value();
-				auto currentValue = currentSettings.VariBrightEnabled.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.VariBrightEnabled.Get(settingGet).value();
+
 					//Set setting
 					adl_Res0 = _ADL2_Adapter_VariBrightEnable_Set(adl_Context, displayAdapterIndex, newValue);
 				}
@@ -417,11 +377,11 @@ namespace winrt::RadeonTuner::implementation
 			//Vari-Bright Level
 			try
 			{
-				//Get and match values
-				auto newValue = targetSettings.VariBrightLevel.Get(settingGet).value();
-				auto currentValue = currentSettings.VariBrightLevel.Current.value();
-				if (!appProfileOnly && newValue != currentValue)
+				if (!appProfileOnly)
 				{
+					//Get value
+					auto newValue = targetSettings.VariBrightLevel.Get(settingGet).value();
+
 					//Set setting
 					adl_Res0 = _ADL2_Adapter_VariBrightLevel_Set(adl_Context, displayAdapterIndex, newValue, true);
 				}
@@ -433,25 +393,20 @@ namespace winrt::RadeonTuner::implementation
 			//Fix Applying other settings at the same time breaks applying gamma, wait before others are set before applying gamma.
 			try
 			{
-				//Get and match values
+				//Get value
 				auto newValueRed = targetSettings.GammaRed.Get(settingGet).value();
 				auto newValueGreen = targetSettings.GammaGreen.Get(settingGet).value();
 				auto newValueBlue = targetSettings.GammaBlue.Get(settingGet).value();
-				auto currentValueRed = currentSettings.GammaRed.Current.value();
-				auto currentValueGreen = currentSettings.GammaGreen.Current.value();
-				auto currentValueBlue = currentSettings.GammaBlue.Current.value();
-				if (newValueRed != currentValueRed || newValueGreen != currentValueGreen || newValueBlue != currentValueBlue)
-				{
-					//Note: Gamma sometimes gets stuck so resetting it to default first may help.
 
-					//Set setting
-					AdlGammaRamp gammaRampDefault = AdlGammaRampBuild(1.00, 1.00, 1.00);
-					adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampDefault);
+				//Note: Gamma sometimes gets stuck so resetting it to default first may help.
 
-					//Set setting
-					AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(newValueRed, newValueGreen, newValueBlue);
-					adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampTarget);
-				}
+				//Set setting
+				AdlGammaRamp gammaRampDefault = AdlGammaRampBuild(1.00, 1.00, 1.00);
+				adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampDefault);
+
+				//Set setting
+				AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(newValueRed, newValueGreen, newValueBlue);
+				adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampTarget);
 			}
 			catch (...) {}
 

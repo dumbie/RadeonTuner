@@ -259,7 +259,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="FSR Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards, due to a limitation in the driver.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
+                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Changing graphics settings below might require an application restart to take affect.&#10;&#10;* Graphics settings set in application profiles are shared between your graphic cards, due to a limitation in the driver.&#10;&#10;* Some settings like 'Fluid Motion Frames' and 'Super Resolution' are not available because they don't work on 'Minimal' and 'Driver Only' software type installations."/>
                             </Grid>
 
                             <!-- Radeon FSR Options -->
@@ -537,7 +537,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications.&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to"/>
@@ -798,7 +798,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Keep Active" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Image x:Name="image_Tuning_Used" Source="/Assets/Checkmark.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="This application profile is currently used."/>
+                                    <Image Source="/Assets/Warning.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
+                                </StackPanel>
                             </Grid>
 
                             <!-- Keep Active -->
@@ -939,7 +942,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Fan Speed and Temperature Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Image x:Name="image_Fans_Used" Source="/Assets/Checkmark.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="This application profile is currently used."/>
+                                    <Image Source="/Assets/Warning.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Tuning application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application."/>
+                                </StackPanel>
                             </Grid>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -1172,7 +1178,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Display Options" FontSize="20" FontWeight="Medium"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Right" Source="/Assets/Warning.png" Margin="6,3,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Display application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application.&#10;&#10;* Some settings like Display, HDR, Scaling, Power, Format and Override options are not available in application profiles."/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Image x:Name="image_Display_Used" Source="/Assets/Checkmark.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="This application profile is currently used."/>
+                                    <Image Source="/Assets/Warning.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="* Display application profiles are only automatically applied when RadeonTuner is running.&#10;&#10;* It may take a few seconds before the application profile is applied when launching an application.&#10;&#10;* Some settings like Display, HDR, Scaling, Power, Format and Override options are not available in application profiles."/>
+                                </StackPanel>
                             </Grid>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
@@ -1640,7 +1649,17 @@
 
                         <!-- Multimedia -->
                         <StackPanel x:Name="stackpanel_Multimedia" Visibility="Collapsed">
-                            <TextBlock Text="Video Options" FontSize="20" FontWeight="Medium"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Margin="0,0,20,0" Text="Video Options" FontSize="20" FontWeight="Medium"/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Image x:Name="image_Multimedia_Used" Source="/Assets/Checkmark.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="This application profile is currently used."/>
+                                </StackPanel>
+                            </Grid>
 
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel>

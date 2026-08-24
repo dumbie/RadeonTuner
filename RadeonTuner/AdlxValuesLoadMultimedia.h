@@ -13,10 +13,14 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = true;
 
 			//Get current and default settings
-			MultimediaSettings multimediaSettingsAdl = MultimediaSettings_Generate_FromADL(gpuAdapterIndex, application).value();
+			MultimediaSettings multimediaSettingsAdl = MultimediaSettings_Generate_FromADL(gpuAdapterIndex, application, false).value();
 
 			//Add settings profile
-			MultimediaSettings_Profile_Add(multimediaSettingsAdl);
+			if (MultimediaSettings_Profile_Add(multimediaSettingsAdl))
+			{
+				//Save settings profile
+				MultimediaSettings_Profiles_SaveToFile();
+			}
 
 			//Device identifier
 			std::wstring deviceId = multimediaSettingsAdl.DeviceId.value();
@@ -32,9 +36,28 @@ namespace winrt::RadeonTuner::implementation
 			textblock_AppSelect_Multimedia().Text(application);
 
 			//Update button colors
-			//Fix check if current settings match profile and set button color accordingly
-			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-			button_Multimedia_Apply().Background(colorValid);
+			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
+			bool matchingProfile = MultimediaSettings_Match(multimediaSettingsCurrent.get(), multimediaSettingsAdl);
+			if (usingProfile && !matchingProfile)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Multimedia_Apply().Background(colorIgnored);
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Multimedia_Apply().Background(colorValid);
+			}
+
+			//Update status icon
+			if (usingProfile)
+			{
+				image_Multimedia_Used().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				image_Multimedia_Used().Visibility(Visibility::Collapsed);
+			}
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());

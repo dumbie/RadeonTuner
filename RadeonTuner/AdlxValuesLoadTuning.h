@@ -16,7 +16,11 @@ namespace winrt::RadeonTuner::implementation
 			TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(gpuAdapterIndex, application, false).value();
 
 			//Add settings profile
-			TuningFanSettings_Profile_Add(tuningFanSettingsAdl);
+			if (TuningFanSettings_Profile_Add(tuningFanSettingsAdl))
+			{
+				//Save settings profile
+				TuningFanSettings_Profiles_SaveToFile();
+			}
 
 			//Device identifier
 			std::wstring deviceId = tuningFanSettingsAdl.DeviceId.value();
@@ -42,10 +46,32 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
-			//Fix check if current settings match profile and set button color accordingly
-			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorValid);
-			button_Fan_Apply().Background(colorValid);
+			bool usingProfile = tuningFanSettingsCurrent.get().UsingProfile;
+			bool matchingProfile = TuningFanSettings_Match(tuningFanSettingsCurrent.get(), tuningFanSettingsAdl);
+			if (usingProfile && !matchingProfile)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Tuning_Apply().Background(colorIgnored);
+				button_Fan_Apply().Background(colorIgnored);
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Tuning_Apply().Background(colorValid);
+				button_Fan_Apply().Background(colorValid);
+			}
+
+			//Update status icon
+			if (usingProfile)
+			{
+				image_Tuning_Used().Visibility(Visibility::Visible);
+				image_Fans_Used().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				image_Tuning_Used().Visibility(Visibility::Collapsed);
+				image_Fans_Used().Visibility(Visibility::Collapsed);
+			}
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());

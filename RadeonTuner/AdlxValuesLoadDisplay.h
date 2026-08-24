@@ -13,10 +13,14 @@ namespace winrt::RadeonTuner::implementation
 			disable_saving = true;
 
 			//Get current and default settings
-			DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(dispAdapterIndex, dispDisplayIndex, application).value();
+			DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(dispAdapterIndex, dispDisplayIndex, application, false).value();
 
 			//Add settings profile
-			DisplaySettings_Profile_Add(displaySettingsAdl);
+			if (DisplaySettings_Profile_Add(displaySettingsAdl))
+			{
+				//Save settings profile
+				DisplaySettings_Profiles_SaveToFile();
+			}
 
 			//Device identifier
 			std::wstring deviceId = displaySettingsAdl.DeviceId.value();
@@ -70,9 +74,29 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
-			//Fix check if current settings match profile and set button color accordingly
-			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-			button_Display_Apply().Background(colorValid);
+			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
+			bool globalProfile = displaySettingsCurrent.get().Global();
+			bool matchingProfile = DisplaySettings_Match(displaySettingsCurrent.get(), displaySettingsAdl, !globalProfile);
+			if (usingProfile && !matchingProfile)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Display_Apply().Background(colorIgnored);
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Display_Apply().Background(colorValid);
+			}
+
+			//Update status icon
+			if (usingProfile)
+			{
+				image_Display_Used().Visibility(Visibility::Visible);
+			}
+			else
+			{
+				image_Display_Used().Visibility(Visibility::Collapsed);
+			}
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
@@ -92,8 +116,6 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix automatically reload eyefinity when a display is connected or disconnected
-
 			//Get all displays
 			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
 			int displayCount = displayList.size();

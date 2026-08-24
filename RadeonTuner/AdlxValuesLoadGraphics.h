@@ -22,7 +22,7 @@ namespace winrt::RadeonTuner::implementation
 			GraphicsSettings graphicsSettingsAdl{};
 			if (application == L"Global")
 			{
-				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLRegistry(gpuAdapterIndex, application).value();
+				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLRegistry(gpuAdapterIndex, application, false).value();
 			}
 			else
 			{
@@ -30,7 +30,7 @@ namespace winrt::RadeonTuner::implementation
 				AdlApplication adlApplication = AdlAppLoadSearch(L"3D_User", application, L"*\\*").value();
 
 				//Update current and default settings
-				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(gpuAdapterIndex, adlApplication).value();
+				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(gpuAdapterIndex, adlApplication, false).value();
 			}
 
 			//Add settings profile
@@ -54,9 +54,17 @@ namespace winrt::RadeonTuner::implementation
 			textblock_AppSelect_Graphics().Text(application);
 
 			//Update button colors
-			//Fix check if current settings match profile and set button color accordingly
-			SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorValid);
+			bool matchingProfile = GraphicsSettings_Match(graphicsSettingsCurrent.get(), graphicsSettingsAdl);
+			if (!matchingProfile)
+			{
+				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+				button_Graphics_Apply().Background(colorIgnored);
+			}
+			else
+			{
+				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
+				button_Graphics_Apply().Background(colorValid);
+			}
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());

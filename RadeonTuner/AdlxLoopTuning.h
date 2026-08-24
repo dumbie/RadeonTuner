@@ -106,12 +106,12 @@ namespace winrt::RadeonTuner::implementation
 							{
 								if (applyResult)
 								{
-									//Load tuning and fans settings
-									AdlxValuesLoadSelectTuningApp(adapterIndex, tuningFanSettingsCurrent.get().Application.value());
-
 									//Show notification
 									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsProfile.Application.value());
 									AVDebugWriteLine(L"Tuning and fans settings applied: " << tuningFanSettingsProfile.Application.value());
+
+									//Load tuning and fans settings
+									AdlxValuesLoadSelectTuningApp(adapterIndex, tuningFanSettingsCurrent.get().Application.value());
 								}
 							};
 						AppVariables::App.DispatcherInvoke(updateFunction);

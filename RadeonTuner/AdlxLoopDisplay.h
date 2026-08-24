@@ -68,29 +68,38 @@ namespace winrt::RadeonTuner::implementation
 						continue;
 					}
 
-					//Apply display settings
-					bool applyResult = AdlDisplaySettingsApply(adapterIndex, displayIndex, displaySettingsProfile, AdlSettingGet::Current, true);
+					//Get current and default settings
+					DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adapterIndex, displayIndex, L"", false).value();
 
-					//Check result
-					if (applyResult)
+					//Check if settings match
+					if (!DisplaySettings_Match(displaySettingsProfile, displaySettingsAdl, true))
 					{
-						//Update application using status
-						DisplaySettings_Profile_Set_Using(displaySettingsProfile.DeviceId.value(), displaySettingsProfile.Application.value());
-					}
+						AVDebugWriteLine("Display settings do not match, applying settings.");
 
-					std::function<void()> updateFunction = [=]
+						//Apply display settings
+						bool applyResult = AdlDisplaySettingsApply(adapterIndex, displayIndex, displaySettingsProfile, AdlSettingGet::Current, true);
+
+						//Check result
+						if (applyResult)
 						{
-							if (applyResult)
-							{
-								//Show notification
-								ShowNotification(L"Display settings applied: " + displaySettingsProfile.Application.value());
-								AVDebugWriteLine(L"Display settings applied: " << displaySettingsProfile.Application.value());
+							//Update application using status
+							DisplaySettings_Profile_Set_Using(displaySettingsProfile.DeviceId.value(), displaySettingsProfile.Application.value());
+						}
 
-								//Load display settings
-								AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.get().Application.value());
-							}
-						};
-					AppVariables::App.DispatcherInvoke(updateFunction);
+						std::function<void()> updateFunction = [=]
+							{
+								if (applyResult)
+								{
+									//Show notification
+									ShowNotification(L"Display settings applied: " + displaySettingsProfile.Application.value());
+									AVDebugWriteLine(L"Display settings applied: " << displaySettingsProfile.Application.value());
+
+									//Load display settings
+									AdlxValuesLoadSelectDisplayApp(adapterIndex, displayIndex, displaySettingsCurrent.get().Application.value());
+								}
+							};
+						AppVariables::App.DispatcherInvoke(updateFunction);
+					}
 				}
 			}
 		}
