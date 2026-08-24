@@ -5,13 +5,13 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<MultimediaSettings> MainPage::MultimediaSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application)
+	std::optional<MultimediaSettings> MainPage::MultimediaSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application, bool loadDefault)
 	{
 		try
 		{
-			//Fix find way to check if setting is supported and disable interface. (ADL2_MMD_Features_Caps)
 			//Fix add SteadyVideo FluidMotion Color support
 
+			AVDebugWriteLine(L"Generating multimedia settings for: " << gpuAdapterIndex << L" / " << application);
 			MultimediaSettings multimediaSettings{};
 
 			//Device identifier
@@ -20,14 +20,20 @@ namespace winrt::RadeonTuner::implementation
 			//Device application
 			multimediaSettings.Application = application;
 
-			//Set settings
-			int adlFeatureCount = 0;
+			//Get setting values
+			int adlFeatureValuesCount = 0;
 			auto adlFeatureValues = AVFin<ADLFeatureValues*>(AVFinMethod::FreeMarshal);
-			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, gpuAdapterIndex, &adlFeatureValues.Get(), &adlFeatureCount);
-			AVDebugWriteLine(L"Multimedia values count: " << adlFeatureCount);
+			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, gpuAdapterIndex, &adlFeatureValues.Get(), &adlFeatureValuesCount);
+			AVDebugWriteLine(L"Multimedia values count: " << adlFeatureValuesCount);
+
+			//Get setting capabilities
+			int adlFeatureCapsCount = 0;
+			auto adlFeatureCaps = AVFin<ADLFeatureCaps*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_MMD_Features_Caps(adl_Context, gpuAdapterIndex, &adlFeatureCaps.Get(), &adlFeatureCapsCount);
+			AVDebugWriteLine(L"Multimedia capabilities count: " << adlFeatureCapsCount);
 
 			//Load all multimedia setting values
-			for (int index = 0; index < adlFeatureCount; index++)
+			for (int index = 0; index < adlFeatureValuesCount; index++)
 			{
 				try
 				{
@@ -37,31 +43,47 @@ namespace winrt::RadeonTuner::implementation
 					//Check feature name
 					if (featureName == "VideoUpScale")
 					{
-						multimediaSettings.VideoUpscaling.Current = adlFeatureValues.Get()[index].bCurrent;
+						//Check setting support
+						bool featureSupported = (adlFeatureCaps.Get()[index].iFeatureProperties & ADL_FEATURE_PROPERTIES_SUPPORTED) == ADL_FEATURE_PROPERTIES_SUPPORTED;
+
 						multimediaSettings.VideoUpscaling.Default = 0;
-						multimediaSettings.VideoUpscaling.Support = true;
+						multimediaSettings.VideoUpscaling.Current = adlFeatureValues.Get()[index].bCurrent;
+						multimediaSettings.VideoUpscaling.Support = featureSupported;
 					}
 					else if (featureName == "Sharpness")
 					{
-						multimediaSettings.VideoSharpening.Current = adlFeatureValues.Get()[index].fCurrent;
+						//Check setting support
+						bool featureSupported = (adlFeatureCaps.Get()[index].iFeatureProperties & ADL_FEATURE_PROPERTIES_SUPPORTED) == ADL_FEATURE_PROPERTIES_SUPPORTED;
+
 						multimediaSettings.VideoSharpening.Default = 50;
-						multimediaSettings.VideoSharpening.Support = true;
+						multimediaSettings.VideoSharpening.Current = adlFeatureValues.Get()[index].fCurrent;
+						multimediaSettings.VideoSharpening.Support = featureSupported;
 						multimediaSettings.VideoSharpening.Minimum = 1;
 						multimediaSettings.VideoSharpening.Maximum = 100;
 						multimediaSettings.VideoSharpening.Step = 1;
 					}
 					else if (featureName == "Brightness")
 					{
-						multimediaSettings.VideoBrightness.Current = adlFeatureValues.Get()[index].fCurrent;
+						//Check setting support
+						bool featureSupported = (adlFeatureCaps.Get()[index].iFeatureProperties & ADL_FEATURE_PROPERTIES_SUPPORTED) == ADL_FEATURE_PROPERTIES_SUPPORTED;
+
 						multimediaSettings.VideoBrightness.Default = 0;
-						multimediaSettings.VideoBrightness.Support = true;
+						multimediaSettings.VideoBrightness.Current = adlFeatureValues.Get()[index].fCurrent;
+						multimediaSettings.VideoBrightness.Support = featureSupported;
 						multimediaSettings.VideoBrightness.Minimum = -100;
 						multimediaSettings.VideoBrightness.Maximum = 100;
 						multimediaSettings.VideoBrightness.Step = 1;
 					}
 
+					//Set current value to default value
+					if (loadDefault)
+					{
+						multimediaSettings.SetCurrentToDefault();
+					}
+
 					////Debug features
 					//AVDebugWriteLine(featureName.c_str());
+					//AVDebugWriteLine(((adlFeatureCaps.Get()[index].iFeatureProperties & ADL_FEATURE_PROPERTIES_SUPPORTED) == ADL_FEATURE_PROPERTIES_SUPPORTED));
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].bCurrent);
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].fCurrent);
 					//AVDebugWriteLine(adlFeatureValues.Get()[index].iCurrent);

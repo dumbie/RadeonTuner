@@ -83,15 +83,23 @@ inline ADL2_Adapter_ID_Get _ADL2_Adapter_ID_Get;
 typedef int (*ADL2_Adapter_DedicatedVRAMUsage_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iVRAMUsageInMB);
 inline ADL2_Adapter_DedicatedVRAMUsage_Get _ADL2_Adapter_DedicatedVRAMUsage_Get;
 
+typedef int (*ADL2_Adapter_Feature_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_UIFEATURES_GROUP iFeatureID, int* iIsFeatureSupported);
+inline ADL2_Adapter_Feature_Caps _ADL2_Adapter_Feature_Caps;
+
 //Graphics
 typedef int (*ADL2_Graphics_VersionsX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLVersionsInfoX2* lpVersionsInfo);
 inline ADL2_Graphics_VersionsX3_Get _ADL2_Graphics_VersionsX3_Get;
 
+//Graphics - FRTC Pro
 typedef int (*ADL2_FRTCPro_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRTCPRO_Settings* FRTCPROSettings);
 inline ADL2_FRTCPro_Settings_Get _ADL2_FRTCPro_Settings_Get;
 
 typedef int (*ADL2_FRTCPro_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRTCPRO_Settings FRTCPROSettings, ADL_FRTCPRO_CHANGED_REASON changeReason);
 inline ADL2_FRTCPro_Settings_Set _ADL2_FRTCPro_Settings_Set;
+
+//Graphics - FRTC
+typedef int (*ADL2_FPS_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpSupported, int* lpVersion);
+inline ADL2_FPS_Caps _ADL2_FPS_Caps;
 
 typedef int (*ADL2_FPS_Settings_Reset)(ADL_CONTEXT_HANDLE context, int iAdapterIndex);
 inline ADL2_FPS_Settings_Reset _ADL2_FPS_Settings_Reset;
@@ -102,35 +110,77 @@ inline ADL2_FPS_Settings_Set _ADL2_FPS_Settings_Set;
 typedef int (*ADL2_FPS_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFPSSettingsOutput* lpFPSSettings);
 inline ADL2_FPS_Settings_Get _ADL2_FPS_Settings_Get;
 
+//Graphics - Chill
+typedef int (*ADL2_Chill_Caps_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported, int* iCheckCaps);
+inline ADL2_Chill_Caps_Get _ADL2_Chill_Caps_Get;
+
 typedef int(*ADL2_CHILL_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_CHILL_SETTINGS settings, ADL_CHILL_NOTFICATION_REASON changeReason, ADL_ERROR_REASON* errorReason);
 inline ADL2_CHILL_SettingsX2_Set _ADL2_CHILL_SettingsX2_Set;
 
 typedef int(*ADL2_CHILL_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_CHILL_SETTINGS* settings);
 inline ADL2_CHILL_SettingsX2_Get _ADL2_CHILL_SettingsX2_Get;
 
+//Graphics - Boost
 typedef int (*ADL2_BOOST_SettingsX4_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGSX4 settings, ADL_BOOST_NOTIFICATION_REASONX4 changeReason, ADL_ERROR_REASON2* errorReason);
 inline ADL2_BOOST_SettingsX4_Set _ADL2_BOOST_SettingsX4_Set;
 
 typedef int (*ADL2_BOOST_SettingsX4_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_BOOST_SETTINGSX4* settings);
 inline ADL2_BOOST_SettingsX4_Get _ADL2_BOOST_SettingsX4_Get;
 
+//Graphics - Enhanced Sync
+typedef int (*ADL2_TurboSyncSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_TurboSyncSupport_Get _ADL2_TurboSyncSupport_Get;
+
+//Graphics - Radeon Image Sharpening 1
 typedef int(*ADL2_RIS_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS_SETTINGS settings, ADL_RIS_NOTFICATION_REASON changeReason);
 inline ADL2_RIS_Settings_Set _ADL2_RIS_Settings_Set;
 
 typedef int(*ADL2_RIS_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS_SETTINGS* settings);
 inline ADL2_RIS_Settings_Get _ADL2_RIS_Settings_Get;
 
+//Graphics - Radeon Image Sharpening 2
 typedef int(*ADL2_RIS_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS2_SETTINGS settings, ADL_RIS2_NOTIFICATION_REASON changeReason);
 inline ADL2_RIS_SettingsX2_Set _ADL2_RIS_SettingsX2_Set;
 
 typedef int(*ADL2_RIS_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_RIS2_SETTINGS* settings);
 inline ADL2_RIS_SettingsX2_Get _ADL2_RIS_SettingsX2_Get;
 
-typedef int (*ADL2_DELAG_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGS settings, ADL_DELAG_NOTFICATION_REASON changeReason, ADL_ERROR_REASON2* errorReason);
-inline ADL2_DELAG_SettingsX2_Set _ADL2_DELAG_SettingsX2_Set;
+//Graphics - Latency Reduction
+typedef int (*ADL2_DELAG_SettingsX4_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGSX4 settings, ADL_DELAG_NOTIFICATION_REASONX4 changeReason, ADL_ERROR_REASON2* errorReason);
+inline ADL2_DELAG_SettingsX4_Set _ADL2_DELAG_SettingsX4_Set;
 
-typedef int (*ADL2_DELAG_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGS* settings);
-inline ADL2_DELAG_SettingsX2_Get _ADL2_DELAG_SettingsX2_Get;
+typedef int (*ADL2_DELAG_SettingsX4_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_DELAG_SETTINGSX4* settings);
+inline ADL2_DELAG_SettingsX4_Get _ADL2_DELAG_SettingsX4_Get;
+
+//Graphics - Fluid Motion Frames
+typedef int (*ADL2_DriverFrameGenerationSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverFrameGenerationSupport_Get _ADL2_DriverFrameGenerationSupport_Get;
+
+typedef int (*ADL2_DriverFrameGeneration_Settings_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iEnabled);
+inline ADL2_DriverFrameGeneration_Settings_Get _ADL2_DriverFrameGeneration_Settings_Get;
+
+typedef int (*ADL2_DriverFrameGeneration_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iEnabled);
+inline ADL2_DriverFrameGeneration_Settings_Set _ADL2_DriverFrameGeneration_Settings_Set;
+
+//Graphics - FSR Upscaling Override
+typedef int (*ADL2_DriverMLSRSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverMLSRSupport_Get _ADL2_DriverMLSRSupport_Get;
+
+//Graphics - FSR Frame Generation Override
+typedef int (*ADL2_DriverMLFISupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverMLFISupport_Get _ADL2_DriverMLFISupport_Get;
+
+//Graphics - FSR Ray Regeneration Denoiser Override
+typedef int (*ADL2_DriverMLDSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverMLDSupport_Get _ADL2_DriverMLDSupport_Get;
+
+//Graphics - FSR Multi Frame Generation Override
+typedef int (*ADL2_DriverMFGSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverMFGSupport_Get _ADL2_DriverMFGSupport_Get;
+
+//Graphics - FSR Neural Radiance Caching Override
+typedef int (*ADL2_DriverNRCSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
+inline ADL2_DriverNRCSupport_Get _ADL2_DriverNRCSupport_Get;
 
 //Display
 typedef int (*ADL2_Display_DisplayInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumDisplays, ADLDisplayInfo** lppInfo, int iForceDetect);

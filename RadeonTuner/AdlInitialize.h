@@ -323,6 +323,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Adapter_DedicatedVRAMUsage_Get");
 			}
 
+			_ADL2_Adapter_Feature_Caps = (ADL2_Adapter_Feature_Caps)GetProcAddress(hInstance, "ADL2_Adapter_Feature_Caps");
+			if (_ADL2_Adapter_Feature_Caps == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_Feature_Caps");
+			}
+
 			//Graphics
 			_ADL2_Graphics_VersionsX3_Get = (ADL2_Graphics_VersionsX3_Get)GetProcAddress(hInstance, "ADL2_Graphics_VersionsX3_Get");
 			if (_ADL2_Graphics_VersionsX3_Get == NULL)
@@ -331,6 +338,7 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Graphics_VersionsX3_Get");
 			}
 
+			//Graphics - FRTC Pro
 			_ADL2_FRTCPro_Settings_Get = (ADL2_FRTCPro_Settings_Get)GetProcAddress(hInstance, "ADL2_FRTCPro_Settings_Get");
 			if (_ADL2_FRTCPro_Settings_Get == NULL)
 			{
@@ -343,6 +351,14 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_FRTCPro_Settings_Set");
+			}
+
+			//Graphics - FRTC
+			_ADL2_FPS_Caps = (ADL2_FPS_Caps)GetProcAddress(hInstance, "ADL2_FPS_Caps");
+			if (_ADL2_FPS_Caps == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_FPS_Caps");
 			}
 
 			_ADL2_FPS_Settings_Reset = (ADL2_FPS_Settings_Reset)GetProcAddress(hInstance, "ADL2_FPS_Settings_Reset");
@@ -366,6 +382,14 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_FPS_Settings_Get");
 			}
 
+			//Graphics - Chill
+			_ADL2_Chill_Caps_Get = (ADL2_Chill_Caps_Get)GetProcAddress(hInstance, "ADL2_Chill_Caps_Get");
+			if (_ADL2_Chill_Caps_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Chill_Caps_Get");
+			}
+
 			_ADL2_CHILL_SettingsX2_Set = (ADL2_CHILL_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_CHILL_SettingsX2_Set");
 			if (_ADL2_CHILL_SettingsX2_Set == NULL)
 			{
@@ -380,6 +404,7 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_CHILL_SettingsX2_Get");
 			}
 
+			//Graphics - Boost
 			_ADL2_BOOST_SettingsX4_Set = (ADL2_BOOST_SettingsX4_Set)GetProcAddress(hInstance, "ADL2_BOOST_SettingsX4_Set");
 			if (_ADL2_BOOST_SettingsX4_Set == NULL)
 			{
@@ -394,6 +419,15 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_BOOST_SettingsX4_Get");
 			}
 
+			//Graphics - Enhanced Sync
+			_ADL2_TurboSyncSupport_Get = (ADL2_TurboSyncSupport_Get)GetProcAddress(hInstance, "ADL2_TurboSyncSupport_Get");
+			if (_ADL2_TurboSyncSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_TurboSyncSupport_Get");
+			}
+
+			//Graphics - Radeon Image Sharpening 1
 			_ADL2_RIS_Settings_Set = (ADL2_RIS_Settings_Set)GetProcAddress(hInstance, "ADL2_RIS_Settings_Set");
 			if (_ADL2_RIS_Settings_Set == NULL)
 			{
@@ -408,6 +442,7 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_RIS_Settings_Get");
 			}
 
+			//Graphics - Radeon Image Sharpening 2
 			_ADL2_RIS_SettingsX2_Set = (ADL2_RIS_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_RIS_SettingsX2_Set");
 			if (_ADL2_RIS_SettingsX2_Set == NULL)
 			{
@@ -422,18 +457,81 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_RIS_SettingsX2_Get");
 			}
 
-			_ADL2_DELAG_SettingsX2_Set = (ADL2_DELAG_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX2_Set");
-			if (_ADL2_DELAG_SettingsX2_Set == NULL)
+			//Graphics - Latency Reduction
+			_ADL2_DELAG_SettingsX4_Set = (ADL2_DELAG_SettingsX4_Set)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX4_Set");
+			if (_ADL2_DELAG_SettingsX4_Set == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX2_Set");
+				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX4_Set");
 			}
 
-			_ADL2_DELAG_SettingsX2_Get = (ADL2_DELAG_SettingsX2_Get)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX2_Get");
-			if (_ADL2_DELAG_SettingsX2_Get == NULL)
+			_ADL2_DELAG_SettingsX4_Get = (ADL2_DELAG_SettingsX4_Get)GetProcAddress(hInstance, "ADL2_DELAG_SettingsX4_Get");
+			if (_ADL2_DELAG_SettingsX4_Get == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX2_Get");
+				AVDebugWriteLine("Failed to init _ADL2_DELAG_SettingsX4_Get");
+			}
+
+			//Graphics - Fluid Motion Frames
+			_ADL2_DriverFrameGenerationSupport_Get = (ADL2_DriverFrameGenerationSupport_Get)GetProcAddress(hInstance, "ADL2_DriverFrameGenerationSupport_Get");
+			if (_ADL2_DriverFrameGenerationSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGenerationSupport_Get");
+			}
+
+			_ADL2_DriverFrameGeneration_Settings_Get = (ADL2_DriverFrameGeneration_Settings_Get)GetProcAddress(hInstance, "ADL2_DriverFrameGeneration_Settings_Get");
+			if (_ADL2_DriverFrameGeneration_Settings_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGeneration_Settings_Get");
+			}
+
+			_ADL2_DriverFrameGeneration_Settings_Set = (ADL2_DriverFrameGeneration_Settings_Set)GetProcAddress(hInstance, "ADL2_DriverFrameGeneration_Settings_Set");
+			if (_ADL2_DriverFrameGeneration_Settings_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGeneration_Settings_Set");
+			}
+
+			//Graphics - FSR Upscaling Override
+			_ADL2_DriverMLSRSupport_Get = (ADL2_DriverMLSRSupport_Get)GetProcAddress(hInstance, "ADL2_DriverMLSRSupport_Get");
+			if (_ADL2_DriverMLSRSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverMLSRSupport_Get");
+			}
+
+			//Graphics - FSR Frame Generation Override
+			_ADL2_DriverMLFISupport_Get = (ADL2_DriverMLFISupport_Get)GetProcAddress(hInstance, "ADL2_DriverMLFISupport_Get");
+			if (_ADL2_DriverMLFISupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverMLFISupport_Get");
+			}
+
+			//Graphics - FSR Ray Regeneration Denoiser Override
+			_ADL2_DriverMLDSupport_Get = (ADL2_DriverMLDSupport_Get)GetProcAddress(hInstance, "ADL2_DriverMLDSupport_Get");
+			if (_ADL2_DriverMLDSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverMLDSupport_Get");
+			}
+
+			//Graphics - FSR Multi Frame Generation Override
+			_ADL2_DriverMFGSupport_Get = (ADL2_DriverMFGSupport_Get)GetProcAddress(hInstance, "ADL2_DriverMFGSupport_Get");
+			if (_ADL2_DriverMFGSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverMFGSupport_Get");
+			}
+
+			//Graphics - FSR Neural Radiance Caching Override
+			_ADL2_DriverNRCSupport_Get = (ADL2_DriverNRCSupport_Get)GetProcAddress(hInstance, "ADL2_DriverNRCSupport_Get");
+			if (_ADL2_DriverNRCSupport_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverNRCSupport_Get");
 			}
 
 			//Display

@@ -34,9 +34,10 @@
 #include "adl_structures.h"
 #include "custom_structures.h"
 #include "appblb_structures.h"
+#include "oem_structures.h"
 
 /// Memory Allocation Call back 
-typedef void* ( __stdcall *ADL_MAIN_MALLOC_CALLBACK )( int );
+typedef void* (__stdcall* ADL_MAIN_MALLOC_CALLBACK)(int);
 
 #define ADL_SDK_MAJOR_VERSION 18
 #define ADL_SDK_MINOR_VERSION 0

@@ -5,15 +5,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLApp(int gpuAdapterIndex, AdlApplication& adlApplication)
+	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Generate_FromADLApp(int gpuAdapterIndex, AdlApplication& adlApplication, bool loadDefault)
 	{
 		try
 		{
-			//Note: Application profile always needs to have Current value set to override Global settings.
-			//Fix find way to check if setting is supported and disable interface. (ADL2_Adapter_Feature_Caps)
-
 			AVDebugWriteLine(L"Generating application graphics settings for: " << adlApplication.ProfileName << L" / " << adlApplication.DriverArea << L" / " << adlApplication.FileName << L" / " << adlApplication.FilePath);
 			GraphicsSettings graphicsSettings{};
+
+			//Get graphics settings support
+			GraphicsSettings graphicsSettingsSupport = GraphicsSettingsGetSupport(gpuAdapterIndex);
 
 			//Device identifier
 			graphicsSettings.DeviceId = AdlxGetGpuIdentifier(gpuAdapterIndex);
@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.FsrOverride.Support = true;
+				graphicsSettings.FsrOverride.Support = graphicsSettingsSupport.FsrOverride.Support;
 
 				//Set default
 				graphicsSettings.FsrOverride.Default = 0;
@@ -57,7 +57,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.MlfiOverride.Support = true;
+				graphicsSettings.MlfiOverride.Support = graphicsSettingsSupport.MlfiOverride.Support;
 
 				//Set default
 				graphicsSettings.MlfiOverride.Default = 0;
@@ -88,7 +88,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.MfgOverride.Support = true;
+				graphicsSettings.MfgOverride.Support = graphicsSettingsSupport.MfgOverride.Support;
 
 				//Set default
 				graphicsSettings.MfgOverride.Default = 0;
@@ -119,7 +119,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.MldOverride.Support = true;
+				graphicsSettings.MldOverride.Support = graphicsSettingsSupport.MldOverride.Support;
 
 				//Set default
 				graphicsSettings.MldOverride.Default = 0;
@@ -150,7 +150,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.NrcOverride.Support = true;
+				graphicsSettings.NrcOverride.Support = graphicsSettingsSupport.NrcOverride.Support;
 
 				//Set default
 				graphicsSettings.NrcOverride.Default = 0;
@@ -181,7 +181,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.MfgRatio.Support = true;
+				graphicsSettings.MfgRatio.Support = graphicsSettingsSupport.MfgRatio.Support;
 
 				//Set default
 				graphicsSettings.MfgRatio.Default = 0;
@@ -244,7 +244,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.DeLagEnabled.Support = true;
+				graphicsSettings.DeLagEnabled.Support = graphicsSettingsSupport.DeLagEnabled.Support;
 
 				//Set default
 				graphicsSettings.DeLagEnabled.Default = 0;
@@ -280,7 +280,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.BoostMode.Support = true;
+				graphicsSettings.BoostMode.Support = graphicsSettingsSupport.BoostMode.Support;
 
 				//Set default
 				graphicsSettings.BoostMode.Default = 0;
@@ -344,7 +344,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.BoostMinResolution.Support = true;
+				graphicsSettings.BoostMinResolution.Support = graphicsSettingsSupport.BoostMinResolution.Support;
 
 				//Set default
 				graphicsSettings.BoostMinResolution.Default = 84;
@@ -385,7 +385,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.ChillEnabled.Support = true;
+				graphicsSettings.ChillEnabled.Support = graphicsSettingsSupport.ChillEnabled.Support;
 
 				//Set default
 				graphicsSettings.ChillEnabled.Default = 0;
@@ -416,7 +416,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.ChillMinFps.Support = true;
+				graphicsSettings.ChillMinFps.Support = graphicsSettingsSupport.ChillMinFps.Support;
 
 				//Set default
 				graphicsSettings.ChillMinFps.Default = 75;
@@ -452,7 +452,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.ChillMaxFps.Support = true;
+				graphicsSettings.ChillMaxFps.Support = graphicsSettingsSupport.ChillMaxFps.Support;
 
 				//Set default
 				graphicsSettings.ChillMaxFps.Default = 140;
@@ -488,7 +488,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.RisEnabled.Support = true;
+				graphicsSettings.RisEnabled.Support = graphicsSettingsSupport.RisEnabled.Support;
 
 				//Set default
 				graphicsSettings.RisEnabled.Default = 0;
@@ -519,7 +519,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.RisSharpeningDegree.Support = true;
+				graphicsSettings.RisSharpeningDegree.Support = graphicsSettingsSupport.RisSharpeningDegree.Support;
 
 				//Set default
 				graphicsSettings.RisSharpeningDegree.Default = 80;
@@ -552,15 +552,82 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Radeon Image Sharpening 2
+			try
+			{
+				//Set support
+				graphicsSettings.Ris2Enabled.Support = graphicsSettingsSupport.Ris2Enabled.Support;
+
+				//Set default
+				graphicsSettings.Ris2Enabled.Default = 0;
+
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"Ris_PFEnable");
+				if (adlProperty.has_value())
+				{
+					//Set current
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
+						{
+							bool convertedValue = (bool)wstring_to_int(value.Value);
+							graphicsSettings.Ris2Enabled.Current = convertedValue;
+							break;
+						}
+					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.Ris2Enabled.Current = graphicsSettings.Ris2Enabled.Default;
+				}
+			}
+			catch (...) {}
+
+			//Radeon Image Sharpening 2 Desktop
 			{
 				//Not supported
 			}
+
+			//Radeon Image Sharpening 2 Sharpness
+			try
+			{
+				//Set support
+				graphicsSettings.Ris2SharpeningDegree.Support = graphicsSettingsSupport.Ris2SharpeningDegree.Support;
+
+				//Set default
+				graphicsSettings.Ris2SharpeningDegree.Default = 80;
+
+				//Set interface
+				graphicsSettings.Ris2SharpeningDegree.Minimum = 10;
+				graphicsSettings.Ris2SharpeningDegree.Maximum = 100;
+				graphicsSettings.Ris2SharpeningDegree.Step = 10;
+
+				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"Ris_SHDegree");
+				if (adlProperty.has_value())
+				{
+					//Set current
+					for (AdlAppPropertyValue value : adlProperty.value().Values)
+					{
+						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
+						{
+							float convertedValue = wstring_to_float(value.Value) * 100;
+							graphicsSettings.Ris2SharpeningDegree.Current = convertedValue;
+							break;
+						}
+					}
+				}
+				else
+				{
+					//Set current
+					graphicsSettings.Ris2SharpeningDegree.Current = graphicsSettings.Ris2SharpeningDegree.Default;
+				}
+			}
+			catch (...) {}
 
 			//Enhanced Sync
 			try
 			{
 				//Set support
-				graphicsSettings.EnhancedSync.Support = true;
+				graphicsSettings.EnhancedSync.Support = graphicsSettingsSupport.EnhancedSync.Support;
 
 				//Set default
 				graphicsSettings.EnhancedSync.Default = 0;
@@ -592,7 +659,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.VerticalSync.Support = true;
+				graphicsSettings.VerticalSync.Support = graphicsSettingsSupport.VerticalSync.Support;
 
 				//Set default
 				graphicsSettings.VerticalSync.Default = 1;
@@ -623,7 +690,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AntiAliasingOverride.Support = true;
+				graphicsSettings.AntiAliasingOverride.Support = graphicsSettingsSupport.AntiAliasingOverride.Support;
 
 				//Set default
 				graphicsSettings.AntiAliasingOverride.Default = 0;
@@ -654,7 +721,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AntiAliasingMethod.Support = true;
+				graphicsSettings.AntiAliasingMethod.Support = graphicsSettingsSupport.AntiAliasingMethod.Support;
 
 				//Set default
 				graphicsSettings.AntiAliasingMethod.Default = 0;
@@ -724,7 +791,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AntiAliasingLevel.Support = true;
+				graphicsSettings.AntiAliasingLevel.Support = graphicsSettingsSupport.AntiAliasingLevel.Support;
 
 				//Set default
 				graphicsSettings.AntiAliasingLevel.Default = 0;
@@ -768,7 +835,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AntiAliasingEnhancedQuality.Support = true;
+				graphicsSettings.AntiAliasingEnhancedQuality.Support = graphicsSettingsSupport.AntiAliasingEnhancedQuality.Support;
 
 				//Set default
 				graphicsSettings.AntiAliasingEnhancedQuality.Default = 0;
@@ -799,7 +866,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AntiAliasingMorphological.Support = true;
+				graphicsSettings.AntiAliasingMorphological.Support = graphicsSettingsSupport.AntiAliasingMorphological.Support;
 
 				//Set default
 				graphicsSettings.AntiAliasingMorphological.Default = 0;
@@ -830,7 +897,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.AnisotropicOverride.Support = true;
+				graphicsSettings.AnisotropicOverride.Support = graphicsSettingsSupport.AnisotropicOverride.Support;
 
 				//Set default
 				graphicsSettings.AnisotropicOverride.Default = 0;
@@ -882,7 +949,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.TextureFilteringQuality.Support = true;
+				graphicsSettings.TextureFilteringQuality.Support = graphicsSettingsSupport.TextureFilteringQuality.Support;
 
 				//Set default
 				graphicsSettings.TextureFilteringQuality.Default = 1;
@@ -913,7 +980,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.SurfaceFormatOptimization.Support = true;
+				graphicsSettings.SurfaceFormatOptimization.Support = graphicsSettingsSupport.SurfaceFormatOptimization.Support;
 
 				//Set default
 				graphicsSettings.SurfaceFormatOptimization.Default = 0;
@@ -944,7 +1011,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.TessellationMode.Support = true;
+				graphicsSettings.TessellationMode.Support = graphicsSettingsSupport.TessellationMode.Support;
 
 				//Set default
 				graphicsSettings.TessellationMode.Default = 0;
@@ -975,7 +1042,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.TessellationLevel.Support = true;
+				graphicsSettings.TessellationLevel.Support = graphicsSettingsSupport.TessellationLevel.Support;
 
 				//Set default
 				graphicsSettings.TessellationLevel.Default = 7;
@@ -1039,7 +1106,7 @@ namespace winrt::RadeonTuner::implementation
 			try
 			{
 				//Set support
-				graphicsSettings.OpenGLTripleBuffering.Support = true;
+				graphicsSettings.OpenGLTripleBuffering.Support = graphicsSettingsSupport.OpenGLTripleBuffering.Support;
 
 				//Set default
 				graphicsSettings.OpenGLTripleBuffering.Default = 0;
@@ -1069,6 +1136,12 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL 10-Bit Pixel Format
 			{
 				//Not supported
+			}
+
+			//Set current value to default value
+			if (loadDefault)
+			{
+				graphicsSettings.SetCurrentToDefault();
 			}
 
 			//Return result
