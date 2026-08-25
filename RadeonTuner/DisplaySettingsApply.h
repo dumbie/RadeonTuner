@@ -71,6 +71,8 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//FreeSync Mode and Frame Rate
+			//Note: You can manually set the FreeSync Rate by using static usecase and providing microhertz for example: 50000000 (50Hz)
+			//Note: You cannot get the currently set FreeSync Rate from the driver which makes the setting unreliable and seems to reset on reboot.
 			try
 			{
 				//Get value
@@ -96,7 +98,6 @@ namespace winrt::RadeonTuner::implementation
 					//Static
 					freeSyncMode = ADL_FREESYNC_USECASE_STATIC;
 					freeSyncFrameRate = 0;
-					//freeSyncFrameRate = newValueFrameRate * 1000000;
 				}
 
 				//Set setting
@@ -389,7 +390,7 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//Color Gamma Red Green Blue
-			//Fix some applications and resolution changes seem to block or reset set gamma (ADL2 wraps around SetDeviceGammaRamp) find better alternative that always works.
+			//Fix Some applications and resolution changes seem to block or reset set gamma (ADL2 wraps around SetDeviceGammaRamp) find better alternative that always works.
 			//Fix Applying other settings at the same time breaks applying gamma, wait before others are set before applying gamma.
 			try
 			{

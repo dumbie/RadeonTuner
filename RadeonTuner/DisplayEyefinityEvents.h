@@ -19,6 +19,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
+				//Fix load current Eyefinity settings
+
 				//Load Eyefinity displays
 				AdlxValuesLoadEyefinityDisplays();
 

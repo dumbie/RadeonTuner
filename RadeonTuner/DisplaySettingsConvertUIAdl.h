@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//HDR Enabled
-			if (displaySettings.HdrEnabled.Support.has_value() && displaySettings.HdrEnabled.Support.value())
+			if (displaySettings.HdrEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FreeSync Mode
-			if (displaySettings.FreeSyncMode.Support.has_value() && displaySettings.FreeSyncMode.Support.value())
+			if (displaySettings.FreeSyncMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -65,8 +65,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				combobox_Display_FreeSyncMode().IsEnabled(true);
-
-				//Fix disable framerate slider when not static
 			}
 			else
 			{
@@ -77,51 +75,8 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_FreeSyncMode().IsEnabled(false);
 			}
 
-			//FreeSync Frame Rate
-			if (displaySettings.FreeSyncFrameRate.Support.has_value() && displaySettings.FreeSyncFrameRate.Support.value())
-			{
-				//Get setting
-				int valueInt = 0;
-				if (displaySettings.FreeSyncFrameRate.Current.has_value())
-				{
-					valueInt = displaySettings.FreeSyncFrameRate.Current.value();
-				}
-				else if (displaySettings.FreeSyncFrameRate.Default.has_value())
-				{
-					valueInt = displaySettings.FreeSyncFrameRate.Default.value();
-				}
-
-				//Set setting value
-				slider_Display_FreeSyncFrameRate().Value(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = L"? Hz";
-				//std::wstring valueHint = number_to_wstring(valueInt) + L" Hz";
-				textblock_Display_FreeSyncFrameRate_Value().Text(valueHint);
-
-				//Enable or disable interface
-				slider_Display_FreeSyncFrameRate().IsEnabled(true);
-
-				//Set interface
-				if (displaySettings.FreeSyncFrameRate.Minimum.has_value())
-				{
-					slider_Display_FreeSyncFrameRate().Minimum(displaySettings.FreeSyncFrameRate.Minimum.value());
-					slider_Display_FreeSyncFrameRate().Maximum(displaySettings.FreeSyncFrameRate.Maximum.value());
-					slider_Display_FreeSyncFrameRate().StepFrequency(displaySettings.FreeSyncFrameRate.Step.value());
-					slider_Display_FreeSyncFrameRate().SmallChange(displaySettings.FreeSyncFrameRate.Step.value());
-				}
-			}
-			else
-			{
-				//Set hint value
-				textblock_Display_FreeSyncFrameRate_Value().Text(L"");
-
-				//Enable or disable interface
-				slider_Display_FreeSyncFrameRate().IsEnabled(false);
-			}
-
 			//Virtual Super Resolution
-			if (displaySettings.VsrEnabled.Support.has_value() && displaySettings.VsrEnabled.Support.value())
+			if (displaySettings.VsrEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -154,7 +109,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Gpu Scaling
-			if (displaySettings.GpuScalingEnabled.Support.has_value() && displaySettings.GpuScalingEnabled.Support.value())
+			if (displaySettings.GpuScalingEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -187,7 +142,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Integer Scaling
-			if (displaySettings.IntegerScalingEnabled.Support.has_value() && displaySettings.IntegerScalingEnabled.Support.value())
+			if (displaySettings.IntegerScalingEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -220,7 +175,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Scaling Mode
-			if (displaySettings.ScalingMode.Support.has_value() && displaySettings.ScalingMode.Support.value())
+			if (displaySettings.ScalingMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -253,7 +208,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Depth
-			if (displaySettings.ColorDepth.Support.has_value() && displaySettings.ColorDepth.Support.value())
+			if (displaySettings.ColorDepth.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -286,7 +241,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Pixel Format
-			if (displaySettings.PixelFormat.Support.has_value() && displaySettings.PixelFormat.Support.value())
+			if (displaySettings.PixelFormat.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -319,7 +274,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Enhancement
-			if (displaySettings.ColorEnhancement.Support.has_value() && displaySettings.ColorEnhancement.Support.value())
+			if (displaySettings.ColorEnhancement.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -352,7 +307,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Temperature Control
-			if (displaySettings.ColorTemperatureControl.Support.has_value() && displaySettings.ColorTemperatureControl.Support.value())
+			if (displaySettings.ColorTemperatureControl.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -367,7 +322,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Display_ColorTemperature_Control().IsOn(valueInt);
-				slider_Display_ColorTemperature_Kelvin().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -375,6 +329,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Display_ColorTemperature_Control().IsEnabled(true);
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -387,7 +342,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Temperature Kelvin
-			if (displaySettings.ColorTemperatureKelvin.Support.has_value() && displaySettings.ColorTemperatureKelvin.Support.value())
+			if (displaySettings.ColorTemperatureKelvin.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -426,7 +381,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Brightness
-			if (displaySettings.Brightness.Support.has_value() && displaySettings.Brightness.Support.value())
+			if (displaySettings.Brightness.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -468,7 +423,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Contrast
-			if (displaySettings.Contrast.Support.has_value() && displaySettings.Contrast.Support.value())
+			if (displaySettings.Contrast.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -510,7 +465,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Saturation
-			if (displaySettings.Saturation.Support.has_value() && displaySettings.Saturation.Support.value())
+			if (displaySettings.Saturation.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -552,7 +507,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Hue
-			if (displaySettings.Hue.Support.has_value() && displaySettings.Hue.Support.value())
+			if (displaySettings.Hue.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -594,7 +549,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Gamma Red
-			if (displaySettings.GammaRed.Support.has_value() && displaySettings.GammaRed.Support.value())
+			if (displaySettings.GammaRed.Support)
 			{
 				//Get setting
 				float valueFloat = 0.0f;
@@ -636,7 +591,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Gamma Green
-			if (displaySettings.GammaGreen.Support.has_value() && displaySettings.GammaGreen.Support.value())
+			if (displaySettings.GammaGreen.Support)
 			{
 				//Get setting
 				float valueFloat = 0.0f;
@@ -678,7 +633,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Gamma Blue
-			if (displaySettings.GammaBlue.Support.has_value() && displaySettings.GammaBlue.Support.value())
+			if (displaySettings.GammaBlue.Support)
 			{
 				//Get setting
 				float valueFloat = 0.0f;
@@ -720,7 +675,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Control
-			if (displaySettings.CVDCControl.Support.has_value() && displaySettings.CVDCControl.Support.value())
+			if (displaySettings.CVDCControl.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -735,9 +690,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Display_CVDC_Control().IsOn(valueInt);
-				slider_Display_Protanopia().IsEnabled(valueInt);
-				slider_Display_Deuteranopia().IsEnabled(valueInt);
-				slider_Display_Tritanopia().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -745,6 +697,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Display_CVDC_Control().IsEnabled(true);
+				slider_Display_Protanopia().IsEnabled(valueInt);
+				slider_Display_Deuteranopia().IsEnabled(valueInt);
+				slider_Display_Tritanopia().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -759,7 +714,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Protanopia
-			if (displaySettings.CVDCProtanopia.Support.has_value() && displaySettings.CVDCProtanopia.Support.value())
+			if (displaySettings.CVDCProtanopia.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -798,7 +753,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Deuteranopia
-			if (displaySettings.CVDCDeuteranopia.Support.has_value() && displaySettings.CVDCDeuteranopia.Support.value())
+			if (displaySettings.CVDCDeuteranopia.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -837,7 +792,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Tritanopia
-			if (displaySettings.CVDCTritanopia.Support.has_value() && displaySettings.CVDCTritanopia.Support.value())
+			if (displaySettings.CVDCTritanopia.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -876,7 +831,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vari-Bright Enabled
-			if (displaySettings.VariBrightEnabled.Support.has_value() && displaySettings.VariBrightEnabled.Support.value())
+			if (displaySettings.VariBrightEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -891,7 +846,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Display_VariBright().IsOn(valueInt);
-				combobox_Display_VariBright_Level().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -899,6 +853,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Display_VariBright().IsEnabled(true);
+				combobox_Display_VariBright_Level().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -911,7 +866,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vari-Bright Level
-			if (displaySettings.VariBrightLevel.Support.has_value() && displaySettings.VariBrightLevel.Support.value())
+			if (displaySettings.VariBrightLevel.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -941,7 +896,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//HDCP Support
-			if (displaySettings.HDCPEnabled.Support.has_value() && displaySettings.HDCPEnabled.Support.value())
+			if (displaySettings.HDCPEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;

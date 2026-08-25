@@ -21,12 +21,6 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_FreeSyncMode().SelectedIndex(displaySettings.FreeSyncMode.Get(settingType).value());
 			}
 
-			//FreeSync Frame Rate
-			if (displaySettings.FreeSyncFrameRate.Get(settingType).has_value())
-			{
-				slider_Display_FreeSyncFrameRate().Value(displaySettings.FreeSyncFrameRate.Get(settingType).value());
-			}
-
 			//Virtual Super Resolution
 			if (displaySettings.VsrEnabled.Get(settingType).has_value())
 			{
@@ -73,6 +67,7 @@ namespace winrt::RadeonTuner::implementation
 			if (displaySettings.ColorTemperatureControl.Get(settingType).has_value())
 			{
 				toggleswitch_Display_ColorTemperature_Control().IsOn(displaySettings.ColorTemperatureControl.Get(settingType).value());
+				slider_Display_ColorTemperature_Kelvin().IsEnabled(displaySettings.ColorTemperatureControl.Get(settingType).value());
 			}
 
 			//Color Temperature Kelvin
@@ -127,6 +122,9 @@ namespace winrt::RadeonTuner::implementation
 			if (displaySettings.CVDCControl.Get(settingType).has_value())
 			{
 				toggleswitch_Display_CVDC_Control().IsOn(displaySettings.CVDCControl.Get(settingType).value());
+				slider_Display_Protanopia().IsEnabled(displaySettings.CVDCControl.Get(settingType).value());
+				slider_Display_Deuteranopia().IsEnabled(displaySettings.CVDCControl.Get(settingType).value());
+				slider_Display_Tritanopia().IsEnabled(displaySettings.CVDCControl.Get(settingType).value());
 			}
 
 			//Color Deficiency Correction Protanopia
@@ -157,6 +155,7 @@ namespace winrt::RadeonTuner::implementation
 			if (displaySettings.VariBrightLevel.Get(settingType).has_value())
 			{
 				combobox_Display_VariBright_Level().SelectedIndex(displaySettings.VariBrightLevel.Get(settingType).value());
+				combobox_Display_VariBright_Level().IsEnabled(displaySettings.VariBrightLevel.Get(settingType).value());
 			}
 
 			//HDCP Support

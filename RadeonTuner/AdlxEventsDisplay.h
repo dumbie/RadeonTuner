@@ -32,7 +32,7 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
 
 				//Get current and default settings
-				DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, executableName).value();
+				DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, executableName, true).value();
 
 				//Add display settings profile
 				if (DisplaySettings_Profile_Add(displaySettingsAdl))
@@ -75,11 +75,11 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
-			//Get current device identifier
-			std::wstring currentDeviceIdW = displaySettingsCurrent.get().DeviceId.value();
+			//Device identifier
+			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
 
-			//Get current application name
-			std::wstring currentApplicationW = displaySettingsCurrent.get().Application.value();
+			//Device application
+			std::wstring applicationW = displaySettingsCurrent.get().Application.value();
 
 			//Remove selected items
 			int removeCount = 0;
@@ -90,13 +90,13 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
 
 				//Remove application and profile
-				if (DisplaySettings_Profile_Remove(currentDeviceIdW, executableName))
+				if (DisplaySettings_Profile_Remove(deviceIdW, executableName))
 				{
 					//Update remove count
 					removeCount++;
 
 					//Check if current application is removed
-					if (executableName == currentApplicationW)
+					if (executableName == applicationW)
 					{
 						currentAppRemoved = true;
 					}
@@ -137,6 +137,9 @@ namespace winrt::RadeonTuner::implementation
 			//Profile is used
 			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
 
+			//Profile global
+			bool globalProfile = displaySettingsCurrent.get().Global();
+
 			//Device identifier
 			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
 
@@ -149,11 +152,8 @@ namespace winrt::RadeonTuner::implementation
 			//Check if profile is used
 			if (usingProfile)
 			{
-				//Check settings apply type
-				bool appOnly = !displaySettingsCurrent.get().Global();
-
 				//Apply current settings
-				bool applyResult = AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.get(), AdlSettingGet::Current, appOnly);
+				bool applyResult = AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.get(), AdlSettingGet::Current, !globalProfile);
 
 				//Check result
 				if (applyResult)
@@ -208,6 +208,9 @@ namespace winrt::RadeonTuner::implementation
 			//Profile is used
 			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
 
+			//Profile global
+			bool globalProfile = displaySettingsCurrent.get().Global();
+
 			//Device identifier
 			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
 
@@ -225,13 +228,10 @@ namespace winrt::RadeonTuner::implementation
 			if (usingProfile)
 			{
 				//Get current and default settings
-				DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"").value();
-
-				//Check settings apply type
-				bool appOnly = !displaySettingsCurrent.get().Global();
+				DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"", true).value();
 
 				//Apply default settings
-				AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettings, AdlSettingGet::Default, appOnly);
+				AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettings, AdlSettingGet::Default, !globalProfile);
 			}
 
 			//Show notification
@@ -308,26 +308,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			displaySettingsCurrent.get().FreeSyncMode.Current = newValue;
-		}
-		catch (...) {}
-	}
-
-	void MainPage::slider_Display_FreeSyncFrameRate_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			int newValue = (int)e.NewValue();
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Display_Apply().Background(colorIgnored);
-
-			//Update current value
-			displaySettingsCurrent.get().FreeSyncFrameRate.Current = newValue;
 		}
 		catch (...) {}
 	}

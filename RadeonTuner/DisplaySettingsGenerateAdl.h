@@ -5,13 +5,10 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::optional<DisplaySettings> MainPage::DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex, std::wstring application)
+	std::optional<DisplaySettings> MainPage::DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex, std::wstring application, bool loadDefault)
 	{
 		try
 		{
-			//Fix find way to check if setting is supported and disable interface.
-			//Fix load current Eyefinity settings.
-
 			DisplaySettings displaySettings{};
 
 			//Device identifier
@@ -32,19 +29,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_HDRState_Get(adl_Context, adapterIndex, displayId, &hdrSupported, &hdrEnabled);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set current
-					displaySettings.HdrEnabled.Current = hdrEnabled;
-
 					//Set default
 					displaySettings.HdrEnabled.Default = 0;
 
+					//Set current
+					displaySettings.HdrEnabled.Current = hdrEnabled;
+
 					//Set support
 					displaySettings.HdrEnabled.Support = hdrSupported;
-				}
-				else
-				{
-					//Set support
-					displaySettings.HdrEnabled.Support = false;
 				}
 			}
 			catch (...) {}
@@ -59,6 +51,10 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_FreeSyncState_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &freeSyncCurrent, &freeSyncDefault, &freeSyncMinRefreshRateInMicroHz, &freeSyncMaxRefreshRateInMicroHz);
 				if (adl_Res0 == ADL_OK)
 				{
+					//Set default
+					displaySettings.FreeSyncMode.Default = 1;
+
+					//Set current
 					//Enumeration index correction
 					if (freeSyncCurrent == 0)
 					{
@@ -76,50 +72,8 @@ namespace winrt::RadeonTuner::implementation
 						displaySettings.FreeSyncMode.Current = 1;
 					}
 
-					//Set default
-					displaySettings.FreeSyncMode.Default = 1;
-
 					//Set support
 					displaySettings.FreeSyncMode.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.FreeSyncMode.Support = false;
-				}
-			}
-			catch (...) {}
-
-			//FreeSync Frame Rate
-			try
-			{
-				int freeSyncCurrent = -1;
-				int freeSyncDefault = -1;
-				int freeSyncMinRefreshRateInMicroHz = -1;
-				int freeSyncMaxRefreshRateInMicroHz = -1;
-				adl_Res0 = _ADL2_Display_FreeSyncState_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &freeSyncCurrent, &freeSyncDefault, &freeSyncMinRefreshRateInMicroHz, &freeSyncMaxRefreshRateInMicroHz);
-				if (adl_Res0 == ADL_OK)
-				{
-					//Set current
-					//Fix find way to get freesync static frame rate
-					displaySettings.FreeSyncFrameRate.Current = 0;
-
-					//Set default
-					displaySettings.FreeSyncFrameRate.Default = freeSyncMaxRefreshRateInMicroHz / 1000000;
-
-					//Set support
-					displaySettings.FreeSyncFrameRate.Support = true;
-
-					//Set interface
-					//Fix maximum refresh rate is capped to current display refresh rate not maximum
-					displaySettings.FreeSyncFrameRate.Minimum = freeSyncMinRefreshRateInMicroHz / 1000000;
-					displaySettings.FreeSyncFrameRate.Maximum = freeSyncMaxRefreshRateInMicroHz / 1000000;
-					displaySettings.FreeSyncFrameRate.Step = 1;
-				}
-				else
-				{
-					//Set support
-					displaySettings.FreeSyncFrameRate.Support = false;
 				}
 			}
 			catch (...) {}
@@ -133,19 +87,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Property_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set current
-					displaySettings.VsrEnabled.Current = displayProperty.iCurrent;
-
 					//Set default
 					displaySettings.VsrEnabled.Default = 0;
 
+					//Set current
+					displaySettings.VsrEnabled.Current = displayProperty.iCurrent;
+
 					//Set support
 					displaySettings.VsrEnabled.Support = displayProperty.iSupport;
-				}
-				else
-				{
-					//Set support
-					displaySettings.VsrEnabled.Support = false;
 				}
 			}
 			catch (...) {}
@@ -159,19 +108,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_DFP_GPUScalingEnable_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &gpuScalingSupported, &gpuScalingCurrent, &gpuScalingDefault);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set current
-					displaySettings.GpuScalingEnabled.Current = gpuScalingCurrent;
-
 					//Set default
 					displaySettings.GpuScalingEnabled.Default = gpuScalingDefault;
 
+					//Set current
+					displaySettings.GpuScalingEnabled.Current = gpuScalingCurrent;
+
 					//Set support
 					displaySettings.GpuScalingEnabled.Support = gpuScalingSupported;
-				}
-				else
-				{
-					//Set support
-					displaySettings.GpuScalingEnabled.Support = false;
 				}
 			}
 			catch (...) {}
@@ -185,19 +129,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Property_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &displayProperty);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.IntegerScalingEnabled.Current = displayProperty.iCurrent;
-
 					//Set default
 					displaySettings.IntegerScalingEnabled.Default = displayProperty.iDefault;
 
+					//Set current
+					displaySettings.IntegerScalingEnabled.Current = displayProperty.iCurrent;
+
 					//Set support
 					displaySettings.IntegerScalingEnabled.Support = displayProperty.iSupport;
-				}
-				else
-				{
-					//Set support
-					displaySettings.IntegerScalingEnabled.Support = false;
 				}
 			}
 			catch (...) {}
@@ -221,7 +160,11 @@ namespace winrt::RadeonTuner::implementation
 				//Check results
 				if (adl_Res0 == ADL_OK && adl_Res1 == ADL_OK)
 				{
-					//Check current mode
+					//Set default
+					displaySettings.ScalingMode.Default = 0;
+
+					//Set current
+					//Enumeration index correction
 					int currentMode = 0;
 					if (aspectRatioCurrent == 1)
 					{
@@ -239,19 +182,10 @@ namespace winrt::RadeonTuner::implementation
 						currentMode = 2;
 					}
 
-					//Set setting
 					displaySettings.ScalingMode.Current = currentMode;
-
-					//Set default
-					displaySettings.ScalingMode.Default = 0;
 
 					//Set support
 					displaySettings.ScalingMode.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.ScalingMode.Support = false;
 				}
 			}
 			catch (...) {}
@@ -263,19 +197,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_ColorDepth_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &colorDepth);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.ColorDepth.Current = colorDepth - 1;
-
 					//Set default
 					displaySettings.ColorDepth.Default = 1;
 
+					//Set current
+					displaySettings.ColorDepth.Current = colorDepth - 1;
+
 					//Set support
 					displaySettings.ColorDepth.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.ColorDepth.Support = false;
 				}
 			}
 			catch (...) {}
@@ -287,7 +216,10 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_PixelFormat_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &pixelFormat);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
+					//Set default
+					displaySettings.PixelFormat.Default = 2;
+
+					//Set current
 					//Enumeration index correction
 					if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE)
 					{
@@ -310,16 +242,8 @@ namespace winrt::RadeonTuner::implementation
 						displaySettings.PixelFormat.Current = 4;
 					}
 
-					//Set default
-					displaySettings.PixelFormat.Default = 2;
-
 					//Set support
 					displaySettings.PixelFormat.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.PixelFormat.Support = false;
 				}
 			}
 			catch (...) {}
@@ -332,7 +256,10 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_SCE_State_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &sceType, &sceStatus);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
+					//Set default
+					displaySettings.ColorEnhancement.Default = 0;
+
+					//Set current
 					//Enumeration index correction
 					if (sceType == (int)ADLColorEnhancementType::SCE_Disabled)
 					{
@@ -347,16 +274,8 @@ namespace winrt::RadeonTuner::implementation
 						displaySettings.ColorEnhancement.Current = 2;
 					}
 
-					//Set default
-					displaySettings.ColorEnhancement.Default = 0;
-
 					//Set support
 					displaySettings.ColorEnhancement.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.ColorEnhancement.Support = false;
 				}
 			}
 			catch (...) {}
@@ -368,19 +287,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_ColorTemperatureSource_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &lpTempSource);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.ColorTemperatureControl.Current = lpTempSource == ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER;
-
 					//Set default
 					displaySettings.ColorTemperatureControl.Default = 1;
 
+					//Set current
+					displaySettings.ColorTemperatureControl.Current = lpTempSource == ADL_DISPLAY_COLOR_TEMPERATURE_SOURCE_USER;
+
 					//Set support
 					displaySettings.ColorTemperatureControl.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.ColorTemperatureControl.Support = false;
 				}
 			}
 			catch (...) {}
@@ -396,11 +310,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_TEMPERATURE, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.ColorTemperatureKelvin.Current = colorCurrent;
-
 					//Set default
 					displaySettings.ColorTemperatureKelvin.Default = colorDefault;
+
+					//Set current
+					displaySettings.ColorTemperatureKelvin.Current = colorCurrent;
 
 					//Set interface
 					displaySettings.ColorTemperatureKelvin.Minimum = colorMin;
@@ -409,11 +323,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set support
 					displaySettings.ColorTemperatureKelvin.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.ColorTemperatureKelvin.Support = false;
 				}
 			}
 			catch (...) {}
@@ -429,11 +338,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_BRIGHTNESS, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.Brightness.Current = colorCurrent;
-
 					//Set default
 					displaySettings.Brightness.Default = colorDefault;
+
+					//Set current
+					displaySettings.Brightness.Current = colorCurrent;
 
 					//Set interface
 					displaySettings.Brightness.Minimum = colorMin;
@@ -442,11 +351,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set support
 					displaySettings.Brightness.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.Brightness.Support = false;
 				}
 			}
 			catch (...) {}
@@ -462,11 +366,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_CONTRAST, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.Contrast.Current = colorCurrent;
-
 					//Set default
 					displaySettings.Contrast.Default = colorDefault;
+
+					//Set current
+					displaySettings.Contrast.Current = colorCurrent;
 
 					//Set interface
 					displaySettings.Contrast.Minimum = colorMin;
@@ -475,11 +379,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set support
 					displaySettings.Contrast.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.Contrast.Support = false;
 				}
 			}
 			catch (...) {}
@@ -495,11 +394,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_SATURATION, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.Saturation.Current = colorCurrent;
-
 					//Set default
 					displaySettings.Saturation.Default = colorDefault;
+
+					//Set current
+					displaySettings.Saturation.Current = colorCurrent;
 
 					//Set interface
 					displaySettings.Saturation.Minimum = colorMin;
@@ -508,11 +407,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set support
 					displaySettings.Saturation.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.Saturation.Support = false;
 				}
 			}
 			catch (...) {}
@@ -528,11 +422,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_Color_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADL_DISPLAY_COLOR_HUE, &colorCurrent, &colorDefault, &colorMin, &colorMax, &colorStep);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.Hue.Current = colorCurrent;
-
 					//Set default
 					displaySettings.Hue.Default = colorDefault;
+
+					//Set current
+					displaySettings.Hue.Current = colorCurrent;
 
 					//Set interface
 					displaySettings.Hue.Minimum = colorMin;
@@ -541,11 +435,6 @@ namespace winrt::RadeonTuner::implementation
 
 					//Set support
 					displaySettings.Hue.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.Hue.Support = false;
 				}
 			}
 			catch (...) {}
@@ -557,7 +446,12 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Adapter_Gamma_Get(adl_Context, adl_Display_AdapterIndex, &gammaRamp);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
+					//Set default
+					displaySettings.GammaRed.Default = 1.0F;
+					displaySettings.GammaGreen.Default = 1.0F;
+					displaySettings.GammaBlue.Default = 1.0F;
+
+					//Set current
 					float redGain = 1.0F;
 					float greenGain = 1.0F;
 					float blueGain = 1.0F;
@@ -565,11 +459,6 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.GammaRed.Current = redGain;
 					displaySettings.GammaGreen.Current = greenGain;
 					displaySettings.GammaBlue.Current = blueGain;
-
-					//Set default
-					displaySettings.GammaRed.Default = 1.0F;
-					displaySettings.GammaGreen.Default = 1.0F;
-					displaySettings.GammaBlue.Default = 1.0F;
 
 					//Set support
 					displaySettings.GammaRed.Support = true;
@@ -587,13 +476,6 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.GammaBlue.Maximum = 2.0F;
 					displaySettings.GammaBlue.Step = 0.01F;
 				}
-				else
-				{
-					//Set support
-					displaySettings.GammaRed.Support = false;
-					displaySettings.GammaGreen.Support = false;
-					displaySettings.GammaBlue.Support = false;
-				}
 			}
 			catch (...) {}
 
@@ -604,19 +486,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_ENABLED, &cvdcEnabled);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.CVDCControl.Current = cvdcEnabled;
-
 					//Set default
 					displaySettings.CVDCControl.Default = 0;
 
+					//Set current
+					displaySettings.CVDCControl.Current = cvdcEnabled;
+
 					//Set support
 					displaySettings.CVDCControl.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.CVDCControl.Support = false;
 				}
 			}
 			catch (...) {}
@@ -628,11 +505,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_PROTANOPIA, &cvdcProtanopia);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.CVDCProtanopia.Current = cvdcProtanopia;
-
 					//Set default
 					displaySettings.CVDCProtanopia.Default = 10;
+
+					//Set setting
+					displaySettings.CVDCProtanopia.Current = cvdcProtanopia;
 
 					//Set support
 					displaySettings.CVDCProtanopia.Support = true;
@@ -641,11 +518,6 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.CVDCProtanopia.Minimum = 0;
 					displaySettings.CVDCProtanopia.Maximum = 20;
 					displaySettings.CVDCProtanopia.Step = 1;
-				}
-				else
-				{
-					//Set support
-					displaySettings.CVDCProtanopia.Support = false;
 				}
 			}
 			catch (...) {}
@@ -657,11 +529,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_DEUTERANOPIA, &cvdcDeuteranopia);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.CVDCDeuteranopia.Current = cvdcDeuteranopia;
-
 					//Set default
 					displaySettings.CVDCDeuteranopia.Default = 0;
+
+					//Set setting
+					displaySettings.CVDCDeuteranopia.Current = cvdcDeuteranopia;
 
 					//Set support
 					displaySettings.CVDCDeuteranopia.Support = true;
@@ -670,11 +542,6 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.CVDCDeuteranopia.Minimum = 0;
 					displaySettings.CVDCDeuteranopia.Maximum = 20;
 					displaySettings.CVDCDeuteranopia.Step = 1;
-				}
-				else
-				{
-					//Set support
-					displaySettings.CVDCDeuteranopia.Support = false;
 				}
 			}
 			catch (...) {}
@@ -686,11 +553,11 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_CVDC_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, ADLCvdcType::CVDC_TRITANOPIA, &cvdcTritanopia);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.CVDCTritanopia.Current = cvdcTritanopia;
-
 					//Set default
 					displaySettings.CVDCTritanopia.Default = 0;
+
+					//Set setting
+					displaySettings.CVDCTritanopia.Current = cvdcTritanopia;
 
 					//Set support
 					displaySettings.CVDCTritanopia.Support = true;
@@ -699,11 +566,6 @@ namespace winrt::RadeonTuner::implementation
 					displaySettings.CVDCTritanopia.Minimum = 0;
 					displaySettings.CVDCTritanopia.Maximum = 20;
 					displaySettings.CVDCTritanopia.Step = 1;
-				}
-				else
-				{
-					//Set support
-					displaySettings.CVDCTritanopia.Support = false;
 				}
 			}
 			catch (...) {}
@@ -717,19 +579,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Adapter_VariBright_Caps(adl_Context, adl_Gpu_AdapterIndex, &variSupported, &variEnabled, &variVersion);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.VariBrightEnabled.Current = variEnabled;
-
 					//Set default
 					displaySettings.VariBrightEnabled.Default = 1;
 
+					//Set setting
+					displaySettings.VariBrightEnabled.Current = variEnabled;
+
 					//Set support
 					displaySettings.VariBrightEnabled.Support = variSupported;
-				}
-				else
-				{
-					//Set support
-					displaySettings.VariBrightEnabled.Support = false;
 				}
 			}
 			catch (...) {}
@@ -744,19 +601,14 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Adapter_VariBrightLevel_Get(adl_Context, adl_Gpu_AdapterIndex, &variDefaultLevel, &variNumberOfLevels, &variStep, &variCurrentLevel);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.VariBrightLevel.Current = variCurrentLevel;
-
 					//Set default
 					displaySettings.VariBrightLevel.Default = 2;
 
+					//Set setting
+					displaySettings.VariBrightLevel.Current = variCurrentLevel;
+
 					//Set support
 					displaySettings.VariBrightLevel.Support = true;
-				}
-				else
-				{
-					//Set support
-					displaySettings.VariBrightLevel.Support = false;
 				}
 			}
 			catch (...) {}
@@ -768,22 +620,23 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_HDCP_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &lpHDCPSettings);
 				if (adl_Res0 == ADL_OK)
 				{
-					//Set setting
-					displaySettings.HDCPEnabled.Current = lpHDCPSettings.iAllowAll;
-
 					//Set default
 					displaySettings.HDCPEnabled.Default = 1;
+
+					//Set setting
+					displaySettings.HDCPEnabled.Current = lpHDCPSettings.iAllowAll;
 
 					//Set support
 					displaySettings.HDCPEnabled.Support = true;
 				}
-				else
-				{
-					//Set support
-					displaySettings.HDCPEnabled.Support = false;
-				}
 			}
 			catch (...) {}
+
+			//Set current value to default value
+			if (loadDefault)
+			{
+				displaySettings.SetCurrentToDefault();
+			}
 
 			//Return result
 			return displaySettings;
