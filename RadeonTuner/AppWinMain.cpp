@@ -31,19 +31,21 @@ void ShowProcessMainWindow(std::vector<AVProcess> processList)
 	catch (...) {}
 }
 
-int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+int CALLBACK wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nCmdShow)
 {
 	try
 	{
+		//Convert command line to string
+		std::wstring commandLineString = pCmdLine;
+
 		//Get application root path
 		std::wstring applicationRootPath = PathGetAppRoot();
 
 		//Set working directory to application root
 		SetCurrentDirectoryW(applicationRootPath.c_str());
 
-		//Checking folder write permission
-		bool writePermission = FolderWritePermission(L"");
-		if (!writePermission)
+		//Check folder write permission
+		if (!FolderWritePermission(L""))
 		{
 			AVDebugWriteLine("No write permission in working directory.");
 
@@ -64,11 +66,13 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		}
 
 		//Enable debug logging
-		//Fix add -debug command line to enable debug logging
-		//std::wstring debugLogPath = PathMerge(AppVariables::SaveDataPath, L"Debug.log");
-		//FileDelete(debugLogPath);
-		//AVDebugWriteLineLogFileEnabled = true;
-		//AVDebugWriteLineLogFilePath = debugLogPath;
+		if (wstring_contains(commandLineString, L"-debug"))
+		{
+			std::wstring debugLogPath = PathMerge(AppVariables::SaveDataPath, L"Debug.log");
+			FileDelete(debugLogPath);
+			AVDebugWriteLineLogFileEnabled = true;
+			AVDebugWriteLineLogFilePath = debugLogPath;
+		}
 
 		AVDebugWriteLine("Welcome to RadeonTuner.");
 
