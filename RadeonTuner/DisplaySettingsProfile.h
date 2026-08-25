@@ -19,6 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			auto displaySettingsProfile = DisplaySettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
+			bool profileAdded = false;
 			if (!displaySettingsProfile.has_value())
 			{
 				//Check if any profile is used
@@ -29,15 +30,13 @@ namespace winrt::RadeonTuner::implementation
 
 				//Add settings profile
 				displaySettingsCache.push_back(displaySettings);
-
-				//Save settings profile
-				DisplaySettings_Profiles_SaveToFile();
+				profileAdded = true;
 
 				AVDebugWriteLine(L"Added display settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << displaySettings.UsingProfile);
 			}
 
 			//Return result
-			return true;
+			return profileAdded;
 		}
 		catch (...)
 		{
@@ -268,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize profiles
-			displaySettingsCache = jsonstring_to_struct<std::vector<DisplaySettings>>(jsonStringW);
+			displaySettingsCache = jsonstring_to_struct<std::deque<DisplaySettings>>(jsonStringW);
 
 			//Set Global profile as using
 			DisplaySettings_Profile_Set_UsingGlobal();

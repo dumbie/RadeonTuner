@@ -19,6 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			auto multimediaSettingsProfile = MultimediaSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
+			bool profileAdded = false;
 			if (!multimediaSettingsProfile.has_value())
 			{
 				//Check if any profile is used
@@ -29,15 +30,13 @@ namespace winrt::RadeonTuner::implementation
 
 				//Add settings profile
 				multimediaSettingsCache.push_back(multimediaSettings);
-
-				//Save settings profile
-				MultimediaSettings_Profiles_SaveToFile();
+				profileAdded = true;
 
 				AVDebugWriteLine(L"Added multimedia settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << multimediaSettings.UsingProfile);
 			}
 
 			//Return result
-			return true;
+			return profileAdded;
 		}
 		catch (...)
 		{
@@ -268,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize profiles
-			multimediaSettingsCache = jsonstring_to_struct<std::vector<MultimediaSettings>>(jsonStringW);
+			multimediaSettingsCache = jsonstring_to_struct<std::deque<MultimediaSettings>>(jsonStringW);
 
 			//Set Global profile as using
 			MultimediaSettings_Profile_Set_UsingGlobal();

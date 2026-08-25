@@ -19,22 +19,18 @@ namespace winrt::RadeonTuner::implementation
 			auto graphicsSettingsProfile = GraphicsSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
+			bool profileAdded = false;
 			if (!graphicsSettingsProfile.has_value())
 			{
-				//Check if any profile is used
-				if (!GraphicsSettings_Profile_Any_Using(deviceIdW))
-				{
-					graphicsSettings.UsingProfile = true;
-				}
-
 				//Add settings profile
 				graphicsSettingsCache.push_back(graphicsSettings);
+				profileAdded = true;
 
-				AVDebugWriteLine(L"Added graphics settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << graphicsSettings.UsingProfile);
+				AVDebugWriteLine(L"Added graphics settings profile: " << deviceIdW << L" / " << applicationW);
 			}
 
 			//Return result
-			return true;
+			return profileAdded;
 		}
 		catch (...)
 		{
@@ -114,94 +110,6 @@ namespace winrt::RadeonTuner::implementation
 		return apps;
 	}
 
-	bool MainPage::GraphicsSettings_Profile_Set_UsingGlobal()
-	{
-		try
-		{
-			for (GraphicsSettings& graphicsSettings : graphicsSettingsCache)
-			{
-				try
-				{
-					if (graphicsSettings.Global())
-					{
-						graphicsSettings.UsingProfile = true;
-					}
-					else
-					{
-						graphicsSettings.UsingProfile = false;
-					}
-				}
-				catch (...) {}
-			}
-
-			//Return result
-			return true;
-		}
-		catch (...)
-		{
-			//Return result
-			return false;
-		}
-	}
-
-	bool MainPage::GraphicsSettings_Profile_Set_Using(std::wstring deviceId, std::wstring application)
-	{
-		try
-		{
-			for (GraphicsSettings& graphicsSettings : graphicsSettingsCache)
-			{
-				try
-				{
-					if (graphicsSettings.DeviceId.value() == deviceId)
-					{
-						if (graphicsSettings.Application.value() == application)
-						{
-							graphicsSettings.UsingProfile = true;
-						}
-						else
-						{
-							graphicsSettings.UsingProfile = false;
-						}
-					}
-				}
-				catch (...) {}
-			}
-
-			//Return result
-			return true;
-		}
-		catch (...)
-		{
-			//Return result
-			return false;
-		}
-	}
-
-	bool MainPage::GraphicsSettings_Profile_Any_Using(std::wstring deviceId)
-	{
-		bool anyUsing = false;
-		try
-		{
-			for (GraphicsSettings& graphicsSettings : graphicsSettingsCache)
-			{
-				try
-				{
-					if (graphicsSettings.DeviceId.value() == deviceId)
-					{
-						if (graphicsSettings.UsingProfile)
-						{
-							anyUsing = true;
-						}
-					}
-				}
-				catch (...) {}
-			}
-		}
-		catch (...) {}
-		//Return result
-		return anyUsing;
-	}
-
 	std::optional<GraphicsSettings> MainPage::GraphicsSettings_Profile_LoadFromFile(std::wstring loadPath)
 	{
 		try
@@ -267,10 +175,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize profiles
-			graphicsSettingsCache = jsonstring_to_struct<std::vector<GraphicsSettings>>(jsonStringW);
-
-			//Set Global profile as using
-			GraphicsSettings_Profile_Set_UsingGlobal();
+			graphicsSettingsCache = jsonstring_to_struct<std::deque<GraphicsSettings>>(jsonStringW);
 
 			AVDebugWriteLine("Loaded graphics profiles: " << graphicsSettingsCache.size());
 			return true;

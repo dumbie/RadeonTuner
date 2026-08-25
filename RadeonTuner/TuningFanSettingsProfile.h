@@ -19,6 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
+			bool profileAdded = false;
 			if (!tuningFanSettingsProfile.has_value())
 			{
 				//Check if any profile is used
@@ -29,15 +30,13 @@ namespace winrt::RadeonTuner::implementation
 
 				//Add settings profile
 				tuningFanSettingsCache.push_back(tuningFanSettings);
-
-				//Save settings profile
-				TuningFanSettings_Profiles_SaveToFile();
+				profileAdded = true;
 
 				AVDebugWriteLine(L"Added tuning settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << tuningFanSettings.UsingProfile);
 			}
 
 			//Return result
-			return true;
+			return profileAdded;
 		}
 		catch (...)
 		{
@@ -268,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring jsonStringW = file_to_string(pathSettingFileW);
 
 			//Deserialize profiles
-			tuningFanSettingsCache = jsonstring_to_struct<std::vector<TuningFanSettings>>(jsonStringW);
+			tuningFanSettingsCache = jsonstring_to_struct<std::deque<TuningFanSettings>>(jsonStringW);
 
 			//Set Global profile as using
 			TuningFanSettings_Profile_Set_UsingGlobal();

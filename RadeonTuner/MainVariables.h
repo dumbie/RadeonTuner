@@ -38,16 +38,16 @@ inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
 //Settings
 inline TuningFanSettings _tuningFanSettingsDefault{ .Application = L"Global", .UsingProfile = true };
 inline std::reference_wrapper<TuningFanSettings> tuningFanSettingsCurrent{ _tuningFanSettingsDefault };
-inline std::vector<TuningFanSettings> tuningFanSettingsCache{};
+inline std::deque<TuningFanSettings> tuningFanSettingsCache{};
 
 inline DisplaySettings _displaySettingsDefault{ .Application = L"Global", .UsingProfile = true };
 inline std::reference_wrapper<DisplaySettings> displaySettingsCurrent{ _displaySettingsDefault };
-inline std::vector<DisplaySettings> displaySettingsCache{};
+inline std::deque<DisplaySettings> displaySettingsCache{};
 
-inline GraphicsSettings _graphicsSettingsDefault{ .Application = L"Global", .UsingProfile = true };
+inline GraphicsSettings _graphicsSettingsDefault{ .Application = L"Global" };
 inline std::reference_wrapper<GraphicsSettings> graphicsSettingsCurrent{ _graphicsSettingsDefault };
-inline std::vector<GraphicsSettings> graphicsSettingsCache{};
+inline std::deque<GraphicsSettings> graphicsSettingsCache{};
 
 inline MultimediaSettings _multimediaSettingsDefault{ .Application = L"Global", .UsingProfile = true };
 inline std::reference_wrapper<MultimediaSettings> multimediaSettingsCurrent{ _multimediaSettingsDefault };
-inline std::vector<MultimediaSettings> multimediaSettingsCache{};
+inline std::deque<MultimediaSettings> multimediaSettingsCache{};
