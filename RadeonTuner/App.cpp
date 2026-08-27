@@ -136,6 +136,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				AVDebugWriteLine("Closing application to tray.");
 
+				//Fix unload xaml resources to reduce memory load when in tray
+
 				//Show window in hidden state
 				ShowWindow(_hWnd_MainWindow, SW_HIDE);
 			}
@@ -174,6 +176,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 		}
 		catch (...) {}
+	}
+
+	CoreDispatcher App::GetDispatcher()
+	{
+		return _dispatcher;
 	}
 
 	HWND App::GetWindowHandle()
@@ -308,7 +315,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Create main window
-			int windowWidth = 1320;
+			int windowWidth = 1340;
 			int windowHeight = 960;
 			long dwStyle = WS_VISIBLE | WS_OVERLAPPEDWINDOW;
 
@@ -357,7 +364,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Hide main window based on setting
-			//Note: On Windows 10 hiding the xaml window breaks rendering
+			//Note: On Windows 10 hiding the xaml window directly breaks rendering
 			if (!winVisible)
 			{
 				ShowWindow(_hWnd_MainWindow, SW_HIDE);

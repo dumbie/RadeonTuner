@@ -9,6 +9,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 	public:
 		App();
+		CoreDispatcher GetDispatcher();
 		HWND GetWindowHandle();
 		HWND GetXamlHandle();
 		bool GetIsWindowVisible();
