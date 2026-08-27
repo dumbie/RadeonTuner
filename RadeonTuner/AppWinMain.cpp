@@ -31,6 +31,28 @@ void ShowProcessMainWindow(std::vector<AVProcess> processList)
 	catch (...) {}
 }
 
+void CheckFileAttributes()
+{
+	try
+	{
+		//Get path to local application data
+		std::wstring pathLocalAppData = PathGetFolderKnown(FOLDERID_LocalAppData);
+
+		//Check setting files
+		FileAdjustAttributes(PathMerge(AppVariables::SaveDataPath, L"Settings\\Settings.json"), true, FILE_ATTRIBUTE_READONLY);
+
+		//Check profile files
+		FileAdjustAttributes(PathMerge(AppVariables::SaveDataPath, L"Profiles\\DisplayProfiles.json"), true, FILE_ATTRIBUTE_READONLY);
+		FileAdjustAttributes(PathMerge(AppVariables::SaveDataPath, L"Profiles\\GraphicsProfiles.json"), true, FILE_ATTRIBUTE_READONLY);
+		FileAdjustAttributes(PathMerge(AppVariables::SaveDataPath, L"Profiles\\MultimediaProfiles.json"), true, FILE_ATTRIBUTE_READONLY);
+		FileAdjustAttributes(PathMerge(AppVariables::SaveDataPath, L"Profiles\\TuningProfiles.json"), true, FILE_ATTRIBUTE_READONLY);
+
+		//Check user.blb file
+		FileAdjustAttributes(PathMerge(pathLocalAppData, L"ATI\\ACE\\APL\\User.blb"), true, FILE_ATTRIBUTE_READONLY);
+	}
+	catch (...) {}
+}
+
 int CALLBACK wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nCmdShow)
 {
 	try
@@ -64,6 +86,9 @@ int CALLBACK wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 			//Set data path to application root
 			AppVariables::SaveDataPath = applicationRootPath;
 		}
+
+		//Check file attributes
+		CheckFileAttributes();
 
 		//Enable debug logging
 		if (wstring_contains(commandLineString, L"-debug"))
