@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 				deviceIdentifier = wstring_get_between(deviceIdentifier, L"\\", L"\\");
 
 				//Loop settings
-				std::optional<std::reference_wrapper<TuningFanSettings>> tuningFanSettingsProfileOpt;
+				std::optional<std::reference_wrapper<TuningFanSettings>> tuningFanSettingsRunningOpt;
 				for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
 				{
 					try
@@ -34,7 +34,7 @@ namespace winrt::RadeonTuner::implementation
 							{
 								if (tuningFanSettings.KeepActive.Current.value())
 								{
-									tuningFanSettingsProfileOpt = tuningFanSettings;
+									tuningFanSettingsRunningOpt = tuningFanSettings;
 								}
 							}
 
@@ -47,14 +47,14 @@ namespace winrt::RadeonTuner::implementation
 								//Check and set global profile
 								if (appNameLower == L"global")
 								{
-									tuningFanSettingsProfileOpt = tuningFanSettings;
+									tuningFanSettingsRunningOpt = tuningFanSettings;
 								}
 
 								//Check and set application profile
 								if (array_contains(processExeRunning, appNameLower))
 								{
 									//AVDebugWriteLine("Application profile application running: " << appNameLower);
-									tuningFanSettingsProfileOpt = tuningFanSettings;
+									tuningFanSettingsRunningOpt = tuningFanSettings;
 									break;
 								}
 							}
@@ -64,23 +64,23 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Compare settings
-				if (tuningFanSettingsProfileOpt.has_value())
+				if (tuningFanSettingsRunningOpt.has_value())
 				{
 					//Get profile value
-					TuningFanSettings& tuningFanSettingsProfile = tuningFanSettingsProfileOpt.value();
-					//AVDebugWriteLine("Comparing tuning and fans settings: " << tuningFanSettingsProfile.DeviceId.value() << L" / " << tuningFanSettingsProfile.Application.value());
+					TuningFanSettings& tuningFanSettingsRunning = tuningFanSettingsRunningOpt.value();
+					//AVDebugWriteLine("Comparing tuning and fans settings: " << tuningFanSettingsRunning.DeviceId.value() << L" / " << tuningFanSettingsRunning.Application.value());
 
 					//Check if keep active is enabled
 					bool keepActiveEnabled = false;
-					if (tuningFanSettingsProfile.KeepActive.Current.has_value())
+					if (tuningFanSettingsRunning.KeepActive.Current.has_value())
 					{
-						keepActiveEnabled = tuningFanSettingsProfile.KeepActive.Current.value();
+						keepActiveEnabled = tuningFanSettingsRunning.KeepActive.Current.value();
 					}
 
 					//Check if apply is required
-					if (tuningFanSettingsProfile.UsingProfile && !keepActiveEnabled)
+					if (tuningFanSettingsRunning.UsingProfile && !keepActiveEnabled)
 					{
-						//AVDebugWriteLine(L"Profile is currently in use: " << tuningFanSettingsProfile.Application.value());
+						//AVDebugWriteLine(L"Profile is currently in use: " << tuningFanSettingsRunning.Application.value());
 						continue;
 					}
 
@@ -88,18 +88,18 @@ namespace winrt::RadeonTuner::implementation
 					TuningFanSettings tuningFanSettingsAdl = TuningFanSettings_Generate_FromADL(adapterIndex, L"", false).value();
 
 					//Check if settings match
-					if (!TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsAdl))
+					if (!TuningFanSettings_Match(tuningFanSettingsRunning, tuningFanSettingsAdl))
 					{
 						AVDebugWriteLine("Tuning and fans settings do not match, applying settings.");
 
 						//Apply tuning and fans settings
-						bool applyResult = AdlTuningFanSettingsApply(adapterIndex, tuningFanSettingsProfile, AdlSettingGet::Current);
+						bool applyResult = AdlTuningFanSettingsApply(adapterIndex, tuningFanSettingsRunning, AdlSettingGet::Current);
 
 						//Check result
 						if (applyResult)
 						{
 							//Update application using status
-							TuningFanSettings_Profile_Set_Using(tuningFanSettingsProfile.DeviceId.value(), tuningFanSettingsProfile.Application.value());
+							TuningFanSettings_Profile_Set_Using(tuningFanSettingsRunning.DeviceId.value(), tuningFanSettingsRunning.Application.value());
 						}
 
 						std::function<void()> updateFunction = [=]
@@ -107,11 +107,11 @@ namespace winrt::RadeonTuner::implementation
 								if (applyResult)
 								{
 									//Show notification
-									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsProfile.Application.value());
-									AVDebugWriteLine(L"Tuning and fans settings applied: " << tuningFanSettingsProfile.Application.value());
+									ShowNotification(L"Tuning and fans settings applied: " + tuningFanSettingsRunning.Application.value());
+									AVDebugWriteLine(L"Tuning and fans settings applied: " << tuningFanSettingsRunning.Application.value());
 
 									//Load tuning and fans settings
-									AdlxValuesLoadSelectTuningApp(adapterIndex, tuningFanSettingsCurrent.get().Application.value());
+									AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
 								}
 							};
 						AppVariables::App.DispatcherInvoke(updateFunction);

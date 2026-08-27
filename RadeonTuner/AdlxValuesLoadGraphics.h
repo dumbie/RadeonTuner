@@ -44,17 +44,17 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring deviceId = graphicsSettingsAdl.DeviceId.value();
 
 			//Get and set settings
-			graphicsSettingsCurrent = GraphicsSettings_Profile_Get(deviceId, application).value();
+			graphicsSettingsProfile = GraphicsSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
 			GraphicsSettings_Convert_ToUI_Adl(graphicsSettingsAdl);
-			GraphicsSettings_Convert_ToUI_Profile(graphicsSettingsCurrent.get(), AdlSettingGet::Current);
+			GraphicsSettings_Convert_ToUI_Profile(graphicsSettingsProfile, AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Graphics().Text(application);
 
 			//Update button colors
-			bool matchingProfile = GraphicsSettings_Match(graphicsSettingsCurrent.get(), graphicsSettingsAdl);
+			bool matchingProfile = GraphicsSettings_Match(graphicsSettingsProfile, graphicsSettingsAdl);
 			if (!matchingProfile)
 			{
 				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();

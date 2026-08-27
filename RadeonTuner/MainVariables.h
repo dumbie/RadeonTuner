@@ -36,18 +36,15 @@ inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
 
 //Settings
-inline TuningFanSettings _tuningFanSettingsDefault{ .Application = L"Global", .UsingProfile = true };
-inline std::reference_wrapper<TuningFanSettings> tuningFanSettingsCurrent{ _tuningFanSettingsDefault };
+//Note: Do not use reference wrapper, loop uses cache and picks up changed settings before actually applied.
+inline TuningFanSettings tuningFanSettingsProfile{ .Application = L"Global", .UsingProfile = true };
 inline std::deque<TuningFanSettings> tuningFanSettingsCache{};
 
-inline DisplaySettings _displaySettingsDefault{ .Application = L"Global", .UsingProfile = true };
-inline std::reference_wrapper<DisplaySettings> displaySettingsCurrent{ _displaySettingsDefault };
+inline DisplaySettings displaySettingsProfile{ .Application = L"Global", .UsingProfile = true };
 inline std::deque<DisplaySettings> displaySettingsCache{};
 
-inline GraphicsSettings _graphicsSettingsDefault{ .Application = L"Global" };
-inline std::reference_wrapper<GraphicsSettings> graphicsSettingsCurrent{ _graphicsSettingsDefault };
+inline GraphicsSettings graphicsSettingsProfile{ .Application = L"Global" };
 inline std::deque<GraphicsSettings> graphicsSettingsCache{};
 
-inline MultimediaSettings _multimediaSettingsDefault{ .Application = L"Global", .UsingProfile = true };
-inline std::reference_wrapper<MultimediaSettings> multimediaSettingsCurrent{ _multimediaSettingsDefault };
+inline MultimediaSettings multimediaSettingsProfile{ .Application = L"Global", .UsingProfile = true };
 inline std::deque<MultimediaSettings> multimediaSettingsCache{};

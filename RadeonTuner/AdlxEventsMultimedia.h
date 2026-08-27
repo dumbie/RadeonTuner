@@ -13,13 +13,16 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Profile is used
-			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
+			bool usingProfile = multimediaSettingsProfile.UsingProfile;
 
 			//Device identifier
-			std::wstring deviceIdW = multimediaSettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = multimediaSettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = multimediaSettingsCurrent.get().Application.value();
+			std::wstring applicationW = multimediaSettingsProfile.Application.value();
+
+			//Update multimedia settings
+			MultimediaSettings_Profile_Replace(multimediaSettingsProfile);
 
 			//Save multimedia settings
 			MultimediaSettings_Profiles_SaveToFile();
@@ -27,8 +30,8 @@ namespace winrt::RadeonTuner::implementation
 			//Check if profile is used
 			if (usingProfile)
 			{
-				//Apply current settings
-				bool applyResult = AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettingsCurrent.get(), AdlSettingGet::Current);
+				//Apply multimedia settings
+				bool applyResult = AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettingsProfile, AdlSettingGet::Current);
 
 				//Check result
 				if (applyResult)
@@ -71,13 +74,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Profile is used
-			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
+			bool usingProfile = multimediaSettingsProfile.UsingProfile;
 
 			//Device identifier
-			std::wstring deviceIdW = multimediaSettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = multimediaSettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = multimediaSettingsCurrent.get().Application.value();
+			std::wstring applicationW = multimediaSettingsProfile.Application.value();
 
 			//Remove multimedia settings
 			if (MultimediaSettings_Profile_Remove(deviceIdW, applicationW))
@@ -90,9 +93,9 @@ namespace winrt::RadeonTuner::implementation
 			if (usingProfile)
 			{
 				//Get current and default settings
-				MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex, L"").value();
+				MultimediaSettings multimediaSettings = MultimediaSettings_Generate_FromADL(adl_Gpu_AdapterIndex, L"", true).value();
 
-				//Apply default settings
+				//Apply multimedia settings
 				AdlMultimediaSettingsApply(adl_Gpu_AdapterIndex, multimediaSettings, AdlSettingGet::Default);
 			}
 
@@ -132,7 +135,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.get().VideoUpscaling.Current = newValue;
+			multimediaSettingsProfile.VideoUpscaling.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -152,7 +155,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.get().VideoSharpening.Current = newValue;
+			multimediaSettingsProfile.VideoSharpening.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -172,7 +175,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Multimedia_Apply().Background(colorIgnored);
 
 			//Update current value
-			multimediaSettingsCurrent.get().VideoBrightness.Current = newValue;
+			multimediaSettingsProfile.VideoBrightness.Current = newValue;
 		}
 		catch (...) {}
 	}

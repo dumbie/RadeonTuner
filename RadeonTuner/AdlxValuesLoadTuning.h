@@ -26,11 +26,11 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring deviceId = tuningFanSettingsAdl.DeviceId.value();
 
 			//Get and set settings
-			tuningFanSettingsCurrent = TuningFanSettings_Profile_Get(deviceId, application).value();
+			tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
 			TuningFanSettings_Convert_ToUI_Adl(tuningFanSettingsAdl);
-			TuningFanSettings_Convert_ToUI_Profile(tuningFanSettingsCurrent.get(), AdlSettingGet::Current);
+			TuningFanSettings_Convert_ToUI_Profile(tuningFanSettingsProfile, AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Tuning().Text(application);
@@ -46,8 +46,8 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
-			bool usingProfile = tuningFanSettingsCurrent.get().UsingProfile;
-			bool matchingProfile = TuningFanSettings_Match(tuningFanSettingsCurrent.get(), tuningFanSettingsAdl);
+			bool usingProfile = tuningFanSettingsProfile.UsingProfile;
+			bool matchingProfile = TuningFanSettings_Match(tuningFanSettingsProfile, tuningFanSettingsAdl);
 			if (usingProfile && !matchingProfile)
 			{
 				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();

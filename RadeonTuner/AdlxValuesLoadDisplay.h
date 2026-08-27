@@ -26,17 +26,17 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring deviceId = displaySettingsAdl.DeviceId.value();
 
 			//Get and set settings
-			displaySettingsCurrent = DisplaySettings_Profile_Get(deviceId, application).value();
+			displaySettingsProfile = DisplaySettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
 			DisplaySettings_Convert_ToUI_Adl(displaySettingsAdl);
-			DisplaySettings_Convert_ToUI_Profile(displaySettingsCurrent.get(), AdlSettingGet::Current);
+			DisplaySettings_Convert_ToUI_Profile(displaySettingsProfile, AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Display().Text(application);
 
 			//Disable or enable settings
-			if (displaySettingsCurrent.get().Global())
+			if (displaySettingsProfile.Global())
 			{
 				//Enable settings
 				combobox_Display_Resolution().IsEnabled(true);
@@ -74,9 +74,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update button colors
-			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
-			bool globalProfile = displaySettingsCurrent.get().Global();
-			bool matchingProfile = DisplaySettings_Match(displaySettingsCurrent.get(), displaySettingsAdl, !globalProfile);
+			bool usingProfile = displaySettingsProfile.UsingProfile;
+			bool globalProfile = displaySettingsProfile.Global();
+			bool matchingProfile = DisplaySettings_Match(displaySettingsProfile, displaySettingsAdl, !globalProfile);
 			if (usingProfile && !matchingProfile)
 			{
 				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
@@ -97,6 +97,15 @@ namespace winrt::RadeonTuner::implementation
 			{
 				image_Display_Used().Visibility(Visibility::Collapsed);
 			}
+
+			//Load display resolution values
+			DisplayList_Resolution(false);
+
+			//Load display refresh rate values
+			DisplayList_RefreshRate(false);
+
+			//Select current display values
+			DisplayList_SelectCurrent_Values(false);
 
 			//Enable saving
 			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());

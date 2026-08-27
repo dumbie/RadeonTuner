@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save settings to file
-			bool saveResult = TuningFanSettings_Profile_SaveToFile(tuningFanSettingsCurrent.get(), exportPath);
+			bool saveResult = TuningFanSettings_Profile_SaveToFile(tuningFanSettingsProfile, exportPath);
 
 			//Set result
 			if (saveResult)

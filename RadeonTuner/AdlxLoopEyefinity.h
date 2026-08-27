@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring deviceIdentifier = AdlxGetDisplayIdentifier(adapterIndex, displayIndex);
 
 				//Loop settings
-				std::optional<std::reference_wrapper<DisplaySettings>> displaySettingsProfileOpt;
+				std::optional<std::reference_wrapper<DisplaySettings>> displaySettingsRunningOpt;
 				for (DisplaySettings& displaySettings : displaySettingsCache)
 				{
 					try
@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 										//Check and set application profile
 										if (array_contains(processExeRunning, appNameLower))
 										{
-											displaySettingsProfileOpt = displaySettings;
+											displaySettingsRunningOpt = displaySettings;
 											break;
 										}
 									}
@@ -55,7 +55,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Check if Eyefinity needs to be enabled
-				bool enableEyefinity = displaySettingsProfileOpt.has_value();
+				bool enableEyefinity = displaySettingsRunningOpt.has_value();
 
 				//Enable or disable Eyefinity
 				Adl_Eyefinity_Toggle(adapterIndex, enableEyefinity);

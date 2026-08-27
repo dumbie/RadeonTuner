@@ -21,7 +21,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Save settings to file
-			bool saveResult = DisplaySettings_Profile_SaveToFile(displaySettingsCurrent.get(), exportPath);
+			bool saveResult = DisplaySettings_Profile_SaveToFile(displaySettingsProfile, exportPath);
 
 			//Set result
 			if (saveResult)

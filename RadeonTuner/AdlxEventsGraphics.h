@@ -38,8 +38,9 @@ namespace winrt::RadeonTuner::implementation
 				adlApplication.DriverArea = L"3D_User";
 
 				//Get current and default settings
-				GraphicsSettings graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApplication).value();
+				GraphicsSettings graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApplication, true).value();
 
+				//Apply graphics settings
 				//Add application to user.blb
 				bool resultAddApp = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Default);
 
@@ -87,11 +88,11 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
-			//Get current device identifier
-			std::wstring currentDeviceIdW = graphicsSettingsCurrent.get().DeviceId.value();
+			//Device identifier
+			std::wstring deviceIdW = graphicsSettingsProfile.DeviceId.value();
 
-			//Get current application name
-			std::wstring currentApplicationW = graphicsSettingsCurrent.get().Application.value();
+			//Device application
+			std::wstring applicationW = graphicsSettingsProfile.Application.value();
 
 			//Remove selected items
 			int removeCount = 0;
@@ -111,7 +112,7 @@ namespace winrt::RadeonTuner::implementation
 				std::wstring removeResultApp = AdlAppRemove(adlApplication);
 
 				//Remove application from profiles
-				bool removeResultProfile = GraphicsSettings_Profile_Remove(currentDeviceIdW, executableName);
+				bool removeResultProfile = GraphicsSettings_Profile_Remove(deviceIdW, executableName);
 
 				//Check result
 				if (removeResultProfile && removeResultApp == L"Application removed")
@@ -120,7 +121,7 @@ namespace winrt::RadeonTuner::implementation
 					removeCount++;
 
 					//Check if current application is removed
-					if (executableName == currentApplicationW)
+					if (executableName == applicationW)
 					{
 						currentAppRemoved = true;
 					}
@@ -159,10 +160,13 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Device identifier
-			std::wstring deviceIdW = graphicsSettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = graphicsSettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = graphicsSettingsCurrent.get().Application.value();
+			std::wstring applicationW = graphicsSettingsProfile.Application.value();
+
+			//Update graphics settings
+			GraphicsSettings_Profile_Replace(graphicsSettingsProfile);
 
 			//Save graphics settings
 			GraphicsSettings_Profiles_SaveToFile();
@@ -174,7 +178,7 @@ namespace winrt::RadeonTuner::implementation
 			adlApplication.DriverArea = L"3D_User";
 
 			//Apply graphics settings
-			bool applyResult = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsCurrent.get(), AdlSettingGet::Current);
+			bool applyResult = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsProfile, AdlSettingGet::Current);
 
 			//Check result
 			if (applyResult)
@@ -215,11 +219,14 @@ namespace winrt::RadeonTuner::implementation
 				co_return;
 			}
 
+			//Profile global
+			bool globalProfile = graphicsSettingsProfile.Global();
+
 			//Device identifier
-			std::wstring deviceIdW = graphicsSettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = graphicsSettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = graphicsSettingsCurrent.get().Application.value();
+			std::wstring applicationW = graphicsSettingsProfile.Application.value();
 
 			//Remove graphics settings
 			if (GraphicsSettings_Profile_Remove(deviceIdW, applicationW))
@@ -236,16 +243,16 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get current and default settings
 			GraphicsSettings graphicsSettingsAdl{};
-			if (applicationW == L"Global")
+			if (globalProfile)
 			{
-				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex, applicationW).value();
+				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLRegistry(adl_Gpu_AdapterIndex, applicationW, true).value();
 			}
 			else
 			{
-				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApplication).value();
+				graphicsSettingsAdl = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApplication, true).value();
 			}
 
-			//Apply current settings
+			//Apply graphics settings
 			bool setResult = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Default);
 
 			//Check result
@@ -347,7 +354,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FsrOverride.Current = newValue;
+			graphicsSettingsProfile.FsrOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -368,7 +375,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().MlfiOverride.Current = newValue;
+			graphicsSettingsProfile.MlfiOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -389,7 +396,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().MfgOverride.Current = newValue;
+			graphicsSettingsProfile.MfgOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -410,7 +417,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().MldOverride.Current = newValue;
+			graphicsSettingsProfile.MldOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -431,7 +438,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().NrcOverride.Current = newValue;
+			graphicsSettingsProfile.NrcOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -451,7 +458,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().MfgRatio.Current = newValue;
+			graphicsSettingsProfile.MfgRatio.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -472,7 +479,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FsrShowInformation.Current = newValue;
+			graphicsSettingsProfile.FsrShowInformation.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -497,7 +504,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FsrOvrDLLPath.Current = newValue;
+			graphicsSettingsProfile.FsrOvrDLLPath.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -559,7 +566,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FsrOtaIndex.Current = newValue;
+			graphicsSettingsProfile.FsrOtaIndex.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -582,7 +589,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().DeLagEnabled.Current = newValue;
+			graphicsSettingsProfile.DeLagEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -603,7 +610,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().EnhancedSync.Current = newValue;
+			graphicsSettingsProfile.EnhancedSync.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -623,7 +630,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().VerticalSync.Current = newValue;
+			graphicsSettingsProfile.VerticalSync.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -663,7 +670,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrameGenEnabled.Current = newValue;
+			graphicsSettingsProfile.FrameGenEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -683,7 +690,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrameGenSearchMode.Current = newValue;
+			graphicsSettingsProfile.FrameGenSearchMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -703,7 +710,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrameGenPerfMode.Current = newValue;
+			graphicsSettingsProfile.FrameGenPerfMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -723,7 +730,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrameGenResponseMode.Current = newValue;
+			graphicsSettingsProfile.FrameGenResponseMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -743,7 +750,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrameGenAlgorithm.Current = newValue;
+			graphicsSettingsProfile.FrameGenAlgorithm.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -786,7 +793,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().ChillEnabled.Current = newValue;
+			graphicsSettingsProfile.ChillEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -812,7 +819,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().ChillMinFps.Current = newValue;
+			graphicsSettingsProfile.ChillMinFps.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -838,7 +845,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().ChillMaxFps.Current = newValue;
+			graphicsSettingsProfile.ChillMaxFps.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -897,7 +904,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.get().BoostMode.Current = newValue;
+			graphicsSettingsProfile.BoostMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -917,7 +924,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().BoostMinResolution.Current = newValue;
+			graphicsSettingsProfile.BoostMinResolution.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -948,7 +955,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.get().RisEnabled.Current = newValue;
+			graphicsSettingsProfile.RisEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -968,7 +975,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().RisSharpeningDegree.Current = newValueInt;
+			graphicsSettingsProfile.RisSharpeningDegree.Current = newValueInt;
 		}
 		catch (...) {}
 	}
@@ -991,7 +998,11 @@ namespace winrt::RadeonTuner::implementation
 			//Update interface
 			if (newValue)
 			{
-				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(true);
+				//Check application type
+				if (graphicsSettingsProfile.Global())
+				{
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(true);
+				}
 				slider_RadeonImageSharpening2_Sharpening().IsEnabled(true);
 			}
 			else
@@ -1001,7 +1012,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.get().Ris2Enabled.Current = newValue;
+			graphicsSettingsProfile.Ris2Enabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1022,7 +1033,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().Ris2DesktopEnabled.Current = newValue;
+			graphicsSettingsProfile.Ris2DesktopEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1042,7 +1053,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().Ris2SharpeningDegree.Current = newValue;
+			graphicsSettingsProfile.Ris2SharpeningDegree.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1077,7 +1088,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.get().AntiAliasingOverride.Current = newValue;
+			graphicsSettingsProfile.AntiAliasingOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1097,7 +1108,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().AntiAliasingMethod.Current = newValue;
+			graphicsSettingsProfile.AntiAliasingMethod.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1117,7 +1128,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().AntiAliasingLevel.Current = newValue;
+			graphicsSettingsProfile.AntiAliasingLevel.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1140,7 +1151,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().AntiAliasingEnhancedQuality.Current = newValue;
+			graphicsSettingsProfile.AntiAliasingEnhancedQuality.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1161,7 +1172,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().AntiAliasingMorphological.Current = newValue;
+			graphicsSettingsProfile.AntiAliasingMorphological.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1183,7 +1194,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().AnisotropicOverride.Current = newValue;
+			graphicsSettingsProfile.AnisotropicOverride.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1203,17 +1214,11 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update interface
-			if (newValue != 2)
-			{
-				combobox_Tessellation_Level().IsEnabled(false);
-			}
-			else
-			{
-				combobox_Tessellation_Level().IsEnabled(true);
-			}
+			bool subSettingEnabled = newValue == 2;
+			combobox_Tessellation_Level().IsEnabled(subSettingEnabled);
 
 			//Update current value
-			graphicsSettingsCurrent.get().TessellationMode.Current = newValue;
+			graphicsSettingsProfile.TessellationMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1233,7 +1238,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().TessellationLevel.Current = newValue;
+			graphicsSettingsProfile.TessellationLevel.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1254,7 +1259,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().OpenGLTripleBuffering.Current = newValue;
+			graphicsSettingsProfile.OpenGLTripleBuffering.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1274,7 +1279,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().TextureFilteringQuality.Current = newValue;
+			graphicsSettingsProfile.TextureFilteringQuality.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1295,7 +1300,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().SurfaceFormatOptimization.Current = newValue;
+			graphicsSettingsProfile.SurfaceFormatOptimization.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1328,7 +1333,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrtcEnabled.Current = newValue;
+			graphicsSettingsProfile.FrtcEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1348,7 +1353,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().FrtcFrameRateTarget.Current = newValue;
+			graphicsSettingsProfile.FrtcFrameRateTarget.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1369,7 +1374,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsCurrent.get().OpenGL10BitPixelFormat.Current = newValue;
+			graphicsSettingsProfile.OpenGL10BitPixelFormat.Current = newValue;
 		}
 		catch (...) {}
 	}

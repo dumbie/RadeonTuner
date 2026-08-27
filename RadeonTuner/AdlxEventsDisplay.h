@@ -76,10 +76,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Device identifier
-			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = displaySettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = displaySettingsCurrent.get().Application.value();
+			std::wstring applicationW = displaySettingsProfile.Application.value();
 
 			//Remove selected items
 			int removeCount = 0;
@@ -135,16 +135,19 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Profile is used
-			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
+			bool usingProfile = displaySettingsProfile.UsingProfile;
 
 			//Profile global
-			bool globalProfile = displaySettingsCurrent.get().Global();
+			bool globalProfile = displaySettingsProfile.Global();
 
 			//Device identifier
-			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = displaySettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = displaySettingsCurrent.get().Application.value();
+			std::wstring applicationW = displaySettingsProfile.Application.value();
+
+			//Update display settings
+			DisplaySettings_Profile_Replace(displaySettingsProfile);
 
 			//Save display settings
 			DisplaySettings_Profiles_SaveToFile();
@@ -152,8 +155,11 @@ namespace winrt::RadeonTuner::implementation
 			//Check if profile is used
 			if (usingProfile)
 			{
-				//Apply current settings
-				bool applyResult = AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.get(), AdlSettingGet::Current, !globalProfile);
+				//Get current settings
+				DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW, false).value();
+
+				//Apply display settings
+				bool applyResult = AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile, displaySettingsAdl, AdlSettingGet::Current, !globalProfile);
 
 				//Check result
 				if (applyResult)
@@ -206,16 +212,16 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Profile is used
-			bool usingProfile = displaySettingsCurrent.get().UsingProfile;
+			bool usingProfile = displaySettingsProfile.UsingProfile;
 
 			//Profile global
-			bool globalProfile = displaySettingsCurrent.get().Global();
+			bool globalProfile = displaySettingsProfile.Global();
 
 			//Device identifier
-			std::wstring deviceIdW = displaySettingsCurrent.get().DeviceId.value();
+			std::wstring deviceIdW = displaySettingsProfile.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = displaySettingsCurrent.get().Application.value();
+			std::wstring applicationW = displaySettingsProfile.Application.value();
 
 			//Remove display settings
 			if (DisplaySettings_Profile_Remove(deviceIdW, applicationW))
@@ -227,11 +233,14 @@ namespace winrt::RadeonTuner::implementation
 			//Check if profile is used
 			if (usingProfile)
 			{
-				//Get current and default settings
-				DisplaySettings displaySettings = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"", true).value();
+				//Get current settings
+				DisplaySettings displaySettingsAdl = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW, false).value();
 
-				//Apply default settings
-				AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettings, AdlSettingGet::Default, !globalProfile);
+				//Get default settings
+				DisplaySettings displaySettingsDefault = DisplaySettings_Generate_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW, true).value();
+
+				//Apply display settings
+				AdlDisplaySettingsApply(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsDefault, displaySettingsAdl, AdlSettingGet::Default, !globalProfile);
 			}
 
 			//Show notification
@@ -286,7 +295,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().HdrEnabled.Current = newValue;
+			displaySettingsProfile.HdrEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -307,7 +316,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().FreeSyncMode.Current = newValue;
+			displaySettingsProfile.FreeSyncMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -328,7 +337,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().VsrEnabled.Current = newValue;
+			displaySettingsProfile.VsrEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -348,7 +357,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().ColorDepth.Current = newValue;
+			displaySettingsProfile.ColorDepth.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -368,7 +377,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().PixelFormat.Current = newValue;
+			displaySettingsProfile.PixelFormat.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -388,7 +397,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().ColorEnhancement.Current = newValue;
+			displaySettingsProfile.ColorEnhancement.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -419,7 +428,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().ColorTemperatureControl.Current = newValue;
+			displaySettingsProfile.ColorTemperatureControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -439,7 +448,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().ColorTemperatureKelvin.Current = newValue;
+			displaySettingsProfile.ColorTemperatureKelvin.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -459,7 +468,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().Brightness.Current = newValue;
+			displaySettingsProfile.Brightness.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -479,7 +488,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().Contrast.Current = newValue;
+			displaySettingsProfile.Contrast.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -499,7 +508,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().Saturation.Current = newValue;
+			displaySettingsProfile.Saturation.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -519,7 +528,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().Hue.Current = newValue;
+			displaySettingsProfile.Hue.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -541,9 +550,9 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().GammaRed.Current = redGain;
-			displaySettingsCurrent.get().GammaGreen.Current = greenGain;
-			displaySettingsCurrent.get().GammaBlue.Current = blueGain;
+			displaySettingsProfile.GammaRed.Current = redGain;
+			displaySettingsProfile.GammaGreen.Current = greenGain;
+			displaySettingsProfile.GammaBlue.Current = blueGain;
 		}
 		catch (...) {}
 	}
@@ -578,7 +587,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().CVDCControl.Current = newValue;
+			displaySettingsProfile.CVDCControl.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -598,7 +607,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().CVDCProtanopia.Current = newValue;
+			displaySettingsProfile.CVDCProtanopia.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -618,7 +627,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().CVDCDeuteranopia.Current = newValue;
+			displaySettingsProfile.CVDCDeuteranopia.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -638,7 +647,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().CVDCTritanopia.Current = newValue;
+			displaySettingsProfile.CVDCTritanopia.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -659,7 +668,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().GpuScalingEnabled.Current = newValue;
+			displaySettingsProfile.GpuScalingEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -680,7 +689,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().IntegerScalingEnabled.Current = newValue;
+			displaySettingsProfile.IntegerScalingEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -700,7 +709,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().ScalingMode.Current = newValue;
+			displaySettingsProfile.ScalingMode.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -721,7 +730,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().HDCPEnabled.Current = newValue;
+			displaySettingsProfile.HDCPEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -752,7 +761,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().VariBrightEnabled.Current = newValue;
+			displaySettingsProfile.VariBrightEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -772,7 +781,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().VariBrightLevel.Current = newValue;
+			displaySettingsProfile.VariBrightLevel.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -793,7 +802,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
-			displaySettingsCurrent.get().EyefinityAutomatic.Current = newValue;
+			displaySettingsProfile.EyefinityAutomatic.Current = newValue;
 		}
 		catch (...) {}
 	}

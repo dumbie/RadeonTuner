@@ -26,18 +26,18 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring deviceId = multimediaSettingsAdl.DeviceId.value();
 
 			//Get and set settings
-			multimediaSettingsCurrent = MultimediaSettings_Profile_Get(deviceId, application).value();
+			multimediaSettingsProfile = MultimediaSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
 			MultimediaSettings_Convert_ToUI_Adl(multimediaSettingsAdl);
-			MultimediaSettings_Convert_ToUI_Profile(multimediaSettingsCurrent.get(), AdlSettingGet::Current);
+			MultimediaSettings_Convert_ToUI_Profile(multimediaSettingsProfile, AdlSettingGet::Current);
 
 			//Update button text
 			textblock_AppSelect_Multimedia().Text(application);
 
 			//Update button colors
-			bool usingProfile = multimediaSettingsCurrent.get().UsingProfile;
-			bool matchingProfile = MultimediaSettings_Match(multimediaSettingsCurrent.get(), multimediaSettingsAdl);
+			bool usingProfile = multimediaSettingsProfile.UsingProfile;
+			bool matchingProfile = MultimediaSettings_Match(multimediaSettingsProfile, multimediaSettingsAdl);
 			if (usingProfile && !matchingProfile)
 			{
 				SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();

@@ -24,16 +24,7 @@ namespace winrt::RadeonTuner::implementation
 			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
 
 			//Load display settings
-			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsCurrent.get().Application.value());
-
-			//Load display resolution values
-			DisplayList_Resolution(false);
-
-			//Load display refresh rate values
-			DisplayList_RefreshRate();
-
-			//Select current display values
-			DisplayList_SelectCurrent_Values(false);
+			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
 
 			//Load information
 			AdlxInfoLoad();
@@ -78,13 +69,13 @@ namespace winrt::RadeonTuner::implementation
 			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
 
 			//Load tuning and fans settings
-			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsCurrent.get().Application.value());
+			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
 
 			//Load graphics settings
-			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsCurrent.get().Application.value());
+			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
 
 			//Load multimedia settings
-			AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, multimediaSettingsCurrent.get().Application.value());
+			AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, multimediaSettingsProfile.Application.value());
 
 			//Load information
 			AdlxInfoLoad();
