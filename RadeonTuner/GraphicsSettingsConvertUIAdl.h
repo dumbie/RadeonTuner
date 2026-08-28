@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//FSR Upscaling Override
-			if (graphicsSettings.FsrOverride.Support.has_value() && graphicsSettings.FsrOverride.Support.value())
+			if (graphicsSettings.FsrOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Frame Generation Override
-			if (graphicsSettings.MlfiOverride.Support.has_value() && graphicsSettings.MlfiOverride.Support.value())
+			if (graphicsSettings.MlfiOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -76,7 +76,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Multi Frame Generation Override
-			if (graphicsSettings.MfgOverride.Support.has_value() && graphicsSettings.MfgOverride.Support.value())
+			if (graphicsSettings.MfgOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -109,7 +109,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Ray Regeneration Denoiser Override
-			if (graphicsSettings.MldOverride.Support.has_value() && graphicsSettings.MldOverride.Support.value())
+			if (graphicsSettings.MldOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -142,7 +142,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Neural Radiance Caching Override
-			if (graphicsSettings.NrcOverride.Support.has_value() && graphicsSettings.NrcOverride.Support.value())
+			if (graphicsSettings.NrcOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -175,7 +175,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Multi Frame Generation Ratio
-			if (graphicsSettings.MfgRatio.Support.has_value() && graphicsSettings.MfgRatio.Support.value())
+			if (graphicsSettings.MfgRatio.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -208,7 +208,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Override Library
-			if (graphicsSettings.FsrOvrDLLPath.Support.has_value() && graphicsSettings.FsrOvrDLLPath.Support.value())
+			if (graphicsSettings.FsrOvrDLLPath.Support)
 			{
 				//Set setting
 				if (graphicsSettings.FsrOvrDLLPath.Current.has_value())
@@ -234,7 +234,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Over-The-Air Updates
-			if (graphicsSettings.FsrOtaIndex.Support.has_value() && graphicsSettings.FsrOtaIndex.Support.value())
+			if (graphicsSettings.FsrOtaIndex.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -267,7 +267,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Show Information
-			if (graphicsSettings.FsrShowInformation.Support.has_value() && graphicsSettings.FsrShowInformation.Support.value())
+			if (graphicsSettings.FsrShowInformation.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -300,7 +300,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Latency Reduction
-			if (graphicsSettings.DeLagEnabled.Support.has_value() && graphicsSettings.DeLagEnabled.Support.value())
+			if (graphicsSettings.DeLagEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -333,7 +333,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames
-			if (graphicsSettings.FrameGenEnabled.Support.has_value() && graphicsSettings.FrameGenEnabled.Support.value())
+			if (graphicsSettings.FrameGenEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -370,7 +370,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Search Mode
-			if (graphicsSettings.FrameGenSearchMode.Support.has_value() && graphicsSettings.FrameGenSearchMode.Support.value())
+			if (graphicsSettings.FrameGenSearchMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -400,7 +400,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Performance Mode
-			if (graphicsSettings.FrameGenPerfMode.Support.has_value() && graphicsSettings.FrameGenPerfMode.Support.value())
+			if (graphicsSettings.FrameGenPerfMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -430,7 +430,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Response Mode
-			if (graphicsSettings.FrameGenResponseMode.Support.has_value() && graphicsSettings.FrameGenResponseMode.Support.value())
+			if (graphicsSettings.FrameGenResponseMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -460,7 +460,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Algorithm
-			if (graphicsSettings.FrameGenAlgorithm.Support.has_value() && graphicsSettings.FrameGenAlgorithm.Support.value())
+			if (graphicsSettings.FrameGenAlgorithm.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -490,7 +490,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost
-			if (graphicsSettings.BoostMode.Support.has_value() && graphicsSettings.BoostMode.Support.value())
+			if (graphicsSettings.BoostMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -524,7 +524,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost - Minimum Resolution
-			if (graphicsSettings.BoostMinResolution.Support.has_value() && graphicsSettings.BoostMinResolution.Support.value())
+			if (graphicsSettings.BoostMinResolution.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -563,7 +563,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Frame Rate Target Control - Enabled
-			if (graphicsSettings.FrtcEnabled.Support.has_value() && graphicsSettings.FrtcEnabled.Support.value())
+			if (graphicsSettings.FrtcEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -597,7 +597,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
-			if (graphicsSettings.FrtcFrameRateTarget.Support.has_value() && graphicsSettings.FrtcFrameRateTarget.Support.value())
+			if (graphicsSettings.FrtcFrameRateTarget.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -636,7 +636,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill
-			if (graphicsSettings.ChillEnabled.Support.has_value() && graphicsSettings.ChillEnabled.Support.value())
+			if (graphicsSettings.ChillEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -678,7 +678,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill - Minimum Frame Rate
-			if (graphicsSettings.ChillMinFps.Support.has_value() && graphicsSettings.ChillMinFps.Support.value())
+			if (graphicsSettings.ChillMinFps.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -717,7 +717,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill - Maximum Frame Rate
-			if (graphicsSettings.ChillMaxFps.Support.has_value() && graphicsSettings.ChillMaxFps.Support.value())
+			if (graphicsSettings.ChillMaxFps.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -755,8 +755,8 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonChill_Max().IsEnabled(false);
 			}
 
-			//Radeon Image Sharpening 1
-			if (graphicsSettings.RisEnabled.Support.has_value() && graphicsSettings.RisEnabled.Support.value())
+			//Radeon Image Sharpening - Enabled
+			if (graphicsSettings.RisEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -769,109 +769,73 @@ namespace winrt::RadeonTuner::implementation
 					valueInt = graphicsSettings.RisEnabled.Default.value();
 				}
 
-				//Set setting value
-				toggleswitch_RadeonImageSharpening1().IsOn(valueInt);
+				//Check setting version
+				if (graphicsSettings.RisVersion.Version <= 1)
+				{
+					//Set setting value
+					toggleswitch_RadeonImageSharpening1().IsOn(valueInt);
 
-				//Set hint value
-				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
-				textblock_RadeonImageSharpening1_Value().Text(valueHint);
+					//Set hint value
+					std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+					textblock_RadeonImageSharpening1_Value().Text(valueHint);
 
-				//Enable or disable interface
-				toggleswitch_RadeonImageSharpening1().IsEnabled(true);
-				slider_RadeonImageSharpening1_Sharpening().IsEnabled(valueInt);
+					//Enable or disable interface
+					toggleswitch_RadeonImageSharpening1().IsEnabled(true);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(valueInt);
+
+					toggleswitch_RadeonImageSharpening2().IsEnabled(false);
+					toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
+					slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+				}
+				else
+				{
+					//Set setting value
+					toggleswitch_RadeonImageSharpening2().IsOn(valueInt);
+
+					//Set hint value
+					std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+					textblock_RadeonImageSharpening2_Value().Text(valueHint);
+
+					//Enable or disable interface
+					toggleswitch_RadeonImageSharpening2().IsEnabled(true);
+					if (valueInt)
+					{
+						toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Global());
+						slider_RadeonImageSharpening2_Sharpening().IsEnabled(true);
+					}
+					else
+					{
+						toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
+						slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+					}
+
+					toggleswitch_RadeonImageSharpening1().IsEnabled(false);
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
+				}
 			}
 			else
 			{
 				//Set hint value
 				textblock_RadeonImageSharpening1_Value().Text(L"");
+				textblock_RadeonImageSharpening2_Value().Text(L"");
 
 				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening1().IsEnabled(false);
-			}
-
-			//Radeon Image Sharpening 1 - Sharpening Degree
-			if (graphicsSettings.RisSharpeningDegree.Support.has_value() && graphicsSettings.RisSharpeningDegree.Support.value())
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.RisSharpeningDegree.Current.has_value())
-				{
-					valueInt = graphicsSettings.RisSharpeningDegree.Current.value();
-				}
-				else if (graphicsSettings.RisSharpeningDegree.Default.has_value())
-				{
-					valueInt = graphicsSettings.RisSharpeningDegree.Default.value();
-				}
-
-				//Set setting value
-				slider_RadeonImageSharpening1_Sharpening().Value(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
-				textblock_RadeonImageSharpening1_Sharpening_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
-				{
-					slider_RadeonImageSharpening1_Sharpening().Minimum(graphicsSettings.RisSharpeningDegree.Minimum.value());
-					slider_RadeonImageSharpening1_Sharpening().Maximum(graphicsSettings.RisSharpeningDegree.Maximum.value());
-					slider_RadeonImageSharpening1_Sharpening().StepFrequency(graphicsSettings.RisSharpeningDegree.Step.value());
-					slider_RadeonImageSharpening1_Sharpening().SmallChange(graphicsSettings.RisSharpeningDegree.Step.value());
-				}
-			}
-			else
-			{
-				//Set hint value
-				textblock_RadeonImageSharpening1_Sharpening_Value().Text(L"");
-
-				//Enable or disable interface
-				slider_RadeonImageSharpening1_Sharpening().IsEnabled(false);
-			}
-
-			//Radeon Image Sharpening 2
-			if (graphicsSettings.Ris2Enabled.Support.has_value() && graphicsSettings.Ris2Enabled.Support.value())
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.Ris2Enabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.Ris2Enabled.Current.value();
-				}
-				else if (graphicsSettings.Ris2Enabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.Ris2Enabled.Default.value();
-				}
-
-				//Set setting value
-				toggleswitch_RadeonImageSharpening2().IsOn(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
-				textblock_RadeonImageSharpening2_Value().Text(valueHint);
-
-				//Enable or disable interface
-				toggleswitch_RadeonImageSharpening2().IsEnabled(true);
-				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(valueInt);
-				slider_RadeonImageSharpening2_Sharpening().IsEnabled(valueInt);
-			}
-			else
-			{
-				//Enable or disable interface
 				toggleswitch_RadeonImageSharpening2().IsEnabled(false);
 			}
 
-			//Radeon Image Sharpening 2 - Sharpen Desktop
-			if (graphicsSettings.Ris2DesktopEnabled.Support.has_value() && graphicsSettings.Ris2DesktopEnabled.Support.value())
+			//Radeon Image Sharpening - Sharpen Desktop
+			if (graphicsSettings.RisDesktopEnabled.Support)
 			{
 				//Get setting
 				int valueInt = 0;
-				if (graphicsSettings.Ris2DesktopEnabled.Current.has_value())
+				if (graphicsSettings.RisDesktopEnabled.Current.has_value())
 				{
-					valueInt = graphicsSettings.Ris2DesktopEnabled.Current.value();
+					valueInt = graphicsSettings.RisDesktopEnabled.Current.value();
 				}
-				else if (graphicsSettings.Ris2DesktopEnabled.Default.has_value())
+				else if (graphicsSettings.RisDesktopEnabled.Default.has_value())
 				{
-					valueInt = graphicsSettings.Ris2DesktopEnabled.Default.value();
+					valueInt = graphicsSettings.RisDesktopEnabled.Default.value();
 				}
 
 				//Set setting value
@@ -890,34 +854,56 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
 			}
 
-			//Radeon Image Sharpening 2 - Sharpening Degree
-			if (graphicsSettings.Ris2SharpeningDegree.Support.has_value() && graphicsSettings.Ris2SharpeningDegree.Support.value())
+			//Radeon Image Sharpening - Sharpening Degree
+			if (graphicsSettings.RisSharpeningDegree.Support)
 			{
 				//Get setting
 				int valueInt = 0;
-				if (graphicsSettings.Ris2SharpeningDegree.Current.has_value())
+				if (graphicsSettings.RisSharpeningDegree.Current.has_value())
 				{
-					valueInt = graphicsSettings.Ris2SharpeningDegree.Current.value();
+					valueInt = graphicsSettings.RisSharpeningDegree.Current.value();
 				}
-				else if (graphicsSettings.Ris2SharpeningDegree.Default.has_value())
+				else if (graphicsSettings.RisSharpeningDegree.Default.has_value())
 				{
-					valueInt = graphicsSettings.Ris2SharpeningDegree.Default.value();
+					valueInt = graphicsSettings.RisSharpeningDegree.Default.value();
 				}
 
-				//Set setting value
-				slider_RadeonImageSharpening2_Sharpening().Value(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
-				textblock_RadeonImageSharpening2_Sharpening_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.Ris2SharpeningDegree.Minimum.has_value())
+				//Check setting version
+				if (graphicsSettings.RisVersion.Version <= 1)
 				{
-					slider_RadeonImageSharpening2_Sharpening().Minimum(graphicsSettings.Ris2SharpeningDegree.Minimum.value());
-					slider_RadeonImageSharpening2_Sharpening().Maximum(graphicsSettings.Ris2SharpeningDegree.Maximum.value());
-					slider_RadeonImageSharpening2_Sharpening().StepFrequency(graphicsSettings.Ris2SharpeningDegree.Step.value());
-					slider_RadeonImageSharpening2_Sharpening().SmallChange(graphicsSettings.Ris2SharpeningDegree.Step.value());
+					//Set setting value
+					slider_RadeonImageSharpening1_Sharpening().Value(valueInt);
+
+					//Set hint value
+					std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+					textblock_RadeonImageSharpening1_Sharpening_Value().Text(valueHint);
+
+					//Set interface
+					if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
+					{
+						slider_RadeonImageSharpening1_Sharpening().Minimum(graphicsSettings.RisSharpeningDegree.Minimum.value());
+						slider_RadeonImageSharpening1_Sharpening().Maximum(graphicsSettings.RisSharpeningDegree.Maximum.value());
+						slider_RadeonImageSharpening1_Sharpening().StepFrequency(graphicsSettings.RisSharpeningDegree.Step.value());
+						slider_RadeonImageSharpening1_Sharpening().SmallChange(graphicsSettings.RisSharpeningDegree.Step.value());
+					}
+				}
+				else
+				{
+					//Set setting value
+					slider_RadeonImageSharpening2_Sharpening().Value(valueInt);
+
+					//Set hint value
+					std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+					textblock_RadeonImageSharpening2_Sharpening_Value().Text(valueHint);
+
+					//Set interface
+					if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
+					{
+						slider_RadeonImageSharpening2_Sharpening().Minimum(graphicsSettings.RisSharpeningDegree.Minimum.value());
+						slider_RadeonImageSharpening2_Sharpening().Maximum(graphicsSettings.RisSharpeningDegree.Maximum.value());
+						slider_RadeonImageSharpening2_Sharpening().StepFrequency(graphicsSettings.RisSharpeningDegree.Step.value());
+						slider_RadeonImageSharpening2_Sharpening().SmallChange(graphicsSettings.RisSharpeningDegree.Step.value());
+					}
 				}
 			}
 			else
@@ -930,7 +916,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Enhanced Sync
-			if (graphicsSettings.EnhancedSync.Support.has_value() && graphicsSettings.EnhancedSync.Support.value())
+			if (graphicsSettings.EnhancedSync.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -963,7 +949,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vertical Sync
-			if (graphicsSettings.VerticalSync.Support.has_value() && graphicsSettings.VerticalSync.Support.value())
+			if (graphicsSettings.VerticalSync.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -996,7 +982,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Override
-			if (graphicsSettings.AntiAliasingOverride.Support.has_value() && graphicsSettings.AntiAliasingOverride.Support.value())
+			if (graphicsSettings.AntiAliasingOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1032,7 +1018,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Method
-			if (graphicsSettings.AntiAliasingMethod.Support.has_value() && graphicsSettings.AntiAliasingMethod.Support.value())
+			if (graphicsSettings.AntiAliasingMethod.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1062,7 +1048,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Level
-			if (graphicsSettings.AntiAliasingLevel.Support.has_value() && graphicsSettings.AntiAliasingLevel.Support.value())
+			if (graphicsSettings.AntiAliasingLevel.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1092,7 +1078,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Enhanced Quality Anti-Aliasing
-			if (graphicsSettings.AntiAliasingEnhancedQuality.Support.has_value() && graphicsSettings.AntiAliasingEnhancedQuality.Support.value())
+			if (graphicsSettings.AntiAliasingEnhancedQuality.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1122,7 +1108,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Morphological Anti-Aliasing
-			if (graphicsSettings.AntiAliasingMorphological.Support.has_value() && graphicsSettings.AntiAliasingMorphological.Support.value())
+			if (graphicsSettings.AntiAliasingMorphological.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1155,7 +1141,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anisotropic Texture Filtering Override
-			if (graphicsSettings.AnisotropicOverride.Support.has_value() && graphicsSettings.AnisotropicOverride.Support.value())
+			if (graphicsSettings.AnisotropicOverride.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1188,7 +1174,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Texture Filtering Quality
-			if (graphicsSettings.TextureFilteringQuality.Support.has_value() && graphicsSettings.TextureFilteringQuality.Support.value())
+			if (graphicsSettings.TextureFilteringQuality.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1221,7 +1207,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Surface Format Optimization
-			if (graphicsSettings.SurfaceFormatOptimization.Support.has_value() && graphicsSettings.SurfaceFormatOptimization.Support.value())
+			if (graphicsSettings.SurfaceFormatOptimization.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1254,7 +1240,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Tessellation Mode
-			if (graphicsSettings.TessellationMode.Support.has_value() && graphicsSettings.TessellationMode.Support.value())
+			if (graphicsSettings.TessellationMode.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1277,8 +1263,8 @@ namespace winrt::RadeonTuner::implementation
 				//Enable or disable interface
 				combobox_Tessellation_Mode().IsEnabled(true);
 
-				bool subSettingDisabled = valueInt != 2;
-				combobox_Tessellation_Level().IsEnabled(subSettingDisabled);
+				bool subSettingEnabled = valueInt == 2;
+				combobox_Tessellation_Level().IsEnabled(subSettingEnabled);
 			}
 			else
 			{
@@ -1287,7 +1273,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Tessellation Level
-			if (graphicsSettings.TessellationLevel.Support.has_value() && graphicsSettings.TessellationLevel.Support.value())
+			if (graphicsSettings.TessellationLevel.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1317,7 +1303,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL Triple Buffering
-			if (graphicsSettings.OpenGLTripleBuffering.Support.has_value() && graphicsSettings.OpenGLTripleBuffering.Support.value())
+			if (graphicsSettings.OpenGLTripleBuffering.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -1350,7 +1336,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL 10-Bit Pixel Format
-			if (graphicsSettings.OpenGL10BitPixelFormat.Support.has_value() && graphicsSettings.OpenGL10BitPixelFormat.Support.value())
+			if (graphicsSettings.OpenGL10BitPixelFormat.Support)
 			{
 				//Get setting
 				int valueInt = 0;

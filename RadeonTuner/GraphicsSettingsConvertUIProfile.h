@@ -126,18 +126,19 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill
 			if (graphicsSettings.ChillEnabled.Get(settingType).has_value())
 			{
+				toggleswitch_RadeonChill().IsOn(graphicsSettings.ChillEnabled.Get(settingType).value());
+				slider_RadeonChill_Max().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
+				button_RadeonChill_Link().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
+
 				//Check Radeon Chill Link
 				if (radeon_Chill_Linked)
 				{
-					auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Unlink.png"));
-					image_RadeonChill_Link().Source(bitmapImage);
-					radeon_Chill_Linked = false;
+					slider_RadeonChill_Min().IsEnabled(false);
 				}
-
-				toggleswitch_RadeonChill().IsOn(graphicsSettings.ChillEnabled.Get(settingType).value());
-				slider_RadeonChill_Min().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
-				slider_RadeonChill_Max().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
-				button_RadeonChill_Link().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
+				else
+				{
+					slider_RadeonChill_Min().IsEnabled(graphicsSettings.ChillEnabled.Get(settingType).value());
+				}
 			}
 
 			//Radeon Chill - Minimum Frame Rate
@@ -152,37 +153,47 @@ namespace winrt::RadeonTuner::implementation
 				slider_RadeonChill_Max().Value(graphicsSettings.ChillMaxFps.Get(settingType).value());
 			}
 
-			//Radeon Image Sharpening 1
+			//Radeon Image Sharpening - Enabled
 			if (graphicsSettings.RisEnabled.Get(settingType).has_value())
 			{
-				toggleswitch_RadeonImageSharpening1().IsOn(graphicsSettings.RisEnabled.Get(settingType).value());
-				slider_RadeonImageSharpening1_Sharpening().IsEnabled(graphicsSettings.RisEnabled.Get(settingType).value());
+				if (graphicsSettings.RisVersion.Version <= 1)
+				{
+					toggleswitch_RadeonImageSharpening1().IsOn(graphicsSettings.RisEnabled.Get(settingType).value());
+					slider_RadeonImageSharpening1_Sharpening().IsEnabled(graphicsSettings.RisEnabled.Get(settingType).value());
+				}
+				else
+				{
+					toggleswitch_RadeonImageSharpening2().IsOn(graphicsSettings.RisEnabled.Get(settingType).value());
+					if (graphicsSettings.RisEnabled.Get(settingType).value())
+					{
+						toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Global());
+						slider_RadeonImageSharpening2_Sharpening().IsEnabled(true);
+					}
+					else
+					{
+						toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(false);
+						slider_RadeonImageSharpening2_Sharpening().IsEnabled(false);
+					}
+				}
 			}
 
-			//Radeon Image Sharpening 1 - Sharpening Degree
+			//Radeon Image Sharpening - Sharpen Desktop
+			if (graphicsSettings.RisDesktopEnabled.Get(settingType).has_value())
+			{
+				toggleswitch_RadeonImageSharpening2_Desktop().IsOn(graphicsSettings.RisDesktopEnabled.Get(settingType).value());
+			}
+
+			//Radeon Image Sharpening - Sharpening Degree
 			if (graphicsSettings.RisSharpeningDegree.Get(settingType).has_value())
 			{
-				slider_RadeonImageSharpening1_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Get(settingType).value());
-			}
-
-			//Radeon Image Sharpening 2
-			if (graphicsSettings.Ris2Enabled.Get(settingType).has_value())
-			{
-				toggleswitch_RadeonImageSharpening2().IsOn(graphicsSettings.Ris2Enabled.Get(settingType).value());
-				toggleswitch_RadeonImageSharpening2_Desktop().IsEnabled(graphicsSettings.Ris2Enabled.Get(settingType).value());
-				slider_RadeonImageSharpening2_Sharpening().IsEnabled(graphicsSettings.Ris2Enabled.Get(settingType).value());
-			}
-
-			//Radeon Image Sharpening 2 - Sharpen Desktop
-			if (graphicsSettings.Ris2DesktopEnabled.Get(settingType).has_value())
-			{
-				toggleswitch_RadeonImageSharpening2_Desktop().IsOn(graphicsSettings.Ris2DesktopEnabled.Get(settingType).value());
-			}
-
-			//Radeon Image Sharpening 2 - Sharpening Degree
-			if (graphicsSettings.Ris2SharpeningDegree.Get(settingType).has_value())
-			{
-				slider_RadeonImageSharpening2_Sharpening().Value(graphicsSettings.Ris2SharpeningDegree.Get(settingType).value());
+				if (graphicsSettings.RisVersion.Version <= 1)
+				{
+					slider_RadeonImageSharpening1_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Get(settingType).value());
+				}
+				else
+				{
+					slider_RadeonImageSharpening2_Sharpening().Value(graphicsSettings.RisSharpeningDegree.Get(settingType).value());
+				}
 			}
 
 			//Enhanced Sync
@@ -253,15 +264,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				combobox_Tessellation_Mode().SelectedIndex(graphicsSettings.TessellationMode.Get(settingType).value());
 
-				//Check if setting is enabled
-				if (graphicsSettings.TessellationMode.Get(settingType).value() != 2)
-				{
-					combobox_Tessellation_Level().IsEnabled(false);
-				}
-				else
-				{
-					combobox_Tessellation_Level().IsEnabled(true);
-				}
+				bool subSettingEnabled = graphicsSettings.TessellationMode.Get(settingType).value() == 2;
+				combobox_Tessellation_Level().IsEnabled(subSettingEnabled);
 			}
 
 			//Tessellation Level

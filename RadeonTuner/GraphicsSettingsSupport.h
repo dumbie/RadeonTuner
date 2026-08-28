@@ -109,13 +109,7 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Show Information
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
-				{
-					graphicsSettings.FsrShowInformation.Support = featureSupport;
-				}
+				graphicsSettings.FsrShowInformation.Support = true;
 			}
 			catch (...) {}
 
@@ -202,6 +196,7 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_RIS_Settings_Get(adl_Context, gpuAdapterIndex, &adlSettings);
 				if (adl_Res0 == ADL_OK)
 				{
+					graphicsSettings.RisVersion.Version = 1;
 					graphicsSettings.RisEnabled.Support = true;
 					graphicsSettings.RisSharpeningDegree.Support = true;
 				}
@@ -216,9 +211,10 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_RIS_SettingsX2_Get(adl_Context, gpuAdapterIndex, &adlSettings);
 				if (adl_Res0 == ADL_OK)
 				{
-					graphicsSettings.Ris2Enabled.Support = true;
-					graphicsSettings.Ris2SharpeningDegree.Support = true;
-					graphicsSettings.Ris2DesktopEnabled.Support = true;
+					graphicsSettings.RisVersion.Version = 2;
+					graphicsSettings.RisEnabled.Support = true;
+					graphicsSettings.RisSharpeningDegree.Support = true;
+					graphicsSettings.RisDesktopEnabled.Support = true;
 				}
 			}
 			catch (...) {}

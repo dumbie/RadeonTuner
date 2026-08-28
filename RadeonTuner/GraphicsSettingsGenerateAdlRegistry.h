@@ -425,6 +425,9 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 1
 			try
 			{
+				//Set version
+				graphicsSettings.RisVersion.Version = graphicsSettingsSupport.RisVersion.Version;
+
 				//Set support
 				graphicsSettings.RisEnabled.Support = graphicsSettingsSupport.RisEnabled.Support;
 				graphicsSettings.RisSharpeningDegree.Support = graphicsSettingsSupport.RisSharpeningDegree.Support;
@@ -452,29 +455,32 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 2
 			try
 			{
+				//Set version
+				graphicsSettings.RisVersion.Version = graphicsSettingsSupport.RisVersion.Version;
+
 				//Set support
-				graphicsSettings.Ris2Enabled.Support = graphicsSettingsSupport.Ris2Enabled.Support;
-				graphicsSettings.Ris2DesktopEnabled.Support = graphicsSettingsSupport.Ris2DesktopEnabled.Support;
-				graphicsSettings.Ris2SharpeningDegree.Support = graphicsSettingsSupport.Ris2SharpeningDegree.Support;
+				graphicsSettings.RisEnabled.Support = graphicsSettingsSupport.RisEnabled.Support;
+				graphicsSettings.RisDesktopEnabled.Support = graphicsSettingsSupport.RisDesktopEnabled.Support;
+				graphicsSettings.RisSharpeningDegree.Support = graphicsSettingsSupport.RisSharpeningDegree.Support;
 
 				ADL_RIS2_SETTINGS adlSettings;
 				adl_Res0 = _ADL2_RIS_SettingsX2_Get(adl_Context, gpuAdapterIndex, &adlSettings);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set current
-					graphicsSettings.Ris2Enabled.Current = adlSettings.GlobalEnable;
-					graphicsSettings.Ris2DesktopEnabled.Current = adlSettings.GlobalDesktop;
-					graphicsSettings.Ris2SharpeningDegree.Current = adlSettings.GlobalSharpeningDegree;
+					graphicsSettings.RisEnabled.Current = adlSettings.GlobalEnable;
+					graphicsSettings.RisDesktopEnabled.Current = adlSettings.GlobalDesktop;
+					graphicsSettings.RisSharpeningDegree.Current = adlSettings.GlobalSharpeningDegree;
 
 					//Set interface
-					graphicsSettings.Ris2SharpeningDegree.Minimum = adlSettings.GlobalSharpeningDegree_MinLimit;
-					graphicsSettings.Ris2SharpeningDegree.Maximum = adlSettings.GlobalSharpeningDegree_MaxLimit;
-					graphicsSettings.Ris2SharpeningDegree.Step = adlSettings.GlobalSharpeningDegree_Step;
+					graphicsSettings.RisSharpeningDegree.Minimum = adlSettings.GlobalSharpeningDegree_MinLimit;
+					graphicsSettings.RisSharpeningDegree.Maximum = adlSettings.GlobalSharpeningDegree_MaxLimit;
+					graphicsSettings.RisSharpeningDegree.Step = adlSettings.GlobalSharpeningDegree_Step;
 
 					//Set default
-					graphicsSettings.Ris2Enabled.Default = 0;
-					graphicsSettings.Ris2DesktopEnabled.Default = 0;
-					graphicsSettings.Ris2SharpeningDegree.Default = 50;
+					graphicsSettings.RisEnabled.Default = 0;
+					graphicsSettings.RisDesktopEnabled.Default = 0;
+					graphicsSettings.RisSharpeningDegree.Default = 50;
 				}
 			}
 			catch (...) {}

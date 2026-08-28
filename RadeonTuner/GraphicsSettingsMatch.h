@@ -164,24 +164,14 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.OpenGLTripleBuffering.Current.value() != settingsAdl.OpenGLTripleBuffering.Current.value()) { return false; }
 			}
 
-			if (settingsProfile.Ris2DesktopEnabled.Current.has_value() && settingsAdl.Ris2DesktopEnabled.Current.has_value())
-			{
-				if (settingsProfile.Ris2DesktopEnabled.Current.value() != settingsAdl.Ris2DesktopEnabled.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.Ris2Enabled.Current.has_value() && settingsAdl.Ris2Enabled.Current.has_value())
-			{
-				if (settingsProfile.Ris2Enabled.Current.value() != settingsAdl.Ris2Enabled.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.Ris2SharpeningDegree.Current.has_value() && settingsAdl.Ris2SharpeningDegree.Current.has_value())
-			{
-				if (settingsProfile.Ris2SharpeningDegree.Current.value() != settingsAdl.Ris2SharpeningDegree.Current.value()) { return false; }
-			}
-
 			if (settingsProfile.RisEnabled.Current.has_value() && settingsAdl.RisEnabled.Current.has_value())
 			{
 				if (settingsProfile.RisEnabled.Current.value() != settingsAdl.RisEnabled.Current.value()) { return false; }
+			}
+
+			if (settingsProfile.RisDesktopEnabled.Current.has_value() && settingsAdl.RisDesktopEnabled.Current.has_value())
+			{
+				if (settingsProfile.RisDesktopEnabled.Current.value() != settingsAdl.RisDesktopEnabled.Current.value()) { return false; }
 			}
 
 			if (settingsProfile.RisSharpeningDegree.Current.has_value() && settingsAdl.RisSharpeningDegree.Current.has_value())

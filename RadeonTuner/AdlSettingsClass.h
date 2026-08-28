@@ -7,6 +7,11 @@ enum class AdlSettingGet
 	Default
 };
 
+struct AdlSettingVersion
+{
+	int Version;
+};
+
 struct AdlSettingInt
 {
 	std::optional<int> Current;

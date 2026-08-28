@@ -5,25 +5,25 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::GraphicsSettings_Profile_Add(GraphicsSettings graphicsSettings)
+	bool MainPage::GraphicsSettings_Profile_Add(GraphicsSettings graphicsSettingsAdd)
 	{
 		try
 		{
 			//Device identifier
-			std::wstring deviceIdW = graphicsSettings.DeviceId.value();
+			std::wstring deviceIdW = graphicsSettingsAdd.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = graphicsSettings.Application.value();
+			std::wstring applicationW = graphicsSettingsAdd.Application.value();
 
 			//Get settings
-			auto graphicsSettingsProfile = GraphicsSettings_Profile_Get(deviceIdW, applicationW);
+			auto graphicsSettingsGet = GraphicsSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
 			bool profileAdded = false;
-			if (!graphicsSettingsProfile.has_value())
+			if (!graphicsSettingsGet.has_value())
 			{
 				//Add settings profile
-				graphicsSettingsCache.push_back(graphicsSettings);
+				graphicsSettingsCache.push_back(graphicsSettingsAdd);
 				profileAdded = true;
 
 				AVDebugWriteLine(L"Added graphics settings profile: " << deviceIdW << L" / " << applicationW);
@@ -31,6 +31,32 @@ namespace winrt::RadeonTuner::implementation
 
 			//Return result
 			return profileAdded;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::GraphicsSettings_Profile_Replace(GraphicsSettings graphicsSettingsReplace)
+	{
+		try
+		{
+			for (GraphicsSettings& graphicsSettings : graphicsSettingsCache)
+			{
+				try
+				{
+					if (graphicsSettings.DeviceId.value() == graphicsSettingsReplace.DeviceId.value() && graphicsSettings.Application.value() == graphicsSettingsReplace.Application.value())
+					{
+						graphicsSettings = graphicsSettingsReplace;
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
 		}
 		catch (...)
 		{
@@ -67,9 +93,20 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					if (graphicsSettings.DeviceId.value() == deviceId && graphicsSettings.Application.value() == application)
+					//DriverBug#1 if (graphicsSettings.DeviceId.value() == deviceId && graphicsSettings.Application.value() == application)
+					if (graphicsSettings.Application.value() == application)
 					{
-						return graphicsSettings;
+						if (graphicsSettings.Global())
+						{
+							if (graphicsSettings.DeviceId.value() == deviceId)
+							{
+								return graphicsSettings;
+							}
+						}
+						else
+						{
+							return graphicsSettings;
+						}
 					}
 				}
 				catch (...) {}
@@ -88,7 +125,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				try
 				{
-					if (graphicsSettings.DeviceId.value() == deviceId)
+					//DriverBug#1 if (graphicsSettings.DeviceId.value() == deviceId)
 					{
 						if (graphicsSettings.Application.has_value())
 						{

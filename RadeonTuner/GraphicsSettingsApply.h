@@ -235,12 +235,11 @@ namespace winrt::RadeonTuner::implementation
 			catch (...) {}
 
 			//FSR Over-The-Air Updates
+			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value switching between amdxcffx64techpreview.dll and amdxcffx64.dll.
 			try
 			{
 				if (targetSettings.FsrOtaIndex.Get(settingGet).has_value())
 				{
-					//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value switching between amdxcffx64techpreview.dll and amdxcffx64.dll.
-
 					//Get value
 					auto newValue = targetSettings.FsrOtaIndex.Get(settingGet).value();
 
@@ -296,14 +295,14 @@ namespace winrt::RadeonTuner::implementation
 					if (targetSettings.Global())
 					{
 						//Set setting
-						ADL_DELAG_SETTINGS adlSettings{};
+						ADL_DELAG_SETTINGSX4 adlSettings{};
 						adlSettings.GlobalEnable = newValue;
 
-						ADL_DELAG_NOTFICATION_REASON adlNotificationReason{};
+						ADL_DELAG_NOTIFICATION_REASONX4 adlNotificationReason{};
 						adlNotificationReason.GlobalEnableChanged = true;
 
 						ADL_ERROR_REASON2 adlErrorReason;
-						adl_Res0 = _ADL2_DELAG_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
+						adl_Res0 = _ADL2_DELAG_SettingsX4_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason, &adlErrorReason);
 
 						//Notify change
 						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_DELAG_PROFILE, true);
@@ -396,7 +395,7 @@ namespace winrt::RadeonTuner::implementation
 					if (targetSettings.Global())
 					{
 						//Set setting
-						AdlRegistrySettingSet(gpuAdapterIndex, "", "DrvFrameGenEnabled", newValue);
+						adl_Res0 = _ADL2_DriverFrameGeneration_Settings_Set(adl_Context, gpuAdapterIndex, newValue);
 					}
 				}
 			}
@@ -707,35 +706,72 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Radeon Image Sharpening 1
+			//Radeon Image Sharpening
+			//Note: RIS2 registry states 0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop
 			try
 			{
-				if (targetSettings.RisEnabled.Get(settingGet).has_value() && targetSettings.RisSharpeningDegree.Get(settingGet).has_value())
+				//Check application type
+				if (targetSettings.Global())
 				{
-					//Get value
-					auto enabledValue = targetSettings.RisEnabled.Get(settingGet).value();
-					auto sharpeningValue = targetSettings.RisSharpeningDegree.Get(settingGet).value();
-					float sharpeningValueApp = (float)sharpeningValue / 100.0F;
-
-					//Check application type
-					if (targetSettings.Global())
+					if (targetSettings.RisVersion.Version <= 1)
 					{
-						//Set setting
-						ADL_RIS_SETTINGS adlSettings{};
-						adlSettings.GlobalEnable = enabledValue;
-						adlSettings.GlobalSharpeningDegree = sharpeningValue;
+						if (targetSettings.RisEnabled.Get(settingGet).has_value() && targetSettings.RisSharpeningDegree.Get(settingGet).has_value())
+						{
+							//Get value
+							auto enabledValue = targetSettings.RisEnabled.Get(settingGet).value();
+							auto sharpeningValue = targetSettings.RisSharpeningDegree.Get(settingGet).value();
 
-						ADL_RIS_NOTFICATION_REASON adlNotificationReason{};
-						adlNotificationReason.GlobalEnableChanged = true;
-						adlNotificationReason.GlobalSharpeningDegreeChanged = true;
+							//Set setting
+							ADL_RIS_SETTINGS adlSettings{};
+							adlSettings.GlobalEnable = enabledValue;
+							adlSettings.GlobalSharpeningDegree = sharpeningValue;
 
-						adl_Res0 = _ADL2_RIS_Settings_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
+							ADL_RIS_NOTFICATION_REASON adlNotificationReason{};
+							adlNotificationReason.GlobalEnableChanged = true;
+							adlNotificationReason.GlobalSharpeningDegreeChanged = true;
 
-						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, true);
+							adl_Res0 = _ADL2_RIS_Settings_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
+
+							//Notify change
+							_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU_PROFILE, true);
+						}
 					}
 					else
 					{
+						if (targetSettings.RisEnabled.Get(settingGet).has_value() && targetSettings.RisDesktopEnabled.Get(settingGet).has_value() && targetSettings.RisSharpeningDegree.Get(settingGet).has_value())
+						{
+							//Get value
+							auto enabledValue = targetSettings.RisEnabled.Get(settingGet).value();
+							auto desktopValue = targetSettings.RisDesktopEnabled.Get(settingGet).value();
+							auto sharpeningValue = targetSettings.RisSharpeningDegree.Get(settingGet).value();
+
+							//Set setting
+							ADL_RIS2_SETTINGS adlSettings{};
+							adlSettings.GlobalEnable = enabledValue;
+							adlSettings.GlobalDesktop = desktopValue;
+							adlSettings.GlobalSharpeningDegree = sharpeningValue;
+
+							ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
+							adlNotificationReason.GlobalEnableChanged = true;
+							adlNotificationReason.GlobalDesktopChanged = true;
+							adlNotificationReason.GlobalSharpeningDegreeChanged = true;
+
+							adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
+
+							//Notify change
+							_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, true);
+						}
+					}
+				}
+				else
+				{
+					if (targetSettings.RisEnabled.Get(settingGet).has_value() && targetSettings.RisSharpeningDegree.Get(settingGet).has_value())
+					{
+						//Get value
+						auto enabledValue = targetSettings.RisEnabled.Get(settingGet).value();
+						auto sharpeningValue = targetSettings.RisSharpeningDegree.Get(settingGet).value();
+						float sharpeningValueApp = (float)sharpeningValue / 100.0F;
+
 						//Set application properties
 						AdlAppProperty adlAppProperty0{};
 						adlAppProperty0.Name = L"Ris_PFEnable";
@@ -752,41 +788,6 @@ namespace winrt::RadeonTuner::implementation
 						adlAppPropertyValue1.Value = float_to_wstring(sharpeningValueApp, 1);
 						adlAppProperty1.Values = { adlAppPropertyValue1 };
 						adlAppProperties.push_back(adlAppProperty1);
-					}
-				}
-			}
-			catch (...) {}
-
-			//Radeon Image Sharpening 2
-			try
-			{
-				if (targetSettings.Ris2Enabled.Get(settingGet).has_value() && targetSettings.Ris2DesktopEnabled.Get(settingGet).has_value() && targetSettings.Ris2SharpeningDegree.Get(settingGet).has_value())
-				{
-					//Note: RIS2 registry states 0 = off / 1 = on / 2 = off + desktop / 3 = on + desktop
-
-					//Get value
-					auto enabledValue = targetSettings.Ris2Enabled.Get(settingGet).value();
-					auto desktopValue = targetSettings.Ris2DesktopEnabled.Get(settingGet).value();
-					auto sharpeningValue = targetSettings.Ris2SharpeningDegree.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
-					{
-						//Set setting
-						ADL_RIS2_SETTINGS adlSettings{};
-						adlSettings.GlobalEnable = enabledValue;
-						adlSettings.GlobalDesktop = desktopValue;
-						adlSettings.GlobalSharpeningDegree = sharpeningValue;
-
-						ADL_RIS2_NOTIFICATION_REASON adlNotificationReason{};
-						adlNotificationReason.GlobalEnableChanged = true;
-						adlNotificationReason.GlobalDesktopChanged = true;
-						adlNotificationReason.GlobalSharpeningDegreeChanged = true;
-
-						adl_Res0 = _ADL2_RIS_SettingsX2_Set(adl_Context, gpuAdapterIndex, adlSettings, adlNotificationReason);
-
-						//Notify change
-						_ADL2_User_Settings_Notify(adl_Context, gpuAdapterIndex, ADL_USER_SETTINGS_USU2_PROFILE, true);
 					}
 				}
 			}
@@ -1231,6 +1232,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
 			//Note: Frame rate needs to be set before state because it force enables FRTC.
+			//DriverBug#7
 			try
 			{
 				if (targetSettings.FrtcFrameRateTarget.Get(settingGet).has_value())

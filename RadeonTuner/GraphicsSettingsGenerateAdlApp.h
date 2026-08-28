@@ -484,9 +484,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Radeon Image Sharpening 1
+			//Radeon Image Sharpening - Enabled
 			try
 			{
+				//Set version
+				graphicsSettings.RisVersion.Version = graphicsSettingsSupport.RisVersion.Version;
+
 				//Set support
 				graphicsSettings.RisEnabled.Support = graphicsSettingsSupport.RisEnabled.Support;
 
@@ -515,7 +518,12 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Radeon Image Sharpening 1 Sharpness
+			//Radeon Image Sharpening - Desktop
+			{
+				//Not supported
+			}
+
+			//Radeon Image Sharpening - Sharpness
 			try
 			{
 				//Set support
@@ -547,78 +555,6 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Set current
 					graphicsSettings.RisSharpeningDegree.Current = graphicsSettings.RisSharpeningDegree.Default;
-				}
-			}
-			catch (...) {}
-
-			//Radeon Image Sharpening 2
-			try
-			{
-				//Set support
-				graphicsSettings.Ris2Enabled.Support = graphicsSettingsSupport.Ris2Enabled.Support;
-
-				//Set default
-				graphicsSettings.Ris2Enabled.Default = 0;
-
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"Ris_PFEnable");
-				if (adlProperty.has_value())
-				{
-					//Set current
-					for (AdlAppPropertyValue value : adlProperty.value().Values)
-					{
-						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
-						{
-							bool convertedValue = (bool)wstring_to_int(value.Value);
-							graphicsSettings.Ris2Enabled.Current = convertedValue;
-							break;
-						}
-					}
-				}
-				else
-				{
-					//Set current
-					graphicsSettings.Ris2Enabled.Current = graphicsSettings.Ris2Enabled.Default;
-				}
-			}
-			catch (...) {}
-
-			//Radeon Image Sharpening 2 Desktop
-			{
-				//Not supported
-			}
-
-			//Radeon Image Sharpening 2 Sharpness
-			try
-			{
-				//Set support
-				graphicsSettings.Ris2SharpeningDegree.Support = graphicsSettingsSupport.Ris2SharpeningDegree.Support;
-
-				//Set default
-				graphicsSettings.Ris2SharpeningDegree.Default = 80;
-
-				//Set interface
-				graphicsSettings.Ris2SharpeningDegree.Minimum = 10;
-				graphicsSettings.Ris2SharpeningDegree.Maximum = 100;
-				graphicsSettings.Ris2SharpeningDegree.Step = 10;
-
-				std::optional<AdlAppProperty> adlProperty = AdlAppPropertyGet(adlApplication, L"Ris_SHDegree");
-				if (adlProperty.has_value())
-				{
-					//Set current
-					for (AdlAppPropertyValue value : adlProperty.value().Values)
-					{
-						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
-						{
-							float convertedValue = wstring_to_float(value.Value) * 100;
-							graphicsSettings.Ris2SharpeningDegree.Current = convertedValue;
-							break;
-						}
-					}
-				}
-				else
-				{
-					//Set current
-					graphicsSettings.Ris2SharpeningDegree.Current = graphicsSettings.Ris2SharpeningDegree.Default;
 				}
 			}
 			catch (...) {}
