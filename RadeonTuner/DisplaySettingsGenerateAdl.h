@@ -439,46 +439,6 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Color Gamma Red, Green, Blue
-			try
-			{
-				AdlGammaRamp gammaRamp{};
-				adl_Res0 = _ADL2_Adapter_Gamma_Get(adl_Context, adl_Display_AdapterIndex, &gammaRamp);
-				if (adl_Res0 == ADL_OK)
-				{
-					//Set default
-					displaySettings.GammaRed.Default = 1.0F;
-					displaySettings.GammaGreen.Default = 1.0F;
-					displaySettings.GammaBlue.Default = 1.0F;
-
-					//Set current
-					float redGain = 1.0F;
-					float greenGain = 1.0F;
-					float blueGain = 1.0F;
-					AdlGammaRampGet(gammaRamp, redGain, greenGain, blueGain);
-					displaySettings.GammaRed.Current = redGain;
-					displaySettings.GammaGreen.Current = greenGain;
-					displaySettings.GammaBlue.Current = blueGain;
-
-					//Set support
-					displaySettings.GammaRed.Support = true;
-					displaySettings.GammaGreen.Support = true;
-					displaySettings.GammaBlue.Support = true;
-
-					//Set interface
-					displaySettings.GammaRed.Minimum = 0.5F;
-					displaySettings.GammaRed.Maximum = 2.0F;
-					displaySettings.GammaRed.Step = 0.01F;
-					displaySettings.GammaGreen.Minimum = 0.5F;
-					displaySettings.GammaGreen.Maximum = 2.0F;
-					displaySettings.GammaGreen.Step = 0.01F;
-					displaySettings.GammaBlue.Minimum = 0.5F;
-					displaySettings.GammaBlue.Maximum = 2.0F;
-					displaySettings.GammaBlue.Step = 0.01F;
-				}
-			}
-			catch (...) {}
-
 			//Color Deficiency Correction Control
 			try
 			{

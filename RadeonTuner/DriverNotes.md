@@ -1,11 +1,13 @@
 You can find driver bug workarounds in the code by searching for: //DriverBug#
 
+---------------------------------------------
+Driver bug notes
+
 #DriverBug#1
 Bug or limitation in newer AMD drivers does not allow separate app settings for each GPU so settings must unfortunately be set the same for all GPU's.
 In older drivers you needed to set the used GpuID at 'UMD\AppGpuId' but for some reason in newer drivers this value seems to be ignored breaking support for separate settings.
 Driver stores settings like this GpuId1::SettingOn;;GpuId2::SettingOff;; but only the first value is used ignoring 'UMD\AppGpuId'.
 Note: this workaround breaks profile compatibility with Radeon Software but does make settings work on old and new drivers.
-Note: changing GPU Preference in Windows graphics settings does not adapt to settings set for each GPU it uses the same settings for all GPU's. (App profile and KMD registry)
 
 #DriverBug#2
 Bug in AMD driver does not sort paths by length and trims \ from ending so it will pick wrong profile depending on which one was added or changed last.
@@ -31,3 +33,20 @@ This can cause higher CPU load at all times because one of those system processe
 #DriverBug#6
 AMD Radeon Fluid Motion Frames does not work when Radeon Software is not running in the background breaking support for it in RadeonTuner using the 'Driver Only' or 'Minimal' software installation type.
 Radeon Software reads Graphics settings from '%LOCALAPPDATA%\AMD\CN\gmdb.blb' and if an application is added and AFMF is enabled in Global (DrvFrameGenEnabled) or in GMDB it sends a signal to the game process to enable AFMF.
+
+#DriverBug#7
+When FRTC is enabled in Global all GPU's read the value set from the first installed GPU, ignoring the value set for each GPU separately.
+Example: When GPU 0000 FRTC is set to 60 FPS and GPU 0001 FRTC FPS is set to 30, both GPU's will use the 0000 GPU 60 FPS value even when 0001 is properly set to 30 FPS.
+
+---------------------------------------------
+ADL api notes
+
+ADL2_Display_Gamut_Get (Not working HDR -1)
+ADL2_Display_Regamma_Get (Not working HDR -1)
+ADL2_Display_RegammaR1_Get (Not working HDR -1)
+ADL2_Display_ReGammaCoefficients_Get (Not working HDR -1)
+ADL2_Display_User3DLUT_Get (Returns unsupported error)
+ADL2_Adapter_Gamma_Get (Works HDR uses SetDeviceGammaRamp)
+
+#ADL2_Adapter_Gamma_Get
+Uses Windows API SetDeviceGammaRamp to change the gamma which is unreliable because it does not work when video is playing and resets the gamma on display events like resolution changes and system reboots.

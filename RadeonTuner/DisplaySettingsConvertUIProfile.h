@@ -100,24 +100,6 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().Value(displaySettings.Hue.Get(settingType).value());
 			}
 
-			//Color Gamma Red
-			if (displaySettings.GammaRed.Get(settingType).has_value())
-			{
-				slider_Display_GammaRed().Value(displaySettings.GammaRed.Get(settingType).value());
-			}
-
-			//Color Gamma Green
-			if (displaySettings.GammaGreen.Get(settingType).has_value())
-			{
-				slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Get(settingType).value());
-			}
-
-			//Color Gamma Blue
-			if (displaySettings.GammaBlue.Get(settingType).has_value())
-			{
-				slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Get(settingType).value());
-			}
-
 			//Color Deficiency Correction Control
 			if (displaySettings.CVDCControl.Get(settingType).has_value())
 			{

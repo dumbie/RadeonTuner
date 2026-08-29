@@ -21,9 +21,6 @@ struct DisplaySettings
 	AdlSettingInt Contrast;
 	AdlSettingInt Saturation;
 	AdlSettingInt Hue;
-	AdlSettingFloat GammaRed;
-	AdlSettingFloat GammaGreen;
-	AdlSettingFloat GammaBlue;
 	AdlSettingInt ColorTemperatureControl;
 	AdlSettingInt ColorTemperatureKelvin;
 	AdlSettingInt CVDCControl;
@@ -61,9 +58,6 @@ struct DisplaySettings
 		Contrast.Current = Contrast.Default;
 		Saturation.Current = Saturation.Default;
 		Hue.Current = Hue.Default;
-		GammaRed.Current = GammaRed.Default;
-		GammaGreen.Current = GammaGreen.Default;
-		GammaBlue.Current = GammaBlue.Default;
 		ColorTemperatureControl.Current = ColorTemperatureControl.Default;
 		ColorTemperatureKelvin.Current = ColorTemperatureKelvin.Default;
 		CVDCControl.Current = CVDCControl.Default;
@@ -74,5 +68,5 @@ struct DisplaySettings
 		EyefinityAutomatic.Current = EyefinityAutomatic.Default;
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Application, HdrEnabled.Current, FreeSyncMode.Current, VsrEnabled.Current, GpuScalingEnabled.Current, IntegerScalingEnabled.Current, ScalingMode.Current, VariBrightEnabled.Current, VariBrightLevel.Current, ColorDepth.Current, PixelFormat.Current, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, GammaRed.Current, GammaGreen.Current, GammaBlue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current, HDCPEnabled.Current, EyefinityAutomatic.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(DisplaySettings, DeviceId, Application, HdrEnabled.Current, FreeSyncMode.Current, VsrEnabled.Current, GpuScalingEnabled.Current, IntegerScalingEnabled.Current, ScalingMode.Current, VariBrightEnabled.Current, VariBrightLevel.Current, ColorDepth.Current, PixelFormat.Current, ColorEnhancement.Current, Brightness.Current, Contrast.Current, Saturation.Current, Hue.Current, ColorTemperatureControl.Current, ColorTemperatureKelvin.Current, CVDCControl.Current, CVDCProtanopia.Current, CVDCDeuteranopia.Current, CVDCTritanopia.Current, HDCPEnabled.Current, EyefinityAutomatic.Current)
 };

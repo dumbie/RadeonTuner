@@ -317,7 +317,7 @@
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideUpscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
 
-                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <!-- FSR Frame Generation Override -->
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
@@ -511,7 +511,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Frame Rate Target Control sets an user-defined target maximum frame rate to reduce power consumption."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when using exclusive full-screen mode.&#10;&#10;* Bug in driver might apply set FRTC value for this GPU on other GPU's aswell."/>
                                         <ToggleSwitch x:Name="toggleswitch_Frtc" Margin="10,0,0,0" OffContent="Frame Rate Target Control" OnContent="Frame Rate Target Control" Toggled="toggleswitch_Frtc_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Frtc_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
@@ -537,7 +537,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application executable to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                         <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -567,7 +567,7 @@
                                     <!-- Radeon Image Sharpening 1 -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Radeon Image Sharpening restores clarity softened by other effects to in-game visuals, select productivity and media applications."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* As Global setting this feature only works on RDNA3 and older graphic cards and requires using full-screen mode.&#10;&#10;* In application profiles this setting only works on RDNA and newer graphic cards.&#10;&#10;* DirectX 9 applications are only supported on RDNA and newer graphic cards."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work with HDR enabled and OpenGL applications.&#10;&#10;* This setting only works when using full-screen mode.&#10;&#10;* In application profiles this setting only works on RDNA and newer graphic cards.&#10;&#10;* DirectX 9 applications are only supported on RDNA and newer graphic cards."/>
                                         <Image x:Name="image_RadeonImageSharpening1_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                         <ToggleSwitch x:Name="toggleswitch_RadeonImageSharpening1" Margin="10,0,0,0" OffContent="Radeon Image Sharpening 1" OnContent="Radeon Image Sharpening 1" Toggled="toggleswitch_RadeonImageSharpening1_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonImageSharpening1_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -1010,9 +1010,9 @@
                                 </Grid>
 
                                 <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch">
-                                    <TextBlock Text="0°C" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="50°C" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="100°C" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="0°C | 32°F" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="50°C | 122°F" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="100°C | 212°F" HorizontalAlignment="Right"/>
                                 </Grid>
                             </Grid>
 
@@ -1243,7 +1243,7 @@
                                 <StackPanel>
                                     <!-- FreeSync Mode -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology synchronizes the refresh rate of a display with the framerate to deliver dynamic refresh rate.&#10;&#10;AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable: Dynamically adjusts FreeSync refresh rate to the frame rate of running applications.&#10;&#10;- Static: Adjusts FreeSync refresh rate to your set display refresh rate."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable: Dynamically adjusts FreeSync refresh rate to the frame rate of applications running in full-screen mode.&#10;&#10;- Static: Adjusts FreeSync refresh rate to your set display refresh rate."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
                                         <TextBlock Text="AMD FreeSync / VRR / Adaptive Sync" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -1351,62 +1351,6 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
-
-                            <StackPanel x:Name="stackpanel_Display_Gamma">
-                                <TextBlock Margin="0,10,0,0" Text="Gamma Adjustment" FontSize="20" FontWeight="Medium"/>
-
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
-                                    <StackPanel>
-                                        <!-- Gamma Red -->
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Some running applications or playing video may prevent the Gamma from changing and needs to be minimized or closed first.&#10;&#10;* This setting is temporary and resets on resolution changes and requires an application restart to apply the gamma adjustment again."/>
-                                            <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
-                                            <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                        </Grid>
-
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                        <!-- Gamma Green -->
-                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <TextBlock Text="Green" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                        </Grid>
-
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                                        <!-- Gamma Blue -->
-                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <TextBlock Text="Blue" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
-                                        </Grid>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
 
                             <!-- Color Adjustment -->
                             <TextBlock Text="Color Adjustment" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>

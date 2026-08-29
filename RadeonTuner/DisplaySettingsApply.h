@@ -436,29 +436,6 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Color Gamma Red Green Blue
-			//Fix Some applications and resolution changes seem to block or reset set gamma (ADL2 wraps around SetDeviceGammaRamp) find better alternative that always works.
-			//Fix Applying other settings at the same time breaks applying gamma, wait before others are set before applying gamma.
-			//Fix current gamma value is unreliable when you target 1.00 it can be set to 1.01, skip matching values.
-			try
-			{
-				//Get value
-				auto newValueRed = targetSettings.GammaRed.Get(settingGet).value();
-				auto newValueGreen = targetSettings.GammaGreen.Get(settingGet).value();
-				auto newValueBlue = targetSettings.GammaBlue.Get(settingGet).value();
-
-				//Note: Gamma value sometimes gets stuck so setting it to other value first may help.
-
-				//Set setting
-				AdlGammaRamp gammaRampDefault = AdlGammaRampBuild(newValueRed + 0.02F, newValueGreen + 0.02F, newValueBlue + 0.02F);
-				adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampDefault);
-
-				//Set setting
-				AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(newValueRed, newValueGreen, newValueBlue);
-				adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, displayAdapterIndex, gammaRampTarget);
-			}
-			catch (...) {}
-
 			//Return result
 			return true;
 		}

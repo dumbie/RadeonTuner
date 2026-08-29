@@ -341,12 +341,6 @@ typedef int (*ADL2_Display_CustomizedModeListNum_Get)(ADL_CONTEXT_HANDLE context
 inline ADL2_Display_CustomizedModeListNum_Get _ADL2_Display_CustomizedModeListNum_Get;
 
 //Display - Gamma
-//ADL2_Display_Gamut_Get (Not working HDR -1)
-//ADL2_Display_Regamma_Get (Not working HDR -1)
-//ADL2_Display_RegammaR1_Get (Not working HDR -1)
-//ADL2_Display_ReGammaCoefficients_Get (Not working HDR -1)
-//ADL2_Display_User3DLUT_Get (Returns unsupported error)
-//ADL2_Adapter_Gamma_Get (Works HDR uses SetDeviceGammaRamp)
 typedef int (*ADL2_Adapter_Gamma_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, AdlGammaRamp lpGammaRamp);
 inline ADL2_Adapter_Gamma_Set _ADL2_Adapter_Gamma_Set;
 

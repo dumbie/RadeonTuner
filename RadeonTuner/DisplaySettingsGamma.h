@@ -49,15 +49,14 @@ namespace winrt::RadeonTuner::implementation
 			uint32_t blue = gammaRamp.rgb[colorIndex + 1];
 
 			//Unpack color channels
-			float colorScale = 2.0F / 65535.0F;
-			redGain = (redGreen & 65535) * colorScale;
-			greenGain = (redGreen >> 16) * colorScale;
-			blueGain = (blue & 65535) * colorScale;
+			redGain = (redGreen & 65535) / 32768.0F;
+			greenGain = (redGreen >> 16) / 32768.0F;
+			blueGain = (blue & 65535) / 32768.0F;
 
-			//Round color channels
-			redGain = std::round(redGain * 100.0F) / 100.0F;
-			greenGain = std::round(greenGain * 100.0F) / 100.0F;
-			blueGain = std::round(blueGain * 100.0F) / 100.0F;
+			//Floor color channels
+			redGain = std::floor(redGain * 100.0F) / 100.0F;
+			greenGain = std::floor(greenGain * 100.0F) / 100.0F;
+			blueGain = std::floor(blueGain * 100.0F) / 100.0F;
 		}
 		catch (...) {}
 	}

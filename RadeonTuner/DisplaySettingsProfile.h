@@ -5,38 +5,64 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::DisplaySettings_Profile_Add(DisplaySettings displaySettings)
+	bool MainPage::DisplaySettings_Profile_Add(DisplaySettings displaySettingsAdd)
 	{
 		try
 		{
 			//Device identifier
-			std::wstring deviceIdW = displaySettings.DeviceId.value();
+			std::wstring deviceIdW = displaySettingsAdd.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = displaySettings.Application.value();
+			std::wstring applicationW = displaySettingsAdd.Application.value();
 
 			//Get settings
-			auto displaySettingsProfile = DisplaySettings_Profile_Get(deviceIdW, applicationW);
+			auto displaySettingsGet = DisplaySettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
 			bool profileAdded = false;
-			if (!displaySettingsProfile.has_value())
+			if (!displaySettingsGet.has_value())
 			{
 				//Check if any profile is used
 				if (!DisplaySettings_Profile_Any_Using(deviceIdW))
 				{
-					displaySettings.UsingProfile = true;
+					displaySettingsAdd.UsingProfile = true;
 				}
 
 				//Add settings profile
-				displaySettingsCache.push_back(displaySettings);
+				displaySettingsCache.push_back(displaySettingsAdd);
 				profileAdded = true;
 
-				AVDebugWriteLine(L"Added display settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << displaySettings.UsingProfile);
+				AVDebugWriteLine(L"Added display settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << displaySettingsAdd.UsingProfile);
 			}
 
 			//Return result
 			return profileAdded;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::DisplaySettings_Profile_Replace(DisplaySettings displaySettingsReplace)
+	{
+		try
+		{
+			for (DisplaySettings& displaySettings : displaySettingsCache)
+			{
+				try
+				{
+					if (displaySettings.DeviceId.value() == displaySettingsReplace.DeviceId.value() && displaySettings.Application.value() == displaySettingsReplace.Application.value())
+					{
+						displaySettings = displaySettingsReplace;
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
 		}
 		catch (...)
 		{

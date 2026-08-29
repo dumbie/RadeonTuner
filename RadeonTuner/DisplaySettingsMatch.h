@@ -67,21 +67,6 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.FreeSyncMode.Current.value() != settingsAdl.FreeSyncMode.Current.value()) { return false; }
 			}
 
-			if (settingsProfile.GammaRed.Current.has_value() && settingsAdl.GammaRed.Current.has_value())
-			{
-				if (settingsProfile.GammaRed.Current.value() != settingsAdl.GammaRed.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.GammaGreen.Current.has_value() && settingsAdl.GammaGreen.Current.has_value())
-			{
-				if (settingsProfile.GammaGreen.Current.value() != settingsAdl.GammaGreen.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.GammaBlue.Current.has_value() && settingsAdl.GammaBlue.Current.has_value())
-			{
-				if (settingsProfile.GammaBlue.Current.value() != settingsAdl.GammaBlue.Current.value()) { return false; }
-			}
-
 			if (!appProfileOnly)
 			{
 				if (settingsProfile.GpuScalingEnabled.Current.has_value() && settingsAdl.GpuScalingEnabled.Current.has_value())
