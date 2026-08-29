@@ -93,6 +93,11 @@ namespace winrt::RadeonTuner::implementation
 			ADLMode* lppModes;
 			int lpNumModes = -1;
 			adl_Res0 = _ADL2_Display_PossibleMode_Get(adl_Context, adl_Display_AdapterIndex, &lpNumModes, &lppModes);
+
+			//Sort resolutions
+			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.iXRes > b.iXRes; });
+
+			//Append resolutions
 			for (int i = 0; i < lpNumModes; i++)
 			{
 				ADLMode adlMode = lppModes[i];
@@ -122,10 +127,16 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::DisplayList_RefreshRate()
+	winrt::fire_and_forget MainPage::DisplayList_RefreshRate(bool waitUpdate)
 	{
 		try
 		{
+			//Wait for refresh rates to have updated
+			if (waitUpdate)
+			{
+				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
+			}
+
 			//Create item collection
 			auto itemCollection = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
 
