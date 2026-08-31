@@ -825,24 +825,16 @@ namespace winrt::RadeonTuner::implementation
 				//Set support
 				graphicsSettings.OpenGL10BitPixelFormat.Support = graphicsSettingsSupport.OpenGL10BitPixelFormat.Support;
 
-				//Set default
-				graphicsSettings.OpenGL10BitPixelFormat.Default = 0;
-
-				auto adlRegistry = AdlRegistrySettingGetString(gpuAdapterIndex, "", "KMD_10BitMode", true);
-				if (adlRegistry.has_value())
+				int adlDeepBitDepthDefault = -1;
+				int adlDeepBitDepthCurrent = -1;
+				adl_Res0 = _ADL2_Workstation_DeepBitDepthX2_Get(adl_Context, gpuAdapterIndex, &adlDeepBitDepthDefault, &adlDeepBitDepthCurrent);
+				if (adl_Res0 == ADL_OK)
 				{
 					//Set current
-					int convertedValue = wstring_to_int(adlRegistry.value());
+					graphicsSettings.OpenGL10BitPixelFormat.Current = adlDeepBitDepthCurrent;
 
-					//Enumeration index correction
-					if (convertedValue == 1)
-					{
-						graphicsSettings.OpenGL10BitPixelFormat.Current = 1;
-					}
-					else if (convertedValue == 2)
-					{
-						graphicsSettings.OpenGL10BitPixelFormat.Current = 0;
-					}
+					//Set default
+					graphicsSettings.OpenGL10BitPixelFormat.Default = adlDeepBitDepthDefault;
 				}
 			}
 			catch (...) {}

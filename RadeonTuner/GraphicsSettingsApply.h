@@ -1298,20 +1298,9 @@ namespace winrt::RadeonTuner::implementation
 					//Check application type
 					if (targetSettings.Global())
 					{
-						//Enumeration index correction
-						int setValue = 1;
-						if (newValue)
-						{
-							setValue = 1;
-						}
-						else
-						{
-							setValue = 2;
-						}
-
 						//Set setting
-						AdlRegistrySettingSet(gpuAdapterIndex, "", "KMD_10BitMode", setValue);
-						AdlRegistrySettingSet(gpuAdapterIndex, "", "Gmx_Enable10BitMode", setValue);
+						adl_Res0 = _ADL2_Workstation_DeepBitDepthX2_Set(adl_Context, gpuAdapterIndex, newValue);
+						//ADL_OK || ADL_OK_RESTART
 					}
 				}
 			}

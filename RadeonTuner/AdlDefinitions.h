@@ -347,6 +347,13 @@ inline ADL2_Adapter_Gamma_Set _ADL2_Adapter_Gamma_Set;
 typedef int (*ADL2_Adapter_Gamma_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, AdlGammaRamp* lpGammaRamp);
 inline ADL2_Adapter_Gamma_Get _ADL2_Adapter_Gamma_Get;
 
+//Display - OpenGL 10-Bit Pixel Format
+typedef int (*ADL2_Workstation_DeepBitDepthX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpDefDBDState, int* lpCurDBDState);
+inline ADL2_Workstation_DeepBitDepthX2_Get _ADL2_Workstation_DeepBitDepthX2_Get;
+
+typedef int (*ADL2_Workstation_DeepBitDepthX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDBDState);
+inline ADL2_Workstation_DeepBitDepthX2_Set _ADL2_Workstation_DeepBitDepthX2_Set;
+
 //Multimedia
 typedef int(*ADL2_MMD_Features_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLFeatureCaps** lppFeatureCaps, int* lpFeatureCount);
 inline ADL2_MMD_Features_Caps _ADL2_MMD_Features_Caps;

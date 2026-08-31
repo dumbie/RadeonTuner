@@ -903,6 +903,21 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Adapter_Gamma_Get");
 			}
 
+			//Display - OpenGL 10-Bit Pixel Format
+			_ADL2_Workstation_DeepBitDepthX2_Get = (ADL2_Workstation_DeepBitDepthX2_Get)GetProcAddress(hInstance, "ADL2_Workstation_DeepBitDepthX2_Get");
+			if (_ADL2_Workstation_DeepBitDepthX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Workstation_DeepBitDepthX2_Get");
+			}
+
+			_ADL2_Workstation_DeepBitDepthX2_Set = (ADL2_Workstation_DeepBitDepthX2_Set)GetProcAddress(hInstance, "ADL2_Workstation_DeepBitDepthX2_Set");
+			if (_ADL2_Workstation_DeepBitDepthX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Workstation_DeepBitDepthX2_Set");
+			}
+
 			//Multimedia
 			_ADL2_MMD_Features_Caps = (ADL2_MMD_Features_Caps)GetProcAddress(hInstance, "ADL2_MMD_Features_Caps");
 			if (_ADL2_MMD_Features_Caps == NULL)

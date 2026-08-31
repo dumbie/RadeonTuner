@@ -310,8 +310,13 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL 10-Bit Pixel Format
 			try
 			{
-				//Fix find way to check support
-				graphicsSettings.OpenGL10BitPixelFormat.Support = true;
+				int adlDeepBitDepthDefault = -1;
+				int adlDeepBitDepthCurrent = -1;
+				adl_Res0 = _ADL2_Workstation_DeepBitDepthX2_Get(adl_Context, gpuAdapterIndex, &adlDeepBitDepthDefault, &adlDeepBitDepthCurrent);
+				if (adl_Res0 == ADL_OK)
+				{
+					graphicsSettings.OpenGL10BitPixelFormat.Support = true;
+				}
 			}
 			catch (...) {}
 

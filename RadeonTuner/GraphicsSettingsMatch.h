@@ -154,10 +154,11 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.NrcOverride.Current.value() != settingsAdl.NrcOverride.Current.value()) { return false; }
 			}
 
-			if (settingsProfile.OpenGL10BitPixelFormat.Current.has_value() && settingsAdl.OpenGL10BitPixelFormat.Current.has_value())
-			{
-				if (settingsProfile.OpenGL10BitPixelFormat.Current.value() != settingsAdl.OpenGL10BitPixelFormat.Current.value()) { return false; }
-			}
+			//Note: Not matching OpenGL 10-bit pixel format because it requires a reboot for the state to change.
+			//if (settingsProfile.OpenGL10BitPixelFormat.Current.has_value() && settingsAdl.OpenGL10BitPixelFormat.Current.has_value())
+			//{
+			//	if (settingsProfile.OpenGL10BitPixelFormat.Current.value() != settingsAdl.OpenGL10BitPixelFormat.Current.value()) { return false; }
+			//}
 
 			if (settingsProfile.OpenGLTripleBuffering.Current.has_value() && settingsAdl.OpenGLTripleBuffering.Current.has_value())
 			{
