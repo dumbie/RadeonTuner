@@ -30,7 +30,7 @@ RadeonTuner is an easy to use alternative for the AMD Adrenalin Software for use
 - AMD Radeon RDNA or newer architecture.
 - Microsoft .NET Desktop Runtime installed.
 - Microsoft Visual C++ Redistributable installed.
-- Microsoft Windows 10 64-bit or higher is required.
+- Microsoft Windows 10 (18362) 64-bit or newer is required.
 
 ## Known Issues
 You can find all known issues at https://issues.arnoldvink.com/?p=RadeonTuner
@@ -42,6 +42,13 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.40.0.0 (1-September-2026)
+- Added display application profile support.
+- Graphic settings are now restored after driver reinstall.
+- Added option to switch between FreeSync variable and static frame rate.
+- Added option to switch between Radeon Boost algorithms.
+- Added experimental setting to show FSR information in-game.
+
 v0.32.0.0 (1-August-2026)
 - Added tuning application profile support.
 - Added option to add game executables from Steam.
