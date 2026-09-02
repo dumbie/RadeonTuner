@@ -131,13 +131,13 @@ namespace winrt::RadeonTuner::implementation
 			if (displaySettings.VariBrightEnabled.Get(settingType).has_value())
 			{
 				toggleswitch_Display_VariBright().IsOn(displaySettings.VariBrightEnabled.Get(settingType).value());
+				combobox_Display_VariBright_Level().IsEnabled(displaySettings.VariBrightEnabled.Get(settingType).value());
 			}
 
 			//Vari-Bright Level
 			if (displaySettings.VariBrightLevel.Get(settingType).has_value())
 			{
 				combobox_Display_VariBright_Level().SelectedIndex(displaySettings.VariBrightLevel.Get(settingType).value());
-				combobox_Display_VariBright_Level().IsEnabled(displaySettings.VariBrightLevel.Get(settingType).value());
 			}
 
 			//HDCP Support
@@ -146,7 +146,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Display_HDCPSupport().IsOn(displaySettings.HDCPEnabled.Get(settingType).value());
 			}
 
-			//Eyefinity Automatic
+			//Automatic Eyefinity
 			if (displaySettings.EyefinityAutomatic.Get(settingType).has_value())
 			{
 				bool settingValue = displaySettings.EyefinityAutomatic.Get(settingType).value();

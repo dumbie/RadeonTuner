@@ -290,8 +290,8 @@ typedef int (*ADL2_Display_HDCP_Set)(ADL_CONTEXT_HANDLE context, int iAdapterInd
 inline ADL2_Display_HDCP_Set _ADL2_Display_HDCP_Set;
 
 //Display - VariBright
-typedef int (*ADL2_Adapter_VariBright_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported, int* iEnabled, int* iVersion);
-inline ADL2_Adapter_VariBright_Caps _ADL2_Adapter_VariBright_Caps;
+typedef int (*ADL2_Adapter_VariBright_CapsX2)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported, int* iEnabled, int* iVersion, int* iUnknown);
+inline ADL2_Adapter_VariBright_CapsX2 _ADL2_Adapter_VariBright_CapsX2;
 
 typedef int (*ADL2_Adapter_VariBrightEnable_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iEnabled);
 inline ADL2_Adapter_VariBrightEnable_Set _ADL2_Adapter_VariBrightEnable_Set;

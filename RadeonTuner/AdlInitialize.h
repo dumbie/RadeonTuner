@@ -778,11 +778,11 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Display - VariBright
-			_ADL2_Adapter_VariBright_Caps = (ADL2_Adapter_VariBright_Caps)GetProcAddress(hInstance, "ADL2_Adapter_VariBright_Caps");
-			if (_ADL2_Adapter_VariBright_Caps == NULL)
+			_ADL2_Adapter_VariBright_CapsX2 = (ADL2_Adapter_VariBright_CapsX2)GetProcAddress(hInstance, "ADL2_Adapter_VariBright_CapsX2");
+			if (_ADL2_Adapter_VariBright_CapsX2 == NULL)
 			{
 				//Set result
-				AVDebugWriteLine("Failed to init _ADL2_Adapter_VariBright_Caps");
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_VariBright_CapsX2");
 			}
 
 			_ADL2_Adapter_VariBrightEnable_Set = (ADL2_Adapter_VariBrightEnable_Set)GetProcAddress(hInstance, "ADL2_Adapter_VariBrightEnable_Set");

@@ -17,17 +17,19 @@ namespace winrt::RadeonTuner::implementation
 			//Device application
 			displaySettings.Application = application;
 
+			//Set ADL display identifier
+			ADLDisplayID displayId{};
+			displayId.iDisplayLogicalAdapterIndex = adapterIndex;
+			displayId.iDisplayLogicalIndex = displayIndex;
+
 			//HDR Enabled
 			try
 			{
-				ADLDisplayID displayId{};
-				displayId.iDisplayLogicalAdapterIndex = adapterIndex;
-				displayId.iDisplayLogicalIndex = displayIndex;
-
 				int hdrSupported = -1;
 				int hdrEnabled = -1;
 				adl_Res0 = _ADL2_Display_HDRState_Get(adl_Context, adapterIndex, displayId, &hdrSupported, &hdrEnabled);
-				if (adl_Res0 == ADL_OK)
+				//Note: Sometimes does not return real values even when result is ADL_OK
+				if (adl_Res0 == ADL_OK && hdrSupported != -1 && hdrEnabled != -1)
 				{
 					//Set default
 					displaySettings.HdrEnabled.Default = 0;
@@ -468,7 +470,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set default
 					displaySettings.CVDCProtanopia.Default = 10;
 
-					//Set setting
+					//Set current
 					displaySettings.CVDCProtanopia.Current = cvdcProtanopia;
 
 					//Set support
@@ -492,7 +494,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set default
 					displaySettings.CVDCDeuteranopia.Default = 0;
 
-					//Set setting
+					//Set current
 					displaySettings.CVDCDeuteranopia.Current = cvdcDeuteranopia;
 
 					//Set support
@@ -516,7 +518,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set default
 					displaySettings.CVDCTritanopia.Default = 0;
 
-					//Set setting
+					//Set current
 					displaySettings.CVDCTritanopia.Current = cvdcTritanopia;
 
 					//Set support
@@ -530,19 +532,20 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Vari-Bright
+			//Vari-Bright Enabled
 			try
 			{
 				int variSupported = -1;
 				int variEnabled = -1;
 				int variVersion = -1;
-				adl_Res0 = _ADL2_Adapter_VariBright_Caps(adl_Context, adl_Gpu_AdapterIndex, &variSupported, &variEnabled, &variVersion);
+				int variUnknown = -1;
+				adl_Res0 = _ADL2_Adapter_VariBright_CapsX2(adl_Context, adl_Gpu_AdapterIndex, &variSupported, &variEnabled, &variVersion, &variUnknown);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set default
 					displaySettings.VariBrightEnabled.Default = 1;
 
-					//Set setting
+					//Set current
 					displaySettings.VariBrightEnabled.Current = variEnabled;
 
 					//Set support
@@ -562,9 +565,9 @@ namespace winrt::RadeonTuner::implementation
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set default
-					displaySettings.VariBrightLevel.Default = 2;
+					displaySettings.VariBrightLevel.Default = variDefaultLevel;
 
-					//Set setting
+					//Set current
 					displaySettings.VariBrightLevel.Current = variCurrentLevel;
 
 					//Set support
@@ -583,7 +586,7 @@ namespace winrt::RadeonTuner::implementation
 					//Set default
 					displaySettings.HDCPEnabled.Default = 1;
 
-					//Set setting
+					//Set current
 					displaySettings.HDCPEnabled.Current = lpHDCPSettings.iAllowAll;
 
 					//Set support
