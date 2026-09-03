@@ -12,15 +12,30 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Note: ADL2_Adapter_Feature_Caps does not seem to be reliable for example FRTC always returns as not supported.
 
+			//Check if experimental setting is enabled
+			bool skipSupportCheckGraphicsBool = false;
+			std::optional<bool> skipSupportCheckSetting = AppVariables::Settings.Load<bool>("SkipSupportCheckGraphics");
+			if (skipSupportCheckSetting.has_value())
+			{
+				skipSupportCheckGraphicsBool = skipSupportCheckSetting.value();
+			}
+
 			//FSR Upscaling Override
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.FsrOverride.Support = featureSupport;
+					graphicsSettings.FsrOverride.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.FsrOverride.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -28,12 +43,19 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Frame Generation Override
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLFISupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.MlfiOverride.Support = featureSupport;
+					graphicsSettings.MlfiOverride.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMLFISupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.MlfiOverride.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -41,13 +63,21 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Multi Frame Generation Override / Ratio
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMFGSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.MfgOverride.Support = featureSupport;
-					graphicsSettings.MfgRatio.Support = featureSupport;
+					graphicsSettings.MfgOverride.Support = true;
+					graphicsSettings.MfgRatio.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMFGSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.MfgOverride.Support = featureSupport;
+						graphicsSettings.MfgRatio.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -55,12 +85,19 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Ray Regeneration Denoiser Override
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLDSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.MldOverride.Support = featureSupport;
+					graphicsSettings.MldOverride.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMLDSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.MldOverride.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -68,12 +105,19 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Neural Radiance Caching Override
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverNRCSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.NrcOverride.Support = featureSupport;
+					graphicsSettings.NrcOverride.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverNRCSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.NrcOverride.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -81,12 +125,19 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Override Library
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.FsrOvrDLLPath.Support = featureSupport;
+					graphicsSettings.FsrOvrDLLPath.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.FsrOvrDLLPath.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -96,12 +147,19 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Fix switch to ADL2_CloudProfile_DLL_Get
 
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.FsrOtaIndex.Support = featureSupport;
+					graphicsSettings.FsrOtaIndex.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.FsrOtaIndex.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -116,12 +174,19 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Latency Reduction
 			try
 			{
-				//Get feature support
-				ADL_DELAG_SETTINGSX4 adlSettings;
-				adl_Res0 = _ADL2_DELAG_SettingsX4_Get(adl_Context, gpuAdapterIndex, &adlSettings);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
 					graphicsSettings.DeLagEnabled.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					ADL_DELAG_SETTINGSX4 adlSettings;
+					adl_Res0 = _ADL2_DELAG_SettingsX4_Get(adl_Context, gpuAdapterIndex, &adlSettings);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.DeLagEnabled.Support = true;
+					}
 				}
 			}
 			catch (...) {}
@@ -129,16 +194,27 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_DriverFrameGenerationSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.FrameGenEnabled.Support = featureSupport;
-					graphicsSettings.FrameGenSearchMode.Support = featureSupport;
-					graphicsSettings.FrameGenPerfMode.Support = featureSupport;
-					graphicsSettings.FrameGenResponseMode.Support = featureSupport;
-					graphicsSettings.FrameGenAlgorithm.Support = featureSupport;
+					graphicsSettings.FrameGenEnabled.Support = true;
+					graphicsSettings.FrameGenSearchMode.Support = true;
+					graphicsSettings.FrameGenPerfMode.Support = true;
+					graphicsSettings.FrameGenResponseMode.Support = true;
+					graphicsSettings.FrameGenAlgorithm.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_DriverFrameGenerationSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.FrameGenEnabled.Support = featureSupport;
+						graphicsSettings.FrameGenSearchMode.Support = featureSupport;
+						graphicsSettings.FrameGenPerfMode.Support = featureSupport;
+						graphicsSettings.FrameGenResponseMode.Support = featureSupport;
+						graphicsSettings.FrameGenAlgorithm.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -146,13 +222,21 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost
 			try
 			{
-				//Get feature support
-				ADL_BOOST_SETTINGSX4 adlSettings;
-				adl_Res0 = _ADL2_BOOST_SettingsX4_Get(adl_Context, gpuAdapterIndex, &adlSettings);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
 					graphicsSettings.BoostMode.Support = true;
 					graphicsSettings.BoostMinResolution.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					ADL_BOOST_SETTINGSX4 adlSettings;
+					adl_Res0 = _ADL2_BOOST_SettingsX4_Get(adl_Context, gpuAdapterIndex, &adlSettings);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.BoostMode.Support = true;
+						graphicsSettings.BoostMinResolution.Support = true;
+					}
 				}
 			}
 			catch (...) {}
@@ -160,14 +244,22 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Frame Rate Target Control
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				int versionSupport = -1;
-				adl_Res0 = _ADL2_FPS_Caps(adl_Context, gpuAdapterIndex, &featureSupport, &versionSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.FrtcEnabled.Support = featureSupport;
-					graphicsSettings.FrtcFrameRateTarget.Support = featureSupport;
+					graphicsSettings.FrtcEnabled.Support = true;
+					graphicsSettings.FrtcFrameRateTarget.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					int versionSupport = -1;
+					adl_Res0 = _ADL2_FPS_Caps(adl_Context, gpuAdapterIndex, &featureSupport, &versionSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.FrtcEnabled.Support = featureSupport;
+						graphicsSettings.FrtcFrameRateTarget.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -175,15 +267,24 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				int versionSupport = -1;
-				adl_Res0 = _ADL2_Chill_Caps_Get(adl_Context, gpuAdapterIndex, &featureSupport, &versionSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.ChillEnabled.Support = featureSupport;
-					graphicsSettings.ChillMinFps.Support = featureSupport;
-					graphicsSettings.ChillMaxFps.Support = featureSupport;
+					graphicsSettings.ChillEnabled.Support = true;
+					graphicsSettings.ChillMinFps.Support = true;
+					graphicsSettings.ChillMaxFps.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					int versionSupport = -1;
+					adl_Res0 = _ADL2_Chill_Caps_Get(adl_Context, gpuAdapterIndex, &featureSupport, &versionSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.ChillEnabled.Support = featureSupport;
+						graphicsSettings.ChillMinFps.Support = featureSupport;
+						graphicsSettings.ChillMaxFps.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -206,15 +307,25 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Image Sharpening 2
 			try
 			{
-				//Get feature support
-				ADL_RIS2_SETTINGS adlSettings;
-				adl_Res0 = _ADL2_RIS_SettingsX2_Get(adl_Context, gpuAdapterIndex, &adlSettings);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
 					graphicsSettings.RisVersion.Version = 2;
 					graphicsSettings.RisEnabled.Support = true;
 					graphicsSettings.RisSharpeningDegree.Support = true;
 					graphicsSettings.RisDesktopEnabled.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					ADL_RIS2_SETTINGS adlSettings;
+					adl_Res0 = _ADL2_RIS_SettingsX2_Get(adl_Context, gpuAdapterIndex, &adlSettings);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.RisVersion.Version = 2;
+						graphicsSettings.RisEnabled.Support = true;
+						graphicsSettings.RisSharpeningDegree.Support = true;
+						graphicsSettings.RisDesktopEnabled.Support = true;
+					}
 				}
 			}
 			catch (...) {}
@@ -222,12 +333,19 @@ namespace winrt::RadeonTuner::implementation
 			//Enhanced Sync
 			try
 			{
-				//Get feature support
-				int featureSupport = -1;
-				adl_Res0 = _ADL2_TurboSyncSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
-					graphicsSettings.EnhancedSync.Support = featureSupport;
+					graphicsSettings.EnhancedSync.Support = true;
+				}
+				else
+				{
+					//Get feature support
+					int featureSupport = -1;
+					adl_Res0 = _ADL2_TurboSyncSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.EnhancedSync.Support = featureSupport;
+					}
 				}
 			}
 			catch (...) {}
@@ -310,12 +428,19 @@ namespace winrt::RadeonTuner::implementation
 			//OpenGL 10-Bit Pixel Format
 			try
 			{
-				int adlDeepBitDepthDefault = -1;
-				int adlDeepBitDepthCurrent = -1;
-				adl_Res0 = _ADL2_Workstation_DeepBitDepthX2_Get(adl_Context, gpuAdapterIndex, &adlDeepBitDepthDefault, &adlDeepBitDepthCurrent);
-				if (adl_Res0 == ADL_OK)
+				if (skipSupportCheckGraphicsBool)
 				{
 					graphicsSettings.OpenGL10BitPixelFormat.Support = true;
+				}
+				else
+				{
+					int adlDeepBitDepthDefault = -1;
+					int adlDeepBitDepthCurrent = -1;
+					adl_Res0 = _ADL2_Workstation_DeepBitDepthX2_Get(adl_Context, gpuAdapterIndex, &adlDeepBitDepthDefault, &adlDeepBitDepthCurrent);
+					if (adl_Res0 == ADL_OK)
+					{
+						graphicsSettings.OpenGL10BitPixelFormat.Support = true;
+					}
 				}
 			}
 			catch (...) {}

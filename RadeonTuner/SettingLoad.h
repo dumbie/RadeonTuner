@@ -41,6 +41,12 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_ShowExperimental().IsOn(ShowExperimental.value());
 			}
 
+			std::optional<bool> SkipSupportCheckGraphics = AppVariables::Settings.Load<bool>("SkipSupportCheckGraphics");
+			if (SkipSupportCheckGraphics.has_value())
+			{
+				toggleswitch_SkipSupportCheckGraphics().IsOn(SkipSupportCheckGraphics.value());
+			}
+
 			//Check startup shortcut
 			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
 			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);

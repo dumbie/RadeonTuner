@@ -757,7 +757,7 @@
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
-                                    <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                    <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Enabling this setting breaks HDR compatibility.&#10;&#10;* System restart required to take effect."/>
                                     <ToggleSwitch x:Name="toggleswitch_OpenGL10BitPixelFormat" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10BitPixelFormat_Toggled"/>
                                     <TextBlock Margin="5,0,0,0" x:Name="textblock_OpenGL10BitPixelFormat_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                 </StackPanel>
@@ -1541,7 +1541,7 @@
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                        <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
                                         <ToggleSwitch x:Name="toggleswitch_Display_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_Display_HDCPSupport_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HDCPSupport_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
@@ -1557,6 +1557,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen.&#10;&#10;* Automatic Eyefinity will automatically enable Eyefinity when the display profile application is running and disabled when no longer running."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
+                                        <Image x:Name="image_Eyefinity_Automatic_Profile_Used" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="Automatic Eyefinity is enabled on an aplication profile and is currently controlling the state, if you want to manually control Eyefinity disable 'Automatic Eyefinity' on all application profiles."/>
                                         <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Eyefinity_Automatic_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
@@ -1643,10 +1644,14 @@
                                         <ToggleSwitch x:Name="toggleswitch_Shortcut_Startup" Margin="10,0,0,0" OffContent="Launch on Windows startup" OnContent="Launch on Windows startup" Toggled="toggleswitch_Shortcut_Startup_Toggled"/>
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner shortcut to the start menu application list."/>
                                         <ToggleSwitch x:Name="toggleswitch_Shortcut_StartMenu" Margin="10,0,0,0" OffContent="Add application to start menu" OnContent="Add application to start menu" Toggled="toggleswitch_Shortcut_StartMenu_Toggled"/>
                                     </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner to the Windows desktop context (right click) menu."/>
@@ -1665,12 +1670,16 @@
                                         <ToggleSwitch x:Name="toggleswitch_StartWindowVisible" Margin="10,0,0,0" OffContent="Show window on startup" OnContent="Show window on startup" Toggled="toggleswitch_StartWindowVisible_Toggled"/>
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show this window on top of other applications."/>
                                         <ToggleSwitch x:Name="toggleswitch_Window_Top" Margin="10,0,0,0" OffContent="Show window on top" OnContent="Show window on top" Toggled="toggleswitch_Window_Top_Toggled"/>
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Close application to system tray menu instead of exiting."/>
                                         <ToggleSwitch x:Name="toggleswitch_Close_Tray" Margin="10,0,0,0" OffContent="Close to system tray" OnContent="Close to system tray" Toggled="toggleswitch_Close_Tray_Toggled"/>
                                     </StackPanel>
@@ -1693,6 +1702,13 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show experimental settings used for testing purposes, some of those settings have placeholder values."/>
                                         <ToggleSwitch x:Name="toggleswitch_ShowExperimental" Margin="10,0,0,0" OffContent="Show experimental settings" OnContent="Show experimental settings" Toggled="toggleswitch_ShowExperimental_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="RadeonTuner checks with the driver if a Graphics feature is supported, enabling this setting allows you to skip this check and enable unsupported features for testing."/>
+                                        <ToggleSwitch x:Name="toggleswitch_SkipSupportCheckGraphics" Margin="10,0,0,0" OffContent="Skip graphics support check" OnContent="Skip graphics support check" Toggled="toggleswitch_SkipSupportCheckGraphics_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1739,7 +1755,7 @@
                     <StackPanel>
                         <!-- Buttons -->
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations."/>
+                            <Image Source="/Assets/Warning.png" Width="28" Height="28" ToolTipService.ToolTip="* Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations.&#10;&#10;* After creating or enabling Eyefinity make sure the correct resolution is set.&#10;&#10;* If you cannot remove or disable Eyefinity after creation try creating a new configuration with the same settings."/>
                             <Button x:Name="button_Eyefinity_Overlay_Create" Content="Create Eyefinity" Click="button_Eyefinity_Overlay_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create configuration and enable Eyefinity based on settings below."/>
                             <Button x:Name="button_Eyefinity_Overlay_Remove" Content="Remove Eyefinity" Click="button_Eyefinity_Overlay_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove configuration and disable Eyefinity."/>
                             <Button x:Name="button_Eyefinity_Overlay_Enable" Content="Enable Eyefinity" Click="button_Eyefinity_Enable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>

@@ -147,6 +147,29 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_SkipSupportCheckGraphics_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				AppVariables::Settings.Set("SkipSupportCheckGraphics", true);
+			}
+			else
+			{
+				AppVariables::Settings.Set("SkipSupportCheckGraphics", false);
+			}
+
+			//Load graphics settings
+			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_StartCheckUpdate_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

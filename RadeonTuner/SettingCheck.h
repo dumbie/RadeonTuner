@@ -40,6 +40,11 @@ void SettingCheck()
 			AppVariables::Settings.Set("ShowExperimental", false);
 		}
 
+		if (!AppVariables::Settings.Check("SkipSupportCheckGraphics"))
+		{
+			AppVariables::Settings.Set("SkipSupportCheckGraphics", false);
+		}
+
 		AVDebugWriteLine("Application settings checked.");
 	}
 	catch (...)
