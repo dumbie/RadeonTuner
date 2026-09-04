@@ -29,15 +29,6 @@ namespace winrt::RadeonTuner::implementation
 						//Check and match device id
 						if (tuningFanSettings.DeviceId.value() == deviceIdentifier)
 						{
-							//Check if profile keep active is enabled
-							if (tuningFanSettings.KeepActive.Current.has_value())
-							{
-								if (tuningFanSettings.KeepActive.Current.value())
-								{
-									tuningFanSettingsRunningOpt = tuningFanSettings;
-								}
-							}
-
 							//Check if profile application is running
 							if (tuningFanSettings.Application.has_value())
 							{

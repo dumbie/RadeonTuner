@@ -36,7 +36,7 @@ namespace winrt::RadeonTuner::implementation
 			textblock_AppSelect_Tuning().Text(application);
 
 			//Disable or enable settings
-			if (tuningFanSettingsAdl.TuningSupport && tuningFanSettingsAdl.Global())
+			if (tuningFanSettingsAdl.TuningSupport)
 			{
 				toggleswitch_KeepActive().IsEnabled(true);
 			}

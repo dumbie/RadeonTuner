@@ -807,7 +807,7 @@
                             <!-- Keep Active -->
                             <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your set tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Reapply your profile tuning and fans settings when those have been reset to defaults by the GPU driver due to an unexpected system failure or other reason."/>
                                     <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* Make sure you are using stable and well tested tuning and fan settings before enabling Keep Active.&#10;&#10;* This setting only works when RadeonTuner is running."/>
                                     <ToggleSwitch x:Name="toggleswitch_KeepActive" Width="130" Margin="10,0,0,0" OffContent="Keep Active" OnContent="Keep Active" Toggled="toggleswitch_KeepActive_Toggled"/>
                                     <TextBlock Margin="5,0,0,0" x:Name="textblock_KeepActive_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
