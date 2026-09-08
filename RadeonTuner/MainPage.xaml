@@ -1548,6 +1548,17 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Custom Resolutions -->
+                            <TextBlock Text="Custom Resolutions" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
+
+                            <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Create custom resolutions or overclock your display refresh rate."/>
+                                    <Button x:Name="button_CustomResolution_Create" Margin="10,0,0,0" Content="Create Custom Resolution" Click="button_CustomResolution_Create_Click" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create new custom resolution"/>
+                                    <Button x:Name="button_CustomResolution_Remove" Content="Remove Custom Resolution" Click="button_CustomResolution_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove a custom resolution"/>
+                                </StackPanel>
+                            </Border>
+
                             <!-- Eyefinity Options -->
                             <TextBlock Text="Eyefinity Options" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
@@ -1821,6 +1832,242 @@
                         <!-- Display Orientation -->
                         <TextBlock Text="Display Orientation" Margin="0,10,0,0" VerticalAlignment="Center"/>
                         <ComboBox x:Name="combobox_EyefinityMonitorOrientation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Overlay - Custom Resolution -->
+        <Grid x:Name="grid_Overlay_CustomResolution" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{ThemeResource ApplicationBlackColor}" Opacity="0.90"/>
+            </Grid.Background>
+            <StackPanel MinWidth="520" MaxWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="8,8,0,0" Background="{ThemeResource ApplicationDarkGrayColor}" Padding="10">
+                    <TextBlock Text="Custom Resolution" TextWrapping="Wrap" FontSize="24" Foreground="{ThemeResource ApplicationWhiteColor}"/>
+                </Border>
+                <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
+                    <StackPanel>
+                        <!-- Resolution -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Resolution (Pixels)" VerticalAlignment="Center"/>
+                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Number of horizontal pixels (from left to right) and vertical pixels (from top to bottom) on the display screen."/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBox x:Name="textbox_CustomResolution_Width" Width="130" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                <TextBlock Text="W" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="textbox_CustomResolution_Height" Width="130" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                <TextBlock Text="H" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Margin="0,5,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Refresh Rate -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Refresh Rate (Hz)" VerticalAlignment="Center"/>
+                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Number of times the screen is redrawn per second, expressed in hertz."/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBox x:Name="textbox_CustomResolution_RefreshRate" Width="280" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                <TextBlock Text="Hz" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Margin="0,5,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Presentation -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Presentation" VerticalAlignment="Center"/>
+                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Method in which images are presented to the screen.&#10;&#10;- Progressive: Entire picture is painted at once, which greatly reduces screen flickering.&#10;&#10;- Interlaced: Half the picture appears on the screen at a time, the other half of the picture follows an instant later."/>
+                            </StackPanel>
+
+                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_Presentation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <Border Margin="0,10,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Timing Standard -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Timing Standard" VerticalAlignment="Center"/>
+                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Standard to use for display timings.&#10;&#10;- Coordinated Video Timings (CVT)&#10;VESA standard for generating and defining the display timings.&#10;&#10;- Coordinated Video Timings Reduced Blanking (CVT-RB)&#10;Reduces blanking periods and allows a lower pixel clock rate and higher frame rates.&#10;&#10;- Generalized Timing Formula (GTF)&#10;A method of generating industry standard display timings.&#10;&#10;- Display Monitor Timings (DMT)&#10;VESA standard that lists pre-defined display timings for various resolutions and display sizes."/>
+                            </StackPanel>
+
+                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_TimingStandard" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <!-- Manual settings -->
+                        <StackPanel x:Name="stackpanel_CustomResolution_Manual" Visibility="Collapsed">
+                            <Border Margin="0,10,0,10" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                            <!-- Gpu Pixel Clock -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Gpu Pixel Clock (kHz)" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The speed at which pixels are transmitted within one refresh cycle."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_CustomResolution_GPixelClock" Width="270" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="kHz" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Gpu Refresh Rate -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Gpu Refresh Rate (Hz)" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Maximum amount of pixels per second the GPU can write to memory."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_CustomResolution_GRefreshRate" Width="277" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Hz" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Border Margin="0,10,0,10" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                            <!-- Timing Total -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Timing Total" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The total number of horizontal and vertical pixels for each sync."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_TimingTotal_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="textbox_TimingTotal_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Timing Active Display -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Timing Active Display" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The number or horizontal and vertical pixels within the active area."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_TimingDisplay_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="textbox_TimingDisplay_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Timing Front Porch -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Timing Front Porch" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The number of horizontal and vertical pixels between the end of the active area and the next sync. (Distance between the right/bottom portion of the display to the right/bottom most portion of the actual image)"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Timing Sync Width -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Timing Sync Width" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The number of horizontal and vertical pixels during a sync."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Timing Sync Polarity -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="Timing Sync Polarity" VerticalAlignment="Center"/>
+                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The horizontal and vertical polarity of sync signals.&#10;&#10;Positive makes the signals active high while negative makes them active low."/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <ComboBox x:Name="combobox_TimingPolarity_Horizontal" Width="118" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="combobox_TimingPolarity_Vertical" Width="118" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Buttons -->
+                        <Button x:Name="button_Overlay_CustomResolution_Create" Margin="0,20,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_CustomResolution_Create_Click" Content="Create" Style="{ThemeResource ApplicationButton}"/>
+                        <Button x:Name="button_Overlay_CustomResolution_Close" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_CustomResolution_Close_Click" Content="Cancel" Style="{ThemeResource ApplicationButton}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
