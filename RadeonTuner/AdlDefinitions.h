@@ -257,6 +257,19 @@ inline ADL2_Display_CVDC_Get _ADL2_Display_CVDC_Get;
 typedef int (*ADL2_Display_CVDC_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLCvdcType cvdcType, int cvdcValue);
 inline ADL2_Display_CVDC_Set _ADL2_Display_CVDC_Set;
 
+//Display - Custom Resolution
+typedef int	(*ADL2_Display_ModeTimingOverrideListX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, int* lpNumOfModes, ADLDisplayModeInfoX2** lpModeInfoList);
+ADL2_Display_ModeTimingOverrideListX3_Get _ADL2_Display_ModeTimingOverrideListX3_Get;
+
+typedef int(*ADL2_Display_ModeTimingOverrideX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, ADLDisplayModeX2* lpModeIn, ADLDisplayModeInfoX2* lpModeInfoOut);
+ADL2_Display_ModeTimingOverrideX3_Get _ADL2_Display_ModeTimingOverrideX3_Get;
+
+typedef int (*ADL2_Display_ModeTimingOverrideX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, ADLDisplayModeInfoX2* lpMode, int iForceUpdate);
+ADL2_Display_ModeTimingOverrideX2_Set _ADL2_Display_ModeTimingOverrideX2_Set;
+
+typedef int(*ADL2_Display_ModeTimingOverride_Delete)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLDisplayID displayID, ADLDisplayModeX2* lpMode, int iForceUpdate);
+ADL2_Display_ModeTimingOverride_Delete _ADL2_Display_ModeTimingOverride_Delete;
+
 //Display - Eyefinity
 typedef int (*ADL2_Display_DisplayMapConfig_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpNumDisplayMap, ADLDisplayMap** lppDisplayMap, int* lpNumDisplayTarget, ADLDisplayTarget** lppDisplayTarget, int iOptions);
 inline ADL2_Display_DisplayMapConfig_Get _ADL2_Display_DisplayMapConfig_Get;

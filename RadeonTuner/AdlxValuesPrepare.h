@@ -241,6 +241,44 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all Custom Resolution presentation
+			{
+				auto itemCollection = combobox_CustomResolution_Presentation().Items();
+				UINT appendCount = ADLX_DISPLAY_SCAN_TYPE_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADLX_DISPLAY_SCAN_TYPE_STRING[i]));
+				}
+			}
+
+			//List all Custom Resolution timing standard
+			{
+				auto itemCollection = combobox_CustomResolution_TimingStandard().Items();
+				UINT appendCount = ADLX_TIMING_STANDARD_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADLX_TIMING_STANDARD_STRING[i]));
+				}
+			}
+
+			//List all Custom Resolution timing polarity
+			{
+				auto itemCollection = combobox_TimingPolarity_Horizontal().Items();
+				UINT appendCount = ADLX_DISPLAY_TIMING_POLARITY_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADLX_DISPLAY_TIMING_POLARITY_STRING[i]));
+				}
+			}
+			{
+				auto itemCollection = combobox_TimingPolarity_Vertical().Items();
+				UINT appendCount = ADLX_DISPLAY_TIMING_POLARITY_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADLX_DISPLAY_TIMING_POLARITY_STRING[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
 		}

@@ -120,6 +120,11 @@ const std::vector<std::wstring> ADLX_DISPLAY_SCAN_TYPE_STRING =
 	L"Progressive", L"Interlaced"
 };
 
+const std::vector<std::wstring> ADLX_TIMING_STANDARD_STRING =
+{
+	L"CVT", L"CVT-RB", L"GTF", L"DMT"//, L"Manual"
+};
+
 const std::vector<std::wstring> ADLX_DISPLAY_TIMING_POLARITY_STRING =
 {
 	L"Positive", L"Negative"
@@ -138,11 +143,6 @@ const std::vector<std::wstring> ADLX_COLOR_DEPTH_STRING =
 const std::vector<std::wstring> ADLX_PIXEL_FORMAT_STRING =
 {
 	L"Unknown", L"RGB 4:4:4 PC Standard (Full RGB)", L"YCbCr 4:4:4", L"YCbCr 4:2:2", L"RGB 4:4:4 Studio (Limited RGB)", L"YCbCr 4:2:0"
-};
-
-const std::vector<std::wstring> ADLX_TIMING_STANDARD_STRING =
-{
-	L"CVT", L"CVT-RB", L"GTF", L"DMT", L"Manual"
 };
 
 const std::vector<std::wstring> ADLX_WAIT_FOR_VERTICAL_REFRESH_MODE_STRING =

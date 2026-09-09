@@ -705,6 +705,35 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Display_CVDC_Set");
 			}
 
+			//Display - Custom Resolution
+			_ADL2_Display_ModeTimingOverrideListX3_Get = (ADL2_Display_ModeTimingOverrideListX3_Get)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverrideListX3_Get");
+			if (_ADL2_Display_ModeTimingOverrideListX3_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverrideListX3_Get");
+			}
+
+			_ADL2_Display_ModeTimingOverrideX3_Get = (ADL2_Display_ModeTimingOverrideX3_Get)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverrideX3_Get");
+			if (_ADL2_Display_ModeTimingOverrideX3_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverrideX3_Get");
+			}
+
+			_ADL2_Display_ModeTimingOverrideX2_Set = (ADL2_Display_ModeTimingOverrideX2_Set)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverrideX2_Set");
+			if (_ADL2_Display_ModeTimingOverrideX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverrideX2_Set");
+			}
+
+			_ADL2_Display_ModeTimingOverride_Delete = (ADL2_Display_ModeTimingOverride_Delete)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverride_Delete");
+			if (_ADL2_Display_ModeTimingOverride_Delete == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverride_Delete");
+			}
+
 			//Display - Eyefinity
 			_ADL2_Display_DisplayMapConfig_Get = (ADL2_Display_DisplayMapConfig_Get)GetProcAddress(hInstance, "ADL2_Display_DisplayMapConfig_Get");
 			if (_ADL2_Display_DisplayMapConfig_Get == NULL)
