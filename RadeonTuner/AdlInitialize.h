@@ -727,6 +727,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverrideX2_Set");
 			}
 
+			_ADL2_Display_ModeTimingOverride_Get = (ADL2_Display_ModeTimingOverride_Get)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverride_Get");
+			if (_ADL2_Display_ModeTimingOverride_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ModeTimingOverride_Get");
+			}
+
 			_ADL2_Display_ModeTimingOverride_Delete = (ADL2_Display_ModeTimingOverride_Delete)GetProcAddress(hInstance, "ADL2_Display_ModeTimingOverride_Delete");
 			if (_ADL2_Display_ModeTimingOverride_Delete == NULL)
 			{
