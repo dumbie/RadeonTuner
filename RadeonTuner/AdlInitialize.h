@@ -626,6 +626,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Display_ColorDepth_Set");
 			}
 
+			_ADL2_Display_ColorDepthDefault_Get = (ADL2_Display_ColorDepthDefault_Get)GetProcAddress(hInstance, "ADL2_Display_ColorDepthDefault_Get");
+			if (_ADL2_Display_ColorDepthDefault_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_ColorDepthDefault_Get");
+			}
+
 			_ADL2_Display_PixelFormat_Get = (ADL2_Display_PixelFormat_Get)GetProcAddress(hInstance, "ADL2_Display_PixelFormat_Get");
 			if (_ADL2_Display_PixelFormat_Get == NULL)
 			{
@@ -638,6 +645,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set result
 				AVDebugWriteLine("Failed to init _ADL2_Display_PixelFormat_Set");
+			}
+
+			_ADL2_Display_PixelFormatDefault_Get = (ADL2_Display_PixelFormatDefault_Get)GetProcAddress(hInstance, "ADL2_Display_PixelFormatDefault_Get");
+			if (_ADL2_Display_PixelFormatDefault_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Display_PixelFormatDefault_Get");
 			}
 
 			_ADL2_Display_Color_Get = (ADL2_Display_Color_Get)GetProcAddress(hInstance, "ADL2_Display_Color_Get");

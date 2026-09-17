@@ -222,11 +222,17 @@ inline ADL2_Display_ColorDepth_Get _ADL2_Display_ColorDepth_Get;
 typedef int (*ADL2_Display_ColorDepth_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorDepth);
 inline ADL2_Display_ColorDepth_Set _ADL2_Display_ColorDepth_Set;
 
-typedef int(*ADL2_Display_PixelFormat_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpPixelFormat);
+typedef int (*ADL2_Display_ColorDepthDefault_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpColorDepthDefault);
+inline ADL2_Display_ColorDepthDefault_Get _ADL2_Display_ColorDepthDefault_Get;
+
+typedef int (*ADL2_Display_PixelFormat_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpPixelFormat);
 inline ADL2_Display_PixelFormat_Get _ADL2_Display_PixelFormat_Get;
 
 typedef int (*ADL2_Display_PixelFormat_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iPixelFormat);
 inline ADL2_Display_PixelFormat_Set _ADL2_Display_PixelFormat_Set;
+
+typedef int (*ADL2_Display_PixelFormatDefault_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int* lpDefPixelFormat);
+inline ADL2_Display_PixelFormatDefault_Get _ADL2_Display_PixelFormatDefault_Get;
 
 typedef int (*ADL2_Display_Color_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDisplayIndex, int iColorType, int* lpCurrent, int* lpDefault, int* lpMin, int* lpMax, int* lpStep);
 inline ADL2_Display_Color_Get _ADL2_Display_Color_Get;

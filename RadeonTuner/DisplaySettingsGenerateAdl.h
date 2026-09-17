@@ -195,51 +195,141 @@ namespace winrt::RadeonTuner::implementation
 			//Color Depth
 			try
 			{
-				int colorDepth = -1;
-				adl_Res0 = _ADL2_Display_ColorDepth_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &colorDepth);
+				//Get default color depth
+				int colorDepthDefault = -1;
+				adl_Res0 = _ADL2_Display_ColorDepthDefault_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &colorDepthDefault);
+				if (adl_Res0 != ADL_OK || colorDepthDefault == -1)
+				{
+					//Fallback to 8 bits per color
+					colorDepthDefault = ADL_COLORDEPTH_888;
+				}
+
+				//Get current color depth
+				int colorDepthCurrent = -1;
+				adl_Res0 = _ADL2_Display_ColorDepth_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &colorDepthCurrent);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set default
-					displaySettings.ColorDepth.Default = 1;
+					//Enumeration index correction
+					if (colorDepthDefault == ADL_COLORDEPTH_666)
+					{
+						displaySettings.ColorDepth.Default = 0;
+					}
+					else if (colorDepthDefault == ADL_COLORDEPTH_888)
+					{
+						displaySettings.ColorDepth.Default = 1;
+					}
+					else if (colorDepthDefault == ADL_COLORDEPTH_101010)
+					{
+						displaySettings.ColorDepth.Default = 2;
+					}
+					else if (colorDepthDefault == ADL_COLORDEPTH_121212)
+					{
+						displaySettings.ColorDepth.Default = 3;
+					}
+					else if (colorDepthDefault == ADL_COLORDEPTH_141414)
+					{
+						displaySettings.ColorDepth.Default = 4;
+					}
+					else if (colorDepthDefault == ADL_COLORDEPTH_161616)
+					{
+						displaySettings.ColorDepth.Default = 5;
+					}
 
 					//Set current
-					displaySettings.ColorDepth.Current = colorDepth - 1;
+					//Enumeration index correction
+					if (colorDepthCurrent == ADL_COLORDEPTH_666)
+					{
+						displaySettings.ColorDepth.Current = 0;
+					}
+					else if (colorDepthCurrent == ADL_COLORDEPTH_888)
+					{
+						displaySettings.ColorDepth.Current = 1;
+					}
+					else if (colorDepthCurrent == ADL_COLORDEPTH_101010)
+					{
+						displaySettings.ColorDepth.Current = 2;
+					}
+					else if (colorDepthCurrent == ADL_COLORDEPTH_121212)
+					{
+						displaySettings.ColorDepth.Current = 3;
+					}
+					else if (colorDepthCurrent == ADL_COLORDEPTH_141414)
+					{
+						displaySettings.ColorDepth.Current = 4;
+					}
+					else if (colorDepthCurrent == ADL_COLORDEPTH_161616)
+					{
+						displaySettings.ColorDepth.Current = 5;
+					}
 
 					//Set support
 					displaySettings.ColorDepth.Support = true;
 				}
+
+				//AVDebugWriteLine(L"Color Depth values: Default " << colorDepthDefault << L" Current " << colorDepthCurrent);
 			}
 			catch (...) {}
 
 			//Pixel Format
 			try
 			{
-				int pixelFormat = -1;
-				adl_Res0 = _ADL2_Display_PixelFormat_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &pixelFormat);
+				//Get default pixel format
+				int pixelFormatDefault = -1;
+				adl_Res0 = _ADL2_Display_PixelFormatDefault_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &pixelFormatDefault);
+				if (adl_Res0 != ADL_OK || pixelFormatDefault == -1)
+				{
+					//Fallback to YCbCr 4:2:2
+					pixelFormatDefault = ADL_DISPLAY_PIXELFORMAT_YCRCB422;
+				}
+
+				//Get current pixel format
+				int pixelFormatCurrent = -1;
+				adl_Res0 = _ADL2_Display_PixelFormat_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &pixelFormatCurrent);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set default
-					displaySettings.PixelFormat.Default = 2;
+					//Enumeration index correction
+					if (pixelFormatDefault == ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE)
+					{
+						displaySettings.PixelFormat.Default = 0;
+					}
+					else if (pixelFormatDefault == ADL_DISPLAY_PIXELFORMAT_YCRCB444)
+					{
+						displaySettings.PixelFormat.Default = 1;
+					}
+					else if (pixelFormatDefault == ADL_DISPLAY_PIXELFORMAT_YCRCB422)
+					{
+						displaySettings.PixelFormat.Default = 2;
+					}
+					else if (pixelFormatDefault == ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE)
+					{
+						displaySettings.PixelFormat.Default = 3;
+					}
+					else if (pixelFormatDefault == ADL_DISPLAY_PIXELFORMAT_YCRCB420)
+					{
+						displaySettings.PixelFormat.Default = 4;
+					}
 
 					//Set current
 					//Enumeration index correction
-					if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE)
+					if (pixelFormatCurrent == ADL_DISPLAY_PIXELFORMAT_RGB_FULL_RANGE)
 					{
 						displaySettings.PixelFormat.Current = 0;
 					}
-					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB444)
+					else if (pixelFormatCurrent == ADL_DISPLAY_PIXELFORMAT_YCRCB444)
 					{
 						displaySettings.PixelFormat.Current = 1;
 					}
-					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB422)
+					else if (pixelFormatCurrent == ADL_DISPLAY_PIXELFORMAT_YCRCB422)
 					{
 						displaySettings.PixelFormat.Current = 2;
 					}
-					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE)
+					else if (pixelFormatCurrent == ADL_DISPLAY_PIXELFORMAT_RGB_LIMITED_RANGE)
 					{
 						displaySettings.PixelFormat.Current = 3;
 					}
-					else if (pixelFormat == ADL_DISPLAY_PIXELFORMAT_YCRCB420)
+					else if (pixelFormatCurrent == ADL_DISPLAY_PIXELFORMAT_YCRCB420)
 					{
 						displaySettings.PixelFormat.Current = 4;
 					}
@@ -247,6 +337,8 @@ namespace winrt::RadeonTuner::implementation
 					//Set support
 					displaySettings.PixelFormat.Support = true;
 				}
+
+				//AVDebugWriteLine(L"Pixel Format values: Default " << pixelFormatDefault << L" Current " << pixelFormatCurrent);
 			}
 			catch (...) {}
 
