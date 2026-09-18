@@ -1666,7 +1666,7 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner to the Windows desktop context (right click) menu."/>
-                                        <Image x:Name="toggleswitch_Shortcut_ContextMenu_AdminShield" Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access."/>
+                                        <Image x:Name="toggleswitch_Shortcut_ContextMenu_AdminShield" Source="/Assets/Shield.png" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
                                         <ToggleSwitch x:Name="toggleswitch_Shortcut_ContextMenu" Margin="10,0,0,0" OffContent="Add application to context menu" OnContent="Add application to context menu" Toggled="toggleswitch_Shortcut_ContextMenu_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1848,8 +1848,25 @@
                 </Border>
                 <Border CornerRadius="0,0,8,8" Background="{ThemeResource ApplicationVoidGrayColor}" Padding="10">
                     <StackPanel>
-                        <!-- Resolution -->
+                        <!-- Timing Standard -->
                         <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Timing Standard" VerticalAlignment="Center"/>
+                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Standard to use for display timing calculations.&#10;&#10;- Display Timings (Display)&#10;Currently used timings by your display, this only works for existing resolutions and refresh rates.&#10;&#10;- Coordinated Video Timings (CVT)&#10;VESA standard for generating and defining the display timings.&#10;&#10;- Coordinated Video Timings Reduced Blanking (CVT-RB)&#10;Reduces blanking periods and allows a lower pixel clock rate and higher frame rates.&#10;&#10;- Generalized Timing Formula (GTF)&#10;A method of generating industry standard display timings.&#10;&#10;- Display Monitor Timings (DMT)&#10;VESA standard that lists pre-defined display timings for various resolutions and display sizes."/>
+                            </StackPanel>
+
+                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_TimingStandard" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right" SelectionChanged="combobox_CustomResolution_TimingStandard_SelectionChanged"/>
+                        </Grid>
+
+                        <Border Margin="0,10,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                        <!-- Resolution -->
+                        <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -1861,17 +1878,15 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBox x:Name="textbox_CustomResolution_Width" Width="130" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
-                                <TextBlock Text="W" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                <TextBox x:Name="textbox_CustomResolution_Height" Width="130" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                <TextBox x:Name="textbox_CustomResolution_Width" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Width_TextChanged"/>
+                                <TextBlock Text="W" Margin="5,0,8,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="textbox_CustomResolution_Height" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Height_TextChanged"/>
                                 <TextBlock Text="H" Margin="5,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
 
-                        <Border Margin="0,5,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                         <!-- Refresh Rate -->
-                        <Grid>
+                        <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -1883,15 +1898,13 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBox x:Name="textbox_CustomResolution_RefreshRate" Width="280" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                <TextBox x:Name="textbox_CustomResolution_RefreshRate" Width="278" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_RefreshRate_TextChanged"/>
                                 <TextBlock Text="Hz" Margin="5,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
 
-                        <Border Margin="0,5,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
                         <!-- Presentation -->
-                        <Grid>
+                        <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -1902,49 +1915,32 @@
                                 <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Method in which images are presented to the screen.&#10;&#10;- Progressive: Entire picture is painted at once, which greatly reduces screen flickering.&#10;&#10;- Interlaced: Half the picture appears on the screen at a time, the other half of the picture follows an instant later."/>
                             </StackPanel>
 
-                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_Presentation" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right"/>
+                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_Presentation" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right" SelectionChanged="combobox_CustomResolution_Presentation_SelectionChanged"/>
                         </Grid>
 
-                        <Border Margin="0,10,0,5" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                        <!-- Timing Standard -->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <TextBlock Text="Timing Standard" VerticalAlignment="Center"/>
-                                <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Standard to use for display timings.&#10;&#10;- Coordinated Video Timings (CVT)&#10;VESA standard for generating and defining the display timings.&#10;&#10;- Coordinated Video Timings Reduced Blanking (CVT-RB)&#10;Reduces blanking periods and allows a lower pixel clock rate and higher frame rates.&#10;&#10;- Generalized Timing Formula (GTF)&#10;A method of generating industry standard display timings.&#10;&#10;- Display Monitor Timings (DMT)&#10;VESA standard that lists pre-defined display timings for various resolutions and display sizes."/>
-                            </StackPanel>
-
-                            <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_TimingStandard" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right"/>
-                        </Grid>
+                        <Border Margin="0,10,0,10" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                         <!-- Manual settings -->
-                        <StackPanel x:Name="stackpanel_CustomResolution_Manual" Visibility="Collapsed">
-                            <Border Margin="0,10,0,10" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
-
-                            <!-- Gpu Pixel Clock -->
-                            <Grid Margin="0,5,0,0">
+                        <StackPanel x:Name="stackpanel_CustomResolution_Manual">
+                            <!-- Pixel Clock -->
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="Gpu Pixel Clock (kHz)" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Pixel Clock (MHz)" VerticalAlignment="Center"/>
                                     <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The speed at which pixels are transmitted within one refresh cycle."/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_CustomResolution_GPixelClock" Width="270" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
-                                    <TextBlock Text="kHz" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="textbox_CustomResolution_PixelClock" Width="266" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBlock Text="MHz" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
 
-                            <!-- Gpu Refresh Rate -->
+                            <!-- Actual Refresh Rate -->
                             <Grid Margin="0,5,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -1952,12 +1948,12 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="Gpu Refresh Rate (Hz)" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Actual Refresh Rate (Hz)" VerticalAlignment="Center"/>
                                     <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Maximum amount of pixels per second the GPU can write to memory."/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_CustomResolution_GRefreshRate" Width="277" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_CustomResolution_ActualRefreshRate" Width="278" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Hz" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -1965,7 +1961,7 @@
                             <Border Margin="0,10,0,10" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
                             <!-- Timing Total -->
-                            <Grid Margin="0,5,0,0">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -1977,9 +1973,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingTotal_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingTotal_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingTotal_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingTotal_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -1997,9 +1993,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingDisplay_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingDisplay_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingDisplay_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingDisplay_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2017,9 +2013,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingFrontPorch_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingFrontPorch_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2037,9 +2033,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingSyncWidth_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingSyncWidth_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number"/>
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2057,9 +2053,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <ComboBox x:Name="combobox_TimingPolarity_Horizontal" Width="118" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_TimingPolarity_Horizontal" Width="118" Style="{ThemeResource ApplicationComboBox}" IsEnabled="False"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <ComboBox x:Name="combobox_TimingPolarity_Vertical" Width="118" Style="{ThemeResource ApplicationComboBox}"/>
+                                    <ComboBox x:Name="combobox_TimingPolarity_Vertical" Width="118" Style="{ThemeResource ApplicationComboBox}" IsEnabled="False"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>

@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_CustomResolution_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget MainPage::button_CustomResolution_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -29,8 +29,11 @@ namespace winrt::RadeonTuner::implementation
 				if (adl_Res0 != ADL_OK)
 				{
 					AVDebugWriteLine(L"Failed getting current display mode.");
-					return;
+					co_return;
 				}
+
+				//Disable custom resolution events
+				disable_saving_customresolution = true;
 
 				//Set current values for custom resolution
 				textbox_CustomResolution_Width().Text(number_to_wstring(adlModeCurrent->iXRes));
@@ -38,6 +41,13 @@ namespace winrt::RadeonTuner::implementation
 				textbox_CustomResolution_RefreshRate().Text(float_to_wstring(adlModeCurrent->fRefreshRate, 0));
 				combobox_CustomResolution_Presentation().SelectedIndex(0);
 				combobox_CustomResolution_TimingStandard().SelectedIndex(2);
+
+				//Calculate and update timing variable
+				DisplayModeInfo_Calculate_Timings();
+
+				//Enable custom resolution events
+				co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+				disable_saving_customresolution = false;
 			}
 		}
 		catch (...) {}
@@ -50,6 +60,71 @@ namespace winrt::RadeonTuner::implementation
 			//Hide Custom Resolution manage overlay
 			grid_Overlay_CustomResolution().Visibility(Visibility::Collapsed);
 			AVDebugWriteLine(L"Closed Custom Resolution manage overlay");
+		}
+		catch (...) {}
+	}
+
+	void MainPage::textbox_CustomResolution_Height_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_customresolution) { return; }
+
+			//Calculate and update timing variable
+			DisplayModeInfo_Calculate_Timings();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::textbox_CustomResolution_Width_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_customresolution) { return; }
+
+			//Calculate and update timing variable
+			DisplayModeInfo_Calculate_Timings();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::textbox_CustomResolution_RefreshRate_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_customresolution) { return; }
+
+			//Calculate and update timing variable
+			DisplayModeInfo_Calculate_Timings();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_CustomResolution_Presentation_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_customresolution) { return; }
+
+			//Calculate and update timing variable
+			DisplayModeInfo_Calculate_Timings();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::combobox_CustomResolution_TimingStandard_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_customresolution) { return; }
+
+			//Calculate and update timing variable
+			DisplayModeInfo_Calculate_Timings();
 		}
 		catch (...) {}
 	}
@@ -110,31 +185,8 @@ namespace winrt::RadeonTuner::implementation
 			//Get selected custom resolution
 			ADLDisplayModeInfoX2 infoMode = modeInfoList.Get()[messageResult];
 
-			//Convert custom resolution info to mode
-			ADLDisplayModeX2 displayMode{};
-			displayMode.iWidth = infoMode.iPelsWidth;
-			displayMode.iHeight = infoMode.iPelsHeight;
-			displayMode.iRefreshRate = infoMode.iRefreshRate;
-
-			//Remove custom resolution
-			adl_Res0 = _ADL2_Display_ModeTimingOverride_Delete(adl_Context, displayID.iDisplayLogicalAdapterIndex, displayID, &displayMode, true);
-			if (adl_Res0 == ADL_OK)
-			{
-				//Show notification
-				ShowNotification(L"Custom resolution removed");
-				AVDebugWriteLine(L"Custom resolution removed: " << adl_Res0 << L" / " << infoMode.iPelsWidth << L"x" << infoMode.iPelsHeight << L" @ " << infoMode.iRefreshRate << L"Hz");
-
-				//Reload display resolution
-				disable_saving = true;
-				DisplayList_Combined(false);
-				disable_saving = false;
-			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Failed removing custom resolution");
-				AVDebugWriteLine(L"Failed removing custom resolution: " << adl_Res0);
-			}
+			//Delete custom resolution
+			CustomResolution_Delete(adl_Display_AdapterIndex, adl_Display_DisplayIndex, infoMode);
 		}
 		catch (...)
 		{
@@ -144,112 +196,12 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	winrt::fire_and_forget MainPage::button_Overlay_CustomResolution_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::button_Overlay_CustomResolution_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
-			//Set ADL display identifier
-			ADLDisplayID displayID{};
-			displayID.iDisplayLogicalAdapterIndex = adl_Display_AdapterIndex;
-			displayID.iDisplayLogicalIndex = adl_Display_DisplayIndex;
-
-			//Get custom resolution values
-			int customPixelWidth = wstring_to_int(textbox_CustomResolution_Width().Text().c_str());
-			int customPixelHeight = wstring_to_int(textbox_CustomResolution_Height().Text().c_str());
-			int customRefreshRate = wstring_to_int(textbox_CustomResolution_RefreshRate().Text().c_str());
-			int customPresentationMode = 0;
-			int customTimingStandard = 0;
-
-			//Get current display mode
-			int numModes = -1;
-			ADLMode* adlModeCurrent{};
-			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
-			if (adl_Res0 != ADL_OK)
-			{
-				AVDebugWriteLine(L"Failed getting current display mode.");
-				co_return;
-			}
-
-			//Check if refresh rate is currently used
-			//Note: When you create a custom resolution with same refresh rate you are currently using but with incompatible timings you will end up with a black (no signal) screen even after rebooting requiring you to go into safe mode.
-			if (customPixelWidth == adlModeCurrent->iXRes && customPixelHeight == adlModeCurrent->iYRes && customRefreshRate == adlModeCurrent->fRefreshRate)
-			{
-				//Fix switch to timer with confirm popup like resolution switch, remove custom resolution when not confirmed after x seconds.
-
-				//Show prompt
-				ShowMessageBox(L"Refresh rate in use", L"The custom resolution refresh rate you are trying to create or edit is currently in use by your display, to prevent you from locking yourself out with an incompatible timing causing a black (no signal) screen, please switch your display to a different refresh rate first.", {});
-				AVDebugWriteLine(L"Refresh rate in use.");
-				co_return;
-			}
-
-			//Enumeration index correction
-			if (combobox_CustomResolution_Presentation().SelectedIndex() == 0)
-			{
-				//Progressive
-				customPresentationMode = 0;
-			}
-			else if (combobox_CustomResolution_Presentation().SelectedIndex() == 1)
-			{
-				//Interlaced
-				customPresentationMode = ADL_DL_TIMINGFLAG_INTERLACED;
-			}
-
-			//Enumeration index correction
-			if (combobox_CustomResolution_TimingStandard().SelectedIndex() == 0)
-			{
-				//Display
-				customTimingStandard = ADL_DL_MODETIMING_STANDARD_CUSTOM;
-			}
-			else if (combobox_CustomResolution_TimingStandard().SelectedIndex() == 1)
-			{
-				//CVT
-				customTimingStandard = ADL_DL_MODETIMING_STANDARD_CVT;
-			}
-			else if (combobox_CustomResolution_TimingStandard().SelectedIndex() == 2)
-			{
-				//CVT-RB
-				customTimingStandard = ADL_DL_MODETIMING_STANDARD_CVT_RB;
-			}
-			else if (combobox_CustomResolution_TimingStandard().SelectedIndex() == 3)
-			{
-				//GTF
-				customTimingStandard = ADL_DL_MODETIMING_STANDARD_GTF;
-			}
-			else if (combobox_CustomResolution_TimingStandard().SelectedIndex() == 4)
-			{
-				//DMT
-				customTimingStandard = ADL_DL_MODETIMING_STANDARD_DMT;
-			}
-
-			//Get display mode info
-			auto infoMode = GetDisplayModeInfo_FromADL(adl_Display_AdapterIndex, adl_Display_DisplayIndex, customPresentationMode, customTimingStandard, customPixelWidth, customPixelHeight, customRefreshRate);
-			if (!infoMode.has_value())
-			{
-				//Show notification
-				ShowNotification(L"Failed generating custom resolution");
-				AVDebugWriteLine(L"Failed generating custom resolution (Empty)");
-				co_return;
-			}
-
-			//Set custom resolution
-			adl_Res0 = _ADL2_Display_ModeTimingOverrideX2_Set(adl_Context, displayID.iDisplayLogicalAdapterIndex, displayID.iDisplayLogicalIndex, &infoMode.value(), true);
-			if (adl_Res0 == ADL_OK)
-			{
-				//Show notification
-				ShowNotification(L"Custom resolution created");
-				AVDebugWriteLine(L"Custom resolution created: " << adl_Res0 << L" / " << infoMode.value().iPelsWidth << L"x" << infoMode.value().iPelsHeight << L" @ " << infoMode.value().iRefreshRate << L"Hz");
-
-				//Reload display resolution
-				disable_saving = true;
-				DisplayList_Combined(false);
-				disable_saving = false;
-			}
-			else
-			{
-				//Show notification
-				ShowNotification(L"Failed creating custom resolution");
-				AVDebugWriteLine(L"Failed creating custom resolution: " << adl_Res0);
-			}
+			//Create custom resolution
+			CustomResolution_Create(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displayCustomModeInfo);
 		}
 		catch (...)
 		{

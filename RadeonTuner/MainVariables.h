@@ -4,6 +4,8 @@
 //Status
 inline bool disable_saving = true;
 inline bool disable_saving_settings = true;
+inline bool disable_saving_customresolution = true;
+inline bool disable_eyefinity_automatic = false;
 inline bool radeon_Chill_Linked = false;
 inline bool messageBoxComplete = false;
 inline bool appPickerCompleted = false;
@@ -25,15 +27,18 @@ inline std::wstring adl_Gpu_DeviceIdentifier;
 inline int adl_Display_AdapterIndex = -1;
 inline int adl_Display_DisplayIndex = -1;
 inline std::wstring adl_Display_DeviceIdentifier;
-inline int displayResolutionSwitchTimeSec = 15;
+inline int displayResolutionConfirmType = 0;
+inline int displayResolutionConfirmTimeSec = 12;
 inline int displayResolutionRevertWidth = 0;
 inline int displayResolutionRevertHeight = 0;
 inline float displayResolutionRevertRefreshRate = 0.0F;
 inline int displayResolutionRevertOrientation = 0;
+inline ADLDisplayModeInfoX2 displayCustomModeInfo{};
 
 //Timers
 inline winrt::Windows::UI::Xaml::DispatcherTimer TimerNotification = NULL;
 inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionSwitch = NULL;
+inline winrt::Windows::UI::Xaml::DispatcherTimer TimerResolutionCustom = NULL;
 
 //Settings
 //Note: Do not use reference wrapper, loop uses cache and picks up changed settings before actually applied.

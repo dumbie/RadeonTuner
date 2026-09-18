@@ -54,12 +54,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Reset switch time
-			displayResolutionSwitchTimeSec = 15;
+			displayResolutionConfirmTimeSec = 12;
+			displayResolutionConfirmType = 0;
 
 			//Show overlay
 			grid_Main().IsHitTestVisible(false);
 			grid_Overlay_ConfirmResolution().Visibility(Visibility::Visible);
-			textblock_Overlay_ConfirmResolution_SubText().Text(L"Reverting in " + number_to_wstring(displayResolutionSwitchTimeSec) + L" seconds...");
+			textblock_Overlay_ConfirmResolution_SubText().Text(L"Reverting in " + number_to_wstring(displayResolutionConfirmTimeSec) + L" seconds...");
 
 			//Resolution switch timer tick
 			std::function<void(IInspectable const& sender, IInspectable const& e)> tickFunction = [&](auto, auto)
@@ -67,13 +68,13 @@ namespace winrt::RadeonTuner::implementation
 					try
 					{
 						//Update countdown time
-						displayResolutionSwitchTimeSec -= 1;
+						displayResolutionConfirmTimeSec -= 1;
 
 						//Update countdown text
-						textblock_Overlay_ConfirmResolution_SubText().Text(L"Reverting in " + number_to_wstring(displayResolutionSwitchTimeSec) + L" seconds...");
+						textblock_Overlay_ConfirmResolution_SubText().Text(L"Reverting in " + number_to_wstring(displayResolutionConfirmTimeSec) + L" seconds...");
 
 						//Check if time is up and revert resolution
-						if (displayResolutionSwitchTimeSec <= 0)
+						if (displayResolutionConfirmTimeSec <= 0)
 						{
 							DisplaySettings_Confirm_Resolution_Stop(true);
 						}
@@ -124,7 +125,14 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			DisplaySettings_Confirm_Resolution_Stop(false);
+			if (displayResolutionConfirmType == 0)
+			{
+				DisplaySettings_Confirm_Resolution_Stop(false);
+			}
+			else
+			{
+				DisplaySettings_Confirm_CustomResolution_Stop(false);
+			}
 		}
 		catch (...) {}
 	}
@@ -133,7 +141,14 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			DisplaySettings_Confirm_Resolution_Stop(true);
+			if (displayResolutionConfirmType == 0)
+			{
+				DisplaySettings_Confirm_Resolution_Stop(true);
+			}
+			else
+			{
+				DisplaySettings_Confirm_CustomResolution_Stop(true);
+			}
 		}
 		catch (...) {}
 	}
