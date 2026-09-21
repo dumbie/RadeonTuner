@@ -9,13 +9,32 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Set timing standard to custom
+			modeInfoX2.iTimingStandard = ADL_DL_MODETIMING_STANDARD_CUSTOM;
+
+			//Custom timing xor bitmask correction
+			//Note: Polarity needs to be inverted when using custom timings.
+			if (modeInfoX2.iTimingStandard == ADL_DL_MODETIMING_STANDARD_CUSTOM)
+			{
+				modeInfoX2.sDetailedTiming.sTimingFlags ^= ADL_DL_TIMINGFLAG_H_SYNC_POLARITY;
+				modeInfoX2.sDetailedTiming.sTimingFlags ^= ADL_DL_TIMINGFLAG_V_SYNC_POLARITY;
+				AVDebugWriteLine(L"Custom timing detected, applying polarity correction.");
+			}
+
+			//Show debug information
+			AVDebugWriteLine(L"Custom resolution creating:");
+			AVDebugWriteLine(L"(Basic) " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+			AVDebugWriteLine(L"(Detailed) PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingStandard " << modeInfoX2.iTimingStandard << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags << L" / Overscan8B " << modeInfoX2.sDetailedTiming.sOverscan8B << L" / OverscanGR " << modeInfoX2.sDetailedTiming.sOverscanGR << L" / Size " << modeInfoX2.sDetailedTiming.iSize);
+			AVDebugWriteLine(L"(Horizontal) Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sHSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / OverscanLeft " << modeInfoX2.sDetailedTiming.sHOverscanLeft << L" / OverscanRight " << modeInfoX2.sDetailedTiming.sHOverscanRight);
+			AVDebugWriteLine(L"(Vertical) Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sVSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / OverscanTop " << modeInfoX2.sDetailedTiming.sVOverscanTop << L" / OverscanBottom " << modeInfoX2.sDetailedTiming.sVOverscanBottom);
+
 			//Set custom resolution
 			adl_Res0 = _ADL2_Display_ModeTimingOverrideX2_Set(adl_Context, adapterIndex, displayIndex, &modeInfoX2, true);
 			if (adl_Res0 == ADL_OK)
 			{
 				//Show notification
 				ShowNotification(L"Custom resolution created");
-				AVDebugWriteLine(L"Custom resolution created: " << adl_Res0 << L" / " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+				AVDebugWriteLine(L"Custom resolution created");
 
 				//Show confirm overlay
 				//Note: When you create a custom resolution with same refresh rate you are currently using but with incompatible timings you will end up with a black (no signal) screen even after rebooting requiring you to go into safe mode.
@@ -47,10 +66,17 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::CustomResolution_Delete(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
+	bool MainPage::CustomResolution_Remove(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
 	{
 		try
 		{
+			//Show debug information
+			AVDebugWriteLine(L"Custom resolution removing:");
+			AVDebugWriteLine(L"(Basic) " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+			AVDebugWriteLine(L"(Detailed) PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingStandard " << modeInfoX2.iTimingStandard << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags << L" / Overscan8B " << modeInfoX2.sDetailedTiming.sOverscan8B << L" / OverscanGR " << modeInfoX2.sDetailedTiming.sOverscanGR << L" / Size " << modeInfoX2.sDetailedTiming.iSize);
+			AVDebugWriteLine(L"(Horizontal) Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sHSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / OverscanLeft " << modeInfoX2.sDetailedTiming.sHOverscanLeft << L" / OverscanRight " << modeInfoX2.sDetailedTiming.sHOverscanRight);
+			AVDebugWriteLine(L"(Vertical) Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sVSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / OverscanTop " << modeInfoX2.sDetailedTiming.sVOverscanTop << L" / OverscanBottom " << modeInfoX2.sDetailedTiming.sVOverscanBottom);
+
 			//Set ADL display identifier
 			ADLDisplayID displayID{};
 			displayID.iDisplayLogicalAdapterIndex = adapterIndex;
@@ -68,7 +94,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Show notification
 				ShowNotification(L"Custom resolution removed");
-				AVDebugWriteLine(L"Custom resolution removed: " << adl_Res0 << L" / " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+				AVDebugWriteLine(L"Custom resolution removed");
 
 				//Reload display resolution
 				disable_saving = true;
@@ -153,7 +179,7 @@ namespace winrt::RadeonTuner::implementation
 				displayCustomModeInfo = infoMode.value();
 
 				//Set custom timing mode info to interface
-				DisplayModeInfo_ToUI(infoMode.value());
+				DisplayModeInfo_ToUI(infoMode.value(), false);
 
 				//Validate pixel clock
 				if (infoMode.value().sDetailedTiming.sPixelClock < 0)
@@ -179,44 +205,52 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::DisplayModeInfo_ToUI(ADLDisplayModeInfoX2 modeInfoX2)
+	void MainPage::DisplayModeInfo_ToUI(ADLDisplayModeInfoX2 modeInfoX2, bool actualOnly)
 	{
 		try
 		{
-			//Get timing details
+			//Get timing basics
 			int resolutionWidth = modeInfoX2.sDetailedTiming.sHDisplay;
 			int resolutionHeight = modeInfoX2.sDetailedTiming.sVDisplay;
 			float refreshRate = (float)(modeInfoX2.sDetailedTiming.sPixelClock * 10000) / (float)(modeInfoX2.sDetailedTiming.sHTotal * modeInfoX2.sDetailedTiming.sVTotal);
 			float horizontalRate = (float)(modeInfoX2.sDetailedTiming.sPixelClock * 10) / (float)modeInfoX2.sDetailedTiming.sHTotal;
+
+			//Get timing details
 			int frontPorchH = modeInfoX2.sDetailedTiming.sHSyncStart - modeInfoX2.sDetailedTiming.sHDisplay;
 			int frontPorchV = modeInfoX2.sDetailedTiming.sVSyncStart - modeInfoX2.sDetailedTiming.sVDisplay;
 			int backPorchH = modeInfoX2.sDetailedTiming.sHTotal - (modeInfoX2.sDetailedTiming.sHSyncStart + modeInfoX2.sDetailedTiming.sHSyncWidth);
 			int backPorchV = modeInfoX2.sDetailedTiming.sVTotal - (modeInfoX2.sDetailedTiming.sVSyncStart + modeInfoX2.sDetailedTiming.sVSyncWidth);
 			int blankingH = modeInfoX2.sDetailedTiming.sHTotal - modeInfoX2.sDetailedTiming.sHDisplay;
 			int blankingV = modeInfoX2.sDetailedTiming.sVTotal - modeInfoX2.sDetailedTiming.sVDisplay;
-			int polarityH = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_H_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_H_SYNC_POLARITY;
-			int polarityV = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_V_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_V_SYNC_POLARITY;
+			bool polarityH = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_H_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_H_SYNC_POLARITY;
+			bool polarityV = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_V_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_V_SYNC_POLARITY;
 			int syncWidthH = modeInfoX2.sDetailedTiming.sHSyncWidth;
 			int syncWidthV = modeInfoX2.sDetailedTiming.sVSyncWidth;
 
-			//Set timing details to interface
-			textbox_CustomResolution_PixelClock().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sPixelClock));
-			textbox_CustomResolution_ActualRefreshRate().Text(float_to_wstring(refreshRate, 3)); //ReadOnly
+			//Check update type
+			if (actualOnly)
+			{
+				//Set actual timing details to interface
+				textbox_CustomResolution_ActualRefreshRate().Text(float_to_wstring(refreshRate, 3)); //ReadOnly
+			}
+			else
+			{
+				//Set all timing details to interface
+				textbox_CustomResolution_PixelClock().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sPixelClock));
+				textbox_CustomResolution_ActualRefreshRate().Text(float_to_wstring(refreshRate, 3)); //ReadOnly
 
-			textbox_TimingTotal_Horizontal().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sHTotal));
-			textbox_TimingTotal_Vertical().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sVTotal));
+				textbox_TimingTotal_Horizontal().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sHTotal));
+				textbox_TimingTotal_Vertical().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sVTotal));
 
-			textbox_TimingDisplay_Horizontal().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sHDisplay));
-			textbox_TimingDisplay_Vertical().Text(number_to_wstring(modeInfoX2.sDetailedTiming.sVDisplay));
+				textbox_TimingFrontPorch_Horizontal().Text(number_to_wstring(frontPorchH));
+				textbox_TimingFrontPorch_Vertical().Text(number_to_wstring(frontPorchV));
 
-			textbox_TimingFrontPorch_Horizontal().Text(number_to_wstring(frontPorchH));
-			textbox_TimingFrontPorch_Vertical().Text(number_to_wstring(frontPorchV));
+				textbox_TimingSyncWidth_Horizontal().Text(number_to_wstring(syncWidthH));
+				textbox_TimingSyncWidth_Vertical().Text(number_to_wstring(syncWidthV));
 
-			textbox_TimingSyncWidth_Horizontal().Text(number_to_wstring(syncWidthH));
-			textbox_TimingSyncWidth_Vertical().Text(number_to_wstring(syncWidthV));
-
-			combobox_TimingPolarity_Horizontal().SelectedIndex(polarityH);
-			combobox_TimingPolarity_Vertical().SelectedIndex(polarityV);
+				combobox_TimingPolarity_Horizontal().SelectedIndex(polarityH ? 1 : 0);
+				combobox_TimingPolarity_Vertical().SelectedIndex(polarityV ? 1 : 0);
+			}
 		}
 		catch (...) {}
 	}
@@ -272,27 +306,40 @@ namespace winrt::RadeonTuner::implementation
 					modeInfoX2.sDetailedTiming.sOverscan8B = modeInfoX1.sDetailedTiming.sOverscan8B;
 					modeInfoX2.sDetailedTiming.sOverscanGR = modeInfoX1.sDetailedTiming.sOverscanGR;
 
+					//Manually calculate pixel clock
+					//Note: Pixel clock does not get read correctly for all displays, manual calculation required when this happens.
+					//if (modeInfoX2.sDetailedTiming.sPixelClock <= 0)
+					{
+						modeInfoX2.sDetailedTiming.sPixelClock = (modeInfoX2.sDetailedTiming.sHTotal * modeInfoX2.sDetailedTiming.sVTotal * modeInfoX2.iRefreshRate) / 10000;
+						//AVDebugWriteLine(L"Custom resolution pixel clock invalid, manually calculated: " << modeInfoX2.sDetailedTiming.sPixelClock);
+					}
+
 					//Set presentation flag
 					if (presentationMode == ADL_DL_TIMINGFLAG_INTERLACED)
 					{
-						modeInfoX2.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_INTERLACED;
+						//Interlaced
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_INTERLACED;
+					}
+					else if (presentationMode == ADL_DL_TIMINGFLAG_DOUBLE_SCAN)
+					{
+						//Double Scan
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_INTERLACED;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
+					}
+					else
+					{
+						//Progressive
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_INTERLACED;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
 					}
 
-					//Get timing details
-					int frontPorchH = modeInfoX2.sDetailedTiming.sHSyncStart - modeInfoX2.sDetailedTiming.sHDisplay;
-					int frontPorchV = modeInfoX2.sDetailedTiming.sVSyncStart - modeInfoX2.sDetailedTiming.sVDisplay;
-					int backPorchH = modeInfoX2.sDetailedTiming.sHTotal - (modeInfoX2.sDetailedTiming.sHSyncStart + modeInfoX2.sDetailedTiming.sHSyncWidth);
-					int backPorchV = modeInfoX2.sDetailedTiming.sVTotal - (modeInfoX2.sDetailedTiming.sVSyncStart + modeInfoX2.sDetailedTiming.sVSyncWidth);
-					int blankingH = modeInfoX2.sDetailedTiming.sHTotal - modeInfoX2.sDetailedTiming.sHDisplay;
-					int blankingV = modeInfoX2.sDetailedTiming.sVTotal - modeInfoX2.sDetailedTiming.sVDisplay;
-					int polarityH = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_H_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_H_SYNC_POLARITY;
-					int polarityV = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_V_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_V_SYNC_POLARITY;
-
 					//Show debug information
-					AVDebugWriteLine(L"Generated timing basics X1: Width " << modeInfoX2.iPelsWidth << L" / Height " << modeInfoX2.iPelsHeight << L" / RefreshRate " << modeInfoX2.iRefreshRate << L" / Timing " << modeInfoX2.iTimingStandard);
-					AVDebugWriteLine(L"Generated timing details (General): PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags);
-					AVDebugWriteLine(L"Generated timing details (Horizontal): Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / FrontPorch " << frontPorchH << L" / BackPorch " << backPorchH << L" / Blanking " << blankingH << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / Polarity " << polarityH);
-					AVDebugWriteLine(L"Generated timing details (Vertical): Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / FrontPorch " << frontPorchV << L" / BackPorch " << backPorchV << L" / Blanking " << blankingV << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / Polarity " << polarityV);
+					AVDebugWriteLine(L"Custom resolution generated X1:");
+					AVDebugWriteLine(L"(Basic) " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+					AVDebugWriteLine(L"(Detailed) PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingStandard " << modeInfoX2.iTimingStandard << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags << L" / Overscan8B " << modeInfoX2.sDetailedTiming.sOverscan8B << L" / OverscanGR " << modeInfoX2.sDetailedTiming.sOverscanGR << L" / Size " << modeInfoX2.sDetailedTiming.iSize);
+					AVDebugWriteLine(L"(Horizontal) Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sHSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / OverscanLeft " << modeInfoX2.sDetailedTiming.sHOverscanLeft << L" / OverscanRight " << modeInfoX2.sDetailedTiming.sHOverscanRight);
+					AVDebugWriteLine(L"(Vertical) Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sVSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / OverscanTop " << modeInfoX2.sDetailedTiming.sVOverscanTop << L" / OverscanBottom " << modeInfoX2.sDetailedTiming.sVOverscanBottom);
 
 					//Return result
 					return modeInfoX2;
@@ -317,24 +364,29 @@ namespace winrt::RadeonTuner::implementation
 					//Set presentation flag
 					if (presentationMode == ADL_DL_TIMINGFLAG_INTERLACED)
 					{
-						modeInfoX2.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_INTERLACED;
+						//Interlaced
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_INTERLACED;
+					}
+					else if (presentationMode == ADL_DL_TIMINGFLAG_DOUBLE_SCAN)
+					{
+						//Double Scan
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_INTERLACED;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags |= ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
+					}
+					else
+					{
+						//Progressive
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_INTERLACED;
+						displayCustomModeInfo.sDetailedTiming.sTimingFlags &= ~ADL_DL_TIMINGFLAG_DOUBLE_SCAN;
 					}
 
-					//Get timing details
-					int frontPorchH = modeInfoX2.sDetailedTiming.sHSyncStart - modeInfoX2.sDetailedTiming.sHDisplay;
-					int frontPorchV = modeInfoX2.sDetailedTiming.sVSyncStart - modeInfoX2.sDetailedTiming.sVDisplay;
-					int backPorchH = modeInfoX2.sDetailedTiming.sHTotal - (modeInfoX2.sDetailedTiming.sHSyncStart + modeInfoX2.sDetailedTiming.sHSyncWidth);
-					int backPorchV = modeInfoX2.sDetailedTiming.sVTotal - (modeInfoX2.sDetailedTiming.sVSyncStart + modeInfoX2.sDetailedTiming.sVSyncWidth);
-					int blankingH = modeInfoX2.sDetailedTiming.sHTotal - modeInfoX2.sDetailedTiming.sHDisplay;
-					int blankingV = modeInfoX2.sDetailedTiming.sVTotal - modeInfoX2.sDetailedTiming.sVDisplay;
-					int polarityH = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_H_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_H_SYNC_POLARITY;
-					int polarityV = (modeInfoX2.sDetailedTiming.sTimingFlags & ADL_DL_TIMINGFLAG_V_SYNC_POLARITY) == ADL_DL_TIMINGFLAG_V_SYNC_POLARITY;
-
 					//Show debug information
-					AVDebugWriteLine(L"Generated timing basics X2: Width " << modeInfoX2.iPelsWidth << L" / Height " << modeInfoX2.iPelsHeight << L" / RefreshRate " << modeInfoX2.iRefreshRate << L" / Timing " << modeInfoX2.iTimingStandard);
-					AVDebugWriteLine(L"Generated timing details (General): PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags);
-					AVDebugWriteLine(L"Generated timing details (Horizontal): Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / FrontPorch " << frontPorchH << L" / BackPorch " << backPorchH << L" / Blanking " << blankingH << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / Polarity " << polarityH);
-					AVDebugWriteLine(L"Generated timing details (Vertical): Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / FrontPorch " << frontPorchV << L" / BackPorch " << backPorchV << L" / Blanking " << blankingV << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / Polarity " << polarityV);
+					AVDebugWriteLine(L"Custom resolution generated X2:");
+					AVDebugWriteLine(L"(Basic) " << modeInfoX2.iPelsWidth << L"x" << modeInfoX2.iPelsHeight << L" @ " << modeInfoX2.iRefreshRate << L"Hz");
+					AVDebugWriteLine(L"(Detailed) PixelClock " << modeInfoX2.sDetailedTiming.sPixelClock << L" / TimingStandard " << modeInfoX2.iTimingStandard << L" / TimingFlags " << modeInfoX2.sDetailedTiming.sTimingFlags << L" / Overscan8B " << modeInfoX2.sDetailedTiming.sOverscan8B << L" / OverscanGR " << modeInfoX2.sDetailedTiming.sOverscanGR << L" / Size " << modeInfoX2.sDetailedTiming.iSize);
+					AVDebugWriteLine(L"(Horizontal) Total " << modeInfoX2.sDetailedTiming.sHTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sHDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sHSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sHSyncWidth << L" / OverscanLeft " << modeInfoX2.sDetailedTiming.sHOverscanLeft << L" / OverscanRight " << modeInfoX2.sDetailedTiming.sHOverscanRight);
+					AVDebugWriteLine(L"(Vertical) Total " << modeInfoX2.sDetailedTiming.sVTotal << L" / ActiveDisplay " << modeInfoX2.sDetailedTiming.sVDisplay << L" / SyncStart " << modeInfoX2.sDetailedTiming.sVSyncStart << L" / SyncWidth " << modeInfoX2.sDetailedTiming.sVSyncWidth << L" / OverscanTop " << modeInfoX2.sDetailedTiming.sVOverscanTop << L" / OverscanBottom " << modeInfoX2.sDetailedTiming.sVOverscanBottom);
 
 					//Return result
 					return modeInfoX2;
@@ -408,7 +460,7 @@ namespace winrt::RadeonTuner::implementation
 			if (removeResolution)
 			{
 				//Delete custom resolution
-				CustomResolution_Delete(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displayCustomModeInfo);
+				CustomResolution_Remove(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displayCustomModeInfo);
 			}
 		}
 		catch (...) {}

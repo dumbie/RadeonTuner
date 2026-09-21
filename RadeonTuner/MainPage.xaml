@@ -1554,7 +1554,7 @@
                             <Border Margin="0,5,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ApplicationVoidGrayColor}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Create custom resolutions or overclock your display refresh rate."/>
-                                    <Button x:Name="button_CustomResolution_Create" Margin="10,0,0,0" Content="Create Custom Resolution" Click="button_CustomResolution_Create_Click" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create new custom resolution"/>
+                                    <Button x:Name="button_CustomResolution_Create" Margin="10,0,0,0" Content="Create Custom Resolution" Click="button_CustomResolution_ShowHide_Click" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create new custom resolution"/>
                                     <Button x:Name="button_CustomResolution_Remove" Content="Remove Custom Resolution" Click="button_CustomResolution_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove a custom resolution"/>
                                 </StackPanel>
                             </Border>
@@ -1566,7 +1566,7 @@
                                 <StackPanel>
                                     <!-- Automatic Eyefinity -->
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen.&#10;&#10;* Automatic Eyefinity will automatically enable Eyefinity when the display profile application is running and disabled when no longer running."/>
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Eyefinity allows you to combine multiple displays to act as one big screen.&#10;&#10;Automatic Eyefinity will automatically enable Eyefinity when the display profile application is running and disabled when no longer running."/>
                                         <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* It may take a few seconds before Eyefinity is activated when launching an application.&#10;&#10;* This setting only works when RadeonTuner is running."/>
                                         <Image x:Name="image_Eyefinity_Automatic_Profile_Used" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="Automatic Eyefinity is enabled on an aplication profile and is currently controlling the state, if you want to manually control Eyefinity disable 'Automatic Eyefinity' on all application profiles."/>
                                         <ToggleSwitch x:Name="toggleswitch_Eyefinity_Automatic" Margin="10,0,0,0" OffContent="Automatic Eyefinity" OnContent="Automatic Eyefinity" Toggled="toggleswitch_Eyefinity_Automatic_Toggled"/>
@@ -1878,9 +1878,9 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBox x:Name="textbox_CustomResolution_Width" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Width_TextChanged"/>
+                                <TextBox x:Name="textbox_CustomResolution_Width" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Resolution_TextChanged"/>
                                 <TextBlock Text="W" Margin="5,0,8,0" VerticalAlignment="Center"/>
-                                <TextBox x:Name="textbox_CustomResolution_Height" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Height_TextChanged"/>
+                                <TextBox x:Name="textbox_CustomResolution_Height" Width="129" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_Resolution_TextChanged"/>
                                 <TextBlock Text="H" Margin="5,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
@@ -1935,7 +1935,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_CustomResolution_PixelClock" Width="266" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_CustomResolution_PixelClock" Width="266" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_CustomResolution_PixelClock_TextChanged"/>
                                     <TextBlock Text="MHz" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -1973,29 +1973,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingTotal_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingTotal_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingTotal_TextChanged"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingTotal_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
-                                    <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
-
-                            <!-- Timing Active Display -->
-                            <Grid Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="Timing Active Display" VerticalAlignment="Center"/>
-                                    <Image Source="/Assets/Information.png" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="The number or horizontal and vertical pixels within the active area."/>
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingDisplay_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
-                                    <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingDisplay_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingTotal_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingTotal_TextChanged"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2013,9 +1993,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingFrontPorch_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingFrontPorch_TextChanged"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingFrontPorch_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingFrontPorch_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingFrontPorch_TextChanged"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2033,9 +2013,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <TextBox x:Name="textbox_TimingSyncWidth_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Horizontal" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingSyncWidth_TextChanged"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="textbox_TimingSyncWidth_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" IsEnabled="False"/>
+                                    <TextBox x:Name="textbox_TimingSyncWidth_Vertical" Width="118" Style="{ThemeResource ApplicationTextBox}" InputScope="Number" TextChanged="textbox_TimingSyncWidth_TextChanged"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2053,9 +2033,9 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <ComboBox x:Name="combobox_TimingPolarity_Horizontal" Width="118" Style="{ThemeResource ApplicationComboBox}" IsEnabled="False"/>
+                                    <ComboBox x:Name="combobox_TimingPolarity_Horizontal" Width="118" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_TimingPolarity_SelectionChanged"/>
                                     <TextBlock Text="Hor" Margin="5,0,10,0" VerticalAlignment="Center"/>
-                                    <ComboBox x:Name="combobox_TimingPolarity_Vertical" Width="118" Style="{ThemeResource ApplicationComboBox}" IsEnabled="False"/>
+                                    <ComboBox x:Name="combobox_TimingPolarity_Vertical" Width="118" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_TimingPolarity_SelectionChanged"/>
                                     <TextBlock Text="Ver" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
@@ -2063,7 +2043,7 @@
 
                         <!-- Buttons -->
                         <Button x:Name="button_Overlay_CustomResolution_Create" Margin="0,20,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_CustomResolution_Create_Click" Content="Create" Style="{ThemeResource ApplicationButton}"/>
-                        <Button x:Name="button_Overlay_CustomResolution_Close" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_CustomResolution_Close_Click" Content="Cancel" Style="{ThemeResource ApplicationButton}"/>
+                        <Button x:Name="button_Overlay_CustomResolution_Close" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="button_Overlay_CustomResolution_Close_Click" Content="Close" Style="{ThemeResource ApplicationButton}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
