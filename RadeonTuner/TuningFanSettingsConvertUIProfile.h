@@ -57,7 +57,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				fanControl = tuningFanSettings.FanControl.Get(settingType).value();
 				toggleswitch_Fan_Control().IsOn(fanControl);
-				textblock_Fan_Control_Value().Text(fanControl ? L"Enabled" : L"Disabled");
 
 				//Update fan graph opacity
 				grid_Fan_Graph().Opacity(fanControl ? 1.0 : 0.4);
@@ -65,7 +64,6 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				toggleswitch_Fan_Control().IsOn(false);
-				textblock_Fan_Control_Value().Text(L"Disabled");
 
 				//Update fan graph opacity
 				grid_Fan_Graph().Opacity(0.4);

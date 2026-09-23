@@ -219,6 +219,22 @@ namespace winrt::RadeonTuner::implementation
 			//Update fan graph
 			UpdateFanGraphGpu(tuningFanSettings);
 
+			//Fan Control
+			if (tuningFanSettings.FanControl.Current.has_value())
+			{
+				//Set hint value
+				bool fanControl = tuningFanSettings.FanControl.Current.value();
+				textblock_Fan_Control_Value().Text(fanControl ? L"Enabled" : L"Disabled");
+
+				//Enable or disable interface
+				toggleswitch_Fan_Control().IsEnabled(true);
+			}
+			else
+			{
+				//Enable or disable interface
+				toggleswitch_Fan_Control().IsEnabled(false);
+			}
+
 			//Fan Zero RPM
 			if (tuningFanSettings.FanZeroRpm.Current.has_value())
 			{

@@ -5,38 +5,64 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettings)
+	bool MainPage::TuningFanSettings_Profile_Add(TuningFanSettings tuningFanSettingsAdd)
 	{
 		try
 		{
 			//Device identifier
-			std::wstring deviceIdW = tuningFanSettings.DeviceId.value();
+			std::wstring deviceIdW = tuningFanSettingsAdd.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = tuningFanSettings.Application.value();
+			std::wstring applicationW = tuningFanSettingsAdd.Application.value();
 
 			//Get settings
-			auto tuningFanSettingsProfile = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
+			auto tuningFanSettingsGet = TuningFanSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
 			bool profileAdded = false;
-			if (!tuningFanSettingsProfile.has_value())
+			if (!tuningFanSettingsGet.has_value())
 			{
 				//Check if any profile is used
 				if (!TuningFanSettings_Profile_Any_Using(deviceIdW))
 				{
-					tuningFanSettings.UsingProfile = true;
+					tuningFanSettingsAdd.UsingProfile = true;
 				}
 
 				//Add settings profile
-				tuningFanSettingsCache.push_back(tuningFanSettings);
+				tuningFanSettingsCache.push_back(tuningFanSettingsAdd);
 				profileAdded = true;
 
-				AVDebugWriteLine(L"Added tuning settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << tuningFanSettings.UsingProfile);
+				AVDebugWriteLine(L"Added tuning settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << tuningFanSettingsAdd.UsingProfile);
 			}
 
 			//Return result
 			return profileAdded;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::TuningFanSettings_Profile_Replace(TuningFanSettings tuningFanSettingsReplace)
+	{
+		try
+		{
+			for (TuningFanSettings& tuningFanSettings : tuningFanSettingsCache)
+			{
+				try
+				{
+					if (tuningFanSettings.DeviceId.value() == tuningFanSettingsReplace.DeviceId.value() && tuningFanSettings.Application.value() == tuningFanSettingsReplace.Application.value())
+					{
+						tuningFanSettings = tuningFanSettingsReplace;
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
 		}
 		catch (...)
 		{

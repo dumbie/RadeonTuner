@@ -58,83 +58,89 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Control
-			bool fanControl = false;
+			bool fanControlEnabled = false;
 			if (targetSettings.FanControl.Get(settingGet).has_value())
 			{
-				fanControl = targetSettings.FanControl.Get(settingGet).value();
+				fanControlEnabled = targetSettings.FanControl.Get(settingGet).value();
 			}
 
 			//Fan Zero RPM
 			if (targetSettings.FanZeroRpm.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL, targetSettings.FanZeroRpm.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_ZERORPM_CONTROL, targetSettings.FanZeroRpm.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Speed 0
 			if (targetSettings.FanSpeed0.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1, targetSettings.FanSpeed0.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1, targetSettings.FanSpeed0.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Temperature 0
 			if (targetSettings.FanTemp0.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1, targetSettings.FanTemp0.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_1, targetSettings.FanTemp0.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Speed 1
 			if (targetSettings.FanSpeed1.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2, targetSettings.FanSpeed1.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_2, targetSettings.FanSpeed1.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Temperature 1
 			if (targetSettings.FanTemp1.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2, targetSettings.FanTemp1.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_2, targetSettings.FanTemp1.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Speed 2
 			if (targetSettings.FanSpeed2.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3, targetSettings.FanSpeed2.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_3, targetSettings.FanSpeed2.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Temperature 2
 			if (targetSettings.FanTemp2.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3, targetSettings.FanTemp2.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_3, targetSettings.FanTemp2.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Speed 3
 			if (targetSettings.FanSpeed3.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4, targetSettings.FanSpeed3.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_4, targetSettings.FanSpeed3.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Temperature 3
 			if (targetSettings.FanTemp3.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4, targetSettings.FanTemp3.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_4, targetSettings.FanTemp3.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Speed 4
 			if (targetSettings.FanSpeed4.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5, targetSettings.FanSpeed4.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_SPEED_5, targetSettings.FanSpeed4.Get(settingGet).value(), !fanControlEnabled });
 			}
 
 			//Fan Temperature 4
 			if (targetSettings.FanTemp4.Get(settingGet).has_value())
 			{
-				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, targetSettings.FanTemp4.Get(settingGet).value(), !fanControl });
+				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, targetSettings.FanTemp4.Get(settingGet).value(), !fanControlEnabled });
 			}
+
+			//Update OD8Settings flag in registry
+			int fanControlFlag = fanControlEnabled ? (int)OD8SettingsRegistryFlags::FanTuningOn : (int)OD8SettingsRegistryFlags::FanTuningOff;
+			int od8SettingsFlag = (int)OD8SettingsRegistryFlags::GpuTuning | (int)OD8SettingsRegistryFlags::MemoryTuning | (int)OD8SettingsRegistryFlags::PowerTuning | fanControlFlag;
+			bool regResult = AdlRegistrySettingSet(gpuAdapterIndex, "", "OD8Settings", od8SettingsFlag);
+			//AVDebugWriteLine("Updated registry OD8Settings flag: " << regResult << " / " << od8SettingsFlag);
 
 			//Apply gpu tuning and fan values
 			bool setResult = Adl_Overdrive8_Values_Set(gpuAdapterIndex, saveSettings);
 
 			//Return result
-			return setResult;
+			return regResult && setResult;
 		}
 		catch (...)
 		{

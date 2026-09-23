@@ -13,6 +13,7 @@ struct TuningFanSettings
 	AdlSettingInt PowerLimit;
 	AdlSettingInt PowerVoltage;
 	AdlSettingInt PowerTDC;
+	AdlSettingInt FanControl;
 	AdlSettingInt FanZeroRpm;
 	AdlSettingInt FanSpeed0;
 	AdlSettingInt FanTemp0;
@@ -26,7 +27,6 @@ struct TuningFanSettings
 	AdlSettingInt FanTemp4;
 
 	//Custom
-	AdlSettingInt FanControl;
 	AdlSettingInt KeepActive;
 
 	//Variables (No export)
@@ -41,5 +41,29 @@ struct TuningFanSettings
 		return Application.has_value() && Application.value() == L"Global";
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, FanControl.Current, KeepActive.Current)
+	void SetCurrentToDefault()
+	{
+		CoreMin.Current = CoreMin.Default;
+		CoreMax.Current = CoreMax.Default;
+		MemoryTiming.Current = MemoryTiming.Default;
+		MemoryMax.Current = MemoryMax.Default;
+		PowerLimit.Current = PowerLimit.Default;
+		PowerVoltage.Current = PowerVoltage.Default;
+		PowerTDC.Current = PowerTDC.Default;
+		FanZeroRpm.Current = FanZeroRpm.Default;
+		FanSpeed0.Current = FanSpeed0.Default;
+		FanTemp0.Current = FanTemp0.Default;
+		FanSpeed1.Current = FanSpeed1.Default;
+		FanTemp1.Current = FanTemp1.Default;
+		FanSpeed2.Current = FanSpeed2.Default;
+		FanTemp2.Current = FanTemp2.Default;
+		FanSpeed3.Current = FanSpeed3.Default;
+		FanTemp3.Current = FanTemp3.Default;
+		FanSpeed4.Current = FanSpeed4.Default;
+		FanTemp4.Current = FanTemp4.Default;
+		FanControl.Current = FanControl.Default;
+		KeepActive.Current = KeepActive.Default;
+	}
+
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanControl.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, KeepActive.Current)
 };
