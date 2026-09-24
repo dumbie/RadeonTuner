@@ -1244,7 +1244,7 @@
                                     <!-- FreeSync Mode -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable: Dynamically adjusts FreeSync refresh rate to the frame rate of applications running in full-screen mode.&#10;&#10;- Static: Adjusts FreeSync refresh rate to your set display refresh rate."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card.&#10;&#10;* This setting may only work when using full-screen mode depending on the application.&#10;&#10;* This setting only works on applications that are not blacklisted, some applications like web browsers and video players might be blocked from using FreeSync."/>
                                         <TextBlock Text="AMD FreeSync / VRR / Adaptive Sync" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncMode_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
