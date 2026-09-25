@@ -66,15 +66,15 @@ namespace winrt::RadeonTuner::implementation
 			//Get display bezel percentage
 			int displayBezelPercentage = 0;
 
-			AVDebugWriteLine("Setting SLS map to: R" << displayColumns << "/C" << displayRows << "/D" << displayCount << "/O" << displayOrientationDegree << "/B" << displayBezelPercentage);
+			AVDebugWriteLine("Setting SLS map to: Columns" << displayColumns << "/Rows" << displayRows << "/Displays" << displayCount << "/Orientation" << displayOrientationDegree << "/Bezel" << displayBezelPercentage);
 
 			//Set SLS map
 			ADLSLSMap slsMap{};
 			slsMap.iAdapterIndex = displayAdapterIndex;
 			slsMap.iSLSMapIndex = slsMapIndexIn;
 			slsMap.iSLSMapValue = ADL_DISPLAY_SLSMAP_SLSLAYOUTMODE_FILL;
-			slsMap.iNumNativeMode = 0;
-			slsMap.iNumBezelMode = 0;
+			slsMap.iNumNativeMode = displayCount;
+			slsMap.iNumBezelMode = displayCount;
 			slsMap.iOrientation = displayOrientationDegree;
 			slsMap.grid.iSLSGridColumn = displayColumns;
 			slsMap.grid.iSLSGridRow = displayRows;
@@ -120,7 +120,7 @@ namespace winrt::RadeonTuner::implementation
 			//adl_Res0 = _ADL2_Flush_Driver_Data(adl_Context, adl_Display_DisplayIndex);
 
 			//Return result
-			AVDebugWriteLine("Created custom Eyefinity: " << adl_Res0 << " / " << slsMapIndexOut);
+			AVDebugWriteLine("Created custom Eyefinity: " << adl_Res0 << " / index: " << slsMapIndexOut);
 			return adl_Res0 == ADL_OK && slsMapIndexOut != -1;
 		}
 		catch (...)
@@ -137,13 +137,6 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Enable SLS environment workaround
 			SetEnvironmentVariableA("ADL_4KWORKAROUND_CANCEL", "TRUE");
-
-			//Check if Eyefinity is enabled
-			if (!Adl_Eyefinity_IsEnabled(displayAdapterIndex))
-			{
-				AVDebugWriteLine("Cannot delete Eyefinity when it's not enabled.");
-				return false;
-			}
 
 			AVDebugWriteLine("Deleting all Eyefinity for adapter: " << displayAdapterIndex);
 
@@ -186,6 +179,25 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Failed to delete all Eyefinity (Exception)");
 			return false;
 		}
+	}
+
+	bool MainPage::Adl_Eyefinity_Automatic_IsEnabled()
+	{
+		try
+		{
+			//Check if Automatic Eyefinity is enabled
+			for (DisplaySettings& displaySettings : displaySettingsCache)
+			{
+				if (displaySettings.EyefinityAutomatic.Current.has_value() && displaySettings.EyefinityAutomatic.Current.value())
+				{
+					//Return result
+					return true;
+				}
+			}
+		}
+		catch (...) {}
+		//Return result
+		return false;
 	}
 
 	bool MainPage::Adl_Eyefinity_IsEnabled(int displayAdapterIndex)
@@ -278,7 +290,7 @@ namespace winrt::RadeonTuner::implementation
 		return false;
 	}
 
-	bool MainPage::Adl_Eyefinity_Toggle(int displayAdapterIndex, bool setEnabled)
+	AdlCustomResult MainPage::Adl_Eyefinity_Toggle(int displayAdapterIndex, bool setEnabled)
 	{
 		try
 		{
@@ -287,12 +299,12 @@ namespace winrt::RadeonTuner::implementation
 			if (setEnabled && eyefinityEnabled)
 			{
 				//AVDebugWriteLine("Eyefinity is already enabled.");
-				return true;
+				return AdlCustomResult::CUSTOM_ALREADY;
 			}
 			else if (!setEnabled && !eyefinityEnabled)
 			{
 				//AVDebugWriteLine("Eyefinity is already disabled.");
-				return true;
+				return AdlCustomResult::CUSTOM_ALREADY;
 			}
 
 			//Fix set display to duplicate or extended mode to allow Eyefinity toggle
@@ -312,7 +324,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Return result
 				AVDebugWriteLine("Failed to get display map configuration: " << adl_Res0);
-				return false;
+				return AdlCustomResult::CUSTOM_ERROR;
 			}
 
 			//Get SLS index
@@ -322,27 +334,27 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Return result
 				AVDebugWriteLine("Failed to get SLS map index: " << adl_Res0);
-				return false;
+				return AdlCustomResult::CUSTOM_ERROR;
 			}
 			if (slsMapIndex <= 0)
 			{
 				//Return result
 				//AVDebugWriteLine("No valid SLS index found.");
-				return false;
+				return AdlCustomResult::CUSTOM_ERROR;
 			}
 
 			//Set SLS state
 			adl_Res0 = _ADL2_Display_SLSMapConfig_SetState(adl_Context, displayAdapterIndex, slsMapIndex, setEnabled);
 
 			//Return result
-			AVDebugWriteLine("Set Eyefinity state: " << adl_Res0 << " / " << slsMapIndex << " / " << setEnabled);
-			return adl_Res0 == ADL_OK;
+			AVDebugWriteLine("Set Eyefinity state: " << adl_Res0 << " / index: " << slsMapIndex << " / state: " << setEnabled);
+			return (adl_Res0 == ADL_OK) ? AdlCustomResult::CUSTOM_OK : AdlCustomResult::CUSTOM_ERROR;
 		}
 		catch (...)
 		{
 			//Return result
 			AVDebugWriteLine("Failed to set Eyefinity state (Exception)");
-			return false;
+			return AdlCustomResult::CUSTOM_ERROR;
 		}
 	}
 }

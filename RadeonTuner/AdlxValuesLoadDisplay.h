@@ -42,18 +42,31 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_Resolution().IsEnabled(true);
 				combobox_Display_RefreshRate().IsEnabled(true);
 				combobox_Display_Orientation().IsEnabled(true);
-				button_Eyefinity_Manage().IsEnabled(true);
-				button_Eyefinity_Enable().IsEnabled(true);
-				button_Eyefinity_Disable().IsEnabled(true);
 
-				//Disable settings
+				//Eyefinity settings
 				toggleswitch_Eyefinity_Automatic().IsEnabled(false);
+				button_Eyefinity_Manage().IsEnabled(true);
+
+				//Check if an application profile has Automatic Eyefinity enabled
+				if (Adl_Eyefinity_Automatic_IsEnabled())
+				{
+					image_Eyefinity_Automatic_Profile_Used().Visibility(Visibility::Visible);
+					button_Eyefinity_Enable().IsEnabled(false);
+					button_Eyefinity_Disable().IsEnabled(false);
+					button_Eyefinity_Overlay_Enable().IsEnabled(false);
+					button_Eyefinity_Overlay_Disable().IsEnabled(false);
+				}
+				else
+				{
+					image_Eyefinity_Automatic_Profile_Used().Visibility(Visibility::Collapsed);
+					button_Eyefinity_Enable().IsEnabled(true);
+					button_Eyefinity_Disable().IsEnabled(true);
+					button_Eyefinity_Overlay_Enable().IsEnabled(true);
+					button_Eyefinity_Overlay_Disable().IsEnabled(true);
+				}
 			}
 			else
 			{
-				//Enable settings
-				toggleswitch_Eyefinity_Automatic().IsEnabled(true);
-
 				//Disable settings
 				combobox_Display_Resolution().IsEnabled(false);
 				combobox_Display_RefreshRate().IsEnabled(false);
@@ -68,9 +81,13 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_ColorDepth().IsEnabled(false);
 				combobox_Display_PixelFormat().IsEnabled(false);
 				toggleswitch_Display_HDCPSupport().IsEnabled(false);
+
+				//Eyefinity settings
+				toggleswitch_Eyefinity_Automatic().IsEnabled(true);
 				button_Eyefinity_Manage().IsEnabled(false);
 				button_Eyefinity_Enable().IsEnabled(false);
 				button_Eyefinity_Disable().IsEnabled(false);
+				image_Eyefinity_Automatic_Profile_Used().Visibility(Visibility::Collapsed);
 			}
 
 			//Update button colors
@@ -98,17 +115,11 @@ namespace winrt::RadeonTuner::implementation
 				image_Display_Used().Visibility(Visibility::Collapsed);
 			}
 
-			//Load display resolution values
-			DisplayList_Resolution(false);
-
-			//Load display refresh rate values
-			DisplayList_RefreshRate(false);
-
-			//Select current display values
-			DisplayList_SelectCurrent_Values(false);
+			//Reload display resolution
+			DisplayList_Combined(false);
 
 			//Enable saving
-			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 			disable_saving = false;
 
 			//Set result

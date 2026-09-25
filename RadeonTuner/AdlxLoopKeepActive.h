@@ -7,8 +7,6 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Fix: Change display and tuning check to event that triggers on process launch and close or check foreground window switch.
-	//Fix: Add support to manually enable RIS2 desktop when it used in an application profile.
-	//Fix: Make sure Gamma RGB is set to currently used value, changing resolution etc resets it.
 
 	void MainPage::AdlxLoopKeepActive()
 	{
