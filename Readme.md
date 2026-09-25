@@ -42,6 +42,10 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.50.0.0 (25-September-2026)
+- Added custom display resolution support.
+- Added setting to skip graphics support check.
+
 v0.40.0.0 (1-September-2026)
 - Added display application profile support.
 - Graphic settings are now restored after driver reinstall.
