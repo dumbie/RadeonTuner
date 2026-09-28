@@ -146,7 +146,7 @@ namespace LauncherSteam::AppInfo
 			{
 				//Get Steam install directory
 				std::wstring steamInstallPath = SteamInstallPath();
-				std::wstring appInfoPath = steamInstallPath + L"\\appcache\\appinfo.vdf";
+				std::wstring appInfoPath = PathMerge(steamInstallPath, L"appcache\\appinfo.vdf");
 				vdfPath = wstring_to_string(appInfoPath);
 				AVDebugWriteLine("Steam appinfo.vdf path: " << appInfoPath.c_str());
 			}

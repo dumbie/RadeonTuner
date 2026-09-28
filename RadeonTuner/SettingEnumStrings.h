@@ -117,7 +117,7 @@ const std::vector<std::wstring> ADLX_DISPLAY_TYPE_STRING =
 
 const std::vector<std::wstring> ADLX_DISPLAY_SCAN_TYPE_STRING =
 {
-	L"Progressive", L"Interlaced"
+	L"Progressive", L"Interlaced"//, L"Double Scan"
 };
 
 const std::vector<std::wstring> ADLX_TIMING_STANDARD_STRING =

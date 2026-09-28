@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Video Upscaling
-			if (multimediaSettings.VideoUpscaling.Support.has_value() && multimediaSettings.VideoUpscaling.Support.value())
+			if (multimediaSettings.VideoUpscaling.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -25,7 +25,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Video_Upscaling().IsOn(valueInt);
-				slider_Video_Sharpening().IsEnabled(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
@@ -33,6 +32,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Video_Upscaling().IsEnabled(true);
+				slider_Video_Sharpening().IsEnabled(valueInt);
 			}
 			else
 			{
@@ -41,11 +41,10 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_Video_Upscaling().IsEnabled(false);
-				slider_Video_Sharpening().IsEnabled(false);
 			}
 
 			//Video Sharpening
-			if (multimediaSettings.VideoSharpening.Support.has_value() && multimediaSettings.VideoSharpening.Support.value())
+			if (multimediaSettings.VideoSharpening.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -84,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Video Brightness
-			if (multimediaSettings.VideoBrightness.Support.has_value() && multimediaSettings.VideoBrightness.Support.value())
+			if (multimediaSettings.VideoBrightness.Support)
 			{
 				//Get setting
 				int valueInt = 0;
@@ -112,6 +111,9 @@ namespace winrt::RadeonTuner::implementation
 					slider_Video_Brightness().StepFrequency(multimediaSettings.VideoBrightness.Step.value());
 					slider_Video_Brightness().SmallChange(multimediaSettings.VideoBrightness.Step.value());
 				}
+
+				//Enable or disable interface
+				slider_Video_Brightness().IsEnabled(true);
 			}
 			else
 			{

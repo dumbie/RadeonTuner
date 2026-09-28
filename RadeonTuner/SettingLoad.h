@@ -4,7 +4,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::SettingLoad()
+	winrt::IAsyncAction MainPage::SettingLoad()
 	{
 		try
 		{
@@ -62,7 +62,7 @@ namespace winrt::RadeonTuner::implementation
 			//Fix validate shortcut paths if directory moved
 
 			//Enable saving
-			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 			disable_saving_settings = false;
 
 			AVDebugWriteLine("Application settings loaded.");

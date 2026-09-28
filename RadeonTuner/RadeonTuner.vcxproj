@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <Import Project="..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -40,7 +40,7 @@
     <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.18362.0</WindowsTargetPlatformMinVersion>
     <AppContainerApplication>false</AppContainerApplication>
     <DesktopCompatible>true</DesktopCompatible>
@@ -80,9 +80,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h" />
+    <ClInclude Include="AdjustCursor.h" />
     <ClInclude Include="AdlAppsClass.h" />
     <ClInclude Include="AdlAppsFunc.h" />
-    <ClInclude Include="AdlAppsInterface.h" />
+    <ClInclude Include="AdlAppsSync.h" />
+    <ClInclude Include="AdlCustomResolution.h" />
+    <ClInclude Include="AdlCustomResolutionEvents.h" />
+    <ClInclude Include="AdlxLoopDisplay.h" />
+    <ClInclude Include="AdlxLoopEyefinity.h" />
+    <ClInclude Include="AdlxLoopTuning.h" />
+    <ClInclude Include="AdlxValuesLoadDevice.h" />
+    <ClInclude Include="ADL\oem_structures.h" />
+    <ClInclude Include="AppPickerInterface.h" />
     <ClInclude Include="AdlAppsLoad.h" />
     <ClInclude Include="AdlAppsAdd.h" />
     <ClInclude Include="AdlAppsProperty.h" />
@@ -96,41 +105,45 @@
     <ClInclude Include="AdlCheck.h" />
     <ClInclude Include="AdlDefinitions.h" />
     <ClInclude Include="AdlEyefinity.h" />
+    <ClInclude Include="AdlxEventsSelect.h" />
     <ClInclude Include="AdlSettingsClass.h" />
     <ClInclude Include="AdlInitialize.h" />
     <ClInclude Include="AdlOverdrive8.h" />
     <ClInclude Include="AdlRegistry.h" />
     <ClInclude Include="AdlTuningMetrics.h" />
-    <ClInclude Include="AdlValuesLoadGraphicsApp.h" />
-    <ClInclude Include="AdlValuesLoadGraphicsRegistry.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
-    <ClInclude Include="AdlxLoopDevice.h" />
     <ClInclude Include="AdlxLoopKeepActive.h" />
     <ClInclude Include="AdlxLoopMetrics.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxResetShaderCache.h" />
     <ClInclude Include="AdlxValuesLoadDisplay.h" />
     <ClInclude Include="AdlxValuesLoadTuning.h" />
-    <ClInclude Include="ADL\adl_structures_custom.h" />
-    <ClInclude Include="ADL\adl_structures_sdk.h" />
+    <ClInclude Include="ADL\custom_structures.h" />
+    <ClInclude Include="ADL\appblb_structures.h" />
+    <ClInclude Include="AppPickerEvent.h" />
+    <ClInclude Include="AppPickerIdl.h" />
     <ClInclude Include="DisplayDetailsIdl.h" />
+    <ClInclude Include="DisplaySettingsApply.h" />
+    <ClInclude Include="DisplaySettingsGamma.h" />
+    <ClInclude Include="DisplaySettingsMatch.h" />
+    <ClInclude Include="DisplaySettingsProfile.h" />
     <ClInclude Include="DisplaySettingsResolution.h" />
     <ClInclude Include="DisplaySettingsConvertUIAdl.h" />
-    <ClInclude Include="DisplaySettingsConvertUICurrent.h" />
-    <ClInclude Include="DisplaySettingsConvertUIDefault.h" />
+    <ClInclude Include="DisplaySettingsConvertUIProfile.h" />
     <ClInclude Include="DisplaySettingsGenerateAdl.h" />
     <ClInclude Include="DisplaySettingsDetails.h" />
-    <ClInclude Include="EyefinityEvents.h" />
-    <ClInclude Include="EyefinityFunc.h" />
+    <ClInclude Include="AdlEyefinityEvents.h" />
     <ClInclude Include="GraphicsFsrOverrideDll.h" />
+    <ClInclude Include="GraphicsFsrShowInformation.h" />
+    <ClInclude Include="GraphicsSettingsApply.h" />
     <ClInclude Include="GraphicsSettingsClass.h" />
     <ClInclude Include="GraphicsSettingsConvertUIAdl.h" />
-    <ClInclude Include="GraphicsSettingsConvertUICurrent.h" />
-    <ClInclude Include="GraphicsSettingsConvertUIDefault.h" />
+    <ClInclude Include="GraphicsSettingsConvertUIProfile.h" />
     <ClInclude Include="GraphicsSettingsGenerateAdlApp.h" />
     <ClInclude Include="GraphicsSettingsGenerateAdlRegistry.h" />
-    <ClInclude Include="GraphicsSettingsFunc.h" />
+    <ClInclude Include="GraphicsSettingsMatch.h" />
+    <ClInclude Include="GraphicsSettingsProfile.h" />
     <ClInclude Include="AdlxValuesLoadMultimedia.h" />
     <ClInclude Include="AdlxValuesPrepare.h" />
     <ClInclude Include="AdlxValuesExportDisplay.h" />
@@ -140,9 +153,10 @@
     <ClInclude Include="AdlxValuesImportGraphics.h" />
     <ClInclude Include="AdlxValuesImportTuning.h" />
     <ClInclude Include="AdlxInfoLoad.h" />
-    <ClInclude Include="AdlxValuesLoadSelect.h" />
+    <ClInclude Include="AdlxValuesLoadGraphics.h" />
     <ClInclude Include="AdlxEventsDisplay.h" />
     <ClInclude Include="AdlxEventsFans.h" />
+    <ClInclude Include="GraphicsSettingsSupport.h" />
     <ClInclude Include="GraphicsStatusClass.h" />
     <ClInclude Include="MainVariables.h" />
     <ClInclude Include="ADL\adl_defines.h" />
@@ -152,18 +166,18 @@
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="MultimediaSettingsFunc.h" />
+    <ClInclude Include="MessageBox.h" />
+    <ClInclude Include="MultimediaSettingsApply.h" />
     <ClInclude Include="MultimediaSettingsClass.h" />
-    <ClInclude Include="MultimediaSettingsConvertUICurrent.h" />
-    <ClInclude Include="MultimediaSettingsConvertUIDefault.h" />
+    <ClInclude Include="MultimediaSettingsConvertUIProfile.h" />
     <ClInclude Include="MultimediaSettingsGenerateAdl.h" />
     <ClInclude Include="MultimediaSettingsConvertUIAdl.h" />
+    <ClInclude Include="MultimediaSettingsMatch.h" />
+    <ClInclude Include="MultimediaSettingsProfile.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="PowerBoostEvents.h" />
-    <ClInclude Include="PowerBoostFunc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingEnumStrings.h" />
     <ClInclude Include="SettingAdmin.h" />
@@ -172,12 +186,12 @@
     <ClInclude Include="SettingSave.h" />
     <ClInclude Include="SettingLoad.h" />
     <ClInclude Include="DisplaySettingsClass.h" />
-    <ClInclude Include="DisplaySettingsFunc.h" />
+    <ClInclude Include="SteamFuncLibraryFolders.h" />
     <ClInclude Include="TuningFanSettingsClass.h" />
     <ClInclude Include="TuningFanSettingsConvertUIAdl.h" />
-    <ClInclude Include="TuningFanSettingsConvertUICurrent.h" />
+    <ClInclude Include="TuningFanSettingsConvertUIProfile.h" />
     <ClInclude Include="TuningFanSettingsGenerateAdl.h" />
-    <ClInclude Include="TuningFanSettingsCache.h" />
+    <ClInclude Include="TuningFanSettingsProfile.h" />
     <ClInclude Include="TuningFanSettingsApply.h" />
     <ClInclude Include="TuningFanSettingsMatch.h" />
   </ItemGroup>
@@ -187,6 +201,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppPickerIdl.cpp" />
     <ClCompile Include="AppWinMain.cpp" />
     <ClCompile Include="DisplayDetailsIdl.cpp" />
     <ClCompile Include="MainPage.cpp">
@@ -196,11 +211,15 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="SteamFuncAppInfo.h" />
+    <ClCompile Include="SteamStructures.h" />
+    <ClCompile Include="SteamFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
+    <Midl Include="AppPickerIdl.idl" />
     <Midl Include="DisplayDetailsIdl.idl" />
     <Midl Include="MainPage.idl">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -218,6 +237,24 @@
     <Image Include="AppIcon.ico">
       <DeploymentContent>false</DeploymentContent>
     </Image>
+    <CopyFileToFolders Include="RadeonTuner.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Update.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Plus.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Cross.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Remove.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Videocard.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Information.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
@@ -228,6 +265,9 @@
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="DragDrop.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Experimental.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fans.png">
@@ -272,23 +312,23 @@
     <CopyFileToFolders Include="Link.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Unlink.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="StatusDisabled.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="StatusEnabled.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Checkmark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="LauncherSteam.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <DestinationFolders>$(OutDir)\Settings</DestinationFolders>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Profiles will be placed here">
-      <DestinationFolders>$(OutDir)\Profiles</DestinationFolders>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerBoostApps.json">
-      <DestinationFolders>$(OutDir)\Profiles</DestinationFolders>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="EyefinityApps.json">
-      <DestinationFolders>$(OutDir)\Profiles</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
@@ -315,8 +355,8 @@
   </Target>
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" />
-    <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -324,9 +364,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets'))" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if $(Configuration) == Release (&#xD;&#xA;$(SolutionDir)SignToolExe.exe)&#xD;&#xA;)" />

@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_AppAdd_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppAdd_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -69,7 +69,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppRemove_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppRemove_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -146,18 +146,18 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Current application removed, selecting Global.");
 
 				//Load graphics settings
-				AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, L"Global");
+				co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, L"Global");
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Graphics_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Graphics_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Device identifier
 			std::wstring deviceIdW = graphicsSettingsProfile.DeviceId.value();
@@ -186,25 +186,21 @@ namespace winrt::RadeonTuner::implementation
 				//Show notification
 				ShowNotification(L"Graphics settings applied");
 				AVDebugWriteLine(L"Graphics settings applied: " << deviceIdW << L" / " << applicationW);
-
-				//Load graphics settings
-				AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, applicationW);
 			}
 			else
 			{
 				//Show notification
 				ShowNotification(L"Graphics settings not applied");
 				AVDebugWriteLine(L"Graphics settings not applied: " << deviceIdW << L" / " << applicationW);
-
-				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Graphics_Apply().Background(colorInvalid);
 			}
+
+			//Load graphics settings
+			co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Graphics_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Graphics_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -253,28 +249,24 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Apply graphics settings
-			bool setResult = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Default);
+			bool applyResult = AdlGraphicsSettingsApply(adl_Gpu_AdapterIndex, adl_Gpu_UniqueIdentifierHex, adlApplication, graphicsSettingsAdl, AdlSettingGet::Default);
 
 			//Check result
-			if (setResult)
+			if (applyResult)
 			{
 				//Show notification
 				ShowNotification(L"Graphics settings reset");
 				AVDebugWriteLine(L"Graphics settings reset");
-
-				//Load graphics settings
-				AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, applicationW);
 			}
 			else
 			{
 				//Show notification
 				ShowNotification(L"Graphics settings not reset");
 				AVDebugWriteLine(L"Graphics settings not reset");
-
-				//Update button colors
-				SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-				button_Graphics_Apply().Background(colorInvalid);
 			}
+
+			//Load graphics settings
+			co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
@@ -305,7 +297,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Graphics_Clear_ShaderCache_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -1012,7 +1004,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Update current value
-			graphicsSettingsProfile.Ris2Enabled.Current = newValue;
+			graphicsSettingsProfile.RisEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1033,7 +1025,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsProfile.Ris2DesktopEnabled.Current = newValue;
+			graphicsSettingsProfile.RisDesktopEnabled.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -1053,7 +1045,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsProfile.Ris2SharpeningDegree.Current = newValue;
+			graphicsSettingsProfile.RisSharpeningDegree.Current = newValue;
 		}
 		catch (...) {}
 	}

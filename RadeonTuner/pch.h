@@ -11,6 +11,7 @@
 #include <iostream>
 #include <regex>
 #include <ranges>
+#include <deque>
 #include <Windows.UI.Xaml.Hosting.DesktopWindowXamlSource.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.XamlTypeInfo.h>
@@ -28,6 +29,7 @@
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Xaml.Markup.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
+#include <winrt/Windows.UI.Xaml.Media.Imaging.h>
 #include <winrt/Windows.UI.Xaml.Input.h>
 
 //Namespaces
@@ -45,6 +47,7 @@ namespace winrt
 	using namespace Windows::UI::Xaml::Hosting;
 	using namespace Windows::UI::Xaml::Markup;
 	using namespace Windows::UI::Xaml::Media;
+	using namespace Windows::UI::Xaml::Media::Imaging;
 	using namespace Windows::UI::Xaml::Input;
 }
 

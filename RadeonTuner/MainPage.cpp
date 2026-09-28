@@ -8,15 +8,19 @@
 #include "SteamFunctions.h"
 
 #include "AppVariables.h"
+
 #include "AdlAppsFunc.h"
 #include "AdlAppsUnlock.h"
-#include "AdlGraphicsStatus.h"
+#include "AdlAppsSync.h"
 #include "AdlAppsSetDefaults.h"
 #include "AdlAppsAdd.h"
 #include "AdlAppsLoad.h"
 #include "AdlAppsRemove.h"
 #include "AdlAppsProperty.h"
+
+#include "AdlGraphicsStatus.h"
 #include "AdlOverdrive8.h"
+#include "AdlCustomResolution.h"
 #include "AdlEyefinity.h"
 #include "AdlRegistry.h"
 #include "AdlGetDevices.h"
@@ -34,6 +38,7 @@
 #include "AdlxValuesExportTuning.h"
 #include "AdlxValuesImportTuning.h"
 
+#include "AdlxValuesLoadDevice.h"
 #include "AdlxValuesLoadDisplay.h"
 #include "AdlxValuesLoadGraphics.h"
 #include "AdlxValuesLoadMultimedia.h"
@@ -44,42 +49,46 @@
 #include "AdlxEventsGraphics.h"
 #include "AdlxEventsMultimedia.h"
 #include "AdlxEventsTuning.h"
-
 #include "AdlxEventsSelect.h"
 
-#include "MultimediaSettingsFunc.h"
 #include "MultimediaSettingsGenerateAdl.h"
 #include "MultimediaSettingsConvertUIAdl.h"
-#include "MultimediaSettingsConvertUICurrent.h"
-#include "MultimediaSettingsConvertUIDefault.h"
+#include "MultimediaSettingsConvertUIProfile.h"
+#include "MultimediaSettingsApply.h"
+#include "MultimediaSettingsProfile.h"
+#include "MultimediaSettingsMatch.h"
 
 #include "GraphicsFsrOverrideDll.h"
+#include "GraphicsFsrShowInformation.h"
 #include "GraphicsSettingsGenerateAdlApp.h"
 #include "GraphicsSettingsGenerateAdlRegistry.h"
 #include "GraphicsSettingsConvertUIAdl.h"
-#include "GraphicsSettingsConvertUICurrent.h"
-#include "GraphicsSettingsConvertUIDefault.h"
-#include "GraphicsSettingsFunc.h"
+#include "GraphicsSettingsConvertUIProfile.h"
+#include "GraphicsSettingsProfile.h"
+#include "GraphicsSettingsSupport.h"
+#include "GraphicsSettingsMatch.h"
+#include "GraphicsSettingsApply.h"
 #include "AdlxResetShaderCache.h"
 
 #include "DisplaySettingsGenerateAdl.h"
 #include "DisplaySettingsConvertUIAdl.h"
-#include "DisplaySettingsConvertUICurrent.h"
-#include "DisplaySettingsConvertUIDefault.h"
+#include "DisplaySettingsConvertUIProfile.h"
 #include "DisplaySettingsResolution.h"
 #include "DisplaySettingsDetails.h"
-#include "DisplaySettingsFunc.h"
+#include "DisplaySettingsGamma.h"
+#include "DisplaySettingsMatch.h"
+#include "DisplaySettingsApply.h"
+#include "DisplaySettingsProfile.h"
+#include "AdlEyefinityEvents.h"
+#include "AdlCustomResolutionEvents.h"
 
 #include "TuningFanSettingsGenerateAdl.h"
 #include "TuningFanSettingsConvertUIAdl.h"
-#include "TuningFanSettingsConvertUICurrent.h"
-#include "TuningFanSettingsCache.h"
+#include "TuningFanSettingsConvertUIProfile.h"
 #include "TuningFanSettingsMatch.h"
 #include "TuningFanSettingsApply.h"
+#include "TuningFanSettingsProfile.h"
 #include "AdlTuningMetrics.h"
-
-#include "EyefinityFunc.h"
-#include "EyefinityEvents.h"
 
 #include "SettingFunc.h"
 #include "SettingAdmin.h"
@@ -89,8 +98,11 @@
 #include "AppPickerInterface.h"
 #include "AppPickerEvent.h"
 
-#include "AdlxLoopMetrics.h"
+#include "AdlxLoopDisplay.h"
+#include "AdlxLoopEyefinity.h"
+#include "AdlxLoopTuning.h"
 #include "AdlxLoopKeepActive.h"
+#include "AdlxLoopMetrics.h"
 
 #include "AdjustCursor.h"
 #include "MessageBox.h"
@@ -102,7 +114,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::page_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -155,8 +167,11 @@ namespace winrt::RadeonTuner::implementation
 			//Prepare adlx values
 			AdlxValuesPrepare();
 
-			//Load tuning profiles
+			//Load application profiles
 			TuningFanSettings_Profiles_LoadFromFile();
+			GraphicsSettings_Profiles_LoadFromFile();
+			DisplaySettings_Profiles_LoadFromFile();
+			MultimediaSettings_Profiles_LoadFromFile();
 
 			//Get all GPU's
 			std::vector<AdapterInfo> listGpus = AdlGetGpuAll();
@@ -184,7 +199,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Select defaults
-				AdlxValuesLoadSelectGpu(listGpus[0]);
+				co_await AdlxValuesLoadSelectGpu(listGpus[0]);
 			}
 
 			//Get all displays
@@ -213,21 +228,11 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				//Select defaults
-				AdlxValuesLoadSelectDisplay(displayList[0]);
+				co_await AdlxValuesLoadSelectDisplay(displayList[0]);
 			}
 
-			//Remove global user application
-			AdlApplication globalApp{};
-			globalApp.FileName = L"*.*";
-			globalApp.FilePath = L"*\\*";
-			AdlAppRemove(globalApp);
-
-			//Load graphics settings
-			AdlxValuesLoadSelectGraphics(adl_App_Global);
-
-			//Load and list Automatic Eyefinity applications
-			Eyefinity_Applications_LoadFromFile();
-			Eyefinity_Applications_List(true);
+			//Sync graphics profile settings
+			AdlAppSyncAll();
 
 			//Set default registry values
 			AdlSetDefaultSettings();
@@ -236,7 +241,7 @@ namespace winrt::RadeonTuner::implementation
 			SettingAdmin();
 
 			//Load settings
-			SettingLoad();
+			co_await SettingLoad();
 
 			//Show or hide experimental settings
 			ShowExperimentalSettings(true);
@@ -313,13 +318,14 @@ namespace winrt::RadeonTuner::implementation
 				if (ShowExperimental.value())
 				{
 					//Enable or disable graphics settings
-					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Visible);
+					stackpanel_FsrMultiFrameGenerationRatio().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
-					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
+					stackpanel_FsrShowInformation().Visibility(Visibility::Visible);
+
 					textblock_FsrDllLoadPath().Visibility(Visibility::Collapsed);
 					textbox_FsrDllLoadPath().Width(NAN);
 
@@ -333,13 +339,14 @@ namespace winrt::RadeonTuner::implementation
 				else
 				{
 					//Enable or disable graphics settings
-					stackpanel_MultiFrameGenerationRatio().Visibility(Visibility::Collapsed);
+					stackpanel_FsrMultiFrameGenerationRatio().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
-					stackpanel_Display_HdrTypePreference().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
+					stackpanel_FsrShowInformation().Visibility(Visibility::Collapsed);
+
 					textblock_FsrDllLoadPath().Visibility(Visibility::Visible);
 					textbox_FsrDllLoadPath().Width(0);
 
@@ -395,6 +402,8 @@ namespace winrt::RadeonTuner::implementation
 			button_DisplaySelect().Visibility(Visibility::Collapsed);
 			stackpanel_AppSelect_Graphics().Visibility(Visibility::Collapsed);
 			stackpanel_AppSelect_Tuning().Visibility(Visibility::Collapsed);
+			stackpanel_AppSelect_Display().Visibility(Visibility::Collapsed);
+			stackpanel_AppSelect_Multimedia().Visibility(Visibility::Collapsed);
 
 			//Make selected page visible
 			if (selectedIndex == 0)
@@ -421,12 +430,14 @@ namespace winrt::RadeonTuner::implementation
 			else if (selectedIndex == 3)
 			{
 				button_DisplaySelect().Visibility(Visibility::Visible);
+				stackpanel_AppSelect_Display().Visibility(Visibility::Visible);
 				stackpanel_Display().Visibility(Visibility::Visible);
 				stackpanel_Display_Buttons().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 4)
 			{
 				button_GpuSelect().Visibility(Visibility::Visible);
+				stackpanel_AppSelect_Multimedia().Visibility(Visibility::Visible);
 				stackpanel_Multimedia().Visibility(Visibility::Visible);
 				stackpanel_Multimedia_Buttons().Visibility(Visibility::Visible);
 			}

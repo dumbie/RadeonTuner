@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppsSetDefaults(AdlApplication& adlApp, bool clearProperties, bool addOnly)
+	bool MainPage::AdlAppSetDefaults(AdlApplication& adlApp, bool clearProperties, bool addOnly)
 	{
 		try
 		{
@@ -19,7 +19,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get current and default settings
-			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApp).value();
+			GraphicsSettings graphicsSettings = GraphicsSettings_Generate_FromADLApp(adl_Gpu_AdapterIndex, adlApp, true).value();
 
 			//Set default application properties
 			std::vector<AdlAppProperty> adlAppProperties{};

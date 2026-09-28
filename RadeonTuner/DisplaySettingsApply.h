@@ -11,6 +11,11 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Note: Comparing settings to prevent display from flashing because the driver does not checking if settings are already the same.
 
+			//Set ADL display identifier
+			ADLDisplayID displayId{};
+			displayId.iDisplayLogicalAdapterIndex = displayAdapterIndex;
+			displayId.iDisplayLogicalIndex = displayDisplayIndex;
+
 			//Pixel Format
 			try
 			{
@@ -61,9 +66,6 @@ namespace winrt::RadeonTuner::implementation
 				if (!appProfileOnly && newValue != currentValue)
 				{
 					//Set setting
-					ADLDisplayID displayId{};
-					displayId.iDisplayLogicalAdapterIndex = displayAdapterIndex;
-					displayId.iDisplayLogicalIndex = displayDisplayIndex;
 					adl_Res0 = _ADL2_Display_HDRState_Set(adl_Context, displayAdapterIndex, displayId, newValue);
 
 					//Delay to prevent no display issue

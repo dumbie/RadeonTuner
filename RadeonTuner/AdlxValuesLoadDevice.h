@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
+	winrt::IAsyncAction MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
 	{
 		try
 		{
@@ -24,13 +24,13 @@ namespace winrt::RadeonTuner::implementation
 			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
 
 			//Load display settings
-			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
+			co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
 
 			//Load information
 			AdlxInfoLoad();
 
 			//Enable saving
-			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 			disable_saving = false;
 
 			//Set result
@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectGpu(AdapterInfo adapterInfo)
+	winrt::IAsyncAction MainPage::AdlxValuesLoadSelectGpu(AdapterInfo adapterInfo)
 	{
 		try
 		{
@@ -69,19 +69,19 @@ namespace winrt::RadeonTuner::implementation
 			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
 
 			//Load tuning and fans settings
-			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
+			co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
 
 			//Load graphics settings
-			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
+			co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
 
 			//Load multimedia settings
-			AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, multimediaSettingsProfile.Application.value());
+			co_await AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, multimediaSettingsProfile.Application.value());
 
 			//Load information
 			AdlxInfoLoad();
 
 			//Enable saving
-			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 			disable_saving = false;
 
 			//Set result

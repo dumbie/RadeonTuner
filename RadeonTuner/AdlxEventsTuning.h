@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_AppAdd_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppAdd_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -56,7 +56,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppRemove_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppRemove_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -121,18 +121,18 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Current application removed, selecting Global.");
 
 				//Load tuning and fans settings
-				AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, L"Global");
+				co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, L"Global");
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Tuning_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Profile is used
 			bool usingProfile = tuningFanSettingsProfile.UsingProfile;
@@ -161,17 +161,9 @@ namespace winrt::RadeonTuner::implementation
 					//Show notification
 					ShowNotification(L"Tuning and fans settings applied");
 					AVDebugWriteLine(L"Tuning and fans settings applied: " << deviceIdW << L" / " << applicationW);
-
-					//Load tuning and fans settings
-					AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 				}
 				else
 				{
-					//Update button colors
-					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-					button_Tuning_Apply().Background(colorInvalid);
-					button_Fan_Apply().Background(colorInvalid);
-
 					//Show notification
 					ShowNotification(L"Failed applying tuning and fans settings");
 					AVDebugWriteLine(L"Failed applying tuning and fans settings: " << deviceIdW << L" / " << applicationW);
@@ -179,20 +171,18 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Update button colors
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				button_Tuning_Apply().Background(colorValid);
-				button_Fan_Apply().Background(colorValid);
-
 				//Show notification
 				ShowNotification(L"Tuning and fans settings adjusted");
 				AVDebugWriteLine(L"Tuning and fans settings adjusted: " << deviceIdW << L" / " << applicationW);
 			}
+
+			//Load tuning and fans settings
+			co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Tuning_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -235,20 +225,20 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine(L"Tuning and fans settings reset: " << deviceIdW << L" / " << applicationW);
 
 			//Load tuning and fans settings
-			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
+			co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Tuning_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Import settings from file
-			AdlxValuesImportTuning();
+			co_await AdlxValuesImportTuning();
 		}
 		catch (...) {}
 	}

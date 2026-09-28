@@ -5,14 +5,40 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::DisplayList_SelectCurrent_Values(bool waitUpdate)
+	winrt::IAsyncAction MainPage::DisplayList_Combined(bool waitUpdate)
 	{
 		try
 		{
 			//Wait for resolutions to have updated
 			if (waitUpdate)
 			{
-				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
+				co_await AsyncTaskDelay(250, AppVariables::App.GetDispatcher());
+			}
+
+			//Load display resolution values
+			co_await DisplayList_Resolution(false);
+
+			//Load display refresh rate values
+			co_await DisplayList_RefreshRate(false);
+
+			//Select current display values
+			co_await DisplayList_SelectCurrent_Values(false);
+		}
+		catch (...)
+		{
+			//Set result
+			AVDebugWriteLine("Failed refreshing display resolution values.");
+		}
+	}
+
+	winrt::IAsyncAction MainPage::DisplayList_SelectCurrent_Values(bool waitUpdate)
+	{
+		try
+		{
+			//Wait for resolutions to have updated
+			if (waitUpdate)
+			{
+				co_await AsyncTaskDelay(250, AppVariables::App.GetDispatcher());
 			}
 
 			//Get current display mode
@@ -72,18 +98,20 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Display_Orientation().SelectedIndex(3);
 				break;
 			}
+
+			AVDebugWriteLine("Selected current display resolution, refresh rate and orientation.");
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::DisplayList_Resolution(bool waitUpdate)
+	winrt::IAsyncAction MainPage::DisplayList_Resolution(bool waitUpdate)
 	{
 		try
 		{
 			//Wait for resolutions to have updated
 			if (waitUpdate)
 			{
-				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
+				co_await AsyncTaskDelay(250, AppVariables::App.GetDispatcher());
 			}
 
 			//Create item collection
@@ -127,14 +155,14 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::DisplayList_RefreshRate(bool waitUpdate)
+	winrt::IAsyncAction MainPage::DisplayList_RefreshRate(bool waitUpdate)
 	{
 		try
 		{
 			//Wait for refresh rates to have updated
 			if (waitUpdate)
 			{
-				co_await AsyncTaskDelay(500, AppVariables::App.GetDispatcher());
+				co_await AsyncTaskDelay(250, AppVariables::App.GetDispatcher());
 			}
 
 			//Create item collection

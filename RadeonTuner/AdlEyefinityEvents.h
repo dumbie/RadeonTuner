@@ -32,12 +32,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Overlay_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Eyefinity_Overlay_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Disable automatic eyefinity loop
 			disable_eyefinity_automatic = true;
@@ -48,10 +48,15 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Removed Eyefinity");
 				AVDebugWriteLine(L"Removed Eyefinity");
 
-				//Fix Reload display resolution
-				//disable_saving = true;
-				//DisplayList_Combined(true);
-				//disable_saving = false;
+				//Disable saving
+				disable_saving = true;
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
+				disable_saving = false;
 			}
 			else
 			{
@@ -65,12 +70,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Overlay_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Eyefinity_Overlay_Create_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Disable automatic eyefinity loop
 			disable_eyefinity_automatic = true;
@@ -81,10 +86,15 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Created Eyefinity");
 				AVDebugWriteLine(L"Created Eyefinity");
 
-				//Fix Reload display resolution
-				//disable_saving = true;
-				//DisplayList_Combined(true);
-				//disable_saving = false;
+				//Disable saving
+				disable_saving = true;
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
+				disable_saving = false;
 			}
 			else
 			{
@@ -98,12 +108,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Enable_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Eyefinity_Enable_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Disable automatic eyefinity loop
 			disable_eyefinity_automatic = true;
@@ -115,10 +125,15 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Enabled Eyefinity");
 				AVDebugWriteLine(L"Enabled Eyefinity");
 
-				//Fix Reload display resolution
-				//disable_saving = true;
-				//DisplayList_Combined(true);
-				//disable_saving = false;
+				//Disable saving
+				disable_saving = true;
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
+				disable_saving = false;
 			}
 			else if (eyefinityResult == AdlCustomResult::CUSTOM_ALREADY)
 			{
@@ -137,12 +152,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::button_Eyefinity_Disable_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Eyefinity_Disable_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Disable automatic eyefinity loop
 			disable_eyefinity_automatic = true;
@@ -154,10 +169,15 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Disabled Eyefinity");
 				AVDebugWriteLine(L"Disabled Eyefinity");
 
-				//Fix Reload display resolution
-				//disable_saving = true;
-				//DisplayList_Combined(true);
-				//disable_saving = false;
+				//Disable saving
+				disable_saving = true;
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
+				disable_saving = false;
 			}
 			else if (eyefinityResult == AdlCustomResult::CUSTOM_ALREADY)
 			{

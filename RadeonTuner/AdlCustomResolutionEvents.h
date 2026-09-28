@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_CustomResolution_ShowHide_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_CustomResolution_ShowHide_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -64,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_CustomResolution_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_CustomResolution_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -149,7 +149,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	winrt::fire_and_forget MainPage::combobox_CustomResolution_TimingStandard_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	winrt::IAsyncAction MainPage::combobox_CustomResolution_TimingStandard_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
@@ -169,7 +169,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::textbox_CustomResolution_Resolution_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	winrt::IAsyncAction MainPage::textbox_CustomResolution_Resolution_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
 	{
 		try
 		{
@@ -189,7 +189,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::textbox_CustomResolution_RefreshRate_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
+	winrt::IAsyncAction MainPage::textbox_CustomResolution_RefreshRate_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e)
 	{
 		try
 		{

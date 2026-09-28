@@ -81,7 +81,7 @@ namespace winrt::RadeonTuner::implementation
 						DisplaySettings_Profile_Set_Using(displaySettingsRunning.DeviceId.value(), displaySettingsRunning.Application.value());
 					}
 
-					std::function<void()> updateFunction = [=]
+					std::function<winrt::IAsyncAction()> updateFunction = [=]() -> winrt::IAsyncAction
 						{
 							if (applyResult)
 							{
@@ -90,7 +90,7 @@ namespace winrt::RadeonTuner::implementation
 								AVDebugWriteLine(L"Display settings applied: " << displaySettingsRunning.Application.value());
 
 								//Load display settings
-								AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
+								co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
 							}
 						};
 					AppVariables::App.DispatcherInvoke(updateFunction);

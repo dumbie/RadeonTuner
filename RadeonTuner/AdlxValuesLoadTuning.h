@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectTuningApp(int gpuAdapterIndex, std::wstring application)
+	winrt::IAsyncAction MainPage::AdlxValuesLoadSelectTuningApp(int gpuAdapterIndex, std::wstring application)
 	{
 		try
 		{
@@ -74,7 +74,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Enable saving
-			co_await AsyncTaskDelay(300, AppVariables::App.GetDispatcher());
+			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 			disable_saving = false;
 
 			//Set result

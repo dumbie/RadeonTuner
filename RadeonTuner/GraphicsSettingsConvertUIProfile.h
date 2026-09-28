@@ -57,6 +57,12 @@ namespace winrt::RadeonTuner::implementation
 				combobox_FsrOtaUpdates().SelectedIndex(graphicsSettings.FsrOtaIndex.Get(settingType).value());
 			}
 
+			//FSR Show Information
+			if (graphicsSettings.FsrShowInformation.Get(settingType).has_value())
+			{
+				toggleswitch_FsrShowInformation().IsOn(graphicsSettings.FsrShowInformation.Get(settingType).value());
+			}
+
 			//FSR Latency Reduction
 			if (graphicsSettings.DeLagEnabled.Get(settingType).has_value())
 			{

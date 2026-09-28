@@ -6,7 +6,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::Adl_Overdrive8_Reset(int gpuAdapterIndex)
+	bool MainPage::Adl_Overdrive8_Values_Reset(int gpuAdapterIndex)
 	{
 		try
 		{
@@ -37,7 +37,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	bool MainPage::Adl_Overdrive8_Set_Values(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
+	bool MainPage::Adl_Overdrive8_Values_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings)
 	{
 		try
 		{

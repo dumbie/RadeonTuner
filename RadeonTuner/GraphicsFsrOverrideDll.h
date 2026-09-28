@@ -54,11 +54,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get fsr version
 			//Fix read FSR version directly from amdxcffx64.dll UpdateFfxApiProviderEx
 			std::wstring fsrVersionW = L"";
-			if (wstring_empty_whitespace(dllVersionW))
-			{
-				fsrVersionW = L" FSR ?";
-			}
-			else if (dllVersionW == L"1.0.0.38222" || dllVersionW == L"1.0.0.38733" || dllVersionW == L"1.0.0.39037")
+			if (dllVersionW == L"1.0.0.38222" || dllVersionW == L"1.0.0.38733" || dllVersionW == L"1.0.0.39037")
 			{
 				fsrVersionW = L" FSR 4.0.0 Preview";
 			}
@@ -82,13 +78,9 @@ namespace winrt::RadeonTuner::implementation
 			{
 				fsrVersionW = L" FSR 4.1.0";
 			}
-			else if (dllVersionW == L"2.3.0.2740" || dllVersionW == L"2.3.0.2913" || dllVersionW == L"2.3.0.0")
+			else if (dllVersionW == L"2.3.0.2740" || dllVersionW == L"2.3.0.2913" || dllVersionW == L"2.3.0.3193" || dllVersionW == L"2.3.0.0")
 			{
 				fsrVersionW = L" FSR 4.1.1";
-			}
-			else
-			{
-				fsrVersionW = L" FSR ?";
 			}
 
 			//Set version information

@@ -19,5 +19,12 @@ struct MultimediaSettings
 		return Application.has_value() && Application.value() == L"Global";
 	}
 
+	void SetCurrentToDefault()
+	{
+		VideoUpscaling.Current = VideoUpscaling.Default;
+		VideoSharpening.Current = VideoSharpening.Default;
+		VideoBrightness.Current = VideoBrightness.Default;
+	}
+
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(MultimediaSettings, DeviceId, Application, VideoUpscaling.Current, VideoSharpening.Current, VideoBrightness.Current)
 };

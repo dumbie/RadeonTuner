@@ -17,7 +17,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::AdlAppsLoadProperties(AdlApplication& adlApplication)
+	bool MainPage::AdlAppPropertyLoad(AdlApplication& adlApplication)
 	{
 		try
 		{
@@ -104,7 +104,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			AVDebugWriteLine("Loaded ADL application properties: " << adlApplication.Properties.size());
+			AVDebugWriteLine("Loaded ADL application properties: " << adl_Res0 << " / " << adlApplication.Properties.size());
 			return true;
 		}
 		catch (...)
@@ -115,7 +115,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::optional<AdlApplication> MainPage::AdlAppsLoadSearch(std::wstring driverArea, std::wstring fileName, std::wstring filePath)
+	std::optional<AdlApplication> MainPage::AdlAppLoadSearch(std::wstring driverArea, std::wstring fileName, std::wstring filePath)
 	{
 		try
 		{
@@ -126,7 +126,7 @@ namespace winrt::RadeonTuner::implementation
 			adlApplication.DriverArea = driverArea;
 
 			//Load application profile properties
-			if (AdlAppsLoadProperties(adlApplication))
+			if (AdlAppPropertyLoad(adlApplication))
 			{
 				AVDebugWriteLine("ADL application found: " << driverArea << " / " << fileName << " / " << filePath);
 				return adlApplication;
@@ -145,7 +145,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 	}
 
-	std::vector<AdlApplication> MainPage::AdlAppsLoadAll(std::wstring driverArea, bool loadProperties)
+	std::vector<AdlApplication> MainPage::AdlAppLoadAll(std::wstring driverArea, bool loadProperties)
 	{
 		std::vector<AdlApplication> adlApps{};
 		try
@@ -200,7 +200,7 @@ namespace winrt::RadeonTuner::implementation
 						//Load application profile properties
 						if (loadProperties)
 						{
-							AdlAppsLoadProperties(adlApplication);
+							AdlAppPropertyLoad(adlApplication);
 						}
 
 						//Add application to list

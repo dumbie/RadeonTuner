@@ -93,7 +93,7 @@ namespace winrt::RadeonTuner::implementation
 							TuningFanSettings_Profile_Set_Using(tuningFanSettingsRunning.DeviceId.value(), tuningFanSettingsRunning.Application.value());
 						}
 
-						std::function<void()> updateFunction = [=]
+						std::function<winrt::IAsyncAction()> updateFunction = [=]() -> winrt::IAsyncAction
 							{
 								if (applyResult)
 								{
@@ -102,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 									AVDebugWriteLine(L"Tuning and fans settings applied: " << tuningFanSettingsRunning.Application.value());
 
 									//Load tuning and fans settings
-									AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
+									co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());
 								}
 							};
 						AppVariables::App.DispatcherInvoke(updateFunction);

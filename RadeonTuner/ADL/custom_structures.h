@@ -32,7 +32,7 @@ typedef struct ADL_BOOST_SETTINGSX4
 	int GlobalMinRes_MaxLimit; //Global Min Resolution slider max limit value
 	int GlobalMinRes_Step; //Global Min Resolution step value
 	int VsrSupported; //Allows for interop with Upscaling/RSR
-	int BoostUnknown; //Unknown value
+	int Unknown1; //Unknown1 value
 	int AdaptiveVrsEnabled; //Adaptive Vrs enabled value
 };
 
@@ -41,8 +41,31 @@ typedef struct ADL_BOOST_NOTIFICATION_REASONX4
 	int HotkeyChanged; //Set when Hotkey value is changed
 	int GlobalEnableChanged; //Set when Global enable value is changed
 	int GlobalMinResChanged; //Set when Global min resolution value is changed
-	int BoostUnknownChanged; //Set when unknown value is changed
+	int Unknown1Changed; //Set when Unknown1 value is changed
 	int AdaptiveVrsChanged; //Set when Adaptive Vrs enable value is changed
+};
+
+typedef struct ADL_DELAG_SETTINGSX4
+{
+	int Hotkey; //Hotkey value
+	int GlobalEnable; //Global enable value
+	int GlobalLimitFPS; //Global Limit FPS
+	int GlobalLimitFPS_MinLimit; //Global Limit FPS slider min limit value
+	int GlobalLimitFPS_MaxLimit; //Global Limit FPS slider max limit value
+	int GlobalLimitFPS_Step; //Global Limit FPS step  value
+	int Unknown1; //Unknown1 value
+	int Unknown2; //Unknown2 value
+	int IndicatorHotKey; //IndicatorHotKey value
+};
+
+typedef struct ADL_DELAG_NOTIFICATION_REASONX4
+{
+	int HotkeyChanged; //Set when Hotkey value is changed
+	int GlobalEnableChanged; //Set when Global enable value is changed
+	int GlobalLimitFPSChanged; //Set when Global enable value is changed
+	int Unknown1Changed; //Set when Unknown1 value is changed
+	int Unknown2Changed; //Set when Unknown2 value is changed
+	int IndicatorHotKeyChanged; //Set when IndicatorHotKey value is changed
 };
 
 typedef struct AdlGammaRamp
@@ -84,4 +107,18 @@ enum class OD8_OPTIMZED_POWER_MODES : int
 	Default = 3,
 	Rage = 4,
 	FavorPerformance = 4
+};
+
+enum class AdlDeepBitDepth : int
+{
+	DISPLAY_8BIT_MODE_STATE = 0,
+	DISPLAY_10BIT_MODE_STATE = 1
+};
+
+enum class AdlCustomResult : int
+{
+	CUSTOM_OK = 0,
+	CUSTOM_ERROR,
+	CUSTOM_ALREADY,
+	CUSTOM_INVALID_ARGUMENT
 };

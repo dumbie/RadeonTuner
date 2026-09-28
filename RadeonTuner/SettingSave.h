@@ -147,12 +147,12 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::toggleswitch_SkipSupportCheckGraphics_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::toggleswitch_SkipSupportCheckGraphics_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving_settings) { return; }
+			if (disable_saving_settings) { co_return; }
 
 			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
 			if (senderElement.IsOn())
@@ -165,7 +165,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Load graphics settings
-			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
+			co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, graphicsSettingsProfile.Application.value());
 		}
 		catch (...) {}
 	}

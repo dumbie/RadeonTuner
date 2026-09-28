@@ -10,6 +10,18 @@
     <ClCompile Include="DisplayDetailsIdl.cpp">
       <Filter>Class Files</Filter>
     </ClCompile>
+    <ClCompile Include="AppPickerIdl.cpp">
+      <Filter>Class Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamFuncAppInfo.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamStructures.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamFunctions.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppVariables.h">
@@ -20,15 +32,6 @@
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingCheck.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingLoad.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingSave.h">
-      <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="ADL\adl_defines.h">
       <Filter>Include Files\ADL</Filter>
@@ -42,17 +45,8 @@
     <ClInclude Include="TuningFanSettingsClass.h">
       <Filter>Class Files</Filter>
     </ClInclude>
-    <ClInclude Include="SettingAdmin.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ArnoldVinkCode\CPP\AVPch.h">
       <Filter>Include Files\ArnoldVinkCode</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingFunc.h">
-      <Filter>Page Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingEnumStrings.h">
-      <Filter>Page Files</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsClass.h">
       <Filter>Class Files</Filter>
@@ -84,22 +78,13 @@
     <ClInclude Include="MainVariables.h">
       <Filter>Page Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoopDevice.h">
-      <Filter>Page Files\Loop</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsSettingsFunc.h">
+    <ClInclude Include="GraphicsSettingsProfile.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ADL\adl_structures_sdk.h">
+    <ClInclude Include="ADL\appblb_structures.h">
       <Filter>Include Files\ADL</Filter>
     </ClInclude>
-    <ClInclude Include="PowerBoostFunc.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerBoostEvents.h">
-      <Filter>Page Files\Tuning</Filter>
-    </ClInclude>
-    <ClInclude Include="TuningFanSettingsCache.h">
+    <ClInclude Include="TuningFanSettingsProfile.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportTuning.h">
@@ -108,17 +93,11 @@
     <ClInclude Include="AdlxValuesImportTuning.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="DisplaySettingsFunc.h">
-      <Filter>Page Files\Display</Filter>
-    </ClInclude>
     <ClInclude Include="AdlxValuesImportDisplay.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesExportDisplay.h">
       <Filter>Page Files\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlValuesLoadGraphicsApp.h">
-      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlxEventsGraphics.h">
       <Filter>Page Files\Graphics</Filter>
@@ -147,23 +126,17 @@
     <ClInclude Include="TuningFanSettingsApply.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="ADL\adl_structures_custom.h">
+    <ClInclude Include="ADL\custom_structures.h">
       <Filter>Include Files\ADL</Filter>
     </ClInclude>
     <ClInclude Include="AdlCheck.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="EyefinityFunc.h">
-      <Filter>Page Files\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="EyefinityEvents.h">
+    <ClInclude Include="AdlEyefinityEvents.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
     <ClInclude Include="DisplayDetailsIdl.h">
       <Filter>Class Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlValuesLoadGraphicsRegistry.h">
-      <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AdlxResetShaderCache.h">
       <Filter>Page Files\Graphics</Filter>
@@ -178,9 +151,6 @@
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="AdlxValuesPrepare.h">
-      <Filter>Page Files\Adl</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlxValuesLoadSelect.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsSettingsClass.h">
@@ -199,9 +169,6 @@
       <Filter>Page Files\Graphics\Apps</Filter>
     </ClInclude>
     <ClInclude Include="AdlAppsFunc.h">
-      <Filter>Page Files\Graphics\Apps</Filter>
-    </ClInclude>
-    <ClInclude Include="AdlAppsInterface.h">
       <Filter>Page Files\Graphics\Apps</Filter>
     </ClInclude>
     <ClInclude Include="AdlAppsLoad.h">
@@ -234,9 +201,6 @@
     <ClInclude Include="GraphicsSettingsGenerateAdlRegistry.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="MultimediaSettingsClass.h">
-      <Filter>Page Files\Multimedia</Filter>
-    </ClInclude>
     <ClInclude Include="MultimediaSettingsGenerateAdl.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
@@ -255,34 +219,22 @@
     <ClInclude Include="TuningFanSettingsConvertUIAdl.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
-    <ClInclude Include="TuningFanSettingsConvertUICurrent.h">
+    <ClInclude Include="TuningFanSettingsConvertUIProfile.h">
       <Filter>Page Files\Tuning</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsConvertUIAdl.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="DisplaySettingsConvertUICurrent.h">
-      <Filter>Page Files\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplaySettingsConvertUIDefault.h">
+    <ClInclude Include="DisplaySettingsConvertUIProfile.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsSettingsConvertUIAdl.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsSettingsConvertUICurrent.h">
+    <ClInclude Include="GraphicsSettingsConvertUIProfile.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsSettingsConvertUIDefault.h">
-      <Filter>Page Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="MultimediaSettingsConvertUIDefault.h">
-      <Filter>Page Files\Multimedia</Filter>
-    </ClInclude>
-    <ClInclude Include="MultimediaSettingsConvertUICurrent.h">
-      <Filter>Page Files\Multimedia</Filter>
-    </ClInclude>
-    <ClInclude Include="MultimediaSettingsFunc.h">
+    <ClInclude Include="MultimediaSettingsConvertUIProfile.h">
       <Filter>Page Files\Multimedia</Filter>
     </ClInclude>
     <ClInclude Include="AdlOverdrive8.h">
@@ -295,6 +247,108 @@
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
     <ClInclude Include="DisplaySettingsResolution.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AppPickerIdl.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxEventsSelect.h">
+      <Filter>Page Files\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamFuncLibraryFolders.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="AppPickerEvent.h">
+      <Filter>Page Files\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="AppPickerInterface.h">
+      <Filter>Page Files\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingSave.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingAdmin.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingCheck.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingEnumStrings.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingFunc.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingLoad.h">
+      <Filter>Page Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadGraphics.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdjustCursor.h">
+      <Filter>Style Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBox.h">
+      <Filter>Style Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsGamma.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsProfile.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxValuesLoadDevice.h">
+      <Filter>Page Files\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsApply.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsApply.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsApply.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsClass.h">
+      <Filter>Class Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsProfile.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlAppsSync.h">
+      <Filter>Page Files\Graphics\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopDisplay.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopEyefinity.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopTuning.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsFsrShowInformation.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ADL\oem_structures.h">
+      <Filter>Include Files\ADL</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsSupport.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimediaSettingsMatch.h">
+      <Filter>Page Files\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplaySettingsMatch.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSettingsMatch.h">
+      <Filter>Page Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlCustomResolutionEvents.h">
+      <Filter>Page Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlCustomResolution.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
   </ItemGroup>
@@ -334,9 +388,6 @@
     <Filter Include="Page Files\Loop">
       <UniqueIdentifier>{d5fafa34-da95-4614-b947-484c13f48b0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Profile Files">
-      <UniqueIdentifier>{3eada170-4d27-40c1-8b70-5e66fe9aaf23}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Page Files\Tuning">
       <UniqueIdentifier>{f7fc4c28-cc6e-48a2-b283-2496c826a67e}</UniqueIdentifier>
     </Filter>
@@ -360,6 +411,21 @@
     </Filter>
     <Filter Include="Page Files\Tuning\Overdrive">
       <UniqueIdentifier>{2f9263b4-cbef-4391-8a56-f8fc030a61fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Launcher">
+      <UniqueIdentifier>{51a7e029-5ca0-4718-bbd9-356ecb282573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Select">
+      <UniqueIdentifier>{5370694d-57ad-4916-8af4-631444568da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Launcher\Steam">
+      <UniqueIdentifier>{f7e9dcf4-3f69-417f-aa8a-118977d7a3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Page Files\Settings">
+      <UniqueIdentifier>{bff6670a-6025-4750-830e-00b5972928dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Style Files">
+      <UniqueIdentifier>{0054f144-7b5d-4a4c-bf68-131aabe7578e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -393,7 +459,13 @@
     <CopyFileToFolders Include="StatusEnabled.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Checkmark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Link.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Unlink.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Warning.png">
@@ -403,6 +475,24 @@
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shutdown.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="RadeonTuner.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Update.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Plus.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Cross.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Remove.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Videocard.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Information.png">
@@ -415,6 +505,9 @@
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="DragDrop.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Experimental.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fans.png">
@@ -447,21 +540,18 @@
     <CopyFileToFolders Include="Shield.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="LauncherSteam.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <Filter>Settings Files</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Profiles will be placed here">
-      <Filter>Profile Files</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerBoostApps.json">
-      <Filter>Profile Files</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="EyefinityApps.json">
-      <Filter>Profile Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="DisplayDetailsIdl.idl">
+      <Filter>Class Files</Filter>
+    </Midl>
+    <Midl Include="AppPickerIdl.idl">
       <Filter>Class Files</Filter>
     </Midl>
   </ItemGroup>

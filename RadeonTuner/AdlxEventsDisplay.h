@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_AppAdd_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppAdd_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -56,7 +56,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppRemove_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppRemove_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -121,18 +121,18 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Current application removed, selecting Global.");
 
 				//Load display settings
-				AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"Global");
+				co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, L"Global");
 			}
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Display_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Display_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Profile is used
 			bool usingProfile = displaySettingsProfile.UsingProfile;
@@ -167,16 +167,9 @@ namespace winrt::RadeonTuner::implementation
 					//Show notification
 					ShowNotification(L"Display settings applied");
 					AVDebugWriteLine(L"Display settings applied: " << deviceIdW << L" / " << applicationW);
-
-					//Load display settings
-					AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
 				}
 				else
 				{
-					//Update button colors
-					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-					button_Display_Apply().Background(colorInvalid);
-
 					//Show notification
 					ShowNotification(L"Failed applying display settings");
 					AVDebugWriteLine(L"Failed applying display settings: " << deviceIdW << L" / " << applicationW);
@@ -184,19 +177,18 @@ namespace winrt::RadeonTuner::implementation
 			}
 			else
 			{
-				//Update button colors
-				SolidColorBrush colorValid = Application::Current().Resources().Lookup(box_value(L"ApplicationValidBrush")).as<SolidColorBrush>();
-				button_Display_Apply().Background(colorValid);
-
 				//Show notification
 				ShowNotification(L"Display settings adjusted");
 				AVDebugWriteLine(L"Display settings adjusted: " << deviceIdW << L" / " << applicationW);
 			}
+
+			//Load display settings
+			co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Display_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -248,20 +240,20 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine(L"Display settings reset: " << deviceIdW << L" / " << applicationW);
 
 			//Load display settings
-			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
+			co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	void MainPage::button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Display_Import_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Import settings from file
-			AdlxValuesImportDisplay();
+			co_await AdlxValuesImportDisplay();
 		}
 		catch (...) {}
 	}

@@ -94,7 +94,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::DisplaySettings_Confirm_Resolution_Stop(bool revertResolution)
+	winrt::IAsyncAction MainPage::DisplaySettings_Confirm_Resolution_Stop(bool revertResolution)
 	{
 		try
 		{
@@ -112,9 +112,14 @@ namespace winrt::RadeonTuner::implementation
 				//Revert resolution and refresh rate
 				DisplaySettings_Resolution_Revert();
 
-				//Select current resolution and refresh rate
+				//Disable saving
 				disable_saving = true;
-				DisplayList_SelectCurrent_Values(false);
+
+				//Select current resolution and refresh rate
+				co_await DisplayList_SelectCurrent_Values(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 				disable_saving = false;
 			}
 		}

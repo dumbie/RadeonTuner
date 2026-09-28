@@ -3,7 +3,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::button_GpuSelect_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_GpuSelect_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -27,12 +27,12 @@ namespace winrt::RadeonTuner::implementation
 			AdapterInfo adapterInfo = listGpus[messageResult];
 
 			//Load selected GPU values
-			AdlxValuesLoadSelectGpu(adapterInfo);
+			co_await AdlxValuesLoadSelectGpu(adapterInfo);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_DisplaySelect_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_DisplaySelect_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -56,12 +56,12 @@ namespace winrt::RadeonTuner::implementation
 			ADLDisplayInfo displayInfo = displayList[messageResult];
 
 			//Load selected display values
-			AdlxValuesLoadSelectDisplay(displayInfo);
+			co_await AdlxValuesLoadSelectDisplay(displayInfo);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppSelect_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppSelect_Graphics_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -81,12 +81,12 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
 			//Load graphics settings
-			AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, selectedApplication);
+			co_await AdlxValuesLoadSelectGraphicsApp(adl_Gpu_AdapterIndex, selectedApplication);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppSelect_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppSelect_Tuning_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -106,12 +106,12 @@ namespace winrt::RadeonTuner::implementation
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
 			//Load tuning and fans settings
-			AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, selectedApplication);
+			co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, selectedApplication);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_AppSelect_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_AppSelect_Display_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -130,8 +130,8 @@ namespace winrt::RadeonTuner::implementation
 			//Get selected application
 			std::wstring selectedApplication = messageAnswers[messageResult];
 
-			//Load selected settings
-			AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, selectedApplication);
+			//Load display settings
+			co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, selectedApplication);
 		}
 		catch (...) {}
 	}

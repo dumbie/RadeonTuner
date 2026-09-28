@@ -388,6 +388,9 @@ namespace winrt::RadeonTuner::implementation
 				catch (...) {}
 			}
 		}
-		catch (...) {}
+		catch (...)
+		{
+			AVDebugWriteLine("Failed creating application window (Exception)");
+		}
 	}
 }

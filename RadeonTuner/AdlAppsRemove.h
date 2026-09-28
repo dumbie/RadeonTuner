@@ -13,11 +13,11 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine("Removing all ADL applications.");
 
 			//Get all applications
-			std::vector<AdlApplication> appList = AdlAppsLoadAll(L"3D_User", false);
+			std::vector<AdlApplication> adlApplications = AdlAppLoadAll(L"3D_User", false);
 
 			//Remove each application
 			int removeCount = 0;
-			for (const auto& adlApp : appList)
+			for (const auto& adlApp : adlApplications)
 			{
 				if (AdlAppRemove(adlApp) == L"Application removed")
 				{
@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set result
-			AVDebugWriteLine(L"Removed all ADL applications: " << removeCount << L" / " << appList.size());
+			AVDebugWriteLine(L"Removed all ADL applications: " << removeCount << L" / " << adlApplications.size());
 			return true;
 		}
 		catch (...)

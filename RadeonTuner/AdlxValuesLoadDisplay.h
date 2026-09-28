@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesLoadSelectDisplayApp(int dispAdapterIndex, int dispDisplayIndex, std::wstring application)
+	winrt::IAsyncAction MainPage::AdlxValuesLoadSelectDisplayApp(int dispAdapterIndex, int dispDisplayIndex, std::wstring application)
 	{
 		try
 		{
@@ -116,7 +116,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Reload display resolution
-			DisplayList_Combined(false);
+			co_await DisplayList_Combined(false);
 
 			//Enable saving
 			co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());

@@ -5,38 +5,64 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::MultimediaSettings_Profile_Add(MultimediaSettings multimediaSettings)
+	bool MainPage::MultimediaSettings_Profile_Add(MultimediaSettings multimediaSettingsAdd)
 	{
 		try
 		{
 			//Device identifier
-			std::wstring deviceIdW = multimediaSettings.DeviceId.value();
+			std::wstring deviceIdW = multimediaSettingsAdd.DeviceId.value();
 
 			//Device application
-			std::wstring applicationW = multimediaSettings.Application.value();
+			std::wstring applicationW = multimediaSettingsAdd.Application.value();
 
 			//Get settings
-			auto multimediaSettingsProfile = MultimediaSettings_Profile_Get(deviceIdW, applicationW);
+			auto multimediaSettingsGet = MultimediaSettings_Profile_Get(deviceIdW, applicationW);
 
 			//Check settings profile
 			bool profileAdded = false;
-			if (!multimediaSettingsProfile.has_value())
+			if (!multimediaSettingsGet.has_value())
 			{
 				//Check if any profile is used
 				if (!MultimediaSettings_Profile_Any_Using(deviceIdW))
 				{
-					multimediaSettings.UsingProfile = true;
+					multimediaSettingsAdd.UsingProfile = true;
 				}
 
 				//Add settings profile
-				multimediaSettingsCache.push_back(multimediaSettings);
+				multimediaSettingsCache.push_back(multimediaSettingsAdd);
 				profileAdded = true;
 
-				AVDebugWriteLine(L"Added multimedia settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << multimediaSettings.UsingProfile);
+				AVDebugWriteLine(L"Added multimedia settings profile: " << deviceIdW << L" / " << applicationW << L" / Using " << multimediaSettingsAdd.UsingProfile);
 			}
 
 			//Return result
 			return profileAdded;
+		}
+		catch (...)
+		{
+			//Return result
+			return false;
+		}
+	}
+
+	bool MainPage::MultimediaSettings_Profile_Replace(MultimediaSettings multimediaSettingsReplace)
+	{
+		try
+		{
+			for (MultimediaSettings& multimediaSettings : multimediaSettingsCache)
+			{
+				try
+				{
+					if (multimediaSettings.DeviceId.value() == multimediaSettingsReplace.DeviceId.value() && multimediaSettings.Application.value() == multimediaSettingsReplace.Application.value())
+					{
+						multimediaSettings = multimediaSettingsReplace;
+					}
+				}
+				catch (...) {}
+			}
+
+			//Return result
+			return true;
 		}
 		catch (...)
 		{

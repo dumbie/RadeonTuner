@@ -32,14 +32,26 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Get record properties
 			std::vector<ADLPropertyRecordCreate> recordCreate = AdlAppPropertyRecordCreateGet(adlApp.Properties);
+			int recordCreateCount = recordCreate.size();
+
+			//Set memory releaser
+			auto recordCreateMemory = AVFin(AVFinMethod::Custom, recordCreate.data());
+			recordCreateMemory.SetReleaser([&](auto releasePointer)
+				{
+					for (int i = 0; i < recordCreateCount; i++)
+					{
+						free(releasePointer[i].strPropertyName);
+						free(releasePointer[i].strPropertyValue);
+					}
+				});
+
+			//Fix minor memory leak happens when calling ADL functions, leak happening in ADL? (running 500x causes around 2MB leak)
 
 			//Generate profile name
 			if (adlApp.ProfileName.empty())
 			{
 				adlApp.ProfileName = AdlAppProfileGenerateName(L"RADT");
 			}
-
-			//Fix memory leak happens when calling ADL functions, leak happening in ADL?
 
 			//Remove profile from application
 			adl_Res0 = _ADL2_ApplicationProfiles_RemoveApplication(adl_Context, adlApp.FileName.c_str(), adlApp.FilePath.c_str(), NULL, adlApp.DriverArea.c_str());

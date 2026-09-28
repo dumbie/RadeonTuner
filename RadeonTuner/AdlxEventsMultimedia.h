@@ -5,12 +5,12 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::button_Multimedia_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Multimedia_Apply_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
-			if (disable_saving) { return; }
+			if (disable_saving) { co_return; }
 
 			//Profile is used
 			bool usingProfile = multimediaSettingsProfile.UsingProfile;
@@ -39,26 +39,28 @@ namespace winrt::RadeonTuner::implementation
 					//Show notification
 					ShowNotification(L"Multimedia settings applied");
 					AVDebugWriteLine(L"Multimedia settings applied");
-
-					//Load multimedia settings
-					AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
 				}
 				else
 				{
 					//Show notification
 					ShowNotification(L"Multimedia settings not applied");
 					AVDebugWriteLine(L"Multimedia settings not applied");
-
-					//Update button colors
-					SolidColorBrush colorInvalid = Application::Current().Resources().Lookup(box_value(L"ApplicationInvalidBrush")).as<SolidColorBrush>();
-					button_Multimedia_Apply().Background(colorInvalid);
 				}
 			}
+			else
+			{
+				//Show notification
+				ShowNotification(L"Multimedia settings adjusted");
+				AVDebugWriteLine(L"Multimedia settings adjusted: " << deviceIdW << L" / " << applicationW);
+			}
+
+			//Load multimedia settings
+			co_await AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}
 
-	winrt::fire_and_forget MainPage::button_Multimedia_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction MainPage::button_Multimedia_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -104,7 +106,7 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine(L"Multimedia settings reset: " << deviceIdW << L" / " << applicationW);
 
 			//Load multimedia settings
-			AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
+			co_await AdlxValuesLoadSelectMultimediaApp(adl_Gpu_AdapterIndex, applicationW);
 		}
 		catch (...) {}
 	}

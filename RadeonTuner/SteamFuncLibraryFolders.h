@@ -20,7 +20,7 @@ namespace LauncherSteam::LibraryFolders
 			{
 				//Get Steam install directory
 				std::wstring steamInstallPath = SteamInstallPath();
-				std::wstring appInfoPath = steamInstallPath + L"\\steamapps\\libraryfolders.vdf";
+				std::wstring appInfoPath = PathMerge(steamInstallPath, L"steamapps\\libraryfolders.vdf");
 				vdfPath = wstring_to_string(appInfoPath);
 				AVDebugWriteLine("Steam libraryfolders.vdf path: " << appInfoPath.c_str());
 			}

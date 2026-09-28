@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::CustomResolution_Create(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
+	winrt::IAsyncOperation<bool> MainPage::CustomResolution_Create(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
 	{
 		try
 		{
@@ -41,13 +41,18 @@ namespace winrt::RadeonTuner::implementation
 				//Alternative: Match current and target refresh rate and request user to switch first "The custom resolution refresh rate you are trying to create or edit is currently in use by your display, to prevent you from locking yourself out with an incompatible timing causing a black (no signal) screen, please switch your display to a different refresh rate first."
 				DisplaySettings_Confirm_CustomResolution_Start();
 
-				//Reload display resolution
+				//Disable saving
 				disable_saving = true;
-				DisplayList_Combined(false);
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 				disable_saving = false;
 
 				//Return result
-				return true;
+				co_return true;
 			}
 			else
 			{
@@ -56,17 +61,17 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Failed creating custom resolution: " << adl_Res0);
 
 				//Return result
-				return false;
+				co_return false;
 			}
 		}
 		catch (...)
 		{
 			//Return result
-			return false;
+			co_return false;
 		}
 	}
 
-	bool MainPage::CustomResolution_Remove(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
+	winrt::IAsyncOperation<bool> MainPage::CustomResolution_Remove(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2)
 	{
 		try
 		{
@@ -96,13 +101,18 @@ namespace winrt::RadeonTuner::implementation
 				ShowNotification(L"Custom resolution removed");
 				AVDebugWriteLine(L"Custom resolution removed");
 
-				//Reload display resolution
+				//Disable saving
 				disable_saving = true;
-				DisplayList_Combined(false);
+
+				//Reload display resolution
+				co_await DisplayList_Combined(true);
+
+				//Enable saving
+				co_await AsyncTaskDelay(100, AppVariables::App.GetDispatcher());
 				disable_saving = false;
 
 				//Return result
-				return true;
+				co_return true;
 			}
 			else
 			{
@@ -111,13 +121,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine(L"Failed removing custom resolution: " << adl_Res0);
 
 				//Return result
-				return false;
+				co_return false;
 			}
 		}
 		catch (...)
 		{
 			//Return result
-			return false;
+			co_return false;
 		}
 	}
 

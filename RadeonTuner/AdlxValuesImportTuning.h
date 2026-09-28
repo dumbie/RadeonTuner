@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	winrt::fire_and_forget MainPage::AdlxValuesImportTuning()
+	winrt::IAsyncAction MainPage::AdlxValuesImportTuning()
 	{
 		try
 		{
