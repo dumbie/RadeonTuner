@@ -14,6 +14,7 @@ namespace winrt::RadeonTuner::implementation
 	HWND _hWnd_XamlWindow = NULL;
 
 	//Constants
+	const UINT WM_TASKBARCREATED = RegisterWindowMessageW(L"TaskbarCreated");
 	const UINT WM_TRAYICON_CALL = 0x8001;
 	const UINT TM_SETTINGS = 0x8002;
 	const UINT TM_WEBSITE = 0x8003;
@@ -89,17 +90,68 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	//Application tray icon create
+	void AppTrayIconCreate(HINSTANCE hInstance)
+	{
+		try
+		{
+			//Load tray icon
+			HICON hTrayIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));
+
+			//Create tray data
+			NOTIFYICONDATA notifyIcon = { };
+			notifyIcon.cbSize = sizeof(notifyIcon);
+			notifyIcon.hWnd = _hWnd_MainWindow;
+			notifyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+			notifyIcon.uCallbackMessage = WM_TRAYICON_CALL;
+			notifyIcon.hIcon = hTrayIcon;
+
+			//Set tray strings
+			std::wstring szTrayTip = L"RadeonTuner";
+			std::move(szTrayTip.begin(), szTrayTip.end(), notifyIcon.szTip);
+
+			//Show tray icon
+			Shell_NotifyIconW(NIM_ADD, &notifyIcon);
+		}
+		catch (...) {}
+	}
+
+	//Application tray icon delete
+	void AppTrayIconDelete()
+	{
+		try
+		{
+			//Create tray data
+			NOTIFYICONDATA notifyIcon = { };
+			notifyIcon.cbSize = sizeof(notifyIcon);
+			notifyIcon.hWnd = _hWnd_MainWindow;
+
+			//Hide tray icon
+			Shell_NotifyIconW(NIM_DELETE, &notifyIcon);
+		}
+		catch (...) {}
+	}
+
 	//Callbacks
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT messageCode, WPARAM wParam, LPARAM lParam)
 	{
 		try
 		{
+			if (messageCode == WM_TASKBARCREATED)
+			{
+				//Handle taskbar created message
+				AppTrayIconCreate(AppVariables::hInstance);
+				return 0;
+			}
+
 			switch (messageCode)
 			{
 			case WM_TRAYICON_CALL:
+			{
 				//Handle tray icon callback
 				AppTrayCallback(lParam);
 				return 0;
+			}
 			case WM_COMMAND:
 			{
 				//Handle tray icon click
@@ -107,17 +159,23 @@ namespace winrt::RadeonTuner::implementation
 				return 0;
 			}
 			case WM_CLOSE:
+			{
 				//Handle app close click
 				AppVariables::App.Exit(false);
 				return 0;
+			}
 			case WM_SIZE:
+			{
 				//Resize xaml window
 				RECT rectClient;
 				GetClientRect(hWnd, &rectClient);
 				MoveWindow(_hWnd_XamlWindow, 0, 0, rectClient.right, rectClient.bottom, true);
 				return 0;
+			}
 			default:
+			{
 				return DefWindowProcW(hWnd, messageCode, wParam, lParam);
+			}
 			}
 		}
 		catch (...) {}
@@ -146,6 +204,9 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Exiting application.");
 
 				//Fix stop and wait for loops
+
+				//Delete tray icon
+				AppTrayIconDelete();
 
 				//Update variables
 				AppVariables::ApplicationExiting = true;
@@ -256,31 +317,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void App::CreateTrayIcon(HINSTANCE hInstance)
-	{
-		try
-		{
-			//Load tray icon
-			HICON hTrayIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));
-
-			//Create tray data
-			NOTIFYICONDATA notifyIcon = { };
-			notifyIcon.cbSize = sizeof(notifyIcon);
-			notifyIcon.hWnd = _hWnd_MainWindow;
-			notifyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-			notifyIcon.uCallbackMessage = WM_TRAYICON_CALL;
-			notifyIcon.hIcon = hTrayIcon;
-
-			//Set tray strings
-			std::wstring szTrayTip = L"RadeonTuner";
-			std::move(szTrayTip.begin(), szTrayTip.end(), notifyIcon.szTip);
-
-			//Show tray icon
-			Shell_NotifyIconW(NIM_ADD, &notifyIcon);
-		}
-		catch (...) {}
-	}
-
 	void App::CreateWindowXaml(HINSTANCE hInstance, bool winVisible, bool winOnTop)
 	{
 		try
@@ -374,7 +410,7 @@ namespace winrt::RadeonTuner::implementation
 			_desktopWindowXamlSource.Content(MainPage());
 
 			//Create application tray icon
-			CreateTrayIcon(hInstance);
+			AppTrayIconCreate(hInstance);
 
 			//Window message loop
 			MSG lpMsg;
