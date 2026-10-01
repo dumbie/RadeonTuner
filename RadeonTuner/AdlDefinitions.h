@@ -71,6 +71,9 @@ inline ADL2_Adapter_MemoryInfoX4_Get _ADL2_Adapter_MemoryInfoX4_Get;
 typedef int (*ADL2_GcnAsicInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLGcnInfo* gcnInfo);
 inline ADL2_GcnAsicInfo_Get _ADL2_GcnAsicInfo_Get;
 
+typedef int (*ADL2_Adapter_ASICFamilyType_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpAsicTypes, int* lpValids);
+inline ADL2_Adapter_ASICFamilyType_Get _ADL2_Adapter_ASICFamilyType_Get;
+
 typedef int (*ADL2_Adapter_ChipSetInfo_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLChipSetInfo* lpChipSetInfo);
 inline ADL2_Adapter_ChipSetInfo_Get _ADL2_Adapter_ChipSetInfo_Get;
 

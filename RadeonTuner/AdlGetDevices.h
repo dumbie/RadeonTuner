@@ -23,13 +23,21 @@ namespace winrt::RadeonTuner::implementation
 					continue;
 				}
 
-				//Check if we have access to video card
+				//Check if we have access to GPU
 				//Note: checks if driver is not installed for (integrated) gpu or device is disabled in device manager
 				//Fix ADL2_Adapter_Accessibility_Get always fails when using DCH / UWP or downgraded driver
 				int lpAccess;
 				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adapterInfo.iAdapterIndex, &lpAccess);
 				if (adl_Res0 != ADL_OK)
 				{
+					//AVDebugWriteLine("GPU is not accessible: " << adapterInfo.iAdapterIndex << " / " << lpAccess << " / " << adapterInfo.strUDID);
+					continue;
+				}
+
+				//Check if GPU is present and exists
+				if (adapterInfo.iPresent != true || adapterInfo.iExist != true)
+				{
+					//AVDebugWriteLine("GPU is not present or does not exist: " << adapterInfo.iAdapterIndex << " / " << adapterInfo.strUDID);
 					continue;
 				}
 
@@ -51,6 +59,36 @@ namespace winrt::RadeonTuner::implementation
 					adapterInfoFilterCount++;
 				}
 			}
+
+			//Sort GPU list by asic family
+			//Note: Prioritize dedicated GPU over integrated GPU to select it by default.
+			try
+			{
+				size_t rotatePos = 0;
+				for (size_t i = 0; i < gpuList.size(); i++)
+				{
+					//Get adapter index
+					int gpuAdapterIndex = gpuList[i].iAdapterIndex;
+
+					//Get asic family type
+					int asicTypes = -1;
+					int asicValid = -1;
+					adl_Res0 = _ADL2_Adapter_ASICFamilyType_Get(adl_Context, gpuAdapterIndex, &asicTypes, &asicValid);
+
+					//Check asic family type
+					bool asicGpuDedicated = (asicTypes & ADL_ASIC_DISCRETE) == ADL_ASIC_DISCRETE;
+					//bool asicGpuIntegrated = (asicTypes & ADL_ASIC_INTEGRATED) == ADL_ASIC_INTEGRATED;
+
+					//Move dedicated gpu to top of list
+					if (asicGpuDedicated)
+					{
+						//AVDebugWriteLine("Dedicated GPU detected, moving it to top of list.");
+						std::rotate(gpuList.begin() + rotatePos, gpuList.begin() + i, gpuList.begin() + i + 1);
+						rotatePos++;
+					}
+				}
+			}
+			catch (...) {}
 
 			//Return result
 			//AVDebugWriteLine("Got all GPU's: " << adapterInfoFilterCount << " / " << adapterInfoCount);

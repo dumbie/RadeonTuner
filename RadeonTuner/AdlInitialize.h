@@ -295,6 +295,13 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_GcnAsicInfo_Get");
 			}
 
+			_ADL2_Adapter_ASICFamilyType_Get = (ADL2_Adapter_ASICFamilyType_Get)GetProcAddress(hInstance, "ADL2_Adapter_ASICFamilyType_Get");
+			if (_ADL2_Adapter_ASICFamilyType_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Adapter_ASICFamilyType_Get");
+			}
+
 			_ADL2_Adapter_ChipSetInfo_Get = (ADL2_Adapter_ChipSetInfo_Get)GetProcAddress(hInstance, "ADL2_Adapter_ChipSetInfo_Get");
 			if (_ADL2_Adapter_ChipSetInfo_Get == NULL)
 			{
