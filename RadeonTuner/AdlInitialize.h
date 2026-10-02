@@ -1034,6 +1034,28 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_Overdrive8_Setting_Set");
 			}
 
+			//Tuning - Memory ECC
+			_ADL2_Workstation_ECCX2_Get = (ADL2_Workstation_ECCX2_Get)GetProcAddress(hInstance, "ADL2_Workstation_ECCX2_Get");
+			if (_ADL2_Workstation_ECCX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Workstation_ECCX2_Get");
+			}
+
+			_ADL2_Workstation_ECC_Set = (ADL2_Workstation_ECC_Set)GetProcAddress(hInstance, "ADL2_Workstation_ECC_Set");
+			if (_ADL2_Workstation_ECC_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Workstation_ECC_Set");
+			}
+
+			_ADL2_Workstation_ECC_Caps = (ADL2_Workstation_ECC_Caps)GetProcAddress(hInstance, "ADL2_Workstation_ECC_Caps");
+			if (_ADL2_Workstation_ECC_Caps == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_Workstation_ECC_Caps");
+			}
+
 			//Metrics
 			_ADL2_New_QueryPMLogData_Get = (ADL2_New_QueryPMLogData_Get)GetProcAddress(hInstance, "ADL2_New_QueryPMLogData_Get");
 			if (_ADL2_New_QueryPMLogData_Get == NULL)

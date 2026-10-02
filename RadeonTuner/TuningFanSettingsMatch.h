@@ -24,6 +24,11 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.MemoryTiming.Current.value() != settingsAdl.MemoryTiming.Current.value()) { return false; }
 			}
 
+			if (settingsProfile.MemoryEcc.Current.has_value() && settingsAdl.MemoryEcc.Current.has_value() && settingsAdl.MemoryEcc.Support)
+			{
+				if (settingsProfile.MemoryEcc.Current.value() != settingsAdl.MemoryEcc.Current.value()) { return false; }
+			}
+
 			if (settingsProfile.MemoryMax.Current.has_value() && settingsAdl.MemoryMax.Current.has_value() && settingsAdl.MemoryMax.Support)
 			{
 				if (settingsProfile.MemoryMax.Current.value() != settingsAdl.MemoryMax.Current.value()) { return false; }

@@ -374,6 +374,28 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::combobox_Memory_Ecc_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
+
+			//Get setting value
+			auto newSender = sender.as<ComboBox>();
+			int newValue = (int)newSender.SelectedIndex();
+
+			//Update current value
+			tuningFanSettingsProfile.MemoryEcc.Current = newValue;
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Memory_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try

@@ -97,6 +97,68 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//Memory ECC / EDC
+			try
+			{
+				//Get support
+				int lpSupported = -1;
+				adl_Res0 = _ADL2_Workstation_ECC_Caps(adl_Context, gpuAdapterIndex, &lpSupported);
+				if (adl_Res0 == ADL_OK)
+				{
+					//Set support
+					tuningFanSettings.MemoryEcc.Support = lpSupported;
+				}
+
+				//Check support
+				if (tuningFanSettings.MemoryEcc.Support)
+				{
+					int lpModeType = -1;
+					int lpDefaultMode = -1;
+					int lpCurrentMode = -1;
+					int lpDesiredMode = -1;
+					adl_Res0 = _ADL2_Workstation_ECCX2_Get(adl_Context, gpuAdapterIndex, &lpModeType, &lpDefaultMode, &lpCurrentMode, &lpDesiredMode);
+					if (adl_Res0 == ADL_OK)
+					{
+						//Enumeration index correction
+						int setDefault = -1;
+						if (lpDefaultMode == ECC_MODE_OFF)
+						{
+							setDefault = 0;
+						}
+						else if (lpDefaultMode == ECC_MODE_ON)
+						{
+							setDefault = 1;
+						}
+						else if (lpDefaultMode == ECC_MODE_HBM)
+						{
+							setDefault = 2;
+						}
+
+						//Enumeration index correction
+						int setCurrent = -1;
+						if (lpCurrentMode == ECC_MODE_OFF)
+						{
+							setCurrent = 0;
+						}
+						else if (lpCurrentMode == ECC_MODE_ON)
+						{
+							setCurrent = 1;
+						}
+						else if (lpCurrentMode == ECC_MODE_HBM)
+						{
+							setCurrent = 2;
+						}
+
+						//Set default
+						tuningFanSettings.MemoryEcc.Default = setDefault;
+
+						//Set current
+						tuningFanSettings.MemoryEcc.Current = setCurrent;
+					}
+				}
+			}
+			catch (...) {}
+
 			//Memory Frequency
 			try
 			{

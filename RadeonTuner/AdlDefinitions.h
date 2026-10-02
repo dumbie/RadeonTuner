@@ -406,6 +406,16 @@ inline ADL2_Overdrive8_Current_SettingX2_Get _ADL2_Overdrive8_Current_SettingX2_
 typedef int (*ADL2_Overdrive8_Setting_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLOD8SetSetting* lpSetSetting, ADLOD8CurrentSetting* lpCurrentSetting);
 inline ADL2_Overdrive8_Setting_Set _ADL2_Overdrive8_Setting_Set;
 
+//Tuning - Memory ECC
+typedef int (*ADL2_Workstation_ECCX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpModeType, int* lpDefaultMode, int* lpCurrentMode, int* lpDesiredMode);
+inline ADL2_Workstation_ECCX2_Get _ADL2_Workstation_ECCX2_Get;
+
+typedef int	(*ADL2_Workstation_ECC_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iDesiredMode);
+inline ADL2_Workstation_ECC_Set _ADL2_Workstation_ECC_Set;
+
+typedef int	(*ADL2_Workstation_ECC_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* lpSupported);
+inline ADL2_Workstation_ECC_Caps _ADL2_Workstation_ECC_Caps;
+
 //Metrics
 typedef int (*ADL2_New_QueryPMLogData_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLPMLogDataOutput* lpDataOutput);
 inline ADL2_New_QueryPMLogData_Get _ADL2_New_QueryPMLogData_Get;

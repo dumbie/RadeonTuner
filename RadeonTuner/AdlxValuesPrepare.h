@@ -131,6 +131,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all memory ecc modes
+			{
+				auto itemCollection = combobox_Memory_Ecc().Items();
+				UINT appendCount = ADLX_MEMORYECC_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADLX_MEMORYECC_STRING[i]));
+				}
+			}
+
 			//List all texture filtering qualities
 			{
 				auto itemCollection = combobox_TextureFilteringQuality().Items();

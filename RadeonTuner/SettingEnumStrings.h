@@ -188,6 +188,11 @@ const std::vector<std::wstring> ADLX_MEMORYTIMING_DESCRIPTION_STRING =
 	L"Default", L"Fast Timing"
 };
 
+const std::vector<std::wstring> ADLX_MEMORYECC_STRING =
+{
+	L"Disabled", L"Enabled", L"HBM"
+};
+
 const std::vector<std::wstring> ADLX_SSM_BIAS_MODE_STRING =
 {
 	L"Automatic", L"Manual"

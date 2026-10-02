@@ -294,7 +294,7 @@
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Show debug (watermark) information like FSR version numbers in a running application."/>
-                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when the application uses FSR 3.1.5 or newer."/>
+                                            <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works when the application uses FSR 3.1.5 or newer.&#10;&#10;* If the information does not disappear after disabling it you can try restarting your PC."/>
                                             <Image Source="/Assets/Experimental.png" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrShowInformation" Margin="10,0,0,0" OffContent="FSR Show Information" OnContent="FSR Show Information" Toggled="toggleswitch_FsrShowInformation_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrShowInformation_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -861,6 +861,15 @@
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Timing_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
                                     <ComboBox x:Name="combobox_Memory_Timing" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Memory_Timing_SelectionChanged"/>
+
+                                    <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
+
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Adjust the memory ECC mode, error correcting code (ECC) detects data corruption and tries to correct it when it occurs.&#10;&#10;* Disabling ECC can slightly increase your GPU performance at the cost of stability and reliability.&#10;&#10;* ECC memory is mostly used on workstation GPU's."/>
+                                        <TextBlock Margin="10,0,0,0" Text="Memory ECC / EDC" VerticalAlignment="Center"/>
+                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_Memory_Ecc_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                    </StackPanel>
+                                    <ComboBox x:Name="combobox_Memory_Ecc" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_Memory_Ecc_SelectionChanged"/>
 
                                     <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.20"/>
 
@@ -1604,7 +1613,7 @@
                                     <!-- Video Upscaling -->
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Information.png" Width="24" Height="24" ToolTipService.ToolTip="Video Upscaling improves video playback quality by upscaling video playback resolution and adjusting details for a better visual experience."/>
-                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 and newer graphic cards."/>
+                                        <Image Source="/Assets/Warning.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting does not work on videos using HDR.&#10;&#10;* This setting only works on RDNA3 and newer graphic cards."/>
                                         <ToggleSwitch x:Name="toggleswitch_Video_Upscaling" Margin="10,0,0,0" OffContent="Video Upscaling" OnContent="Video Upscaling" Toggled="toggleswitch_Video_Upscaling_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_Video_Upscaling_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>

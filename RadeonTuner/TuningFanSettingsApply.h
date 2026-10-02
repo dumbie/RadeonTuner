@@ -130,6 +130,37 @@ namespace winrt::RadeonTuner::implementation
 				saveSettings.push_back({ ADLOD8SettingId::OD8_FAN_CURVE_TEMPERATURE_5, targetSettings.FanTemp4.Get(settingGet).value(), !fanControlEnabled });
 			}
 
+			//Memory ECC / EDC
+			try
+			{
+				if (targetSettings.MemoryEcc.Get(settingGet).has_value())
+				{
+					//Get value
+					auto newValue = targetSettings.MemoryEcc.Get(settingGet).value();
+
+					//Enumeration index correction
+					int setValue = 0;
+					if (newValue == 0)
+					{
+						//Disabled
+						setValue = ECC_MODE_OFF;
+					}
+					else if (newValue == 1)
+					{
+						//Enabled
+						setValue = ECC_MODE_ON;
+					}
+					else if (newValue == 2)
+					{
+						//HBM
+						setValue = ECC_MODE_HBM;
+					}
+
+					adl_Res0 = _ADL2_Workstation_ECC_Set(adl_Context, gpuAdapterIndex, setValue);
+				}
+			}
+			catch (...) {}
+
 			//Update OD8Settings flag in registry
 			int fanControlFlag = fanControlEnabled ? (int)OD8SettingsRegistryFlags::FanTuningOn : (int)OD8SettingsRegistryFlags::FanTuningOff;
 			int od8SettingsFlag = (int)OD8SettingsRegistryFlags::GpuTuning | (int)OD8SettingsRegistryFlags::MemoryTuning | (int)OD8SettingsRegistryFlags::PowerTuning | fanControlFlag;

@@ -27,6 +27,12 @@ namespace winrt::RadeonTuner::implementation
 				combobox_Memory_Timing().SelectedIndex(tuningFanSettings.MemoryTiming.Get(settingType).value());
 			}
 
+			//Memory ECC / EDC
+			if (tuningFanSettings.MemoryEcc.Get(settingType).has_value())
+			{
+				combobox_Memory_Ecc().SelectedIndex(tuningFanSettings.MemoryEcc.Get(settingType).value());
+			}
+
 			//Memory Frequency
 			if (tuningFanSettings.MemoryMax.Get(settingType).has_value())
 			{
