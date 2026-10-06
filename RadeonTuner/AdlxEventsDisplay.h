@@ -791,7 +791,7 @@ namespace winrt::RadeonTuner::implementation
 			int numModes = -1;
 			ADLMode* adlModeCurrent{};
 			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
-			if (adl_Res0 != ADL_OK)
+			if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
 			{
 				AVDebugWriteLine(L"Failed getting current display mode.");
 				return;
@@ -848,7 +848,7 @@ namespace winrt::RadeonTuner::implementation
 			int numModes = -1;
 			ADLMode* adlModeCurrent{};
 			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
-			if (adl_Res0 != ADL_OK)
+			if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
 			{
 				AVDebugWriteLine(L"Failed getting current display mode.");
 				return;
@@ -903,7 +903,7 @@ namespace winrt::RadeonTuner::implementation
 			int numModes = -1;
 			ADLMode* adlModeCurrent{};
 			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
-			if (adl_Res0 != ADL_OK)
+			if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
 			{
 				AVDebugWriteLine(L"Failed getting current display mode.");
 				return;

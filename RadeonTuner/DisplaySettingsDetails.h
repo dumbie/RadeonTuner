@@ -45,10 +45,22 @@ namespace winrt::RadeonTuner::implementation
 			int numModes = -1;
 			ADLMode* adlModeCurrent{};
 			adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, adl_Display_AdapterIndex, adl_Display_DisplayIndex, &numModes, &adlModeCurrent);
-			if (adl_Res0 != ADL_OK)
+			if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
 			{
+				//Disable resolution interface
+				combobox_Display_Resolution().IsEnabled(false);
+				combobox_Display_RefreshRate().IsEnabled(false);
+				combobox_Display_Orientation().IsEnabled(false);
+
 				AVDebugWriteLine(L"Failed getting current display mode.");
 				co_return;
+			}
+			else
+			{
+				//Enable resolution interface
+				combobox_Display_Resolution().IsEnabled(true);
+				combobox_Display_RefreshRate().IsEnabled(true);
+				combobox_Display_Orientation().IsEnabled(true);
 			}
 
 			//AVDebugWriteLine(L"Selecting display modes: " << adlModeCurrent->iXRes << L"x" << adlModeCurrent->iYRes << L" / " << adlModeCurrent->fRefreshRate << L" Hz / Orientation: " << adlModeCurrent->iOrientation);
@@ -121,6 +133,7 @@ namespace winrt::RadeonTuner::implementation
 			ADLMode* lppModes;
 			int lpNumModes = -1;
 			adl_Res0 = _ADL2_Display_PossibleMode_Get(adl_Context, adl_Display_AdapterIndex, &lpNumModes, &lppModes);
+			//AVDebugWriteLine("Got possible resolutions: " << adl_Res0 << " / " << lpNumModes);
 
 			//Sort resolutions
 			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.iXRes > b.iXRes; });
@@ -172,6 +185,7 @@ namespace winrt::RadeonTuner::implementation
 			ADLMode* lppModes;
 			int lpNumModes = -1;
 			adl_Res0 = _ADL2_Display_PossibleMode_Get(adl_Context, adl_Display_AdapterIndex, &lpNumModes, &lppModes);
+			//AVDebugWriteLine("Got possible refresh rates: " << adl_Res0 << " / " << lpNumModes);
 
 			//Sort refresh rates
 			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.fRefreshRate > b.fRefreshRate; });

@@ -3,7 +3,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	std::vector<AdapterInfo> MainPage::AdlGetGpuAll()
+	std::vector<AdapterInfo> MainPage::AdlGetGpuAll(bool ignoreDuplicate)
 	{
 		std::vector<AdapterInfo> gpuList;
 		try
@@ -23,32 +23,28 @@ namespace winrt::RadeonTuner::implementation
 					continue;
 				}
 
-				//Check if we have access to GPU
+				//Check GPU accessibility
 				//Note: checks if driver is not installed for (integrated) gpu or device is disabled in device manager
 				//Fix ADL2_Adapter_Accessibility_Get always fails when using DCH / UWP or downgraded driver
 				int lpAccess;
 				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adapterInfo.iAdapterIndex, &lpAccess);
-				if (adl_Res0 != ADL_OK)
+				if (adl_Res0 != ADL_OK || lpAccess == 0)
 				{
 					//AVDebugWriteLine("GPU is not accessible: " << adapterInfo.iAdapterIndex << " / " << lpAccess << " / " << adapterInfo.strUDID);
 					continue;
 				}
 
-				//Check if GPU is present and exists
-				if (adapterInfo.iPresent != true || adapterInfo.iExist != true)
-				{
-					//AVDebugWriteLine("GPU is not present or does not exist: " << adapterInfo.iAdapterIndex << " / " << adapterInfo.strUDID);
-					continue;
-				}
-
 				//Check duplicate adapter
 				bool duplicate = false;
-				for (AdapterInfo listInfo : gpuList)
+				if (!ignoreDuplicate)
 				{
-					if (string_contains(listInfo.strPNPString, adapterInfo.strPNPString))
+					for (AdapterInfo listInfo : gpuList)
 					{
-						duplicate = true;
-						break;
+						if (string_contains(listInfo.strPNPString, adapterInfo.strPNPString))
+						{
+							duplicate = true;
+							break;
+						}
 					}
 				}
 
@@ -106,8 +102,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get all GPU's
-			for (AdapterInfo adapterInfo : AdlGetGpuAll())
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
+
+			//Loop all gpu's
+			for (AdapterInfo adapterInfo : listGpus)
 			{
 				//Device identifier
 				std::wstring adapterDeviceId = char_to_wstring(adapterInfo.strPNPString);
@@ -116,7 +115,7 @@ namespace winrt::RadeonTuner::implementation
 				//Check device identifier
 				if (adapterDeviceId == deviceId)
 				{
-					AVDebugWriteLine("Got GPU by device identifier: " << adapterInfo.iAdapterIndex << " / " << adapterInfo.strPNPString);
+					//AVDebugWriteLine("Got GPU by device identifier: " << adapterInfo.iAdapterIndex << " / " << adapterInfo.strPNPString);
 					return adapterInfo;
 				}
 			}
@@ -145,7 +144,7 @@ namespace winrt::RadeonTuner::implementation
 			AdapterInfo adapterInfo = adapterInfoList.Get()[0];
 
 			//Return result
-			AVDebugWriteLine("Got GPU by adapter index: " << adapterIndex << " / " << adapterInfo.strPNPString);
+			//AVDebugWriteLine("Got GPU by adapter index: " << adapterIndex << " / " << adapterInfo.strPNPString);
 			return adapterInfo;
 		}
 		catch (...)
@@ -164,9 +163,12 @@ namespace winrt::RadeonTuner::implementation
 			//Fix when a display is connected but has no power DisplayInfo_Get may return invalid values instead of no values.
 			//Fix ADL2_Display_DisplayInfo_Get always fails when using DCH / UWP or downgraded driver
 
-			//Get all GPU's
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(true);
+
+			//Loop all gpu's
 			int displayConnectedCount = 0;
-			for (AdapterInfo adapterInfo : AdlGetGpuAll())
+			for (AdapterInfo adapterInfo : listGpus)
 			{
 				//Get all displays connected to gpu
 				int displayInfoCount = 0;
@@ -174,11 +176,28 @@ namespace winrt::RadeonTuner::implementation
 				adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterInfo.iAdapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
 				for (int i = 0; i < displayInfoCount; i++)
 				{
+					//Get display information
 					ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
+
+					//Display adapter index correction
+					displayInfo.displayID.iDisplayLogicalAdapterIndex = adapterInfo.iAdapterIndex;
+					displayInfo.displayID.iDisplayPhysicalAdapterIndex = adapterInfo.iAdapterIndex;
+
+					//Check display accessibility
+					bool displayAccessible = true;
+					int numModes = -1;
+					ADLMode* adlModeCurrent{};
+					adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, displayInfo.displayID.iDisplayLogicalAdapterIndex, displayInfo.displayID.iDisplayLogicalIndex, &numModes, &adlModeCurrent);
+					if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
+					{
+						displayAccessible = false;
+					}
+
+					//Check if display is valid and connected
 					bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0 && displayInfo.displayID.iDisplayLogicalAdapterIndex <= 2048 && displayInfo.displayID.iDisplayLogicalIndex <= 2048;
 					bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
 					bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
-					if (validIndex && displayConnected && displayMapped)
+					if (displayAccessible && validIndex && displayConnected && displayMapped)
 					{
 						displayList.push_back(displayInfo);
 						displayConnectedCount++;
@@ -211,11 +230,28 @@ namespace winrt::RadeonTuner::implementation
 			//Fix ADL2_Display_DisplayInfo_Get always fails when using DCH / UWP or downgraded driver
 			for (int i = 0; i < displayInfoCount; i++)
 			{
+				//Get display information
 				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
+
+				//Display adapter index correction
+				displayInfo.displayID.iDisplayLogicalAdapterIndex = adapterIndex;
+				displayInfo.displayID.iDisplayPhysicalAdapterIndex = adapterIndex;
+
+				//Check display accessibility
+				bool displayAccessible = true;
+				int numModes = -1;
+				ADLMode* adlModeCurrent{};
+				adl_Res0 = _ADL2_Display_Modes_Get(adl_Context, displayInfo.displayID.iDisplayLogicalAdapterIndex, displayInfo.displayID.iDisplayLogicalIndex, &numModes, &adlModeCurrent);
+				if (adl_Res0 != ADL_OK || adlModeCurrent->iModeValue <= 0)
+				{
+					displayAccessible = false;
+				}
+
+				//Check if display is valid and connected
 				bool validIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex >= 0 && displayInfo.displayID.iDisplayLogicalIndex >= 0 && displayInfo.displayID.iDisplayLogicalAdapterIndex <= 2048 && displayInfo.displayID.iDisplayLogicalIndex <= 2048;
 				bool displayConnected = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYCONNECTED;
 				bool displayMapped = (displayInfo.iDisplayInfoValue & ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED) == ADL_DISPLAY_DISPLAYINFO_DISPLAYMAPPED;
-				if (validIndex && displayConnected && displayMapped)
+				if (displayAccessible && validIndex && displayConnected && displayMapped)
 				{
 					displayList.push_back(displayInfo);
 					displayConnectedCount++;
@@ -223,7 +259,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Return result
-			AVDebugWriteLine("Got all displays by adapter index: " << adapterIndex << " / " << displayConnectedCount);
+			//AVDebugWriteLine("Got all displays by adapter index: " << adapterIndex << " / " << displayConnectedCount);
 			return displayList;
 		}
 		catch (...)
@@ -247,7 +283,7 @@ namespace winrt::RadeonTuner::implementation
 				if (displayInfo.displayID.iDisplayLogicalAdapterIndex == adapterIndex && displayInfo.displayID.iDisplayLogicalIndex == displayIndex)
 				{
 					//Return result
-					AVDebugWriteLine("Got display by index: " << adapterIndex << " / " << displayIndex << " / " << displayInfo.strDisplayName);
+					//AVDebugWriteLine("Got display by index: " << adapterIndex << " / " << displayIndex << " / " << displayInfo.strDisplayName);
 					return displayInfo;
 				}
 			}

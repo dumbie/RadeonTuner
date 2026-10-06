@@ -10,8 +10,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get all gpu's
-			std::vector<AdapterInfo> listGpus = AdlGetGpuAll();
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
 
 			//Set default settings for all gpu's
 			for (AdapterInfo adapterInfo : listGpus)
