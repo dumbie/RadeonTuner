@@ -166,6 +166,11 @@
                 <Setter Property="Template" Value="{ThemeResource ListViewItemTemplateRound}"/>
             </Style>
 
+            <Style x:Name="ApplicationSlider" TargetType="Slider">
+                <!-- UseLayoutRounding fixes 125% DPI crash -->
+                <Setter Property="UseLayoutRounding" Value="False"/>
+            </Style>
+
             <Style x:Name="ApplicationComboBox" TargetType="ComboBox">
                 <Setter Property="CornerRadius" Value="8"/>
             </Style>
@@ -182,18 +187,20 @@
                 <Setter Property="Template" Value="{ThemeResource ButtonTemplateHover}"/>
             </Style>
 
+            <Style x:Name="ApplicationTextBox" TargetType="TextBox">
+                <Setter Property="CornerRadius" Value="8"/>
+            </Style>
+
             <Style x:Name="ApplicationTextBoxNoHit" TargetType="TextBox">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="IsHitTestVisible" Value="False"/>
                 <Setter Property="CornerRadius" Value="8"/>
-                <Setter Property="Background" Value="Transparent"/>
             </Style>
 
             <Style x:Name="ApplicationTextBoxReadOnly" TargetType="TextBox">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="CornerRadius" Value="8"/>
-                <Setter Property="Background" Value="Transparent"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
