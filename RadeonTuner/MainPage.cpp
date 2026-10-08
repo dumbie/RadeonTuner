@@ -101,8 +101,9 @@
 #include "AdlxLoopDisplay.h"
 #include "AdlxLoopEyefinity.h"
 #include "AdlxLoopTuning.h"
-#include "AdlxLoopKeepActive.h"
+#include "AdlxLoopProfile.h"
 #include "AdlxLoopMetrics.h"
+#include "AdlxLoopAccess.h"
 
 #include "AdjustCursor.h"
 #include "MessageBox.h"
@@ -173,8 +174,10 @@ namespace winrt::RadeonTuner::implementation
 			DisplaySettings_Profiles_LoadFromFile();
 			MultimediaSettings_Profiles_LoadFromFile();
 
-			//Get all GPU's
-			std::vector<AdapterInfo> listGpus = AdlGetGpuAll();
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
+
+			//Check available GPU's
 			if (listGpus.size() == 0)
 			{
 				grid_Main().IsHitTestVisible(false);
@@ -254,7 +257,7 @@ namespace winrt::RadeonTuner::implementation
 			threadLoopMetrics.detach();
 
 			//Start adlx loop keep active
-			std::thread threadLoopKeepActive(&MainPage::AdlxLoopKeepActive, this);
+			std::thread threadLoopKeepActive(&MainPage::AdlxLoopProfile, this);
 			threadLoopKeepActive.detach();
 
 			//Check for application update
@@ -405,6 +408,9 @@ namespace winrt::RadeonTuner::implementation
 			stackpanel_AppSelect_Display().Visibility(Visibility::Collapsed);
 			stackpanel_AppSelect_Multimedia().Visibility(Visibility::Collapsed);
 
+			//Hide GPU status bar
+			border_Gpu_Status().Visibility(Visibility::Collapsed);
+
 			//Make selected page visible
 			if (selectedIndex == 0)
 			{
@@ -412,6 +418,9 @@ namespace winrt::RadeonTuner::implementation
 				stackpanel_AppSelect_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Tuning_Buttons().Visibility(Visibility::Visible);
+
+				//Show GPU status bar
+				border_Gpu_Status().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 1)
 			{
@@ -419,6 +428,9 @@ namespace winrt::RadeonTuner::implementation
 				stackpanel_AppSelect_Tuning().Visibility(Visibility::Visible);
 				stackpanel_Fans().Visibility(Visibility::Visible);
 				stackpanel_Fan_Buttons().Visibility(Visibility::Visible);
+
+				//Show GPU status bar
+				border_Gpu_Status().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 2)
 			{
@@ -426,6 +438,9 @@ namespace winrt::RadeonTuner::implementation
 				stackpanel_AppSelect_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics().Visibility(Visibility::Visible);
 				stackpanel_Graphics_Buttons().Visibility(Visibility::Visible);
+
+				//Show GPU status bar
+				border_Gpu_Status().Visibility(Visibility::Visible);
 			}
 			else if (selectedIndex == 3)
 			{
@@ -450,6 +465,9 @@ namespace winrt::RadeonTuner::implementation
 				button_GpuSelect().Visibility(Visibility::Visible);
 				stackpanel_Information().Visibility(Visibility::Visible);
 				stackpanel_Information_Buttons().Visibility(Visibility::Visible);
+
+				//Show GPU status bar
+				border_Gpu_Status().Visibility(Visibility::Visible);
 			}
 		}
 		catch (...) {}

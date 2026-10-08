@@ -8,21 +8,21 @@ namespace winrt::RadeonTuner::implementation
 {
 	//Fix: Change display and tuning check to event that triggers on process launch and close or check foreground window switch.
 
-	void MainPage::AdlxLoopKeepActive()
+	void MainPage::AdlxLoopProfile()
 	{
 		while (true)
 		{
 			try
 			{
 				//Delay next loop
-				if (!AppVariables::LaunchKeepActive)
+				if (!AppVariables::LaunchLoopProfile)
 				{
 					Sleep(10000);
 				}
 				else
 				{
 					Sleep(2000);
-					AppVariables::LaunchKeepActive = false;
+					AppVariables::LaunchLoopProfile = false;
 				}
 
 				//Check if loop is allowed

@@ -10,8 +10,11 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get all GPU's
-			for (auto adapterInfo : AdlGetGpuAll())
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
+
+			//Loop all gpu's
+			for (auto adapterInfo : listGpus)
 			{
 				//Device index
 				int adapterIndex = adapterInfo.iAdapterIndex;

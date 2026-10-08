@@ -802,6 +802,15 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Display_HDCPSupport().IsEnabled(false);
 			}
 
+			//Top buttons
+			button_AppSelect_Display().IsEnabled(true);
+			button_AppAdd_Display().IsEnabled(true);
+			button_AppRemove_Display().IsEnabled(true);
+			button_Display_Apply().IsEnabled(true);
+			button_Display_Reset().IsEnabled(true);
+			button_Display_Import().IsEnabled(true);
+			button_Display_Export().IsEnabled(true);
+
 			//Return result
 			AVDebugWriteLine(L"Display settings applied to interface (ADL)");
 			return true;

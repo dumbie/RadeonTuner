@@ -32,6 +32,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Update graphics status
 				GraphicsStatus_Update();
+
+				//Check selected device accessibility
+				AdlxCheckSelectedDeviceAccess();
 			}
 			catch (...) {}
 		}

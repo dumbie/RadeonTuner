@@ -5,6 +5,66 @@
 
 namespace winrt::RadeonTuner::implementation
 {
+	void MainPage::AdlxValuesResetSelectDisplay()
+	{
+		try
+		{
+			//Update button text
+			textblock_DisplaySelect().Text(L"Select display");
+
+			//Update access status
+			stackpanel_Display_AccessOverlay().Visibility(Visibility::Visible);
+			button_AppSelect_Display().IsEnabled(false);
+			button_AppAdd_Display().IsEnabled(false);
+			button_AppRemove_Display().IsEnabled(false);
+			button_Display_Apply().IsEnabled(false);
+			button_Display_Reset().IsEnabled(false);
+			button_Display_Import().IsEnabled(false);
+			button_Display_Export().IsEnabled(false);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::AdlxValuesResetSelectGpu()
+	{
+		try
+		{
+			//Update button text
+			textblock_GpuSelect().Text(L"Select graphics card");
+
+			//Update access status
+			stackpanel_Tuning_AccessOverlay().Visibility(Visibility::Visible);
+			button_AppSelect_Tuning().IsEnabled(false);
+			button_AppAdd_Tuning().IsEnabled(false);
+			button_AppRemove_Tuning().IsEnabled(false);
+			button_Tuning_Apply().IsEnabled(false);
+			button_Tuning_Reset().IsEnabled(false);
+			button_Tuning_Import().IsEnabled(false);
+			button_Tuning_Export().IsEnabled(false);
+
+			stackpanel_Fans_AccessOverlay().Visibility(Visibility::Visible);
+			button_Fan_Apply().IsEnabled(false);
+			button_Fan_Reset().IsEnabled(false);
+			button_Fan_Import().IsEnabled(false);
+			button_Fan_Export().IsEnabled(false);
+
+			stackpanel_Graphics_AccessOverlay().Visibility(Visibility::Visible);
+			button_AppSelect_Graphics().IsEnabled(false);
+			button_AppAdd_Graphics().IsEnabled(false);
+			button_AppRemove_Graphics().IsEnabled(false);
+			button_Graphics_Apply().IsEnabled(false);
+			button_Graphics_Reset().IsEnabled(false);
+			button_Graphics_Import().IsEnabled(false);
+			button_Graphics_Export().IsEnabled(false);
+
+			stackpanel_Multimedia_AccessOverlay().Visibility(Visibility::Visible);
+			button_AppSelect_Multimedia().IsEnabled(false);
+			button_Multimedia_Apply().IsEnabled(false);
+			button_Multimedia_Reset().IsEnabled(false);
+		}
+		catch (...) {}
+	}
+
 	winrt::IAsyncAction MainPage::AdlxValuesLoadSelectDisplay(ADLDisplayInfo displayInfo)
 	{
 		try
@@ -22,6 +82,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update button text
 			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
+
+			//Update access status
+			stackpanel_Display_AccessOverlay().Visibility(Visibility::Collapsed);
 
 			//Load display settings
 			co_await AdlxValuesLoadSelectDisplayApp(adl_Display_AdapterIndex, adl_Display_DisplayIndex, displaySettingsProfile.Application.value());
@@ -67,6 +130,12 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update button text
 			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
+
+			//Update access status
+			stackpanel_Tuning_AccessOverlay().Visibility(Visibility::Collapsed);
+			stackpanel_Fans_AccessOverlay().Visibility(Visibility::Collapsed);
+			stackpanel_Graphics_AccessOverlay().Visibility(Visibility::Collapsed);
+			stackpanel_Multimedia_AccessOverlay().Visibility(Visibility::Collapsed);
 
 			//Load tuning and fans settings
 			co_await AdlxValuesLoadSelectTuningApp(adl_Gpu_AdapterIndex, tuningFanSettingsProfile.Application.value());

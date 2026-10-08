@@ -4,7 +4,7 @@
 namespace AppVariables
 {
 	inline HINSTANCE hInstance = NULL;
-	inline BOOL LaunchKeepActive = true;
+	inline BOOL LaunchLoopProfile = true;
 	inline BOOL ApplicationExiting = false;
 	inline std::wstring SaveDataPath = L"";
 	inline AVSettingsJson Settings = AVSettingsJson();

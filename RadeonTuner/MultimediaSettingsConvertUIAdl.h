@@ -124,6 +124,11 @@ namespace winrt::RadeonTuner::implementation
 				slider_Video_Brightness().IsEnabled(false);
 			}
 
+			//Top buttons
+			button_AppSelect_Multimedia().IsEnabled(true);
+			button_Multimedia_Apply().IsEnabled(true);
+			button_Multimedia_Reset().IsEnabled(true);
+
 			//Return result
 			AVDebugWriteLine(L"Multimedia settings applied to interface (ADL)");
 			return true;

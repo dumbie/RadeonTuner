@@ -18,7 +18,7 @@ namespace winrt::RadeonTuner::implementation
 		void AdlSetDefaultSettings();
 		bool AdlCheckDriverOnlySoftware();
 
-		std::vector<AdapterInfo> AdlGetGpuAll();
+		std::vector<AdapterInfo> AdlGetGpuAll(bool ignoreDuplicate);
 		std::optional<AdapterInfo> AdlGetGpuByDeviceId(std::wstring deviceId);
 		std::optional<AdapterInfo> AdlGetGpuByAdapterIndex(int adapterIndex);
 		std::vector<ADLDisplayInfo> AdlGetDisplayAll();
@@ -174,6 +174,8 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlTuningFanSettingsApply(int gpuAdapterIndex, TuningFanSettings tuningFanSettings, AdlSettingGet settingGet);
 		bool AdlDisplaySettingsApply(int displayAdapterIndex, int displayDisplayIndex, DisplaySettings targetSettings, DisplaySettings adlSettings, AdlSettingGet settingGet, bool appProfileOnly);
 
+		void AdlxValuesResetSelectGpu();
+		void AdlxValuesResetSelectDisplay();
 		winrt::IAsyncAction AdlxValuesLoadSelectTuningApp(int gpuAdapterIndex, std::wstring application);
 		winrt::IAsyncAction AdlxValuesLoadSelectDisplayApp(int dispAdapterIndex, int dispDisplayIndex, std::wstring application);
 		winrt::IAsyncAction AdlxValuesLoadSelectGraphicsApp(int gpuAdapterIndex, std::wstring application);
@@ -196,8 +198,9 @@ namespace winrt::RadeonTuner::implementation
 		void ShowNotification(std::wstring text);
 
 		void AdlxLoopMetrics();
-		void AdlxLoopKeepActive();
+		void AdlxLoopProfile();
 
+		void AdlxCheckSelectedDeviceAccess();
 		void AdlxCheckDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning);
 		void AdlxCheckDisplayApplicationProfile(std::vector<std::wstring> processExeRunning);
 		void AdlxCheckTuningApplicationProfile(std::vector<std::wstring> processExeRunning);
@@ -370,6 +373,7 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_Display_FreeSyncMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_FsrShowInformation_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		winrt::IAsyncAction toggleswitch_SkipSupportCheckGraphics_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_Memory_Ecc_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 

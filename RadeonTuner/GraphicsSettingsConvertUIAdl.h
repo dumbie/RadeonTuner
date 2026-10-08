@@ -1368,6 +1368,15 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_OpenGL10BitPixelFormat().IsEnabled(false);
 			}
 
+			//Top buttons
+			button_AppSelect_Graphics().IsEnabled(true);
+			button_AppAdd_Graphics().IsEnabled(true);
+			button_AppRemove_Graphics().IsEnabled(true);
+			button_Graphics_Apply().IsEnabled(true);
+			button_Graphics_Reset().IsEnabled(true);
+			button_Graphics_Import().IsEnabled(true);
+			button_Graphics_Export().IsEnabled(true);
+
 			//Return result
 			AVDebugWriteLine(L"Graphics settings applied to interface (ADL)");
 			return true;
