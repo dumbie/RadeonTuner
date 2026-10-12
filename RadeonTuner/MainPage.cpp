@@ -176,8 +176,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get all available GPU's
 			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
-
-			//Check available GPU's
 			if (listGpus.size() == 0)
 			{
 				grid_Main().IsHitTestVisible(false);
@@ -206,29 +204,9 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get all displays
+			//Note: No longer blocking launch when no displays are found, allowing workstations without a display.
 			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
-			if (displayList.size() == 0)
-			{
-				grid_Main().IsHitTestVisible(false);
-				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
-				int messageResult = co_await ShowMessageBox(L"Failed to find any displays", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility.", messageAnswers);
-				if (messageResult == 0)
-				{
-					//Launch driver cleanup utility
-					LaunchDriverCleanup();
-
-					//Exit application
-					AppVariables::App.Exit(true);
-					co_return;
-				}
-				else
-				{
-					//Exit application
-					AppVariables::App.Exit(true);
-					co_return;
-				}
-			}
-			else
+			if (displayList.size() > 0)
 			{
 				//Select defaults
 				co_await AdlxValuesLoadSelectDisplay(displayList[0]);
