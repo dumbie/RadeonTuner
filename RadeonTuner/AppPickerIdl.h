@@ -31,6 +31,7 @@ namespace winrt::RadeonTuner::implementation
 		}
 
 		//IconPath
+		//Fix check current theme
 		hstring _IconPath = L"/Assets/Apps.png";
 		hstring IconPath()
 		{

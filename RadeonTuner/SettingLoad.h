@@ -47,6 +47,19 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_SkipSupportCheckGraphics().IsOn(SkipSupportCheckGraphics.value());
 			}
 
+			//Theme settings
+			std::optional<int> ThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
+			if (ThemeStyle.has_value())
+			{
+				combobox_ThemeStyle().SelectedIndex(ThemeStyle.value());
+			}
+
+			std::optional<bool> ThemeIconMono = AppVariables::Settings.Load<bool>("ThemeIconMono");
+			if (ThemeIconMono.has_value())
+			{
+				toggleswitch_ThemeIconMono().IsOn(ThemeIconMono.value());
+			}
+
 			//Check startup shortcut
 			bool startupShortcut = StartupShortcutCheck(L"RadeonTuner", StartupShortcutType::Startup);
 			toggleswitch_Shortcut_Startup().IsOn(startupShortcut);

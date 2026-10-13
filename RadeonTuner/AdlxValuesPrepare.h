@@ -289,6 +289,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all theme color style
+			{
+				auto itemCollection = combobox_ThemeStyle().Items();
+				UINT appendCount = RADT_THEME_STYLE.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(RADT_THEME_STYLE[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
 		}

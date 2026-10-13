@@ -122,6 +122,9 @@ namespace winrt::RadeonTuner::implementation
 			//Fix check if DCH / UWP or downgraded driver is installed and warn not supported
 			//Fix check if other overclock applications are running and warn user
 
+			//Adjust theme style
+			ThemeAdjustStyle();
+
 			//Check driver software type
 			if (AdlCheckDriverOnlySoftware())
 			{
@@ -481,6 +484,79 @@ namespace winrt::RadeonTuner::implementation
 				TimerNotification.Tick(tickFunction);
 			}
 			TimerNotification.Start();
+		}
+		catch (...) {}
+	}
+
+	std::wstring MainPage::ThemeGetImagePath(std::wstring imageName, bool includeAppx)
+	{
+		std::wstring imagePath = L"";
+		try
+		{
+			//Get theme style setting
+			int themeStyle = 0;
+			std::optional<int> setThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
+			if (setThemeStyle.has_value())
+			{
+				themeStyle = setThemeStyle.value();
+			}
+
+			//Check theme style and set image path
+			if (themeStyle == 0 || themeStyle == 1)
+			{
+				imagePath = L"/Assets/" + imageName + L".png";
+			}
+			else
+			{
+				imagePath = L"/Assets/" + imageName + L"Dark.png";
+			}
+
+			//Include appx prefix
+			if (includeAppx)
+			{
+				imagePath = L"ms-appx://" + imagePath;
+			}
+
+			//AVDebugWriteLine("Theme image path: " << imagePath);
+		}
+		catch (...) {}
+		//Return image path
+		return imagePath;
+	}
+
+	void MainPage::ThemeAdjustStyle()
+	{
+		try
+		{
+			//Get theme style setting
+			int themeStyle = 0;
+			std::optional<int> setThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
+			if (setThemeStyle.has_value())
+			{
+				themeStyle = setThemeStyle.value();
+			}
+
+			AVDebugWriteLine(L"Adjusting theme style: " << themeStyle);
+
+			//Apply theme style
+			if (themeStyle == 0)
+			{
+				SolidColorBrush colorGray = Application::Current().Resources().Lookup(box_value(L"ApplicationBlackBrush")).as<SolidColorBrush>();
+				RequestedTheme(ElementTheme::Dark);
+				Background(colorGray);
+			}
+			else if (themeStyle == 1)
+			{
+				SolidColorBrush colorBlack = SolidColorBrush(Windows::UI::Colors::Black());
+				RequestedTheme(ElementTheme::Dark);
+				Background(colorBlack);
+			}
+			else
+			{
+				SolidColorBrush colorWhite = Application::Current().Resources().Lookup(box_value(L"ApplicationWhiteBrush")).as<SolidColorBrush>();
+				RequestedTheme(ElementTheme::Light);
+				Background(colorWhite);
+			}
 		}
 		catch (...) {}
 	}

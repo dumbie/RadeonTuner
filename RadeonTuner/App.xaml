@@ -4,6 +4,70 @@
              xmlns:local="using:RadeonTuner">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Theme Color -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="ThemeForegroundColor">#1D1D1D</Color>
+                    <SolidColorBrush x:Key="ThemeForegroundBrush">#1D1D1D</SolidColorBrush>
+                    <Color x:Key="ThemeBackgroundColor">#CECECE</Color>
+                    <SolidColorBrush x:Key="ThemeBackgroundBrush">#CECECE</SolidColorBrush>
+                    <Color x:Key="ThemeBackgroundDarkColor">#AEAEAE</Color>
+                    <SolidColorBrush x:Key="ThemeBackgroundDarkBrush">#AEAEAE</SolidColorBrush>
+                    <x:String x:Key="ThemeImageApps">/Assets/AppsDark.png</x:String>
+                    <x:String x:Key="ThemeImageCheckmark">/Assets/CheckmarkDark.png</x:String>
+                    <x:String x:Key="ThemeImageCross">/Assets/CrossDark.png</x:String>
+                    <x:String x:Key="ThemeImageDisplay">/Assets/DisplayDark.png</x:String>
+                    <x:String x:Key="ThemeImageDragDrop">/Assets/DragDropDark.png</x:String>
+                    <x:String x:Key="ThemeImageExperimental">/Assets/ExperimentalDark.png</x:String>
+                    <x:String x:Key="ThemeImageFans">/Assets/FansDark.png</x:String>
+                    <x:String x:Key="ThemeImageGraphics">/Assets/GraphicsDark.png</x:String>
+                    <x:String x:Key="ThemeImageInformation">/Assets/InformationDark.png</x:String>
+                    <x:String x:Key="ThemeImageLink">/Assets/LinkDark.png</x:String>
+                    <x:String x:Key="ThemeImageMultimedia">/Assets/MultimediaDark.png</x:String>
+                    <x:String x:Key="ThemeImagePlus">/Assets/PlusDark.png</x:String>
+                    <x:String x:Key="ThemeImagePower">/Assets/PowerDark.png</x:String>
+                    <x:String x:Key="ThemeImageRemove">/Assets/RemoveDark.png</x:String>
+                    <x:String x:Key="ThemeImageReset">/Assets/ResetDark.png</x:String>
+                    <x:String x:Key="ThemeImageSettings">/Assets/SettingsDark.png</x:String>
+                    <x:String x:Key="ThemeImageShield">/Assets/ShieldDark.png</x:String>
+                    <x:String x:Key="ThemeImageShutdown">/Assets/ShutdownDark.png</x:String>
+                    <x:String x:Key="ThemeImageTuning">/Assets/TuningDark.png</x:String>
+                    <x:String x:Key="ThemeImageUnlink">/Assets/UnlinkDark.png</x:String>
+                    <x:String x:Key="ThemeImageUpdate">/Assets/UpdateDark.png</x:String>
+                    <x:String x:Key="ThemeImageVideocard">/Assets/VideocardDark.png</x:String>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="ThemeForegroundColor">#F1F1F1</Color>
+                    <SolidColorBrush x:Key="ThemeForegroundBrush">#F1F1F1</SolidColorBrush>
+                    <Color x:Key="ThemeBackgroundColor">#424242</Color>
+                    <SolidColorBrush x:Key="ThemeBackgroundBrush">#424242</SolidColorBrush>
+                    <Color x:Key="ThemeBackgroundDarkColor">#303030</Color>
+                    <SolidColorBrush x:Key="ThemeBackgroundDarkBrush">#303030</SolidColorBrush>
+                    <x:String x:Key="ThemeImageApps">/Assets/Apps.png</x:String>
+                    <x:String x:Key="ThemeImageCheckmark">/Assets/Checkmark.png</x:String>
+                    <x:String x:Key="ThemeImageCross">/Assets/Cross.png</x:String>
+                    <x:String x:Key="ThemeImageDisplay">/Assets/Display.png</x:String>
+                    <x:String x:Key="ThemeImageDragDrop">/Assets/DragDrop.png</x:String>
+                    <x:String x:Key="ThemeImageExperimental">/Assets/Experimental.png</x:String>
+                    <x:String x:Key="ThemeImageFans">/Assets/Fans.png</x:String>
+                    <x:String x:Key="ThemeImageGraphics">/Assets/Graphics.png</x:String>
+                    <x:String x:Key="ThemeImageInformation">/Assets/Information.png</x:String>
+                    <x:String x:Key="ThemeImageLink">/Assets/Link.png</x:String>
+                    <x:String x:Key="ThemeImageMultimedia">/Assets/Multimedia.png</x:String>
+                    <x:String x:Key="ThemeImagePlus">/Assets/Plus.png</x:String>
+                    <x:String x:Key="ThemeImagePower">/Assets/Power.png</x:String>
+                    <x:String x:Key="ThemeImageRemove">/Assets/Remove.png</x:String>
+                    <x:String x:Key="ThemeImageReset">/Assets/Reset.png</x:String>
+                    <x:String x:Key="ThemeImageSettings">/Assets/Settings.png</x:String>
+                    <x:String x:Key="ThemeImageShield">/Assets/Shield.png</x:String>
+                    <x:String x:Key="ThemeImageShutdown">/Assets/Shutdown.png</x:String>
+                    <x:String x:Key="ThemeImageTuning">/Assets/Tuning.png</x:String>
+                    <x:String x:Key="ThemeImageUnlink">/Assets/Unlink.png</x:String>
+                    <x:String x:Key="ThemeImageUpdate">/Assets/Update.png</x:String>
+                    <x:String x:Key="ThemeImageVideocard">/Assets/Videocard.png</x:String>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
             <!-- System Color -->
             <Color x:Key="SystemAccentColor">#DF2020</Color>
             <Color x:Key="SystemAccentColorDark1">#b81717</Color>
@@ -28,12 +92,12 @@
             <SolidColorBrush x:Key="ApplicationWhiteBrush">#F1F1F1</SolidColorBrush>
             <Color x:Key="ApplicationBlackColor">#1D1D1D</Color>
             <SolidColorBrush x:Key="ApplicationBlackBrush">#1D1D1D</SolidColorBrush>
-            <Color x:Key="ApplicationLightGrayColor">#DBDBDB</Color>
-            <SolidColorBrush x:Key="ApplicationLightGrayBrush">#DBDBDB</SolidColorBrush>
-            <Color x:Key="ApplicationDimGrayColor">#888888</Color>
-            <SolidColorBrush x:Key="ApplicationDimGrayBrush">#888888</SolidColorBrush>
-            <Color x:Key="ApplicationDarkGrayColor">#505050</Color>
-            <SolidColorBrush x:Key="ApplicationDarkGrayBrush">#505050</SolidColorBrush>
+            <Color x:Key="ApplicationLightGrayColor">#CECECE</Color>
+            <SolidColorBrush x:Key="ApplicationLightGrayBrush">#CECECE</SolidColorBrush>
+            <Color x:Key="ApplicationDimGrayColor">#787878</Color>
+            <SolidColorBrush x:Key="ApplicationDimGrayBrush">#787878</SolidColorBrush>
+            <Color x:Key="ApplicationDarkGrayColor">#424242</Color>
+            <SolidColorBrush x:Key="ApplicationDarkGrayBrush">#424242</SolidColorBrush>
             <Color x:Key="ApplicationVoidGrayColor">#2A2A2A</Color>
             <SolidColorBrush x:Key="ApplicationVoidGrayBrush">#2A2A2A</SolidColorBrush>
 
@@ -153,12 +217,35 @@
                 </Setter>
             </Style>
 
+            <Style x:Name="ApplicationListViewDark" TargetType="ListView">
+                <Setter Property="ItemContainerStyle" Value="{ThemeResource ApplicationListViewItemDark}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style x:Name="ApplicationListViewItem" TargetType="ListViewItem">
                 <Setter Property="Margin" Value="2"/>
                 <Setter Property="Padding" Value="6"/>
                 <Setter Property="CornerRadius" Value="8"/>
                 <Setter Property="BorderThickness" Value="2"/>
-                <Setter Property="Background" Value="{ThemeResource ApplicationDarkGrayColor}"/>
+                <Setter Property="Background" Value="{ThemeResource ThemeBackgroundBrush}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Template" Value="{ThemeResource ListViewItemTemplateRound}"/>
+            </Style>
+
+            <Style x:Name="ApplicationListViewItemDark" TargetType="ListViewItem">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Background" Value="{ThemeResource ThemeBackgroundDarkBrush}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>

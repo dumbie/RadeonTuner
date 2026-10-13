@@ -74,6 +74,11 @@ const std::vector<std::wstring> ADL_FREESYNC_MODE =
 	L"Disabled", L"Variable", L"Static"
 };
 
+const std::vector<std::wstring> RADT_THEME_STYLE =
+{
+	L"Gray", L"Black", L"White"
+};
+
 //ADLX
 const std::vector<std::wstring> ADLX_RESULT_STRING =
 {

@@ -45,6 +45,16 @@ void SettingCheck()
 			AppVariables::Settings.Set("SkipSupportCheckGraphics", false);
 		}
 
+		if (!AppVariables::Settings.Check("ThemeStyle"))
+		{
+			AppVariables::Settings.Set("ThemeStyle", 0);
+		}
+
+		if (!AppVariables::Settings.Check("ThemeIconMono"))
+		{
+			AppVariables::Settings.Set("ThemeIconMono", false);
+		}
+
 		AVDebugWriteLine("Application settings checked.");
 	}
 	catch (...)

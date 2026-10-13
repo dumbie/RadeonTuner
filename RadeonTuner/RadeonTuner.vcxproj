@@ -86,6 +86,7 @@
     <ClInclude Include="AdlAppsSync.h" />
     <ClInclude Include="AdlCustomResolution.h" />
     <ClInclude Include="AdlCustomResolutionEvents.h" />
+    <ClInclude Include="AdlxLoopAccess.h" />
     <ClInclude Include="AdlxLoopDisplay.h" />
     <ClInclude Include="AdlxLoopEyefinity.h" />
     <ClInclude Include="AdlxLoopTuning.h" />
@@ -113,7 +114,7 @@
     <ClInclude Include="AdlTuningMetrics.h" />
     <ClInclude Include="AdlxEventsGraphics.h" />
     <ClInclude Include="AdlxEventsMultimedia.h" />
-    <ClInclude Include="AdlxLoopKeepActive.h" />
+    <ClInclude Include="AdlxLoopProfile.h" />
     <ClInclude Include="AdlxLoopMetrics.h" />
     <ClInclude Include="AdlxEventsTuning.h" />
     <ClInclude Include="AdlxResetShaderCache.h" />
@@ -243,67 +244,118 @@
     <CopyFileToFolders Include="Update.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="UpdateDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Plus.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PlusDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Cross.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="CrossDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Remove.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="RemoveDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Videocard.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="VideocardDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Information.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="InformationDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Apps.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="AppsDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Display.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="DisplayDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="DragDrop.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="DragDropDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Experimental.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ExperimentalDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fans.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="FansDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Graphics.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="GraphicsDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Multimedia.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="MultimediaDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Settings.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="SettingsDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Tuning.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="TuningDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Reset.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ResetDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Power.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerBoost.png">
-      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerReduce.png">
+    <CopyFileToFolders Include="PowerDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shutdown.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="ShutdownDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Warning.png">
+    <CopyFileToFolders Include="ShieldDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="WarningOrange.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="WarningRed.png">
@@ -312,7 +364,13 @@
     <CopyFileToFolders Include="Link.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="LinkDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Unlink.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="UnlinkDark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="StatusDisabled.png">
@@ -324,11 +382,20 @@
     <CopyFileToFolders Include="Checkmark.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="CheckmarkDark.png">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="LauncherSteam.png">
       <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">
       <DestinationFolders>$(OutDir)\Settings</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="AppIconColor.ico">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="AppIconMono.ico">
+      <DestinationFolders>$(OutDir)\Assets</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

@@ -66,7 +66,7 @@
     <ClInclude Include="AdlInitialize.h">
       <Filter>Page Files\Adl</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoopKeepActive.h">
+    <ClInclude Include="AdlxLoopProfile.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
     <ClInclude Include="AdlxLoopMetrics.h">
@@ -351,6 +351,9 @@
     <ClInclude Include="AdlCustomResolution.h">
       <Filter>Page Files\Display</Filter>
     </ClInclude>
+    <ClInclude Include="AdlxLoopAccess.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml">
@@ -462,13 +465,22 @@
     <CopyFileToFolders Include="Checkmark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="CheckmarkDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Link.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="LinkDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Unlink.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Warning.png">
+    <CopyFileToFolders Include="UnlinkDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="WarningOrange.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="WarningRed.png">
@@ -477,70 +489,127 @@
     <CopyFileToFolders Include="Shutdown.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="ShutdownDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="RadeonTuner.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Update.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="UpdateDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Plus.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="PlusDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Cross.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="CrossDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Remove.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="RemoveDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Videocard.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="VideocardDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Information.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="InformationDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Apps.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="AppsDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Display.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="DisplayDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="DragDrop.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="DragDropDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Experimental.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ExperimentalDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fans.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="FansDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Graphics.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="GraphicsDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Multimedia.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="MultimediaDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Settings.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="SettingsDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Tuning.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="TuningDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="Reset.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ResetDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Power.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerBoost.png">
-      <Filter>Asset Files</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="PowerReduce.png">
+    <CopyFileToFolders Include="PowerDark.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Shield.png">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="ShieldDark.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="LauncherSteam.png">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="AppIconColor.ico">
+      <Filter>Asset Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="AppIconMono.ico">
       <Filter>Asset Files</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Updater.json">

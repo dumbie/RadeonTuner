@@ -95,8 +95,14 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Load tray icon
-			HICON hTrayIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));
+			//Load application icon
+			std::wstring iconPath = L"Assets\\AppIconColor.ico";
+			std::optional<bool> setThemeIconMono = AppVariables::Settings.Load<bool>("ThemeIconMono");
+			if (setThemeIconMono.has_value() && setThemeIconMono.value())
+			{
+				iconPath = L"Assets\\AppIconMono.ico";
+			}
+			HICON iconHandle = (HICON)LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 
 			//Create tray data
 			NOTIFYICONDATA notifyIcon = { };
@@ -104,7 +110,7 @@ namespace winrt::RadeonTuner::implementation
 			notifyIcon.hWnd = _hWnd_MainWindow;
 			notifyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 			notifyIcon.uCallbackMessage = WM_TRAYICON_CALL;
-			notifyIcon.hIcon = hTrayIcon;
+			notifyIcon.hIcon = iconHandle;
 
 			//Set tray strings
 			std::wstring szTrayTip = L"RadeonTuner";
@@ -227,14 +233,7 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			if (_dispatcher.HasThreadAccess())
-			{
-				action();
-			}
-			else
-			{
-				_dispatcher.RunAsync(CoreDispatcherPriority::Normal, action);
-			}
+			_dispatcher.RunAsync(CoreDispatcherPriority::Normal, action);
 		}
 		catch (...) {}
 	}
@@ -333,8 +332,14 @@ namespace winrt::RadeonTuner::implementation
 			const LPCWSTR szWindowTitle = L"RadeonTuner";
 			const LPCWSTR szWindowClass = L"RadeonTunerMainWindow";
 
-			//Load window icon
-			HICON hWindowIcon = LoadIconW(hInstance, MAKEINTRESOURCE(ICON_APP));
+			//Load application icon
+			std::wstring iconPath = L"Assets\\AppIconColor.ico";
+			std::optional<bool> setThemeIconMono = AppVariables::Settings.Load<bool>("ThemeIconMono");
+			if (setThemeIconMono.has_value() && setThemeIconMono.value())
+			{
+				iconPath = L"Assets\\AppIconMono.ico";
+			}
+			HICON iconHandle = (HICON)LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 
 			//Register window class
 			WNDCLASSEX windowClass = { };
@@ -343,7 +348,7 @@ namespace winrt::RadeonTuner::implementation
 			windowClass.hInstance = hInstance;
 			windowClass.lpszClassName = szWindowClass;
 			windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOWFRAME);
-			windowClass.hIcon = hWindowIcon;
+			windowClass.hIcon = iconHandle;
 			if (RegisterClassExW(&windowClass) == NULL)
 			{
 				MessageBoxW(NULL, L"RegisterClassExW failed", L"Error", NULL);

@@ -197,6 +197,9 @@ namespace winrt::RadeonTuner::implementation
 		void ShowExperimentalSettings(BOOL silent);
 		void ShowNotification(std::wstring text);
 
+		void ThemeAdjustStyle();
+		std::wstring ThemeGetImagePath(std::wstring imageName, bool includeAppx);
+
 		void AdlxLoopMetrics();
 		void AdlxLoopProfile();
 
@@ -374,6 +377,8 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_FsrShowInformation_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		winrt::IAsyncAction toggleswitch_SkipSupportCheckGraphics_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Memory_Ecc_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void toggleswitch_ThemeIconMono_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 

@@ -189,4 +189,44 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ComboBox>();
+			int newValue = newSender.SelectedIndex();
+
+			//Update settings
+			AppVariables::Settings.Set("ThemeStyle", newValue);
+
+			//Adjust theme style
+			ThemeAdjustStyle();
+		}
+		catch (...) {}
+	}
+
+	void MainPage::toggleswitch_ThemeIconMono_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				AppVariables::Settings.Set("ThemeIconMono", true);
+			}
+			else
+			{
+				AppVariables::Settings.Set("ThemeIconMono", false);
+			}
+		}
+		catch (...) {}
+	}
 }
