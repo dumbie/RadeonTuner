@@ -42,6 +42,11 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.60.0.0 (14-October-2026)
+- Added Memory ECC mode (workstation) setting.
+- Prioritize and select dedicated GPU by default.
+- Added basic color themes.
+
 v0.50.0.0 (25-September-2026)
 - Added custom display resolution support.
 - Added setting to skip graphics support check.
