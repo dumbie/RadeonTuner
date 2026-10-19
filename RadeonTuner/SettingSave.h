@@ -229,4 +229,24 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				RegistrySet(HKEY_ENUM::LOCAL_MACHINE, L"Software\\Policies\\Microsoft\\Windows\\WindowsUpdate", L"ExcludeWUDriversInQualityUpdate", 1);
+			}
+			else
+			{
+				RegistrySet(HKEY_ENUM::LOCAL_MACHINE, L"Software\\Policies\\Microsoft\\Windows\\WindowsUpdate", L"ExcludeWUDriversInQualityUpdate", 0);
+			}
+		}
+		catch (...) {}
+	}
 }

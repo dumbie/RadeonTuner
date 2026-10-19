@@ -379,6 +379,7 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_Memory_Ecc_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_ThemeIconMono_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

@@ -22,49 +22,49 @@
             <ListView x:Name="listview_Main" Grid.Column="0" Padding="0,0,5,0" SelectionMode="Single" SelectionChanged="listview_Main_SelectionChanged" Style="{ThemeResource ApplicationListView}">
                 <ListViewItem x:Name="listviewitem_Tuning">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageTuning}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageTuning}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Tuning"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Fans" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageFans}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageFans}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Fans"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Graphics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageGraphics}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageGraphics}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Graphics"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Display" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageDisplay}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageDisplay}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Display"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Multimedia" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageMultimedia}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageMultimedia}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Multimedia"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageSettings}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageSettings}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Settings"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageInformation}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageInformation}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Information"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem x:Name="listviewitem_Exit" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel>
-                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageShutdown}" Width="50" Height="50"/>
+                        <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageShutdown}" Width="50" Height="50" Opacity="0.90"/>
                         <TextBlock HorizontalAlignment="Center" Text="Exit"/>
                     </StackPanel>
                 </ListViewItem>
@@ -93,7 +93,7 @@
                             <!-- Gpu Select -->
                             <Button x:Name="button_GpuSelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current graphics card" Click="button_GpuSelect_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageVideocard}" Width="28" Height="28"/>
+                                    <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageVideocard}" Width="30" Height="30"/>
                                     <TextBlock x:Name="textblock_GpuSelect" Text="Select graphics card" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 </StackPanel>
                             </Button>
@@ -101,7 +101,7 @@
                             <!-- Display Select -->
                             <Button x:Name="button_DisplaySelect" Margin="0,0,10,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Select current display" Click="button_DisplaySelect_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageDisplay}" Width="28" Height="28"/>
+                                    <Image HorizontalAlignment="Center" Source="{ThemeResource ThemeImageDisplay}" Width="30" Height="30"/>
                                     <TextBlock x:Name="textblock_DisplaySelect" Text="Select display" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 </StackPanel>
                             </Button>
@@ -1840,6 +1840,14 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Check if an application update is available when launching this application."/>
                                         <ToggleSwitch x:Name="toggleswitch_StartCheckUpdate" Margin="10,0,0,0" OffContent="Check for update on launch" OnContent="Check for update on launch" Toggled="toggleswitch_StartCheckUpdate_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Enabling this setting prevents Windows updates from installing and overwriting your manually installed AMD Radeon and other device drivers."/>
+                                        <Image x:Name="toggleswitch_UpdateExcludeDrivers_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                        <ToggleSwitch x:Name="toggleswitch_UpdateExcludeDrivers" Margin="10,0,0,0" OffContent="Exclude drivers from Windows updates" OnContent="Exclude drivers from Windows updates" Toggled="toggleswitch_UpdateExcludeDrivers_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
