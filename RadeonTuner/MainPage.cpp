@@ -311,7 +311,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrShowInformation().Visibility(Visibility::Visible);
 
 					textblock_FsrDllLoadPath().Visibility(Visibility::Collapsed);
-					textbox_FsrDllLoadPath().Width(NAN);
+					textblock_FsrDllLoadPathExperimental().Visibility(Visibility::Visible);
 
 					//Show notification
 					if (!silent)
@@ -332,7 +332,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrShowInformation().Visibility(Visibility::Collapsed);
 
 					textblock_FsrDllLoadPath().Visibility(Visibility::Visible);
-					textbox_FsrDllLoadPath().Width(0);
+					textblock_FsrDllLoadPathExperimental().Visibility(Visibility::Collapsed);
 
 					//Show notification
 					if (!silent)

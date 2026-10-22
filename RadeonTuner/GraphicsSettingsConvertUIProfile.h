@@ -48,7 +48,10 @@ namespace winrt::RadeonTuner::implementation
 			//FSR Override Library
 			if (graphicsSettings.FsrOvrDLLPath.Get(settingType).has_value())
 			{
-				textbox_FsrDllLoadPath().Text(graphicsSettings.FsrOvrDLLPath.Get(settingType).value());
+				//Set FSR library version information
+				std::wstring fsrOvrDllPath = graphicsSettings.FsrOvrDLLPath.Get(settingType).value();
+				FsrOverrideDllUpdateTextPathInfo(fsrOvrDllPath);
+				FsrOverrideDllUpdateTextVersion(fsrOvrDllPath);
 			}
 
 			//FSR Over-The-Air Updates

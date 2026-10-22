@@ -394,7 +394,7 @@
                                             <Button x:Name="button_FsrDllLoadPath_Set" Content="Set" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Set_Click"/>
                                             <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
                                             <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBox x:Name="textbox_FsrDllLoadPath" Width="0" Text="..." Margin="10,0,0,0" Style="{ThemeResource ApplicationTextBoxReadOnly}" VerticalAlignment="Center" TextChanging="textbox_FsrDllLoadPath_TextChanged"/>
+                                            <TextBlock x:Name="textblock_FsrDllLoadPathExperimental" Text="..." ToolTipService.ToolTip="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
 
                                         <!-- FSR Over-The-Air Updates -->

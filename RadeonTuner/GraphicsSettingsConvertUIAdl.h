@@ -213,24 +213,28 @@ namespace winrt::RadeonTuner::implementation
 				//Set setting
 				if (graphicsSettings.FsrOvrDLLPath.Current.has_value())
 				{
-					textbox_FsrDllLoadPath().Text(graphicsSettings.FsrOvrDLLPath.Current.value());
+					//Set FSR library version information
+					std::wstring fsrOvrDllPath = graphicsSettings.FsrOvrDLLPath.Current.value();
+					FsrOverrideDllUpdateTextPathInfo(fsrOvrDllPath);
+					FsrOverrideDllUpdateTextVersion(fsrOvrDllPath);
 				}
 				else if (graphicsSettings.FsrOvrDLLPath.Default.has_value())
 				{
-					textbox_FsrDllLoadPath().Text(graphicsSettings.FsrOvrDLLPath.Default.value());
+					//Set FSR library version information
+					std::wstring fsrOvrDllPath = graphicsSettings.FsrOvrDLLPath.Default.value();
+					FsrOverrideDllUpdateTextPathInfo(fsrOvrDllPath);
+					FsrOverrideDllUpdateTextVersion(fsrOvrDllPath);
 				}
 
 				//Enable or disable interface
 				button_FsrDllLoadPath_Default().IsEnabled(true);
 				button_FsrDllLoadPath_Set().IsEnabled(true);
-				textbox_FsrDllLoadPath().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
 				button_FsrDllLoadPath_Default().IsEnabled(false);
 				button_FsrDllLoadPath_Set().IsEnabled(false);
-				textbox_FsrDllLoadPath().IsEnabled(false);
 			}
 
 			//FSR Over-The-Air Updates

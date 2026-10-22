@@ -307,7 +307,6 @@ namespace winrt::RadeonTuner::implementation
 
 		void button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		void button_FsrDllLoadPath_Default_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextBoxTextChangingEventArgs const& e);
 		void FsrOverrideDllUpdateTextPathInfo(std::wstring dllPath);
 		void FsrOverrideDllUpdateTextVersion(std::wstring dllPath);
 		std::wstring FsrOverrideDllGetPathDefault();

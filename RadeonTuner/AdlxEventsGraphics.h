@@ -476,31 +476,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::textbox_FsrDllLoadPath_TextChanged(IInspectable const& sender, TextBoxTextChangingEventArgs const& e)
-	{
-		try
-		{
-			//Get setting value
-			auto newValueHstring = sender.as<TextBox>().Text();
-			auto newValue = hstring_to_wstring(newValueHstring);
-
-			//Set FSR library version information
-			FsrOverrideDllUpdateTextPathInfo(newValue);
-			FsrOverrideDllUpdateTextVersion(newValue);
-
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorIgnored);
-
-			//Update current value
-			graphicsSettingsProfile.FsrOvrDLLPath.Current = newValue;
-		}
-		catch (...) {}
-	}
-
 	void MainPage::button_FsrDllLoadPath_Set_Click(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -519,8 +494,16 @@ namespace winrt::RadeonTuner::implementation
 				return;
 			}
 
-			//Set text and trigger event
-			textbox_FsrDllLoadPath().Text(newValue);
+			//Set FSR library version information
+			FsrOverrideDllUpdateTextPathInfo(newValue);
+			FsrOverrideDllUpdateTextVersion(newValue);
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Graphics_Apply().Background(colorIgnored);
+
+			//Update current value
+			graphicsSettingsProfile.FsrOvrDLLPath.Current = newValue;
 		}
 		catch (...) {}
 	}
@@ -532,11 +515,18 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Get default FSR Override Library
-			std::wstring newValue = FsrOverrideDllGetPathDefault();
+			//Note: Setting empty string will make driver automatically select newest FSR library.
 
-			//Set text and trigger event
-			textbox_FsrDllLoadPath().Text(newValue);
+			//Set FSR library version information
+			FsrOverrideDllUpdateTextPathInfo(L" ");
+			FsrOverrideDllUpdateTextVersion(L" ");
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Graphics_Apply().Background(colorIgnored);
+
+			//Update current value
+			graphicsSettingsProfile.FsrOvrDLLPath.Current = L" ";
 		}
 		catch (...) {}
 	}
@@ -798,12 +788,13 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			int newValue = (int)e.NewValue();
+			int minValue = (int)slider_RadeonChill_Min().Value();
+			int maxValue = (int)slider_RadeonChill_Max().Value();
 
 			//Match values
-			if (newValue > slider_RadeonChill_Max().Value())
+			if (minValue > maxValue)
 			{
-				slider_RadeonChill_Max().Value(newValue);
+				slider_RadeonChill_Max().Value(minValue);
 			}
 
 			//Adjust button colors
@@ -811,7 +802,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsProfile.ChillMinFps.Current = newValue;
+			graphicsSettingsProfile.ChillMinFps.Current = minValue;
 		}
 		catch (...) {}
 	}
@@ -824,12 +815,13 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			int newValue = (int)e.NewValue();
+			int minValue = (int)slider_RadeonChill_Min().Value();
+			int maxValue = (int)slider_RadeonChill_Max().Value();
 
 			//Match values
-			if (radeon_Chill_Linked || newValue < slider_RadeonChill_Min().Value())
+			if (radeon_Chill_Linked || maxValue < minValue)
 			{
-				slider_RadeonChill_Min().Value(newValue);
+				slider_RadeonChill_Min().Value(maxValue);
 			}
 
 			//Adjust button colors
@@ -837,7 +829,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Graphics_Apply().Background(colorIgnored);
 
 			//Update current value
-			graphicsSettingsProfile.ChillMaxFps.Current = newValue;
+			graphicsSettingsProfile.ChillMaxFps.Current = maxValue;
 		}
 		catch (...) {}
 	}
@@ -853,7 +845,7 @@ namespace winrt::RadeonTuner::implementation
 			if (!radeon_Chill_Linked)
 			{
 				AVDebugWriteLine("Link Radeon Chill.");
-				auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Link.png"));
+				auto bitmapImage = winrt::BitmapImage(winrt::Uri(ThemeGetImagePath(L"Link", true)));
 				image_RadeonChill_Link().Source(bitmapImage);
 				slider_RadeonChill_Min().IsEnabled(false);
 				radeon_Chill_Linked = true;
@@ -861,7 +853,7 @@ namespace winrt::RadeonTuner::implementation
 			else
 			{
 				AVDebugWriteLine("Unlink Radeon Chill.");
-				auto bitmapImage = winrt::BitmapImage(winrt::Uri(L"ms-appx:///Assets/Unlink.png"));
+				auto bitmapImage = winrt::BitmapImage(winrt::Uri(ThemeGetImagePath(L"Unlink", true)));
 				image_RadeonChill_Link().Source(bitmapImage);
 				slider_RadeonChill_Min().IsEnabled(true);
 				radeon_Chill_Linked = false;

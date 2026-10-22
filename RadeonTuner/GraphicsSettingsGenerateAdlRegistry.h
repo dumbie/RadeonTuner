@@ -160,7 +160,7 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.FsrOvrDLLPath.Support = graphicsSettingsSupport.FsrOvrDLLPath.Support;
 
 				//Set default
-				graphicsSettings.FsrOvrDLLPath.Default = FsrOverrideDllGetPathDefault();
+				graphicsSettings.FsrOvrDLLPath.Default = L" ";
 
 				auto adlRegistry = AdlRegistrySettingGetString(gpuAdapterIndex, "UMD", "FsrOvrDLLPath", true);
 				if (adlRegistry.has_value())
@@ -230,7 +230,9 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.FrameGenEnabled.Support = graphicsSettingsSupport.FrameGenEnabled.Support;
 
 				int fmfEnabled = -1;
+				int fmfAlgorithm = -1;
 				adl_Res0 = _ADL2_DriverFrameGeneration_Settings_Get(adl_Context, gpuAdapterIndex, &fmfEnabled);
+				//adl_Res0 = _ADL2_DriverFrameGeneration_SettingsX2_Get(adl_Context, gpuAdapterIndex, &fmfEnabled, &fmfAlgorithm);
 				if (adl_Res0 == ADL_OK)
 				{
 					//Set current
