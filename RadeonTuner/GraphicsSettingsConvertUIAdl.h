@@ -303,6 +303,39 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FsrShowInformation().IsEnabled(false);
 			}
 
+			//FSR Disable ML Swapchain
+			if (graphicsSettings.FsrDisableMLSwapchain.Support)
+			{
+				//Get setting
+				int valueInt = 0;
+				if (graphicsSettings.FsrDisableMLSwapchain.Current.has_value())
+				{
+					valueInt = graphicsSettings.FsrDisableMLSwapchain.Current.value();
+				}
+				else if (graphicsSettings.FsrDisableMLSwapchain.Default.has_value())
+				{
+					valueInt = graphicsSettings.FsrDisableMLSwapchain.Default.value();
+				}
+
+				//Set setting value
+				toggleswitch_FsrDisableMLSwapchain().IsOn(valueInt);
+
+				//Set hint value
+				std::wstring valueHint = valueInt ? L"Enabled" : L"Disabled";
+				textblock_FsrDisableMLSwapchain_Value().Text(valueHint);
+
+				//Enable or disable interface
+				toggleswitch_FsrDisableMLSwapchain().IsEnabled(true);
+			}
+			else
+			{
+				//Set hint value
+				textblock_FsrDisableMLSwapchain_Value().Text(L"");
+
+				//Enable or disable interface
+				toggleswitch_FsrDisableMLSwapchain().IsEnabled(false);
+			}
+
 			//FSR Latency Reduction
 			if (graphicsSettings.DeLagEnabled.Support)
 			{

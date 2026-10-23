@@ -200,7 +200,21 @@ namespace winrt::RadeonTuner::implementation
 				graphicsSettings.FsrShowInformation.Default = 0;
 
 				//Set current
-				graphicsSettings.FsrShowInformation.Current = FsrShowInformationIsEnabled();
+				graphicsSettings.FsrShowInformation.Current = EnvironmentSettingGet(L"MLSR-WATERMARK");
+			}
+			catch (...) {}
+
+			//FSR Disable ML Swapchain
+			try
+			{
+				//Set support
+				graphicsSettings.FsrDisableMLSwapchain.Support = graphicsSettingsSupport.FsrDisableMLSwapchain.Support;
+
+				//Set default
+				graphicsSettings.FsrDisableMLSwapchain.Default = 0;
+
+				//Set current
+				graphicsSettings.FsrDisableMLSwapchain.Current = EnvironmentSettingGet(L"FFX_DISABLE_ML_SWAPCHAIN");
 			}
 			catch (...) {}
 

@@ -136,7 +136,7 @@
     <ClInclude Include="DisplaySettingsDetails.h" />
     <ClInclude Include="AdlEyefinityEvents.h" />
     <ClInclude Include="GraphicsFsrOverrideDll.h" />
-    <ClInclude Include="GraphicsFsrShowInformation.h" />
+    <ClInclude Include="GraphicsSettingsEnvironment.h" />
     <ClInclude Include="GraphicsSettingsApply.h" />
     <ClInclude Include="GraphicsSettingsClass.h" />
     <ClInclude Include="GraphicsSettingsConvertUIAdl.h" />

@@ -129,6 +129,11 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.FsrShowInformation.Current.value() != settingsAdl.FsrShowInformation.Current.value()) { return false; }
 			}
 
+			if (settingsProfile.FsrDisableMLSwapchain.Current.has_value() && settingsAdl.FsrDisableMLSwapchain.Current.has_value() && settingsAdl.FsrDisableMLSwapchain.Support)
+			{
+				if (settingsProfile.FsrDisableMLSwapchain.Current.value() != settingsAdl.FsrDisableMLSwapchain.Current.value()) { return false; }
+			}
+
 			if (settingsProfile.MfgOverride.Current.has_value() && settingsAdl.MfgOverride.Current.has_value() && settingsAdl.MfgOverride.Support)
 			{
 				if (settingsProfile.MfgOverride.Current.value() != settingsAdl.MfgOverride.Current.value()) { return false; }

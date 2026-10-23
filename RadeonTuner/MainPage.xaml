@@ -311,6 +311,18 @@
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrShowInformation_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             </StackPanel>
                                         </StackPanel>
+
+                                        <!-- FSR Disable ML Swapchain  -->
+                                        <StackPanel x:Name="stackpanel_FsrDisableMLSwapchain">
+                                            <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Disable the machine learning swapchain used by FSR features, this setting is also known as hardware flip metering which evenly distributes frames to increase smoothness and reduce stuttering.&#10;&#10;* Disabling the machine learning swapchain may decrease performance and smoothness."/>
+                                                <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
+                                                <ToggleSwitch x:Name="toggleswitch_FsrDisableMLSwapchain" Margin="10,0,0,0" OffContent="FSR Disable ML Swapchain" OnContent="FSR Disable ML Swapchain" Toggled="toggleswitch_FsrDisableMLSwapchain_Toggled"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrDisableMLSwapchain_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
 
@@ -322,7 +334,7 @@
                                         <!-- FSR Upscaling Override -->
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Overrides the application FSR feature with the latest version provided by the driver, allowing the driver for example to upgrade FSR3 to FSR4 or newer."/>
-                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or newer graphic cards and requires an application to have at least FSR 3.1.0 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
+                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA2 or newer graphic cards and requires an application to have at least FSR 3.1.0 support and external FSR dll file.&#10;&#10;* Some applications use a preset FSR version number text in the settings menu so even when the FSR Override is active and working you may still see the old version number text."/>
                                             <Image x:Name="image_FsrOverrideUpscaling_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <ToggleSwitch x:Name="toggleswitch_FsrOverrideUpscaling" Margin="10,0,0,0" OffContent="FSR Upscaling Override" OnContent="FSR Upscaling Override" Toggled="toggleswitch_FsrOverrideUpscaling_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOverrideUpscaling_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -386,7 +398,7 @@
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                             <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (amdxcffx dll) file that gets used when overriding FSR features in applications."/>
-                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA3 or newer graphic cards."/>
+                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                             <TextBlock Text="FSR Override Library" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{ThemeResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Currently used version"/>
                                         </StackPanel>
@@ -403,7 +415,7 @@
 
                                             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                                 <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Choose the source for AMD FSR Over-The-Air (OTA) updates. Use the driver's built-in package or receive newer builds Over-The-Air from AMD Install Manager."/>
-                                                <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA3 or newer graphic cards."/>
+                                                <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA2 or newer graphic cards."/>
                                                 <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
                                                 <TextBlock Text="FSR Over-The-Air Updates" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOtaUpdates_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -643,7 +655,7 @@
                                         <!-- Vertical Sync -->
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Vertical Sync synchronizes the transition to a new frame of animation with the display update so no tearing is visible between frames.&#10;&#10;* Limits the frame rate at the display's refresh rate."/>
-                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline."/>
+                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting may only work when using exclusive full-screen mode depending on the renderer pipeline.&#10;&#10;* Enabling vertical sync may decrease smoothness when using the 'FSR Frame Generation' feature in an application."/>
                                             <TextBlock Margin="10,0,0,0" Text="Vertical Sync" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_VerticalSync_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>

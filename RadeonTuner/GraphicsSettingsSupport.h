@@ -171,6 +171,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//FSR Disable ML Swapchain
+			try
+			{
+				graphicsSettings.FsrDisableMLSwapchain.Support = true;
+			}
+			catch (...) {}
+
 			//FSR Latency Reduction
 			try
 			{

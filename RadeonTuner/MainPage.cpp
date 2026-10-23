@@ -59,7 +59,7 @@
 #include "MultimediaSettingsMatch.h"
 
 #include "GraphicsFsrOverrideDll.h"
-#include "GraphicsFsrShowInformation.h"
+#include "GraphicsSettingsEnvironment.h"
 #include "GraphicsSettingsGenerateAdlApp.h"
 #include "GraphicsSettingsGenerateAdlRegistry.h"
 #include "GraphicsSettingsConvertUIAdl.h"
@@ -309,6 +309,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Visible);
+					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Visible);
 
 					textblock_FsrDllLoadPath().Visibility(Visibility::Collapsed);
 					textblock_FsrDllLoadPathExperimental().Visibility(Visibility::Visible);
@@ -330,6 +331,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Collapsed);
+					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Collapsed);
 
 					textblock_FsrDllLoadPath().Visibility(Visibility::Visible);
 					textblock_FsrDllLoadPathExperimental().Visibility(Visibility::Collapsed);

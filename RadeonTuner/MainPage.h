@@ -312,8 +312,9 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring FsrOverrideDllGetPathDefault();
 		std::wstring FsrOverrideDllGetPathSet(bool globalPath);
 
-		bool FsrShowInformationIsEnabled();
-		bool FsrShowInformationToggle(bool enabled);
+		bool EnvironmentSettingGet(std::wstring settingName);
+		bool EnvironmentSettingRemove(std::wstring settingName);
+		bool EnvironmentSettingSet(std::wstring settingName, bool enabled);
 
 		void DisplaySettings_Resolution_Revert();
 		void DisplaySettings_Confirm_Resolution_Start();
@@ -379,6 +380,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_ThemeIconMono_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FsrDisableMLSwapchain_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 	};
 }
 

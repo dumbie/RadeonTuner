@@ -211,6 +211,7 @@ namespace winrt::RadeonTuner::implementation
 				{
 					//Get value
 					auto newValue = targetSettings.FsrOvrDLLPath.Get(settingGet).value();
+					AVDebugWriteLine("Saving FSR Override Library path: " << newValue);
 
 					//Check application type
 					if (targetSettings.Global())
@@ -277,7 +278,34 @@ namespace winrt::RadeonTuner::implementation
 					if (targetSettings.Global())
 					{
 						//Set setting
-						FsrShowInformationToggle(newValue);
+						if ((bool)newValue)
+						{
+							EnvironmentSettingSet(L"MLSR-WATERMARK", newValue);
+							EnvironmentSettingSet(L"MLFI-WATERMARK", newValue);
+						}
+						else
+						{
+							EnvironmentSettingRemove(L"MLSR-WATERMARK");
+							EnvironmentSettingRemove(L"MLFI-WATERMARK");
+						}
+					}
+				}
+			}
+			catch (...) {}
+
+			//FSR Disable ML Swapchain
+			try
+			{
+				if (targetSettings.FsrDisableMLSwapchain.Get(settingGet).has_value())
+				{
+					//Get value
+					auto newValue = targetSettings.FsrDisableMLSwapchain.Get(settingGet).value();
+
+					//Check application type
+					if (targetSettings.Global())
+					{
+						//Set setting
+						EnvironmentSettingSet(L"FFX_DISABLE_ML_SWAPCHAIN", newValue);
 					}
 				}
 			}

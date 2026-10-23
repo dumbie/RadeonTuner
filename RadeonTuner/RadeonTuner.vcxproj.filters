@@ -327,7 +327,7 @@
     <ClInclude Include="AdlxLoopTuning.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsFsrShowInformation.h">
+    <ClInclude Include="GraphicsSettingsEnvironment.h">
       <Filter>Page Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="ADL\oem_structures.h">

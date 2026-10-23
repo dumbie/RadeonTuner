@@ -66,6 +66,12 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FsrShowInformation().IsOn(graphicsSettings.FsrShowInformation.Get(settingType).value());
 			}
 
+			//FSR Disable ML Swapchain
+			if (graphicsSettings.FsrDisableMLSwapchain.Get(settingType).has_value())
+			{
+				toggleswitch_FsrDisableMLSwapchain().IsOn(graphicsSettings.FsrDisableMLSwapchain.Get(settingType).value());
+			}
+
 			//FSR Latency Reduction
 			if (graphicsSettings.DeLagEnabled.Get(settingType).has_value())
 			{
