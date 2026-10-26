@@ -343,11 +343,7 @@ namespace winrt::RadeonTuner::implementation
 
 		void toggleswitch_Display_HdrEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		winrt::IAsyncAction button_Multimedia_Reset_Click(IInspectable const& sender, RoutedEventArgs const& e);
-		void combobox_FsrOtaUpdates_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_FrameGenEnabled_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_FrameGenAlgorithm_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_KeepActive_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Memory_Timing_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);

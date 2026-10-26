@@ -79,21 +79,6 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.FrameGenEnabled.Current.value() != settingsAdl.FrameGenEnabled.Current.value()) { return false; }
 			}
 
-			if (settingsProfile.FrameGenSearchMode.Current.has_value() && settingsAdl.FrameGenSearchMode.Current.has_value() && settingsAdl.FrameGenSearchMode.Support)
-			{
-				if (settingsProfile.FrameGenSearchMode.Current.value() != settingsAdl.FrameGenSearchMode.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.FrameGenPerfMode.Current.has_value() && settingsAdl.FrameGenPerfMode.Current.has_value() && settingsAdl.FrameGenPerfMode.Support)
-			{
-				if (settingsProfile.FrameGenPerfMode.Current.value() != settingsAdl.FrameGenPerfMode.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.FrameGenResponseMode.Current.has_value() && settingsAdl.FrameGenResponseMode.Current.has_value() && settingsAdl.FrameGenResponseMode.Support)
-			{
-				if (settingsProfile.FrameGenResponseMode.Current.value() != settingsAdl.FrameGenResponseMode.Current.value()) { return false; }
-			}
-
 			if (settingsProfile.FrameGenAlgorithm.Current.has_value() && settingsAdl.FrameGenAlgorithm.Current.has_value() && settingsAdl.FrameGenAlgorithm.Support)
 			{
 				if (settingsProfile.FrameGenAlgorithm.Current.value() != settingsAdl.FrameGenAlgorithm.Current.value()) { return false; }
@@ -107,11 +92,6 @@ namespace winrt::RadeonTuner::implementation
 			if (settingsProfile.FrtcFrameRateTarget.Current.has_value() && settingsAdl.FrtcFrameRateTarget.Current.has_value() && settingsAdl.FrtcFrameRateTarget.Support)
 			{
 				if (settingsProfile.FrtcFrameRateTarget.Current.value() != settingsAdl.FrtcFrameRateTarget.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.FsrOtaIndex.Current.has_value() && settingsAdl.FsrOtaIndex.Current.has_value() && settingsAdl.FsrOtaIndex.Support)
-			{
-				if (settingsProfile.FsrOtaIndex.Current.value() != settingsAdl.FsrOtaIndex.Current.value()) { return false; }
 			}
 
 			if (settingsProfile.FsrOverride.Current.has_value() && settingsAdl.FsrOverride.Current.has_value() && settingsAdl.FsrOverride.Support)

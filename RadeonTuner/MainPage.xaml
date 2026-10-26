@@ -397,7 +397,7 @@
                                         <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
 
                                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (amdxcffx dll) file that gets used when overriding FSR features in applications."/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Manually choose the FSR Library (amdxcffx dll) file that gets used when overriding FSR features in applications.&#10;&#10;* Override only works when upgrading the library in an application, older versions may be ignored."/>
                                             <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* When playing online games make sure to use an officially signed version by AMD to prevent getting into trouble with the games anti-cheat protection.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                             <TextBlock Text="FSR Override Library" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock x:Name="textblock_FsrDllVersion" Text="?.?.?.?" Foreground="{ThemeResource ApplicationDimGrayBrush}" Margin="5,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Currently used version"/>
@@ -407,21 +407,6 @@
                                             <Button x:Name="button_FsrDllLoadPath_Default" Content="Default" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" Click="button_FsrDllLoadPath_Default_Click"/>
                                             <TextBlock x:Name="textblock_FsrDllLoadPath" Text="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock x:Name="textblock_FsrDllLoadPathExperimental" Text="..." ToolTipService.ToolTip="..." Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-
-                                        <!-- FSR Over-The-Air Updates -->
-                                        <StackPanel x:Name="stackpanel_FsrOtaUpdates">
-                                            <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
-
-                                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Choose the source for AMD FSR Over-The-Air (OTA) updates. Use the driver's built-in package or receive newer builds Over-The-Air from AMD Install Manager."/>
-                                                <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on RDNA2 or newer graphic cards."/>
-                                                <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
-                                                <TextBlock Text="FSR Over-The-Air Updates" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_FsrOtaUpdates_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                            </StackPanel>
-
-                                            <ComboBox x:Name="combobox_FsrOtaUpdates" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FsrOtaUpdates_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
@@ -446,40 +431,7 @@
 
                                                 <StackPanel Margin="0,10,0,0">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Adjusts Fluid Motion Frames search mode to respond better to high-motion scenes and improve smoothness."/>
-                                                        <TextBlock Margin="10,0,0,0" Text="Search Mode" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenSearchMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                    </StackPanel>
-                                                    <ComboBox x:Name="combobox_FrameGenSearchMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenSearchMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                                </StackPanel>
-
-                                                <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
-
-                                                <StackPanel Margin="0,10,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Reduces the potential performance overhead of Fluid Motion but may lower the image quality during high-motion scenes."/>
-                                                        <TextBlock Margin="10,0,0,0" Text="Performance Mode" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenPerfMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                    </StackPanel>
-                                                    <ComboBox x:Name="combobox_FrameGenPerfMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenPerfMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                                </StackPanel>
-
-                                                <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
-
-                                                <StackPanel Margin="0,10,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Configure AFMF's response to fast motion to either use a 'Repeat Frame' to maintain image quality or 'Blended Frame' for smoother motion."/>
-                                                        <TextBlock Margin="10,0,0,0" Text="Fast Motion Response" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenResponseMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                    </StackPanel>
-                                                    <ComboBox x:Name="combobox_FrameGenResponseMode" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_FrameGenResponseMode_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
-                                                </StackPanel>
-
-                                                <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
-
-                                                <StackPanel Margin="0,10,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Adjusts the Fluid Motion Frames algorithm used."/>
+                                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Adjusts the used Fluid Motion Frames algorithm."/>
                                                         <TextBlock Margin="10,0,0,0" Text="Algorithm" VerticalAlignment="Center"/>
                                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_FrameGenAlgorithm_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                                     </StackPanel>

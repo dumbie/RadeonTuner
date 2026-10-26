@@ -68,6 +68,14 @@ typedef struct ADL_DELAG_NOTIFICATION_REASONX4
 	int IndicatorHotKeyChanged; //Set when IndicatorHotKey value is changed
 };
 
+typedef struct ADL_FRAMEGENERATION_SETTINGSX2
+{
+	int Enable; //Enable value
+	int Unknown1;
+	int Unknown2;
+	int Unknown3;
+};
+
 typedef struct AdlGammaRamp
 {
 	uint32_t rgb[1024];

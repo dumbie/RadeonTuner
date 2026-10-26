@@ -92,10 +92,16 @@ namespace winrt::RadeonTuner::implementation
 
 			//FSR Override Library
 			{
-				//Not supported
+				AdlAppProperty adlAppProperty0{};
+				adlAppProperty0.Name = L"FfxDllPath";
+				AdlAppPropertyValue adlAppPropertyValue0{};
+				adlAppPropertyValue0.GpuId = adl_Gpu_UniqueIdentifierHex;
+				adlAppPropertyValue0.Value = graphicsSettings.FsrOvrDLLPath.Default.value();
+				adlAppProperty0.Values = { adlAppPropertyValue0 };
+				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//FSR Over-The-Air Updates
+			//FSR Show Information
 			{
 				//Not supported
 			}
@@ -166,7 +172,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Image Sharpening 1
+			//Radeon Image Sharpening
 			{
 				AdlAppProperty adlAppProperty0{};
 				adlAppProperty0.Name = L"Ris_PFEnable";
@@ -177,7 +183,12 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Radeon Image Sharpening 1 Sharpness
+			//Radeon Image Sharpening - Desktop
+			{
+				//Not supported
+			}
+
+			//Radeon Image Sharpening - Sharpness
 			{
 				float newValue = (float)graphicsSettings.RisSharpeningDegree.Default.value() / 100;
 
@@ -188,11 +199,6 @@ namespace winrt::RadeonTuner::implementation
 				adlAppPropertyValue0.Value = float_to_wstring(newValue, 1);
 				adlAppProperty0.Values = { adlAppPropertyValue0 };
 				adlAppProperties.push_back(adlAppProperty0);
-			}
-
-			//Radeon Image Sharpening 2
-			{
-				//Not supported
 			}
 
 			//Enhanced Sync
@@ -217,7 +223,7 @@ namespace winrt::RadeonTuner::implementation
 				adlAppProperties.push_back(adlAppProperty0);
 			}
 
-			//Frame Rate Target Control
+			//Radeon Frame Rate Target Control
 			{
 				//Not supported
 			}

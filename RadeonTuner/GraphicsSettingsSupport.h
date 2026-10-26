@@ -142,28 +142,6 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//FSR Over-The-Air Updates
-			try
-			{
-				//Fix switch to ADL2_CloudProfile_DLL_Get
-
-				if (skipSupportCheckGraphicsBool)
-				{
-					graphicsSettings.FsrOtaIndex.Support = true;
-				}
-				else
-				{
-					//Get feature support
-					int featureSupport = -1;
-					adl_Res0 = _ADL2_DriverMLSRSupport_Get(adl_Context, gpuAdapterIndex, &featureSupport);
-					if (adl_Res0 == ADL_OK)
-					{
-						graphicsSettings.FsrOtaIndex.Support = featureSupport;
-					}
-				}
-			}
-			catch (...) {}
-
 			//FSR Show Information
 			try
 			{
@@ -204,9 +182,6 @@ namespace winrt::RadeonTuner::implementation
 				if (skipSupportCheckGraphicsBool)
 				{
 					graphicsSettings.FrameGenEnabled.Support = true;
-					graphicsSettings.FrameGenSearchMode.Support = true;
-					graphicsSettings.FrameGenPerfMode.Support = true;
-					graphicsSettings.FrameGenResponseMode.Support = true;
 					graphicsSettings.FrameGenAlgorithm.Support = true;
 				}
 				else
@@ -217,9 +192,6 @@ namespace winrt::RadeonTuner::implementation
 					if (adl_Res0 == ADL_OK)
 					{
 						graphicsSettings.FrameGenEnabled.Support = featureSupport;
-						graphicsSettings.FrameGenSearchMode.Support = featureSupport;
-						graphicsSettings.FrameGenPerfMode.Support = featureSupport;
-						graphicsSettings.FrameGenResponseMode.Support = featureSupport;
 						graphicsSettings.FrameGenAlgorithm.Support = featureSupport;
 					}
 				}

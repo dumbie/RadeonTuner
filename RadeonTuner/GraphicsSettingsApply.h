@@ -221,46 +221,14 @@ namespace winrt::RadeonTuner::implementation
 					}
 					else
 					{
-						//Note: Disabled because setting does not seem to work.
-						////Set application properties
-						//AdlAppProperty adlAppProperty0{};
-						//adlAppProperty0.Name = L"FfxDllPath";
-						//AdlAppPropertyValue adlAppPropertyValue0{};
-						//adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-						//adlAppPropertyValue0.Value = newValue;
-						//adlAppProperty0.Values = { adlAppPropertyValue0 };
-						//adlAppProperties.push_back(adlAppProperty0);
-					}
-				}
-			}
-			catch (...) {}
-
-			//FSR Over-The-Air Updates
-			//Note: AMD Adrenalin also changes the FsrOvrDLLPath to the selected value switching between amdxcffx64techpreview.dll and amdxcffx64.dll.
-			try
-			{
-				if (targetSettings.FsrOtaIndex.Get(settingGet).has_value())
-				{
-					//Get value
-					auto newValue = targetSettings.FsrOtaIndex.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
-					{
-						//Set setting
-						AdlRegistrySettingSet(gpuAdapterIndex, "UMD", "FsrOtaIndex", number_to_wstring(newValue));
-					}
-					else
-					{
-						//Note: Disabled because setting does not seem to work.
-						////Set application properties
-						//AdlAppProperty adlAppProperty0{};
-						//adlAppProperty0.Name = L"FsrOtaIndex";
-						//AdlAppPropertyValue adlAppPropertyValue0{};
-						//adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
-						//adlAppPropertyValue0.Value = number_to_wstring(newValue);
-						//adlAppProperty0.Values = { adlAppPropertyValue0 };
-						//adlAppProperties.push_back(adlAppProperty0);
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"FfxDllPath";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = newValue;
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 					}
 				}
 			}
@@ -414,88 +382,43 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Fluid Motion Frames
 			try
 			{
-				if (targetSettings.FrameGenEnabled.Get(settingGet).has_value())
+				if (targetSettings.FrameGenEnabled.Get(settingGet).has_value() && targetSettings.FrameGenAlgorithm.Get(settingGet).has_value())
 				{
 					//Get value
-					auto newValue = targetSettings.FrameGenEnabled.Get(settingGet).value();
+					auto newValueEnabled = targetSettings.FrameGenEnabled.Get(settingGet).value();
+					auto newValueAlgorithm = targetSettings.FrameGenAlgorithm.Get(settingGet).value();
 
 					//Check application type
 					if (targetSettings.Global())
 					{
+						ADL_FRAMEGENERATION_SETTINGSX2 framegenEnabled{};
+						framegenEnabled.Enable = newValueEnabled;
+
+						ADL_FRAMEGENERATION_SETTINGSX2 framegenAlgorithm{};
+						framegenAlgorithm.Enable = newValueAlgorithm;
+
 						//Set setting
-						adl_Res0 = _ADL2_DriverFrameGeneration_Settings_Set(adl_Context, gpuAdapterIndex, newValue);
+						//Universal AFMF UMD DrvFrameGenEnabled DrvFrameGenAlgorithm 26.9.2
+						adl_Res0 = _ADL2_DriverFrameGeneration_SettingsX2_Set(adl_Context, gpuAdapterIndex, framegenEnabled, framegenAlgorithm);
 					}
-				}
-			}
-			catch (...) {}
-
-			//Radeon Fluid Motion Frames - Search Mode
-			try
-			{
-				if (targetSettings.FrameGenSearchMode.Get(settingGet).has_value())
-				{
-					//Get value
-					auto newValue = targetSettings.FrameGenSearchMode.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
+					else
 					{
-						//Set setting
-						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenSearchMode", newValue);
-					}
-				}
-			}
-			catch (...) {}
+						//Set application properties
+						AdlAppProperty adlAppProperty0{};
+						adlAppProperty0.Name = L"UFG_PFEnabled";
+						AdlAppPropertyValue adlAppPropertyValue0{};
+						adlAppPropertyValue0.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue0.Value = number_to_wstring(newValueEnabled);
+						adlAppProperty0.Values = { adlAppPropertyValue0 };
+						adlAppProperties.push_back(adlAppProperty0);
 
-			//Radeon Fluid Motion Frames - Performance Mode
-			try
-			{
-				if (targetSettings.FrameGenPerfMode.Get(settingGet).has_value())
-				{
-					//Get value
-					auto newValue = targetSettings.FrameGenPerfMode.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
-					{
-						//Set setting
-						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenPerfMode", newValue);
-					}
-				}
-			}
-			catch (...) {}
-
-			//Radeon Fluid Motion Frames - Response Mode
-			try
-			{
-				if (targetSettings.FrameGenResponseMode.Get(settingGet).has_value())
-				{
-					//Get value
-					auto newValue = targetSettings.FrameGenResponseMode.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
-					{
-						//Set setting
-						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenFallbackMode", newValue);
-					}
-				}
-			}
-			catch (...) {}
-
-			//Radeon Fluid Motion Frames - Algorithm
-			try
-			{
-				if (targetSettings.FrameGenAlgorithm.Get(settingGet).has_value())
-				{
-					//Get value
-					auto newValue = targetSettings.FrameGenAlgorithm.Get(settingGet).value();
-
-					//Check application type
-					if (targetSettings.Global())
-					{
-						//Set setting
-						RegistrySet(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\DVR", L"FrameGenAlgorithm", newValue);
+						AdlAppProperty adlAppProperty1{};
+						adlAppProperty1.Name = L"UFG_Algo";
+						AdlAppPropertyValue adlAppPropertyValue1{};
+						adlAppPropertyValue1.GpuId = gpuUniqueIdentifierHex;
+						adlAppPropertyValue1.Value = number_to_wstring(newValueAlgorithm);
+						adlAppProperty1.Values = { adlAppPropertyValue1 };
+						adlAppProperties.push_back(adlAppProperty1);
 					}
 				}
 			}
@@ -690,6 +613,15 @@ namespace winrt::RadeonTuner::implementation
 						adlAppPropertyValue1.Value = number_to_wstring(setValueAdaptive);
 						adlAppProperty1.Values = { adlAppPropertyValue1 };
 						adlAppProperties.push_back(adlAppProperty1);
+
+						//Universal Variable Rate Shading Boost 26.9.2
+						//AdlAppProperty adlAppProperty2{};
+						//adlAppProperty2.Name = L"Bst_UvrsPFEnbl";
+						//AdlAppPropertyValue adlAppPropertyValue2{};
+						//adlAppPropertyValue2.GpuId = gpuUniqueIdentifierHex;
+						//adlAppPropertyValue2.Value = number_to_wstring(setValueAdaptive);
+						//adlAppProperty2.Values = { adlAppPropertyValue2 };
+						//adlAppProperties.push_back(adlAppProperty2);
 					}
 				}
 			}

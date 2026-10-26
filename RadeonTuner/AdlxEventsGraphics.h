@@ -552,28 +552,6 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::combobox_FsrOtaUpdates_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Fix check if ADL2_CloudProfile_DLL_Get is used to trigger update or get dll path.
-
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorIgnored);
-
-			//Update current value
-			graphicsSettingsProfile.FsrOtaIndex.Current = newValue;
-		}
-		catch (...) {}
-	}
-
 	void MainPage::toggleswitch_FsrLatencyReduction_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -655,16 +633,10 @@ namespace winrt::RadeonTuner::implementation
 			//Update interface
 			if (newValue)
 			{
-				combobox_FrameGenSearchMode().IsEnabled(true);
-				combobox_FrameGenPerfMode().IsEnabled(true);
-				combobox_FrameGenResponseMode().IsEnabled(true);
 				combobox_FrameGenAlgorithm().IsEnabled(true);
 			}
 			else
 			{
-				combobox_FrameGenSearchMode().IsEnabled(false);
-				combobox_FrameGenPerfMode().IsEnabled(false);
-				combobox_FrameGenResponseMode().IsEnabled(false);
 				combobox_FrameGenAlgorithm().IsEnabled(false);
 			}
 
@@ -674,66 +646,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			graphicsSettingsProfile.FrameGenEnabled.Current = newValue;
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenSearchMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorIgnored);
-
-			//Update current value
-			graphicsSettingsProfile.FrameGenSearchMode.Current = newValue;
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenPerfMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorIgnored);
-
-			//Update current value
-			graphicsSettingsProfile.FrameGenPerfMode.Current = newValue;
-		}
-		catch (...) {}
-	}
-
-	void MainPage::combobox_FrameGenResponseMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newValue = sender.as<ComboBox>().SelectedIndex();
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Graphics_Apply().Background(colorIgnored);
-
-			//Update current value
-			graphicsSettingsProfile.FrameGenResponseMode.Current = newValue;
 		}
 		catch (...) {}
 	}

@@ -501,6 +501,20 @@ namespace winrt::RadeonTuner::implementation
 				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGeneration_Settings_Set");
 			}
 
+			_ADL2_DriverFrameGeneration_SettingsX2_Get = (ADL2_DriverFrameGeneration_SettingsX2_Get)GetProcAddress(hInstance, "ADL2_DriverFrameGeneration_SettingsX2_Get");
+			if (_ADL2_DriverFrameGeneration_SettingsX2_Get == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGeneration_SettingsX2_Get");
+			}
+
+			_ADL2_DriverFrameGeneration_SettingsX2_Set = (ADL2_DriverFrameGeneration_SettingsX2_Set)GetProcAddress(hInstance, "ADL2_DriverFrameGeneration_SettingsX2_Set");
+			if (_ADL2_DriverFrameGeneration_SettingsX2_Set == NULL)
+			{
+				//Set result
+				AVDebugWriteLine("Failed to init _ADL2_DriverFrameGeneration_SettingsX2_Set");
+			}
+
 			//Graphics - FSR Upscaling Override
 			_ADL2_DriverMLSRSupport_Get = (ADL2_DriverMLSRSupport_Get)GetProcAddress(hInstance, "ADL2_DriverMLSRSupport_Get");
 			if (_ADL2_DriverMLSRSupport_Get == NULL)

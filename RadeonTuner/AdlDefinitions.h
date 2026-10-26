@@ -165,6 +165,12 @@ inline ADL2_DriverFrameGeneration_Settings_Get _ADL2_DriverFrameGeneration_Setti
 typedef int (*ADL2_DriverFrameGeneration_Settings_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int iEnabled);
 inline ADL2_DriverFrameGeneration_Settings_Set _ADL2_DriverFrameGeneration_Settings_Set;
 
+typedef int (*ADL2_DriverFrameGeneration_SettingsX2_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRAMEGENERATION_SETTINGSX2* enabled, ADL_FRAMEGENERATION_SETTINGSX2* algorithm);
+inline ADL2_DriverFrameGeneration_SettingsX2_Get _ADL2_DriverFrameGeneration_SettingsX2_Get;
+
+typedef int (*ADL2_DriverFrameGeneration_SettingsX2_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_FRAMEGENERATION_SETTINGSX2 enabled, ADL_FRAMEGENERATION_SETTINGSX2 algorithm);
+inline ADL2_DriverFrameGeneration_SettingsX2_Set _ADL2_DriverFrameGeneration_SettingsX2_Set;
+
 //Graphics - FSR Upscaling Override
 typedef int (*ADL2_DriverMLSRSupport_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, int* iSupported);
 inline ADL2_DriverMLSRSupport_Get _ADL2_DriverMLSRSupport_Get;

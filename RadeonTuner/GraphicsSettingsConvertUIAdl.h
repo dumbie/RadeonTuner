@@ -237,39 +237,6 @@ namespace winrt::RadeonTuner::implementation
 				button_FsrDllLoadPath_Set().IsEnabled(false);
 			}
 
-			//FSR Over-The-Air Updates
-			if (graphicsSettings.FsrOtaIndex.Support)
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FsrOtaIndex.Current.has_value())
-				{
-					valueInt = graphicsSettings.FsrOtaIndex.Current.value();
-				}
-				else if (graphicsSettings.FsrOtaIndex.Default.has_value())
-				{
-					valueInt = graphicsSettings.FsrOtaIndex.Default.value();
-				}
-
-				//Set setting value
-				combobox_FsrOtaUpdates().SelectedIndex(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = REGISTRY_FSR_OTA_CONTROL_STRING[valueInt];
-				textblock_FsrOtaUpdates_Value().Text(valueHint);
-
-				//Enable or disable interface
-				combobox_FsrOtaUpdates().IsEnabled(true);
-			}
-			else
-			{
-				//Set hint value
-				textblock_FsrOtaUpdates_Value().Text(L"");
-
-				//Enable or disable interface
-				combobox_FsrOtaUpdates().IsEnabled(false);
-			}
-
 			//FSR Show Information
 			if (graphicsSettings.FsrShowInformation.Support)
 			{
@@ -369,7 +336,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_FsrLatencyReduction().IsEnabled(false);
 			}
 
-			//Radeon Fluid Motion Frames
+			//Radeon Fluid Motion Frames - Enabled
 			if (graphicsSettings.FrameGenEnabled.Support)
 			{
 				//Get setting
@@ -392,9 +359,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_FrameGenEnabled().IsEnabled(true);
-				combobox_FrameGenSearchMode().IsEnabled(valueInt);
-				combobox_FrameGenPerfMode().IsEnabled(valueInt);
-				combobox_FrameGenResponseMode().IsEnabled(valueInt);
 				combobox_FrameGenAlgorithm().IsEnabled(valueInt);
 			}
 			else
@@ -404,96 +368,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				toggleswitch_FrameGenEnabled().IsEnabled(false);
-			}
-
-			//Radeon Fluid Motion Frames - Search Mode
-			if (graphicsSettings.FrameGenSearchMode.Support)
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrameGenSearchMode.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenSearchMode.Current.value();
-				}
-				else if (graphicsSettings.FrameGenSearchMode.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenSearchMode.Default.value();
-				}
-
-				//Set setting value
-				combobox_FrameGenSearchMode().SelectedIndex(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[valueInt];
-				textblock_FrameGenSearchMode_Value().Text(valueHint);
-			}
-			else
-			{
-				//Set hint value
-				textblock_FrameGenSearchMode_Value().Text(L"");
-
-				//Enable or disable interface
-				combobox_FrameGenSearchMode().IsEnabled(false);
-			}
-
-			//Radeon Fluid Motion Frames - Performance Mode
-			if (graphicsSettings.FrameGenPerfMode.Support)
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrameGenPerfMode.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenPerfMode.Current.value();
-				}
-				else if (graphicsSettings.FrameGenPerfMode.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenPerfMode.Default.value();
-				}
-
-				//Set setting value
-				combobox_FrameGenPerfMode().SelectedIndex(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[valueInt];
-				textblock_FrameGenPerfMode_Value().Text(valueHint);
-			}
-			else
-			{
-				//Set hint value
-				textblock_FrameGenPerfMode_Value().Text(L"");
-
-				//Enable or disable interface
-				combobox_FrameGenPerfMode().IsEnabled(false);
-			}
-
-			//Radeon Fluid Motion Frames - Response Mode
-			if (graphicsSettings.FrameGenResponseMode.Support)
-			{
-				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrameGenResponseMode.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenResponseMode.Current.value();
-				}
-				else if (graphicsSettings.FrameGenResponseMode.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenResponseMode.Default.value();
-				}
-
-				//Set setting value
-				combobox_FrameGenResponseMode().SelectedIndex(valueInt);
-
-				//Set hint value
-				std::wstring valueHint = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[valueInt];
-				textblock_FrameGenResponseMode_Value().Text(valueHint);
-			}
-			else
-			{
-				//Set hint value
-				textblock_FrameGenResponseMode_Value().Text(L"");
-
-				//Enable or disable interface
-				combobox_FrameGenResponseMode().IsEnabled(false);
 			}
 
 			//Radeon Fluid Motion Frames - Algorithm

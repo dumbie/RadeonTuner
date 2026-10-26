@@ -181,46 +181,6 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
-			//List all FSR Over-The-Air Updates
-			{
-				auto itemCollection = combobox_FsrOtaUpdates().Items();
-				UINT appendCount = REGISTRY_FSR_OTA_CONTROL_STRING.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(REGISTRY_FSR_OTA_CONTROL_STRING[i]));
-				}
-			}
-
-			//List all fluid motion search modes
-			{
-				auto itemCollection = combobox_FrameGenSearchMode().Items();
-				UINT appendCount = REGISTRY_FRAMEGEN_SEARCH_MODE_STRING.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_SEARCH_MODE_STRING[i]));
-				}
-			}
-
-			//List all fluid motion performance modes
-			{
-				auto itemCollection = combobox_FrameGenPerfMode().Items();
-				UINT appendCount = REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_PERFORMANCE_MODE_STRING[i]));
-				}
-			}
-
-			//List all fluid motion response modes
-			{
-				auto itemCollection = combobox_FrameGenResponseMode().Items();
-				UINT appendCount = REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING.size();
-				for (UINT i = 0; i < appendCount; i++)
-				{
-					itemCollection.Append(box_value(REGISTRY_FRAMEGEN_RESPONSE_MODE_STRING[i]));
-				}
-			}
-
 			//List all fluid motion algorithm modes
 			{
 				auto itemCollection = combobox_FrameGenAlgorithm().Items();

@@ -14,7 +14,6 @@ struct GraphicsSettings
 	AdlSettingInt MldOverride;
 	AdlSettingInt NrcOverride;
 	AdlSettingString FsrOvrDLLPath;
-	AdlSettingInt FsrOtaIndex;
 	AdlSettingInt ChillEnabled;
 	AdlSettingInt ChillMinFps;
 	AdlSettingInt ChillMaxFps;
@@ -40,9 +39,6 @@ struct GraphicsSettings
 	AdlSettingInt TessellationMode;
 	AdlSettingInt TessellationLevel;
 	AdlSettingInt FrameGenEnabled;
-	AdlSettingInt FrameGenSearchMode;
-	AdlSettingInt FrameGenPerfMode;
-	AdlSettingInt FrameGenResponseMode;
 	AdlSettingInt FrameGenAlgorithm;
 
 	//Version
@@ -68,7 +64,6 @@ struct GraphicsSettings
 		MldOverride.Current = MldOverride.Default;
 		NrcOverride.Current = NrcOverride.Default;
 		FsrOvrDLLPath.Current = FsrOvrDLLPath.Default;
-		FsrOtaIndex.Current = FsrOtaIndex.Default;
 		FsrShowInformation.Current = FsrShowInformation.Default;
 		FsrDisableMLSwapchain.Current = FsrDisableMLSwapchain.Default;
 		ChillEnabled.Current = ChillEnabled.Default;
@@ -96,11 +91,8 @@ struct GraphicsSettings
 		TessellationMode.Current = TessellationMode.Default;
 		TessellationLevel.Current = TessellationLevel.Default;
 		FrameGenEnabled.Current = FrameGenEnabled.Default;
-		FrameGenSearchMode.Current = FrameGenSearchMode.Default;
-		FrameGenPerfMode.Current = FrameGenPerfMode.Default;
-		FrameGenResponseMode.Current = FrameGenResponseMode.Default;
 		FrameGenAlgorithm.Current = FrameGenAlgorithm.Default;
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeviceId, Application, DeLagEnabled.Current, MfgRatio.Current, FsrOverride.Current, MlfiOverride.Current, MfgOverride.Current, MldOverride.Current, NrcOverride.Current, FsrOvrDLLPath.Current, FsrOtaIndex.Current, FsrShowInformation.Current, FsrDisableMLSwapchain.Current, ChillEnabled.Current, ChillMinFps.Current, ChillMaxFps.Current, FrtcEnabled.Current, FrtcFrameRateTarget.Current, BoostMode.Current, BoostMinResolution.Current, RisEnabled.Current, RisDesktopEnabled.Current, RisSharpeningDegree.Current, RisVersion.Version, VerticalSync.Current, EnhancedSync.Current, OpenGLTripleBuffering.Current, AntiAliasingOverride.Current, AntiAliasingMethod.Current, AntiAliasingLevel.Current, AntiAliasingEnhancedQuality.Current, AntiAliasingMorphological.Current, AnisotropicOverride.Current, TextureFilteringQuality.Current, SurfaceFormatOptimization.Current, OpenGL10BitPixelFormat.Current, TessellationMode.Current, TessellationLevel.Current, FrameGenEnabled.Current, FrameGenSearchMode.Current, FrameGenPerfMode.Current, FrameGenResponseMode.Current, FrameGenAlgorithm.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeviceId, Application, DeLagEnabled.Current, MfgRatio.Current, FsrOverride.Current, MlfiOverride.Current, MfgOverride.Current, MldOverride.Current, NrcOverride.Current, FsrOvrDLLPath.Current, FsrShowInformation.Current, FsrDisableMLSwapchain.Current, ChillEnabled.Current, ChillMinFps.Current, ChillMaxFps.Current, FrtcEnabled.Current, FrtcFrameRateTarget.Current, BoostMode.Current, BoostMinResolution.Current, RisEnabled.Current, RisDesktopEnabled.Current, RisSharpeningDegree.Current, RisVersion.Version, VerticalSync.Current, EnhancedSync.Current, OpenGLTripleBuffering.Current, AntiAliasingOverride.Current, AntiAliasingMethod.Current, AntiAliasingLevel.Current, AntiAliasingEnhancedQuality.Current, AntiAliasingMorphological.Current, AnisotropicOverride.Current, TextureFilteringQuality.Current, SurfaceFormatOptimization.Current, OpenGL10BitPixelFormat.Current, TessellationMode.Current, TessellationLevel.Current, FrameGenEnabled.Current, FrameGenAlgorithm.Current)
 };
