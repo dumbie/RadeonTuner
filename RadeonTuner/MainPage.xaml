@@ -969,10 +969,18 @@
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Let the driver take control over your GPU fans which allows you to set a custom fan curve, when disabled the GPU will manage the fans as set in the bios."/>
-                                            <ToggleSwitch x:Name="toggleswitch_Fan_Control" Width="128" Margin="10,0,0,0" OffContent="Fan Control" OnContent="Fan Control" Toggled="toggleswitch_Fan_Control_Toggled"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Control_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Let the driver take control over your GPU fans which allows you to set a custom fan curve or control the maximum fan speed, when disabled the GPU will manage the fans as set in the bios."/>
+                                            <ToggleSwitch x:Name="toggleswitch_FanControl" Width="128" Margin="10,0,0,0" OffContent="Fan Control" OnContent="Fan Control" Toggled="toggleswitch_FanControl_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControl_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Fan Control Mode" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControl_Mode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="combobox_FanControl_Mode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_FanControl_Mode_SelectionChanged"/>
                                     </StackPanel>
                                 </Border>
 
@@ -986,207 +994,229 @@
                                     </StackPanel>
                                 </Border>
 
-                                <Border x:Name="grid_Fan_Graph" Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ThemeForegroundBrush}" BorderThickness="2" CornerRadius="6">
-                                            <Grid>
-                                                <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" Opacity="0.40" Background="{ThemeResource ApplicationDimGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is considered low enough."/>
-                                                <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <Line Margin="0,25,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line Margin="0,50,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line Margin="0,75,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line Margin="125,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line Margin="250,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line Margin="375,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
-                                                    <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
-                                                    <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
-                                                    <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="2" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                    <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{ThemeResource SystemAccentColor}" StrokeThickness="2" ToolTipService.ToolTip="Profile target"/>
-                                                </Grid>
-                                                <Grid>
-                                                    <Ellipse x:Name="ellipse_Fan_Point_0" Margin="0,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 1"/>
-                                                    <Ellipse x:Name="ellipse_Fan_Point_1" Margin="125,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 2"/>
-                                                    <Ellipse x:Name="ellipse_Fan_Point_2" Margin="250,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 3"/>
-                                                    <Ellipse x:Name="ellipse_Fan_Point_3" Margin="375,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 4"/>
-                                                    <Ellipse x:Name="ellipse_Fan_Point_4" Margin="500,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 5"/>
-                                                </Grid>
+                                <StackPanel x:Name="stackpanel_FanControl_MaxFanSpeed">
+                                    <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Target maximum fan speed, the driver will try to keep your GPU fans under the maximum fan speed, but when temperatures are too high the driver may go over the maximum to keep your GPU temperature under control."/>
+                                                <TextBlock Margin="10,0,0,0" Text="Maximum Fan Speed" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Speed_Max_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,5,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_Max" Text="{Binding ElementName=slider_Fan_Speed_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Max" Margin="10,0,0,0" ValueChanged="slider_Fan_Speed_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel x:Name="stackpanel_FanControl_Curve">
+                                    <Border x:Name="grid_Fan_Graph" Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Border Grid.Column="0" Grid.Row="0" BorderBrush="{ThemeResource ThemeForegroundBrush}" BorderThickness="2" CornerRadius="6">
+                                                <Grid>
+                                                    <Border x:Name="border_Fan_Zero_Rpm_Range" Width="0" Opacity="0.40" Background="{ThemeResource ApplicationDimGrayColor}" HorizontalAlignment="Left" ToolTipService.ToolTip="Fan Zero RPM range, fans are turned off when in this range and your graphics card temperature is considered low enough."/>
+                                                    <Grid Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <Line Margin="0,25,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line Margin="0,50,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line Margin="0,75,0,0" X1="500" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line Margin="125,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line Margin="250,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line Margin="375,0,0,0" Y1="100" Opacity="0.20" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="1"/>
+                                                        <Line x:Name="grid_Fan_Zero_Rpm_Line_Gpu" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, currently set to"/>
+                                                        <Line x:Name="grid_Fan_Zero_Rpm_Line_Profile" Visibility="Collapsed" Margin="275,0,0,0" Y1="99" Stroke="{ThemeResource SystemAccentColor}" StrokeDashArray="3" StrokeDashCap="Round" StrokeThickness="3" ToolTipService.ToolTip="Fan Zero RPM Temperature, profile target"/>
+                                                        <Polyline x:Name="polyline_Fan_Lines_Gpu" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{ThemeResource ApplicationDimGrayColor}" StrokeThickness="2" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                        <Polyline x:Name="polyline_Fan_Lines_Profile" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeDashCap="Round" Stroke="{ThemeResource SystemAccentColor}" StrokeThickness="2" ToolTipService.ToolTip="Profile target"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Ellipse x:Name="ellipse_Fan_Point_0" Margin="0,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 1"/>
+                                                        <Ellipse x:Name="ellipse_Fan_Point_1" Margin="125,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 2"/>
+                                                        <Ellipse x:Name="ellipse_Fan_Point_2" Margin="250,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 3"/>
+                                                        <Ellipse x:Name="ellipse_Fan_Point_3" Margin="375,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 4"/>
+                                                        <Ellipse x:Name="ellipse_Fan_Point_4" Margin="500,50,0,0" Width="10" Height="10" Fill="{ThemeResource ThemeForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Fan Curve 5"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+
+                                            <Grid Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Stretch">
+                                                <TextBlock Text="0% Fan speed" VerticalAlignment="Bottom"/>
+                                                <TextBlock Text="50% Fan speed" VerticalAlignment="Center"/>
+                                                <TextBlock Text="100% Fan speed" VerticalAlignment="Top"/>
+                                            </Grid>
+
+                                            <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch">
+                                                <TextBlock Text="0°C | 32°F" HorizontalAlignment="Left"/>
+                                                <TextBlock Text="50°C | 122°F" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="100°C | 212°F" HorizontalAlignment="Right"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
+                                        <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,5,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                                <Grid Margin="0,10,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                            </StackPanel>
                                         </Border>
 
-                                        <Grid Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Stretch">
-                                            <TextBlock Text="0% Fan speed" VerticalAlignment="Bottom"/>
-                                            <TextBlock Text="50% Fan speed" VerticalAlignment="Center"/>
-                                            <TextBlock Text="100% Fan speed" VerticalAlignment="Top"/>
-                                        </Grid>
-
-                                        <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch">
-                                            <TextBlock Text="0°C | 32°F" HorizontalAlignment="Left"/>
-                                            <TextBlock Text="50°C | 122°F" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="100°C | 212°F" HorizontalAlignment="Right"/>
-                                        </Grid>
-                                    </Grid>
-                                </Border>
-
-                                <VariableSizedWrapGrid Orientation="Horizontal" Margin="-5,5,0,0">
-                                    <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Fan Curve 1" FontSize="16" FontWeight="Medium"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_0_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,5,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                                <Grid Margin="0,10,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,5,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                            <Grid Margin="0,10,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
+                                        </Border>
 
-                                    <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Fan Curve 2" FontSize="16" FontWeight="Medium"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_1_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,5,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                                <Grid Margin="0,10,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,5,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                            <Grid Margin="0,10,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
+                                        </Border>
 
-                                    <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Fan Curve 3" FontSize="16" FontWeight="Medium"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_2_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,5,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                                <Grid Margin="0,10,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,5,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                            <Grid Margin="0,10,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
+                                        </Border>
 
-                                    <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Fan Curve 4" FontSize="16" FontWeight="Medium"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_3_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,5,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
+                                                <Grid Margin="0,10,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                    <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,5,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                            <Grid Margin="0,10,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border Width="280" Margin="5" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Fan Curve 5" FontSize="16" FontWeight="Medium"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Speed_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Curve_4_Temp_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                            </StackPanel>
-                                            <Grid Margin="0,5,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                            <Grid Margin="0,10,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_Fan_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-                                </VariableSizedWrapGrid>
+                                        </Border>
+                                    </VariableSizedWrapGrid>
+                                </StackPanel>
                             </StackPanel>
 
                             <!-- Access Overlay -->

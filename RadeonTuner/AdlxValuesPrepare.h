@@ -259,6 +259,16 @@ namespace winrt::RadeonTuner::implementation
 				}
 			}
 
+			//List all fan control modes
+			{
+				auto itemCollection = combobox_FanControl_Mode().Items();
+				UINT appendCount = ADL_FANCONTROL_MODES.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_FANCONTROL_MODES[i]));
+				}
+			}
+
 			//Set result
 			AVDebugWriteLine("ADL values prepared.");
 		}

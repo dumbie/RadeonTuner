@@ -190,6 +190,7 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlxInfoApplication();
 		void UpdateFanGraphGpu(TuningFanSettings tuningFanSettings);
 		void UpdateFanGraphProfile();
+		void UpdateFanControlModeInterface(TuningFanSettings tuningFanSettings);
 		void ValidateFanSettings();
 		winrt::IAsyncAction SettingLoad();
 		void SettingAdmin();
@@ -238,7 +239,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_RadeonEnhancedSync_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_Display_ColorDepth_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void combobox_Display_PixelFormat_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_FanCurve_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Contrast_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Saturation_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_FsrLatencyReduction_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
@@ -300,7 +301,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_FsrMultiFrameGenerationRatio_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
 		void toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_Fan_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void toggleswitch_FanControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_OpenGL10BitPixelFormat_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Frtc_FrameRateTarget_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
@@ -335,6 +336,7 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_TimingPolarity_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 
 		void LaunchDriverCleanup();
+		void DisableRadeonServices();
 		winrt::IAsyncAction DisplayList_Combined(bool waitUpdate);
 		winrt::IAsyncAction DisplayList_SelectCurrent_Values(bool waitUpdate);
 		winrt::IAsyncAction DisplayList_Resolution(bool waitUpdate);
@@ -377,6 +379,8 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FsrDisableMLSwapchain_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
+		void combobox_FanControl_Mode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void slider_Fan_Speed_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 	};
 }
 

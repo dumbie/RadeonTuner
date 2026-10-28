@@ -106,6 +106,18 @@ enum class OD8SettingsRegistryFlags : int
 	Default = 1 << 12
 };
 
+enum class AdvancedControlRegistryFlags : int
+{
+	FanBasic = 1 << 0,
+	FanAdvanced = 1 << 1
+};
+
+enum class FanControlModes : int
+{
+	MaximumFanSpeed = 0,
+	CustomFanCurve = 1
+};
+
 enum class OD8_OPTIMZED_POWER_MODES : int
 {
 	Quiet = 0,

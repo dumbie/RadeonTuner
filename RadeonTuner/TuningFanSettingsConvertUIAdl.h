@@ -10,18 +10,13 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Gpu Core Minimum
-			if (tuningFanSettings.CoreMin.Support)
+			if (tuningFanSettings.CoreMin.Support && tuningFanSettings.CoreMin.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.CoreMin.Current.has_value())
-				{
-					valueInt = tuningFanSettings.CoreMin.Current.value();
-				}
-				else if (tuningFanSettings.CoreMin.Default.has_value())
-				{
-					valueInt = tuningFanSettings.CoreMin.Default.value();
-				}
+				int valueInt = tuningFanSettings.CoreMin.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Core_Min().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"MHz";
@@ -49,18 +44,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Gpu Core Maximum
-			if (tuningFanSettings.CoreMax.Support)
+			if (tuningFanSettings.CoreMax.Support && tuningFanSettings.CoreMax.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.CoreMax.Current.has_value())
-				{
-					valueInt = tuningFanSettings.CoreMax.Current.value();
-				}
-				else if (tuningFanSettings.CoreMax.Default.has_value())
-				{
-					valueInt = tuningFanSettings.CoreMax.Default.value();
-				}
+				int valueInt = tuningFanSettings.CoreMax.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Core_Max().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"MHz";
@@ -98,18 +88,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Memory Timing
-			if (tuningFanSettings.MemoryTiming.Support)
+			if (tuningFanSettings.MemoryTiming.Support && tuningFanSettings.MemoryTiming.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.MemoryTiming.Current.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryTiming.Current.value();
-				}
-				else if (tuningFanSettings.MemoryTiming.Default.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryTiming.Default.value();
-				}
+				int valueInt = tuningFanSettings.MemoryTiming.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				combobox_Memory_Timing().SelectedIndex(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = ADLX_MEMORYTIMING_DESCRIPTION_STRING[valueInt];
@@ -128,18 +113,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Memory ECC / EDC
-			if (tuningFanSettings.MemoryEcc.Support)
+			if (tuningFanSettings.MemoryEcc.Support && tuningFanSettings.MemoryEcc.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.MemoryEcc.Current.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryEcc.Current.value();
-				}
-				else if (tuningFanSettings.MemoryEcc.Default.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryEcc.Default.value();
-				}
+				int valueInt = tuningFanSettings.MemoryEcc.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				combobox_Memory_Ecc().SelectedIndex(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = ADLX_MEMORYECC_STRING[valueInt];
@@ -158,18 +138,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Memory Frequency
-			if (tuningFanSettings.MemoryMax.Support)
+			if (tuningFanSettings.MemoryMax.Support && tuningFanSettings.MemoryMax.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.MemoryMax.Current.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryMax.Current.value();
-				}
-				else if (tuningFanSettings.MemoryMax.Default.has_value())
-				{
-					valueInt = tuningFanSettings.MemoryMax.Default.value();
-				}
+				int valueInt = tuningFanSettings.MemoryMax.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Memory_Max().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"MTs";
@@ -197,18 +172,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Power Limit
-			if (tuningFanSettings.PowerLimit.Support)
+			if (tuningFanSettings.PowerLimit.Support && tuningFanSettings.PowerLimit.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.PowerLimit.Current.has_value())
-				{
-					valueInt = tuningFanSettings.PowerLimit.Current.value();
-				}
-				else if (tuningFanSettings.PowerLimit.Default.has_value())
-				{
-					valueInt = tuningFanSettings.PowerLimit.Default.value();
-				}
+				int valueInt = tuningFanSettings.PowerLimit.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Power_Limit().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
@@ -236,18 +206,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Power Voltage
-			if (tuningFanSettings.PowerVoltage.Support)
+			if (tuningFanSettings.PowerVoltage.Support && tuningFanSettings.PowerVoltage.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.PowerVoltage.Current.has_value())
-				{
-					valueInt = tuningFanSettings.PowerVoltage.Current.value();
-				}
-				else if (tuningFanSettings.PowerVoltage.Default.has_value())
-				{
-					valueInt = tuningFanSettings.PowerVoltage.Default.value();
-				}
+				int valueInt = tuningFanSettings.PowerVoltage.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Power_Voltage().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"mV";
@@ -285,18 +250,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Power TDC
-			if (tuningFanSettings.PowerTDC.Support)
+			if (tuningFanSettings.PowerTDC.Support && tuningFanSettings.PowerTDC.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.PowerTDC.Current.has_value())
-				{
-					valueInt = tuningFanSettings.PowerTDC.Current.value();
-				}
-				else if (tuningFanSettings.PowerTDC.Default.has_value())
-				{
-					valueInt = tuningFanSettings.PowerTDC.Default.value();
-				}
+				int valueInt = tuningFanSettings.PowerTDC.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Power_TDC().Value(valueInt);
 
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
@@ -326,45 +286,60 @@ namespace winrt::RadeonTuner::implementation
 			//Update fan graph
 			UpdateFanGraphGpu(tuningFanSettings);
 
+			//Update fan control mode interface
+			UpdateFanControlModeInterface(tuningFanSettings);
+
 			//Fan Control
-			if (tuningFanSettings.FanControl.Support)
+			bool valueFanControl = false;
+			if (tuningFanSettings.FanControl.Support && tuningFanSettings.FanControl.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				bool valueBool = false;
-				if (tuningFanSettings.FanControl.Current.has_value())
-				{
-					valueBool = tuningFanSettings.FanControl.Current.value();
-				}
-				else if (tuningFanSettings.FanControl.Default.has_value())
-				{
-					valueBool = tuningFanSettings.FanControl.Default.value();
-				}
+				valueFanControl = tuningFanSettings.FanControl.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				toggleswitch_FanControl().IsOn(valueFanControl);
 
 				//Set hint value
-				textblock_Fan_Control_Value().Text(valueBool ? L"Enabled" : L"Disabled");
+				textblock_FanControl_Value().Text(valueFanControl ? L"Enabled" : L"Disabled");
 
 				//Enable or disable interface
-				toggleswitch_Fan_Control().IsEnabled(true);
+				toggleswitch_FanControl().IsEnabled(true);
 			}
 			else
 			{
 				//Enable or disable interface
-				toggleswitch_Fan_Control().IsEnabled(false);
+				toggleswitch_FanControl().IsEnabled(false);
+			}
+
+			//Fan Control Mode
+			if (tuningFanSettings.FanControlMode.Support && tuningFanSettings.FanControlMode.Get(AdlSettingGet::Current, true).has_value())
+			{
+				//Get setting
+				int valueInt = tuningFanSettings.FanControlMode.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				combobox_FanControl_Mode().SelectedIndex(valueInt);
+
+				//Set hint value
+				textblock_FanControl_Mode_Value().Text(ADL_FANCONTROL_MODES[valueInt]);
+
+				//Enable or disable interface
+				combobox_FanControl_Mode().IsEnabled(valueFanControl);
+			}
+			else
+			{
+				//Enable or disable interface
+				combobox_FanControl_Mode().IsEnabled(false);
 			}
 
 			//Fan Zero RPM
-			if (tuningFanSettings.FanZeroRpm.Support)
+			if (tuningFanSettings.FanZeroRpm.Support && tuningFanSettings.FanZeroRpm.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				bool valueBool = false;
-				if (tuningFanSettings.FanZeroRpm.Current.has_value())
-				{
-					valueBool = tuningFanSettings.FanZeroRpm.Current.value();
-				}
-				else if (tuningFanSettings.FanZeroRpm.Default.has_value())
-				{
-					valueBool = tuningFanSettings.FanZeroRpm.Default.value();
-				}
+				bool valueBool = tuningFanSettings.FanZeroRpm.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				toggleswitch_Fan_Zero_Rpm().IsOn(valueBool);
 
 				//Set hint value
 				textblock_Fan_Zero_Rpm_Value().Text(valueBool ? L"Enabled" : L"Disabled");
@@ -373,7 +348,7 @@ namespace winrt::RadeonTuner::implementation
 				grid_Fan_Zero_Rpm_Line_Gpu().Visibility(valueBool ? Visibility::Visible : Visibility::Collapsed);
 
 				//Enable or disable interface
-				toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -382,18 +357,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Speed 0
-			if (tuningFanSettings.FanSpeed0.Support)
+			if (tuningFanSettings.FanSpeed0.Support && tuningFanSettings.FanSpeed0.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanSpeed0.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed0.Current.value();
-				}
-				else if (tuningFanSettings.FanSpeed0.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed0.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanSpeed0.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_0().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_0_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
@@ -408,7 +378,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Speed_0().IsEnabled(true);
+				slider_Fan_Speed_0().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -417,18 +387,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Temperature 0
-			if (tuningFanSettings.FanTemp0.Support)
+			if (tuningFanSettings.FanTemp0.Support && tuningFanSettings.FanTemp0.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanTemp0.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp0.Current.value();
-				}
-				else if (tuningFanSettings.FanTemp0.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp0.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanTemp0.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Temp_0().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_0_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
@@ -443,7 +408,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Temp_0().IsEnabled(true);
+				slider_Fan_Temp_0().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -452,18 +417,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Speed 1
-			if (tuningFanSettings.FanSpeed1.Support)
+			if (tuningFanSettings.FanSpeed1.Support && tuningFanSettings.FanSpeed1.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanSpeed1.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed1.Current.value();
-				}
-				else if (tuningFanSettings.FanSpeed1.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed1.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanSpeed1.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_1().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_1_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
@@ -478,7 +438,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Speed_1().IsEnabled(true);
+				slider_Fan_Speed_1().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -487,18 +447,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Temperature 1
-			if (tuningFanSettings.FanTemp1.Support)
+			if (tuningFanSettings.FanTemp1.Support && tuningFanSettings.FanTemp1.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanTemp1.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp1.Current.value();
-				}
-				else if (tuningFanSettings.FanTemp1.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp1.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanTemp1.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Temp_1().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_1_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
@@ -513,7 +468,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Temp_1().IsEnabled(true);
+				slider_Fan_Temp_1().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -522,18 +477,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Speed 2
-			if (tuningFanSettings.FanSpeed2.Support)
+			if (tuningFanSettings.FanSpeed2.Support && tuningFanSettings.FanSpeed2.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanSpeed2.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed2.Current.value();
-				}
-				else if (tuningFanSettings.FanSpeed2.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed2.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanSpeed2.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_2().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_2_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
@@ -548,7 +498,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Speed_2().IsEnabled(true);
+				slider_Fan_Speed_2().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -557,18 +507,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Temperature 2
-			if (tuningFanSettings.FanTemp2.Support)
+			if (tuningFanSettings.FanTemp2.Support && tuningFanSettings.FanTemp2.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanTemp2.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp2.Current.value();
-				}
-				else if (tuningFanSettings.FanTemp2.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp2.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanTemp2.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Temp_2().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_2_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
@@ -583,7 +528,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Temp_2().IsEnabled(true);
+				slider_Fan_Temp_2().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -592,18 +537,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Speed 3
-			if (tuningFanSettings.FanSpeed3.Support)
+			if (tuningFanSettings.FanSpeed3.Support && tuningFanSettings.FanSpeed3.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanSpeed3.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed3.Current.value();
-				}
-				else if (tuningFanSettings.FanSpeed3.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed3.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanSpeed3.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_3().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_3_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
@@ -618,7 +558,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Speed_3().IsEnabled(true);
+				slider_Fan_Speed_3().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -627,18 +567,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Temperature 3
-			if (tuningFanSettings.FanTemp3.Support)
+			if (tuningFanSettings.FanTemp3.Support && tuningFanSettings.FanTemp3.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanTemp3.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp3.Current.value();
-				}
-				else if (tuningFanSettings.FanTemp3.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp3.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanTemp3.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Temp_3().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_3_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
@@ -653,7 +588,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Temp_3().IsEnabled(true);
+				slider_Fan_Temp_3().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -662,18 +597,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Speed 4
-			if (tuningFanSettings.FanSpeed4.Support)
+			if (tuningFanSettings.FanSpeed4.Support && tuningFanSettings.FanSpeed4.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanSpeed4.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed4.Current.value();
-				}
-				else if (tuningFanSettings.FanSpeed4.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanSpeed4.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanSpeed4.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_4().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_4_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
@@ -688,7 +618,7 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Speed_4().IsEnabled(true);
+				slider_Fan_Speed_4().IsEnabled(valueFanControl);
 			}
 			else
 			{
@@ -697,18 +627,13 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Fan Temperature 4
-			if (tuningFanSettings.FanTemp4.Support)
+			if (tuningFanSettings.FanTemp4.Support && tuningFanSettings.FanTemp4.Get(AdlSettingGet::Current, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (tuningFanSettings.FanTemp4.Current.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp4.Current.value();
-				}
-				else if (tuningFanSettings.FanTemp4.Default.has_value())
-				{
-					valueInt = tuningFanSettings.FanTemp4.Default.value();
-				}
+				int valueInt = tuningFanSettings.FanTemp4.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Temp_4().Value(valueInt);
 
 				//Set hint value
 				textblock_Fan_Curve_4_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
@@ -723,12 +648,42 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Enable or disable interface
-				slider_Fan_Temp_4().IsEnabled(true);
+				slider_Fan_Temp_4().IsEnabled(valueFanControl);
 			}
 			else
 			{
 				//Enable or disable interface
 				slider_Fan_Temp_4().IsEnabled(false);
+			}
+
+			//Fan Speed Maximum
+			if (tuningFanSettings.FanSpeedMax.Support && tuningFanSettings.FanSpeedMax.Get(AdlSettingGet::Current, true).has_value())
+			{
+				//Get setting
+				int valueInt = tuningFanSettings.FanSpeedMax.Get(AdlSettingGet::Current, true).value();
+
+				//Set setting value
+				slider_Fan_Speed_Max().Value(valueInt);
+
+				//Set hint value
+				textblock_Fan_Speed_Max_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Set interface
+				if (tuningFanSettings.FanSpeedMax.Minimum.has_value())
+				{
+					slider_Fan_Speed_Max().Minimum(tuningFanSettings.FanSpeedMax.Minimum.value());
+					slider_Fan_Speed_Max().Maximum(tuningFanSettings.FanSpeedMax.Maximum.value());
+					slider_Fan_Speed_Max().StepFrequency(tuningFanSettings.FanSpeedMax.Step.value());
+					slider_Fan_Speed_Max().SmallChange(tuningFanSettings.FanSpeedMax.Step.value());
+				}
+
+				//Enable or disable interface
+				slider_Fan_Speed_Max().IsEnabled(valueFanControl);
+			}
+			else
+			{
+				//Enable or disable interface
+				slider_Fan_Speed_Max().IsEnabled(false);
 			}
 
 			//Enable or disable tuning interface
@@ -769,10 +724,6 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(false);
 				button_Fan_Import().IsEnabled(false);
 				button_Fan_Export().IsEnabled(false);
-
-				//Custom settings
-				toggleswitch_Fan_Control().IsEnabled(false);
-				grid_Fan_Graph().Opacity(0.4);
 			}
 			else
 			{
@@ -781,11 +732,6 @@ namespace winrt::RadeonTuner::implementation
 				button_Fan_Reset().IsEnabled(true);
 				button_Fan_Import().IsEnabled(true);
 				button_Fan_Export().IsEnabled(true);
-
-				//Custom settings
-				toggleswitch_Fan_Control().IsEnabled(true);
-				bool fanControl = toggleswitch_Fan_Control().IsOn();
-				grid_Fan_Graph().Opacity(fanControl ? 1.0 : 0.4);
 			}
 
 			//Return result

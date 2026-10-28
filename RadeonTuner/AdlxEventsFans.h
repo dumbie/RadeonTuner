@@ -5,7 +5,7 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::toggleswitch_Fan_Control_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	void MainPage::toggleswitch_FanControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
 		{
@@ -17,7 +17,9 @@ namespace winrt::RadeonTuner::implementation
 			bool newValue = newSender.IsOn();
 
 			//Enable or disable interface
+			combobox_FanControl_Mode().IsEnabled(newValue);
 			toggleswitch_Fan_Zero_Rpm().IsEnabled(newValue);
+			slider_Fan_Speed_Max().IsEnabled(newValue);
 			slider_Fan_Speed_0().IsEnabled(newValue);
 			slider_Fan_Temp_0().IsEnabled(newValue);
 			slider_Fan_Speed_1().IsEnabled(newValue);
@@ -78,25 +80,65 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Fan_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::combobox_FanControl_Mode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e)
 	{
 		try
 		{
 			//Check if saving is disabled
 			if (disable_saving) { return; }
 
-			//Fix prevent setvalue exception without thread workaround
-			std::function<void()> threadVoid = [&]()
+			//Get setting value
+			int newValue = combobox_FanControl_Mode().SelectedIndex();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
+
+			//Update current value
+			tuningFanSettingsProfile.FanControlMode.Current = newValue;
+
+			//Update fan control mode interface
+			UpdateFanControlModeInterface(tuningFanSettingsProfile);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_Fan_Speed_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			int newValue = (int)slider_Fan_Speed_Max().Value();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Tuning_Apply().Background(colorIgnored);
+			button_Fan_Apply().Background(colorIgnored);
+
+			//Update current value
+			tuningFanSettingsProfile.FanSpeedMax.Current = newValue;
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_FanCurve_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Validate and update fan graph
+			std::function<void()> invokeVoid = [&]
 				{
-					std::function<void()> invokeVoid = [&]
-						{
-							ValidateFanSettings();
-							UpdateFanGraphProfile();
-						};
-					AppVariables::App.DispatcherInvoke(invokeVoid);
+					ValidateFanSettings();
+					UpdateFanGraphProfile();
 				};
-			std::thread thread(threadVoid);
-			thread.detach();
+			AppVariables::App.DispatcherInvoke(invokeVoid);
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
@@ -216,6 +258,28 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set result
 			//AVDebugWriteLine("ADLX validated fan settings.");
+		}
+		catch (...) {}
+	}
+
+	void MainPage::UpdateFanControlModeInterface(TuningFanSettings tuningFanSettings)
+	{
+		try
+		{
+			//Get setting
+			int valueInt = tuningFanSettings.FanControlMode.Get(AdlSettingGet::Current, true).value();
+
+			//Check used fan control mode
+			if (valueInt == (int)FanControlModes::MaximumFanSpeed)
+			{
+				stackpanel_FanControl_MaxFanSpeed().Visibility(Visibility::Visible);
+				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
+			}
+			else
+			{
+				stackpanel_FanControl_MaxFanSpeed().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_Curve().Visibility(Visibility::Visible);
+			}
 		}
 		catch (...) {}
 	}
