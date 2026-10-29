@@ -12,7 +12,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Fix missing Pixel and Texture Fillrate, Shaders Count, Bus Width, Fabrication Technology, Transistor Count, Resizable Bar.
+			//Fix missing Pixel and Texture Fillrate, Shaders Count, Bus Width, Fabrication Technology, Transistor Count
 
 			//Set gpu information
 			std::wstring gpu_info = L"";
@@ -130,6 +130,31 @@ namespace winrt::RadeonTuner::implementation
 							gpu_info += L" (x" + number_to_wstring(adlChipSetInfo.iCurrentPCIELaneWidth) + L" / x" + number_to_wstring(adlChipSetInfo.iMaxPCIELaneWidth) + L")";
 						}
 					}
+				}
+			}
+			catch (...) {}
+
+			//Resizable BAR information
+			try
+			{
+				ADL_SAM_MODE samMode{};
+				adl_Res0 = _ADL2_SmartAccessMemory_Mode_Get(adl_Context, adl_Gpu_AdapterIndex, &samMode);
+				if (adl_Res0 == ADL_OK)
+				{
+					std::wstring samStatus = (samMode.ModeFlag > 1) ? L"Enabled" : L"Disabled";
+					gpu_info += L"\nResizable BAR (SAM): " + samStatus;
+				}
+			}
+			catch (...) {}
+
+			//Hardware-accelerated GPU scheduling information
+			try
+			{
+				std::optional<DWORD> hagsMode = RegistryGetDword(HKEY_ENUM::LOCAL_MACHINE, L"System\\CurrentControlSet\\Control\\GraphicsDrivers", L"HwSchMode");
+				if (hagsMode.has_value())
+				{
+					std::wstring hagsStatus = (hagsMode.value() == 2) ? L"Enabled" : L"Disabled";
+					gpu_info += L"\nGPU Scheduling (HAGS): " + hagsStatus;
 				}
 			}
 			catch (...) {}

@@ -6,6 +6,12 @@ typedef struct ADLOD8SingleInitSettingWrap : ADLOD8SingleInitSetting
 	}
 };
 
+typedef struct ADL_SAM_MODE
+{
+	int ModeFlag;
+	int Unknown1;
+};
+
 typedef struct ADL_RIS2_NOTIFICATION_REASON
 {
 	unsigned int GlobalEnableChanged; //Set when Global enable value is changed
@@ -114,8 +120,10 @@ enum class AdvancedControlRegistryFlags : int
 
 enum class FanControlModes : int
 {
-	MaximumFanSpeed = 0,
-	CustomFanCurve = 1
+	NoFanControl = 0,
+	FanZeroRpmOnly = 1,
+	RangedFanSpeed = 2,
+	CustomFanCurve = 3
 };
 
 enum class OD8_OPTIMZED_POWER_MODES : int

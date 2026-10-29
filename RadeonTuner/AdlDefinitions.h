@@ -89,6 +89,12 @@ inline ADL2_Adapter_DedicatedVRAMUsage_Get _ADL2_Adapter_DedicatedVRAMUsage_Get;
 typedef int (*ADL2_Adapter_Feature_Caps)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_UIFEATURES_GROUP iFeatureID, int* iIsFeatureSupported);
 inline ADL2_Adapter_Feature_Caps _ADL2_Adapter_Feature_Caps;
 
+typedef int (*ADL2_SmartAccessMemory_Mode_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_SAM_MODE* samModeStatus);
+inline ADL2_SmartAccessMemory_Mode_Get _ADL2_SmartAccessMemory_Mode_Get;
+
+typedef int (*ADL2_SmartAccessMemory_Mode_Set)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADL_SAM_MODE samModeStatus);
+inline ADL2_SmartAccessMemory_Mode_Set _ADL2_SmartAccessMemory_Mode_Set;
+
 //Graphics
 typedef int (*ADL2_Graphics_VersionsX3_Get)(ADL_CONTEXT_HANDLE context, int iAdapterIndex, ADLVersionsInfoX2* lpVersionsInfo);
 inline ADL2_Graphics_VersionsX3_Get _ADL2_Graphics_VersionsX3_Get;
