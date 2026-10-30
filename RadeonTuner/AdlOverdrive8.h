@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Set defaults
+			//Create empty settings
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
 			for (int i = 0; i < requestSettingList.count; i++)
@@ -41,10 +41,16 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Note: when tuning preset is not set to default or custom mode, tuning fails to apply.
-			//Note: when setting reset and requested to true, tuning may fail to apply on certain graphics cards.
+			//Note: When tuning preset is not set to default or custom mode, tuning fails to apply.
+			//Note: Reset bool value is unreliable so we are manually setting the default values when reset is requested.
 
-			//Set defaults
+			//Get default settings
+			int od8Capabilities = -1;
+			int numberOfFeatures = OD8_COUNT - 2;
+			auto initSettingList = AVFin<ADLOD8SingleInitSettingWrap*>(AVFinMethod::FreeMarshal);
+			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, gpuAdapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
+
+			//Create empty settings
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
 			for (int i = 0; i < requestSettingList.count; i++)
@@ -54,15 +60,23 @@ namespace winrt::RadeonTuner::implementation
 				requestSettingList.od8SettingTable[i].value = 0;
 			}
 
-			//Set values
+			//Set setting values
 			for (std::tuple<ADLOD8SettingId, int, bool> setting : saveSettings)
 			{
 				ADLOD8SettingId settingId = std::get<0>(setting);
 				int settingValue = std::get<1>(setting);
 				bool settingReset = std::get<2>(setting);
-				requestSettingList.od8SettingTable[settingId].reset = settingReset;
 				requestSettingList.od8SettingTable[settingId].requested = true;
-				requestSettingList.od8SettingTable[settingId].value = settingValue;
+				if (settingReset)
+				{
+					int defaultValue = initSettingList.Get()[settingId].defaultValue;
+					requestSettingList.od8SettingTable[settingId].value = defaultValue;
+					//AVDebugWriteLine("Resetting tuning setting value: " << settingId << " / " << defaultValue);
+				}
+				else
+				{
+					requestSettingList.od8SettingTable[settingId].value = settingValue;
+				}
 			}
 
 			//Apply settings
@@ -86,7 +100,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			int od8Capabilities;
+			//Get default settings
+			int od8Capabilities = -1;
 			int numberOfFeatures = OD8_COUNT - 2;
 			auto initSettingList = AVFin<ADLOD8SingleInitSettingWrap*>(AVFinMethod::FreeMarshal);
 			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, gpuAdapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
@@ -112,7 +127,8 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			int od8Capabilities;
+			//Get default settings
+			int od8Capabilities = -1;
 			int numberOfFeatures = OD8_COUNT - 2;
 			auto initSettingList = AVFin<ADLOD8SingleInitSettingWrap*>(AVFinMethod::FreeMarshal);
 			adl_Res0 = _ADL2_Overdrive8_Init_SettingX2_Get(adl_Context, gpuAdapterIndex, &od8Capabilities, &numberOfFeatures, &initSettingList.Get());
