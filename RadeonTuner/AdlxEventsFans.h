@@ -5,46 +5,6 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::toggleswitch_FanControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
-	{
-		try
-		{
-			//Check if saving is disabled
-			if (disable_saving) { return; }
-
-			//Get setting value
-			auto newSender = sender.as<ToggleSwitch>();
-			bool newValue = newSender.IsOn();
-
-			//Enable or disable interface
-			combobox_FanControl_Mode().IsEnabled(newValue);
-			toggleswitch_Fan_Zero_Rpm().IsEnabled(newValue);
-			slider_Fan_Speed_Max().IsEnabled(newValue);
-			slider_Fan_Speed_0().IsEnabled(newValue);
-			slider_Fan_Temp_0().IsEnabled(newValue);
-			slider_Fan_Speed_1().IsEnabled(newValue);
-			slider_Fan_Temp_1().IsEnabled(newValue);
-			slider_Fan_Speed_2().IsEnabled(newValue);
-			slider_Fan_Temp_2().IsEnabled(newValue);
-			slider_Fan_Speed_3().IsEnabled(newValue);
-			slider_Fan_Temp_3().IsEnabled(newValue);
-			slider_Fan_Speed_4().IsEnabled(newValue);
-			slider_Fan_Temp_4().IsEnabled(newValue);
-
-			//Update fan graph opacity
-			grid_Fan_Graph().Opacity(newValue ? 1.0 : 0.4);
-
-			//Adjust button colors
-			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
-			button_Tuning_Apply().Background(colorIgnored);
-			button_Fan_Apply().Background(colorIgnored);
-
-			//Update current value
-			tuningFanSettingsProfile.FanControl.Current = newValue;
-		}
-		catch (...) {}
-	}
-
 	void MainPage::toggleswitch_Fan_Zero_Rpm_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try
@@ -104,7 +64,7 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
-	void MainPage::slider_Fan_Speed_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	void MainPage::slider_FanRanged_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
 		{
@@ -112,7 +72,18 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting value
-			int newValue = (int)slider_Fan_Speed_Max().Value();
+			int minValue = (int)slider_Fan_Speed_Min().Value();
+			int maxValue = (int)slider_Fan_Speed_Max().Value();
+
+			//Match values
+			if (minValue > maxValue)
+			{
+				slider_Fan_Speed_Max().Value(minValue);
+			}
+			if (maxValue < minValue)
+			{
+				slider_Fan_Speed_Min().Value(maxValue);
+			}
 
 			//Adjust button colors
 			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
@@ -120,7 +91,8 @@ namespace winrt::RadeonTuner::implementation
 			button_Fan_Apply().Background(colorIgnored);
 
 			//Update current value
-			tuningFanSettingsProfile.FanSpeedMax.Current = newValue;
+			tuningFanSettingsProfile.FanSpeedMin.Current = minValue;
+			tuningFanSettingsProfile.FanSpeedMax.Current = maxValue;
 		}
 		catch (...) {}
 	}
@@ -267,18 +239,32 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Get setting
-			int valueInt = tuningFanSettings.FanControlMode.Get(AdlSettingGet::Current, true).value();
+			FanControlModes valueObject = (FanControlModes)tuningFanSettings.FanControlMode.Current.value();
 
 			//Check used fan control mode
-			if (valueInt == (int)FanControlModes::MaximumFanSpeed)
+			if (valueObject == FanControlModes::NoFanControl)
 			{
-				stackpanel_FanControl_MaxFanSpeed().Visibility(Visibility::Visible);
+				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
 				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Collapsed);
 			}
-			else
+			else if (valueObject == FanControlModes::RangedFanSpeed)
 			{
-				stackpanel_FanControl_MaxFanSpeed().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Visible);
+				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
+			}
+			else if (valueObject == FanControlModes::CustomFanCurve)
+			{
+				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
 				stackpanel_FanControl_Curve().Visibility(Visibility::Visible);
+				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
+			}
+			else if (valueObject == FanControlModes::FanZeroRpmOnly)
+			{
+				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
 			}
 		}
 		catch (...) {}

@@ -14,8 +14,7 @@ struct TuningFanSettings
 	AdlSettingInt PowerLimit;
 	AdlSettingInt PowerVoltage;
 	AdlSettingInt PowerTDC;
-	AdlSettingInt FanControl;
-	AdlSettingInt FanControlMode;
+	AdlSettingInt FanSpeedMin;
 	AdlSettingInt FanSpeedMax;
 	AdlSettingInt FanZeroRpm;
 	AdlSettingInt FanSpeed0;
@@ -30,7 +29,8 @@ struct TuningFanSettings
 	AdlSettingInt FanTemp4;
 
 	//Custom
-	AdlSettingInt KeepActive;
+	AdlSettingInt KeepActive{ .Current = false, .Default = false };
+	AdlSettingInt FanControlMode{ .Current = (int)FanControlModes::NoFanControl, .Default = (int)FanControlModes::NoFanControl };
 
 	//Variables (No export)
 	int FanZeroTemp = -1;
@@ -46,6 +46,7 @@ struct TuningFanSettings
 
 	void SetCurrentToDefault()
 	{
+		//Settings
 		CoreMin.Current = CoreMin.Default;
 		CoreMax.Current = CoreMax.Default;
 		MemoryTiming.Current = MemoryTiming.Default;
@@ -55,7 +56,7 @@ struct TuningFanSettings
 		PowerVoltage.Current = PowerVoltage.Default;
 		PowerTDC.Current = PowerTDC.Default;
 		FanZeroRpm.Current = FanZeroRpm.Default;
-		FanControlMode.Current = FanControlMode.Default;
+		FanSpeedMin.Current = FanSpeedMin.Default;
 		FanSpeedMax.Current = FanSpeedMax.Default;
 		FanSpeed0.Current = FanSpeed0.Default;
 		FanTemp0.Current = FanTemp0.Default;
@@ -67,9 +68,10 @@ struct TuningFanSettings
 		FanTemp3.Current = FanTemp3.Default;
 		FanSpeed4.Current = FanSpeed4.Default;
 		FanTemp4.Current = FanTemp4.Default;
-		FanControl.Current = FanControl.Default;
+		//Custom
 		KeepActive.Current = KeepActive.Default;
+		FanControlMode.Current = FanControlMode.Default;
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryEcc.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanControl.Current, FanControlMode.Current, FanSpeedMax.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, KeepActive.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryEcc.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanSpeedMin.Current, FanSpeedMax.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, KeepActive.Current, FanControlMode.Current)
 };

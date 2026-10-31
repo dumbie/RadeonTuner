@@ -79,9 +79,9 @@ const std::vector<std::wstring> RADT_THEME_STYLE =
 	L"Gray", L"Black", L"White"
 };
 
-const std::vector<std::wstring> ADL_FANCONTROL_MODES =
+const std::vector<std::wstring> ADL_FANCONTROL_MODES_STRING =
 {
-	L"Maximum Fan Speed", L"Custom Fan Curve"
+	L"No Fan Control", L"Fan Zero RPM Only", L"Ranged Fan Speed", L"Custom Fan Curve"
 };
 
 //ADLX

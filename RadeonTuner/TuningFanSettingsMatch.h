@@ -49,98 +49,95 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.PowerTDC.Current.value() != settingsAdl.PowerTDC.Current.value()) { return false; }
 			}
 
-			if (settingsProfile.FanControl.Current.has_value() && settingsAdl.FanControl.Current.has_value() && settingsAdl.FanControl.Support)
-			{
-				if (settingsProfile.FanControl.Current.value() != settingsAdl.FanControl.Current.value()) { return false; }
-			}
-
-			if (settingsProfile.FanControlMode.Current.has_value() && settingsAdl.FanControlMode.Current.has_value() && settingsAdl.FanControlMode.Support)
-			{
-				if (settingsProfile.FanControlMode.Current.value() != settingsAdl.FanControlMode.Current.value()) { return false; }
-			}
-
-			//Get Fan Control
-			bool fanControlEnabled = false;
-			if (settingsProfile.FanControl.Get(AdlSettingGet::Current).has_value())
-			{
-				fanControlEnabled = settingsProfile.FanControl.Get(AdlSettingGet::Current).value();
-			}
-
 			//Get Fan Control Mode
-			int fanControlMode = (int)FanControlModes::MaximumFanSpeed;
-			if (settingsProfile.FanControlMode.Get(AdlSettingGet::Current).has_value())
+			int fanControlMode = 0;
+			if (settingsProfile.FanControlMode.Current.has_value())
 			{
-				fanControlMode = settingsProfile.FanControlMode.Get(AdlSettingGet::Current).value();
+				fanControlMode = settingsProfile.FanControlMode.Current.value();
 			}
 
-			//Check Fan Control
-			if (fanControlEnabled)
+			//Check Fan Control Mode
+			if (fanControlMode == (int)FanControlModes::FanZeroRpmOnly)
 			{
-				//Check Fan Zero RPM
+				if (settingsProfile.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Support)
+				{
+					if (settingsProfile.FanZeroRpm.Current.value() != settingsAdl.FanZeroRpm.Current.value()) { return false; }
+				}
+			}
+			else if (fanControlMode == (int)FanControlModes::RangedFanSpeed)
+			{
+				//Fix what if someone set a custom fan curve with the same minimum (fan0) and maximum (fan4)?
+
 				if (settingsProfile.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Support)
 				{
 					if (settingsProfile.FanZeroRpm.Current.value() != settingsAdl.FanZeroRpm.Current.value()) { return false; }
 				}
 
-				//Check Fan Control Mode
-				if (fanControlMode == (int)FanControlModes::MaximumFanSpeed)
+				if (settingsProfile.FanSpeedMin.Current.has_value() && settingsAdl.FanSpeedMin.Current.has_value() && settingsAdl.FanSpeedMin.Support)
 				{
-					if (settingsProfile.FanSpeedMax.Current.has_value() && settingsAdl.FanSpeedMax.Current.has_value() && settingsAdl.FanSpeedMax.Support)
-					{
-						if (settingsProfile.FanSpeedMax.Current.value() != settingsAdl.FanSpeedMax.Current.value()) { return false; }
-					}
+					if (settingsProfile.FanSpeedMin.Current.value() != settingsAdl.FanSpeedMin.Current.value()) { return false; }
 				}
-				else
+
+				if (settingsProfile.FanSpeedMax.Current.has_value() && settingsAdl.FanSpeedMax.Current.has_value() && settingsAdl.FanSpeedMax.Support)
 				{
-					if (settingsProfile.FanSpeed0.Current.has_value() && settingsAdl.FanSpeed0.Current.has_value() && settingsAdl.FanSpeed0.Support)
-					{
-						if (settingsProfile.FanSpeed0.Current.value() != settingsAdl.FanSpeed0.Current.value()) { return false; }
-					}
+					if (settingsProfile.FanSpeedMax.Current.value() != settingsAdl.FanSpeedMax.Current.value()) { return false; }
+				}
+			}
+			else if (fanControlMode == (int)FanControlModes::CustomFanCurve)
+			{
+				if (settingsProfile.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Current.has_value() && settingsAdl.FanZeroRpm.Support)
+				{
+					if (settingsProfile.FanZeroRpm.Current.value() != settingsAdl.FanZeroRpm.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanTemp0.Current.has_value() && settingsAdl.FanTemp0.Current.has_value() && settingsAdl.FanTemp0.Support)
-					{
-						if (settingsProfile.FanTemp0.Current.value() != settingsAdl.FanTemp0.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanSpeed0.Current.has_value() && settingsAdl.FanSpeed0.Current.has_value() && settingsAdl.FanSpeed0.Support)
+				{
+					if (settingsProfile.FanSpeed0.Current.value() != settingsAdl.FanSpeed0.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanSpeed1.Current.has_value() && settingsAdl.FanSpeed1.Current.has_value() && settingsAdl.FanSpeed1.Support)
-					{
-						if (settingsProfile.FanSpeed1.Current.value() != settingsAdl.FanSpeed1.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanTemp0.Current.has_value() && settingsAdl.FanTemp0.Current.has_value() && settingsAdl.FanTemp0.Support)
+				{
+					if (settingsProfile.FanTemp0.Current.value() != settingsAdl.FanTemp0.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanTemp1.Current.has_value() && settingsAdl.FanTemp1.Current.has_value() && settingsAdl.FanTemp1.Support)
-					{
-						if (settingsProfile.FanTemp1.Current.value() != settingsAdl.FanTemp1.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanSpeed1.Current.has_value() && settingsAdl.FanSpeed1.Current.has_value() && settingsAdl.FanSpeed1.Support)
+				{
+					if (settingsProfile.FanSpeed1.Current.value() != settingsAdl.FanSpeed1.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanSpeed2.Current.has_value() && settingsAdl.FanSpeed2.Current.has_value() && settingsAdl.FanSpeed2.Support)
-					{
-						if (settingsProfile.FanSpeed2.Current.value() != settingsAdl.FanSpeed2.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanTemp1.Current.has_value() && settingsAdl.FanTemp1.Current.has_value() && settingsAdl.FanTemp1.Support)
+				{
+					if (settingsProfile.FanTemp1.Current.value() != settingsAdl.FanTemp1.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanTemp2.Current.has_value() && settingsAdl.FanTemp2.Current.has_value() && settingsAdl.FanTemp2.Support)
-					{
-						if (settingsProfile.FanTemp2.Current.value() != settingsAdl.FanTemp2.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanSpeed2.Current.has_value() && settingsAdl.FanSpeed2.Current.has_value() && settingsAdl.FanSpeed2.Support)
+				{
+					if (settingsProfile.FanSpeed2.Current.value() != settingsAdl.FanSpeed2.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanSpeed3.Current.has_value() && settingsAdl.FanSpeed3.Current.has_value() && settingsAdl.FanSpeed3.Support)
-					{
-						if (settingsProfile.FanSpeed3.Current.value() != settingsAdl.FanSpeed3.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanTemp2.Current.has_value() && settingsAdl.FanTemp2.Current.has_value() && settingsAdl.FanTemp2.Support)
+				{
+					if (settingsProfile.FanTemp2.Current.value() != settingsAdl.FanTemp2.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanTemp3.Current.has_value() && settingsAdl.FanTemp3.Current.has_value() && settingsAdl.FanTemp3.Support)
-					{
-						if (settingsProfile.FanTemp3.Current.value() != settingsAdl.FanTemp3.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanSpeed3.Current.has_value() && settingsAdl.FanSpeed3.Current.has_value() && settingsAdl.FanSpeed3.Support)
+				{
+					if (settingsProfile.FanSpeed3.Current.value() != settingsAdl.FanSpeed3.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanSpeed4.Current.has_value() && settingsAdl.FanSpeed4.Current.has_value() && settingsAdl.FanSpeed4.Support)
-					{
-						if (settingsProfile.FanSpeed4.Current.value() != settingsAdl.FanSpeed4.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanTemp3.Current.has_value() && settingsAdl.FanTemp3.Current.has_value() && settingsAdl.FanTemp3.Support)
+				{
+					if (settingsProfile.FanTemp3.Current.value() != settingsAdl.FanTemp3.Current.value()) { return false; }
+				}
 
-					if (settingsProfile.FanTemp4.Current.has_value() && settingsAdl.FanTemp4.Current.has_value() && settingsAdl.FanTemp4.Support)
-					{
-						if (settingsProfile.FanTemp4.Current.value() != settingsAdl.FanTemp4.Current.value()) { return false; }
-					}
+				if (settingsProfile.FanSpeed4.Current.has_value() && settingsAdl.FanSpeed4.Current.has_value() && settingsAdl.FanSpeed4.Support)
+				{
+					if (settingsProfile.FanSpeed4.Current.value() != settingsAdl.FanSpeed4.Current.value()) { return false; }
+				}
+
+				if (settingsProfile.FanTemp4.Current.has_value() && settingsAdl.FanTemp4.Current.has_value() && settingsAdl.FanTemp4.Support)
+				{
+					if (settingsProfile.FanTemp4.Current.value() != settingsAdl.FanTemp4.Current.value()) { return false; }
 				}
 			}
 

@@ -9,6 +9,32 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Keep Active
+			if (tuningFanSettings.KeepActive.Get(settingType).has_value())
+			{
+				//Get setting
+				bool valueBool = tuningFanSettings.KeepActive.Get(settingType).value();
+
+				//Set setting value
+				toggleswitch_KeepActive().IsOn(valueBool);
+
+				//Set hint value
+				textblock_KeepActive_Value().Text(valueBool ? L"Enabled" : L"Disabled");
+			}
+
+			//Fan Control Mode
+			if (tuningFanSettings.FanControlMode.Get(settingType).has_value())
+			{
+				//Get setting
+				int valueInt = tuningFanSettings.FanControlMode.Get(settingType).value();
+
+				//Set setting value
+				combobox_FanControl_Mode().SelectedIndex(valueInt);
+
+				//Set hint value
+				textblock_FanControl_Mode_Value().Text(ADL_FANCONTROL_MODES_STRING[valueInt]);
+			}
+
 			//Gpu Core Minimum
 			if (tuningFanSettings.CoreMin.Get(settingType).has_value())
 			{
@@ -57,38 +83,6 @@ namespace winrt::RadeonTuner::implementation
 				slider_Power_TDC().Value(tuningFanSettings.PowerTDC.Get(settingType).value());
 			}
 
-			//Fan Control
-			bool valueFanControl = false;
-			if (tuningFanSettings.FanControl.Get(settingType).has_value())
-			{
-				//Get setting
-				valueFanControl = tuningFanSettings.FanControl.Get(settingType).value();
-
-				//Set setting value
-				toggleswitch_FanControl().IsOn(valueFanControl);
-
-				//Update fan graph opacity
-				grid_Fan_Graph().Opacity(valueFanControl ? 1.0 : 0.4);
-			}
-			else
-			{
-				//Set setting value
-				toggleswitch_FanControl().IsOn(false);
-
-				//Update fan graph opacity
-				grid_Fan_Graph().Opacity(0.4);
-			}
-
-			//Fan Control Mode
-			if (tuningFanSettings.FanControlMode.Get(settingType).has_value())
-			{
-				//Set setting value
-				combobox_FanControl_Mode().SelectedIndex(tuningFanSettings.FanControlMode.Get(settingType).value());
-
-				//Enable or disable interface
-				combobox_FanControl_Mode().IsEnabled(valueFanControl);
-			}
-
 			//Fan Zero RPM
 			if (tuningFanSettings.FanZeroRpm.Get(settingType).has_value())
 			{
@@ -97,9 +91,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set setting value
 				toggleswitch_Fan_Zero_Rpm().IsOn(valueBool);
-
-				//Enable or disable interface
-				toggleswitch_Fan_Zero_Rpm().IsEnabled(valueFanControl);
 
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Profile().Visibility(valueBool ? Visibility::Visible : Visibility::Collapsed);
@@ -111,9 +102,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_0().Value(tuningFanSettings.FanSpeed0.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_0().IsEnabled(valueFanControl);
 			}
 
 			//Fan Temperature 0
@@ -121,9 +109,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Temp_0().Value(tuningFanSettings.FanTemp0.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Temp_0().IsEnabled(valueFanControl);
 			}
 
 			//Fan Speed 1
@@ -131,9 +116,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_1().Value(tuningFanSettings.FanSpeed1.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_1().IsEnabled(valueFanControl);
 			}
 
 			//Fan Temperature 1
@@ -141,9 +123,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Temp_1().Value(tuningFanSettings.FanTemp1.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Temp_1().IsEnabled(valueFanControl);
 			}
 
 			//Fan Speed 2
@@ -151,9 +130,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_2().Value(tuningFanSettings.FanSpeed2.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_2().IsEnabled(valueFanControl);
 			}
 
 			//Fan Temperature 2
@@ -161,9 +137,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Temp_2().Value(tuningFanSettings.FanTemp2.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Temp_2().IsEnabled(valueFanControl);
 			}
 
 			//Fan Speed 3
@@ -171,9 +144,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_3().Value(tuningFanSettings.FanSpeed3.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_3().IsEnabled(valueFanControl);
 			}
 
 			//Fan Temperature 3
@@ -181,9 +151,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Temp_3().Value(tuningFanSettings.FanTemp3.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Temp_3().IsEnabled(valueFanControl);
 			}
 
 			//Fan Speed 4
@@ -191,9 +158,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_4().Value(tuningFanSettings.FanSpeed4.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_4().IsEnabled(valueFanControl);
 			}
 
 			//Fan Temperature 4
@@ -201,9 +165,13 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Temp_4().Value(tuningFanSettings.FanTemp4.Get(settingType).value());
+			}
 
-				//Enable or disable interface
-				slider_Fan_Temp_4().IsEnabled(valueFanControl);
+			//Fan Speed Minimum
+			if (tuningFanSettings.FanSpeedMin.Get(settingType).has_value())
+			{
+				//Set setting value
+				slider_Fan_Speed_Min().Value(tuningFanSettings.FanSpeedMin.Get(settingType).value());
 			}
 
 			//Fan Speed Maximum
@@ -211,9 +179,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Set setting value
 				slider_Fan_Speed_Max().Value(tuningFanSettings.FanSpeedMax.Get(settingType).value());
-
-				//Enable or disable interface
-				slider_Fan_Speed_Max().IsEnabled(valueFanControl);
 			}
 
 			//Update fan graph
@@ -221,19 +186,6 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update fan control mode interface
 			UpdateFanControlModeInterface(tuningFanSettings);
-
-			//Keep Active
-			if (tuningFanSettings.KeepActive.Get(settingType).has_value())
-			{
-				bool keepActive = tuningFanSettings.KeepActive.Get(settingType).value();
-				toggleswitch_KeepActive().IsOn(keepActive);
-				textblock_KeepActive_Value().Text(keepActive ? L"Enabled" : L"Disabled");
-			}
-			else
-			{
-				toggleswitch_KeepActive().IsOn(false);
-				textblock_KeepActive_Value().Text(L"Disabled");
-			}
 
 			//Set result
 			AVDebugWriteLine(L"Tuning and fans settings applied to interface (Profile)");

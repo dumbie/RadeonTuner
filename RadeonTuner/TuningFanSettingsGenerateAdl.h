@@ -239,53 +239,6 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Fan Control
-			try
-			{
-				tuningFanSettings.FanControl.Default = false;
-				tuningFanSettings.FanControl.Support = tuningFanSettings.FanSupport;
-
-				auto od8SettingsValue = AdlRegistrySettingGetInt(gpuAdapterIndex, "", "OD8Settings");
-				if (od8SettingsValue.has_value())
-				{
-					int od8SettingsFlag = od8SettingsValue.value();
-					bool fanControlEnabled = (od8SettingsFlag & (int)OD8SettingsRegistryFlags::FanTuningOn) == (int)OD8SettingsRegistryFlags::FanTuningOn;
-					tuningFanSettings.FanControl.Current = fanControlEnabled;
-				}
-				else
-				{
-					tuningFanSettings.FanControl.Current = false;
-				}
-			}
-			catch (...) {}
-
-			//Fan Control Mode
-			try
-			{
-				tuningFanSettings.FanControlMode.Default = (int)FanControlModes::MaximumFanSpeed;
-				tuningFanSettings.FanControlMode.Support = tuningFanSettings.FanSupport;
-
-				auto advancedControlValue = AdlRegistrySettingGetInt(gpuAdapterIndex, "", "IsAdvancedControl");
-				if (advancedControlValue.has_value())
-				{
-					int advancedControlFlag = advancedControlValue.value();
-					bool fanAdvancedControl = (advancedControlFlag & (int)AdvancedControlRegistryFlags::FanAdvanced) == (int)AdvancedControlRegistryFlags::FanAdvanced;
-					if (fanAdvancedControl)
-					{
-						tuningFanSettings.FanControlMode.Current = (int)FanControlModes::CustomFanCurve;
-					}
-					else
-					{
-						tuningFanSettings.FanControlMode.Current = (int)FanControlModes::MaximumFanSpeed;
-					}
-				}
-				else
-				{
-					tuningFanSettings.FanControlMode.Current = (int)FanControlModes::MaximumFanSpeed;
-				}
-			}
-			catch (...) {}
-
 			//Fan Zero RPM
 			try
 			{
@@ -322,7 +275,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Fan Speed 0
+			//Fan Speed 0 / Minimum
 			try
 			{
 				auto defaultValue = Adl_Overdrive8_Load_Default(gpuAdapterIndex, ADLOD8SettingId::OD8_FAN_CURVE_SPEED_1);
@@ -337,6 +290,13 @@ namespace winrt::RadeonTuner::implementation
 						tuningFanSettings.FanSpeed0.Maximum = defaultValue.value().maxValue;
 						tuningFanSettings.FanSpeed0.Step = 1;
 						tuningFanSettings.FanSpeed0.Support = true;
+
+						tuningFanSettings.FanSpeedMin.Current = settingValue.value();
+						tuningFanSettings.FanSpeedMin.Default = defaultValue.value().defaultValue;
+						tuningFanSettings.FanSpeedMin.Minimum = defaultValue.value().minValue;
+						tuningFanSettings.FanSpeedMin.Maximum = defaultValue.value().maxValue;
+						tuningFanSettings.FanSpeedMin.Step = 1;
+						tuningFanSettings.FanSpeedMin.Support = true;
 					}
 				}
 			}

@@ -511,7 +511,7 @@
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based: Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based: Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal: Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based&#10;Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based&#10;Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal&#10;Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
                                             <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application executable to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
                                             <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
                                             <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
@@ -651,7 +651,7 @@
 
                                         <!-- Anti-Aliasing Method -->
                                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Choose the method used to smooth object edges, more sampling improves quality but reduces performance.&#10;&#10;* Multisampling (MSAA) targets only object edges.&#10;&#10;* Adaptive Multisampling (Adaptive MSAA) smooths both edges and transparent textures.&#10;&#10;* Supersampling (SSAA/FSAA) covers every pixel for excellent quality but a substantial performance cost."/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Choose the method used to smooth object edges, more sampling improves quality but reduces performance.&#10;&#10;- Multisampling (MSAA)&#10;Targets only object edges.&#10;&#10;- Adaptive Multisampling (Adaptive MSAA)&#10;Smooths both edges and transparent textures.&#10;&#10;- Supersampling (SSAA/FSAA)&#10;Covers every pixel for excellent quality but at a substantial performance cost."/>
                                             <TextBlock Text="Anti-Aliasing Method" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_AntiAliasingMethod_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
@@ -969,37 +969,48 @@
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Let the driver take control over your GPU fans which allows you to set a custom fan curve or control the maximum fan speed, when disabled the GPU will manage the fans as set in the bios."/>
-                                            <ToggleSwitch x:Name="toggleswitch_FanControl" Width="128" Margin="10,0,0,0" OffContent="Fan Control" OnContent="Fan Control" Toggled="toggleswitch_FanControl_Toggled"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControl_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-
-                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
-
-                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                            <TextBlock Text="Fan Control Mode" VerticalAlignment="Center"/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Select the fan control mode you want to use.&#10;&#10;When the temperatures are too high the fan settings will stay active, be cautious and make sure the fan speeds are not set too low, monitor the GPU temperatures while changing the fan settings.&#10;&#10;- No Fan Control&#10;This mode uses the fan speeds as set in the GPU bios.&#10;&#10;- Zero RPM Only&#10;This mode allows you to only adjust the Fan Zero RPM setting without also adjusting the fan speeds.&#10;&#10;- Ranged Fan Speed&#10;This mode lets you easily target a minimum and maximum fan speed.&#10;&#10;- Custom Fan Curve&#10;This mode lets you set a custom fan curve."/>
+                                            <TextBlock Margin="10,0,0,0" Text="Fan Control Mode" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControl_Mode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
                                         <ComboBox x:Name="combobox_FanControl_Mode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_FanControl_Mode_SelectionChanged"/>
                                     </StackPanel>
                                 </Border>
 
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
-                                            <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Width="185" Margin="10,0,0,0" OffContent="Fan Zero RPM Mode" OnContent="Fan Zero RPM Mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Zero_Rpm_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Border>
-
-                                <StackPanel x:Name="stackpanel_FanControl_MaxFanSpeed">
+                                <StackPanel x:Name="stackpanel_FanControl_FanZeroRpm">
                                     <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Target maximum fan speed, the driver will try to keep your GPU fans under the maximum fan speed, but when temperatures are too high the driver may go over the maximum to keep your GPU temperature under control."/>
-                                                <TextBlock Margin="10,0,0,0" Text="Maximum Fan Speed" VerticalAlignment="Center"/>
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Turns the fans off when the GPU does not need cooling to reduce noise levels and improve fan durability."/>
+                                                <ToggleSwitch x:Name="toggleswitch_Fan_Zero_Rpm" Width="185" Margin="10,0,0,0" OffContent="Fan Zero RPM Mode" OnContent="Fan Zero RPM Mode" Toggled="toggleswitch_Fan_Zero_Rpm_Toggled"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Zero_Rpm_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel x:Name="stackpanel_FanControl_RangedFanSpeed">
+                                    <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                        <StackPanel>
+                                            <!-- Minimum Fan Speed -->
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Minimum Fan Speed" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Speed_Min_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,5,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_Min" Text="{Binding ElementName=slider_Fan_Speed_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Min" Margin="10,0,0,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            </Grid>
+
+                                            <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                            <!-- Maximum Fan Speed -->
+                                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                                <TextBlock Text="Maximum Fan Speed" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Speed_Max_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             </StackPanel>
                                             <Grid Margin="0,5,0,0">
@@ -1008,7 +1019,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_Max" Text="{Binding ElementName=slider_Fan_Speed_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Max" Margin="10,0,0,0" ValueChanged="slider_Fan_Speed_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Max" Margin="10,0,0,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>
@@ -1310,7 +1321,7 @@
                                     <StackPanel>
                                         <!-- FreeSync Mode -->
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable: Dynamically adjusts FreeSync refresh rate to the frame rate of applications running in full-screen mode.&#10;&#10;- Static: Adjusts FreeSync refresh rate to your set display refresh rate."/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="AMD FreeSync technology reduces or eliminates visual artifacts, input latency, screen tearing and stuttering during gaming and video playback.&#10;&#10;- Variable&#10;Dynamically adjusts FreeSync refresh rate to the frame rate of applications running in full-screen mode.&#10;&#10;- Static&#10;Adjusts FreeSync refresh rate to your set display refresh rate."/>
                                             <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting requires an AMD FreeSync compatible monitor and graphics card.&#10;&#10;* This setting may only work when using full-screen mode depending on the application.&#10;&#10;* This setting only works on applications that are not blacklisted, some applications like web browsers and video players might be blocked from using FreeSync."/>
                                             <TextBlock Text="AMD FreeSync / VRR / Adaptive Sync" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_FreeSyncMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
@@ -1355,7 +1366,7 @@
                                         <!-- Scaling Mode -->
                                         <StackPanel Margin="0,5,0,0" Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Method used to stretch and position images to fit the display.&#10;&#10;- Preserve aspect ratio: Maintains the original aspect ratio of the image while fitting it to the display.&#10;&#10;- Full panel: Stretches image to fill the entire display.&#10;&#10;- Center: Centers image on the display keeping original aspect and pixel ratio."/>
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Method used to stretch and position images to fit the display.&#10;&#10;- Preserve aspect ratio&#10;Maintains the original aspect ratio of the image while fitting it to the display.&#10;&#10;- Full panel&#10;Stretches image to fill the entire display.&#10;&#10;- Center&#10;Centers image on the display keeping original aspect and pixel ratio."/>
                                                 <TextBlock Text="Scaling Mode" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_ScalingMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             </StackPanel>
@@ -1494,7 +1505,7 @@
                                         <!-- Display Color Enhancement -->
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming: Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast: Improves visibility of dimmed details."/>
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Built-in LUT profiles that improve clarity and color vibrance of displayed content.&#10;&#10;- Vivid Gaming&#10;Enhances overall brightness and colorfulness.&#10;&#10;- Dynamic Contrast&#10;Improves visibility of dimmed details."/>
                                                 <TextBlock Text="Display Color Enhancement" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_DisplayColorEnhancement_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             </StackPanel>
@@ -1825,6 +1836,17 @@
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="RadeonTuner checks with the driver if a Graphics feature is supported, enabling this setting allows you to skip this check and enable unsupported features for testing."/>
                                         <ToggleSwitch x:Name="toggleswitch_SkipSupportCheckGraphics" Margin="10,0,0,0" OffContent="Skip graphics support check" OnContent="Skip graphics support check" Toggled="toggleswitch_SkipSupportCheckGraphics_Toggled"/>
                                     </StackPanel>
+
+                                    <StackPanel x:Name="stackpanel_DisableRadeonServices">
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Disable unnecessary background services running in the background, freeing further resources.&#10;&#10;* Updating or reinstalling drivers reenables the services."/>
+                                            <Image x:Name="button_DisableRadeonServices_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                            <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
+                                            <Button x:Name="button_DisableRadeonServices" Content="Disable Radeon Services" Click="button_DisableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
 
@@ -2034,7 +2056,7 @@
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <TextBlock Text="Presentation" VerticalAlignment="Center"/>
-                                <Image Source="{ThemeResource ThemeImageInformation}" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Method in which images are presented to the screen.&#10;&#10;- Progressive: Entire picture is painted at once, which greatly reduces screen flickering.&#10;&#10;- Interlaced: Half the picture appears on the screen at a time, the other half of the picture follows an instant later."/>
+                                <Image Source="{ThemeResource ThemeImageInformation}" Margin="5,0,0,0" Width="24" Height="24" ToolTipService.ToolTip="Method in which images are presented to the screen.&#10;&#10;- Progressive&#10;Entire picture is painted at once, which greatly reduces screen flickering.&#10;&#10;- Interlaced&#10;Half the picture appears on the screen at a time, the other half of the picture follows an instant later."/>
                             </StackPanel>
 
                             <ComboBox Grid.Column="1" x:Name="combobox_CustomResolution_Presentation" Width="300" Style="{ThemeResource ApplicationComboBox}" HorizontalAlignment="Right" SelectionChanged="combobox_CustomResolution_Presentation_SelectionChanged"/>
