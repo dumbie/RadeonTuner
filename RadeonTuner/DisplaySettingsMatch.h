@@ -67,6 +67,21 @@ namespace winrt::RadeonTuner::implementation
 				if (settingsProfile.FreeSyncMode.Current.value() != settingsAdl.FreeSyncMode.Current.value()) { return false; }
 			}
 
+			if (settingsProfile.GammaRed.Current.has_value() && settingsAdl.GammaRed.Current.has_value())
+			{
+				if (!float_equal(settingsProfile.GammaRed.Current.value(), settingsAdl.GammaRed.Current.value(), 0.01F)) { return false; }
+			}
+
+			if (settingsProfile.GammaGreen.Current.has_value() && settingsAdl.GammaGreen.Current.has_value())
+			{
+				if (!float_equal(settingsProfile.GammaGreen.Current.value(), settingsAdl.GammaGreen.Current.value(), 0.01F)) { return false; }
+			}
+
+			if (settingsProfile.GammaBlue.Current.has_value() && settingsAdl.GammaBlue.Current.has_value())
+			{
+				if (!float_equal(settingsProfile.GammaBlue.Current.value(), settingsAdl.GammaBlue.Current.value(), 0.01F)) { return false; }
+			}
+
 			if (!appProfileOnly)
 			{
 				if (settingsProfile.GpuScalingEnabled.Current.has_value() && settingsAdl.GpuScalingEnabled.Current.has_value() && settingsAdl.GpuScalingEnabled.Support)
@@ -148,6 +163,8 @@ namespace winrt::RadeonTuner::implementation
 					if (settingsProfile.VsrEnabled.Current.value() != settingsAdl.VsrEnabled.Current.value()) { return false; }
 				}
 			}
+
+			//AVDebugWriteLine(L"Display settings are matching.");
 		}
 		catch (...) {}
 		return true;

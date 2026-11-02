@@ -44,13 +44,13 @@ namespace winrt::RadeonTuner::implementation
 				}
 
 				//Check display automatic eyefinity
-				AdlxCheckDisplayEyefinityAutomatic(processExeRunning);
+				AdlxLoopDisplayEyefinityAutomatic(processExeRunning);
 
 				//Check display application profile
-				AdlxCheckDisplayApplicationProfile(processExeRunning);
+				AdlxLoopDisplayApplicationProfile(processExeRunning);
 
 				//Check tuning application profile
-				AdlxCheckTuningApplicationProfile(processExeRunning);
+				AdlxLoopTuningApplicationProfile(processExeRunning);
 			}
 			catch (...) {}
 		}

@@ -7,7 +7,7 @@
 namespace winrt::RadeonTuner::implementation
 {
 	//Check selected device accessibility
-	void MainPage::AdlxCheckSelectedDeviceAccess()
+	void MainPage::AdlxLoopSelectedDeviceAccess()
 	{
 		try
 		{
@@ -15,9 +15,9 @@ namespace winrt::RadeonTuner::implementation
 			//Note: Using Display_Modes_Get does not work when Eyefinity is enabled, can try using Display_SCE_State_Get as fallback.
 
 			//Check GPU accessibility
-			int lpAccess;
+			int lpAccess = -1;
 			adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adl_Gpu_AdapterIndex, &lpAccess);
-			if (adl_Res0 != ADL_OK || lpAccess == 0)
+			if (adl_Res0 != ADL_OK || lpAccess <= 0)
 			{
 				AVDebugWriteLine("Selected GPU not available: " << adl_Gpu_AdapterIndex);
 				std::function<void()> invokeVoid = [&]
@@ -40,6 +40,8 @@ namespace winrt::RadeonTuner::implementation
 					};
 				AppVariables::App.DispatcherInvoke(invokeVoid);
 			}
+
+			//Fix if both are inaccessible due to a driver update reinitialize ADL.
 		}
 		catch (...) {}
 	}

@@ -5,23 +5,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::DisplaySettings_Convert_ToUI_Adl(DisplaySettings displaySettings)
+	bool MainPage::DisplaySettings_Convert_ToUI_Adl(DisplaySettings displaySettings, AdlSettingGet settingType)
 	{
 		try
 		{
 			//HDR Enabled
-			if (displaySettings.HdrEnabled.Support)
+			if (displaySettings.HdrEnabled.Support && displaySettings.HdrEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.HdrEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.HdrEnabled.Current.value();
-				}
-				else if (displaySettings.HdrEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.HdrEnabled.Default.value();
-				}
+				int valueInt = displaySettings.HdrEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_HdrEnabled().IsOn(valueInt);
@@ -43,18 +35,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FreeSync Mode
-			if (displaySettings.FreeSyncMode.Support)
+			if (displaySettings.FreeSyncMode.Support && displaySettings.FreeSyncMode.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.FreeSyncMode.Current.has_value())
-				{
-					valueInt = displaySettings.FreeSyncMode.Current.value();
-				}
-				else if (displaySettings.FreeSyncMode.Default.has_value())
-				{
-					valueInt = displaySettings.FreeSyncMode.Default.value();
-				}
+				int valueInt = displaySettings.FreeSyncMode.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_FreeSyncMode().SelectedIndex(valueInt);
@@ -76,18 +60,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Virtual Super Resolution
-			if (displaySettings.VsrEnabled.Support)
+			if (displaySettings.VsrEnabled.Support && displaySettings.VsrEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.VsrEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.VsrEnabled.Current.value();
-				}
-				else if (displaySettings.VsrEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.VsrEnabled.Default.value();
-				}
+				int valueInt = displaySettings.VsrEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_VSR().IsOn(valueInt);
@@ -109,18 +85,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Gpu Scaling
-			if (displaySettings.GpuScalingEnabled.Support)
+			if (displaySettings.GpuScalingEnabled.Support && displaySettings.GpuScalingEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.GpuScalingEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.GpuScalingEnabled.Current.value();
-				}
-				else if (displaySettings.GpuScalingEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.GpuScalingEnabled.Default.value();
-				}
+				int valueInt = displaySettings.GpuScalingEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_GpuScaling().IsOn(valueInt);
@@ -142,18 +110,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Integer Scaling
-			if (displaySettings.IntegerScalingEnabled.Support)
+			if (displaySettings.IntegerScalingEnabled.Support && displaySettings.IntegerScalingEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.IntegerScalingEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.IntegerScalingEnabled.Current.value();
-				}
-				else if (displaySettings.IntegerScalingEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.IntegerScalingEnabled.Default.value();
-				}
+				int valueInt = displaySettings.IntegerScalingEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_IntegerScaling().IsOn(valueInt);
@@ -175,18 +135,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Scaling Mode
-			if (displaySettings.ScalingMode.Support)
+			if (displaySettings.ScalingMode.Support && displaySettings.ScalingMode.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.ScalingMode.Current.has_value())
-				{
-					valueInt = displaySettings.ScalingMode.Current.value();
-				}
-				else if (displaySettings.ScalingMode.Default.has_value())
-				{
-					valueInt = displaySettings.ScalingMode.Default.value();
-				}
+				int valueInt = displaySettings.ScalingMode.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_ScalingMode().SelectedIndex(valueInt);
@@ -208,18 +160,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Depth
-			if (displaySettings.ColorDepth.Support)
+			if (displaySettings.ColorDepth.Support && displaySettings.ColorDepth.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.ColorDepth.Current.has_value())
-				{
-					valueInt = displaySettings.ColorDepth.Current.value();
-				}
-				else if (displaySettings.ColorDepth.Default.has_value())
-				{
-					valueInt = displaySettings.ColorDepth.Default.value();
-				}
+				int valueInt = displaySettings.ColorDepth.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_ColorDepth().SelectedIndex(valueInt);
@@ -241,18 +185,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Pixel Format
-			if (displaySettings.PixelFormat.Support)
+			if (displaySettings.PixelFormat.Support && displaySettings.PixelFormat.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.PixelFormat.Current.has_value())
-				{
-					valueInt = displaySettings.PixelFormat.Current.value();
-				}
-				else if (displaySettings.PixelFormat.Default.has_value())
-				{
-					valueInt = displaySettings.PixelFormat.Default.value();
-				}
+				int valueInt = displaySettings.PixelFormat.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_PixelFormat().SelectedIndex(valueInt);
@@ -274,18 +210,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Enhancement
-			if (displaySettings.ColorEnhancement.Support)
+			if (displaySettings.ColorEnhancement.Support && displaySettings.ColorEnhancement.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.ColorEnhancement.Current.has_value())
-				{
-					valueInt = displaySettings.ColorEnhancement.Current.value();
-				}
-				else if (displaySettings.ColorEnhancement.Default.has_value())
-				{
-					valueInt = displaySettings.ColorEnhancement.Default.value();
-				}
+				int valueInt = displaySettings.ColorEnhancement.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_DisplayColorEnhancement().SelectedIndex(valueInt);
@@ -307,18 +235,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Temperature Control
-			if (displaySettings.ColorTemperatureControl.Support)
+			if (displaySettings.ColorTemperatureControl.Support && displaySettings.ColorTemperatureControl.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.ColorTemperatureControl.Current.has_value())
-				{
-					valueInt = displaySettings.ColorTemperatureControl.Current.value();
-				}
-				else if (displaySettings.ColorTemperatureControl.Default.has_value())
-				{
-					valueInt = displaySettings.ColorTemperatureControl.Default.value();
-				}
+				int valueInt = displaySettings.ColorTemperatureControl.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_ColorTemperature_Control().IsOn(valueInt);
@@ -342,18 +262,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Temperature Kelvin
-			if (displaySettings.ColorTemperatureKelvin.Support)
+			if (displaySettings.ColorTemperatureKelvin.Support && displaySettings.ColorTemperatureKelvin.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.ColorTemperatureKelvin.Current.has_value())
-				{
-					valueInt = displaySettings.ColorTemperatureKelvin.Current.value();
-				}
-				else if (displaySettings.ColorTemperatureKelvin.Default.has_value())
-				{
-					valueInt = displaySettings.ColorTemperatureKelvin.Default.value();
-				}
+				int valueInt = displaySettings.ColorTemperatureKelvin.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_ColorTemperature_Kelvin().Value(valueInt);
@@ -381,18 +293,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Brightness
-			if (displaySettings.Brightness.Support)
+			if (displaySettings.Brightness.Support && displaySettings.Brightness.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.Brightness.Current.has_value())
-				{
-					valueInt = displaySettings.Brightness.Current.value();
-				}
-				else if (displaySettings.Brightness.Default.has_value())
-				{
-					valueInt = displaySettings.Brightness.Default.value();
-				}
+				int valueInt = displaySettings.Brightness.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Brightness().Value(valueInt);
@@ -423,18 +327,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Contrast
-			if (displaySettings.Contrast.Support)
+			if (displaySettings.Contrast.Support && displaySettings.Contrast.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.Contrast.Current.has_value())
-				{
-					valueInt = displaySettings.Contrast.Current.value();
-				}
-				else if (displaySettings.Contrast.Default.has_value())
-				{
-					valueInt = displaySettings.Contrast.Default.value();
-				}
+				int valueInt = displaySettings.Contrast.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Contrast().Value(valueInt);
@@ -465,18 +361,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Saturation
-			if (displaySettings.Saturation.Support)
+			if (displaySettings.Saturation.Support && displaySettings.Saturation.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.Saturation.Current.has_value())
-				{
-					valueInt = displaySettings.Saturation.Current.value();
-				}
-				else if (displaySettings.Saturation.Default.has_value())
-				{
-					valueInt = displaySettings.Saturation.Default.value();
-				}
+				int valueInt = displaySettings.Saturation.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Saturation().Value(valueInt);
@@ -507,18 +395,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Hue
-			if (displaySettings.Hue.Support)
+			if (displaySettings.Hue.Support && displaySettings.Hue.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.Hue.Current.has_value())
-				{
-					valueInt = displaySettings.Hue.Current.value();
-				}
-				else if (displaySettings.Hue.Default.has_value())
-				{
-					valueInt = displaySettings.Hue.Default.value();
-				}
+				int valueInt = displaySettings.Hue.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Hue().Value(valueInt);
@@ -548,19 +428,113 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().IsEnabled(false);
 			}
 
-			//Color Deficiency Correction Control
-			if (displaySettings.CVDCControl.Support)
+			//Color Gamma Red
+			if (displaySettings.GammaRed.Support && displaySettings.GammaRed.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.CVDCControl.Current.has_value())
+				float valueFloat = displaySettings.GammaRed.Get(settingType, true).value();
+
+				//Set setting value
+				slider_Display_GammaRed().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaRed_Value().Text(valueHint);
+
+				//Set interface
+				if (displaySettings.GammaRed.Minimum.has_value())
 				{
-					valueInt = displaySettings.CVDCControl.Current.value();
+					slider_Display_GammaRed().Minimum(displaySettings.GammaRed.Minimum.value());
+					slider_Display_GammaRed().Maximum(displaySettings.GammaRed.Maximum.value());
+					slider_Display_GammaRed().StepFrequency(displaySettings.GammaRed.Step.value());
+					slider_Display_GammaRed().SmallChange(displaySettings.GammaRed.Step.value());
 				}
-				else if (displaySettings.CVDCControl.Default.has_value())
+
+				//Enable or disable interface
+				slider_Display_GammaRed().IsEnabled(true);
+			}
+			else
+			{
+				//Set hint value
+				textblock_Display_GammaRed_Value().Text(L"");
+
+				//Enable or disable interface
+				slider_Display_GammaRed().IsEnabled(false);
+			}
+
+			//Color Gamma Green
+			if (displaySettings.GammaGreen.Support && displaySettings.GammaGreen.Get(settingType, true).has_value())
+			{
+				//Get setting
+				float valueFloat = displaySettings.GammaGreen.Get(settingType, true).value();
+
+				//Set setting value
+				slider_Display_GammaGreen().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaGreen_Value().Text(valueHint);
+
+				//Set interface
+				if (displaySettings.GammaGreen.Minimum.has_value())
 				{
-					valueInt = displaySettings.CVDCControl.Default.value();
+					slider_Display_GammaGreen().Minimum(displaySettings.GammaGreen.Minimum.value());
+					slider_Display_GammaGreen().Maximum(displaySettings.GammaGreen.Maximum.value());
+					slider_Display_GammaGreen().StepFrequency(displaySettings.GammaGreen.Step.value());
+					slider_Display_GammaGreen().SmallChange(displaySettings.GammaGreen.Step.value());
 				}
+
+				//Enable or disable interface
+				slider_Display_GammaGreen().IsEnabled(true);
+			}
+			else
+			{
+				//Set hint value
+				textblock_Display_GammaGreen_Value().Text(L"");
+
+				//Enable or disable interface
+				slider_Display_GammaGreen().IsEnabled(false);
+			}
+
+			//Color Gamma Blue
+			if (displaySettings.GammaBlue.Support && displaySettings.GammaBlue.Get(settingType, true).has_value())
+			{
+				//Get setting
+				float valueFloat = displaySettings.GammaBlue.Get(settingType, true).value();
+
+				//Set setting value
+				slider_Display_GammaBlue().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaBlue_Value().Text(valueHint);
+
+				//Set interface
+				if (displaySettings.GammaBlue.Minimum.has_value())
+				{
+					slider_Display_GammaBlue().Minimum(displaySettings.GammaBlue.Minimum.value());
+					slider_Display_GammaBlue().Maximum(displaySettings.GammaBlue.Maximum.value());
+					slider_Display_GammaBlue().StepFrequency(displaySettings.GammaBlue.Step.value());
+					slider_Display_GammaBlue().SmallChange(displaySettings.GammaBlue.Step.value());
+				}
+
+				//Enable or disable interface
+				slider_Display_GammaBlue().IsEnabled(true);
+			}
+			else
+			{
+				//Set hint value
+				textblock_Display_GammaBlue_Value().Text(L"");
+
+				//Enable or disable interface
+				slider_Display_GammaBlue().IsEnabled(false);
+			}
+
+			//Color Deficiency Correction Control
+			if (displaySettings.CVDCControl.Support && displaySettings.CVDCControl.Get(settingType, true).has_value())
+			{
+				//Get setting
+				int valueInt = displaySettings.CVDCControl.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_CVDC_Control().IsOn(valueInt);
@@ -588,18 +562,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Protanopia
-			if (displaySettings.CVDCProtanopia.Support)
+			if (displaySettings.CVDCProtanopia.Support && displaySettings.CVDCProtanopia.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.CVDCProtanopia.Current.has_value())
-				{
-					valueInt = displaySettings.CVDCProtanopia.Current.value();
-				}
-				else if (displaySettings.CVDCProtanopia.Default.has_value())
-				{
-					valueInt = displaySettings.CVDCProtanopia.Default.value();
-				}
+				int valueInt = displaySettings.CVDCProtanopia.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Protanopia().Value(valueInt);
@@ -627,18 +593,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Deuteranopia
-			if (displaySettings.CVDCDeuteranopia.Support)
+			if (displaySettings.CVDCDeuteranopia.Support && displaySettings.CVDCDeuteranopia.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.CVDCDeuteranopia.Current.has_value())
-				{
-					valueInt = displaySettings.CVDCDeuteranopia.Current.value();
-				}
-				else if (displaySettings.CVDCDeuteranopia.Default.has_value())
-				{
-					valueInt = displaySettings.CVDCDeuteranopia.Default.value();
-				}
+				int valueInt = displaySettings.CVDCDeuteranopia.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Deuteranopia().Value(valueInt);
@@ -666,18 +624,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Color Deficiency Correction Tritanopia
-			if (displaySettings.CVDCTritanopia.Support)
+			if (displaySettings.CVDCTritanopia.Support && displaySettings.CVDCTritanopia.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.CVDCTritanopia.Current.has_value())
-				{
-					valueInt = displaySettings.CVDCTritanopia.Current.value();
-				}
-				else if (displaySettings.CVDCTritanopia.Default.has_value())
-				{
-					valueInt = displaySettings.CVDCTritanopia.Default.value();
-				}
+				int valueInt = displaySettings.CVDCTritanopia.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Display_Tritanopia().Value(valueInt);
@@ -705,18 +655,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vari-Bright Enabled
-			if (displaySettings.VariBrightEnabled.Support)
+			if (displaySettings.VariBrightEnabled.Support && displaySettings.VariBrightEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.VariBrightEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.VariBrightEnabled.Current.value();
-				}
-				else if (displaySettings.VariBrightEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.VariBrightEnabled.Default.value();
-				}
+				int valueInt = displaySettings.VariBrightEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_VariBright().IsOn(valueInt);
@@ -740,18 +682,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vari-Bright Level
-			if (displaySettings.VariBrightLevel.Support)
+			if (displaySettings.VariBrightLevel.Support && displaySettings.VariBrightLevel.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.VariBrightLevel.Current.has_value())
-				{
-					valueInt = displaySettings.VariBrightLevel.Current.value();
-				}
-				else if (displaySettings.VariBrightLevel.Default.has_value())
-				{
-					valueInt = displaySettings.VariBrightLevel.Default.value();
-				}
+				int valueInt = displaySettings.VariBrightLevel.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Display_VariBright_Level().SelectedIndex(valueInt);
@@ -770,18 +704,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//HDCP Support
-			if (displaySettings.HDCPEnabled.Support)
+			if (displaySettings.HDCPEnabled.Support && displaySettings.HDCPEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (displaySettings.HDCPEnabled.Current.has_value())
-				{
-					valueInt = displaySettings.HDCPEnabled.Current.value();
-				}
-				else if (displaySettings.HDCPEnabled.Default.has_value())
-				{
-					valueInt = displaySettings.HDCPEnabled.Default.value();
-				}
+				int valueInt = displaySettings.HDCPEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Display_HDCPSupport().IsOn(valueInt);

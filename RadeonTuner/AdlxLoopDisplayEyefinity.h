@@ -6,15 +6,18 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	void MainPage::AdlxCheckDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning)
+	void MainPage::AdlxLoopDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning)
 	{
 		try
 		{
 			//Check if Automatic Eyefinity is disabled
 			if (disable_eyefinity_automatic) { return; }
 
-			//Get all display's
-			for (auto displayInfo : AdlGetDisplayAll())
+			//Get all displays
+			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
+
+			//Loop all display's
+			for (ADLDisplayInfo& displayInfo : displayList)
 			{
 				//Device index
 				int adapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;

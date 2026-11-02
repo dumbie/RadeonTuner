@@ -84,7 +84,7 @@ typedef struct ADL_FRAMEGENERATION_SETTINGSX2
 
 typedef struct AdlGammaRamp
 {
-	uint32_t rgb[1024];
+	DWORD rgb[1024];
 };
 
 enum class ADLCvdcType : int

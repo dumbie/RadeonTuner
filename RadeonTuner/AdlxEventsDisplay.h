@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Add selected items
 			int addCount = 0;
-			for (auto const& app : selectedApps)
+			for (const AppPickerIdl& app : selectedApps)
 			{
 				//Get executable name
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
@@ -84,7 +84,7 @@ namespace winrt::RadeonTuner::implementation
 			//Remove selected items
 			int removeCount = 0;
 			bool currentAppRemoved = false;
-			for (auto const& app : selectedApps)
+			for (const AppPickerIdl& app : selectedApps)
 			{
 				//Get executable name
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
@@ -521,6 +521,30 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			displaySettingsProfile.Hue.Current = newValue;
+		}
+		catch (...) {}
+	}
+
+	void MainPage::slider_Display_GammaRGB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting values
+			float redGamma = slider_Display_GammaRed().Value();
+			float greenGamma = slider_Display_GammaGreen().Value();
+			float blueGamma = slider_Display_GammaBlue().Value();
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsProfile.GammaRed.Current = redGamma;
+			displaySettingsProfile.GammaGreen.Current = greenGamma;
+			displaySettingsProfile.GammaBlue.Current = blueGamma;
 		}
 		catch (...) {}
 	}

@@ -1430,6 +1430,61 @@
                                     </StackPanel>
                                 </Border>
 
+
+                                <TextBlock Margin="0,10,0,0" Text="Gamma Adjustment" FontSize="20" FontWeight="Medium"/>
+
+                                <!-- Gamma Adjustment -->
+                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                    <StackPanel>
+                                        <!-- Gamma Red -->
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Certain running applications or playing video may prevent the gamma from changing and may need to be minimized or closed before the gamma takes effect.&#10;&#10;* Changing resolutions and switching between screen modes resets the gamma to defaults, when RadeonTuner is running it will try to recover the target gamma but may take a few seconds."/>
+                                            <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <!-- Gamma Green -->
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Green" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaGreen_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <!-- Gamma Blue -->
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Blue" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBlue_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
                                 <!-- Color Adjustment -->
                                 <TextBlock Text="Color Adjustment" Margin="0,10,0,0" FontSize="20" FontWeight="Medium"/>
 
@@ -1837,15 +1892,14 @@
                                         <ToggleSwitch x:Name="toggleswitch_SkipSupportCheckGraphics" Margin="10,0,0,0" OffContent="Skip graphics support check" OnContent="Skip graphics support check" Toggled="toggleswitch_SkipSupportCheckGraphics_Toggled"/>
                                     </StackPanel>
 
-                                    <StackPanel x:Name="stackpanel_DisableRadeonServices">
-                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
 
-                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Disable unnecessary background services running in the background, freeing further resources.&#10;&#10;* Updating or reinstalling drivers reenables the services."/>
-                                            <Image x:Name="button_DisableRadeonServices_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
-                                            <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
-                                            <Button x:Name="button_DisableRadeonServices" Content="Disable Radeon Services" Click="button_DisableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
-                                        </StackPanel>
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Disable background services running in the background, freeing further resources and reduce logging."/>
+                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Disabling the services may break graphics features like Fluid Motion Frames and Radeon Boost from working.&#10;&#10;* Updating or reinstalling drivers re-enables the services."/>
+                                        <Image x:Name="button_DisableRadeonServices_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                        <Button x:Name="button_DisableRadeonServices" Content="Disable Radeon Services" Click="button_DisableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
+                                        <Button x:Name="button_EnableRadeonServices" Content="Enable Radeon Services" Click="button_EnableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -1910,7 +1964,7 @@
                     <StackPanel>
                         <!-- Buttons -->
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <Image Source="/Assets/WarningOrange.png" Width="28" Height="28" ToolTipService.ToolTip="* Creating Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode, when Eyefinity is already enabled you will only see one display in the list below.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations.&#10;&#10;* After creating or enabling Eyefinity make sure the correct resolution is set.&#10;&#10;* If you cannot remove or disable Eyefinity after creation try creating a new configuration with the same settings."/>
+                            <Image Source="/Assets/WarningOrange.png" Width="28" Height="28" ToolTipService.ToolTip="* Creating Eyefinity only works when multiple displays are connected, turned on and needs to be in Duplicate or Extended display mode, when Eyefinity is already enabled you may only see one display in the list below.&#10;&#10;* Eyefinity needs to be enabled to be able to remove configurations.&#10;&#10;* After creating or enabling Eyefinity make sure the correct resolution is set.&#10;&#10;* If you cannot remove or disable Eyefinity after creation try creating a new configuration with the same settings."/>
                             <Button x:Name="button_Eyefinity_Overlay_Create" Content="Create Eyefinity" Click="button_Eyefinity_Overlay_Create_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Create configuration and enable Eyefinity based on settings below."/>
                             <Button x:Name="button_Eyefinity_Overlay_Remove" Content="Remove Eyefinity" Click="button_Eyefinity_Overlay_Remove_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Remove configuration and disable Eyefinity."/>
                             <Button x:Name="button_Eyefinity_Overlay_Enable" Content="Enable Eyefinity" Click="button_Eyefinity_Enable_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}" ToolTipService.ToolTip="Enable Eyefinity when it is inactive."/>

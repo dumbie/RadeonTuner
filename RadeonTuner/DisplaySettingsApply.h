@@ -438,6 +438,24 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
+			//Color Gamma Red Green Blue
+			try
+			{
+				//Get gamma values
+				auto newValueRed = targetSettings.GammaRed.Get(settingGet).value();
+				auto currentValueRed = adlSettings.GammaRed.Current.value();
+				auto newValueGreen = targetSettings.GammaGreen.Get(settingGet).value();
+				auto currentValueGreen = adlSettings.GammaGreen.Current.value();
+				auto newValueBlue = targetSettings.GammaBlue.Get(settingGet).value();
+				auto currentValueBlue = adlSettings.GammaBlue.Current.value();
+				if (!float_equal(newValueRed, currentValueRed) || !float_equal(newValueGreen, currentValueGreen) || !float_equal(newValueBlue, currentValueBlue))
+				{
+					//Apply gamma values
+					AdlGammaApply(displayAdapterIndex, newValueRed, newValueGreen, newValueBlue);
+				}
+			}
+			catch (...) {}
+
 			//Return result
 			return true;
 		}
