@@ -38,7 +38,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get display details in order
 			std::vector<int> displayIndexes{};
-			for (IInspectable displayItem : listview_EyefinityMonitorIndex().Items())
+			for (const IInspectable& displayItem : listview_EyefinityMonitorIndex().Items())
 			{
 				auto displayDetails = displayItem.as<RadeonTuner::DisplayDetailsIdl>();
 				displayIndexes.push_back(displayDetails.IndexDisplay());
@@ -81,9 +81,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set SLS targets
 			std::vector<ADLSLSTarget> slsTargets(displayCount);
-			for (int x = 0; x < displayColumns; x++)
+			for (UINT x = 0; x < displayColumns; x++)
 			{
-				for (int y = 0; y < displayRows; y++)
+				for (UINT y = 0; y < displayRows; y++)
 				{
 					//Set indexes
 					slsTargets[slsTargetCurrent].iAdapterIndex = displayAdapterIndex;
@@ -154,7 +154,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Delete SLS map configurations
 			int slsDeleteCount = 0;
-			for (int index = 0; index < slsMapIndexCount; index++)
+			for (UINT index = 0; index < slsMapIndexCount; index++)
 			{
 				AVDebugWriteLine("Deleting sls map configuration: " << slsMapIndexList[index]);
 				adl_Res0 = _ADL2_Display_SLSMapConfig_Delete(adl_Context, displayAdapterIndex, slsMapIndexList[index]);
@@ -272,7 +272,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Check if Display resolution matches SLS resolution
-			for (int i = 0; i < slsStandardModesCount; i++)
+			for (UINT i = 0; i < slsStandardModesCount; i++)
 			{
 				int slsWidth = slsStandardModes.Get()[i].displayMode.iXRes;
 				int slsHeight = slsStandardModes.Get()[i].displayMode.iYRes;

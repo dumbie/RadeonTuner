@@ -23,6 +23,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (settingsProfile.VideoBrightness.Current.value() != settingsAdl.VideoBrightness.Current.value()) { return false; }
 			}
+
+			//AVDebugWriteLine(L"Multimedia settings are matching.");
 		}
 		catch (...) {}
 		return true;

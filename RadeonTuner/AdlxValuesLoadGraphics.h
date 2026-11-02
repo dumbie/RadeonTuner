@@ -47,7 +47,7 @@ namespace winrt::RadeonTuner::implementation
 			graphicsSettingsProfile = GraphicsSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
-			GraphicsSettings_Convert_ToUI_Adl(graphicsSettingsAdl);
+			GraphicsSettings_Convert_ToUI_Adl(graphicsSettingsAdl, AdlSettingGet::Current);
 			GraphicsSettings_Convert_ToUI_Profile(graphicsSettingsProfile, AdlSettingGet::Current);
 
 			//Update button text

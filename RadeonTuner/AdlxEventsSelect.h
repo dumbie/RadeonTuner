@@ -10,12 +10,12 @@ namespace winrt::RadeonTuner::implementation
 			//Check if saving is disabled
 			if (disable_saving) { co_return; }
 
-			//Get all gpu's
-			std::vector<AdapterInfo> listGpus = AdlGetGpuAll();
+			//Get all available GPU's
+			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
 
 			//List all GPU's
 			std::vector<std::wstring> messageAnswers{};
-			for (AdapterInfo adapterInfo : listGpus)
+			for (AdapterInfo& adapterInfo : listGpus)
 			{
 				messageAnswers.push_back(char_to_wstring(adapterInfo.strAdapterName));
 			}
@@ -44,13 +44,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all displays
 			std::vector<std::wstring> messageAnswers{};
-			for (ADLDisplayInfo displayInfo : displayList)
+			for (ADLDisplayInfo& displayInfo : displayList)
 			{
 				messageAnswers.push_back(char_to_wstring(displayInfo.strDisplayName));
 			}
 
 			//Show selection prompt
-			int messageResult = co_await ShowMessageBox(L"Select display", L"Select the display you want to adjust.", messageAnswers);
+			int messageResult = co_await ShowMessageBox(L"Select display", L"Select the display you want to adjust, when displays are in Duplicate or Eyefinity mode you may only see one display and some settings become shared.", messageAnswers);
 
 			//Get selected display
 			ADLDisplayInfo displayInfo = displayList[messageResult];

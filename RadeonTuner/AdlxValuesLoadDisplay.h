@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 			displaySettingsProfile = DisplaySettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
-			DisplaySettings_Convert_ToUI_Adl(displaySettingsAdl);
+			DisplaySettings_Convert_ToUI_Adl(displaySettingsAdl, AdlSettingGet::Current);
 			DisplaySettings_Convert_ToUI_Profile(displaySettingsProfile, AdlSettingGet::Current);
 
 			//Update button text
@@ -144,7 +144,7 @@ namespace winrt::RadeonTuner::implementation
 			auto itemCollectionEyefinity = winrt::single_threaded_observable_vector<RadeonTuner::DisplayDetailsIdl>();
 
 			//Add all displays
-			for (const ADLDisplayInfo& displayInfo : displayList)
+			for (ADLDisplayInfo& displayInfo : displayList)
 			{
 				//Get display name
 				std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName);

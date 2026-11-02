@@ -13,7 +13,7 @@ namespace winrt::RadeonTuner::implementation
 			//Create empty settings
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
-			for (int i = 0; i < requestSettingList.count; i++)
+			for (UINT i = 0; i < requestSettingList.count; i++)
 			{
 				requestSettingList.od8SettingTable[i].reset = true;
 				requestSettingList.od8SettingTable[i].requested = true;
@@ -53,7 +53,7 @@ namespace winrt::RadeonTuner::implementation
 			//Create empty settings
 			ADLOD8SetSetting requestSettingList{};
 			requestSettingList.count = OD8_COUNT - 2;
-			for (int i = 0; i < requestSettingList.count; i++)
+			for (UINT i = 0; i < requestSettingList.count; i++)
 			{
 				requestSettingList.od8SettingTable[i].reset = false;
 				requestSettingList.od8SettingTable[i].requested = false;
@@ -61,7 +61,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Set setting values
-			for (std::tuple<ADLOD8SettingId, int, bool> setting : saveSettings)
+			for (const std::tuple<ADLOD8SettingId, int, bool>& setting : saveSettings)
 			{
 				ADLOD8SettingId settingId = std::get<0>(setting);
 				int settingValue = std::get<1>(setting);

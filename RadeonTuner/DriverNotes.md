@@ -38,6 +38,9 @@ Radeon Software reads Graphics settings from '%LOCALAPPDATA%\AMD\CN\gmdb.blb' an
 When FRTC is enabled in Global all GPU's read the value set from the first installed GPU, ignoring the value set for each GPU separately.
 Example: When GPU 0000 FRTC is set to 60 FPS and GPU 0001 FRTC FPS is set to 30, both GPU's will use the 0000 GPU 60 FPS value even when 0001 is properly set to 30 FPS.
 
+#DriverBug#8
+When RIS2 is enabled in an application profile and a fullscreen application with active sharpening is switched to windowed mode and than closed the sharpening will remain active on the desktop, the driver fails to detect that the application closed or switched to windowed mode.
+
 ---------------------------------------------
 ADL api notes
 
@@ -47,6 +50,7 @@ ADL2_Display_RegammaR1_Get (Not working HDR -1)
 ADL2_Display_ReGammaCoefficients_Get (Not working HDR -1)
 ADL2_Display_User3DLUT_Get (Returns unsupported error)
 ADL2_Adapter_Gamma_Get (Works HDR uses SetDeviceGammaRamp)
+MagSetFullscreenColorEffect (No gamma and applies to all displays)
 
 #ADL2_Adapter_Gamma_Get
 Uses Windows API SetDeviceGammaRamp to change the gamma which is unreliable because it does not work when video is playing and resets the gamma on display events like resolution changes and system reboots.

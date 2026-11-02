@@ -21,6 +21,7 @@ struct MultimediaSettings
 
 	void SetCurrentToDefault()
 	{
+		//Settings
 		VideoUpscaling.Current = VideoUpscaling.Default;
 		VideoSharpening.Current = VideoSharpening.Default;
 		VideoBrightness.Current = VideoBrightness.Default;

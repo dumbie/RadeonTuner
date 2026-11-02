@@ -30,7 +30,7 @@ struct AdlAppProperty
 	std::wstring GetValuesString()
 	{
 		std::wstring valueString;
-		for (AdlAppPropertyValue adlAppPropertyValue : Values)
+		for (AdlAppPropertyValue& adlAppPropertyValue : Values)
 		{
 			valueString += adlAppPropertyValue.GetValueString();
 		}

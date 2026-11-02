@@ -43,7 +43,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Show file dialog
-			std::wstring importPath = filepicker_open(NULL, L"Select application executable...", { { L"Executable files", L"*.exe" }, { L"Binary files", L"*.bin" } });
+			std::wstring importPath = filepicker_open(NULL, L"Select application executable...", { { L"Executable files", L"*.exe" },{ L"Binary files", L"*.bin" } });
 
 			//Check file path
 			if (importPath.empty())
@@ -76,7 +76,7 @@ namespace winrt::RadeonTuner::implementation
 			//Get running processes
 			auto pickerList = winrt::single_threaded_observable_vector<RadeonTuner::AppPickerIdl>();
 			std::vector<AVProcess> processList = Get_ProcessAll();
-			for (AVProcess process : processList)
+			for (AVProcess& process : processList)
 			{
 				try
 				{
@@ -102,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 
 					//Check executable filter strings
 					bool filtered = false;
-					for (const auto& filterString : executableFilter)
+					for (std::wstring& filterString : executableFilter)
 					{
 						if (exeNameLowerW.find(filterString) != std::wstring::npos)
 						{
@@ -150,7 +150,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get selected items
 				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
-				for (auto const& itemBoxed : selectedItems)
+				for (const IInspectable& itemBoxed : selectedItems)
 				{
 					//Unbox selected item
 					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();
@@ -182,11 +182,11 @@ namespace winrt::RadeonTuner::implementation
 			//Get library folders from Steam
 			std::vector<uint32_t> installedAppIds{};
 			auto libraryFolders = LauncherSteam::LibraryFolders::GetLibraryFolders("");
-			for (const auto& folder : libraryFolders)
+			for (auto& folder : libraryFolders)
 			{
 				if (folder.apps.has_value())
 				{
-					for (const auto& appId : folder.apps.value())
+					for (std::string& appId : folder.apps.value())
 					{
 						installedAppIds.push_back(std::stoul(appId));
 					}
@@ -195,7 +195,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get games from Steam
 			auto launcherApps = LauncherSteam::AppInfo::GetApps("");
-			for (const auto& app : launcherApps)
+			for (auto& app : launcherApps)
 			{
 				try
 				{
@@ -225,7 +225,7 @@ namespace winrt::RadeonTuner::implementation
 
 						//Check executable filter strings
 						bool filtered = false;
-						for (const auto& filterString : executableFilter)
+						for (std::wstring& filterString : executableFilter)
 						{
 							if (exeNameLowerW.find(filterString) != std::wstring::npos)
 							{
@@ -291,7 +291,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get selected items
 				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
-				for (auto const& itemBoxed : selectedItems)
+				for (const IInspectable& itemBoxed : selectedItems)
 				{
 					//Unbox selected item
 					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();
@@ -325,7 +325,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Append applications
-			for (std::wstring app : appList)
+			for (std::wstring& app : appList)
 			{
 				try
 				{
@@ -363,7 +363,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get selected items
 				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
-				for (auto const& itemBoxed : selectedItems)
+				for (const IInspectable& itemBoxed : selectedItems)
 				{
 					//Unbox selected item
 					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();
@@ -397,7 +397,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Append applications
-			for (std::wstring app : appList)
+			for (std::wstring& app : appList)
 			{
 				try
 				{
@@ -435,7 +435,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get selected items
 				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
-				for (auto const& itemBoxed : selectedItems)
+				for (const IInspectable& itemBoxed : selectedItems)
 				{
 					//Unbox selected item
 					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();
@@ -469,7 +469,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Append applications
-			for (std::wstring app : appList)
+			for (std::wstring& app : appList)
 			{
 				try
 				{
@@ -507,7 +507,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				//Get selected items
 				auto selectedItems = listview_Overlay_AppPicker().SelectedItems();
-				for (auto const& itemBoxed : selectedItems)
+				for (const IInspectable& itemBoxed : selectedItems)
 				{
 					//Unbox selected item
 					RadeonTuner::AppPickerIdl itemUnboxed = itemBoxed.as<RadeonTuner::AppPickerIdl>();

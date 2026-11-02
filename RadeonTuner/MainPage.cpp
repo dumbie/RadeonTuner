@@ -99,8 +99,11 @@
 #include "AppPickerEvent.h"
 
 #include "AdlxLoopDisplay.h"
-#include "AdlxLoopEyefinity.h"
+#include "AdlxLoopDisplayEyefinity.h"
+#include "AdlxLoopDisplayGamma.h"
+#include "AdlxLoopDisplayProfile.h"
 #include "AdlxLoopTuning.h"
+#include "AdlxLoopTuningProfile.h"
 #include "AdlxLoopProfile.h"
 #include "AdlxLoopMetrics.h"
 #include "AdlxLoopAccess.h"
@@ -150,7 +153,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				grid_Main().IsHitTestVisible(false);
 				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
-				int messageResult = co_await ShowMessageBox(L"Failed initializing ADL", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility. (" + initResult_Adl + L")", messageAnswers);
+				int messageResult = co_await ShowMessageBox(L"Failed initializing ADL", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility and reinstall the drivers. (" + initResult_Adl + L")", messageAnswers);
 				if (messageResult == 0)
 				{
 					//Launch driver cleanup utility
@@ -183,7 +186,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				grid_Main().IsHitTestVisible(false);
 				std::vector<std::wstring> messageAnswers{ L"Run AMD Cleanup Utility", L"Exit application" };
-				int messageResult = co_await ShowMessageBox(L"Failed to find any GPU's", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility.", messageAnswers);
+				int messageResult = co_await ShowMessageBox(L"Failed to find any GPU's", L"Please (re)install or update your AMD drivers, if this message keeps appearing try using the AMD Cleanup Utility and reinstall the drivers.", messageAnswers);
 				if (messageResult == 0)
 				{
 					//Launch driver cleanup utility
@@ -306,7 +309,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
-					stackpanel_FsrOtaUpdates().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Visible);
 					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Visible);
@@ -328,7 +330,6 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideMultiFrameGeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
-					stackpanel_FsrOtaUpdates().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Collapsed);
 					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Collapsed);

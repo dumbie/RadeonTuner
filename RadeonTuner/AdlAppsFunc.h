@@ -40,7 +40,7 @@ namespace winrt::RadeonTuner::implementation
 			//Set memory releaser
 			adlApplications.SetReleaser([&](auto releasePointer)
 				{
-					for (int i = 0; i < adlApplicationsCount; i++)
+					for (UINT i = 0; i < adlApplicationsCount; i++)
 					{
 						delete[](releasePointer[i].strFileName);
 						delete[](releasePointer[i].strPathName);
@@ -56,7 +56,7 @@ namespace winrt::RadeonTuner::implementation
 			//Check result
 			if (adl_Res0 == ADL_OK)
 			{
-				for (int i = 0; i < adlApplicationsCount; i++)
+				for (UINT i = 0; i < adlApplicationsCount; i++)
 				{
 					try
 					{
@@ -138,7 +138,7 @@ namespace winrt::RadeonTuner::implementation
 		std::vector<ADLPropertyRecordCreate> recordProperties;
 		try
 		{
-			for (AdlAppProperty property : adlAppProperties)
+			for (AdlAppProperty& property : adlAppProperties)
 			{
 				try
 				{

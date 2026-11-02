@@ -72,7 +72,7 @@ namespace winrt::RadeonTuner::implementation
 			//textblock_Display_Orientation_Value().Text(number_to_wstring(adlModeCurrent->iOrientation) + L"°");
 
 			//Select display resolution
-			for (int i = 0; i < combobox_Display_Resolution().Items().Size(); i++)
+			for (UINT i = 0; i < combobox_Display_Resolution().Items().Size(); i++)
 			{
 				auto item = combobox_Display_Resolution().Items().GetAt(i).as<RadeonTuner::DisplayDetailsIdl>();
 				if (item.ResolutionWidth() == adlModeCurrent->iXRes && item.ResolutionHeight() == adlModeCurrent->iYRes)
@@ -83,7 +83,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Select display refresh rate
-			for (int i = 0; i < combobox_Display_RefreshRate().Items().Size(); i++)
+			for (UINT i = 0; i < combobox_Display_RefreshRate().Items().Size(); i++)
 			{
 				auto item = combobox_Display_RefreshRate().Items().GetAt(i).as<RadeonTuner::DisplayDetailsIdl>();
 				if (item.RefreshRate() == adlModeCurrent->fRefreshRate)
@@ -139,7 +139,7 @@ namespace winrt::RadeonTuner::implementation
 			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.iXRes > b.iXRes; });
 
 			//Append resolutions
-			for (int i = 0; i < lpNumModes; i++)
+			for (UINT i = 0; i < lpNumModes; i++)
 			{
 				ADLMode adlMode = lppModes[i];
 				RadeonTuner::DisplayDetailsIdl displayDetails;
@@ -191,7 +191,7 @@ namespace winrt::RadeonTuner::implementation
 			std::sort(lppModes, lppModes + lpNumModes, [](const ADLMode& a, const ADLMode& b) { return a.fRefreshRate > b.fRefreshRate; });
 
 			//Append refresh rates
-			for (int i = 0; i < lpNumModes; i++)
+			for (UINT i = 0; i < lpNumModes; i++)
 			{
 				ADLMode adlMode = lppModes[i];
 				RadeonTuner::DisplayDetailsIdl displayDetails;

@@ -105,7 +105,7 @@ namespace winrt::RadeonTuner::implementation
 			HICON iconHandle = (HICON)LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 
 			//Create tray data
-			NOTIFYICONDATA notifyIcon = { };
+			NOTIFYICONDATA notifyIcon{};
 			notifyIcon.cbSize = sizeof(notifyIcon);
 			notifyIcon.hWnd = _hWnd_MainWindow;
 			notifyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
@@ -128,7 +128,7 @@ namespace winrt::RadeonTuner::implementation
 		try
 		{
 			//Create tray data
-			NOTIFYICONDATA notifyIcon = { };
+			NOTIFYICONDATA notifyIcon{};
 			notifyIcon.cbSize = sizeof(notifyIcon);
 			notifyIcon.hWnd = _hWnd_MainWindow;
 
@@ -342,7 +342,7 @@ namespace winrt::RadeonTuner::implementation
 			HICON iconHandle = (HICON)LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 
 			//Register window class
-			WNDCLASSEX windowClass = { };
+			WNDCLASSEX windowClass{};
 			windowClass.cbSize = sizeof(WNDCLASSEX);
 			windowClass.lpfnWndProc = WindowProc;
 			windowClass.hInstance = hInstance;

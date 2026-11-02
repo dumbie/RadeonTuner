@@ -33,7 +33,7 @@ namespace winrt::RadeonTuner::implementation
 			AVDebugWriteLine(L"Multimedia capabilities count: " << adlFeatureCapsCount);
 
 			//Load all multimedia setting values
-			for (int index = 0; index < adlFeatureValuesCount; index++)
+			for (UINT index = 0; index < adlFeatureValuesCount; index++)
 			{
 				try
 				{

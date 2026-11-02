@@ -15,14 +15,14 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_MMD_FeatureValues_Get(adl_Context, gpuAdapterIndex, &adlFeatureValues.Get(), &adlFeatureCount);
 
 			//Load all multimedia setting values
-			for (int index = 0; index < adlFeatureCount; index++)
+			for (UINT index = 0; index < adlFeatureCount; index++)
 			{
 				try
 				{
 					//Get feature name
 					std::string featureName = std::string(adlFeatureValues.Get()[index].Name.FeatureName);
 
-					//Custom preset
+					//Multimedia preset
 					if (featureName == "Preset")
 					{
 						//Note: When multimedia preset is not set to Custom, brightness does not work.

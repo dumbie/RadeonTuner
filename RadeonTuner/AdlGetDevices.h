@@ -12,7 +12,7 @@ namespace winrt::RadeonTuner::implementation
 			int adapterInfoFilterCount = 0;
 			auto adapterInfoList = AVFin<AdapterInfo*>(AVFinMethod::FreeMarshal);
 			adl_Res0 = _ADL2_Adapter_AdapterInfoX3_Get(adl_Context, -1, &adapterInfoCount, &adapterInfoList.Get());
-			for (int i = 0; i < adapterInfoCount; i++)
+			for (UINT i = 0; i < adapterInfoCount; i++)
 			{
 				//Get adapter information
 				AdapterInfo adapterInfo = adapterInfoList.Get()[i];
@@ -26,9 +26,9 @@ namespace winrt::RadeonTuner::implementation
 				//Check GPU accessibility
 				//Note: checks if driver is not installed for (integrated) gpu or device is disabled in device manager
 				//Fix ADL2_Adapter_Accessibility_Get always fails when using DCH / UWP or downgraded driver
-				int lpAccess;
+				int lpAccess = -1;
 				adl_Res0 = _ADL2_Adapter_Accessibility_Get(adl_Context, adapterInfo.iAdapterIndex, &lpAccess);
-				if (adl_Res0 != ADL_OK || lpAccess == 0)
+				if (adl_Res0 != ADL_OK || lpAccess <= 0)
 				{
 					//AVDebugWriteLine("GPU is not accessible: " << adapterInfo.iAdapterIndex << " / " << lpAccess << " / " << adapterInfo.strUDID);
 					continue;
@@ -38,7 +38,7 @@ namespace winrt::RadeonTuner::implementation
 				bool duplicate = false;
 				if (!ignoreDuplicate)
 				{
-					for (AdapterInfo listInfo : gpuList)
+					for (AdapterInfo& listInfo : gpuList)
 					{
 						if (string_contains(listInfo.strPNPString, adapterInfo.strPNPString))
 						{
@@ -106,7 +106,7 @@ namespace winrt::RadeonTuner::implementation
 			std::vector<AdapterInfo> listGpus = AdlGetGpuAll(false);
 
 			//Loop all gpu's
-			for (AdapterInfo adapterInfo : listGpus)
+			for (AdapterInfo& adapterInfo : listGpus)
 			{
 				//Device identifier
 				std::wstring adapterDeviceId = char_to_wstring(adapterInfo.strPNPString);
@@ -168,13 +168,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Loop all gpu's
 			int displayConnectedCount = 0;
-			for (AdapterInfo adapterInfo : listGpus)
+			for (AdapterInfo& adapterInfo : listGpus)
 			{
 				//Get all displays connected to gpu
 				int displayInfoCount = 0;
 				auto displayInfoList = AVFin<ADLDisplayInfo*>(AVFinMethod::FreeMarshal);
 				adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterInfo.iAdapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
-				for (int i = 0; i < displayInfoCount; i++)
+				for (UINT i = 0; i < displayInfoCount; i++)
 				{
 					//Get display information
 					ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
@@ -228,7 +228,7 @@ namespace winrt::RadeonTuner::implementation
 			auto displayInfoList = AVFin<ADLDisplayInfo*>(AVFinMethod::FreeMarshal);
 			adl_Res0 = _ADL2_Display_DisplayInfo_Get(adl_Context, adapterIndex, &displayInfoCount, &displayInfoList.Get(), true);
 			//Fix ADL2_Display_DisplayInfo_Get always fails when using DCH / UWP or downgraded driver
-			for (int i = 0; i < displayInfoCount; i++)
+			for (UINT i = 0; i < displayInfoCount; i++)
 			{
 				//Get display information
 				ADLDisplayInfo displayInfo = displayInfoList.Get()[i];
@@ -278,7 +278,7 @@ namespace winrt::RadeonTuner::implementation
 			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayAll();
 
 			//Find display by identifier
-			for (ADLDisplayInfo displayInfo : displayList)
+			for (ADLDisplayInfo& displayInfo : displayList)
 			{
 				if (displayInfo.displayID.iDisplayLogicalAdapterIndex == adapterIndex && displayInfo.displayID.iDisplayLogicalIndex == displayIndex)
 				{

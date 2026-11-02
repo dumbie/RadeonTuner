@@ -5,23 +5,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::GraphicsSettings_Convert_ToUI_Adl(GraphicsSettings graphicsSettings)
+	bool MainPage::GraphicsSettings_Convert_ToUI_Adl(GraphicsSettings graphicsSettings, AdlSettingGet settingType)
 	{
 		try
 		{
 			//FSR Upscaling Override
-			if (graphicsSettings.FsrOverride.Support)
+			if (graphicsSettings.FsrOverride.Support && graphicsSettings.FsrOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FsrOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.FsrOverride.Current.value();
-				}
-				else if (graphicsSettings.FsrOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.FsrOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.FsrOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrOverrideUpscaling().IsOn(valueInt);
@@ -43,18 +35,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Frame Generation Override
-			if (graphicsSettings.MlfiOverride.Support)
+			if (graphicsSettings.MlfiOverride.Support && graphicsSettings.MlfiOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.MlfiOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.MlfiOverride.Current.value();
-				}
-				else if (graphicsSettings.MlfiOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.MlfiOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.MlfiOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrOverrideFrameGeneration().IsOn(valueInt);
@@ -76,18 +60,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Multi Frame Generation Override
-			if (graphicsSettings.MfgOverride.Support)
+			if (graphicsSettings.MfgOverride.Support && graphicsSettings.MfgOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.MfgOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.MfgOverride.Current.value();
-				}
-				else if (graphicsSettings.MfgOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.MfgOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.MfgOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrOverrideMultiFrameGeneration().IsOn(valueInt);
@@ -109,18 +85,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Ray Regeneration Denoiser Override
-			if (graphicsSettings.MldOverride.Support)
+			if (graphicsSettings.MldOverride.Support && graphicsSettings.MldOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.MldOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.MldOverride.Current.value();
-				}
-				else if (graphicsSettings.MldOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.MldOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.MldOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrOverrideRayRegeneration().IsOn(valueInt);
@@ -142,18 +110,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Neural Radiance Caching Override
-			if (graphicsSettings.NrcOverride.Support)
+			if (graphicsSettings.NrcOverride.Support && graphicsSettings.NrcOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.NrcOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.NrcOverride.Current.value();
-				}
-				else if (graphicsSettings.NrcOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.NrcOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.NrcOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrOverrideNeuralRadianceCaching().IsOn(valueInt);
@@ -175,18 +135,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Multi Frame Generation Ratio
-			if (graphicsSettings.MfgRatio.Support)
+			if (graphicsSettings.MfgRatio.Support && graphicsSettings.MfgRatio.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.MfgRatio.Current.has_value())
-				{
-					valueInt = graphicsSettings.MfgRatio.Current.value();
-				}
-				else if (graphicsSettings.MfgRatio.Default.has_value())
-				{
-					valueInt = graphicsSettings.MfgRatio.Default.value();
-				}
+				int valueInt = graphicsSettings.MfgRatio.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_FsrMultiFrameGenerationRatio().SelectedIndex(valueInt);
@@ -208,23 +160,14 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Override Library
-			if (graphicsSettings.FsrOvrDLLPath.Support)
+			if (graphicsSettings.FsrOvrDLLPath.Support && graphicsSettings.FsrOvrDLLPath.Get(settingType, true).has_value())
 			{
-				//Set setting
-				if (graphicsSettings.FsrOvrDLLPath.Current.has_value())
-				{
-					//Set FSR library version information
-					std::wstring fsrOvrDllPath = graphicsSettings.FsrOvrDLLPath.Current.value();
-					FsrOverrideDllUpdateTextPathInfo(fsrOvrDllPath);
-					FsrOverrideDllUpdateTextVersion(fsrOvrDllPath);
-				}
-				else if (graphicsSettings.FsrOvrDLLPath.Default.has_value())
-				{
-					//Set FSR library version information
-					std::wstring fsrOvrDllPath = graphicsSettings.FsrOvrDLLPath.Default.value();
-					FsrOverrideDllUpdateTextPathInfo(fsrOvrDllPath);
-					FsrOverrideDllUpdateTextVersion(fsrOvrDllPath);
-				}
+				//Get setting
+				std::wstring valueString = graphicsSettings.FsrOvrDLLPath.Get(settingType, true).value();
+
+				//Set FSR library version information
+				FsrOverrideDllUpdateTextPathInfo(valueString);
+				FsrOverrideDllUpdateTextVersion(valueString);
 
 				//Enable or disable interface
 				button_FsrDllLoadPath_Default().IsEnabled(true);
@@ -238,18 +181,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Show Information
-			if (graphicsSettings.FsrShowInformation.Support)
+			if (graphicsSettings.FsrShowInformation.Support && graphicsSettings.FsrShowInformation.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FsrShowInformation.Current.has_value())
-				{
-					valueInt = graphicsSettings.FsrShowInformation.Current.value();
-				}
-				else if (graphicsSettings.FsrShowInformation.Default.has_value())
-				{
-					valueInt = graphicsSettings.FsrShowInformation.Default.value();
-				}
+				int valueInt = graphicsSettings.FsrShowInformation.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrShowInformation().IsOn(valueInt);
@@ -271,18 +206,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Disable ML Swapchain
-			if (graphicsSettings.FsrDisableMLSwapchain.Support)
+			if (graphicsSettings.FsrDisableMLSwapchain.Support && graphicsSettings.FsrDisableMLSwapchain.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FsrDisableMLSwapchain.Current.has_value())
-				{
-					valueInt = graphicsSettings.FsrDisableMLSwapchain.Current.value();
-				}
-				else if (graphicsSettings.FsrDisableMLSwapchain.Default.has_value())
-				{
-					valueInt = graphicsSettings.FsrDisableMLSwapchain.Default.value();
-				}
+				int valueInt = graphicsSettings.FsrDisableMLSwapchain.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrDisableMLSwapchain().IsOn(valueInt);
@@ -304,18 +231,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//FSR Latency Reduction
-			if (graphicsSettings.DeLagEnabled.Support)
+			if (graphicsSettings.DeLagEnabled.Support && graphicsSettings.DeLagEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.DeLagEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.DeLagEnabled.Current.value();
-				}
-				else if (graphicsSettings.DeLagEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.DeLagEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.DeLagEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FsrLatencyReduction().IsOn(valueInt);
@@ -337,18 +256,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Enabled
-			if (graphicsSettings.FrameGenEnabled.Support)
+			if (graphicsSettings.FrameGenEnabled.Support && graphicsSettings.FrameGenEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrameGenEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenEnabled.Current.value();
-				}
-				else if (graphicsSettings.FrameGenEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.FrameGenEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_FrameGenEnabled().IsOn(valueInt);
@@ -371,18 +282,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Fluid Motion Frames - Algorithm
-			if (graphicsSettings.FrameGenAlgorithm.Support)
+			if (graphicsSettings.FrameGenAlgorithm.Support && graphicsSettings.FrameGenAlgorithm.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrameGenAlgorithm.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenAlgorithm.Current.value();
-				}
-				else if (graphicsSettings.FrameGenAlgorithm.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrameGenAlgorithm.Default.value();
-				}
+				int valueInt = graphicsSettings.FrameGenAlgorithm.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_FrameGenAlgorithm().SelectedIndex(valueInt);
@@ -401,18 +304,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost
-			if (graphicsSettings.BoostMode.Support)
+			if (graphicsSettings.BoostMode.Support && graphicsSettings.BoostMode.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.BoostMode.Current.has_value())
-				{
-					valueInt = graphicsSettings.BoostMode.Current.value();
-				}
-				else if (graphicsSettings.BoostMode.Default.has_value())
-				{
-					valueInt = graphicsSettings.BoostMode.Default.value();
-				}
+				int valueInt = graphicsSettings.BoostMode.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_RadeonBoost().SelectedIndex(valueInt);
@@ -435,18 +330,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Boost - Minimum Resolution
-			if (graphicsSettings.BoostMinResolution.Support)
+			if (graphicsSettings.BoostMinResolution.Support && graphicsSettings.BoostMinResolution.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.BoostMinResolution.Current.has_value())
-				{
-					valueInt = graphicsSettings.BoostMinResolution.Current.value();
-				}
-				else if (graphicsSettings.BoostMinResolution.Default.has_value())
-				{
-					valueInt = graphicsSettings.BoostMinResolution.Default.value();
-				}
+				int valueInt = graphicsSettings.BoostMinResolution.Get(settingType, true).value();
 
 				//Set setting value
 				slider_RadeonBoost_MinResolution().Value(valueInt);
@@ -474,18 +361,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Frame Rate Target Control - Enabled
-			if (graphicsSettings.FrtcEnabled.Support)
+			if (graphicsSettings.FrtcEnabled.Support && graphicsSettings.FrtcEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrtcEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrtcEnabled.Current.value();
-				}
-				else if (graphicsSettings.FrtcEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrtcEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.FrtcEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Frtc().IsOn(valueInt);
@@ -508,18 +387,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
-			if (graphicsSettings.FrtcFrameRateTarget.Support)
+			if (graphicsSettings.FrtcFrameRateTarget.Support && graphicsSettings.FrtcFrameRateTarget.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.FrtcFrameRateTarget.Current.has_value())
-				{
-					valueInt = graphicsSettings.FrtcFrameRateTarget.Current.value();
-				}
-				else if (graphicsSettings.FrtcFrameRateTarget.Default.has_value())
-				{
-					valueInt = graphicsSettings.FrtcFrameRateTarget.Default.value();
-				}
+				int valueInt = graphicsSettings.FrtcFrameRateTarget.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Frtc_FrameRateTarget().Value(valueInt);
@@ -547,18 +418,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill
-			if (graphicsSettings.ChillEnabled.Support)
+			if (graphicsSettings.ChillEnabled.Support && graphicsSettings.ChillEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.ChillEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.ChillEnabled.Current.value();
-				}
-				else if (graphicsSettings.ChillEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.ChillEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.ChillEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_RadeonChill().IsOn(valueInt);
@@ -589,18 +452,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill - Minimum Frame Rate
-			if (graphicsSettings.ChillMinFps.Support)
+			if (graphicsSettings.ChillMinFps.Support && graphicsSettings.ChillMinFps.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.ChillMinFps.Current.has_value())
-				{
-					valueInt = graphicsSettings.ChillMinFps.Current.value();
-				}
-				else if (graphicsSettings.ChillMinFps.Default.has_value())
-				{
-					valueInt = graphicsSettings.ChillMinFps.Default.value();
-				}
+				int valueInt = graphicsSettings.ChillMinFps.Get(settingType, true).value();
 
 				//Set setting value
 				slider_RadeonChill_Min().Value(valueInt);
@@ -628,18 +483,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Chill - Maximum Frame Rate
-			if (graphicsSettings.ChillMaxFps.Support)
+			if (graphicsSettings.ChillMaxFps.Support && graphicsSettings.ChillMaxFps.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.ChillMaxFps.Current.has_value())
-				{
-					valueInt = graphicsSettings.ChillMaxFps.Current.value();
-				}
-				else if (graphicsSettings.ChillMaxFps.Default.has_value())
-				{
-					valueInt = graphicsSettings.ChillMaxFps.Default.value();
-				}
+				int valueInt = graphicsSettings.ChillMaxFps.Get(settingType, true).value();
 
 				//Set setting value
 				slider_RadeonChill_Max().Value(valueInt);
@@ -667,18 +514,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Image Sharpening - Enabled
-			if (graphicsSettings.RisEnabled.Support)
+			if (graphicsSettings.RisEnabled.Support && graphicsSettings.RisEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.RisEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.RisEnabled.Current.value();
-				}
-				else if (graphicsSettings.RisEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.RisEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.RisEnabled.Get(settingType, true).value();
 
 				//Check setting version
 				if (graphicsSettings.RisVersion.Version <= 1)
@@ -736,18 +575,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Image Sharpening - Sharpen Desktop
-			if (graphicsSettings.RisDesktopEnabled.Support)
+			if (graphicsSettings.RisDesktopEnabled.Support && graphicsSettings.RisDesktopEnabled.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.RisDesktopEnabled.Current.has_value())
-				{
-					valueInt = graphicsSettings.RisDesktopEnabled.Current.value();
-				}
-				else if (graphicsSettings.RisDesktopEnabled.Default.has_value())
-				{
-					valueInt = graphicsSettings.RisDesktopEnabled.Default.value();
-				}
+				int valueInt = graphicsSettings.RisDesktopEnabled.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_RadeonImageSharpening2_Desktop().IsOn(valueInt);
@@ -766,18 +597,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Radeon Image Sharpening - Sharpening Degree
-			if (graphicsSettings.RisSharpeningDegree.Support)
+			if (graphicsSettings.RisSharpeningDegree.Support && graphicsSettings.RisSharpeningDegree.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.RisSharpeningDegree.Current.has_value())
-				{
-					valueInt = graphicsSettings.RisSharpeningDegree.Current.value();
-				}
-				else if (graphicsSettings.RisSharpeningDegree.Default.has_value())
-				{
-					valueInt = graphicsSettings.RisSharpeningDegree.Default.value();
-				}
+				int valueInt = graphicsSettings.RisSharpeningDegree.Get(settingType, true).value();
 
 				//Check setting version
 				if (graphicsSettings.RisVersion.Version <= 1)
@@ -827,18 +650,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Enhanced Sync
-			if (graphicsSettings.EnhancedSync.Support)
+			if (graphicsSettings.EnhancedSync.Support && graphicsSettings.EnhancedSync.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.EnhancedSync.Current.has_value())
-				{
-					valueInt = graphicsSettings.EnhancedSync.Current.value();
-				}
-				else if (graphicsSettings.EnhancedSync.Default.has_value())
-				{
-					valueInt = graphicsSettings.EnhancedSync.Default.value();
-				}
+				int valueInt = graphicsSettings.EnhancedSync.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_RadeonEnhancedSync().IsOn(valueInt);
@@ -860,18 +675,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Vertical Sync
-			if (graphicsSettings.VerticalSync.Support)
+			if (graphicsSettings.VerticalSync.Support && graphicsSettings.VerticalSync.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.VerticalSync.Current.has_value())
-				{
-					valueInt = graphicsSettings.VerticalSync.Current.value();
-				}
-				else if (graphicsSettings.VerticalSync.Default.has_value())
-				{
-					valueInt = graphicsSettings.VerticalSync.Default.value();
-				}
+				int valueInt = graphicsSettings.VerticalSync.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_VerticalSync().SelectedIndex(valueInt);
@@ -893,18 +700,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Override
-			if (graphicsSettings.AntiAliasingOverride.Support)
+			if (graphicsSettings.AntiAliasingOverride.Support && graphicsSettings.AntiAliasingOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AntiAliasingOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingOverride.Current.value();
-				}
-				else if (graphicsSettings.AntiAliasingOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.AntiAliasingOverride.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_AntiAliasingOverride().IsOn(valueInt);
@@ -929,18 +728,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Method
-			if (graphicsSettings.AntiAliasingMethod.Support)
+			if (graphicsSettings.AntiAliasingMethod.Support && graphicsSettings.AntiAliasingMethod.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AntiAliasingMethod.Current.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingMethod.Current.value();
-				}
-				else if (graphicsSettings.AntiAliasingMethod.Default.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingMethod.Default.value();
-				}
+				int valueInt = graphicsSettings.AntiAliasingMethod.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_AntiAliasingMethod().SelectedIndex(valueInt);
@@ -959,18 +750,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anti-Aliasing Level
-			if (graphicsSettings.AntiAliasingLevel.Support)
+			if (graphicsSettings.AntiAliasingLevel.Support && graphicsSettings.AntiAliasingLevel.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AntiAliasingLevel.Current.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingLevel.Current.value();
-				}
-				else if (graphicsSettings.AntiAliasingLevel.Default.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingLevel.Default.value();
-				}
+				int valueInt = graphicsSettings.AntiAliasingLevel.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_AntiAliasingLevel().SelectedIndex(valueInt);
@@ -989,18 +772,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Enhanced Quality Anti-Aliasing
-			if (graphicsSettings.AntiAliasingEnhancedQuality.Support)
+			if (graphicsSettings.AntiAliasingEnhancedQuality.Support && graphicsSettings.AntiAliasingEnhancedQuality.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AntiAliasingEnhancedQuality.Current.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingEnhancedQuality.Current.value();
-				}
-				else if (graphicsSettings.AntiAliasingEnhancedQuality.Default.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingEnhancedQuality.Default.value();
-				}
+				int valueInt = graphicsSettings.AntiAliasingEnhancedQuality.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_AntiAliasingEnhancedQuality().IsOn(valueInt);
@@ -1019,18 +794,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Morphological Anti-Aliasing
-			if (graphicsSettings.AntiAliasingMorphological.Support)
+			if (graphicsSettings.AntiAliasingMorphological.Support && graphicsSettings.AntiAliasingMorphological.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AntiAliasingMorphological.Current.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingMorphological.Current.value();
-				}
-				else if (graphicsSettings.AntiAliasingMorphological.Default.has_value())
-				{
-					valueInt = graphicsSettings.AntiAliasingMorphological.Default.value();
-				}
+				int valueInt = graphicsSettings.AntiAliasingMorphological.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_MorphologicalAntiAliasing().IsOn(valueInt);
@@ -1052,18 +819,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Anisotropic Texture Filtering Override
-			if (graphicsSettings.AnisotropicOverride.Support)
+			if (graphicsSettings.AnisotropicOverride.Support && graphicsSettings.AnisotropicOverride.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.AnisotropicOverride.Current.has_value())
-				{
-					valueInt = graphicsSettings.AnisotropicOverride.Current.value();
-				}
-				else if (graphicsSettings.AnisotropicOverride.Default.has_value())
-				{
-					valueInt = graphicsSettings.AnisotropicOverride.Default.value();
-				}
+				int valueInt = graphicsSettings.AnisotropicOverride.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_AnisotropicTextureFiltering().SelectedIndex(valueInt);
@@ -1085,18 +844,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Texture Filtering Quality
-			if (graphicsSettings.TextureFilteringQuality.Support)
+			if (graphicsSettings.TextureFilteringQuality.Support && graphicsSettings.TextureFilteringQuality.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.TextureFilteringQuality.Current.has_value())
-				{
-					valueInt = graphicsSettings.TextureFilteringQuality.Current.value();
-				}
-				else if (graphicsSettings.TextureFilteringQuality.Default.has_value())
-				{
-					valueInt = graphicsSettings.TextureFilteringQuality.Default.value();
-				}
+				int valueInt = graphicsSettings.TextureFilteringQuality.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_TextureFilteringQuality().SelectedIndex(valueInt);
@@ -1118,18 +869,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Surface Format Optimization
-			if (graphicsSettings.SurfaceFormatOptimization.Support)
+			if (graphicsSettings.SurfaceFormatOptimization.Support && graphicsSettings.SurfaceFormatOptimization.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.SurfaceFormatOptimization.Current.has_value())
-				{
-					valueInt = graphicsSettings.SurfaceFormatOptimization.Current.value();
-				}
-				else if (graphicsSettings.SurfaceFormatOptimization.Default.has_value())
-				{
-					valueInt = graphicsSettings.SurfaceFormatOptimization.Default.value();
-				}
+				int valueInt = graphicsSettings.SurfaceFormatOptimization.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_SurfaceFormatOptimization().IsOn(valueInt);
@@ -1151,18 +894,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Tessellation Mode
-			if (graphicsSettings.TessellationMode.Support)
+			if (graphicsSettings.TessellationMode.Support && graphicsSettings.TessellationMode.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.TessellationMode.Current.has_value())
-				{
-					valueInt = graphicsSettings.TessellationMode.Current.value();
-				}
-				else if (graphicsSettings.TessellationMode.Default.has_value())
-				{
-					valueInt = graphicsSettings.TessellationMode.Default.value();
-				}
+				int valueInt = graphicsSettings.TessellationMode.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Tessellation_Mode().SelectedIndex(valueInt);
@@ -1184,18 +919,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Tessellation Level
-			if (graphicsSettings.TessellationLevel.Support)
+			if (graphicsSettings.TessellationLevel.Support && graphicsSettings.TessellationLevel.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.TessellationLevel.Current.has_value())
-				{
-					valueInt = graphicsSettings.TessellationLevel.Current.value();
-				}
-				else if (graphicsSettings.TessellationLevel.Default.has_value())
-				{
-					valueInt = graphicsSettings.TessellationLevel.Default.value();
-				}
+				int valueInt = graphicsSettings.TessellationLevel.Get(settingType, true).value();
 
 				//Set setting value
 				combobox_Tessellation_Level().SelectedIndex(valueInt);
@@ -1214,18 +941,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL Triple Buffering
-			if (graphicsSettings.OpenGLTripleBuffering.Support)
+			if (graphicsSettings.OpenGLTripleBuffering.Support && graphicsSettings.OpenGLTripleBuffering.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.OpenGLTripleBuffering.Current.has_value())
-				{
-					valueInt = graphicsSettings.OpenGLTripleBuffering.Current.value();
-				}
-				else if (graphicsSettings.OpenGLTripleBuffering.Default.has_value())
-				{
-					valueInt = graphicsSettings.OpenGLTripleBuffering.Default.value();
-				}
+				int valueInt = graphicsSettings.OpenGLTripleBuffering.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_OpenGLTripleBuffering().IsOn(valueInt);
@@ -1247,18 +966,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//OpenGL 10-Bit Pixel Format
-			if (graphicsSettings.OpenGL10BitPixelFormat.Support)
+			if (graphicsSettings.OpenGL10BitPixelFormat.Support && graphicsSettings.OpenGL10BitPixelFormat.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (graphicsSettings.OpenGL10BitPixelFormat.Current.has_value())
-				{
-					valueInt = graphicsSettings.OpenGL10BitPixelFormat.Current.value();
-				}
-				else if (graphicsSettings.OpenGL10BitPixelFormat.Default.has_value())
-				{
-					valueInt = graphicsSettings.OpenGL10BitPixelFormat.Default.value();
-				}
+				int valueInt = graphicsSettings.OpenGL10BitPixelFormat.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_OpenGL10BitPixelFormat().IsOn(valueInt);

@@ -12,19 +12,27 @@ namespace winrt::RadeonTuner::implementation
 			//Upscaling
 			if (multimediaSettings.VideoUpscaling.Get(settingType).has_value())
 			{
-				toggleswitch_Video_Upscaling().IsOn(multimediaSettings.VideoUpscaling.Get(settingType).value());
-				slider_Video_Sharpening().IsEnabled(multimediaSettings.VideoUpscaling.Get(settingType).value());
+				//Get setting
+				int valueInt = multimediaSettings.VideoUpscaling.Get(settingType).value();
+
+				//Set setting value
+				toggleswitch_Video_Upscaling().IsOn(valueInt);
+
+				//Enable or disable interface
+				slider_Video_Sharpening().IsEnabled(valueInt);
 			}
 
 			//Sharpening
 			if (multimediaSettings.VideoSharpening.Get(settingType).has_value())
 			{
+				//Set setting value
 				slider_Video_Sharpening().Value(multimediaSettings.VideoSharpening.Get(settingType).value());
 			}
 
 			//Brightness
 			if (multimediaSettings.VideoBrightness.Get(settingType).has_value())
 			{
+				//Set setting value
 				slider_Video_Brightness().Value(multimediaSettings.VideoBrightness.Get(settingType).value());
 			}
 

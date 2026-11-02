@@ -10,7 +10,8 @@ void ShowProcessMainWindow(std::vector<AVProcess> processList)
 		//Get current process identifier
 		DWORD currentProcessId = GetCurrentProcessId();
 
-		for (AVProcess process : processList)
+		//Loop all processes
+		for (AVProcess& process : processList)
 		{
 			try
 			{

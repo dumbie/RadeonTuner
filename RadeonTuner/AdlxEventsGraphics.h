@@ -26,7 +26,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Add selected items
 			int addCount = 0;
-			for (auto const& app : selectedApps)
+			for (const AppPickerIdl& app : selectedApps)
 			{
 				//Get executable name
 				std::wstring executableName = hstring_to_wstring(app.ExeName());
@@ -97,7 +97,7 @@ namespace winrt::RadeonTuner::implementation
 			//Remove selected items
 			int removeCount = 0;
 			bool currentAppRemoved = false;
-			for (auto const& app : selectedApps)
+			for (const AppPickerIdl& app : selectedApps)
 			{
 				//Get executable name
 				std::wstring executableName = hstring_to_wstring(app.ExeName());

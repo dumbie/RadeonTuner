@@ -28,7 +28,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set messagebox answers
 			listview_Overlay_MessageBox().Items().Clear();
-			for (auto answer : Answers)
+			for (std::wstring& answer : Answers)
 			{
 				listview_Overlay_MessageBox().Items().Append(box_value(answer));
 			}

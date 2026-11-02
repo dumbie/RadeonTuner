@@ -17,7 +17,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Remove each application
 			int removeCount = 0;
-			for (const auto& adlApp : adlApplications)
+			for (AdlApplication& adlApp : adlApplications)
 			{
 				if (AdlAppRemove(adlApp) == L"Application removed")
 				{
@@ -73,7 +73,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Remove profiles from application
 			int removeCount = 0;
-			for (std::wstring areaName : areaNames)
+			for (std::wstring& areaName : areaNames)
 			{
 				try
 				{

@@ -75,9 +75,11 @@ namespace winrt::RadeonTuner::implementation
 		winrt::IAsyncOperation<bool> CustomResolution_Create(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2);
 		winrt::IAsyncOperation<bool> CustomResolution_Remove(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2);
 
-		uint16_t AdlGammaRampClamp(float clampValue);
-		AdlGammaRamp AdlGammaRampBuild(float redGain, float greenGain, float blueGain);
-		void AdlGammaRampGet(AdlGammaRamp gammaRamp, float& redGain, float& greenGain, float& blueGain);
+		bool AdlGammaRampMatch(const AdlGammaRamp& gammaRampBegin, const AdlGammaRamp& gammaRampEnd);
+		DWORD AdlGammaRampClamp(float clampValue);
+		AdlGammaRamp AdlGammaRampBuild(float redGamma, float greenGamma, float blueGamma);
+		void AdlGammaRampConvertToFloat(AdlGammaRamp gammaRamp, float& redGamma, float& greenGamma, float& blueGamma);
+		bool AdlGammaApply(int gpuAdapterIndex, float redGamma, float greenGamma, float blueGamma);
 
 		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, std::wstring keyValue);
 		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, int keyValue);
@@ -87,8 +89,8 @@ namespace winrt::RadeonTuner::implementation
 		std::wstring AdlxGetGpuIdentifier(int adapterIndex);
 		std::wstring AdlxGetDisplayIdentifier(int adapterIndex, int displayIndex);
 
-		bool GraphicsSettings_Convert_ToUI_Adl(GraphicsSettings graphicsSettings);
-		bool GraphicsSettings_Convert_ToUI_Profile(GraphicsSettings graphicsSettings, AdlSettingGet useType);
+		bool GraphicsSettings_Convert_ToUI_Adl(GraphicsSettings graphicsSettings, AdlSettingGet settingType);
+		bool GraphicsSettings_Convert_ToUI_Profile(GraphicsSettings graphicsSettings, AdlSettingGet settingType);
 		std::optional<GraphicsSettings> GraphicsSettings_Generate_FromADLApp(int gpuAdapterIndex, AdlApplication& adlApplication, bool loadDefault);
 		std::optional<GraphicsSettings> GraphicsSettings_Generate_FromADLRegistry(int gpuAdapterIndex, std::wstring application, bool loadDefault);
 		GraphicsSettings GraphicsSettingsGetSupport(int gpuAdapterIndex);
@@ -106,8 +108,8 @@ namespace winrt::RadeonTuner::implementation
 		std::vector<std::wstring> GraphicsSettings_Profile_GetAllApps(std::wstring deviceId);
 		bool GraphicsSettings_Match(GraphicsSettings settingsProfile, GraphicsSettings settingsAdl);
 
-		bool DisplaySettings_Convert_ToUI_Adl(DisplaySettings displaySettings);
-		bool DisplaySettings_Convert_ToUI_Profile(DisplaySettings displaySettings, AdlSettingGet useType);
+		bool DisplaySettings_Convert_ToUI_Adl(DisplaySettings displaySettings, AdlSettingGet settingType);
+		bool DisplaySettings_Convert_ToUI_Profile(DisplaySettings displaySettings, AdlSettingGet settingType);
 		std::optional<DisplaySettings> DisplaySettings_Generate_FromADL(int adapterIndex, int displayIndex, std::wstring application, bool loadDefault);
 
 		bool DisplaySettings_Profiles_SaveToFile();
@@ -124,8 +126,8 @@ namespace winrt::RadeonTuner::implementation
 		bool DisplaySettings_Profile_Any_Using(std::wstring deviceId);
 		bool DisplaySettings_Match(DisplaySettings settingsProfile, DisplaySettings settingsAdl, bool appProfileOnly);
 
-		bool MultimediaSettings_Convert_ToUI_Adl(MultimediaSettings multimediaSettings);
-		bool MultimediaSettings_Convert_ToUI_Profile(MultimediaSettings multimediaSettings, AdlSettingGet useType);
+		bool MultimediaSettings_Convert_ToUI_Adl(MultimediaSettings multimediaSettings, AdlSettingGet settingType);
+		bool MultimediaSettings_Convert_ToUI_Profile(MultimediaSettings multimediaSettings, AdlSettingGet settingType);
 		std::optional<MultimediaSettings> MultimediaSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application, bool loadDefault);
 
 		bool MultimediaSettings_Profiles_SaveToFile();
@@ -142,8 +144,8 @@ namespace winrt::RadeonTuner::implementation
 		bool MultimediaSettings_Profile_Any_Using(std::wstring deviceId);
 		bool MultimediaSettings_Match(MultimediaSettings settingsProfile, MultimediaSettings settingsAdl);
 
-		bool TuningFanSettings_Convert_ToUI_Adl(TuningFanSettings tuningFanSettings);
-		bool TuningFanSettings_Convert_ToUI_Profile(TuningFanSettings tuningFanSettings, AdlSettingGet useType);
+		bool TuningFanSettings_Convert_ToUI_Adl(TuningFanSettings tuningFanSettings, AdlSettingGet settingType);
+		bool TuningFanSettings_Convert_ToUI_Profile(TuningFanSettings tuningFanSettings, AdlSettingGet settingType);
 		std::optional<TuningFanSettings> TuningFanSettings_Generate_FromADL(int gpuAdapterIndex, std::wstring application, bool loadDefault);
 		bool TuningFanSettings_Match(TuningFanSettings settingsProfile, TuningFanSettings settingsAdl);
 		void TuningMetrics_Update();
@@ -203,11 +205,13 @@ namespace winrt::RadeonTuner::implementation
 
 		void AdlxLoopMetrics();
 		void AdlxLoopProfile();
-
-		void AdlxCheckSelectedDeviceAccess();
-		void AdlxCheckDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning);
-		void AdlxCheckDisplayApplicationProfile(std::vector<std::wstring> processExeRunning);
-		void AdlxCheckTuningApplicationProfile(std::vector<std::wstring> processExeRunning);
+		void AdlxLoopSelectedDeviceAccess();
+		void AdlxLoopDisplayEyefinityAutomatic(std::vector<std::wstring> processExeRunning);
+		void AdlxLoopDisplayApplyGamma(int adapterIndex, DisplaySettings displaySettingsRunning);
+		void AdlxLoopDisplayApplyProfile(int adapterIndex, int displayIndex, DisplaySettings displaySettingsRunning);
+		void AdlxLoopDisplayApplicationProfile(std::vector<std::wstring> processExeRunning);
+		void AdlxLoopTuningApplyProfile(int adapterIndex, TuningFanSettings tuningFanSettingsRunning);
+		void AdlxLoopTuningApplicationProfile(std::vector<std::wstring> processExeRunning);
 
 		winrt::IAsyncAction button_Eyefinity_Overlay_Remove_Click(IInspectable const& sender, RoutedEventArgs const& e);
 		winrt::IAsyncAction button_Eyefinity_Overlay_Create_Click(IInspectable const& sender, RoutedEventArgs const& e);
@@ -265,6 +269,7 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Display_ColorTemperature_Kelvin_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_Display_GammaRGB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Video_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_Video_Upscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Window_Top_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
@@ -301,7 +306,6 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_FsrOverrideNeuralRadianceCaching_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_FsrMultiFrameGenerationRatio_SelectionChanged(IInspectable const& sender, Controls::SelectionChangedEventArgs const& e);
 		void toggleswitch_ShowExperimental_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void toggleswitch_FanControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_OpenGL10BitPixelFormat_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_Frtc_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Frtc_FrameRateTarget_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
@@ -335,8 +339,11 @@ namespace winrt::RadeonTuner::implementation
 		void textbox_TimingSyncWidth_TextChanged(IInspectable const& sender, TextChangedEventArgs const& e);
 		void combobox_TimingPolarity_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 
+		void ToggleRadeonServices(bool disableServices);
+		void button_DisableRadeonServices_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void button_EnableRadeonServices_Click(IInspectable const& sender, RoutedEventArgs const& e);
+
 		void LaunchDriverCleanup();
-		void DisableRadeonServices();
 		winrt::IAsyncAction DisplayList_Combined(bool waitUpdate);
 		winrt::IAsyncAction DisplayList_SelectCurrent_Values(bool waitUpdate);
 		winrt::IAsyncAction DisplayList_Resolution(bool waitUpdate);
@@ -380,7 +387,7 @@ namespace winrt::RadeonTuner::implementation
 		void toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FsrDisableMLSwapchain_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void combobox_FanControl_Mode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
-		void slider_Fan_Speed_Max_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void slider_FanRanged_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 	};
 }
 

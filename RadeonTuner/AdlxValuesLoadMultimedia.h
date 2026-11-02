@@ -29,7 +29,7 @@ namespace winrt::RadeonTuner::implementation
 			multimediaSettingsProfile = MultimediaSettings_Profile_Get(deviceId, application).value();
 
 			//Convert settings values to interface
-			MultimediaSettings_Convert_ToUI_Adl(multimediaSettingsAdl);
+			MultimediaSettings_Convert_ToUI_Adl(multimediaSettingsAdl, AdlSettingGet::Current);
 			MultimediaSettings_Convert_ToUI_Profile(multimediaSettingsProfile, AdlSettingGet::Current);
 
 			//Update button text

@@ -178,7 +178,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//Get connected displays
 			std::vector<ADLDisplayInfo> displayList = AdlGetDisplayByAdapterIndex(adl_Gpu_AdapterIndex);
-			for (ADLDisplayInfo displayInfo : displayList)
+			for (ADLDisplayInfo& displayInfo : displayList)
 			{
 				//Display name
 				display_info += L"Display name: " + char_to_wstring(displayInfo.strDisplayName);

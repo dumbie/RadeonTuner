@@ -50,7 +50,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get Fan Control Mode
-			int fanControlMode = 0;
+			int fanControlMode = (int)FanControlModes::NoFanControl;
 			if (settingsProfile.FanControlMode.Current.has_value())
 			{
 				fanControlMode = settingsProfile.FanControlMode.Current.value();

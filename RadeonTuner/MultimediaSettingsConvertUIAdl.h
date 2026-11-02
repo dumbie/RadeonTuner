@@ -5,23 +5,15 @@
 
 namespace winrt::RadeonTuner::implementation
 {
-	bool MainPage::MultimediaSettings_Convert_ToUI_Adl(MultimediaSettings multimediaSettings)
+	bool MainPage::MultimediaSettings_Convert_ToUI_Adl(MultimediaSettings multimediaSettings, AdlSettingGet settingType)
 	{
 		try
 		{
 			//Video Upscaling
-			if (multimediaSettings.VideoUpscaling.Support)
+			if (multimediaSettings.VideoUpscaling.Support && multimediaSettings.VideoUpscaling.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (multimediaSettings.VideoUpscaling.Current.has_value())
-				{
-					valueInt = multimediaSettings.VideoUpscaling.Current.value();
-				}
-				else if (multimediaSettings.VideoUpscaling.Default.has_value())
-				{
-					valueInt = multimediaSettings.VideoUpscaling.Default.value();
-				}
+				int valueInt = multimediaSettings.VideoUpscaling.Get(settingType, true).value();
 
 				//Set setting value
 				toggleswitch_Video_Upscaling().IsOn(valueInt);
@@ -44,18 +36,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Video Sharpening
-			if (multimediaSettings.VideoSharpening.Support)
+			if (multimediaSettings.VideoSharpening.Support && multimediaSettings.VideoSharpening.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (multimediaSettings.VideoSharpening.Current.has_value())
-				{
-					valueInt = multimediaSettings.VideoSharpening.Current.value();
-				}
-				else if (multimediaSettings.VideoSharpening.Default.has_value())
-				{
-					valueInt = multimediaSettings.VideoSharpening.Default.value();
-				}
+				int valueInt = multimediaSettings.VideoSharpening.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Video_Sharpening().Value(valueInt);
@@ -83,18 +67,10 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Video Brightness
-			if (multimediaSettings.VideoBrightness.Support)
+			if (multimediaSettings.VideoBrightness.Support && multimediaSettings.VideoBrightness.Get(settingType, true).has_value())
 			{
 				//Get setting
-				int valueInt = 0;
-				if (multimediaSettings.VideoBrightness.Current.has_value())
-				{
-					valueInt = multimediaSettings.VideoBrightness.Current.value();
-				}
-				else if (multimediaSettings.VideoBrightness.Default.has_value())
-				{
-					valueInt = multimediaSettings.VideoBrightness.Default.value();
-				}
+				int valueInt = multimediaSettings.VideoBrightness.Get(settingType, true).value();
 
 				//Set setting value
 				slider_Video_Brightness().Value(valueInt);
@@ -125,7 +101,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Top buttons
-			button_AppSelect_Multimedia().IsEnabled(true);
+			//button_AppSelect_Multimedia().IsEnabled(true);
 			button_Multimedia_Apply().IsEnabled(true);
 			button_Multimedia_Reset().IsEnabled(true);
 

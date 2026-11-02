@@ -17,7 +17,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Get hook status from registry
 			auto regValuesHKID = RegistryGetValuesAll(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\HKIDs");
-			for (RegValue regValue : regValuesHKID)
+			for (RegValue& regValue : regValuesHKID)
 			{
 				//Extract process id and name
 				std::wstring valueName = regValue.Name.value();
@@ -170,7 +170,7 @@ namespace winrt::RadeonTuner::implementation
 							image_FsrOverrideUpscaling_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
-							for (GraphicsStatus graphicsStatus : filteredList)
+							for (const GraphicsStatus& graphicsStatus : filteredList)
 							{
 								tooltipStringNew += L"\n(" + number_to_wstring(graphicsStatus.ProcessId) + L") " + graphicsStatus.ProcessName;
 							}
@@ -193,7 +193,7 @@ namespace winrt::RadeonTuner::implementation
 							image_FsrOverrideFrameGeneration_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
-							for (GraphicsStatus graphicsStatus : filteredList)
+							for (const GraphicsStatus& graphicsStatus : filteredList)
 							{
 								tooltipStringNew += L"\n(" + number_to_wstring(graphicsStatus.ProcessId) + L") " + graphicsStatus.ProcessName;
 							}
@@ -216,7 +216,7 @@ namespace winrt::RadeonTuner::implementation
 							image_FsrOverrideMultiFrameGeneration_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
-							for (GraphicsStatus graphicsStatus : filteredList)
+							for (const GraphicsStatus& graphicsStatus : filteredList)
 							{
 								tooltipStringNew += L"\n(" + number_to_wstring(graphicsStatus.ProcessId) + L") " + graphicsStatus.ProcessName;
 							}
@@ -239,7 +239,7 @@ namespace winrt::RadeonTuner::implementation
 							image_FsrOverrideRayRegeneration_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
-							for (GraphicsStatus graphicsStatus : filteredList)
+							for (const GraphicsStatus& graphicsStatus : filteredList)
 							{
 								tooltipStringNew += L"\n(" + number_to_wstring(graphicsStatus.ProcessId) + L") " + graphicsStatus.ProcessName;
 							}
@@ -262,7 +262,7 @@ namespace winrt::RadeonTuner::implementation
 							image_FsrOverrideNeuralRadianceCaching_Status().Visibility(Visibility::Visible);
 
 							std::wstring tooltipStringNew = L"This setting is active on:";
-							for (GraphicsStatus graphicsStatus : filteredList)
+							for (const GraphicsStatus& graphicsStatus : filteredList)
 							{
 								tooltipStringNew += L"\n(" + number_to_wstring(graphicsStatus.ProcessId) + L") " + graphicsStatus.ProcessName;
 							}

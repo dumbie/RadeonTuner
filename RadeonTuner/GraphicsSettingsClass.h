@@ -45,8 +45,8 @@ struct GraphicsSettings
 	AdlSettingVersion RisVersion;
 
 	//Custom
-	AdlSettingInt FsrShowInformation;
-	AdlSettingInt FsrDisableMLSwapchain;
+	AdlSettingInt FsrShowInformation{ .Current = false, .Default = false };
+	AdlSettingInt FsrDisableMLSwapchain{ .Current = false, .Default = false };
 
 	//Functions (No export)
 	bool Global()
@@ -56,6 +56,7 @@ struct GraphicsSettings
 
 	void SetCurrentToDefault()
 	{
+		//Settings
 		DeLagEnabled.Current = DeLagEnabled.Default;
 		MfgRatio.Current = MfgRatio.Default;
 		FsrOverride.Current = FsrOverride.Default;
@@ -64,8 +65,6 @@ struct GraphicsSettings
 		MldOverride.Current = MldOverride.Default;
 		NrcOverride.Current = NrcOverride.Default;
 		FsrOvrDLLPath.Current = FsrOvrDLLPath.Default;
-		FsrShowInformation.Current = FsrShowInformation.Default;
-		FsrDisableMLSwapchain.Current = FsrDisableMLSwapchain.Default;
 		ChillEnabled.Current = ChillEnabled.Default;
 		ChillMinFps.Current = ChillMinFps.Default;
 		ChillMaxFps.Current = ChillMaxFps.Default;
@@ -92,6 +91,9 @@ struct GraphicsSettings
 		TessellationLevel.Current = TessellationLevel.Default;
 		FrameGenEnabled.Current = FrameGenEnabled.Default;
 		FrameGenAlgorithm.Current = FrameGenAlgorithm.Default;
+		//Custom
+		FsrShowInformation.Current = FsrShowInformation.Default;
+		FsrDisableMLSwapchain.Current = FsrDisableMLSwapchain.Default;
 	}
 
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(GraphicsSettings, DeviceId, Application, DeLagEnabled.Current, MfgRatio.Current, FsrOverride.Current, MlfiOverride.Current, MfgOverride.Current, MldOverride.Current, NrcOverride.Current, FsrOvrDLLPath.Current, FsrShowInformation.Current, FsrDisableMLSwapchain.Current, ChillEnabled.Current, ChillMinFps.Current, ChillMaxFps.Current, FrtcEnabled.Current, FrtcFrameRateTarget.Current, BoostMode.Current, BoostMinResolution.Current, RisEnabled.Current, RisDesktopEnabled.Current, RisSharpeningDegree.Current, RisVersion.Version, VerticalSync.Current, EnhancedSync.Current, OpenGLTripleBuffering.Current, AntiAliasingOverride.Current, AntiAliasingMethod.Current, AntiAliasingLevel.Current, AntiAliasingEnhancedQuality.Current, AntiAliasingMorphological.Current, AnisotropicOverride.Current, TextureFilteringQuality.Current, SurfaceFormatOptimization.Current, OpenGL10BitPixelFormat.Current, TessellationMode.Current, TessellationLevel.Current, FrameGenEnabled.Current, FrameGenAlgorithm.Current)

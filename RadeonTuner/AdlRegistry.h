@@ -102,7 +102,7 @@ namespace winrt::RadeonTuner::implementation
 					regValueW.reserve(regValue.size() * 3);
 
 					//Add converted byte
-					for (BYTE byte : regValue)
+					for (BYTE& byte : regValue)
 					{
 						regValueW += number_to_hexwstring(byte, 2, false);
 					}

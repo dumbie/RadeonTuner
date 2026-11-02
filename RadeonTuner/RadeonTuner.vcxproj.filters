@@ -321,7 +321,7 @@
     <ClInclude Include="AdlxLoopDisplay.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
-    <ClInclude Include="AdlxLoopEyefinity.h">
+    <ClInclude Include="AdlxLoopDisplayEyefinity.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
     <ClInclude Include="AdlxLoopTuning.h">
@@ -352,6 +352,15 @@
       <Filter>Page Files\Display</Filter>
     </ClInclude>
     <ClInclude Include="AdlxLoopAccess.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopDisplayGamma.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopDisplayProfile.h">
+      <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="AdlxLoopTuningProfile.h">
       <Filter>Page Files\Loop</Filter>
     </ClInclude>
   </ItemGroup>

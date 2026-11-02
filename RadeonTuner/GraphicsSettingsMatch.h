@@ -189,6 +189,8 @@ namespace winrt::RadeonTuner::implementation
 			{
 				if (settingsProfile.VerticalSync.Current.value() != settingsAdl.VerticalSync.Current.value()) { return false; }
 			}
+
+			//AVDebugWriteLine(L"Graphics settings are matching.");
 		}
 		catch (...) {}
 		return true;

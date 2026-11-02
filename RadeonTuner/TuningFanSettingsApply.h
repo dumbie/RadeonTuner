@@ -58,7 +58,7 @@ namespace winrt::RadeonTuner::implementation
 			}
 
 			//Get Fan Control Mode
-			int fanControlMode = 0;
+			int fanControlMode = (int)FanControlModes::NoFanControl;
 			if (targetSettings.FanControlMode.Get(settingGet).has_value())
 			{
 				fanControlMode = targetSettings.FanControlMode.Get(settingGet).value();
@@ -120,7 +120,7 @@ namespace winrt::RadeonTuner::implementation
 					//Calculate fan curve based on minimum and maximum
 					int curveValues[5];
 					//float curveWeights[] = { 0.00F, 0.20F, 0.40F, 0.60F, 1.00F }; //AMD Default
-					for (int i = 0; i < 5; i++)
+					for (UINT i = 0; i < 5; i++)
 					{
 						curveValues[i] = std::round(std::lerp(curveStart, curveEnd, i / 4.0F)); //Linear
 						//curveValues[i] = std::round(curveStart + (curveEnd - curveStart) * curveWeights[i]); //Weights

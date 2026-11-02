@@ -100,7 +100,7 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all custom resolutions
 			std::vector<std::wstring> messageAnswers{};
-			for (int i = 0; i < numInfoList; i++)
+			for (UINT i = 0; i < numInfoList; i++)
 			{
 				ADLDisplayModeInfoX2 modeInfoX2 = modeInfoList.Get()[i];
 				std::wstring resolutionString = number_to_wstring(modeInfoX2.iPelsWidth) + L"x" + number_to_wstring(modeInfoX2.iPelsHeight) + L" @ " + number_to_wstring(modeInfoX2.iRefreshRate) + L"Hz";

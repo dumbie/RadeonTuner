@@ -88,8 +88,11 @@
     <ClInclude Include="AdlCustomResolutionEvents.h" />
     <ClInclude Include="AdlxLoopAccess.h" />
     <ClInclude Include="AdlxLoopDisplay.h" />
-    <ClInclude Include="AdlxLoopEyefinity.h" />
+    <ClInclude Include="AdlxLoopDisplayEyefinity.h" />
+    <ClInclude Include="AdlxLoopDisplayGamma.h" />
+    <ClInclude Include="AdlxLoopDisplayProfile.h" />
     <ClInclude Include="AdlxLoopTuning.h" />
+    <ClInclude Include="AdlxLoopTuningProfile.h" />
     <ClInclude Include="AdlxValuesLoadDevice.h" />
     <ClInclude Include="ADL\oem_structures.h" />
     <ClInclude Include="AppPickerInterface.h" />
@@ -423,7 +426,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" />
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -433,7 +436,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260818.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\native\Microsoft.Web.WebView2.targets'))" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if $(Configuration) == Release (&#xD;&#xA;$(SolutionDir)SignToolExe.exe)&#xD;&#xA;)" />

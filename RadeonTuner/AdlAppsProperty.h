@@ -10,7 +10,7 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			for (AdlAppProperty adlAppProperty : adlApp.Properties)
+			for (AdlAppProperty& adlAppProperty : adlApp.Properties)
 			{
 				try
 				{
@@ -38,7 +38,7 @@ namespace winrt::RadeonTuner::implementation
 			auto recordCreateMemory = AVFin(AVFinMethod::Custom, recordCreate.data());
 			recordCreateMemory.SetReleaser([&](auto releasePointer)
 				{
-					for (int i = 0; i < recordCreateCount; i++)
+					for (UINT i = 0; i < recordCreateCount; i++)
 					{
 						free(releasePointer[i].strPropertyName);
 						free(releasePointer[i].strPropertyValue);
@@ -116,7 +116,7 @@ namespace winrt::RadeonTuner::implementation
 		{
 			//Set properties values
 			bool saveNeeded = false;
-			for (AdlAppProperty newProperty : newProperties)
+			for (AdlAppProperty& newProperty : newProperties)
 			{
 				try
 				{
@@ -132,7 +132,7 @@ namespace winrt::RadeonTuner::implementation
 							foundProperty = true;
 							for (AdlAppPropertyValue& appPropertyValue : appProperty.Values)
 							{
-								for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
+								for (AdlAppPropertyValue& newPropertyValue : newProperty.Values)
 								{
 									try
 									{
@@ -176,7 +176,7 @@ namespace winrt::RadeonTuner::implementation
 						{
 							if (appProperty.Name == newProperty.Name)
 							{
-								for (AdlAppPropertyValue newPropertyValue : newProperty.Values)
+								for (AdlAppPropertyValue& newPropertyValue : newProperty.Values)
 								{
 									try
 									{
