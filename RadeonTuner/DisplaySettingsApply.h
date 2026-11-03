@@ -438,20 +438,34 @@ namespace winrt::RadeonTuner::implementation
 			}
 			catch (...) {}
 
-			//Color Gamma Red Green Blue
+			//Color Gamma Adjustment
 			try
 			{
-				//Get gamma values
-				auto newValueRed = targetSettings.GammaRed.Get(settingGet).value();
-				auto currentValueRed = adlSettings.GammaRed.Current.value();
-				auto newValueGreen = targetSettings.GammaGreen.Get(settingGet).value();
-				auto currentValueGreen = adlSettings.GammaGreen.Current.value();
-				auto newValueBlue = targetSettings.GammaBlue.Get(settingGet).value();
-				auto currentValueBlue = adlSettings.GammaBlue.Current.value();
-				if (!float_equal(newValueRed, currentValueRed) || !float_equal(newValueGreen, currentValueGreen) || !float_equal(newValueBlue, currentValueBlue))
+				//Get and match values
+				auto newValueControl = targetSettings.GammaControl.Get(settingGet).value();
+
+				//Check if Gamma Control is enabled
+				if (newValueControl)
 				{
+					//Get current values
+					auto newValueBase = targetSettings.GammaBase.Get(settingGet).value();
+					auto newValueRed = targetSettings.GammaRed.Get(settingGet).value();
+					auto newValueGreen = targetSettings.GammaGreen.Get(settingGet).value();
+					auto newValueBlue = targetSettings.GammaBlue.Get(settingGet).value();
+
 					//Apply gamma values
-					AdlGammaApply(displayAdapterIndex, newValueRed, newValueGreen, newValueBlue);
+					AdlGammaApply(displayAdapterIndex, newValueBase, newValueRed, newValueGreen, newValueBlue);
+				}
+				else
+				{
+					//Get default values
+					float defaultValueBase = adlSettings.GammaBase.Default.value();
+					float defaultValueRed = adlSettings.GammaRed.Default.value();
+					float defaultValueGreen = adlSettings.GammaGreen.Default.value();
+					float defaultValueBlue = adlSettings.GammaBlue.Default.value();
+
+					//Apply gamma values
+					AdlGammaApply(displayAdapterIndex, defaultValueBase, defaultValueRed, defaultValueGreen, defaultValueBlue);
 				}
 			}
 			catch (...) {}

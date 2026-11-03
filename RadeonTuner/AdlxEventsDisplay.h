@@ -525,6 +525,43 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_Display_GammaControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving) { return; }
+
+			//Get setting value
+			auto newSender = sender.as<ToggleSwitch>();
+			bool newValue = newSender.IsOn();
+
+			//Update interface
+			if (newValue)
+			{
+				slider_Display_GammaBase().IsEnabled(true);
+				slider_Display_GammaRed().IsEnabled(true);
+				slider_Display_GammaGreen().IsEnabled(true);
+				slider_Display_GammaBlue().IsEnabled(true);
+			}
+			else
+			{
+				slider_Display_GammaBase().IsEnabled(false);
+				slider_Display_GammaRed().IsEnabled(false);
+				slider_Display_GammaGreen().IsEnabled(false);
+				slider_Display_GammaBlue().IsEnabled(false);
+			}
+
+			//Adjust button colors
+			SolidColorBrush colorIgnored = Application::Current().Resources().Lookup(box_value(L"ApplicationIgnoredBrush")).as<SolidColorBrush>();
+			button_Display_Apply().Background(colorIgnored);
+
+			//Update current value
+			displaySettingsProfile.GammaControl.Current = newValue;
+		}
+		catch (...) {}
+	}
+
 	void MainPage::slider_Display_GammaRGB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e)
 	{
 		try
@@ -533,6 +570,7 @@ namespace winrt::RadeonTuner::implementation
 			if (disable_saving) { return; }
 
 			//Get setting values
+			float baseGamma = slider_Display_GammaBase().Value();
 			float redGamma = slider_Display_GammaRed().Value();
 			float greenGamma = slider_Display_GammaGreen().Value();
 			float blueGamma = slider_Display_GammaBlue().Value();
@@ -542,6 +580,7 @@ namespace winrt::RadeonTuner::implementation
 			button_Display_Apply().Background(colorIgnored);
 
 			//Update current value
+			displaySettingsProfile.GammaBase.Current = baseGamma;
 			displaySettingsProfile.GammaRed.Current = redGamma;
 			displaySettingsProfile.GammaGreen.Current = greenGamma;
 			displaySettingsProfile.GammaBlue.Current = blueGamma;

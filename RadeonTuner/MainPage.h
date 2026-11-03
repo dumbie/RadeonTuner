@@ -75,11 +75,10 @@ namespace winrt::RadeonTuner::implementation
 		winrt::IAsyncOperation<bool> CustomResolution_Create(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2);
 		winrt::IAsyncOperation<bool> CustomResolution_Remove(int adapterIndex, int displayIndex, ADLDisplayModeInfoX2 modeInfoX2);
 
-		bool AdlGammaRampMatch(const AdlGammaRamp& gammaRampBegin, const AdlGammaRamp& gammaRampEnd);
 		DWORD AdlGammaRampClamp(float clampValue);
-		AdlGammaRamp AdlGammaRampBuild(float redGamma, float greenGamma, float blueGamma);
-		void AdlGammaRampConvertToFloat(AdlGammaRamp gammaRamp, float& redGamma, float& greenGamma, float& blueGamma);
-		bool AdlGammaApply(int gpuAdapterIndex, float redGamma, float greenGamma, float blueGamma);
+		bool AdlGammaRampMatch(const AdlGammaRamp& gammaRampBegin, const AdlGammaRamp& gammaRampEnd);
+		AdlGammaRamp AdlGammaRampBuild(float baseGamma, float redGamma, float greenGamma, float blueGamma);
+		bool AdlGammaApply(int gpuAdapterIndex, float baseGamma, float redGamma, float greenGamma, float blueGamma);
 
 		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, std::wstring keyValue);
 		bool AdlRegistrySettingSet(int gpuAdapterIndex, std::string subKey, std::string keyName, int keyValue);
@@ -269,6 +268,7 @@ namespace winrt::RadeonTuner::implementation
 		void slider_Display_ColorTemperature_Kelvin_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Brightness_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Display_Hue_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void toggleswitch_Display_GammaControl_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void slider_Display_GammaRGB_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void slider_Video_Sharpening_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
 		void toggleswitch_Video_Upscaling_Toggled(IInspectable const& sender, RoutedEventArgs const& e);

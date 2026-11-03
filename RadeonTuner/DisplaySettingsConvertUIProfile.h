@@ -100,22 +100,108 @@ namespace winrt::RadeonTuner::implementation
 				slider_Display_Hue().Value(displaySettings.Hue.Get(settingType).value());
 			}
 
+			//Color Gamma Control
+			if (displaySettings.GammaControl.Get(settingType).has_value())
+			{
+				bool settingValue = displaySettings.GammaControl.Get(settingType).value();
+				toggleswitch_Display_GammaControl().IsOn(settingValue);
+				slider_Display_GammaBase().IsEnabled(settingValue);
+				slider_Display_GammaRed().IsEnabled(settingValue);
+				slider_Display_GammaGreen().IsEnabled(settingValue);
+				slider_Display_GammaBlue().IsEnabled(settingValue);
+				textblock_Display_GammaControl_Value().Text(settingValue ? L"Enabled" : L"Disabled");
+			}
+
+			//Color Gamma Base
+			if (displaySettings.GammaBase.Get(settingType).has_value())
+			{
+				//Set interface
+				if (displaySettings.GammaBase.Minimum.has_value())
+				{
+					slider_Display_GammaBase().Minimum(displaySettings.GammaBase.Minimum.value());
+					slider_Display_GammaBase().Maximum(displaySettings.GammaBase.Maximum.value());
+					slider_Display_GammaBase().StepFrequency(displaySettings.GammaBase.Step.value());
+					slider_Display_GammaBase().SmallChange(displaySettings.GammaBase.Step.value());
+				}
+
+				//Get setting
+				float valueFloat = displaySettings.GammaBase.Get(settingType).value();
+
+				//Set setting value
+				slider_Display_GammaBase().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaBase_Value().Text(valueHint);
+			}
+
 			//Color Gamma Red
 			if (displaySettings.GammaRed.Get(settingType).has_value())
 			{
-				slider_Display_GammaRed().Value(displaySettings.GammaRed.Get(settingType).value());
+				//Set interface
+				if (displaySettings.GammaRed.Minimum.has_value())
+				{
+					slider_Display_GammaRed().Minimum(displaySettings.GammaRed.Minimum.value());
+					slider_Display_GammaRed().Maximum(displaySettings.GammaRed.Maximum.value());
+					slider_Display_GammaRed().StepFrequency(displaySettings.GammaRed.Step.value());
+					slider_Display_GammaRed().SmallChange(displaySettings.GammaRed.Step.value());
+				}
+
+				//Get setting
+				float valueFloat = displaySettings.GammaRed.Get(settingType).value();
+
+				//Set setting value
+				slider_Display_GammaRed().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaRed_Value().Text(valueHint);
 			}
 
 			//Color Gamma Green
 			if (displaySettings.GammaGreen.Get(settingType).has_value())
 			{
-				slider_Display_GammaGreen().Value(displaySettings.GammaGreen.Get(settingType).value());
+				//Set interface
+				if (displaySettings.GammaGreen.Minimum.has_value())
+				{
+					slider_Display_GammaGreen().Minimum(displaySettings.GammaGreen.Minimum.value());
+					slider_Display_GammaGreen().Maximum(displaySettings.GammaGreen.Maximum.value());
+					slider_Display_GammaGreen().StepFrequency(displaySettings.GammaGreen.Step.value());
+					slider_Display_GammaGreen().SmallChange(displaySettings.GammaGreen.Step.value());
+				}
+
+				//Get setting
+				float valueFloat = displaySettings.GammaGreen.Get(settingType).value();
+
+				//Set setting value
+				slider_Display_GammaGreen().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaGreen_Value().Text(valueHint);
 			}
 
 			//Color Gamma Blue
 			if (displaySettings.GammaBlue.Get(settingType).has_value())
 			{
-				slider_Display_GammaBlue().Value(displaySettings.GammaBlue.Get(settingType).value());
+				//Set interface
+				if (displaySettings.GammaBlue.Minimum.has_value())
+				{
+					slider_Display_GammaBlue().Minimum(displaySettings.GammaBlue.Minimum.value());
+					slider_Display_GammaBlue().Maximum(displaySettings.GammaBlue.Maximum.value());
+					slider_Display_GammaBlue().StepFrequency(displaySettings.GammaBlue.Step.value());
+					slider_Display_GammaBlue().SmallChange(displaySettings.GammaBlue.Step.value());
+				}
+
+				//Get setting
+				float valueFloat = displaySettings.GammaBlue.Get(settingType).value();
+
+				//Set setting value
+				slider_Display_GammaBlue().Value(valueFloat);
+
+				//Set hint value
+				std::wstring valueHint = float_to_wstring(valueFloat, 2);
+				textblock_Display_GammaBlue_Value().Text(valueHint);
 			}
 
 			//Color Deficiency Correction Control

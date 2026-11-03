@@ -1383,7 +1383,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Vari-Bright saves power by adaptively adjusting the display brightness based on image content."/>
                                             <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This feature is only available on laptop's."/>
-                                            <ToggleSwitch x:Name="toggleswitch_Display_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright" OnContent="Vari-Bright" Toggled="toggleswitch_Display_VariBright_Toggled"/>
+                                            <ToggleSwitch x:Name="toggleswitch_Display_VariBright" Margin="10,0,0,0" OffContent="Vari-Bright Control" OnContent="Vari-Bright Control" Toggled="toggleswitch_Display_VariBright_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_VariBright_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
 
@@ -1436,10 +1436,34 @@
                                 <!-- Gamma Adjustment -->
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel>
-                                        <!-- Gamma Red -->
+                                        <!-- Gamma Control -->
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" HorizontalAlignment="Left" ToolTipService.ToolTip="* Certain running applications or playing video may prevent the gamma from changing and may need to be minimized or closed before the gamma takes effect.&#10;&#10;* Changing resolutions and switching between screen modes resets the gamma to defaults, when RadeonTuner is running it will try to recover the target gamma but may take a few seconds."/>
-                                            <TextBlock Text="Red" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                            <ToggleSwitch x:Name="toggleswitch_Display_GammaControl" Margin="10,0,0,0" OffContent="Gamma Control" OnContent="Gamma Control" Toggled="toggleswitch_Display_GammaControl_Toggled"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaControl_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+
+                                        <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <!-- Gamma Base -->
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Gamma" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaBase_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBase" Text="{Binding ElementName=slider_Display_GammaBase, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBase" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                        </Grid>
+
+                                        <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
+                                        <!-- Gamma Red -->
+                                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                            <TextBlock Text="Red" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_GammaRed_Value" Foreground="{StaticResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
                                         <Grid Margin="0,5,0,0">

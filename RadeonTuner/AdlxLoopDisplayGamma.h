@@ -10,30 +10,33 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
+			//Check if gamma control is enabled
+			if (displaySettingsRunning.GammaControl.Current.has_value() && !displaySettingsRunning.GammaControl.Current.value())
+			{
+				//AVDebugWriteLine(L"Display gamma control is disabled.");
+				return;
+			}
+
 			//Get current gamma ramp
-			AdlGammaRamp gammaRamp{};
-			adl_Res0 = _ADL2_Adapter_Gamma_Get(adl_Context, adapterIndex, &gammaRamp);
+			AdlGammaRamp gammaRampCurrent{};
+			adl_Res0 = _ADL2_Adapter_Gamma_Get(adl_Context, adapterIndex, &gammaRampCurrent);
 			if (adl_Res0 == ADL_OK)
 			{
 				//Get setting gamma values
+				float baseGammaSetting = displaySettingsRunning.GammaBase.Current.value();
 				float redGammaSetting = displaySettingsRunning.GammaRed.Current.value();
 				float greenGammaSetting = displaySettingsRunning.GammaGreen.Current.value();
 				float blueGammaSetting = displaySettingsRunning.GammaBlue.Current.value();
 
-				//Get current gamma values
-				float redGammaCurrent = 1.0F;
-				float greenGammaCurrent = 1.0F;
-				float blueGammaCurrent = 1.0F;
-				AdlGammaRampConvertToFloat(gammaRamp, redGammaCurrent, greenGammaCurrent, blueGammaCurrent);
+				//Build setting gamma ramp
+				AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(baseGammaSetting, redGammaSetting, greenGammaSetting, blueGammaSetting);
 
-				//Check if gamma matches
-				if (!float_equal(redGammaCurrent, redGammaSetting) || !float_equal(greenGammaCurrent, greenGammaSetting) || !float_equal(blueGammaCurrent, blueGammaSetting))
+				//Check if gamma ramp matches
+				if (!AdlGammaRampMatch(gammaRampCurrent, gammaRampTarget))
 				{
 					//Apply gamma values
 					AVDebugWriteLine(L"Display gamma does not match target profile.");
-					AdlGammaApply(adapterIndex, redGammaSetting, greenGammaSetting, blueGammaSetting);
-
-					//Fix update current gamma string on display tab
+					AdlGammaApply(adapterIndex, baseGammaSetting, redGammaSetting, greenGammaSetting, blueGammaSetting);
 				}
 			}
 		}

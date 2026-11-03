@@ -264,6 +264,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Temperature Kelvin
 			if (displaySettings.ColorTemperatureKelvin.Support && displaySettings.ColorTemperatureKelvin.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.ColorTemperatureKelvin.Minimum.has_value())
+				{
+					slider_Display_ColorTemperature_Kelvin().Minimum(displaySettings.ColorTemperatureKelvin.Minimum.value());
+					slider_Display_ColorTemperature_Kelvin().Maximum(displaySettings.ColorTemperatureKelvin.Maximum.value());
+					slider_Display_ColorTemperature_Kelvin().StepFrequency(displaySettings.ColorTemperatureKelvin.Step.value());
+					slider_Display_ColorTemperature_Kelvin().SmallChange(displaySettings.ColorTemperatureKelvin.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.ColorTemperatureKelvin.Get(settingType, true).value();
 
@@ -273,15 +282,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"K";
 				textblock_Display_ColorTemperature_Kelvin_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.ColorTemperatureKelvin.Minimum.has_value())
-				{
-					slider_Display_ColorTemperature_Kelvin().Minimum(displaySettings.ColorTemperatureKelvin.Minimum.value());
-					slider_Display_ColorTemperature_Kelvin().Maximum(displaySettings.ColorTemperatureKelvin.Maximum.value());
-					slider_Display_ColorTemperature_Kelvin().StepFrequency(displaySettings.ColorTemperatureKelvin.Step.value());
-					slider_Display_ColorTemperature_Kelvin().SmallChange(displaySettings.ColorTemperatureKelvin.Step.value());
-				}
 			}
 			else
 			{
@@ -295,6 +295,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Brightness
 			if (displaySettings.Brightness.Support && displaySettings.Brightness.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.Brightness.Minimum.has_value())
+				{
+					slider_Display_Brightness().Minimum(displaySettings.Brightness.Minimum.value());
+					slider_Display_Brightness().Maximum(displaySettings.Brightness.Maximum.value());
+					slider_Display_Brightness().StepFrequency(displaySettings.Brightness.Step.value());
+					slider_Display_Brightness().SmallChange(displaySettings.Brightness.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.Brightness.Get(settingType, true).value();
 
@@ -304,15 +313,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Brightness_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.Brightness.Minimum.has_value())
-				{
-					slider_Display_Brightness().Minimum(displaySettings.Brightness.Minimum.value());
-					slider_Display_Brightness().Maximum(displaySettings.Brightness.Maximum.value());
-					slider_Display_Brightness().StepFrequency(displaySettings.Brightness.Step.value());
-					slider_Display_Brightness().SmallChange(displaySettings.Brightness.Step.value());
-				}
 
 				//Enable or disable interface
 				slider_Display_Brightness().IsEnabled(true);
@@ -329,6 +329,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Contrast
 			if (displaySettings.Contrast.Support && displaySettings.Contrast.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.Contrast.Minimum.has_value())
+				{
+					slider_Display_Contrast().Minimum(displaySettings.Contrast.Minimum.value());
+					slider_Display_Contrast().Maximum(displaySettings.Contrast.Maximum.value());
+					slider_Display_Contrast().StepFrequency(displaySettings.Contrast.Step.value());
+					slider_Display_Contrast().SmallChange(displaySettings.Contrast.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.Contrast.Get(settingType, true).value();
 
@@ -338,15 +347,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Contrast_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.Contrast.Minimum.has_value())
-				{
-					slider_Display_Contrast().Minimum(displaySettings.Contrast.Minimum.value());
-					slider_Display_Contrast().Maximum(displaySettings.Contrast.Maximum.value());
-					slider_Display_Contrast().StepFrequency(displaySettings.Contrast.Step.value());
-					slider_Display_Contrast().SmallChange(displaySettings.Contrast.Step.value());
-				}
 
 				//Enable or disable interface
 				slider_Display_Contrast().IsEnabled(true);
@@ -363,6 +363,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Saturation
 			if (displaySettings.Saturation.Support && displaySettings.Saturation.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.Saturation.Minimum.has_value())
+				{
+					slider_Display_Saturation().Minimum(displaySettings.Saturation.Minimum.value());
+					slider_Display_Saturation().Maximum(displaySettings.Saturation.Maximum.value());
+					slider_Display_Saturation().StepFrequency(displaySettings.Saturation.Step.value());
+					slider_Display_Saturation().SmallChange(displaySettings.Saturation.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.Saturation.Get(settingType, true).value();
 
@@ -372,15 +381,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Saturation_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.Saturation.Minimum.has_value())
-				{
-					slider_Display_Saturation().Minimum(displaySettings.Saturation.Minimum.value());
-					slider_Display_Saturation().Maximum(displaySettings.Saturation.Maximum.value());
-					slider_Display_Saturation().StepFrequency(displaySettings.Saturation.Step.value());
-					slider_Display_Saturation().SmallChange(displaySettings.Saturation.Step.value());
-				}
 
 				//Enable or disable interface
 				slider_Display_Saturation().IsEnabled(true);
@@ -397,6 +397,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Hue
 			if (displaySettings.Hue.Support && displaySettings.Hue.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.Hue.Minimum.has_value())
+				{
+					slider_Display_Hue().Minimum(displaySettings.Hue.Minimum.value());
+					slider_Display_Hue().Maximum(displaySettings.Hue.Maximum.value());
+					slider_Display_Hue().StepFrequency(displaySettings.Hue.Step.value());
+					slider_Display_Hue().SmallChange(displaySettings.Hue.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.Hue.Get(settingType, true).value();
 
@@ -406,15 +415,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Hue_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.Hue.Minimum.has_value())
-				{
-					slider_Display_Hue().Minimum(displaySettings.Hue.Minimum.value());
-					slider_Display_Hue().Maximum(displaySettings.Hue.Maximum.value());
-					slider_Display_Hue().StepFrequency(displaySettings.Hue.Step.value());
-					slider_Display_Hue().SmallChange(displaySettings.Hue.Step.value());
-				}
 
 				//Enable or disable interface
 				slider_Display_Hue().IsEnabled(true);
@@ -426,108 +426,6 @@ namespace winrt::RadeonTuner::implementation
 
 				//Enable or disable interface
 				slider_Display_Hue().IsEnabled(false);
-			}
-
-			//Color Gamma Red
-			if (displaySettings.GammaRed.Support && displaySettings.GammaRed.Get(settingType, true).has_value())
-			{
-				//Get setting
-				float valueFloat = displaySettings.GammaRed.Get(settingType, true).value();
-
-				//Set setting value
-				slider_Display_GammaRed().Value(valueFloat);
-
-				//Set hint value
-				std::wstring valueHint = float_to_wstring(valueFloat, 2);
-				textblock_Display_GammaRed_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.GammaRed.Minimum.has_value())
-				{
-					slider_Display_GammaRed().Minimum(displaySettings.GammaRed.Minimum.value());
-					slider_Display_GammaRed().Maximum(displaySettings.GammaRed.Maximum.value());
-					slider_Display_GammaRed().StepFrequency(displaySettings.GammaRed.Step.value());
-					slider_Display_GammaRed().SmallChange(displaySettings.GammaRed.Step.value());
-				}
-
-				//Enable or disable interface
-				slider_Display_GammaRed().IsEnabled(true);
-			}
-			else
-			{
-				//Set hint value
-				textblock_Display_GammaRed_Value().Text(L"");
-
-				//Enable or disable interface
-				slider_Display_GammaRed().IsEnabled(false);
-			}
-
-			//Color Gamma Green
-			if (displaySettings.GammaGreen.Support && displaySettings.GammaGreen.Get(settingType, true).has_value())
-			{
-				//Get setting
-				float valueFloat = displaySettings.GammaGreen.Get(settingType, true).value();
-
-				//Set setting value
-				slider_Display_GammaGreen().Value(valueFloat);
-
-				//Set hint value
-				std::wstring valueHint = float_to_wstring(valueFloat, 2);
-				textblock_Display_GammaGreen_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.GammaGreen.Minimum.has_value())
-				{
-					slider_Display_GammaGreen().Minimum(displaySettings.GammaGreen.Minimum.value());
-					slider_Display_GammaGreen().Maximum(displaySettings.GammaGreen.Maximum.value());
-					slider_Display_GammaGreen().StepFrequency(displaySettings.GammaGreen.Step.value());
-					slider_Display_GammaGreen().SmallChange(displaySettings.GammaGreen.Step.value());
-				}
-
-				//Enable or disable interface
-				slider_Display_GammaGreen().IsEnabled(true);
-			}
-			else
-			{
-				//Set hint value
-				textblock_Display_GammaGreen_Value().Text(L"");
-
-				//Enable or disable interface
-				slider_Display_GammaGreen().IsEnabled(false);
-			}
-
-			//Color Gamma Blue
-			if (displaySettings.GammaBlue.Support && displaySettings.GammaBlue.Get(settingType, true).has_value())
-			{
-				//Get setting
-				float valueFloat = displaySettings.GammaBlue.Get(settingType, true).value();
-
-				//Set setting value
-				slider_Display_GammaBlue().Value(valueFloat);
-
-				//Set hint value
-				std::wstring valueHint = float_to_wstring(valueFloat, 2);
-				textblock_Display_GammaBlue_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.GammaBlue.Minimum.has_value())
-				{
-					slider_Display_GammaBlue().Minimum(displaySettings.GammaBlue.Minimum.value());
-					slider_Display_GammaBlue().Maximum(displaySettings.GammaBlue.Maximum.value());
-					slider_Display_GammaBlue().StepFrequency(displaySettings.GammaBlue.Step.value());
-					slider_Display_GammaBlue().SmallChange(displaySettings.GammaBlue.Step.value());
-				}
-
-				//Enable or disable interface
-				slider_Display_GammaBlue().IsEnabled(true);
-			}
-			else
-			{
-				//Set hint value
-				textblock_Display_GammaBlue_Value().Text(L"");
-
-				//Enable or disable interface
-				slider_Display_GammaBlue().IsEnabled(false);
 			}
 
 			//Color Deficiency Correction Control
@@ -564,6 +462,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Protanopia
 			if (displaySettings.CVDCProtanopia.Support && displaySettings.CVDCProtanopia.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.CVDCProtanopia.Minimum.has_value())
+				{
+					slider_Display_Protanopia().Minimum(displaySettings.CVDCProtanopia.Minimum.value());
+					slider_Display_Protanopia().Maximum(displaySettings.CVDCProtanopia.Maximum.value());
+					slider_Display_Protanopia().StepFrequency(displaySettings.CVDCProtanopia.Step.value());
+					slider_Display_Protanopia().SmallChange(displaySettings.CVDCProtanopia.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.CVDCProtanopia.Get(settingType, true).value();
 
@@ -573,15 +480,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Protanopia_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.CVDCProtanopia.Minimum.has_value())
-				{
-					slider_Display_Protanopia().Minimum(displaySettings.CVDCProtanopia.Minimum.value());
-					slider_Display_Protanopia().Maximum(displaySettings.CVDCProtanopia.Maximum.value());
-					slider_Display_Protanopia().StepFrequency(displaySettings.CVDCProtanopia.Step.value());
-					slider_Display_Protanopia().SmallChange(displaySettings.CVDCProtanopia.Step.value());
-				}
 			}
 			else
 			{
@@ -595,6 +493,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Deuteranopia
 			if (displaySettings.CVDCDeuteranopia.Support && displaySettings.CVDCDeuteranopia.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.CVDCDeuteranopia.Minimum.has_value())
+				{
+					slider_Display_Deuteranopia().Minimum(displaySettings.CVDCDeuteranopia.Minimum.value());
+					slider_Display_Deuteranopia().Maximum(displaySettings.CVDCDeuteranopia.Maximum.value());
+					slider_Display_Deuteranopia().StepFrequency(displaySettings.CVDCDeuteranopia.Step.value());
+					slider_Display_Deuteranopia().SmallChange(displaySettings.CVDCDeuteranopia.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.CVDCDeuteranopia.Get(settingType, true).value();
 
@@ -604,15 +511,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Deuteranopia_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.CVDCDeuteranopia.Minimum.has_value())
-				{
-					slider_Display_Deuteranopia().Minimum(displaySettings.CVDCDeuteranopia.Minimum.value());
-					slider_Display_Deuteranopia().Maximum(displaySettings.CVDCDeuteranopia.Maximum.value());
-					slider_Display_Deuteranopia().StepFrequency(displaySettings.CVDCDeuteranopia.Step.value());
-					slider_Display_Deuteranopia().SmallChange(displaySettings.CVDCDeuteranopia.Step.value());
-				}
 			}
 			else
 			{
@@ -626,6 +524,15 @@ namespace winrt::RadeonTuner::implementation
 			//Color Deficiency Correction Tritanopia
 			if (displaySettings.CVDCTritanopia.Support && displaySettings.CVDCTritanopia.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (displaySettings.CVDCTritanopia.Minimum.has_value())
+				{
+					slider_Display_Tritanopia().Minimum(displaySettings.CVDCTritanopia.Minimum.value());
+					slider_Display_Tritanopia().Maximum(displaySettings.CVDCTritanopia.Maximum.value());
+					slider_Display_Tritanopia().StepFrequency(displaySettings.CVDCTritanopia.Step.value());
+					slider_Display_Tritanopia().SmallChange(displaySettings.CVDCTritanopia.Step.value());
+				}
+
 				//Get setting
 				int valueInt = displaySettings.CVDCTritanopia.Get(settingType, true).value();
 
@@ -635,15 +542,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt);
 				textblock_Display_Tritanopia_Value().Text(valueHint);
-
-				//Set interface
-				if (displaySettings.CVDCTritanopia.Minimum.has_value())
-				{
-					slider_Display_Tritanopia().Minimum(displaySettings.CVDCTritanopia.Minimum.value());
-					slider_Display_Tritanopia().Maximum(displaySettings.CVDCTritanopia.Maximum.value());
-					slider_Display_Tritanopia().StepFrequency(displaySettings.CVDCTritanopia.Step.value());
-					slider_Display_Tritanopia().SmallChange(displaySettings.CVDCTritanopia.Step.value());
-				}
 			}
 			else
 			{

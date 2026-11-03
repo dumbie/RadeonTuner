@@ -17,7 +17,7 @@ namespace winrt::RadeonTuner::implementation
 		return std::equal(std::begin(gammaRampBegin.rgb), std::end(gammaRampBegin.rgb), std::begin(gammaRampEnd.rgb));
 	}
 
-	AdlGammaRamp MainPage::AdlGammaRampBuild(float redGamma, float greenGamma, float blueGamma)
+	AdlGammaRamp MainPage::AdlGammaRampBuild(float baseGamma, float redGamma, float greenGamma, float blueGamma)
 	{
 		AdlGammaRamp gammaRamp{};
 		try
@@ -27,11 +27,19 @@ namespace winrt::RadeonTuner::implementation
 			DWORD blue[256];
 			for (UINT i = 0; i < 255; i++)
 			{
-				//Set color channels
-				float colorBase = i * 257.0F;
-				red[i] = AdlGammaRampClamp(colorBase * redGamma);
-				green[i] = AdlGammaRampClamp(colorBase * greenGamma);
-				blue[i] = AdlGammaRampClamp(colorBase * blueGamma);
+				//Convert to float value
+				float rampValue = i / 255.0F;
+
+				//Apply gamma adjustment
+				rampValue = std::pow(rampValue, 1.0F / baseGamma);
+
+				//Convert to ramp range
+				float rampRange = rampValue * 65535.0F;
+
+				//Apply color adjustment
+				red[i] = AdlGammaRampClamp(rampRange * redGamma);
+				green[i] = AdlGammaRampClamp(rampRange * greenGamma);
+				blue[i] = AdlGammaRampClamp(rampRange * blueGamma);
 
 				//Pack color channels
 				int colorIndex = 3 + i * 2;
@@ -44,46 +52,45 @@ namespace winrt::RadeonTuner::implementation
 		return gammaRamp;
 	}
 
-	void MainPage::AdlGammaRampConvertToFloat(AdlGammaRamp gammaRamp, float& redGamma, float& greenGamma, float& blueGamma)
-	{
-		try
-		{
-			//Get color channels
-			int colorIndex = 3 + 128 * 2;
-			DWORD redGreen = gammaRamp.rgb[colorIndex];
-			DWORD blue = gammaRamp.rgb[colorIndex + 1];
+	//void MainPage::AdlGammaRampConvertToFloat(AdlGammaRamp gammaRamp, float& redGamma, float& greenGamma, float& blueGamma)
+	//{
+	//	try
+	//	{
+	//		//Get color channels
+	//		int colorIndex = 3 + 128 * 2;
+	//		DWORD redGreen = gammaRamp.rgb[colorIndex];
+	//		DWORD blue = gammaRamp.rgb[colorIndex + 1];
 
-			//Unpack color channels
-			redGamma = (redGreen & 65535) / 32768.0F;
-			greenGamma = (redGreen >> 16) / 32768.0F;
-			blueGamma = (blue & 65535) / 32768.0F;
+	//		//Unpack color channels
+	//		redGamma = (redGreen & 65535) / 32768.0F;
+	//		greenGamma = (redGreen >> 16) / 32768.0F;
+	//		blueGamma = (blue & 65535) / 32768.0F;
 
-			//Floor color channels
-			redGamma = std::floor(redGamma * 100.0F) / 100.0F;
-			greenGamma = std::floor(greenGamma * 100.0F) / 100.0F;
-			blueGamma = std::floor(blueGamma * 100.0F) / 100.0F;
-		}
-		catch (...) {}
-	}
+	//		//Floor color channels
+	//		redGamma = std::floor(redGamma * 100.0F) / 100.0F;
+	//		greenGamma = std::floor(greenGamma * 100.0F) / 100.0F;
+	//		blueGamma = std::floor(blueGamma * 100.0F) / 100.0F;
+	//	}
+	//	catch (...) {}
+	//}
 
-	bool MainPage::AdlGammaApply(int gpuAdapterIndex, float redGamma, float greenGamma, float blueGamma)
+	bool MainPage::AdlGammaApply(int gpuAdapterIndex, float baseGamma, float redGamma, float greenGamma, float blueGamma)
 	{
 		try
 		{
 			//Fix Some applications and resolution changes seem to block or reset set gamma (ADL2 wraps around SetDeviceGammaRamp) find better alternative that always works.
 			//Fix Applying other settings at the same time breaks applying gamma, wait before others are set before applying gamma.
-			//Fix current gamma value is unreliable when you target 1.00 it can be set to 1.01, skip matching values.
 
 			//Reset display settings
 			//ChangeDisplaySettingsW(nullptr, CDS_RESET);
 
 			//Set temporary gamma
-			//Note: Gamma value sometimes gets stuck so setting other value first may help.
-			AdlGammaRamp gammaRampDefault = AdlGammaRampBuild(redGamma - 0.02F, greenGamma - 0.02F, blueGamma - 0.02F);
-			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, gpuAdapterIndex, gammaRampDefault);
+			//Note: Gamma value sometimes gets stuck so setting temporary value first may help.
+			AdlGammaRamp gammaRampTemporary = AdlGammaRampBuild(baseGamma - 0.02F, redGamma, greenGamma, blueGamma);
+			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, gpuAdapterIndex, gammaRampTemporary);
 
 			//Set target gamma
-			AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(redGamma, greenGamma, blueGamma);
+			AdlGammaRamp gammaRampTarget = AdlGammaRampBuild(baseGamma, redGamma, greenGamma, blueGamma);
 			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, gpuAdapterIndex, gammaRampTarget);
 
 			//Return result
