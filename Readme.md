@@ -42,6 +42,13 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.70.0.0 (3-November-2026)
+- Added display Gamma / RGB adjustment setting.
+- Added setting to disable FSR machine learning swap chain.
+- Added Fan Control Mode to switch between curve and ranged fan speed.
+- You can now set FSR Override Library in application profiles.
+- Added function to exclude drivers from Windows update.
+
 v0.60.0.0 (14-October-2026)
 - Added Memory ECC mode (workstation) setting.
 - Prioritize and select dedicated GPU by default.
