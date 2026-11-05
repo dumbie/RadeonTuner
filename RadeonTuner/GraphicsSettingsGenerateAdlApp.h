@@ -339,7 +339,7 @@ namespace winrt::RadeonTuner::implementation
 					{
 						if (value.GpuId == adl_Gpu_UniqueIdentifierHex)
 						{
-							bool convertedValue = (bool)wstring_to_int(value.Value);
+							int convertedValue = wstring_to_int(value.Value);
 							graphicsSettings.FrameGenAlgorithm.Current = convertedValue;
 							break;
 						}

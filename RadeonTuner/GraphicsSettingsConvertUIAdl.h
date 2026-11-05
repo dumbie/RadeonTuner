@@ -332,6 +332,15 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Boost - Minimum Resolution
 			if (graphicsSettings.BoostMinResolution.Support && graphicsSettings.BoostMinResolution.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (graphicsSettings.BoostMinResolution.Minimum.has_value())
+				{
+					slider_RadeonBoost_MinResolution().Minimum(graphicsSettings.BoostMinResolution.Minimum.value());
+					slider_RadeonBoost_MinResolution().Maximum(graphicsSettings.BoostMinResolution.Maximum.value());
+					slider_RadeonBoost_MinResolution().StepFrequency(graphicsSettings.BoostMinResolution.Step.value());
+					slider_RadeonBoost_MinResolution().SmallChange(graphicsSettings.BoostMinResolution.Step.value());
+				}
+
 				//Get setting
 				int valueInt = graphicsSettings.BoostMinResolution.Get(settingType, true).value();
 
@@ -341,15 +350,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L"%";
 				textblock_RadeonBoost_MinResolution_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.BoostMinResolution.Minimum.has_value())
-				{
-					slider_RadeonBoost_MinResolution().Minimum(graphicsSettings.BoostMinResolution.Minimum.value());
-					slider_RadeonBoost_MinResolution().Maximum(graphicsSettings.BoostMinResolution.Maximum.value());
-					slider_RadeonBoost_MinResolution().StepFrequency(graphicsSettings.BoostMinResolution.Step.value());
-					slider_RadeonBoost_MinResolution().SmallChange(graphicsSettings.BoostMinResolution.Step.value());
-				}
 			}
 			else
 			{
@@ -389,6 +389,15 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Frame Rate Target Control - Maximum Frame Rate
 			if (graphicsSettings.FrtcFrameRateTarget.Support && graphicsSettings.FrtcFrameRateTarget.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (graphicsSettings.FrtcFrameRateTarget.Minimum.has_value())
+				{
+					slider_Frtc_FrameRateTarget().Minimum(graphicsSettings.FrtcFrameRateTarget.Minimum.value());
+					slider_Frtc_FrameRateTarget().Maximum(graphicsSettings.FrtcFrameRateTarget.Maximum.value());
+					slider_Frtc_FrameRateTarget().StepFrequency(graphicsSettings.FrtcFrameRateTarget.Step.value());
+					slider_Frtc_FrameRateTarget().SmallChange(graphicsSettings.FrtcFrameRateTarget.Step.value());
+				}
+
 				//Get setting
 				int valueInt = graphicsSettings.FrtcFrameRateTarget.Get(settingType, true).value();
 
@@ -398,15 +407,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L" FPS";
 				textblock_Frtc_FrameRateTarget_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.FrtcFrameRateTarget.Minimum.has_value())
-				{
-					slider_Frtc_FrameRateTarget().Minimum(graphicsSettings.FrtcFrameRateTarget.Minimum.value());
-					slider_Frtc_FrameRateTarget().Maximum(graphicsSettings.FrtcFrameRateTarget.Maximum.value());
-					slider_Frtc_FrameRateTarget().StepFrequency(graphicsSettings.FrtcFrameRateTarget.Step.value());
-					slider_Frtc_FrameRateTarget().SmallChange(graphicsSettings.FrtcFrameRateTarget.Step.value());
-				}
 			}
 			else
 			{
@@ -454,6 +454,15 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill - Minimum Frame Rate
 			if (graphicsSettings.ChillMinFps.Support && graphicsSettings.ChillMinFps.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (graphicsSettings.ChillMinFps.Minimum.has_value())
+				{
+					slider_RadeonChill_Min().Minimum(graphicsSettings.ChillMinFps.Minimum.value());
+					slider_RadeonChill_Min().Maximum(graphicsSettings.ChillMinFps.Maximum.value());
+					slider_RadeonChill_Min().StepFrequency(graphicsSettings.ChillMinFps.Step.value());
+					slider_RadeonChill_Min().SmallChange(graphicsSettings.ChillMinFps.Step.value());
+				}
+
 				//Get setting
 				int valueInt = graphicsSettings.ChillMinFps.Get(settingType, true).value();
 
@@ -463,15 +472,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L" /";
 				textblock_RadeonChill_Min_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.ChillMinFps.Minimum.has_value())
-				{
-					slider_RadeonChill_Min().Minimum(graphicsSettings.ChillMinFps.Minimum.value());
-					slider_RadeonChill_Min().Maximum(graphicsSettings.ChillMinFps.Maximum.value());
-					slider_RadeonChill_Min().StepFrequency(graphicsSettings.ChillMinFps.Step.value());
-					slider_RadeonChill_Min().SmallChange(graphicsSettings.ChillMinFps.Step.value());
-				}
 			}
 			else
 			{
@@ -485,6 +485,15 @@ namespace winrt::RadeonTuner::implementation
 			//Radeon Chill - Maximum Frame Rate
 			if (graphicsSettings.ChillMaxFps.Support && graphicsSettings.ChillMaxFps.Get(settingType, true).has_value())
 			{
+				//Set interface
+				if (graphicsSettings.ChillMaxFps.Minimum.has_value())
+				{
+					slider_RadeonChill_Max().Minimum(graphicsSettings.ChillMaxFps.Minimum.value());
+					slider_RadeonChill_Max().Maximum(graphicsSettings.ChillMaxFps.Maximum.value());
+					slider_RadeonChill_Max().StepFrequency(graphicsSettings.ChillMaxFps.Step.value());
+					slider_RadeonChill_Max().SmallChange(graphicsSettings.ChillMaxFps.Step.value());
+				}
+
 				//Get setting
 				int valueInt = graphicsSettings.ChillMaxFps.Get(settingType, true).value();
 
@@ -494,15 +503,6 @@ namespace winrt::RadeonTuner::implementation
 				//Set hint value
 				std::wstring valueHint = number_to_wstring(valueInt) + L" FPS";
 				textblock_RadeonChill_Max_Value().Text(valueHint);
-
-				//Set interface
-				if (graphicsSettings.ChillMaxFps.Minimum.has_value())
-				{
-					slider_RadeonChill_Max().Minimum(graphicsSettings.ChillMaxFps.Minimum.value());
-					slider_RadeonChill_Max().Maximum(graphicsSettings.ChillMaxFps.Maximum.value());
-					slider_RadeonChill_Max().StepFrequency(graphicsSettings.ChillMaxFps.Step.value());
-					slider_RadeonChill_Max().SmallChange(graphicsSettings.ChillMaxFps.Step.value());
-				}
 			}
 			else
 			{
@@ -605,13 +605,6 @@ namespace winrt::RadeonTuner::implementation
 				//Check setting version
 				if (graphicsSettings.RisVersion.Version <= 1)
 				{
-					//Set setting value
-					slider_RadeonImageSharpening1_Sharpening().Value(valueInt);
-
-					//Set hint value
-					std::wstring valueHint = number_to_wstring(valueInt) + L"%";
-					textblock_RadeonImageSharpening1_Sharpening_Value().Text(valueHint);
-
 					//Set interface
 					if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
 					{
@@ -620,16 +613,16 @@ namespace winrt::RadeonTuner::implementation
 						slider_RadeonImageSharpening1_Sharpening().StepFrequency(graphicsSettings.RisSharpeningDegree.Step.value());
 						slider_RadeonImageSharpening1_Sharpening().SmallChange(graphicsSettings.RisSharpeningDegree.Step.value());
 					}
-				}
-				else
-				{
+
 					//Set setting value
-					slider_RadeonImageSharpening2_Sharpening().Value(valueInt);
+					slider_RadeonImageSharpening1_Sharpening().Value(valueInt);
 
 					//Set hint value
 					std::wstring valueHint = number_to_wstring(valueInt) + L"%";
-					textblock_RadeonImageSharpening2_Sharpening_Value().Text(valueHint);
-
+					textblock_RadeonImageSharpening1_Sharpening_Value().Text(valueHint);
+				}
+				else
+				{
 					//Set interface
 					if (graphicsSettings.RisSharpeningDegree.Minimum.has_value())
 					{
@@ -638,6 +631,13 @@ namespace winrt::RadeonTuner::implementation
 						slider_RadeonImageSharpening2_Sharpening().StepFrequency(graphicsSettings.RisSharpeningDegree.Step.value());
 						slider_RadeonImageSharpening2_Sharpening().SmallChange(graphicsSettings.RisSharpeningDegree.Step.value());
 					}
+
+					//Set setting value
+					slider_RadeonImageSharpening2_Sharpening().Value(valueInt);
+
+					//Set hint value
+					std::wstring valueHint = number_to_wstring(valueInt) + L"%";
+					textblock_RadeonImageSharpening2_Sharpening_Value().Text(valueHint);
 				}
 			}
 			else
