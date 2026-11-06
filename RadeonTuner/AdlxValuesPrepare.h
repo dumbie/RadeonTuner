@@ -261,11 +261,21 @@ namespace winrt::RadeonTuner::implementation
 
 			//List all fan control modes
 			{
-				auto itemCollection = combobox_FanControl_Mode().Items();
+				auto itemCollection = combobox_FanControlMode().Items();
 				UINT appendCount = ADL_FANCONTROL_MODES_STRING.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
 					itemCollection.Append(box_value(ADL_FANCONTROL_MODES_STRING[i]));
+				}
+			}
+
+			//List all fan ranged curves
+			{
+				auto itemCollection = combobox_FanRangedCurve().Items();
+				UINT appendCount = ADL_FANRANGED_MODES_STRING.size();
+				for (UINT i = 0; i < appendCount; i++)
+				{
+					itemCollection.Append(box_value(ADL_FANRANGED_MODES_STRING[i]));
 				}
 			}
 

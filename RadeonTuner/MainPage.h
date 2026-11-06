@@ -386,8 +386,9 @@ namespace winrt::RadeonTuner::implementation
 		void combobox_ThemeStyle_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
 		void toggleswitch_FsrDisableMLSwapchain_Toggled(IInspectable const& sender, RoutedEventArgs const& e);
-		void combobox_FanControl_Mode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void combobox_FanControlMode_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 		void slider_FanRanged_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void combobox_FanRangedCurve_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
 	};
 }
 

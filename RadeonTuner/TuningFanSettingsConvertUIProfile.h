@@ -29,10 +29,23 @@ namespace winrt::RadeonTuner::implementation
 				int valueInt = tuningFanSettings.FanControlMode.Get(settingType).value();
 
 				//Set setting value
-				combobox_FanControl_Mode().SelectedIndex(valueInt);
+				combobox_FanControlMode().SelectedIndex(valueInt);
 
 				//Set hint value
-				textblock_FanControl_Mode_Value().Text(ADL_FANCONTROL_MODES_STRING[valueInt]);
+				textblock_FanControlMode_Value().Text(ADL_FANCONTROL_MODES_STRING[valueInt]);
+			}
+
+			//Fan Ranged Curve
+			if (tuningFanSettings.FanRangedCurve.Get(settingType).has_value())
+			{
+				//Get setting
+				int valueInt = tuningFanSettings.FanRangedCurve.Get(settingType).value();
+
+				//Set setting value
+				combobox_FanRangedCurve().SelectedIndex(valueInt);
+
+				//Set hint value
+				textblock_FanRangedCurve_Value().Text(ADL_FANRANGED_MODES_STRING[valueInt]);
 			}
 
 			//Gpu Core Minimum

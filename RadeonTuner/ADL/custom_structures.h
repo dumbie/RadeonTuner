@@ -126,6 +126,12 @@ enum class FanControlModes : int
 	CustomFanCurve = 3
 };
 
+enum class FanRangedCurves : int
+{
+	Linear = 0,
+	Quiet = 1
+};
+
 enum class OD8_OPTIMZED_POWER_MODES : int
 {
 	Quiet = 0,

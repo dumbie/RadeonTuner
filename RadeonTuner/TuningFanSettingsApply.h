@@ -113,17 +113,31 @@ namespace winrt::RadeonTuner::implementation
 				//Fan Speed Minimum and Maximum
 				if (targetSettings.FanSpeedMin.Get(settingGet).has_value() && targetSettings.FanSpeedMax.Get(settingGet).has_value())
 				{
+					//Get Fan Ranged Curve
+					int fanRangedCurve = (int)FanRangedCurves::Linear;
+					if (targetSettings.FanRangedCurve.Get(settingGet).has_value())
+					{
+						fanRangedCurve = targetSettings.FanRangedCurve.Get(settingGet).value();
+					}
+
 					//Get minimum and maximum fan speed
 					int curveStart = targetSettings.FanSpeedMin.Get(settingGet).value();
 					int curveEnd = targetSettings.FanSpeedMax.Get(settingGet).value();
 
 					//Calculate fan curve based on minimum and maximum
 					int curveValues[5];
-					//float curveWeights[] = { 0.00F, 0.20F, 0.40F, 0.60F, 1.00F }; //AMD Default
+					float curveWeightsLinear[] = { 0.00F, 0.25F, 0.50F, 0.75F, 1.00F }; //Linear
+					float curveWeightsQuiet[] = { 0.00F, 0.20F, 0.40F, 0.60F, 1.00F }; //Quiet (AMD Default)
 					for (UINT i = 0; i < 5; i++)
 					{
-						curveValues[i] = std::round(std::lerp(curveStart, curveEnd, i / 4.0F)); //Linear
-						//curveValues[i] = std::round(curveStart + (curveEnd - curveStart) * curveWeights[i]); //Weights
+						if (fanRangedCurve == (int)FanRangedCurves::Linear)
+						{
+							curveValues[i] = std::round(curveStart + (curveEnd - curveStart) * curveWeightsLinear[i]);
+						}
+						else if (fanRangedCurve == (int)FanRangedCurves::Quiet)
+						{
+							curveValues[i] = std::round(curveStart + (curveEnd - curveStart) * curveWeightsQuiet[i]);
+						}
 					}
 
 					//Fan Speed 0

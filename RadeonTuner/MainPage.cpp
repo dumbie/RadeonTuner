@@ -310,6 +310,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Visible);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Visible);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Visible);
+					stackpanel_RadeonBoost_Options().Visibility(Visibility::Visible);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Visible);
 					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Visible);
 
@@ -331,6 +332,7 @@ namespace winrt::RadeonTuner::implementation
 					stackpanel_FsrOverrideRayRegeneration().Visibility(Visibility::Collapsed);
 					stackpanel_FsrOverrideNeuralRadianceCaching().Visibility(Visibility::Collapsed);
 					stackpanel_FluidMotion_Options().Visibility(Visibility::Collapsed);
+					stackpanel_RadeonBoost_Options().Visibility(Visibility::Collapsed);
 					stackpanel_FsrShowInformation().Visibility(Visibility::Collapsed);
 					stackpanel_FsrDisableMLSwapchain().Visibility(Visibility::Collapsed);
 

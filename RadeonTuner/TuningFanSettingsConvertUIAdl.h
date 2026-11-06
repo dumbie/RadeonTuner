@@ -648,7 +648,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Custom settings
 				toggleswitch_KeepActive().IsEnabled(false);
-				combobox_FanControl_Mode().IsEnabled(false);
+				combobox_FanControlMode().IsEnabled(false);
 			}
 			else
 			{
@@ -663,7 +663,7 @@ namespace winrt::RadeonTuner::implementation
 
 				//Custom settings
 				toggleswitch_KeepActive().IsEnabled(true);
-				combobox_FanControl_Mode().IsEnabled(true);
+				combobox_FanControlMode().IsEnabled(true);
 			}
 
 			//Enable or disable fan interface

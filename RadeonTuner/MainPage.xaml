@@ -508,32 +508,35 @@
                                 </Border>
 
                                 <!-- Radeon Boost -->
-                                <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based&#10;Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based&#10;Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal&#10;Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
-                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application executable to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
-                                            <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
-                                            <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
-                                        <ComboBox x:Name="combobox_RadeonBoost" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_RadeonBoost_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
+                                <StackPanel x:Name="stackpanel_RadeonBoost_Options">
+                                    <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Boosts performance in supported games by dynamically adjusting resolution with minimal impact on image quality.&#10;&#10;Radeon Boost algorithm can be configured to monitor in-game scene details and/or user input.&#10;&#10;- Input-Based&#10;Adjusts resolution primarily in peripheral regions using mouse or controller input, reducing latency and improving performance during fast movement.&#10;&#10;- Scene-Based&#10;Analyzes in-game visuals to lower the resolution only in low-detail areas, boosting performance while preserving image quality in critical regions.&#10;&#10;- Multi-Modal&#10;Combines scene-based and input-based analysis for additional performance gains and reduced latency while aiming or moving."/>
+                                                <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* This setting only works on white listed applications, to trick the driver you can rename an application executable to 'sottr.exe'&#10;&#10;* This setting cannot be used when 'Radeon Chill' is enabled.&#10;&#10;* This setting only works on RDNA2 or newer graphic cards."/>
+                                                <Image Source="{ThemeResource ThemeImageExperimental}" Width="20" Height="20" ToolTipService.ToolTip="This is an experimental setting used for testing purposes."/>
+                                                <Image x:Name="image_RadeonBoost_Status" Visibility="Collapsed" Source="/Assets/StatusEnabled.png" Width="24" Height="24" ToolTipService.ToolTip="..."/>
+                                                <TextBlock Margin="10,0,0,0" Text="Radeon Boost 2" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
+                                            <ComboBox x:Name="combobox_RadeonBoost" Margin="0,5,0,0" Width="300" SelectionChanged="combobox_RadeonBoost_SelectionChanged" Style="{ThemeResource ApplicationComboBox}"/>
 
-                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                            <TextBlock Text="Minimum resolution" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_MinResolution_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
-                                        </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                                <TextBlock Text="Minimum resolution" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonBoost_MinResolution_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            </StackPanel>
 
-                                        <Grid Margin="0,5,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" x:Name="textbox_RadeonBoost_MinRes" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_RadeonBoost_MinResolution" Margin="10,0,0,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
-                                        </Grid>
-                                    </StackPanel>
-                                </Border>
+                                            <Grid Margin="0,5,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" x:Name="textbox_RadeonBoost_MinRes" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_RadeonBoost_MinResolution" Margin="10,0,0,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
 
                                 <TextBlock Margin="0,10,0,0" Text="Sharpening Options" FontSize="20" FontWeight="Medium"/>
 
@@ -969,11 +972,12 @@
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Select the fan control mode you want to use.&#10;&#10;When the temperatures are too high the fan settings will stay active, be cautious and make sure the fan speeds are not set too low, monitor the GPU temperatures while changing the fan settings.&#10;&#10;- No Fan Control&#10;This mode uses the fan speeds as set in the GPU bios.&#10;&#10;- Zero RPM Only&#10;This mode allows you to only adjust the Fan Zero RPM setting without also adjusting the fan speeds.&#10;&#10;- Ranged Fan Speed&#10;This mode lets you easily target a minimum and maximum fan speed.&#10;&#10;- Custom Fan Curve&#10;This mode lets you set a custom fan curve."/>
+                                            <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Select the fan control mode you want to use.&#10;&#10;- No Fan Control&#10;This mode uses the default fan speeds and settings as reported by the driver read from the GPU bios.&#10;&#10;- Zero RPM Only&#10;This mode allows you to only adjust the Fan Zero RPM setting without also adjusting the fan speeds, fan speeds will be set to defaults as reported by the driver.&#10;&#10;- Ranged Fan Speed&#10;This mode lets you easily target a minimum and maximum fan speed and automatically creates a fan curve based on what you set it to.&#10;&#10;- Custom Fan Curve&#10;This mode lets you create a custom fan curve."/>
+                                            <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="When the temperatures are too high the fan settings will stay active to how you set them, be cautious and make sure the fan speeds are not set too low, monitor the GPU temperatures while changing the fan settings until you have found the perfect balance."/>
                                             <TextBlock Margin="10,0,0,0" Text="Fan Control Mode" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControl_Mode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                            <TextBlock Margin="5,0,0,0" x:Name="textblock_FanControlMode_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
-                                        <ComboBox x:Name="combobox_FanControl_Mode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_FanControl_Mode_SelectionChanged"/>
+                                        <ComboBox x:Name="combobox_FanControlMode" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_FanControlMode_SelectionChanged"/>
                                     </StackPanel>
                                 </Border>
 
@@ -992,8 +996,20 @@
                                 <StackPanel x:Name="stackpanel_FanControl_RangedFanSpeed">
                                     <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                         <StackPanel>
+                                            <!-- Fan Ranged Curve -->
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Select the ranged fan curve you want to use.&#10;&#10;- Linear&#10;Creates a linear fan curve that increases steadily with the temperature.&#10;&#10;- Quiet&#10;Creates a fan curve that starts at a lower speed but increases quicker when high temperatures are reached."/>
+                                                    <TextBlock Margin="10,0,0,0" Text="Ranged Curve" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" x:Name="textblock_FanRangedCurve_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
+                                                </StackPanel>
+                                                <ComboBox x:Name="combobox_FanRangedCurve" Margin="0,5,0,0" Width="300" Style="{ThemeResource ApplicationComboBox}" SelectionChanged="combobox_FanRangedCurve_SelectionChanged"/>
+                                            </StackPanel>
+
+                                            <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
                                             <!-- Minimum Fan Speed -->
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                                 <TextBlock Text="Minimum Fan Speed" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="5,0,0,0" x:Name="textblock_Fan_Speed_Min_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             </StackPanel>

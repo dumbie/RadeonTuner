@@ -31,6 +31,7 @@ struct TuningFanSettings
 	//Custom
 	AdlSettingInt KeepActive{ .Current = false, .Default = false };
 	AdlSettingInt FanControlMode{ .Current = (int)FanControlModes::NoFanControl, .Default = (int)FanControlModes::NoFanControl };
+	AdlSettingInt FanRangedCurve{ .Current = (int)FanRangedCurves::Linear, .Default = (int)FanRangedCurves::Linear };
 
 	//Variables (No export)
 	int FanZeroTemp = -1;
@@ -71,7 +72,8 @@ struct TuningFanSettings
 		//Custom
 		KeepActive.Current = KeepActive.Default;
 		FanControlMode.Current = FanControlMode.Default;
+		FanRangedCurve.Current = FanRangedCurve.Default;
 	}
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryEcc.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanSpeedMin.Current, FanSpeedMax.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, KeepActive.Current, FanControlMode.Current)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(TuningFanSettings, DeviceId, Application, CoreMin.Current, CoreMax.Current, MemoryTiming.Current, MemoryEcc.Current, MemoryMax.Current, PowerLimit.Current, PowerVoltage.Current, PowerTDC.Current, FanSpeedMin.Current, FanSpeedMax.Current, FanZeroRpm.Current, FanSpeed0.Current, FanTemp0.Current, FanSpeed1.Current, FanTemp1.Current, FanSpeed2.Current, FanTemp2.Current, FanSpeed3.Current, FanTemp3.Current, FanSpeed4.Current, FanTemp4.Current, KeepActive.Current, FanControlMode.Current, FanRangedCurve.Current)
 };
