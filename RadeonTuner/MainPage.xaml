@@ -456,7 +456,7 @@
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                            <TextBlock Text="Minimum and maximum FPS" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Minimum and Maximum FPS" VerticalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Min_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_RadeonChill_Max_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
@@ -476,7 +476,7 @@
                                             <TextBox Grid.Column="1" x:Name="textbox_RadeonChill_Min" Margin="10,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                             <Slider Grid.Column="2" x:Name="slider_RadeonChill_Min" Margin="10,0,0,0" ValueChanged="slider_RadeonChill_Min_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             <TextBox Grid.Column="3" x:Name="textbox_RadeonChill_Max" Margin="10,0,0,0" Text="{Binding ElementName=slider_RadeonChill_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="4" x:Name="slider_RadeonChill_Max" Margin="10,0,0,0" ValueChanged="slider_RadeonChill_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="4" x:Name="slider_RadeonChill_Max" Margin="10,0,10,0" ValueChanged="slider_RadeonChill_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -502,7 +502,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Frtc_Fps" Text="{Binding ElementName=slider_Frtc_FrameRateTarget, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Frtc_FrameRateTarget" Margin="10,0,0,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Frtc_FrameRateTarget" Margin="10,0,10,0" ValueChanged="slider_Frtc_FrameRateTarget_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -532,7 +532,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBox Grid.Column="0" x:Name="textbox_RadeonBoost_MinRes" Text="{Binding ElementName=slider_RadeonBoost_MinResolution, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <Slider Grid.Column="1" x:Name="slider_RadeonBoost_MinResolution" Margin="10,0,0,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_RadeonBoost_MinResolution" Margin="10,0,10,0" ValueChanged="slider_RadeonBoost_MinResolution_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>
@@ -563,7 +563,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_RadeonImageSharpening1_Sharpening" Text="{Binding ElementName=slider_RadeonImageSharpening1_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening1_Sharpening" Margin="10,0,0,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening1_Sharpening" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening1_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -598,7 +598,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_RadeonImageSharpening2_Sharpening" Text="{Binding ElementName=slider_RadeonImageSharpening2_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening2_Sharpening" Margin="10,0,0,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_RadeonImageSharpening2_Sharpening" Margin="10,0,10,0" ValueChanged="slider_RadeonImageSharpening2_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -825,7 +825,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Core_Min" Text="{Binding ElementName=slider_Core_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Core_Min" ValueChanged="slider_Core_Min_ValueChanged" Margin="10,0,0,0" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Core_Min" ValueChanged="slider_Core_Min_ValueChanged" Margin="10,0,10,0" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -841,7 +841,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Core_Max" Text="{Binding ElementName=slider_Core_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Core_Max" ValueChanged="slider_Core_Max_ValueChanged" Margin="10,0,0,0" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Core_Max" ValueChanged="slider_Core_Max_ValueChanged" Margin="10,0,10,0" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -879,7 +879,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Memory_Max" Text="{Binding ElementName=slider_Memory_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,0,0" ValueChanged="slider_Memory_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Memory_Max" Margin="10,0,10,0" ValueChanged="slider_Memory_Max_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -899,7 +899,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Power_Limit" Text="{Binding ElementName=slider_Power_Limit, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,0,0" ValueChanged="slider_Power_Limit_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Power_Limit" Margin="10,0,10,0" ValueChanged="slider_Power_Limit_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -915,7 +915,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Power_Voltage" Text="{Binding ElementName=slider_Power_Voltage, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,0,0" ValueChanged="slider_Power_Voltage_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Power_Voltage" Margin="10,0,10,0" ValueChanged="slider_Power_Voltage_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -931,7 +931,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Power_TDC" Text="{Binding ElementName=slider_Power_TDC, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,0,0" ValueChanged="slider_Power_TDC_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Power_TDC" Margin="10,0,10,0" ValueChanged="slider_Power_TDC_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1019,7 +1019,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_Min" Text="{Binding ElementName=slider_Fan_Speed_Min, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Min" Margin="10,0,0,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Min" Margin="10,0,10,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             </Grid>
 
                                             <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1035,7 +1035,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_Max" Text="{Binding ElementName=slider_Fan_Speed_Max, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Max" Margin="10,0,0,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                <Slider Grid.Column="1" x:Name="slider_Fan_Speed_Max" Margin="10,0,10,0" ValueChanged="slider_FanRanged_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>
@@ -1108,7 +1108,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_0" Text="{Binding ElementName=slider_Fan_Speed_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_0" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                                 <Grid Margin="0,10,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -1118,7 +1118,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_0" Text="{Binding ElementName=slider_Fan_Temp_0, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_0" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Border>
@@ -1138,7 +1138,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_1" Text="{Binding ElementName=slider_Fan_Speed_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_1" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                                 <Grid Margin="0,10,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -1148,7 +1148,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_1" Text="{Binding ElementName=slider_Fan_Temp_1, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_1" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Border>
@@ -1168,7 +1168,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_2" Text="{Binding ElementName=slider_Fan_Speed_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_2" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                                 <Grid Margin="0,10,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -1178,7 +1178,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_2" Text="{Binding ElementName=slider_Fan_Temp_2, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_2" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Border>
@@ -1198,7 +1198,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_3" Text="{Binding ElementName=slider_Fan_Speed_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_3" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                                 <Grid Margin="0,10,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -1208,7 +1208,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_3" Text="{Binding ElementName=slider_Fan_Temp_3, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_3" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Border>
@@ -1228,7 +1228,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Speed_4" Text="{Binding ElementName=slider_Fan_Speed_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="%" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Speed_4" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                                 <Grid Margin="0,10,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -1238,7 +1238,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" x:Name="textbox_Fan_Temp_4" Text="{Binding ElementName=slider_Fan_Temp_4, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
                                                     <TextBlock Grid.Column="1" Width="20" Text="°C" TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_FanCurve_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                                    <Slider Grid.Column="2" x:Name="slider_Fan_Temp_4" ValueChanged="slider_FanCurve_ValueChanged" Margin="0,0,5,0" Style="{ThemeResource ApplicationSlider}"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Border>
@@ -1472,7 +1472,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBase" Text="{Binding ElementName=slider_Display_GammaBase, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBase" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBase" Margin="10,0,10,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1488,7 +1488,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_GammaRed" Text="{Binding ElementName=slider_Display_GammaRed, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaRed" Margin="10,0,10,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1504,7 +1504,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_GammaGreen" Text="{Binding ElementName=slider_Display_GammaGreen, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaGreen" Margin="10,0,10,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1520,7 +1520,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_GammaBlue" Text="{Binding ElementName=slider_Display_GammaBlue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,0,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_GammaBlue" Margin="10,0,10,0" ValueChanged="slider_Display_GammaRGB_ValueChanged"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1541,7 +1541,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Brightness" Text="{Binding ElementName=slider_Display_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,0,0" ValueChanged="slider_Display_Brightness_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Brightness" Margin="10,0,10,0" ValueChanged="slider_Display_Brightness_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1557,7 +1557,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Contrast" Text="{Binding ElementName=slider_Display_Contrast, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,0,0" ValueChanged="slider_Display_Contrast_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Contrast" Margin="10,0,10,0" ValueChanged="slider_Display_Contrast_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1574,7 +1574,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Saturation" Text="{Binding ElementName=slider_Display_Saturation, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,0,0" ValueChanged="slider_Display_Saturation_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Saturation" Margin="10,0,10,0" ValueChanged="slider_Display_Saturation_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1590,7 +1590,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Hue" Text="{Binding ElementName=slider_Display_Hue, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,0,0" ValueChanged="slider_Display_Hue_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Hue" Margin="10,0,10,0" ValueChanged="slider_Display_Hue_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1636,7 +1636,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_ColorTemperature" Text="{Binding ElementName=slider_Display_ColorTemperature_Kelvin, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature_Kelvin" Margin="10,0,0,0" ValueChanged="slider_Display_ColorTemperature_Kelvin_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_ColorTemperature_Kelvin" Margin="10,0,10,0" ValueChanged="slider_Display_ColorTemperature_Kelvin_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1667,7 +1667,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Protanopia" Text="{Binding ElementName=slider_Display_Protanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Protanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Protanopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Protanopia" Margin="10,0,10,0" ValueChanged="slider_Display_Protanopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1684,7 +1684,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Deuteranopia" Text="{Binding ElementName=slider_Display_Deuteranopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Deuteranopia" Margin="10,0,0,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Deuteranopia" Margin="10,0,10,0" ValueChanged="slider_Display_Deuteranopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
 
                                         <Border Margin="0,10,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
@@ -1701,7 +1701,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Display_Tritanopia" Text="{Binding ElementName=slider_Display_Tritanopia, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Display_Tritanopia" Margin="10,0,0,0" ValueChanged="slider_Display_Tritanopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Display_Tritanopia" Margin="10,0,10,0" ValueChanged="slider_Display_Tritanopia_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1810,7 +1810,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_VideoUpscale_Sharpening" Text="{Binding ElementName=slider_Video_Sharpening, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Video_Sharpening" Margin="10,0,0,0" ValueChanged="slider_Video_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Video_Sharpening" Margin="10,0,10,0" ValueChanged="slider_Video_Sharpening_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -1829,7 +1829,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0" x:Name="textbox_Video_Brightness" Text="{Binding ElementName=slider_Video_Brightness, Path=Value}" Style="{ThemeResource ApplicationTextBoxNoHit}"/>
-                                            <Slider Grid.Column="1" x:Name="slider_Video_Brightness" Margin="10,0,0,0" ValueChanged="slider_Video_Brightness_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
+                                            <Slider Grid.Column="1" x:Name="slider_Video_Brightness" Margin="10,0,10,0" ValueChanged="slider_Video_Brightness_ValueChanged" Style="{ThemeResource ApplicationSlider}"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
