@@ -1,3 +1,11 @@
+typedef struct ADLOD8SaveSetting
+{
+	ADLOD8SettingId Identifier = ADLOD8SettingId::OD8_COUNT;
+	int TargetValue = 0;
+	bool UseDefaultValue = false;
+	bool ResetValue = false;
+};
+
 typedef struct ADLOD8SingleInitSettingWrap : ADLOD8SingleInitSetting
 {
 	bool IsSupported()

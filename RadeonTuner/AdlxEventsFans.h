@@ -269,6 +269,12 @@ namespace winrt::RadeonTuner::implementation
 				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
 				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Collapsed);
 			}
+			else if (valueObject == FanControlModes::FanZeroRpmOnly)
+			{
+				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
+				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
+			}
 			else if (valueObject == FanControlModes::RangedFanSpeed)
 			{
 				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Visible);
@@ -279,12 +285,6 @@ namespace winrt::RadeonTuner::implementation
 			{
 				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
 				stackpanel_FanControl_Curve().Visibility(Visibility::Visible);
-				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
-			}
-			else if (valueObject == FanControlModes::FanZeroRpmOnly)
-			{
-				stackpanel_FanControl_RangedFanSpeed().Visibility(Visibility::Collapsed);
-				stackpanel_FanControl_Curve().Visibility(Visibility::Collapsed);
 				stackpanel_FanControl_FanZeroRpm().Visibility(Visibility::Visible);
 			}
 		}

@@ -54,7 +54,7 @@ namespace winrt::RadeonTuner::implementation
 		bool AdlAppPropertyUpdate(AdlApplication& adlApp, std::wstring propertyGpuId, std::wstring propertyName, std::wstring propertyValue);
 
 		bool Adl_Overdrive8_Values_Reset(int gpuAdapterIndex);
-		bool Adl_Overdrive8_Values_Set(int gpuAdapterIndex, std::vector<std::tuple<ADLOD8SettingId, int, bool>> saveSettings);
+		bool Adl_Overdrive8_Values_Set(int gpuAdapterIndex, std::vector<ADLOD8SaveSetting> saveSettings);
 		std::optional<int> Adl_Overdrive8_Load_Value(int gpuAdapterIndex, ADLOD8SettingId settingId);
 		std::optional<ADLOD8SingleInitSettingWrap> Adl_Overdrive8_Load_Default(int gpuAdapterIndex, ADLOD8SettingId settingId);
 		bool Adl_Overdrive8_Feature_Supported(int gpuAdapterIndex, ADLOD8FeatureControl featureId);

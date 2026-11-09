@@ -297,6 +297,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Show or hide Zero RPM line
 				grid_Fan_Zero_Rpm_Line_Gpu().Visibility(valueBool ? Visibility::Visible : Visibility::Collapsed);
+
+				//Enable or disable interface
+				toggleswitch_Fan_Zero_Rpm().IsEnabled(true);
 			}
 			else
 			{
@@ -324,6 +327,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_0_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_0().IsEnabled(true);
 			}
 			else
 			{
@@ -351,6 +357,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_0_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
+
+				//Enable or disable interface
+				slider_Fan_Temp_0().IsEnabled(true);
 			}
 			else
 			{
@@ -378,6 +387,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_1_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_1().IsEnabled(true);
 			}
 			else
 			{
@@ -405,6 +417,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_1_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
+
+				//Enable or disable interface
+				slider_Fan_Temp_1().IsEnabled(true);
 			}
 			else
 			{
@@ -432,6 +447,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_2_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_2().IsEnabled(true);
 			}
 			else
 			{
@@ -459,6 +477,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_2_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
+
+				//Enable or disable interface
+				slider_Fan_Temp_2().IsEnabled(true);
 			}
 			else
 			{
@@ -486,6 +507,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_3_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_3().IsEnabled(true);
 			}
 			else
 			{
@@ -513,6 +537,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_3_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
+
+				//Enable or disable interface
+				slider_Fan_Temp_3().IsEnabled(true);
 			}
 			else
 			{
@@ -540,6 +567,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_4_Speed_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_4().IsEnabled(true);
 			}
 			else
 			{
@@ -567,6 +597,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Curve_4_Temp_Value().Text(number_to_wstring(valueInt) + L"°C");
+
+				//Enable or disable interface
+				slider_Fan_Temp_4().IsEnabled(true);
 			}
 			else
 			{
@@ -594,6 +627,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Speed_Min_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_Min().IsEnabled(true);
 			}
 			else
 			{
@@ -621,6 +657,9 @@ namespace winrt::RadeonTuner::implementation
 
 				//Set hint value
 				textblock_Fan_Speed_Max_Value().Text(number_to_wstring(valueInt) + L"%");
+
+				//Enable or disable interface
+				slider_Fan_Speed_Max().IsEnabled(true);
 			}
 			else
 			{

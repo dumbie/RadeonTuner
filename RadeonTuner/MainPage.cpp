@@ -133,7 +133,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				grid_Main().IsHitTestVisible(false);
 				std::vector<std::wstring> messageAnswers{ L"Continue anyways", L"Exit application" };
-				int messageResult = co_await ShowMessageBox(L"Incompatible driver software type", L"It is highly recommended that you install your drivers using the 'Driver Only' software type to prevent possible issues with RadeonTuner.\n\nPlease reinstall your drivers using the 'Driver Only' software type and 'Factory Reset' option, you can find those options by clicking on 'Additional Options' in the Radeon driver setup.", messageAnswers);
+				int messageResult = co_await ShowMessageBox(L"Incompatible driver software type", L"It is highly recommended that you install your drivers using the 'Driver Only' software type and make sure the Adrenalin software is not installed to prevent possible issues with RadeonTuner.\n\nPlease reinstall your drivers using the 'Driver Only' software type and 'Factory Reset' option, you can find those options by clicking on 'Additional Options' in the Radeon driver setup.", messageAnswers);
 				if (messageResult == 0)
 				{
 					//Enable interface
