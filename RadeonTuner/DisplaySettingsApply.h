@@ -456,8 +456,11 @@ namespace winrt::RadeonTuner::implementation
 					//Apply gamma values
 					AdlGammaApply(displayAdapterIndex, newValueBase, newValueRed, newValueGreen, newValueBlue);
 				}
-				else
+				else if (vDisplayGammaToggled)
 				{
+					//Update gamma toggled status
+					vDisplayGammaToggled = false;
+
 					//Get default values
 					float defaultValueBase = adlSettings.GammaBase.Default.value();
 					float defaultValueRed = adlSettings.GammaRed.Default.value();

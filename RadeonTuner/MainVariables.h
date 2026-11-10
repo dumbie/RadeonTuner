@@ -11,6 +11,8 @@ inline bool messageBoxComplete = false;
 inline bool appPickerCompleted = false;
 inline bool appPickerSelected = false;
 inline bool appPickerCancel = false;
+inline std::wstring vUpdateVersion = L"";
+inline bool vDisplayGammaToggled = false;
 
 //ADL
 inline int adl_Res0 = ADL_ERR;

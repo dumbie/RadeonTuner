@@ -558,6 +558,9 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update current value
 			displaySettingsProfile.GammaControl.Current = newValue;
+
+			//Update gamma toggled status
+			vDisplayGammaToggled = true;
 		}
 		catch (...) {}
 	}

@@ -86,7 +86,8 @@ namespace winrt::RadeonTuner::implementation
 
 			//Set temporary gamma
 			//Note: Gamma value sometimes gets stuck so setting temporary value first may help.
-			AdlGammaRamp gammaRampTemporary = AdlGammaRampBuild(baseGamma - 0.02F, redGamma, greenGamma, blueGamma);
+			float randomFloat = (rand() % 8 + 1) / 100.0F;
+			AdlGammaRamp gammaRampTemporary = AdlGammaRampBuild(baseGamma - randomFloat, redGamma, greenGamma, blueGamma);
 			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, gpuAdapterIndex, gammaRampTemporary);
 
 			//Set target gamma
@@ -94,6 +95,7 @@ namespace winrt::RadeonTuner::implementation
 			adl_Res0 = _ADL2_Adapter_Gamma_Set(adl_Context, gpuAdapterIndex, gammaRampTarget);
 
 			//Return result
+			//AVDebugWriteLine("Applied target gamma ramp.");
 			return adl_Res0 == ADL_OK;
 		}
 		catch (...) {}
