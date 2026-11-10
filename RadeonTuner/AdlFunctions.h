@@ -21,9 +21,6 @@ namespace winrt::RadeonTuner::implementation
 					//Set gaming driver flag
 					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_IsGamingDriver", 1);
 
-					//Set enable desktop texture flag
-					AdlRegistrySettingSet(adapterInfo.iAdapterIndex, "", "KMD_EnableDesktopTexture", 1);
-
 					//Get gpu unique identifier
 					//std::wstring identifierHex = number_to_hexwstring_littleendian(adapterInfo.iBusNumber, 4, true);
 

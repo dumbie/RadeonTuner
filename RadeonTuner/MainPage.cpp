@@ -251,6 +251,9 @@ namespace winrt::RadeonTuner::implementation
 				UpdateCheckResult updateCheckResult = UpdateCheck(AppVariables::hInstance, "dumbie", "RadeonTuner");
 				if (updateCheckResult.UpdateFound)
 				{
+					//Set update version
+					vUpdateVersion = updateCheckResult.UpdateVersion;
+
 					//Show update button
 					button_Update_Launch().Visibility(Visibility::Visible);
 
