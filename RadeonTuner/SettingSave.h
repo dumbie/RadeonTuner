@@ -249,4 +249,30 @@ namespace winrt::RadeonTuner::implementation
 		}
 		catch (...) {}
 	}
+
+	void MainPage::button_DisableRadeonServices_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			//Disable Radeon services
+			ToggleRadeonServices(true);
+		}
+		catch (...) {}
+	}
+
+	void MainPage::button_EnableRadeonServices_Click(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			//Enable Radeon services
+			ToggleRadeonServices(false);
+		}
+		catch (...) {}
+	}
 }
