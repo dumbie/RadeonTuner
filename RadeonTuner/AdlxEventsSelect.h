@@ -17,7 +17,9 @@ namespace winrt::RadeonTuner::implementation
 			std::vector<std::wstring> messageAnswers{};
 			for (AdapterInfo& adapterInfo : listGpus)
 			{
-				messageAnswers.push_back(char_to_wstring(adapterInfo.strAdapterName));
+				//Get gpu name
+				std::wstring gpuNameString = char_to_wstring(adapterInfo.strAdapterName) + L" (" + number_to_wstring(adapterInfo.iAdapterIndex) + L")";
+				messageAnswers.push_back(gpuNameString);
 			}
 
 			//Show selection prompt
@@ -46,7 +48,9 @@ namespace winrt::RadeonTuner::implementation
 			std::vector<std::wstring> messageAnswers{};
 			for (ADLDisplayInfo& displayInfo : displayList)
 			{
-				messageAnswers.push_back(char_to_wstring(displayInfo.strDisplayName));
+				//Get display name
+				std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName) + L" (" + number_to_wstring(displayInfo.displayID.iDisplayLogicalAdapterIndex) + L"/" + number_to_wstring(displayInfo.displayID.iDisplayLogicalIndex) + L")";
+				messageAnswers.push_back(displayNameString);
 			}
 
 			//Show selection prompt

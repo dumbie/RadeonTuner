@@ -146,12 +146,12 @@ namespace winrt::RadeonTuner::implementation
 			//Add all displays
 			for (ADLDisplayInfo& displayInfo : displayList)
 			{
-				//Get display name
-				std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName);
-
 				//Get adapter and display index
 				int displayAdapterIndex = displayInfo.displayID.iDisplayLogicalAdapterIndex;
 				int displayDisplayIndex = displayInfo.displayID.iDisplayLogicalIndex;
+
+				//Get display name
+				std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName) + L" (" + number_to_wstring(displayInfo.displayID.iDisplayLogicalAdapterIndex) + L"/" + number_to_wstring(displayInfo.displayID.iDisplayLogicalIndex) + L")";
 
 				//Eyefinity displays list
 				RadeonTuner::DisplayDetailsIdl displayDetails;

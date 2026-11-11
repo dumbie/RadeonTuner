@@ -81,7 +81,8 @@ namespace winrt::RadeonTuner::implementation
 			adl_Display_DeviceIdentifier = AdlxGetDisplayIdentifier(adl_Display_AdapterIndex, adl_Display_DisplayIndex);
 
 			//Update button text
-			textblock_DisplaySelect().Text(char_to_wstring(displayInfo.strDisplayName));
+			std::wstring displayNameString = char_to_wstring(displayInfo.strDisplayName) + L" (" + number_to_wstring(displayInfo.displayID.iDisplayLogicalAdapterIndex) + L"/" + number_to_wstring(displayInfo.displayID.iDisplayLogicalIndex) + L")";
+			textblock_DisplaySelect().Text(displayNameString);
 
 			//Update access status
 			stackpanel_Display_AccessOverlay().Visibility(Visibility::Collapsed);
@@ -129,7 +130,8 @@ namespace winrt::RadeonTuner::implementation
 			adl_Gpu_UniqueIdentifierHex = L"0x0001";
 
 			//Update button text
-			textblock_GpuSelect().Text(char_to_wstring(adapterInfo.strAdapterName));
+			std::wstring gpuNameString = char_to_wstring(adapterInfo.strAdapterName) + L" (" + number_to_wstring(adapterInfo.iAdapterIndex) + L")";
+			textblock_GpuSelect().Text(gpuNameString);
 
 			//Update access status
 			stackpanel_Tuning_AccessOverlay().Visibility(Visibility::Collapsed);
