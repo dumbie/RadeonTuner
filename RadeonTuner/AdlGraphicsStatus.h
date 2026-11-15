@@ -19,132 +19,138 @@ namespace winrt::RadeonTuner::implementation
 			auto regValuesHKID = RegistryGetValuesAll(HKEY_ENUM::CURRENT_USER, L"Software\\AMD\\HKIDs");
 			for (RegValue& regValue : regValuesHKID)
 			{
-				//Extract process id and name
-				std::wstring valueName = regValue.Name.value();
-				auto valueNameSplit = wstring_split(valueName, L'*');
-				int processId = whexstring_to_int(valueNameSplit[0]);
-				std::wstring processName = std::wstring(valueNameSplit[1]);
-
-				//Check if process is running
-				AVProcess avProcess = AVProcess(processId);
-				if (!avProcess.Running())
+				try
 				{
-					//AVDebugWriteLine("Hooked process not running: " << processId << " / " << processName);
-					continue;
-				}
+					//Extract process id and name
+					std::wstring valueName = regValue.Name.value();
+					auto valueNameSplit = wstring_split(valueName, L'*');
+					int processId = whexstring_to_int(valueNameSplit[0]);
+					std::wstring processName = std::wstring(valueNameSplit[1]);
 
-				//Create graphics status
-				GraphicsStatus graphicsStatus{};
-				graphicsStatus.ProcessId = processId;
-				graphicsStatus.ProcessName = processName;
-
-				//Set regex string
-				std::wstring regexString = regValue.DataString.value();
-
-				////Render api
-				//{
-				//	std::wsmatch regexMatch;
-				//	std::wregex regexPattern(L"api\\?(.*?)\\*");
-				//	if (std::regex_search(regexString, regexMatch, regexPattern))
-				//	{
-				//		graphicsStatus.RenderApi = regexMatch[1].str();
-				//	}
-				//}
-
-				//FSR Override Upscaling
-				//Fix find way to get the status when something is wrong like FSR2 incompatibility
-				//Note: Upscale only works when fsr3_upscale_ver is atleast v1.0.0.36329
-				{
-					std::wsmatch regexMatch;
-					std::wregex regexPattern(L"fsr4_upscale\\?(.*?)\\*");
-					if (std::regex_search(regexString, regexMatch, regexPattern))
+					//Check if process is running
+					AVProcess avProcess = AVProcess(processId);
+					if (!avProcess.Running())
 					{
-						std::wstring matchString = regexMatch[1].str();
-						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
-						if (settingActive)
+						//AVDebugWriteLine("Hooked process not running: " << processId << " / " << processName);
+						continue;
+					}
+
+					//Create graphics status
+					GraphicsStatus graphicsStatus{};
+					graphicsStatus.ProcessId = processId;
+					graphicsStatus.ProcessName = processName;
+
+					//Set regex string
+					std::wstring regexString = regValue.DataString.value();
+
+					////Render api
+					//{
+					//	std::wsmatch regexMatch;
+					//	std::wregex regexPattern(L"api\\?([^*]*)");
+					//	if (std::regex_search(regexString, regexMatch, regexPattern))
+					//	{
+					//		graphicsStatus.RenderApi = regexMatch[1].str();
+					//	}
+					//}
+
+					//FSR Override Upscaling
+					//Fix find way to get the status when something is wrong like FSR2 incompatibility
+					//Note: Upscale only works when fsr3_upscale_ver is atleast v1.0.0.36329
+					{
+						std::wsmatch regexMatch;
+						std::wregex regexPattern(L"fsr4_upscale\\?([^*]*)");
+						if (std::regex_search(regexString, regexMatch, regexPattern))
 						{
-							graphicsStatus.FsrOverrideUpscaling = true;
+							std::wstring matchString = regexMatch[1].str();
+							bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
+							if (settingActive)
+							{
+								graphicsStatus.FsrOverrideUpscaling = true;
+							}
 						}
 					}
-				}
 
-				//FSR Override Frame Generation
-				//Note: MLFI only works when fsr3_upscale_ver is atleast v1.0.1.41314
-				{
-					std::wsmatch regexMatch;
-					std::wregex regexPattern(L"fsr4_mlfi\\?(.*?)\\*");
-					if (std::regex_search(regexString, regexMatch, regexPattern))
+					//FSR Override Frame Generation
+					//Note: MLFI only works when fsr3_upscale_ver is atleast v1.0.1.41314
 					{
-						std::wstring matchString = regexMatch[1].str();
-						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
-						if (settingActive)
+						std::wsmatch regexMatch;
+						std::wregex regexPattern(L"fsr4_mlfi\\?([^*]*)");
+						if (std::regex_search(regexString, regexMatch, regexPattern))
 						{
-							graphicsStatus.FsrOverrideFrameGeneration = true;
+							std::wstring matchString = regexMatch[1].str();
+							bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
+							if (settingActive)
+							{
+								graphicsStatus.FsrOverrideFrameGeneration = true;
+							}
 						}
 					}
-				}
 
-				//FSR Override Multi Frame Generation
-				{
-					std::wsmatch regexMatch;
-					std::wregex regexPattern(L"fsr4_mfg\\?(.*?)\\*");
-					if (std::regex_search(regexString, regexMatch, regexPattern))
+					//FSR Override Multi Frame Generation
 					{
-						std::wstring matchString = regexMatch[1].str();
-						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
-						if (settingActive)
+						std::wsmatch regexMatch;
+						std::wregex regexPattern(L"fsr4_mfg\\?([^*]*)");
+						if (std::regex_search(regexString, regexMatch, regexPattern))
 						{
-							graphicsStatus.FsrOverrideMultiFrameGeneration = true;
+							std::wstring matchString = regexMatch[1].str();
+							bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
+							if (settingActive)
+							{
+								graphicsStatus.FsrOverrideMultiFrameGeneration = true;
+							}
 						}
 					}
-				}
 
-				//FSR Override Ray Regeneration Denoiser
-				{
-					std::wsmatch regexMatch;
-					std::wregex regexPattern(L"fsr4_mld\\?(.*?)\\*");
-					if (std::regex_search(regexString, regexMatch, regexPattern))
+					//FSR Override Ray Regeneration Denoiser
 					{
-						std::wstring matchString = regexMatch[1].str();
-						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
-						if (settingActive)
+						std::wsmatch regexMatch;
+						std::wregex regexPattern(L"fsr4_mld\\?([^*]*)");
+						if (std::regex_search(regexString, regexMatch, regexPattern))
 						{
-							graphicsStatus.FsrOverrideRayRegenerationDenoiser = true;
+							std::wstring matchString = regexMatch[1].str();
+							bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
+							if (settingActive)
+							{
+								graphicsStatus.FsrOverrideRayRegenerationDenoiser = true;
+							}
 						}
 					}
-				}
 
-				//FSR Override Neural Radiance Caching
-				{
-					std::wsmatch regexMatch;
-					std::wregex regexPattern(L"fsr4_nrc\\?(.*?)\\*");
-					if (std::regex_search(regexString, regexMatch, regexPattern))
+					//FSR Override Neural Radiance Caching
 					{
-						std::wstring matchString = regexMatch[1].str();
-						bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
-						if (settingActive)
+						std::wsmatch regexMatch;
+						std::wregex regexPattern(L"fsr4_nrc\\?([^*]*)");
+						if (std::regex_search(regexString, regexMatch, regexPattern))
 						{
-							graphicsStatus.FsrOverrideNeuralRadianceCaching = true;
+							std::wstring matchString = regexMatch[1].str();
+							bool settingActive = !matchString.empty() && wstring_starts_with(matchString, L"1_");
+							if (settingActive)
+							{
+								graphicsStatus.FsrOverrideNeuralRadianceCaching = true;
+							}
 						}
 					}
+
+					//Fluid Motion Frames
+					//Fix check frame generation lag > 0ms and check if render api process uses is supported
+					//ADL2_Adapter_FrameMetrics_Get
+					//fsr_fg_umd
+					//motion_boost
+
+					//FSR Latency Reduction
+					//Fix Check all process threads if latency reduction is hooked and active
+
+					//Radeon Chill
+					//Fix Check all process threads if chill is hooked and active
+
+					//Radeon Boost
+					//Fix Check all process threads if boost is hooked and active
+					//scene_boost
+
+					//Add process to status list
+					graphicsStatusList.push_back(graphicsStatus);
 				}
-
-				//Fluid Motion Frames
-				//Fix check frame generation lag > 0ms and check if render api process uses is supported
-				//ADL2_Adapter_FrameMetrics_Get
-
-				//FSR Latency Reduction
-				//Fix Check all process threads if latency reduction is hooked and active
-				//32bit DX11 amdxx32.dll!AmdD3D11CreateDeviceAndSwapChainExt with realtime priority
-
-				//Radeon Chill
-				//Fix Check all process threads if chill is hooked and active
-
-				//Radeon Boost
-				//Fix Check all process threads if boost is hooked and active
-
-				//Add process to status list
-				graphicsStatusList.push_back(graphicsStatus);
+				catch (...) {}
 			}
 		}
 		catch (...) {}
