@@ -55,9 +55,14 @@ namespace winrt::RadeonTuner::implementation
 				//Integrated
 				gpuWattage = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_GFX_POWER].value;
 			}
+			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_ASIC_POWER].supported)
+			{
+				//Dedicated RDNA2
+				gpuWattage = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_ASIC_POWER].value;
+			}
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_BOARD_POWER].supported)
 			{
-				//Dedicated
+				//Dedicated RDNA4
 				gpuWattage = adl_Metrics_Logging_Output.sensors[ADL_PMLOG_BOARD_POWER].value;
 			}
 			if (adl_Metrics_Logging_Output.sensors[ADL_PMLOG_GFX_VOLTAGE].supported)
