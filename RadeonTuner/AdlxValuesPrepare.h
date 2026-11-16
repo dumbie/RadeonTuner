@@ -252,10 +252,10 @@ namespace winrt::RadeonTuner::implementation
 			//List all theme color style
 			{
 				auto itemCollection = combobox_ThemeStyle().Items();
-				UINT appendCount = RADT_THEME_STYLE.size();
+				UINT appendCount = RADT_THEME_STYLE_STRING.size();
 				for (UINT i = 0; i < appendCount; i++)
 				{
-					itemCollection.Append(box_value(RADT_THEME_STYLE[i]));
+					itemCollection.Append(box_value(RADT_THEME_STYLE_STRING[i]));
 				}
 			}
 

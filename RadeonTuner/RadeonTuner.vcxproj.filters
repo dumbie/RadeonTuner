@@ -13,15 +13,6 @@
     <ClCompile Include="AppPickerIdl.cpp">
       <Filter>Class Files</Filter>
     </ClCompile>
-    <ClCompile Include="SteamFuncAppInfo.h">
-      <Filter>Page Files\Launcher\Steam</Filter>
-    </ClCompile>
-    <ClCompile Include="SteamStructures.h">
-      <Filter>Page Files\Launcher\Steam</Filter>
-    </ClCompile>
-    <ClCompile Include="SteamFunctions.h">
-      <Filter>Page Files\Launcher\Steam</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppVariables.h">
@@ -362,6 +353,18 @@
     </ClInclude>
     <ClInclude Include="AdlxLoopTuningProfile.h">
       <Filter>Page Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamFuncAppInfo.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamFunctions.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamStructures.h">
+      <Filter>Page Files\Launcher\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingEnumerators.h">
+      <Filter>Page Files\Settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

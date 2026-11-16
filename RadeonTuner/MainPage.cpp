@@ -94,6 +94,7 @@
 #include "SettingAdmin.h"
 #include "SettingSave.h"
 #include "SettingLoad.h"
+#include "SettingEnumerators.h"
 
 #include "AppPickerInterface.h"
 #include "AppPickerEvent.h"
@@ -244,6 +245,9 @@ namespace winrt::RadeonTuner::implementation
 			std::thread threadLoopKeepActive(&MainPage::AdlxLoopProfile, this);
 			threadLoopKeepActive.detach();
 
+			//Register application events
+			vUISettings.ColorValuesChanged({ this, &MainPage::ThemeColorValuesChanged });
+
 			//Check for application update
 			std::optional<bool> setStartCheckUpdate = AppVariables::Settings.Load<bool>("StartCheckUpdate");
 			if (setStartCheckUpdate.has_value() && setStartCheckUpdate.value())
@@ -265,8 +269,13 @@ namespace winrt::RadeonTuner::implementation
 
 			//Update first launch setting
 			AppVariables::Settings.Set("FirstLaunch", false);
+
+			AVDebugWriteLine(L"Main page loaded.");
 		}
-		catch (...) {}
+		catch (...)
+		{
+			AVDebugWriteLine(L"Failed loading main page.");
+		}
 	}
 
 	void MainPage::SelectDefaultIndexes()
@@ -496,26 +505,70 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::ThemeColorValuesChanged(UISettings const& sender, IInspectable const& e)
+	{
+		try
+		{
+			std::function<void()> invokeVoid = [&]
+				{
+					//Adjust theme style
+					ThemeAdjustStyle();
+				};
+			AppVariables::App.DispatcherInvoke(invokeVoid);
+		}
+		catch (...) {}
+	}
+
+	RADT_THEME_STYLE_ENUM MainPage::ThemeGetStyle()
+	{
+		RADT_THEME_STYLE_ENUM themeStyle = RADT_THEME_STYLE_ENUM::Gray;
+		try
+		{
+			//Get setting theme style
+			std::optional<int> setThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
+			if (setThemeStyle.has_value())
+			{
+				themeStyle = (RADT_THEME_STYLE_ENUM)setThemeStyle.value();
+			}
+
+			//Get system theme style
+			if (themeStyle == RADT_THEME_STYLE_ENUM::System)
+			{
+				Windows::UI::Color systemColor = vUISettings.GetColorValue(UIColorType::Background);
+				bool isColorLight = ((5 * systemColor.G) + (2 * systemColor.R) + systemColor.B) > (8 * 128);
+				if (isColorLight)
+				{
+					//White theme
+					themeStyle = RADT_THEME_STYLE_ENUM::White;
+				}
+				else
+				{
+					//Gray theme
+					themeStyle = RADT_THEME_STYLE_ENUM::Gray;
+				}
+			}
+		}
+		catch (...) {}
+		return themeStyle;
+	}
+
 	std::wstring MainPage::ThemeGetImagePath(std::wstring imageName, bool includeAppx)
 	{
 		std::wstring imagePath = L"";
 		try
 		{
-			//Get theme style setting
-			int themeStyle = 0;
-			std::optional<int> setThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
-			if (setThemeStyle.has_value())
-			{
-				themeStyle = setThemeStyle.value();
-			}
+			//Get setting theme style
+			RADT_THEME_STYLE_ENUM themeStyle = ThemeGetStyle();
 
 			//Check theme style and set image path
-			if (themeStyle == 0 || themeStyle == 1)
+			if (themeStyle == RADT_THEME_STYLE_ENUM::Gray || themeStyle == RADT_THEME_STYLE_ENUM::Black)
 			{
+				//Gray or black theme
 				imagePath = L"/Assets/" + imageName + L".png";
 			}
 			else
 			{
+				//White theme
 				imagePath = L"/Assets/" + imageName + L"Dark.png";
 			}
 
@@ -528,7 +581,6 @@ namespace winrt::RadeonTuner::implementation
 			//AVDebugWriteLine("Theme image path: " << imagePath);
 		}
 		catch (...) {}
-		//Return image path
 		return imagePath;
 	}
 
@@ -536,35 +588,33 @@ namespace winrt::RadeonTuner::implementation
 	{
 		try
 		{
-			//Get theme style setting
-			int themeStyle = 0;
-			std::optional<int> setThemeStyle = AppVariables::Settings.Load<int>("ThemeStyle");
-			if (setThemeStyle.has_value())
-			{
-				themeStyle = setThemeStyle.value();
-			}
-
-			AVDebugWriteLine(L"Adjusting theme style: " << themeStyle);
+			//Get setting theme style
+			RADT_THEME_STYLE_ENUM themeStyle = ThemeGetStyle();
 
 			//Apply theme style
-			if (themeStyle == 0)
+			if (themeStyle == RADT_THEME_STYLE_ENUM::Gray)
 			{
+				//Gray theme
 				SolidColorBrush colorGray = Application::Current().Resources().Lookup(box_value(L"ApplicationBlackBrush")).as<SolidColorBrush>();
 				RequestedTheme(ElementTheme::Dark);
 				Background(colorGray);
 			}
-			else if (themeStyle == 1)
+			else if (themeStyle == RADT_THEME_STYLE_ENUM::Black)
 			{
+				//Black theme
 				SolidColorBrush colorBlack = SolidColorBrush(Windows::UI::Colors::Black());
 				RequestedTheme(ElementTheme::Dark);
 				Background(colorBlack);
 			}
 			else
 			{
+				//White theme
 				SolidColorBrush colorWhite = Application::Current().Resources().Lookup(box_value(L"ApplicationWhiteBrush")).as<SolidColorBrush>();
 				RequestedTheme(ElementTheme::Light);
 				Background(colorWhite);
 			}
+
+			AVDebugWriteLine(L"Adjusted theme style: " << (int)themeStyle);
 		}
 		catch (...) {}
 	}

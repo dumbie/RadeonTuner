@@ -1,5 +1,6 @@
 #pragma once
 #include "MainPage.g.h"
+#include "SettingEnumerators.h"
 
 namespace winrt::RadeonTuner::implementation
 {
@@ -199,8 +200,10 @@ namespace winrt::RadeonTuner::implementation
 		void ShowExperimentalSettings(BOOL silent);
 		void ShowNotification(std::wstring text);
 
+		RADT_THEME_STYLE_ENUM ThemeGetStyle();
 		void ThemeAdjustStyle();
 		std::wstring ThemeGetImagePath(std::wstring imageName, bool includeAppx);
+		void ThemeColorValuesChanged(UISettings const& sender, IInspectable const& e);
 
 		void AdlxLoopMetrics();
 		void AdlxLoopProfile();

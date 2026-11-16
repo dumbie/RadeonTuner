@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 
+//Events
+inline winrt::UISettings vUISettings = winrt::UISettings();
+
 //Status
 inline bool disable_saving = true;
 inline bool disable_saving_settings = true;
