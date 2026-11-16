@@ -42,6 +42,13 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my projects and want to support me you can make a donation at https://donation.arnoldvink.com
 
 ## Changelog
+v0.75.0.0 (16-November-2026)
+- Added setting to disabled Multi-Plane Overlay (MPO)
+- Added option to use current system dark or light theme.
+- Read display serial number to identify identical displays.
+- Fixed FSR Override status not updating on RDNA2 cards.
+- Fixed GPU wattage not showing on RDNA2 cards.
+
 v0.70.0.0 (3-November-2026)
 - Added display Gamma / RGB adjustment setting.
 - Added setting to disable FSR machine learning swap chain.
