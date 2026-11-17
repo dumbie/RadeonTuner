@@ -17,6 +17,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_UpdateExcludeDrivers().IsEnabled(false);
 				button_DisableRadeonServices().IsEnabled(false);
 				button_EnableRadeonServices().IsEnabled(false);
+				toggleswitch_DisableMPO().IsEnabled(false);
 			}
 			else
 			{
@@ -24,6 +25,7 @@ namespace winrt::RadeonTuner::implementation
 				toggleswitch_Shortcut_ContextMenu_AdminShield().Visibility(Visibility::Collapsed);
 				toggleswitch_UpdateExcludeDrivers_AdminShield().Visibility(Visibility::Collapsed);
 				button_DisableRadeonServices_AdminShield().Visibility(Visibility::Collapsed);
+				toggleswitch_DisableMPO_AdminShield().Visibility(Visibility::Collapsed);
 			}
 
 			AVDebugWriteLine("Application admin settings checked.");

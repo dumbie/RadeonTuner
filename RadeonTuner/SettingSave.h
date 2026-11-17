@@ -230,6 +230,26 @@ namespace winrt::RadeonTuner::implementation
 		catch (...) {}
 	}
 
+	void MainPage::toggleswitch_DisableMPO_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
+	{
+		try
+		{
+			//Check if saving is disabled
+			if (disable_saving_settings) { return; }
+
+			ToggleSwitch senderElement = sender.as<ToggleSwitch>();
+			if (senderElement.IsOn())
+			{
+				RegistrySet(HKEY_ENUM::LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\Dwm", L"OverlayTestMode", 5);
+			}
+			else
+			{
+				RegistryDelete(HKEY_ENUM::LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\Dwm", L"OverlayTestMode");
+			}
+		}
+		catch (...) {}
+	}
+
 	void MainPage::toggleswitch_UpdateExcludeDrivers_Toggled(IInspectable const& sender, RoutedEventArgs const& e)
 	{
 		try

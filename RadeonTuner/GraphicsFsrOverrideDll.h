@@ -87,7 +87,7 @@ namespace winrt::RadeonTuner::implementation
 			{
 				fsrVersionW = L" FSR 4.1.1";
 			}
-			else if (dllVersionW == L"2.4.0.4370" || dllVersionW == L"2.4.0.0")
+			else if (dllVersionW == L"2.4.0.4370" || dllVersionW == L"2.4.0.4541" || dllVersionW == L"2.4.0.0")
 			{
 				fsrVersionW = L" FSR 4.1.2";
 			}

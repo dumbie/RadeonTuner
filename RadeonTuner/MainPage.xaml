@@ -735,7 +735,7 @@
                                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="8" Background="{ThemeResource ThemeBackgroundBrush}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Enables 10-Bit OpenGL texture support for compatible displays and applications."/>
-                                        <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Enabling this setting breaks HDR compatibility.&#10;&#10;* System restart required to take effect."/>
+                                        <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Enabling this setting breaks HDR compatibility.&#10;&#10;* Changing this setting requires you to restart your PC to take affect."/>
                                         <ToggleSwitch x:Name="toggleswitch_OpenGL10BitPixelFormat" Margin="10,0,0,0" OffContent="OpenGL 10-Bit Pixel Format" OnContent="OpenGL 10-Bit Pixel Format" Toggled="toggleswitch_OpenGL10BitPixelFormat_Toggled"/>
                                         <TextBlock Margin="5,0,0,0" x:Name="textblock_OpenGL10BitPixelFormat_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                     </StackPanel>
@@ -1714,7 +1714,7 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="If High-bandwidth Digital Content Protection (HDCP) is disabled on this display, digitally protected content may be unplayable, or played at a lower resolution."/>
-                                            <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* System restart required to take effect."/>
+                                            <Image Source="/Assets/WarningRed.png" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires you to restart your PC to take affect."/>
                                             <ToggleSwitch x:Name="toggleswitch_Display_HDCPSupport" Margin="10,0,0,0" OffContent="HDCP Support" OnContent="HDCP Support" Toggled="toggleswitch_Display_HDCPSupport_Toggled"/>
                                             <TextBlock Margin="5,0,0,0" x:Name="textblock_Display_HDCPSupport_Value" Foreground="{ThemeResource ApplicationDimGrayBrush}" VerticalAlignment="Center" ToolTipService.ToolTip="Currently set to in driver"/>
                                         </StackPanel>
@@ -1868,7 +1868,7 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Add RadeonTuner to the Windows desktop context (right click) menu."/>
-                                        <Image x:Name="toggleswitch_Shortcut_ContextMenu_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                        <Image x:Name="toggleswitch_Shortcut_ContextMenu_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires administrator access."/>
                                         <ToggleSwitch x:Name="toggleswitch_Shortcut_ContextMenu" Margin="10,0,0,0" OffContent="Add application to context menu" OnContent="Add application to context menu" Toggled="toggleswitch_Shortcut_ContextMenu_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1911,7 +1911,7 @@
 
                                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Replace the colored application icon with a black and white monochrome version."/>
-                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires you to restart RadeonTuner to take effect."/>
+                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires you to restart RadeonTuner to take affect."/>
                                         <ToggleSwitch x:Name="toggleswitch_ThemeIconMono" Margin="10,0,0,0" OffContent="Show monochrome application icon" OnContent="Show monochrome application icon" Toggled="toggleswitch_ThemeIconMono_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -1934,10 +1934,19 @@
 
                                     <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
 
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="MPO allows the GPU to completely handle multiple image layers before presenting them to the display, when disabled your CPU will get involved in handling the image layers which may prevent issues when they occur on your GPU.&#10;&#10;* If you don't experience any issues like screen flashing, stuttering or input lag keep MPO enabled for the best performance and compatibility."/>
+                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires you to restart your PC to take affect."/>
+                                        <Image x:Name="toggleswitch_DisableMPO_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires administrator access."/>
+                                        <ToggleSwitch x:Name="toggleswitch_DisableMPO" Margin="10,0,0,0" OffContent="Disable Multi-Plane Overlay (MPO)" OnContent="Disable Multi-Plane Overlay (MPO)" Toggled="toggleswitch_DisableMPO_Toggled"/>
+                                    </StackPanel>
+
+                                    <Border Margin="0,5,0,0" CornerRadius="2" Height="2" Background="{ThemeResource ThemeBackgroundDarkBrush}" Opacity="0.30"/>
+
                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Disable background services running in the background, freeing further resources and reduce logging."/>
-                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Disabling the services may break graphics features like Fluid Motion Frames and Radeon Boost from working.&#10;&#10;* Updating or reinstalling drivers re-enables the services."/>
-                                        <Image x:Name="button_DisableRadeonServices_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                        <Image Source="/Assets/WarningOrange.png" Width="24" Height="24" ToolTipService.ToolTip="* Disabling the services may break graphics features like Fluid Motion Frames and Radeon Boost from working and may also introduce stuttering in certain games.&#10;&#10;* Updating or reinstalling drivers re-enables the services."/>
+                                        <Image x:Name="button_DisableRadeonServices_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires administrator access."/>
                                         <Button x:Name="button_DisableRadeonServices" Content="Disable Radeon Services" Click="button_DisableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
                                         <Button x:Name="button_EnableRadeonServices" Content="Enable Radeon Services" Click="button_EnableRadeonServices_Click" Margin="10,0,0,0" Style="{ThemeResource ApplicationButton}"/>
                                     </StackPanel>
@@ -1956,7 +1965,7 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                         <Image Source="{ThemeResource ThemeImageInformation}" Width="24" Height="24" ToolTipService.ToolTip="Enabling this setting prevents Windows updates from installing and overwriting your manually installed AMD Radeon and other device drivers."/>
-                                        <Image x:Name="toggleswitch_UpdateExcludeDrivers_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="Changing this setting requires administrator access, once this setting is enabled you can continue using RadeonTuner as normal user."/>
+                                        <Image x:Name="toggleswitch_UpdateExcludeDrivers_AdminShield" Source="{ThemeResource ThemeImageShield}" Width="24" Height="24" ToolTipService.ToolTip="* Changing this setting requires administrator access."/>
                                         <ToggleSwitch x:Name="toggleswitch_UpdateExcludeDrivers" Margin="10,0,0,0" OffContent="Exclude drivers from Windows updates" OnContent="Exclude drivers from Windows updates" Toggled="toggleswitch_UpdateExcludeDrivers_Toggled"/>
                                     </StackPanel>
                                 </StackPanel>
